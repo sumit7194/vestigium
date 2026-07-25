@@ -78,6 +78,17 @@ project — deliberately implemented without sharing code, so agreement means so
   excluded on physics, not convenience — its ground state is exponentially degenerate, and the
   run self-flagged it (a ratio of 15.0 with the smallest mode energy at exactly 0.0).
 
+- **[`kappa_vs_mutual_info.py`](qsim/kappa_vs_mutual_info.py)** — if a quantity is
+  regulator-contaminated in *every* regime, the move is not to hunt for a clean regime but to
+  **change channel**. On one 2D lattice with four regulators sharing a continuum limit, the
+  area-law coefficient κ spreads by **41.6%** — and the *same* lattice refinement that drives
+  the mutual information's spread from 2.18% down to **0.096%** (as s^−2.26, converging) leaves
+  κ's spread at 41.8% → 41.7%, unmoved. So κ's regulator dependence is a fixed property of the
+  cut, while I(A:B)'s residual is a vanishing lattice artifact. Includes a two-probe numerical
+  floor audit (1.25×10⁻⁶%, so the sub-percent residual is real, not noise) and one **discarded
+  leg left in the file** — an IR-matching attempt built on an effective-mass estimator that is
+  biased in 2D, which made the spread worse and was replaced.
+
 The transferable lesson, now a standing entry in the family ledger: **when probing whether a
 definition is robust, scan the physical regime — the interesting answer is usually a boundary,
 not a yes/no.**

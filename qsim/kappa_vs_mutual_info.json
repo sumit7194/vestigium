@@ -1,0 +1,194 @@
+{
+ "question": "kappa is regulator-contaminated in every regime (bridge R8). Is the nearby quantity I(A:B) regulator-free, and does the physics survive?",
+ "spec": "same 2D lattice, same 4 regulators, both spreads reported (bridge)",
+ "lattice": {
+  "model": "free scalar, periodic LxL, Gaussian ground state",
+  "mass": 0.05,
+  "correlation_length": 20.0,
+  "kappa_geometry": "half-torus strip, kappa = slope(S vs L)/2",
+  "I_geometry": {
+   "L": 32,
+   "strip_width": 4,
+   "gaps": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    8
+   ]
+  }
+ },
+ "regulators": {
+  "nn": "m^2 + K2",
+  "improved": "m^2 + K4 (4th-order stencil)",
+  "higher_deriv": "m^2 + K2 + 0.25 K2^2",
+  "smeared": "m^2 + K2 exp(0.15 K2)"
+ },
+ "kappa": {
+  "nn": 0.064952,
+  "improved": 0.072981,
+  "higher_deriv": 0.097447,
+  "smeared": 0.099794
+ },
+ "kappa_spread_percent": 41.581,
+ "kappa_fit_min_nu_minus_half": {
+  "nn": 9.999778782798785e-13,
+  "improved": 9.999778782798785e-13,
+  "higher_deriv": 9.999778782798785e-13,
+  "smeared": 9.999778782798785e-13
+ },
+ "S_vs_L": {
+  "L": [
+   12,
+   16,
+   20,
+   24,
+   28
+  ],
+  "nn": [
+   2.2016,
+   2.684079,
+   3.197688,
+   3.730579,
+   4.276428
+  ],
+  "improved": [
+   2.394505,
+   2.941156,
+   3.518998,
+   4.116143,
+   4.726255
+  ],
+  "higher_deriv": [
+   2.982747,
+   3.724901,
+   4.498471,
+   5.291424,
+   6.097376
+  ],
+  "smeared": [
+   3.038818,
+   3.799823,
+   4.59217,
+   5.403875,
+   6.228569
+  ]
+ },
+ "mutual_information": {
+  "gaps": [
+   1,
+   2,
+   3,
+   4,
+   6,
+   8
+  ],
+  "nn": [
+   1.17473807,
+   0.51046223,
+   0.32197304,
+   0.2344913,
+   0.15537108,
+   0.12219953
+  ],
+  "improved": [
+   1.24329745,
+   0.50594779,
+   0.31996893,
+   0.23345809,
+   0.15494163,
+   0.12193723
+  ],
+  "higher_deriv": [
+   1.51298549,
+   0.53262672,
+   0.32577169,
+   0.23529352,
+   0.15518987,
+   0.12189885
+  ],
+  "smeared": [
+   1.50459858,
+   0.51527917,
+   0.32232189,
+   0.2342,
+   0.15501633,
+   0.12189188
+  ]
+ },
+ "I_spread_percent_by_gap": [
+  24.8912,
+  5.1695,
+  1.7993,
+  0.7832,
+  0.2768,
+  0.2522
+ ],
+ "verdict": {
+  "kappa_spread_percent": 41.581,
+  "I_spread_at_largest_gap_percent": 0.2522,
+  "suppression_factor": 164.9,
+  "numerical_floor_percent": 1.245e-06,
+  "continuum_scan": [
+   {
+    "s": 1,
+    "L": 32,
+    "w": 2,
+    "g": 4,
+    "m": 0.1,
+    "I_nn": 0.09553662,
+    "spread_percent": 2.178
+   },
+   {
+    "s": 2,
+    "L": 64,
+    "w": 4,
+    "g": 8,
+    "m": 0.05,
+    "I_nn": 0.09574572,
+    "spread_percent": 0.336
+   },
+   {
+    "s": 3,
+    "L": 96,
+    "w": 6,
+    "g": 12,
+    "m": 0.03333333333333333,
+    "I_nn": 0.09566371,
+    "spread_percent": 0.1648
+   },
+   {
+    "s": 4,
+    "L": 128,
+    "w": 8,
+    "g": 16,
+    "m": 0.025,
+    "I_nn": 0.09562502,
+    "spread_percent": 0.0955
+   }
+  ],
+  "continuum_decay_exponent_p": 2.256,
+  "reading": "VANISHING: the residual falls as s^-2.26 under refinement, so I(A:B) IS regulator-free in the continuum limit \u2014 while kappa's 42% is a fixed property of the cut that never refines away"
+ },
+ "discarded_leg": {
+  "what": "IR matching via arccosh effective mass",
+  "why_invalid": "the estimator assumes a pure cosh correlator; a 2D correlator has a power-law prefactor, so xi_eff read 7.98 where m=0.05 implies ~20. Tuning masses to equalise a biased quantity made the spread worse (0.336% -> 0.855% at g=8). Kept in the script as a documented failed diagnostic.",
+  "bare_matched_spread_by_gap": [
+   1.2324,
+   0.4535,
+   0.336,
+   0.3047,
+   0.3163,
+   0.3866
+  ],
+  "ir_matched_spread_by_gap": [
+   1.5453,
+   0.9417,
+   0.8548,
+   0.9091,
+   1.0184,
+   1.2915
+  ]
+ }
+}

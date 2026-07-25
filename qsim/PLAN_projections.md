@@ -414,3 +414,56 @@ because the divergences cancel. That is the same mechanism that made the Longo
 check work at 0.05% where the bare entropy is infinite. Needs 2D (in 1D the
 "area" is two points, so kappa is not visible).
 Deliverables: log_coefficient_boundary.json, log_coefficient_boundary.png.
+
+---
+
+# Bridge 2D build: kappa vs I(A:B) (kappa_vs_mutual_info.py)
+
+Species-2 prescription ("change channel") applied to a species-3 wall. Bridge R8
+established kappa is regulator-contaminated in EVERY regime (51.2% at m=0, 67.4%
+gapped). So: is the nearby quantity I(A:B) regulator-free, and does the physics
+survive there? Bridge's decisive spec: both on the SAME 2D lattice across the SAME
+>=3 regulators, both spreads reported.
+
+SETUP: free scalar, periodic LxL, Gaussian ground state, exact symplectic entropy.
+FOUR regulators sharing the continuum limit m^2+k^2 (verified to 1e-6..1e-10 at
+small k) but differing at k~pi: nn, improved (4th-order stencil), higher_deriv
+(+0.25 K2^2), smeared (K2 exp(0.15 K2)). Geometry chosen so boundary bookkeeping
+is exact: kappa from the SLOPE of S vs L for half-torus strips (projects out the
+subleading constant); I(A:B) from two parallel strips (|bd A|+|bd B| = |bd(AuB)|
+exactly, so every area term cancels).
+
+RESULT — prediction confirmed:
+ - kappa spread 41.6% (bridge R8: 51.2%; same order, different geometry/reg set),
+   area law linear to R^2 > 0.9994 for every regulator.
+ - I(A:B) spread 24.89% at g=1 (touching, no cancellation) falling to 0.25% at
+   g=8 — a 165x suppression.
+ - NUMERICAL FLOOR AUDIT (two independent probes: clip sweep over 4 decades, and
+   a SECOND algorithm for the symplectic spectrum via sqrt(P)X sqrt(P) instead of
+   sqrt(X)P sqrt(X)): floor = 1.25e-06 %. So the sub-percent residual is REAL,
+   five orders above numerics — which is what the bridge flagged as needing care.
+ - DECISIVE CONTINUUM SCAN (needs no xi measurement): hold physics fixed
+   (m*L = 3.2, w/L = 1/16, g/L = 1/8), refine the lattice s = 1,2,3,4:
+   I(A:B) spread = 2.178 / 0.336 / 0.165 / 0.096 % ~ s^-2.26, exactly the ~s^-2
+   expected for regulators differing at O(k^4). I itself converges (0.09554 ->
+   0.09563). So I(A:B) IS regulator-free in the continuum limit.
+ - SYMMETRIC CONTROL (the contrast, made airtight): the SAME refinement leaves
+   kappa's spread at 41.8% (s=1 physics) -> 41.7% (s=4 physics). Unmoved.
+
+VERDICT for the ledger: kappa's regulator dependence is a fixed property of the
+cut that no refinement removes; I(A:B)'s apparent residual is a vanishing lattice
+artifact. "Change channel" works — the physics wanted from kappa survives in a
+quantity that has a continuum limit.
+
+DISCARDED LEG, left in the file on purpose: an attempt to IR-match the regulators
+by tuning bare masses to equalise an arccosh effective-mass estimate of xi. The
+estimator assumes a pure cosh correlator; a 2D correlator has a power-law
+prefactor, so it read xi_eff = 7.98 where m = 0.05 implies ~20. Tuning to
+equalise a biased quantity made the spread WORSE (0.336% -> 0.855% at g=8). The
+continuum scan replaced it and needs no xi at all.
+
+CAVEATS: single field theory (free scalar) and one universality class; strip
+geometry only (no corners, so no corner-log contribution tested); Gaussian states
+only; the four regulators all differ from each other at O(k^4) by construction, so
+s^-2 is the expected rate and a regulator family differing at O(k^2) would decay
+slower.
