@@ -1,0 +1,274 @@
+{
+ "target": "Barontini arXiv:2509.07745 PRR 8 L022047 (2026), entropic time",
+ "question": "does constructed entropic time depend on the coarse-graining choice?",
+ "model": {
+  "two_mode_Bose_Hubbard": true,
+  "N": 40,
+  "J": 0.5,
+  "U": 0.02,
+  "eps": 0.0,
+  "Lambda_NU_2J": 0.8,
+  "T": 40.0,
+  "K": 1000,
+  "first_turning_lab_time": 3.323
+ },
+ "schemes": [
+  "A_count",
+  "B_entang",
+  "C_bin4",
+  "C_bin8",
+  "D_linear"
+ ],
+ "measure": "|Kendall tau| (orientation of a clock is a convention; |tau|=1 means the two schemes order all events identically)",
+ "abs_kendall_tau_monotonic_window": [
+  [
+   1.0,
+   0.1807,
+   0.1729,
+   0.2177,
+   0.1649
+  ],
+  [
+   0.1807,
+   1.0,
+   0.7408,
+   0.9524,
+   0.9841
+  ],
+  [
+   0.1729,
+   0.7408,
+   1.0,
+   0.7744,
+   0.7297
+  ],
+  [
+   0.2177,
+   0.9524,
+   0.7744,
+   1.0,
+   0.9424
+  ],
+  [
+   0.1649,
+   0.9841,
+   0.7297,
+   0.9424,
+   1.0
+  ]
+ ],
+ "abs_kendall_tau_full_run": [
+  [
+   1.0,
+   0.0022,
+   0.0439,
+   0.0764,
+   0.0052
+  ],
+  [
+   0.0022,
+   1.0,
+   0.5877,
+   0.6835,
+   0.8546
+  ],
+  [
+   0.0439,
+   0.5877,
+   1.0,
+   0.7772,
+   0.5693
+  ],
+  [
+   0.0764,
+   0.6835,
+   0.7772,
+   1.0,
+   0.6464
+  ],
+  [
+   0.0052,
+   0.8546,
+   0.5693,
+   0.6464,
+   1.0
+  ]
+ ],
+ "clock_reversals": {
+  "A_count": {
+   "count": 12,
+   "first_six_lab_time": [
+    3.283,
+    6.527,
+    9.77,
+    13.013,
+    16.256,
+    19.499
+   ]
+  },
+  "B_entang": {
+   "count": 127,
+   "first_six_lab_time": [
+    1.922,
+    3.243,
+    5.085,
+    6.486,
+    8.248,
+    9.77
+   ]
+  },
+  "C_bin4": {
+   "count": 66,
+   "first_six_lab_time": [
+    0.04,
+    0.08,
+    0.12,
+    1.121,
+    1.361,
+    1.682
+   ]
+  },
+  "C_bin8": {
+   "count": 99,
+   "first_six_lab_time": [
+    1.922,
+    3.243,
+    5.085,
+    6.607,
+    8.248,
+    9.69
+   ]
+  },
+  "D_linear": {
+   "count": 111,
+   "first_six_lab_time": [
+    1.922,
+    3.243,
+    5.085,
+    6.486,
+    8.248,
+    9.73
+   ]
+  }
+ },
+ "parameter_scan": [
+  {
+   "J": 0.5,
+   "U": 0.0,
+   "Lambda": 0.0,
+   "min_abs_tau_window": 0.0127,
+   "window_end_lab_time": 3.163
+  },
+  {
+   "J": 0.5,
+   "U": 0.02,
+   "Lambda": 0.8,
+   "min_abs_tau_window": 0.1649,
+   "window_end_lab_time": 3.323
+  },
+  {
+   "J": 0.5,
+   "U": 0.2,
+   "Lambda": 8.0,
+   "min_abs_tau_window": 0.9349,
+   "window_end_lab_time": 0.44
+  },
+  {
+   "J": 0.2,
+   "U": 0.02,
+   "Lambda": 2.0,
+   "min_abs_tau_window": 0.866,
+   "window_end_lab_time": 8.849
+  },
+  {
+   "J": 1.0,
+   "U": 0.05,
+   "Lambda": 1.0,
+   "min_abs_tau_window": 0.2327,
+   "window_end_lab_time": 1.722
+  }
+ ],
+ "steelman_1_coarse_event_separation": [
+  {
+   "dt_separation": 0.05,
+   "n_events": 83,
+   "min_abs_tau": 0.1649
+  },
+  {
+   "dt_separation": 0.1,
+   "n_events": 42,
+   "min_abs_tau": 0.1266
+  },
+  {
+   "dt_separation": 0.2,
+   "n_events": 21,
+   "min_abs_tau": 0.1333
+  },
+  {
+   "dt_separation": 0.4,
+   "n_events": 10,
+   "min_abs_tau": 0.0222
+  },
+  {
+   "dt_separation": 0.8,
+   "n_events": 5,
+   "min_abs_tau": 0.2
+  },
+  {
+   "dt_separation": 1.6,
+   "n_events": 3,
+   "min_abs_tau": 0.3333
+  }
+ ],
+ "steelman_2_regime_map": [
+  {
+   "Lambda": 0.0,
+   "U": 0.0,
+   "min_abs_tau_window": 0.0127,
+   "window_end": 3.163
+  },
+  {
+   "Lambda": 0.2,
+   "U": 0.005,
+   "min_abs_tau_window": 0.0038,
+   "window_end": 3.203
+  },
+  {
+   "Lambda": 0.8,
+   "U": 0.02,
+   "min_abs_tau_window": 0.1649,
+   "window_end": 3.323
+  },
+  {
+   "Lambda": 2.0,
+   "U": 0.05,
+   "min_abs_tau_window": 0.8631,
+   "window_end": 3.564
+  },
+  {
+   "Lambda": 4.0,
+   "U": 0.1,
+   "min_abs_tau_window": 0.9901,
+   "window_end": 0.921
+  },
+  {
+   "Lambda": 8.0,
+   "U": 0.2,
+   "min_abs_tau_window": 0.9349,
+   "window_end": 0.44
+  },
+  {
+   "Lambda": 16.0,
+   "U": 0.4,
+   "min_abs_tau_window": 0.7877,
+   "window_end": 0.24
+  }
+ ],
+ "verdict": {
+  "same_family_control_B_vs_D": 0.9841,
+  "cross_family_A_vs_B": 0.1807,
+  "min_abs_tau_monotonic_window": 0.1649,
+  "min_abs_tau_full_run": 0.0022,
+  "reading": "counting/extensive clocks and distributional/entropy clocks are different clocks: they disagree on event order even inside the window where the counting clock flows monotonically"
+ }
+}

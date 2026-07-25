@@ -1,0 +1,17 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# macOS
+.DS_Store
+
+# Downloaded papers — not ours to redistribute.
+# See papers/README.md for arXiv IDs and links to every source used.
+papers/*.pdf
+
+# Scratch / local experiment output
+scratch/
+*.tmp

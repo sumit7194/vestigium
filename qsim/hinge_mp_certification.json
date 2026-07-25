@@ -1,0 +1,60 @@
+{
+ "leg": "high-precision certification (dps=60)",
+ "results": [
+  {
+   "x0": 10,
+   "sigma": 2.5,
+   "m": 0.1,
+   "N": 100,
+   "S_rel_exact_mp60": 9.76345347,
+   "S_rel_boost_formula": 9.76528054,
+   "deviation_percent": -0.0187
+  },
+  {
+   "x0": 14,
+   "sigma": 3.5,
+   "m": 0.1,
+   "N": 100,
+   "S_rel_exact_mp60": 11.69621433,
+   "S_rel_boost_formula": 11.69341814,
+   "deviation_percent": 0.0239
+  },
+  {
+   "x0": 20,
+   "sigma": 5.0,
+   "m": 0.1,
+   "N": 100,
+   "S_rel_exact_mp60": 15.75657969,
+   "S_rel_boost_formula": 15.72995439,
+   "deviation_percent": 0.1693
+  },
+  {
+   "x0": 16,
+   "sigma": 4.0,
+   "m": 0.0625,
+   "N": 160,
+   "S_rel_exact_mp60": 9.81457815,
+   "S_rel_boost_formula": 9.81282521,
+   "deviation_percent": 0.0179
+  },
+  {
+   "x0": 22.4,
+   "sigma": 5.6,
+   "m": 0.0625,
+   "N": 160,
+   "S_rel_exact_mp60": 11.72487384,
+   "S_rel_boost_formula": 11.71778588,
+   "deviation_percent": 0.0605
+  },
+  {
+   "x0": 32,
+   "sigma": 8.0,
+   "m": 0.0625,
+   "N": 160,
+   "S_rel_exact_mp60": 15.77435543,
+   "S_rel_boost_formula": 15.74192363,
+   "deviation_percent": 0.206
+  }
+ ],
+ "note": "float64 leg is precision-limited (~10% clip bands); this mp leg resolves all modular weights exactly"
+}

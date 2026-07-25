@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantum Double-Slit & Eraser — interactive</title>
+<style>
+  :root{
+    --bg:#0d0e13; --panel:#15171f; --panel2:#1c1f29; --line:#2a2e3a;
+    --txt:#e7e9f0; --mut:#9aa0b2; --amber:#efaf3a; --amber2:#ffd27a;
+    --blue:#5da9e9; --red:#e2655f; --green:#67c98a; --purple:#b08be6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+  .wrap{max-width:1060px;margin:0 auto;padding:22px}
+  h1{font-size:22px;font-weight:600;margin:0 0 2px}
+  .sub{color:var(--mut);font-size:14px;margin-bottom:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+  .row{display:flex;gap:16px;flex-wrap:wrap}
+  .col{flex:1 1 320px;min-width:300px}
+  h2{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
+  svg{width:100%;height:auto;display:block}
+  .screenWrap{position:relative;height:230px;border-radius:10px;overflow:hidden;background:#07080c;border:1px solid var(--line)}
+  .screenWrap canvas{position:absolute;inset:0;width:100%;height:100%}
+  .count{position:absolute;top:8px;right:12px;font-size:13px;color:var(--mut);z-index:3;background:rgba(0,0,0,.35);padding:2px 8px;border-radius:8px}
+  .status{position:absolute;left:12px;bottom:8px;right:12px;font-size:13px;z-index:3;background:rgba(0,0,0,.4);padding:3px 9px;border-radius:8px}
+  .ctrl{margin-bottom:14px}
+  .ctrl label{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin-bottom:5px}
+  .ctrl label b{color:var(--txt);font-weight:600}
+  input[type=range]{width:100%;accent-color:var(--amber)}
+  .toggle{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;user-select:none}
+  .toggle input{width:16px;height:16px;accent-color:var(--amber)}
+  .disabled{opacity:.4;pointer-events:none}
+  button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:13px;cursor:pointer;transition:.12s}
+  button:hover{border-color:#3a4150;background:#222634}
+  button.primary{background:#3a2f12;border-color:#6a571f;color:var(--amber2)}
+  button.on{background:#12263a;border-color:#1f5a6a;color:var(--blue)}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .presets button{font-size:12px}
+  .modebar{display:flex;gap:8px;margin-bottom:16px}
+  .modebar button{font-size:13px;padding:9px 16px}
+  .meter{margin-bottom:12px}
+  .meter .mhead{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+  .meter .mhead b{font-variant-numeric:tabular-nums}
+  .bar{height:9px;background:#0a0b10;border-radius:6px;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:6px;transition:width .15s}
+  .vbar i{background:var(--amber)} .dbar i{background:var(--blue)}
+  .sbar i{background:var(--purple)} .tbar i{background:var(--green)}
+  .note{font-size:12.5px;color:var(--mut);margin-top:4px}
+  .duality{font-size:12.5px;color:var(--mut);margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+  .curveWrap{position:relative;height:120px;margin-top:6px}
+  .curveWrap canvas{position:absolute;inset:0;width:100%;height:100%}
+  .lg{display:flex;gap:14px;font-size:12px;color:var(--mut);margin-top:2px}
+  .lg span b{display:inline-block;width:11px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Quantum double-slit &amp; eraser</h1>
+  <div class="sub">Configure the bench, fire photons, watch the pattern build — with live visibility,
+    which-path, and entanglement meters. Exact physics (ported from <code>bench.py</code>, verified).
+    &nbsp;·&nbsp; <a href="wave_double_slit.html" style="color:var(--blue)">watch the live wave propagate →</a></div>
+
+  <div class="modebar">
+    <button id="mSingle" class="on">Single photon</button>
+    <button id="mTwo">Two photons · delayed choice</button>
+  </div>
+
+  <!-- ===================== SINGLE-PHOTON MODE ===================== -->
+  <div id="modeSingle">
+    <div class="card"><h2>The bench</h2>
+      <svg id="schem" viewBox="0 0 1000 150" role="img" aria-label="bench"></svg></div>
+    <div class="row">
+      <div class="col" style="flex:2 1 520px">
+        <div class="card"><h2>Detection screen</h2>
+          <div class="screenWrap">
+            <canvas id="theory"></canvas><canvas id="dots"></canvas>
+            <div class="count">detected: <b id="count">0</b></div>
+            <div class="status" id="status"></div>
+          </div>
+          <div class="btns">
+            <button class="primary" id="fire1">Fire 1 photon</button>
+            <button id="fire200">Fire 200</button>
+            <button id="auto">▶ Auto</button>
+            <button id="clear">Clear screen</button>
+          </div>
+          <div class="presets btns" style="margin-top:10px">
+            <button data-preset="none">No tag → fringes</button>
+            <button data-preset="hv">Tag H/V → blobs</button>
+            <button data-preset="erase">Tag H/V + 45° eraser</button>
+            <button data-preset="partial">Partial 45° tag</button>
+            <button data-preset="decoh">Low coherence</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"><h2>Live read-outs</h2>
+          <div class="meter"><div class="mhead"><span>Fringe visibility V</span><b id="vval">1.00</b></div><div class="bar vbar"><i id="vbar"></i></div></div>
+          <div class="meter"><div class="mhead"><span>Which-path distinguishability D</span><b id="dval">0.00</b></div><div class="bar dbar"><i id="dbar"></i></div></div>
+          <div class="meter"><div class="mhead"><span>Entanglement (path↔pol), bits</span><b id="sval">0.00</b></div><div class="bar sbar"><i id="sbar"></i></div></div>
+          <div class="meter"><div class="mhead"><span>Photons transmitted</span><b id="tval">100%</b></div><div class="bar tbar"><i id="tbar"></i></div></div>
+          <div class="duality">Duality check &nbsp; V²+D² = <b id="dual">1.00</b></div>
+          <h2 style="margin-top:14px">Duality dial vs tag angle</h2>
+          <div class="curveWrap"><canvas id="curve"></canvas></div>
+          <div class="lg"><span><b style="background:var(--amber)"></b>V = visibility</span>
+            <span><b style="background:var(--purple)"></b>S = entanglement</span>
+            <span style="color:var(--txt)">● current</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card"><h2>Controls</h2>
+      <div class="row">
+        <div class="col">
+          <div class="ctrl"><label>Source polarization <b id="srcL">0°</b></label><input type="range" id="src" min="0" max="180" value="0"></div>
+          <div class="ctrl"><label>Transverse coherence g <b id="cohL">1.00</b></label><input type="range" id="coh" min="0" max="100" value="100">
+            <div class="note">How in-step the wave is across both slits. Low g washes out fringes even with no marker (the van&nbsp;Cittert–Zernike knob).</div></div>
+        </div>
+        <div class="col">
+          <label class="toggle" style="margin-bottom:10px"><input type="checkbox" id="markOn"> <span>Mark the slits (which-path tag)</span></label>
+          <div id="markBox" class="disabled">
+            <div class="ctrl"><label>Slit 1 marker angle <b id="s1L">0°</b></label><input type="range" id="s1" min="0" max="180" value="0"></div>
+            <div class="ctrl"><label>Slit 2 marker angle <b id="s2L">90°</b></label><input type="range" id="s2" min="0" max="180" value="90"></div>
+          </div>
+        </div>
+        <div class="col">
+          <label class="toggle" style="margin-bottom:10px"><input type="checkbox" id="anaOn"> <span>Analyzer / eraser after slits</span></label>
+          <div id="anaBox" class="disabled">
+            <div class="ctrl"><label>Analyzer angle <b id="anaL">45°</b></label><input type="range" id="ana" min="0" max="180" value="45"></div>
+            <div class="note">A polarizer after the slits. Set between the two marker angles to erase which-path info and bring fringes back.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TWO-PHOTON MODE ===================== -->
+  <div id="modeTwo" style="display:none">
+    <div class="card"><h2>The bench — entangled pair (Walborn)</h2>
+      <svg id="tschem" viewBox="0 0 1000 175" role="img" aria-label="two-photon bench"></svg></div>
+    <div class="row">
+      <div class="col" style="flex:2 1 520px">
+        <div class="card"><h2>Signal screen</h2>
+          <div class="screenWrap">
+            <canvas id="ttheory"></canvas><canvas id="tdots"></canvas>
+            <div class="count">detected: <b id="tcount">0</b></div>
+            <div class="status" id="tstatus"></div>
+          </div>
+          <div class="btns">
+            <button class="primary" id="tfire1">Fire 1 pair</button>
+            <button id="tfire200">Fire 200</button>
+            <button id="tauto">▶ Auto</button>
+            <button id="tclear">Clear</button>
+          </div>
+          <div class="btns" style="margin-top:10px">
+            <span class="note" style="margin:auto 6px auto 0">Sort signal by partner outcome:</span>
+            <button class="sortbtn on" data-sort="singles">Ignore partner (singles)</button>
+            <button class="sortbtn" data-sort="pass">Partner passes φ</button>
+            <button class="sortbtn" data-sort="fail">Partner blocked (φ+90°)</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"><h2>Live read-outs</h2>
+          <div class="meter"><div class="mhead"><span>Pair entanglement, bits</span><b>1.00</b></div><div class="bar sbar"><i style="width:100%"></i></div></div>
+          <div class="meter"><div class="mhead"><span>Singles visibility (screen alone)</span><b>0.00</b></div><div class="bar vbar"><i style="width:0%"></i></div></div>
+          <div class="meter"><div class="mhead"><span>Coincidence visibility = |sin 2φ|</span><b id="tvval">0.00</b></div><div class="bar vbar"><i id="tvbar"></i></div></div>
+          <div class="duality" style="border:0;padding-top:4px">The screen <b>alone</b> never shows fringes and carries <b>no signal</b>. They appear only when you sort by the partner — and partner→pass plus partner→blocked add back to flat.</div>
+        </div>
+        <div class="card"><h2>Partner analyzer (can be far away / later)</h2>
+          <div class="ctrl"><label>Analyzer angle φ <b id="tphiL">45°</b></label><input type="range" id="tphi" min="0" max="90" value="45">
+            <div class="note">φ = 0° or 90° measures the partner in H/V → reveals the path → no fringes. φ = 45° (diagonal) → erases the path → full fringes. <b>Delayed choice:</b> you may set φ <i>after</i> the signal has already landed — the result is identical.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- complex helpers ---------- */
+const C=(re,im=0)=>({re,im});
+const cadd=(a,b)=>({re:a.re+b.re,im:a.im+b.im});
+const cmul=(a,b)=>({re:a.re*b.re-a.im*b.im,im:a.re*b.im+a.im*b.re});
+const cscale=(a,s)=>({re:a.re*s,im:a.im*s});
+const cconj=(a)=>({re:a.re,im:-a.im});
+const cabs2=(a)=>a.re*a.re+a.im*a.im;
+const cexp=(t)=>({re:Math.cos(t),im:Math.sin(t)});
+const D2R=Math.PI/180, DMIN=-3*Math.PI, DMAX=3*Math.PI;
+function fitCanvas(c){const r=c.getBoundingClientRect();const dp=Math.min(2,devicePixelRatio||1);
+  c.width=Math.max(1,r.width*dp);c.height=Math.max(1,r.height*dp);return dp;}
+
+/* ---------- single-photon engine (verified vs bench.py) ---------- */
+function rotPol(c,t){const co=Math.cos(t),si=Math.sin(t);
+  return [cadd(cscale(c[0],co),cscale(c[1],-si)),cadd(cscale(c[0],si),cscale(c[1],co))];}
+function buildState(cf){const sr=cf.src*D2R,p=[Math.cos(sr),Math.sin(sr)];
+  let M=[[C(p[0]/Math.SQRT2),C(p[1]/Math.SQRT2)],[C(p[0]/Math.SQRT2),C(p[1]/Math.SQRT2)]];
+  if(cf.markOn){M[0]=rotPol(M[0],cf.s1*D2R);M[1]=rotPol(M[1],cf.s2*D2R);}
+  if(cf.anaOn){const a=cf.ana*D2R,av=[Math.cos(a),Math.sin(a)];
+    for(let p2=0;p2<2;p2++){const c=cadd(cscale(M[p2][0],av[0]),cscale(M[p2][1],av[1]));M[p2]=[cscale(c,av[0]),cscale(c,av[1])];}}
+  return M;}
+function intensity(M,delta,g){const a1=cexp(delta/2),a2=cexp(-delta/2);let I=0;
+  for(let q=0;q<2;q++){const t1=cmul(M[0][q],a1),t2=cmul(M[1][q],a2);I+=cabs2(t1)+cabs2(t2)+2*g*cmul(t1,cconj(t2)).re;}return I;}
+function visibility(M,g){let mn=1e9,mx=-1e9;for(let i=0;i<=400;i++){const d=-Math.PI+i*Math.PI/200;const I=intensity(M,d,g);if(I<mn)mn=I;if(I>mx)mx=I;}return (mx-mn)/(mx+mn+1e-12);}
+function entanglementBits(M){const r00=cabs2(M[0][0])+cabs2(M[0][1]),r11=cabs2(M[1][0])+cabs2(M[1][1]);
+  const r01=cadd(cmul(M[0][0],cconj(M[1][0])),cmul(M[0][1],cconj(M[1][1])));const tr=r00+r11;if(tr<1e-15)return 0;
+  const a=r00/tr,d=r11/tr,b2=(r01.re*r01.re+r01.im*r01.im)/(tr*tr);const disc=Math.sqrt(Math.max(0,((a-d)/2)**2+b2));
+  let S=0;for(const x of [(a+d)/2+disc,(a+d)/2-disc])if(x>1e-12)S-=x*Math.log2(x);return S;}
+const transmitted=(M)=>cabs2(M[0][0])+cabs2(M[0][1])+cabs2(M[1][0])+cabs2(M[1][1]);
+
+/* ---------- single-photon state + rendering ---------- */
+const cfg={src:0,coh:1,markOn:false,s1:0,s2:90,anaOn:false,ana:45};
+let M=buildState(cfg),G=1,cdf=[],cdfD=[],dots=0;
+const dotsC=document.getElementById('dots'),tC=document.getElementById('theory');
+const dctx=dotsC.getContext('2d'),tctx=tC.getContext('2d');
+function buildCDF(){const N=720;cdf=new Array(N);cdfD=new Array(N);let s=0;
+  for(let i=0;i<N;i++){const d=DMIN+(DMAX-DMIN)*i/(N-1);s+=Math.max(0,intensity(M,d,G));cdf[i]=s;cdfD[i]=d;}for(let i=0;i<N;i++)cdf[i]/=s;}
+function drawCurveTo(ctx,w,h,fn,mx,col,fill){ctx.beginPath();
+  for(let x=0;x<=w;x++){const I=fn(DMIN+(DMAX-DMIN)*x/w)/mx;const y=h-I*h*0.92;x?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+  ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();}
+function drawTheory(){const dp=fitCanvas(tC),w=tC.width,h=tC.height;tctx.setTransform(1,0,0,1,0,0);tctx.clearRect(0,0,w,h);
+  let mx=1e-9;for(let i=0;i<400;i++)mx=Math.max(mx,intensity(M,DMIN+(DMAX-DMIN)*i/399,G));
+  tctx.beginPath();tctx.moveTo(0,h);for(let x=0;x<=w;x++){const I=intensity(M,DMIN+(DMAX-DMIN)*x/w,G)/mx;tctx.lineTo(x,h-I*h*0.92);}tctx.lineTo(w,h);tctx.closePath();
+  tctx.fillStyle='rgba(239,175,58,0.08)';tctx.fill();drawCurveTo(tctx,w,h,d=>intensity(M,d,G),mx,'rgba(239,175,58,0.5)');}
+function clearDots(){fitCanvas(dotsC);dctx.setTransform(1,0,0,1,0,0);dctx.clearRect(0,0,dotsC.width,dotsC.height);dots=0;document.getElementById('count').textContent='0';}
+function sampleX(){const u=Math.random();let lo=0,hi=cdf.length-1;while(lo<hi){const m=(lo+hi)>>1;if(cdf[m]<u)lo=m+1;else hi=m;}return (cdfD[lo]-DMIN)/(DMAX-DMIN)*dotsC.width;}
+function fire(n){const trans=transmitted(M),w=dotsC.width,h=dotsC.height;dctx.globalCompositeOperation='lighter';let k=0;
+  for(let i=0;i<n;i++){if(Math.random()>trans)continue;dctx.beginPath();dctx.fillStyle='rgba(239,175,58,0.85)';dctx.arc(sampleX(),Math.random()*h,1.6,0,6.2832);dctx.fill();k++;}
+  dctx.globalCompositeOperation='source-over';dots+=k;document.getElementById('count').textContent=dots.toLocaleString();}
+function drawDuality(){const cv=document.getElementById('curve'),x=cv.getContext('2d');const dp=fitCanvas(cv),w=cv.width,h=cv.height;
+  x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,w,h);x.strokeStyle='#2a2e3a';x.lineWidth=1;x.strokeRect(.5,.5,w-1,h-1);
+  // sweep relative tag angle 0..90, other settings fixed
+  const Vc=[],Sc=[];for(let i=0;i<=90;i++){const tc=Object.assign({},cfg,{markOn:true,s1:cfg.s1,s2:cfg.s1+i});const m=buildState(tc);Vc.push(visibility(m,G));Sc.push(entanglementBits(m));}
+  const px=(i)=>i/90*w, py=(v)=>h-6-v*(h-12);
+  x.beginPath();Vc.forEach((v,i)=>{const X=px(i),Y=py(v);i?x.lineTo(X,Y):x.moveTo(X,Y);});x.strokeStyle='#efaf3a';x.lineWidth=2;x.stroke();
+  x.beginPath();Sc.forEach((v,i)=>{const X=px(i),Y=py(v);i?x.lineTo(X,Y):x.moveTo(X,Y);});x.strokeStyle='#b08be6';x.lineWidth=2;x.stroke();
+  const rel=cfg.markOn?(((cfg.s2-cfg.s1)%180+180)%180):0;const r2=rel>90?180-rel:rel;
+  const idx=Math.round(r2);x.fillStyle='#e7e9f0';
+  for(const arr of [Vc,Sc]){x.beginPath();x.arc(px(idx),py(arr[idx]),3.5,0,6.2832);x.fill();}}
+function refreshMeters(){const V=visibility(M,G),Dd=Math.sqrt(Math.max(0,1-V*V)),S=entanglementBits(M),T=transmitted(M);
+  const set=(id,v)=>document.getElementById(id).textContent=v;
+  set('vval',V.toFixed(2));set('dval',Dd.toFixed(2));set('sval',S.toFixed(2));set('tval',Math.round(T*100)+'%');set('dual',(V*V+Dd*Dd).toFixed(2));
+  document.getElementById('vbar').style.width=(V*100)+'%';document.getElementById('dbar').style.width=(Dd*100)+'%';
+  document.getElementById('sbar').style.width=(S*100)+'%';document.getElementById('tbar').style.width=(T*100)+'%';
+  let msg;if(G<0.99&&!cfg.markOn)msg='Low coherence: wave not in step across both slits → washed-out fringes (no which-path info).';
+  else if(!cfg.markOn)msg=cfg.anaOn?'No marker: the analyzer just dims the light; full fringes.':'No marker: both slits indistinguishable → full fringes.';
+  else{const orth=Math.abs(Math.abs(cfg.s1-cfg.s2)-90)<0.5,same=Math.abs(((cfg.s1-cfg.s2)%180+180)%180)<0.5;
+    if(cfg.anaOn)msg='Eraser: analyzer projects both tags onto one axis → which-path erased, fringes return (light lost).';
+    else if(orth)msg='Orthogonal tags: which-path fully knowable → no fringes, two overlapping blobs.';
+    else if(same)msg='Identical tags: paths indistinguishable → full fringes.';
+    else msg='Partial tag: which-path half-knowable → reduced-contrast fringes (V = cos of the tag angle).';}
+  document.getElementById('status').textContent=msg;}
+function drawSchem(){const cy=75,amber='#efaf3a',mut='#9aa0b2',line='#3a4150';
+  const arr=(cx,cy,deg,col,len=16)=>{const t=deg*D2R;return `<line x1="${cx-len*Math.cos(t)}" y1="${cy+len*Math.sin(t)}" x2="${cx+len*Math.cos(t)}" y2="${cy-len*Math.sin(t)}" stroke="${col}" stroke-width="2.4"/>`;};
+  let h=`<line x1="120" y1="${cy}" x2="640" y2="${cy}" stroke="${amber}" stroke-width="2" opacity=".5"/>`;
+  h+=`<rect x="40" y="${cy-26}" width="70" height="52" rx="7" fill="#1c1f29" stroke="${line}"/>`+arr(75,cy,cfg.src,amber)+`<text x="75" y="${cy+44}" fill="${mut}" font-size="12" text-anchor="middle">source ${cfg.src}°</text>`;
+  h+=`<ellipse cx="190" cy="${cy}" rx="9" ry="24" fill="none" stroke="${cfg.coh>0.99?line:'#6a571f'}" stroke-width="2"/><text x="190" y="${cy+44}" fill="${mut}" font-size="12" text-anchor="middle">coh ${cfg.coh.toFixed(2)}</text>`;
+  for(let i=0;i<3;i++){const x=250+i*40;h+=`<path d="M ${x} ${cy-18} Q ${x+8} ${cy} ${x} ${cy+18}" fill="none" stroke="${amber}" stroke-width="1.4" opacity=".45"/>`;}
+  const bx=430;h+=`<rect x="${bx}" y="${cy-46}" width="9" height="34" fill="#2a2e3a"/><rect x="${bx}" y="${cy-6}" width="9" height="12" fill="#2a2e3a"/><rect x="${bx}" y="${cy+12}" width="9" height="34" fill="#2a2e3a"/>`;
+  if(cfg.markOn){h+=`<rect x="${bx-16}" y="${cy-30}" width="13" height="13" rx="2" fill="#0f6e56" stroke="#1d9e75"/>`+arr(bx-9.5,cy-23.5,cfg.s1,'#9fe1cb',7)+`<rect x="${bx-16}" y="${cy+17}" width="13" height="13" rx="2" fill="#0f6e56" stroke="#1d9e75"/>`+arr(bx-9.5,cy+23.5,cfg.s2,'#9fe1cb',7)+`<text x="${bx+4}" y="${cy+62}" fill="${mut}" font-size="12" text-anchor="middle">tags ${cfg.s1}°/${cfg.s2}°</text>`;}
+  else h+=`<text x="${bx+4}" y="${cy+62}" fill="${mut}" font-size="12" text-anchor="middle">double slit</text>`;
+  h+=`<line x1="${bx+9}" y1="${cy}" x2="640" y2="${cy-34}" stroke="${amber}" stroke-width="1.2" opacity=".4"/><line x1="${bx+9}" y1="${cy}" x2="640" y2="${cy+34}" stroke="${amber}" stroke-width="1.2" opacity=".4"/>`;
+  if(cfg.anaOn)h+=`<g transform="translate(560,${cy}) rotate(${-cfg.ana})"><rect x="-3" y="-26" width="6" height="52" rx="3" fill="#3c3489" stroke="#7f77dd"/></g><text x="560" y="${cy+44}" fill="${mut}" font-size="12" text-anchor="middle">erase ${cfg.ana}°</text>`;
+  h+=`<rect x="648" y="${cy-40}" width="10" height="80" rx="3" fill="#07080c" stroke="${line}"/><text x="653" y="${cy+58}" fill="${mut}" font-size="12" text-anchor="middle">screen</text>`;
+  document.getElementById('schem').innerHTML=h;}
+function recompute(){M=buildState(cfg);G=cfg.coh;buildCDF();drawTheory();clearDots();refreshMeters();drawSchem();drawDuality();}
+
+/* ---------- two-photon (Bell) engine + rendering ---------- */
+const tp={phi:45,sort:'singles'};let tcdf=[],tcdfD=[],tdotsN=0;
+const tdotsC=document.getElementById('tdots'),ttC=document.getElementById('ttheory');
+const tdctx=tdotsC.getContext('2d'),ttctx=ttC.getContext('2d');
+function tpPattern(delta){const s=Math.sin(2*tp.phi*D2R);
+  if(tp.sort==='singles')return 1;
+  if(tp.sort==='pass')return 0.5*(1+s*Math.cos(delta));
+  return 0.5*(1-s*Math.cos(delta));}                 // 'fail'
+function tpVis(){return Math.abs(Math.sin(2*tp.phi*D2R));}
+function tpFrac(){return tp.sort==='singles'?1:0.5;}  // marginal prob of the partner outcome
+function tpCDF(){const N=720;tcdf=new Array(N);tcdfD=new Array(N);let s=0;
+  for(let i=0;i<N;i++){const d=DMIN+(DMAX-DMIN)*i/(N-1);s+=Math.max(0,tpPattern(d));tcdf[i]=s;tcdfD[i]=d;}for(let i=0;i<N;i++)tcdf[i]/=s;}
+function tpDrawTheory(){const dp=fitCanvas(ttC),w=ttC.width,h=ttC.height;ttctx.setTransform(1,0,0,1,0,0);ttctx.clearRect(0,0,w,h);
+  let mx=1e-9;for(let i=0;i<400;i++)mx=Math.max(mx,tpPattern(DMIN+(DMAX-DMIN)*i/399));
+  ttctx.beginPath();ttctx.moveTo(0,h);for(let x=0;x<=w;x++){ttctx.lineTo(x,h-tpPattern(DMIN+(DMAX-DMIN)*x/w)/mx*h*0.92);}ttctx.lineTo(w,h);ttctx.closePath();
+  ttctx.fillStyle='rgba(93,169,233,0.08)';ttctx.fill();
+  ttctx.beginPath();for(let x=0;x<=w;x++){const y=h-tpPattern(DMIN+(DMAX-DMIN)*x/w)/mx*h*0.92;x?ttctx.lineTo(x,y):ttctx.moveTo(x,y);}ttctx.strokeStyle='rgba(93,169,233,0.55)';ttctx.lineWidth=1.5;ttctx.stroke();}
+function tpClear(){fitCanvas(tdotsC);tdctx.setTransform(1,0,0,1,0,0);tdctx.clearRect(0,0,tdotsC.width,tdotsC.height);tdotsN=0;document.getElementById('tcount').textContent='0';}
+function tpSampleX(){const u=Math.random();let lo=0,hi=tcdf.length-1;while(lo<hi){const m=(lo+hi)>>1;if(tcdf[m]<u)lo=m+1;else hi=m;}return (tcdfD[lo]-DMIN)/(DMAX-DMIN)*tdotsC.width;}
+function tpFire(n){const fr=tpFrac(),w=tdotsC.width,h=tdotsC.height;tdctx.globalCompositeOperation='lighter';let k=0;
+  for(let i=0;i<n;i++){if(Math.random()>fr)continue;tdctx.beginPath();tdctx.fillStyle='rgba(120,190,250,0.85)';tdctx.arc(tpSampleX(),Math.random()*h,1.6,0,6.2832);tdctx.fill();k++;}
+  tdctx.globalCompositeOperation='source-over';tdotsN+=k;document.getElementById('tcount').textContent=tdotsN.toLocaleString();}
+function tpRefresh(){document.getElementById('tvval').textContent=tpVis().toFixed(2);document.getElementById('tvbar').style.width=(tpVis()*100)+'%';
+  let msg;if(tp.sort==='singles')msg='Singles: ignoring the partner → flat, no fringes, no signal (no matter what φ is).';
+  else{const which=tp.phi<5||tp.phi>85;if(which)msg='Partner measured in H/V (φ≈0/90): which-path revealed → no fringes even in coincidence.';
+    else if(Math.abs(tp.phi-45)<3)msg=(tp.sort==='pass'?'Erase: partner in diagonal basis → full fringes appear in coincidence.':'Erase: the blocked partners give the complementary anti-fringes.');
+    else msg=(tp.sort==='pass'?'Partial erase: coincidence fringes at visibility |sin 2φ|.':'Partial: complementary anti-fringes at |sin 2φ|.');}
+  document.getElementById('tstatus').textContent=msg;}
+function tpDrawSchem(){const cy=88,amber='#efaf3a',blue='#5da9e9',mut='#9aa0b2',line='#3a4150';
+  let h=`<rect x="40" y="${cy-22}" width="64" height="44" rx="7" fill="#1c1f29" stroke="${line}"/><text x="72" y="${cy+38}" fill="${mut}" font-size="12" text-anchor="middle">pair source</text>`;
+  // signal beam to slits/screen
+  h+=`<line x1="104" y1="${cy}" x2="430" y2="${cy}" stroke="${amber}" stroke-width="2" opacity=".5"/>`;
+  const bx=440;h+=`<rect x="${bx}" y="${cy-44}" width="9" height="32" fill="#2a2e3a"/><rect x="${bx}" y="${cy-6}" width="9" height="12" fill="#2a2e3a"/><rect x="${bx}" y="${cy+12}" width="9" height="32" fill="#2a2e3a"/><text x="${bx+4}" y="${cy+58}" fill="${mut}" font-size="12" text-anchor="middle">double slit</text>`;
+  h+=`<line x1="${bx+9}" y1="${cy}" x2="700" y2="${cy-30}" stroke="${amber}" stroke-width="1.2" opacity=".4"/><line x1="${bx+9}" y1="${cy}" x2="700" y2="${cy+30}" stroke="${amber}" stroke-width="1.2" opacity=".4"/>`;
+  h+=`<rect x="706" y="${cy-38}" width="10" height="76" rx="3" fill="#07080c" stroke="${line}"/><text x="711" y="${cy+54}" fill="${mut}" font-size="12" text-anchor="middle">signal screen</text>`;
+  // idler beam down to partner analyzer
+  h+=`<line x1="72" y1="${cy+22}" x2="72" y2="150" stroke="${blue}" stroke-width="2" opacity=".5"/>`;
+  h+=`<line x1="72" y1="148" x2="840" y2="148" stroke="${blue}" stroke-width="2" opacity=".5"/>`;
+  h+=`<g transform="translate(840,148) rotate(${-tp.phi})"><rect x="-3" y="-20" width="6" height="40" rx="3" fill="#3c3489" stroke="#7f77dd"/></g>`;
+  h+=`<rect x="862" y="128" width="34" height="40" rx="6" fill="#1c1f29" stroke="${line}"/><text x="840" y="183" fill="${mut}" font-size="12" text-anchor="middle">partner analyzer φ=${tp.phi}°  →  detector</text>`;
+  h+=`<text x="200" y="${cy-32}" fill="${mut}" font-size="12">signal photon</text><text x="200" y="142" fill="${mut}" font-size="12">idler (partner) photon — may be far away / measured later</text>`;
+  document.getElementById('tschem').innerHTML=h;}
+function tpRecompute(){tpCDF();tpDrawTheory();tpClear();tpRefresh();tpDrawSchem();}
+
+/* ---------- shared controls / loop ---------- */
+let mode='single',auto=false;
+function bindSlider(id,labId,fmt,set,re){document.getElementById(id).addEventListener('input',e=>{set(+e.target.value);document.getElementById(labId).textContent=fmt(+e.target.value);re();});}
+bindSlider('src','srcL',v=>v+'°',v=>cfg.src=v,recompute);
+bindSlider('coh','cohL',v=>(v/100).toFixed(2),v=>cfg.coh=v/100,recompute);
+bindSlider('s1','s1L',v=>v+'°',v=>cfg.s1=v,recompute);
+bindSlider('s2','s2L',v=>v+'°',v=>cfg.s2=v,recompute);
+bindSlider('ana','anaL',v=>v+'°',v=>cfg.ana=v,recompute);
+document.getElementById('markOn').addEventListener('change',e=>{cfg.markOn=e.target.checked;document.getElementById('markBox').classList.toggle('disabled',!cfg.markOn);recompute();});
+document.getElementById('anaOn').addEventListener('change',e=>{cfg.anaOn=e.target.checked;document.getElementById('anaBox').classList.toggle('disabled',!cfg.anaOn);recompute();});
+document.getElementById('fire1').onclick=()=>fire(1);
+document.getElementById('fire200').onclick=()=>fire(200);
+document.getElementById('clear').onclick=clearDots;
+document.getElementById('auto').onclick=function(){auto=!auto;this.textContent=auto?'❚❚ Pause':'▶ Auto';this.classList.toggle('on',auto);};
+
+bindSlider('tphi','tphiL',v=>v+'°',v=>tp.phi=v,tpRecompute);
+document.getElementById('tfire1').onclick=()=>tpFire(1);
+document.getElementById('tfire200').onclick=()=>tpFire(200);
+document.getElementById('tclear').onclick=tpClear;
+document.getElementById('tauto').onclick=function(){auto=!auto;this.textContent=auto?'❚❚ Pause':'▶ Auto';this.classList.toggle('on',auto);};
+document.querySelectorAll('.sortbtn').forEach(b=>b.onclick=()=>{tp.sort=b.dataset.sort;document.querySelectorAll('.sortbtn').forEach(x=>x.classList.toggle('on',x===b));tpRecompute();});
+
+/* presets (single mode) */
+function setUI(){const g=id=>document.getElementById(id);
+  g('src').value=cfg.src;g('srcL').textContent=cfg.src+'°';g('coh').value=cfg.coh*100;g('cohL').textContent=cfg.coh.toFixed(2);
+  g('s1').value=cfg.s1;g('s1L').textContent=cfg.s1+'°';g('s2').value=cfg.s2;g('s2L').textContent=cfg.s2+'°';g('ana').value=cfg.ana;g('anaL').textContent=cfg.ana+'°';
+  g('markOn').checked=cfg.markOn;g('markBox').classList.toggle('disabled',!cfg.markOn);g('anaOn').checked=cfg.anaOn;g('anaBox').classList.toggle('disabled',!cfg.anaOn);}
+const presets={none:{src:0,coh:1,markOn:false,s1:0,s2:90,anaOn:false,ana:45},hv:{src:0,coh:1,markOn:true,s1:0,s2:90,anaOn:false,ana:45},
+  erase:{src:0,coh:1,markOn:true,s1:0,s2:90,anaOn:true,ana:45},partial:{src:0,coh:1,markOn:true,s1:0,s2:45,anaOn:false,ana:22},decoh:{src:0,coh:0.4,markOn:false,s1:0,s2:90,anaOn:false,ana:45}};
+document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>{Object.assign(cfg,presets[b.dataset.preset]);setUI();recompute();});
+
+/* mode switch */
+function setMode(m){mode=m;auto=false;document.getElementById('auto').textContent='▶ Auto';document.getElementById('tauto').textContent='▶ Auto';
+  document.getElementById('auto').classList.remove('on');document.getElementById('tauto').classList.remove('on');
+  document.getElementById('modeSingle').style.display=m==='single'?'':'none';
+  document.getElementById('modeTwo').style.display=m==='two'?'':'none';
+  document.getElementById('mSingle').classList.toggle('on',m==='single');document.getElementById('mTwo').classList.toggle('on',m==='two');
+  if(m==='single')recompute();else tpRecompute();}
+document.getElementById('mSingle').onclick=()=>setMode('single');
+document.getElementById('mTwo').onclick=()=>setMode('two');
+
+function loop(){if(auto){if(mode==='single')fire(40);else tpFire(60);}requestAnimationFrame(loop);}
+addEventListener('resize',()=>{if(mode==='single'){drawTheory();drawDuality();}else tpDrawTheory();});
+recompute();loop();
+</script>
+</body>
+</html>

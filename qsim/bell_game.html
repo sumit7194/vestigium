@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Bell &amp; GHZ games — beat the classical ceiling if you can</title>
+<style>
+  :root{--bg:#0d0e13;--panel:#15171f;--panel2:#1c1f29;--line:#2a2e3a;--txt:#e7e9f0;
+        --mut:#9aa0b2;--amber:#efaf3a;--blue:#5da9e9;--green:#67c98a;--red:#e2655f;--purple:#b08be6}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  .wrap{max-width:980px;margin:0 auto;padding:22px}
+  h1{font-size:22px;font-weight:600;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:14px;margin-bottom:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+  h2{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
+  .rules{font-size:14px}
+  .rules b{color:var(--amber)}
+  .row{display:flex;gap:16px;flex-wrap:wrap}
+  .col{flex:1 1 300px;min-width:280px}
+  button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:9px;
+         padding:8px 13px;font-size:13px;cursor:pointer;transition:.12s}
+  button:hover{border-color:#3a4150;background:#222634}
+  button.primary{background:#3a2f12;border-color:#6a571f;color:#ffd27a}
+  button.on{background:#12263a;border-color:#1f5a6a;color:var(--blue)}
+  .modebar{display:flex;gap:8px;margin-bottom:16px}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .plan{display:grid;grid-template-columns:auto auto;gap:8px 14px;align-items:center;font-size:14px}
+  .plan .lab{color:var(--mut)}
+  .bit{width:52px;text-align:center;font-weight:600}
+  .bar{height:26px;background:#0a0b10;border-radius:8px;overflow:hidden;position:relative;margin:6px 0 2px}
+  .bar i{display:block;height:100%;border-radius:8px;transition:width .2s}
+  .bar span{position:absolute;right:8px;top:3px;font-size:13px;font-variant-numeric:tabular-nums}
+  .cbar i{background:var(--blue)} .qbar i{background:var(--purple)}
+  .marks{position:relative;height:14px;font-size:10.5px;color:var(--mut)}
+  .marks div{position:absolute;transform:translateX(-50%)}
+  .tick{position:absolute;top:-32px;width:2px;height:30px;background:rgba(255,255,255,.25)}
+  .roundlog{font-size:13px;font-variant-numeric:tabular-nums;color:var(--mut);min-height:20px;margin-top:10px}
+  .verdict{font-size:14px;margin-top:8px}
+  .stat{font-size:28px;font-weight:600;font-variant-numeric:tabular-nums}
+  .why{font-size:13px;color:var(--mut);margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>The Bell &amp; GHZ games</h1>
+  <div class="sub">Partners locked in separate rooms, no communication, free to agree on any plan
+    beforehand. Classical plans hit a hard ceiling; shared entanglement walks through it.</div>
+
+  <div class="modebar">
+    <button id="mCHSH" class="on">CHSH · 2 players · 75% vs 85%</button>
+    <button id="mGHZ">GHZ · 3 players · 75% vs 100%</button>
+  </div>
+
+  <!-- ===================== CHSH ===================== -->
+  <div id="tabCHSH">
+    <div class="sub">Referee sends <b style="color:var(--amber)">Alice x∈{0,1}</b> and
+      <b style="color:var(--amber)">Bob y∈{0,1}</b>. Each answers a bit.
+      <b>Win rule: a⊕b = x·y</b> (agree, unless both questions are 1 — then disagree).</div>
+    <div class="row">
+      <div class="col"><div class="card">
+        <h2>Team classical — design their plan</h2>
+        <div class="plan">
+          <span class="lab">Alice answers, if asked x=0:</span><button class="bit" data-k="A0">0</button>
+          <span class="lab">Alice answers, if asked x=1:</span><button class="bit" data-k="A1">0</button>
+          <span class="lab">Bob answers, if asked y=0:</span><button class="bit" data-k="B0">0</button>
+          <span class="lab">Bob answers, if asked y=1:</span><button class="bit" data-k="B1">0</button>
+        </div>
+        <div class="verdict" id="planCheck"></div>
+        <div class="why">All 16 plans fail ≥1 of the 4 question pairs: the win-conditions demand
+          a0⊕b0=0, a0⊕b1=0, a1⊕b0=0, a1⊕b1=1 — the left sides sum to 0, the right to 1.
+          Contradiction → <b>max 75%</b>.</div>
+      </div></div>
+      <div class="col"><div class="card">
+        <h2>Team quantum — one Bell pair per round</h2>
+        <div class="rules">Alice measures at <b>0°/45°</b> (x=0/1), Bob at <b>22.5°/−22.5°</b> (y=0/1);
+          each answers their outcome. P(agree) = cos²(angle difference) = cos²22.5° ≈ 0.854 for every
+          question pair (and P(disagree)=0.854 exactly where the rule wants disagreement).</div>
+        <div class="why">Stronger than ANY stored plan — Bell's theorem; confirmed loophole-free in 2015.</div>
+      </div></div>
+    </div>
+    <div class="card">
+      <h2>Play — both teams get the same questions</h2>
+      <div class="btns">
+        <button class="primary" id="p1">Play 1 round</button>
+        <button id="p100">Play 100</button>
+        <button id="p10k">Play 10,000</button>
+        <button id="reset">Reset</button>
+      </div>
+      <div class="roundlog" id="log"></div>
+      <div style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between"><span>Classical (your plan)</span><span class="stat" id="cpct">—</span></div>
+        <div class="bar cbar"><i id="cbar"></i><span id="cn"></span></div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px"><span>Quantum (entangled pair)</span><span class="stat" id="qpct">—</span></div>
+        <div class="bar qbar"><i id="qbar"></i><span id="qn"></span></div>
+        <div class="marks" style="margin-top:4px">
+          <div style="left:75%"><div class="tick"></div>75% classical ceiling</div>
+          <div style="left:85.36%"><div class="tick"></div>85.4% quantum</div>
+        </div>
+      </div>
+      <div class="why">No messages pass either way — each side's answers alone are coin flips
+        (no-signaling). The edge lives only in the correlations.</div>
+    </div>
+  </div>
+
+  <!-- ===================== GHZ ===================== -->
+  <div id="tabGHZ" style="display:none">
+    <div class="sub">Now THREE players. The referee draws questions <b style="color:var(--amber)">x,y,z
+      with an even number of 1s</b> — one of 000, 011, 101, 110. Each player answers a bit.
+      <b>Win rule: a⊕b⊕c = x∨y∨z</b> (answers sum even for 000; odd for the rest).</div>
+    <div class="row">
+      <div class="col"><div class="card">
+        <h2>Team classical — design their plan</h2>
+        <div class="plan">
+          <span class="lab">Alice, if asked 0 / 1:</span>
+          <span><button class="bit" data-g="GA0">1</button> <button class="bit" data-g="GA1">1</button></span>
+          <span class="lab">Bob, if asked 0 / 1:</span>
+          <span><button class="bit" data-g="GB0">1</button> <button class="bit" data-g="GB1">1</button></span>
+          <span class="lab">Charlie, if asked 0 / 1:</span>
+          <span><button class="bit" data-g="GC0">1</button> <button class="bit" data-g="GC1">1</button></span>
+        </div>
+        <div class="verdict" id="gPlanCheck"></div>
+        <div class="why">All 64 plans fail ≥1 of the 4 triples: the win-conditions demand
+          a0⊕b0⊕c0=0, a0⊕b1⊕c1=1, a1⊕b0⊕c1=1, a1⊕b1⊕c0=1 — left sides sum to 0 (every bit
+          appears twice), right sides to 1. Contradiction → <b>max 75%</b>.</div>
+      </div></div>
+      <div class="col"><div class="card">
+        <h2>Team quantum — one GHZ triple per round</h2>
+        <div class="rules">They share (|000⟩+|111⟩)/√2. Asked <b>0 → measure X</b>;
+          asked <b>1 → measure Y</b>; answer your outcome. The GHZ state is an exact eigenstate:
+          X·X·X = <b>+1</b> and X·Y·Y = Y·X·Y = Y·Y·X = <b>−1</b> — so the product of the three
+          outcomes is FIXED for every allowed question triple, and it always lands on the win rule.</div>
+        <div class="why"><b>They win 100% — every round, deterministically.</b> No statistics, no
+          inequality: a single lost round would falsify quantum mechanics; a single 4/4 sweep is
+          impossible classically. (Mermin 1990; realized experimentally by Pan et al. 2000.)</div>
+      </div></div>
+    </div>
+    <div class="card">
+      <h2>Play — both teams get the same questions</h2>
+      <div class="btns">
+        <button class="primary" id="g1">Play 1 round</button>
+        <button id="g100">Play 100</button>
+        <button id="g10k">Play 10,000</button>
+        <button id="gReset">Reset</button>
+      </div>
+      <div class="roundlog" id="gLog"></div>
+      <div style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between"><span>Classical (your plan)</span><span class="stat" id="gcpct">—</span></div>
+        <div class="bar cbar"><i id="gcbar"></i><span id="gcn"></span></div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px"><span>Quantum (GHZ state)</span><span class="stat" id="gqpct">—</span></div>
+        <div class="bar qbar"><i id="gqbar"></i><span id="gqn"></span></div>
+        <div class="marks" style="margin-top:4px">
+          <div style="left:75%"><div class="tick"></div>75% classical ceiling</div>
+          <div style="left:99.2%"><div class="tick"></div>100% quantum</div>
+        </div>
+      </div>
+      <div class="why">Still no signaling: each player's own answers are fair coin flips; only the
+        three-way correlation is fixed. Entanglement is not shared randomness — it's shared
+        <i>structure</i>.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const D2R = Math.PI/180;
+
+/* ---------- tabs ---------- */
+function setTab(t){
+  document.getElementById('tabCHSH').style.display = t==='chsh'?'':'none';
+  document.getElementById('tabGHZ').style.display  = t==='ghz'?'':'none';
+  document.getElementById('mCHSH').classList.toggle('on', t==='chsh');
+  document.getElementById('mGHZ').classList.toggle('on', t==='ghz');
+}
+document.getElementById('mCHSH').onclick = ()=>setTab('chsh');
+document.getElementById('mGHZ').onclick  = ()=>setTab('ghz');
+
+/* ---------- CHSH ---------- */
+const plan = {A0:0, A1:0, B0:0, B1:0};
+let cw=0, qw=0, n=0;
+document.querySelectorAll('[data-k]').forEach(b=>{
+  b.onclick = ()=>{ plan[b.dataset.k]^=1; b.textContent = plan[b.dataset.k]; checkPlan(); };
+});
+function planWins(x,y){
+  const a = x ? plan.A1 : plan.A0, b = y ? plan.B1 : plan.B0;
+  return ((a ^ b) === (x & y));
+}
+function checkPlan(){
+  let wins = 0;
+  for (const [x,y] of [[0,0],[0,1],[1,0],[1,1]]) if (planWins(x,y)) wins++;
+  document.getElementById('planCheck').innerHTML =
+    `This plan wins <b>${wins}/4</b> question pairs → expected <b>${wins*25}%</b>.`;
+}
+function quantumRound(x,y){
+  const alpha = x ? 45*D2R : 0, beta = y ? -22.5*D2R : 22.5*D2R;
+  const a = Math.random() < 0.5 ? 0 : 1;
+  const b = (Math.random() < Math.cos(alpha-beta)**2) ? a : 1-a;
+  return {a, b, win: ((a ^ b) === (x & y))};
+}
+function play(rounds, verbose){
+  let msg = "";
+  for (let i=0;i<rounds;i++){
+    const x = Math.random()<0.5?0:1, y = Math.random()<0.5?0:1;
+    const cWin = planWins(x,y), q = quantumRound(x,y);
+    cw += cWin; qw += q.win; n++;
+    if (verbose){
+      const a = x ? plan.A1 : plan.A0, b = y ? plan.B1 : plan.B0;
+      msg = `x=${x}, y=${y} · classical (${a},${b}) → ${w(cWin)} · quantum (${q.a},${q.b}) → ${w(q.win)}`;
+    }
+  }
+  if (verbose) document.getElementById('log').innerHTML = msg;
+  refresh();
+}
+const w = v => v ? "<b style='color:var(--green)'>win</b>" : "<b style='color:var(--red)'>lose</b>";
+function refresh(){
+  const cp = n ? cw/n*100 : 0, qp = n ? qw/n*100 : 0;
+  cpct.textContent = n ? cp.toFixed(1)+"%" : "—"; qpct.textContent = n ? qp.toFixed(1)+"%" : "—";
+  cbar.style.width = cp+"%"; qbar.style.width = qp+"%";
+  cn.textContent = n ? `${cw}/${n}` : ""; qn.textContent = n ? `${qw}/${n}` : "";
+}
+p1.onclick = ()=>play(1,true); p100.onclick = ()=>play(100,false); p10k.onclick = ()=>play(10000,false);
+reset.onclick = ()=>{cw=qw=n=0; log.innerHTML=""; refresh();};
+
+/* ---------- GHZ ---------- */
+const gplan = {GA0:1, GA1:1, GB0:1, GB1:1, GC0:1, GC1:1};
+let gcw=0, gqw=0, gn=0;
+const TRIPLES = [[0,0,0],[0,1,1],[1,0,1],[1,1,0]];
+document.querySelectorAll('[data-g]').forEach(b=>{
+  b.onclick = ()=>{ gplan[b.dataset.g]^=1; b.textContent = gplan[b.dataset.g]; gCheckPlan(); };
+});
+function gAnswers(q){
+  return [ q[0] ? gplan.GA1 : gplan.GA0,
+           q[1] ? gplan.GB1 : gplan.GB0,
+           q[2] ? gplan.GC1 : gplan.GC0 ];
+}
+function gPlanWins(q){
+  const [a,b,c] = gAnswers(q);
+  return ((a ^ b ^ c) === (q[0] | q[1] | q[2]));
+}
+function gCheckPlan(){
+  let wins = 0;
+  for (const q of TRIPLES) if (gPlanWins(q)) wins++;
+  document.getElementById('gPlanCheck').innerHTML =
+    `This plan wins <b>${wins}/4</b> question triples → expected <b>${wins*25}%</b>.`;
+}
+function gQuantumRound(q){
+  // GHZ eigenvalue: +1 for XXX (q=000), -1 for the two-Y triples
+  const s = (q[0]+q[1]+q[2] === 0) ? +1 : -1;
+  // individual outcomes are fair coins; only the triple product is fixed
+  const mA = Math.random()<0.5 ? 1 : -1, mB = Math.random()<0.5 ? 1 : -1;
+  const mC = s * mA * mB;
+  const a=(1-mA)/2, b=(1-mB)/2, c=(1-mC)/2;
+  return {a, b, c, win: ((a ^ b ^ c) === (q[0] | q[1] | q[2]))};
+}
+function gPlay(rounds, verbose){
+  let msg = "";
+  for (let i=0;i<rounds;i++){
+    const q = TRIPLES[Math.floor(Math.random()*4)];
+    const cWin = gPlanWins(q), r = gQuantumRound(q);
+    gcw += cWin; gqw += r.win; gn++;
+    if (verbose){
+      const [a,b,c] = gAnswers(q);
+      msg = `questions ${q.join('')} · classical (${a},${b},${c}) → ${w(cWin)} · quantum (${r.a},${r.b},${r.c}) → ${w(r.win)}`;
+    }
+  }
+  if (verbose) document.getElementById('gLog').innerHTML = msg;
+  gRefresh();
+}
+function gRefresh(){
+  const cp = gn ? gcw/gn*100 : 0, qp = gn ? gqw/gn*100 : 0;
+  gcpct.textContent = gn ? cp.toFixed(1)+"%" : "—"; gqpct.textContent = gn ? qp.toFixed(1)+"%" : "—";
+  gcbar.style.width = cp+"%"; gqbar.style.width = qp+"%";
+  gcn.textContent = gn ? `${gcw}/${gn}` : ""; gqn.textContent = gn ? `${gqw}/${gn}` : "";
+}
+g1.onclick = ()=>gPlay(1,true); g100.onclick = ()=>gPlay(100,false); g10k.onclick = ()=>gPlay(10000,false);
+gReset.onclick = ()=>{gcw=gqw=gn=0; gLog.innerHTML=""; gRefresh();};
+
+checkPlan(); refresh(); gCheckPlan(); gRefresh();
+</script>
+</body>
+</html>

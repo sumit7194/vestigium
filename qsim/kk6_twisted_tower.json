@@ -1,0 +1,99 @@
+{
+ "ask": "bridge round-6 ask-1: 6D twisted tower rest-buzz",
+ "protocol": "blind (integrator = geometry+stencils only; formula scored after measurement)",
+ "lattice": {
+  "Ny": 64,
+  "stencil": "2nd-order centered incl. mixed d12",
+  "T": 140.0
+ },
+ "rows": [
+  {
+   "chi": 0.0,
+   "n1": 1,
+   "n2": 0,
+   "m_measured": 0.997285,
+   "m_target": 1.0,
+   "err_percent": -0.2715
+  },
+  {
+   "chi": 0.0,
+   "n1": 0,
+   "n2": 1,
+   "m_measured": 0.997285,
+   "m_target": 1.0,
+   "err_percent": -0.2715
+  },
+  {
+   "chi": 0.0,
+   "n1": 1,
+   "n2": 1,
+   "m_measured": 1.413581,
+   "m_target": 1.414214,
+   "err_percent": -0.0447
+  },
+  {
+   "chi": 0.0,
+   "n1": 1,
+   "n2": -1,
+   "m_measured": 1.413581,
+   "m_target": 1.414214,
+   "err_percent": -0.0447
+  },
+  {
+   "chi": 0.0,
+   "n1": 2,
+   "n2": 1,
+   "m_measured": 2.235305,
+   "m_target": 2.236068,
+   "err_percent": -0.0341
+  },
+  {
+   "chi": 0.3,
+   "n1": 1,
+   "n2": 0,
+   "m_measured": 1.045577,
+   "m_target": 1.048285,
+   "err_percent": -0.2583
+  },
+  {
+   "chi": 0.3,
+   "n1": 0,
+   "n2": 1,
+   "m_measured": 1.045577,
+   "m_target": 1.048285,
+   "err_percent": -0.2583
+  },
+  {
+   "chi": 0.3,
+   "n1": 1,
+   "n2": 1,
+   "m_measured": 1.24273,
+   "m_target": 1.240347,
+   "err_percent": 0.1921
+  },
+  {
+   "chi": 0.3,
+   "n1": 1,
+   "n2": -1,
+   "m_measured": 1.691402,
+   "m_target": 1.690309,
+   "err_percent": 0.0647
+  },
+  {
+   "chi": 0.3,
+   "n1": 2,
+   "n2": 1,
+   "m_measured": 2.042654,
+   "m_target": 2.043483,
+   "err_percent": -0.0406
+  }
+ ],
+ "splittings": {
+  "pair_11_1m1_chi0": 0.0,
+  "pair_11_1m1_chi03_measured": 0.448672,
+  "pair_11_1m1_chi03_target": 0.449961,
+  "pair_10_01_chi03_measured": 0.0,
+  "pair_10_01_chi03_target": 0.0
+ },
+ "reading": "splitting keyed by n1*n2 = the section-113 axion, made measurable"
+}

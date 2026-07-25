@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wavepacket through a double slit — live Schrödinger solver</title>
+<style>
+  :root{--bg:#0d0e13;--panel:#15171f;--panel2:#1c1f29;--line:#2a2e3a;--txt:#e7e9f0;--mut:#9aa0b2;--amber:#efaf3a;--blue:#5da9e9}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+  .wrap{max-width:1000px;margin:0 auto;padding:22px}
+  h1{font-size:22px;font-weight:600;margin:0 0 2px}
+  .sub{color:var(--mut);font-size:14px;margin-bottom:14px}
+  a{color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+  .stage{position:relative;border-radius:10px;overflow:hidden;background:#04050a;border:1px solid var(--line)}
+  canvas#field{display:block;width:100%;height:auto;image-rendering:auto}
+  .tag{position:absolute;font-size:12px;color:var(--mut);background:rgba(0,0,0,.4);padding:2px 7px;border-radius:7px;z-index:2}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:8px 14px;font-size:13px;cursor:pointer}
+  button:hover{border-color:#3a4150;background:#222634}
+  button.primary{background:#3a2f12;border-color:#6a571f;color:#ffd27a}
+  .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px 22px;margin-top:8px}
+  .ctrl label{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin-bottom:5px}
+  .ctrl label b{color:var(--txt);font-weight:600}
+  input[type=range]{width:100%;accent-color:var(--amber)}
+  .legend{font-size:12.5px;color:var(--mut);margin-top:10px}
+  .legend b{color:var(--amber)} .legend i{color:var(--blue);font-style:normal}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Wavepacket through a double slit</h1>
+  <div class="sub">A live 2-D time-dependent Schrödinger solver. Watch the real quantum wave spread,
+    mostly get blocked by the wall, slip a sliver through each slit, and build interference fringes
+    on the screen. &nbsp;<a href="double_slit_app.html">← back to the interactive bench</a></div>
+
+  <div class="card">
+    <div class="stage">
+      <canvas id="field" width="280" height="180"></canvas>
+      <div class="tag" style="left:10px;top:8px">source →</div>
+      <div class="tag" style="right:76px;top:8px">wall</div>
+      <div class="tag" style="right:8px;top:8px">screen ↓</div>
+    </div>
+    <div class="btns">
+      <button class="primary" id="play">❚❚ Pause</button>
+      <button id="reset">⟲ Reset</button>
+      <span class="legend">field: <b>amber</b> = crest, <i>blue</i> = trough · the bright strip on the right is the accumulating screen pattern</span>
+    </div>
+    <div class="ctrls" style="margin-top:14px">
+      <div class="ctrl"><label>Wavelength <b id="wlL">7.4</b></label><input type="range" id="wl" min="40" max="160" value="74"></div>
+      <div class="ctrl"><label>Slit separation <b id="sepL">50</b></label><input type="range" id="sep" min="20" max="90" value="50"></div>
+      <div class="ctrl"><label>Slit width <b id="swL">8</b></label><input type="range" id="sw" min="3" max="20" value="8"></div>
+      <div class="ctrl"><label>Sim speed <b id="spL">4</b></label><input type="range" id="sp" min="1" max="9" value="4"></div>
+    </div>
+    <div class="legend" id="phase" style="margin-top:10px"></div>
+  </div>
+</div>
+
+<script>
+const cv=document.getElementById('field'),ctx=cv.getContext('2d');
+const W=cv.width,H=cv.height,NC=W*H;
+const dt=0.16;
+let R=new Float32Array(NC),I=new Float32Array(NC);
+let damp=new Float32Array(NC);
+let accum=new Float32Array(H);
+let img=ctx.createImageData(W,H);
+let params={k0:2*Math.PI/7.4,sep:50,sw:8,sub:4};
+let wallX=Math.round(W*0.45),wallTh=10;
+let x0=42,y0=H/2,sigX=17,sigY=26;
+let running=true,frames=0;
+
+function buildMasks(){
+  const b=14, wt=wallTh;
+  const c1=H/2-params.sep/2,c2=H/2+params.sep/2,hw=params.sw/2;
+  for(let j=0;j<H;j++)for(let i=0;i<W;i++){
+    const d=Math.min(i,W-1-i,j,H-1-j);
+    let f = d>=b?1:(1-0.55*((b-d)/b)**2);                  // absorbing borders
+    if(i>=wallX && i<wallX+wt){                            // absorbing wall (graded -> low reflection)
+      const inSlit=(Math.abs(j-c1)<=hw)||(Math.abs(j-c2)<=hw);
+      if(!inSlit){ const absorb=0.82*Math.sin(Math.PI*(i-wallX+0.5)/wt); f*=(1-absorb); }
+    }
+    damp[i+j*W]=f;
+  }
+}
+function initPacket(){
+  R.fill(0);I.fill(0);accum.fill(0);frames=0;
+  for(let j=0;j<H;j++)for(let i=0;i<W;i++){
+    const env=Math.exp(-((i-x0)**2/(2*sigX*sigX))-((j-y0)**2/(2*sigY*sigY)));
+    const ph=params.k0*(i-x0);
+    R[i+j*W]=env*Math.cos(ph);I[i+j*W]=env*Math.sin(ph);
+  }
+}
+function step(){
+  // I_t = +(1/2) lap R   ->  I += 0.5 dt lapR
+  for(let j=1;j<H-1;j++)for(let i=1;i<W-1;i++){const k=i+j*W;
+    I[k]+=0.5*dt*(R[k-1]+R[k+1]+R[k-W]+R[k+W]-4*R[k]);}
+  // R_t = -(1/2) lap I   ->  R -= 0.5 dt lapI
+  for(let j=1;j<H-1;j++)for(let i=1;i<W-1;i++){const k=i+j*W;
+    R[k]-=0.5*dt*(I[k-1]+I[k+1]+I[k-W]+I[k+W]-4*I[k]);}
+  // absorbing wall + borders (graded damping, low reflection)
+  for(let k=0;k<NC;k++){R[k]*=damp[k];I[k]*=damp[k];}
+  // accumulate the screen column (just left of right border)
+  const xs=W-12;
+  for(let j=0;j<H;j++){const k=xs+j*W;accum[j]+=R[k]*R[k]+I[k]*I[k];}
+  frames++;
+}
+function render(){
+  // per-frame normalization of the field
+  let mx=1e-9;for(let k=0;k<NC;k+=2){const v=Math.abs(R[k]);if(v>mx)mx=v;}
+  const inv=1/mx,d=img.data;
+  for(let k=0;k<NC;k++){
+    let v=R[k]*inv; const a=Math.pow(Math.min(1,Math.abs(v)),0.7); const o=k*4;
+    if(v>=0){d[o]=255*a;d[o+1]=180*a;d[o+2]=70*a;}
+    else{d[o]=70*a;d[o+1]=150*a;d[o+2]=240*a;}
+    d[o+3]=255;
+  }
+  // screen accumulation strip on the right
+  let amx=1e-9;for(let j=0;j<H;j++)if(accum[j]>amx)amx=accum[j];
+  for(let j=0;j<H;j++){const a=Math.pow(accum[j]/amx,0.55);
+    for(let i=W-9;i<W;i++){const o=(i+j*W)*4;d[o]=255*a;d[o+1]=205*a;d[o+2]=90*a;d[o+3]=255;}}
+  ctx.putImageData(img,0,0);
+  // crisp wall overlay with slit gaps
+  ctx.fillStyle='#3a3f4d';
+  const c1=H/2-params.sep/2,c2=H/2+params.sep/2,hw=params.sw/2;
+  const segs=[[0,c1-hw],[c1+hw,c2-hw],[c2+hw,H]];
+  for(const[a,b]of segs) ctx.fillRect(wallX,a,wallTh,Math.max(0,b-a));
+  ctx.fillStyle='rgba(231,233,240,.25)';ctx.fillRect(W-10,0,1,H);
+}
+function frame(){if(running){for(let s=0;s<params.sub;s++)step();}render();
+  document.getElementById('phase').textContent=
+    `t = ${(frames*dt).toFixed(0)}  ·  ${frames} steps  ·  ${running?'running':'paused'} — most of the wave is stopped at the wall; the part through the slits interferes into the fringes on the right.`;
+  requestAnimationFrame(frame);}
+
+/* controls */
+function bind(id,labId,fmt,set){const e=document.getElementById(id);
+  e.addEventListener('input',()=>{set(+e.value);document.getElementById(labId).textContent=fmt(+e.value);});}
+bind('wl','wlL',v=>(v/10).toFixed(1),v=>{params.k0=2*Math.PI/(v/10);initPacket();});
+bind('sep','sepL',v=>v,v=>{params.sep=v;buildMasks();initPacket();});
+bind('sw','swL',v=>v,v=>{params.sw=v;buildMasks();initPacket();});
+bind('sp','spL',v=>v,v=>params.sub=v);
+document.getElementById('play').onclick=function(){running=!running;this.textContent=running?'❚❚ Pause':'▶ Play';};
+document.getElementById('reset').onclick=()=>initPacket();
+
+buildMasks();initPacket();frame();
+</script>
+</body>
+</html>
