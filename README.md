@@ -89,6 +89,18 @@ project — deliberately implemented without sharing code, so agreement means so
   leg left in the file** — an IR-matching attempt built on an effective-mass estimator that is
   biased in 2D, which made the spread worse and was replaced.
 
+- **[`corner_coefficient.py`](qsim/corner_coefficient.py)** — the successor: strips have no
+  corners, and in 2D the corner term is the coefficient that is supposed to be genuinely
+  universal. On **one** lattice with the **same four regulators**, the area coefficient spreads
+  by **36.3%** and stays there under refinement (36.3% → 36.2%), while the corner coefficient
+  spreads by **1.7% → 0.2%** — below the method's own measured systematic floor, and consistent
+  with exactly zero. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
+  at two masses. **One control failed and is kept in the file**: a strip control returned a
+  spurious log (B ≈ −0.496), diagnosed rather than explained away — driving ξ/L from 1.79 to
+  0.06 sends it to −0.005, confirming finite-size contamination in a badly chosen control
+  geometry. It was replaced by rectangle-minus-square, where the corners cancel identically, and
+  that control's residual **is** the quoted 4.1% floor.
+
 The transferable lesson, now a standing entry in the family ledger: **when probing whether a
 definition is robust, scan the physical regime — the interesting answer is usually a boundary,
 not a yes/no.**
