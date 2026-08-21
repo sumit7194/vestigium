@@ -94,7 +94,12 @@ project — deliberately implemented without sharing code, so agreement means so
   universal. On **one** lattice with the **same four regulators**, the area coefficient spreads
   by **36.3%** and stays there under refinement (36.3% → 36.2%), while the corner coefficient
   spreads by **1.7% → 0.2%** — below the method's own measured systematic floor, and consistent
-  with exactly zero. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
+  with exactly zero. **Model-dependence, added after an independent check:** that 1.7% assumes the
+  3-parameter model; adding the physically-expected 1/ℓ correction gives **3.3%** instead, and a 1%
+  unmodelled contamination moves the extracted coefficient by 7%. So no single-resolution number
+  should be quoted as *the* answer. What is robust is the **refinement behaviour** — the spread falls
+  ~7× under lattice refinement under *either* model (1.69→0.25% and 3.28→0.36%), while the area
+  coefficient does not move at all. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
   at two masses. **One control failed and is kept in the file**: a strip control returned a
   spurious log (B ≈ −0.496), diagnosed rather than explained away — driving ξ/L from 1.79 to
   0.06 sends it to −0.005, confirming finite-size contamination in a badly chosen control
