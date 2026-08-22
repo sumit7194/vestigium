@@ -7,6 +7,19 @@ cd /Users/sumit/Github/quantum
 # Publish OUR pid ($$ of this long-lived loop, not of a tick) so the status can
 # carry a liveness token that a reader can ps. Removed on exit so a clean stop
 # leaves no token behind claiming a heartbeat that is gone.
+# Refuse to start if a verified heartbeat is already running. Duplicate loops
+# have bitten twice across sessions (ansatz twice, here once) and the restart
+# path after a power cut is exactly where it happens. Verified against ps, not
+# just the pidfile's existence, so a stale file from an unclean death does not
+# block a legitimate restart.
+if [ -f .heartbeat.pid ]; then
+  OLD=$(cat .heartbeat.pid 2>/dev/null)
+  if [ -n "$OLD" ] && ps -p "$OLD" -o command= 2>/dev/null | grep -q status_heartbeat_loop.sh; then
+    echo "heartbeat already running as $OLD; refusing to start a second" >&2
+    exit 0
+  fi
+  rm -f .heartbeat.pid          # stale file from an unclean death
+fi
 echo $$ > .heartbeat.pid
 # The handler MUST exit. A bare `trap 'rm -f ...' TERM` runs the handler and
 # then RESUMES the loop -- which made this heartbeat survive SIGTERM while

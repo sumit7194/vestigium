@@ -30,7 +30,24 @@ import time
 
 REPO = "/Users/sumit/Github/quantum"
 OUT = "/Users/sumit/Github/.claude-coordination/quantum.status"
-HEAVY_MB = 1500          # above this total RSS, warn peers off a big launch
+# `heavy` is a convenience flag, and ansatz found the trap in it: a flag DERIVED
+# FROM A MEASUREMENT but THRESHOLDED AGAINST AN UNVALIDATED CONSTANT is only as
+# good as the constant. Theirs flipped at a hardcoded 2048 MB, so a 1912 MB job
+# advertised `heavy: false` -- a reader scheduling on that field read "light" for
+# a job using nearly 2 GB. The measured half is what gets checked; the typed half
+# is what nobody looks at.
+#
+# Two changes rather than a better constant:
+#   * the threshold is RELATIVE to measured usable memory, not absolute, because
+#     "heavy" is a claim about what is left for a peer, not about our RSS;
+#   * the rule is PUBLISHED IN THE FILE as `heavy_rule`, so a reader can see what
+#     the flag means and apply their own instead of trusting an invisible line.
+HEAVY_FRACTION = 0.25    # our RSS above this share of usable memory = heavy
+HEAVY_FLOOR_MB = 256     # only suppresses "heavy" for trivially small jobs.
+                         # Was 1000, which on a constrained box dominated the
+                         # fraction and made the flag LESS sensitive exactly when
+                         # memory was scarce -- backwards, the same inverted
+                         # sensitivity the bridge found in ratio-shaped gates.
 MIN_AGE_S = 30           # below this, a match is shell noise, not a job
 
 
@@ -118,29 +135,44 @@ def our_processes():
     return procs, transient
 
 
-def mem_free_gb():
-    """Free memory from vm_stat, with the page size PARSED, not assumed.
+def memory_gb():
+    """(strict_free, available) in GB, from vm_stat, page size PARSED not assumed.
 
-    A sibling hardcoded 4096 and mis-reported memory on a machine that does not
-    use a 4 KiB page. Also avoids `memory_pressure`, whose 'free' is
-    reclaimable-inclusive and reads far rosier than it is.
+    THE PAGE SIZE HERE IS 16384, NOT 4096. A sibling hardcoded 4096 and
+    mis-reported memory; on this machine that assumption is wrong by 4x.
+
+    And the harder half, found by reconciling against ansatz's number: reporting
+    only `free + speculative` UNDERSTATED available memory by 12x -- 0.59 GB
+    published against 7.22 GB actually available -- because macOS parks
+    reclaimable pages in `inactive` (6.57 GB of it here) rather than leaving them
+    free. A peer scheduling a 4.75 GB run against my published 0.59 GB would have
+    deferred on a machine with ample room. That is a FALSE STOP: conservative in
+    direction, but still a wrong number published into a channel others schedule
+    against, which is the exact failure I had just warned two sessions about.
+
+    So both are published, labelled, with the rule stated in the file:
+      strict    free + speculative           -- what is untouched right now
+      available + inactive + purgeable       -- what a new allocation can have
     """
     try:
         out = subprocess.run(["vm_stat"], capture_output=True, text=True,
                              timeout=10).stdout
     except Exception:
-        return None
+        return None, None
     pm = re.search(r"page size of (\d+) bytes", out)
     if not pm:
-        return None
+        return None, None
     page = int(pm.group(1))
-    free = spec = 0
-    for line in out.splitlines():
-        if line.startswith("Pages free:"):
-            free = int(re.sub(r"\D", "", line))
-        elif line.startswith("Pages speculative:"):
-            spec = int(re.sub(r"\D", "", line))
-    return round((free + spec)*page/1024**3, 1)
+
+    def pages(label):
+        for line in out.splitlines():
+            if line.startswith(label):
+                return int(re.sub(r"\D", "", line))*page/1024**3
+        return 0.0
+
+    strict = pages("Pages free:") + pages("Pages speculative:")
+    avail = strict + pages("Pages inactive:") + pages("Pages purgeable:")
+    return round(strict, 2), round(avail, 2)
 
 
 def disk_free_gb():
@@ -193,19 +225,21 @@ def writer_pid():
 def main():
     got = our_processes()
     procs, transient = (None, []) if got is None else got
-    mem = mem_free_gb()
+    mem, avail = memory_gb()
     disk = disk_free_gb()
 
     # 6b, enforced: if ANY field cannot be measured, write NOTHING and let the
     # file be seen to go stale. A partially-measured status with a fresh
     # timestamp is exactly the failure this file exists to avoid.
-    if procs is None or mem is None or disk is None:
+    if procs is None or mem is None or avail is None or disk is None:
         print("measurement failed — writing nothing, letting the file go stale",
               file=sys.stderr)
         return 1
 
     rss = round(sum(p["rss_mb"] for p in procs + transient), 1)
-    heavy = rss > HEAVY_MB
+    usable_mb = (avail + rss/1024)*1024               # available, plus what we hold
+    heavy_at = max(HEAVY_FLOOR_MB, HEAVY_FRACTION*usable_mb)
+    heavy = rss > heavy_at
     state = "running" if procs else "idle"
     detail = (f"{len(procs)} job(s) from {REPO}, {rss:.0f} MB RSS"
               if procs else
@@ -218,7 +252,16 @@ def main():
         "jobs": procs,
         "transient": transient,
         "rss_total_mb": rss,
-        "disk_free_gb": disk, "mem_free_gb": mem,
+        "heavy_at_mb": round(heavy_at, 1),
+        "heavy_rule": (f"heavy = our RSS > max({HEAVY_FLOOR_MB} MB, "
+                       f"{HEAVY_FRACTION:.0%} of usable); usable measured at "
+                       f"{usable_mb/1024:.1f} GB this tick"),
+        "disk_free_gb": disk,
+        "mem_free_gb": mem,                  # strict: free + speculative
+        "mem_available_gb": avail,           # + inactive + purgeable -- SCHEDULE ON THIS
+        "mem_rule": ("mem_free_gb is free+speculative and UNDERSTATES headroom on "
+                     "macOS; mem_available_gb adds inactive+purgeable and is the "
+                     "number to schedule against"),
         "writer_pid": writer_pid(),          # long-lived loop, or null if none
         "writer_alive": writer_pid() is not None,
         "stale_after_s": 300,
