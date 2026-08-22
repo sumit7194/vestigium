@@ -254,8 +254,28 @@ print("\nsaved -> qsim/corner_coefficient.json")
 # 1.6865% with the mode and 1.6606% without: a 1.5% relative change. B itself is
 # 20% zero-mode; the regulator-to-regulator difference is not.
 #
-# The reasoning in the old comment was wrong and the conclusion it defended is
-# right. Those are separate facts and only one of them was ever checked.
+# THAT SURVIVAL CLAIM WAS ITSELF READ OFF A RATIO, and the bridge caught it
+# within the hour by measuring the same effect in their study (15.2%, with the
+# same reg(0,0)=m^2 property). The relative spread is stable only because BOTH
+# parts fall together:
+#
+#   absolute regulator range   0.000789 -> 0.000619   -21.5%
+#   mean |B|                   0.046771 -> 0.037232   -20.4%
+#   relative spread            1.687%   -> 1.663%      -1.4%
+#
+# Per-regulator shifts are 20.37 / 20.28 / 20.39 / 20.53 % -- common to about
+# 1%, but the NON-COMMON part is 0.000170, which is 22% OF THE 0.000789
+# REGULATOR SIGNAL ITSELF. So k=0 is mostly common-mode and its residual is a
+# fifth of the effect being measured. That is an OPEN SYSTEMATIC on the corner
+# spread, not a resolved one.
+#
+# OPEN QUESTION, flagged as a hypothesis rather than a finding: the zero-mode
+# amplitude is 1/(2 m L^2), which shrinks under continuum refinement. If its
+# non-common residual carries part of the observed spread, then some of the
+# s^-2 falloff this study reports as evidence of universality may be a
+# finite-volume artifact vanishing. The s=6 run can test this directly by
+# repeating the k=0 deletion at each s and watching whether the residual tracks
+# the total spread. UNTESTED -- do not cite either way.
 #
 # Two follow-ups. (i) TEST the diagnosis rather than assert it: push the strip
 # control into the gapped regime (xi << L) where finite-size effects are cut

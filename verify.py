@@ -307,9 +307,18 @@ _m = 0.01
 check("zero mode: all four regulators weight it identically",
       max(abs(r - _m*_m) for r in (_m*_m, _m*_m, _m*_m, _m*_m)), "<", 1e-18,
       note="K2(0)=K4(0)=0 and both modified kernels vanish there, so reg(0,0)=m^2")
-check("zero mode: removing it moves the SPREAD by under 5% [NEG-partner]",
-      abs(1.6865 - 1.6606)/1.6865*100, "<", 5.0,
-      note="B itself moves 20.4%; the spread moves 1.5% -- the mode is common")
+# WAS: asserted that removing k=0 moves the RELATIVE SPREAD by under 5%. That
+# is the ratio statistic, and its denominator moves too -- exactly the hazard
+# the anchors above exist for, in the check written to defend the headline.
+#   absolute regulator range   0.000789 -> 0.000619   -21.5%
+#   mean |B|                   0.046771 -> 0.037232   -20.4%
+#   relative spread            1.687%   -> 1.663%      -1.4%
+# The ratio was stable because both parts fell together. Asserting on the
+# ABSOLUTE range instead, which is the quantity the universality claim is about.
+check("zero mode: NON-COMMON part is a real fraction of the signal [NEG]",
+      0.000170/0.000789*100, ">", 10.0, kind="NEG",
+      note="22% -- locks in that the mode is NOT cleanly common-mode; "
+           "the earlier 'spread unaffected' read a ratio whose denominator moved")
 
 # ============================================================================
 # RUNNER + SELF-AUDIT (R3)

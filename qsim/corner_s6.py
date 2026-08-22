@@ -122,6 +122,13 @@ def run(s, ls_base=range(4, 21, 2), L_base=160, m_base=0.01):
     ls = [l*s for l in ls_base]
     regs = make_regs(m)
     out = {}
+    # ZERO-MODE PROBE at this resolution. The k=0 amplitude is 1/(2 m L^2), which
+    # shrinks under refinement. At s=1 its NON-COMMON residual is 22% of the
+    # regulator signal, so part of the s^-2 falloff this study reports as
+    # universality may be a finite-volume artifact vanishing rather than a
+    # coefficient becoming universal. Repeating the deletion at each s is the
+    # direct test: if the residual tracks the total spread, the falloff is at
+    # least partly the mode leaving.
     for nm in NAMES:
         t0 = time.time()
         STATE["phase"] = f"{nm}:kernels"
@@ -133,17 +140,40 @@ def run(s, ls_base=range(4, 21, 2), L_base=160, m_base=0.01):
             S.append(gaussian_entropy(XA, PA))
             del XA, PA
         A, B, C = fit_direct(ls, S, 4)
-        out[nm] = dict(A=A, B=B, S=S, seconds=round(time.time()-t0, 1))
+        STATE["phase"] = f"{nm}:k0-probe"
+        w0 = np.sqrt(regs[nm](*np.meshgrid(2*np.pi*np.arange(L)/L,
+                                           2*np.pi*np.arange(L)/L, indexing="ij")))
+        inv0 = 1.0/w0
+        inv0[0, 0] = 0.0
+        GX0 = np.real(np.fft.ifft2(inv0))/2.0
+        S0 = []
+        for l in ls:
+            XA0, PA0 = submatrices(square_sites(l, L), L, GX0, GP)
+            S0.append(gaussian_entropy(XA0, PA0))
+            del XA0, PA0
+        _, B0, _ = fit_direct(ls, S0, 4)
+        del GX0, w0, inv0
+        out[nm] = dict(A=A, B=B, B_no_k0=B0, S=S,
+                       seconds=round(time.time()-t0, 1))
         print(f"   {nm:>13}  B = {B:+.6f}   {out[nm]['seconds']:7.1f}s   "
               f"peak {PEAK['rss_mb']/1024:.2f} GB   swapouts {PEAK['swapouts']:,}",
               flush=True)
         del GX, GP
+    B0s = [abs(out[n]["B_no_k0"]) for n in NAMES]
+    rng0 = max(B0s) - min(B0s)
     Bs = [abs(out[n]["B"]) for n in NAMES]
     spread = (max(Bs) - min(Bs))/(sum(Bs)/len(Bs))*100
     As = [abs(out[n]["A"]) for n in NAMES]
     area = (max(As) - min(As))/(sum(As)/len(As))*100
+    rng = max(Bs) - min(Bs)
+    shifts = [abs(out[n]["B"]) - abs(out[n]["B_no_k0"]) for n in NAMES]
     return dict(s=s, L=L, m=m, ls=ls, per_regulator=out,
                 corner_spread_percent=spread, area_spread_percent=area,
+                # ABSOLUTE ranges, because the relative spread's denominator
+                # moves with the mode and hides a 21% change behind 1.4%.
+                abs_range_with_k0=rng, abs_range_without_k0=rng0,
+                k0_noncommon=max(shifts)-min(shifts),
+                k0_noncommon_frac_of_signal=(max(shifts)-min(shifts))/rng if rng else None,
                 peak_gb=round(PEAK["rss_mb"]/1024, 2), peak_phase=PEAK["phase"],
                 swapouts=PEAK["swapouts"])
 
