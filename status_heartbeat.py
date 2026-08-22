@@ -151,32 +151,43 @@ def disk_free_gb():
         return None
 
 
+PIDFILE = os.path.join(REPO, ".heartbeat.pid")
+
+
 def writer_pid():
-    """PID of the LONG-LIVED heartbeat loop, or None if there is no loop.
+    """PID of the long-lived heartbeat loop, from its pidfile, verified with ps.
 
-    ansatz's failure mode, which neither the bridge nor I had: their status
-    published `$$` -- the PID of the status script itself, which exits
-    milliseconds after writing. The field existed so a reader could apply
-    blackhole's rule (a status whose pid is gone is UNKNOWN, fail open), so
-    every read of their file resolved to UNKNOWN forever.
+    ansatz published `$$` -- the status script's own PID, dead milliseconds
+    later -- so every read resolved to UNKNOWN forever. Their rule: a liveness
+    token guaranteed dead is worse than an absent one, because always-dead looks
+    like a working mechanism failing safe.
 
-        A liveness token that is GUARANTEED dead is worse than an absent one.
-        Absent is visible; always-dead looks like a working mechanism failing safe.
+    My first fix used `pgrep -f status_heartbeat_loop.sh` and had the mirror-image
+    defect: PGREP CANNOT SEE THE CALLER'S OWN ANCESTOR. From a child of the loop
+    -- which is exactly what a tick is -- `pgrep -f <loop>` returns rc=1 and an
+    empty string, while `ps` shows the loop plainly. So it resolved correctly to
+    the loop's PID in every hand-test (run from a different process tree) and to
+    None on every real tick. A token that is always absent in production and
+    always correct under test.
 
-    So this must NOT be os.getpid() -- this process exits in milliseconds, which
-    would reproduce their bug exactly. Nor os.getppid(): when run by hand that is
-    an interactive shell, which is long-lived but is not the heartbeat, and would
-    advertise liveness for a mechanism that is not running. It is the loop, found
-    by pattern, or None -- and None is honest: it means no automatic heartbeat, so
-    trust `updated` and nothing else.
+    Isolated by running it, not reading it: a child of selftest_loop.sh could not
+    pgrep `selftest_loop.sh` (empty) but did find the unrelated real loop.
+
+    So: the loop writes its own $$ to a pidfile; this reads it and verifies with
+    `ps` that the PID is BOTH alive AND still the heartbeat -- a bare `ps -p`
+    would happily certify an unrelated process that inherited a recycled PID.
     """
     try:
-        out = subprocess.run(["pgrep", "-f", "status_heartbeat_loop.sh"],
+        with open(PIDFILE) as fh:
+            pid = int(fh.read().strip())
+    except Exception:
+        return None                                  # no pidfile -> no heartbeat
+    try:
+        out = subprocess.run(["ps", "-p", str(pid), "-o", "command="],
                              capture_output=True, text=True, timeout=10).stdout
     except Exception:
         return None
-    pids = [int(x) for x in out.split() if x.strip().isdigit() and int(x) != os.getpid()]
-    return pids[0] if pids else None
+    return pid if "status_heartbeat_loop.sh" in out else None
 
 
 def main():

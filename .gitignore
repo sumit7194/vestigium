@@ -16,3 +16,4 @@ papers/*.pdf
 scratch/
 *.tmp
 heartbeat.err
+.heartbeat.pid
