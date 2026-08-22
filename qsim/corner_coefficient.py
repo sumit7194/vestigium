@@ -39,7 +39,13 @@ TWO CONTROLS THAT CAN FAIL (a control that cannot fail is decoration):
      residual IS the method's systematic floor: 4.1% of signal. Every spread
      quoted below must be read against it.
 
-TWO INDEPENDENT EXTRACTIONS of B (agreement is evidence, disagreement is the floor):
+TWO EXTRACTIONS OF THE SAME DATA -- not independent, and their agreement is NOT
+evidence about the world. Both run on the same S array, same lattice, same
+regulators, same lstsq; they differ only in whether the constant term is fitted
+or differenced away. So agreement shows the coefficient is insensitive to that
+choice and nothing wider. Corrected 2026-08-22 -- the README and the gate were
+fixed hours earlier and this line, in the docstring of the study the claim is
+ABOUT, was the third place the correction failed to reach:
   E1 direct 3-parameter fit of S(l);
   E2 successive differences S(l+d) - S(l), which never fit the constant C at all.
 
