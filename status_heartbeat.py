@@ -192,14 +192,33 @@ def memory_gb():
         return None, None
     page = int(pm.group(1))
 
+    # A MISSING LABEL MUST NOT SILENTLY BECOME ZERO. This returned 0.0 for any
+    # label it could not find, so a vm_stat without `Pages inactive:` published
+    # 0.33 GB instead of 6.47 -- 6.14 GB fabricated away and presented as
+    # measured, with no error anywhere. bridge hit the same class: their vm_stat
+    # failure published `mem_free_gb: 0.0`, which reads as extreme pressure and
+    # makes peers hold.
+    #
+    # It fails toward caution, and that is LUCK rather than design: every
+    # component is additive, so a lost label always understates. Nothing in the
+    # code chose that. And "cautious" is not harmless here -- an understatement
+    # is exactly what nearly cost ansatz a launch window earlier today, when I
+    # published 0.59 GB on a box with 7.22 GB free.
+    #
+    #   Peers can detect staleness. They cannot detect a confident fabrication.
     def pages(label):
         for line in out.splitlines():
             if line.startswith(label):
                 return int(re.sub(r"\D", "", line))*page/1024**3
-        return 0.0
+        raise KeyError(label)
 
-    strict = pages("Pages free:") + pages("Pages speculative:")
-    avail = strict + pages("Pages inactive:") + pages("Pages purgeable:")
+    try:
+        strict = pages("Pages free:") + pages("Pages speculative:")
+        avail = strict + pages("Pages inactive:") + pages("Pages purgeable:")
+    except KeyError as e:
+        print(f"vm_stat missing {e} — refusing to publish a partial measurement",
+              file=sys.stderr)
+        return None, None
     return round(strict, 2), round(avail, 2)
 
 
