@@ -51,3 +51,122 @@ S=6 RUN   swapouts at start: 1,149,814
            improved l= 84     53.0s  rss 8.26 GB  swapouts 1,642,403
       .. alive  35.0m  in improved:entropy l=96    rss 8.26 GB
       .. alive  36.0m  in improved:entropy l=96    rss 8.26 GB
+           improved l= 96    163.6s  rss 8.26 GB  swapouts 1,642,403
+      .. alive  37.0m  in improved:entropy l=108   rss 8.26 GB
+      .. alive  38.0m  in improved:entropy l=108   rss 8.26 GB
+      .. alive  39.0m  in improved:entropy l=108   rss 8.26 GB
+      .. alive  40.0m  in improved:entropy l=108   rss 8.26 GB
+           improved l=108    249.5s  rss 8.26 GB  swapouts 1,642,403
+      .. alive  41.0m  in improved:entropy l=120   rss 8.26 GB
+      .. alive  42.0m  in improved:entropy l=120   rss 8.26 GB
+      .. alive  43.0m  in improved:entropy l=120   rss 8.26 GB
+      .. alive  44.0m  in improved:entropy l=120   rss 8.26 GB
+      .. alive  45.0m  in improved:entropy l=120   rss 8.26 GB
+      .. alive  46.0m  in improved:entropy l=120   rss 8.26 GB
+      .. alive  47.0m  in improved:entropy l=120   rss 8.26 GB
+      .. alive  48.0m  in improved:entropy l=120   rss 8.26 GB
+           improved l=120    471.0s  rss 8.26 GB  swapouts 1,833,691
+      .. alive  49.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  50.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  51.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  52.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  53.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  54.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  55.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  56.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  57.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  58.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  59.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  60.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  61.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  62.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  63.0m  in improved:k0-probe        rss 8.26 GB
+      .. alive  64.0m  in improved:k0-probe        rss 8.26 GB
+        improved  B = -0.046703    1963.5s   peak 8.26 GB   swapouts 2,088,411
+       higher_deriv l= 24      0.0s  rss 8.26 GB  swapouts 2,088,411
+       higher_deriv l= 36      0.2s  rss 8.26 GB  swapouts 2,088,411
+       higher_deriv l= 48      1.4s  rss 8.26 GB  swapouts 2,088,411
+       higher_deriv l= 60      6.0s  rss 8.26 GB  swapouts 2,088,411
+      .. alive  65.0m  in higher_deriv:entropy l=72 rss 8.26 GB
+       higher_deriv l= 72     21.3s  rss 8.26 GB  swapouts 2,088,981
+      .. alive  66.0m  in higher_deriv:entropy l=84 rss 8.26 GB
+       higher_deriv l= 84     53.3s  rss 8.26 GB  swapouts 2,088,981
+      .. alive  67.0m  in higher_deriv:entropy l=96 rss 8.26 GB
+      .. alive  68.0m  in higher_deriv:entropy l=96 rss 8.26 GB
+       higher_deriv l= 96    166.4s  rss 8.26 GB  swapouts 2,088,981
+      .. alive  69.0m  in higher_deriv:entropy l=108 rss 8.26 GB
+      .. alive  70.0m  in higher_deriv:entropy l=108 rss 8.26 GB
+      .. alive  71.0m  in higher_deriv:entropy l=108 rss 8.26 GB
+      .. alive  72.0m  in higher_deriv:entropy l=108 rss 8.94 GB
+       higher_deriv l=108    245.8s  rss 8.94 GB  swapouts 2,089,951
+      .. alive  73.0m  in higher_deriv:entropy l=120 rss 8.94 GB
+      .. alive  74.0m  in higher_deriv:entropy l=120 rss 8.94 GB
+      .. alive  75.0m  in higher_deriv:entropy l=120 rss 8.94 GB
+      .. alive  76.0m  in higher_deriv:entropy l=120 rss 9.29 GB
+      .. alive  77.0m  in higher_deriv:entropy l=120 rss 9.29 GB
+      .. alive  78.0m  in higher_deriv:entropy l=120 rss 9.29 GB
+      .. alive  79.0m  in higher_deriv:entropy l=120 rss 9.29 GB
+      .. alive  80.0m  in higher_deriv:entropy l=120 rss 9.29 GB
+       higher_deriv l=120    475.1s  rss 9.29 GB  swapouts 2,313,299
+      .. alive  81.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  82.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  83.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  84.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  85.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  86.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  87.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  88.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  89.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  90.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  91.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  92.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  93.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  94.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  95.0m  in higher_deriv:k0-probe    rss 9.29 GB
+      .. alive  96.0m  in higher_deriv:k0-probe    rss 9.29 GB
+    higher_deriv  B = -0.046692    1915.0s   peak 9.29 GB   swapouts 2,593,026
+            smeared l= 24      0.0s  rss 9.29 GB  swapouts 2,593,026
+            smeared l= 36      0.2s  rss 9.29 GB  swapouts 2,593,026
+            smeared l= 48      1.3s  rss 9.29 GB  swapouts 2,603,090
+            smeared l= 60      6.0s  rss 9.29 GB  swapouts 2,603,090
+            smeared l= 72     19.5s  rss 9.29 GB  swapouts 2,605,748
+      .. alive  97.0m  in smeared:entropy l=84     rss 9.29 GB
+            smeared l= 84     51.0s  rss 9.29 GB  swapouts 2,605,748
+      .. alive  98.0m  in smeared:entropy l=96     rss 9.29 GB
+      .. alive  99.0m  in smeared:entropy l=96     rss 9.29 GB
+            smeared l= 96    160.6s  rss 9.29 GB  swapouts 2,605,748
+      .. alive 100.0m  in smeared:entropy l=108    rss 9.29 GB
+      .. alive 101.0m  in smeared:entropy l=108    rss 9.29 GB
+      .. alive 102.0m  in smeared:entropy l=108    rss 9.29 GB
+      .. alive 103.0m  in smeared:entropy l=108    rss 9.29 GB
+            smeared l=108    248.7s  rss 9.29 GB  swapouts 2,622,300
+      .. alive 104.0m  in smeared:entropy l=120    rss 9.29 GB
+      .. alive 105.0m  in smeared:entropy l=120    rss 9.29 GB
+      .. alive 106.0m  in smeared:entropy l=120    rss 9.29 GB
+      .. alive 107.0m  in smeared:entropy l=120    rss 9.29 GB
+      .. alive 108.0m  in smeared:entropy l=120    rss 9.29 GB
+      .. alive 109.0m  in smeared:entropy l=120    rss 9.29 GB
+      .. alive 110.0m  in smeared:entropy l=120    rss 9.29 GB
+      .. alive 111.0m  in smeared:entropy l=120    rss 9.29 GB
+            smeared l=120    472.9s  rss 9.29 GB  swapouts 2,824,952
+      .. alive 112.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 113.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 114.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 115.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 116.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 117.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 118.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 119.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 120.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 121.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 122.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 123.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 124.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 125.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 126.0m  in smeared:k0-probe         rss 9.29 GB
+      .. alive 127.0m  in smeared:k0-probe         rss 9.29 GB
+         smeared  B = -0.046689    1916.1s   peak 9.29 GB   swapouts 3,096,712
+
+   corner spread 0.0290%   area spread 36.22%
+   peak 9.29 GB in higher_deriv:entropy l=120   swapouts +1,946,898   total 7802s
+   saved -> qsim/corner_s6.json
