@@ -31,3 +31,10 @@ S=6 RUN   swapouts at start: 1,149,814
       .. alive  21.0m  in nn:k0-probe              rss 7.97 GB
       .. alive  22.0m  in nn:k0-probe              rss 7.97 GB
       .. alive  23.0m  in nn:k0-probe              rss 7.97 GB
+      .. alive  24.0m  in nn:k0-probe              rss 8.26 GB
+      .. alive  25.0m  in nn:k0-probe              rss 8.26 GB
+      .. alive  26.0m  in nn:k0-probe              rss 8.26 GB
+      .. alive  27.0m  in nn:k0-probe              rss 8.26 GB
+      .. alive  28.0m  in nn:k0-probe              rss 8.26 GB
+      .. alive  29.0m  in nn:k0-probe              rss 8.26 GB
+      .. alive  30.0m  in nn:k0-probe              rss 8.26 GB
