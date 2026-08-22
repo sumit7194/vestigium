@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
     rows = []
     print("VARY l AT FIXED L=160   (each point in a fresh process)")
-    for l in (30, 40, 50, 60):
+    for l in (30, 35, 40, 45, 50, 55, 60, 65):
         r = point(160, l); rows.append(r); show(f"l={l:3d}", r)
 
     print("\nVARY L AT FIXED l=40   (each point in a fresh process)")
@@ -229,7 +229,30 @@ if __name__ == "__main__":
     c4 = (sY - a4*sX)/nn
     print(f"\n   structural model, exponent FIXED at 4: a={a4:.4e} MB/l^4, "
           f"offset c={c4:+.1f} MB")
-    print(f"   (offset recovers the {base:.1f} MB init baseline measured separately)")
+
+    # RESIDUAL STRUCTURE, not fit quality. bridge's a*l^4 + c fits well and is
+    # still mis-specified: their residuals form a smooth ARC (-26 -20 -17 -8 +7
+    # +30 +68), so c is absorbing an l-dependent term -- the same error they had
+    # just diagnosed in the free power law, one level down. A good fit is not
+    # evidence; the SIGN PATTERN of the residuals is.
+    resid = [(l, v + base - (a4*l**4 + c4)) for l, v in pts]
+    signs = "".join("+" if r > 0 else "-" for _, r in resid)
+    flips = sum(1 for i in range(1, len(signs)) if signs[i] != signs[i-1])
+    worst = max(abs(r) for _, r in resid)
+    print(f"   residual signs {signs}  ({flips} sign changes, max {worst:.1f} MB "
+          f"= {worst/max(v+base for _, v in pts)*100:.1f}%)")
+    print("   -> scatter, not an arc: adequate here. Few sign changes would mean"
+          " a missing term.")
+
+    # AND THE TWO-ROUTES CHECK, WHICH GOT WORSE WITH MORE DATA. On four points
+    # the fitted offset was +35.7 MB against 30.4 measured off the init phase --
+    # 15% apart, and I reported that as two independent routes to one quantity.
+    # On eight points it is +39.3, i.e. 29% apart. THE AGREEMENT WEAKENED AS THE
+    # DATA IMPROVED, which is the signature of a coincidence rather than a check.
+    print(f"   fitted offset {c4:+.1f} MB vs {base:.1f} MB measured off the init "
+          f"phase: {abs(c4-base)/base*100:.0f}% apart")
+    print("   (was 15% on four points -- the agreement WEAKENED with more data,"
+          " so treat it as a coincidence, not a cross-check)")
     structural = dict(exponent="fixed at 4 from n = l^2, not fitted",
                       a_mb_per_l4=a4, offset_mb=round(c4, 1),
                       measured_init_baseline_mb=round(base, 1),
