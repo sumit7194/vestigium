@@ -1,5 +1,29 @@
 {
  "question": "which parameter and which phase govern the memory peak?",
+ "holdout_validation": [
+  {
+   "held_out": 60,
+   "fitted_exponent": 3.912,
+   "predicted_mb": 942.0,
+   "measured_mb": 949.4,
+   "error_percent": 0.78
+  },
+  {
+   "held_out": 50,
+   "fitted_exponent": 3.971,
+   "predicted_mb": 487.0,
+   "measured_mb": 472.5,
+   "error_percent": 3.08
+  }
+ ],
+ "cross_check": {
+  "note": "bridge measured their s=5 peak independently, different study, same n=l^2 matrix structure, peak also in the entropy phase",
+  "their_clean_measurement_gb": 6.54,
+  "their_earlier_contaminated_gb": 5.92,
+  "my_prediction_at_l100_gb": 6.96,
+  "agreement_percent": 6.4,
+  "correction": "I first cited 6.96 vs 5.92 as '18% apart'. That 5.92 came from their ru_maxrss-contaminated run, which UNDERSTATED the peak. Against their clean 6.54 the agreement is 6.4%. My cross-check was quoted against a number since retracted by the session that produced it."
+ },
  "method": "one fresh process per point; current RSS sampled at 20 ms",
  "vary_l_fixed_L": [
   {
@@ -7,11 +31,11 @@
    "l": 30,
    "S": 9.03218214655899,
    "valid": true,
-   "peak_mb": 90.2,
+   "peak_mb": 90.3,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.1,
-    "entropy": 90.2
+    "init": 30.7,
+    "entropy": 90.3
    }
   },
   {
@@ -19,11 +43,11 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 219.6,
+   "peak_mb": 218.4,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.1,
-    "entropy": 219.6
+    "init": 30.3,
+    "entropy": 218.4
    }
   },
   {
@@ -31,12 +55,12 @@
    "l": 50,
    "S": 15.188904584160861,
    "valid": true,
-   "peak_mb": 472.3,
+   "peak_mb": 472.5,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.0,
-    "submatrices": 215.8,
-    "entropy": 472.3
+    "init": 30.8,
+    "submatrices": 227.5,
+    "entropy": 472.5
    }
   },
   {
@@ -44,12 +68,12 @@
    "l": 60,
    "S": 18.2670517809844,
    "valid": true,
-   "peak_mb": 949.2,
+   "peak_mb": 949.4,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.0,
-    "submatrices": 372.7,
-    "entropy": 949.2
+    "init": 30.5,
+    "submatrices": 338.6,
+    "entropy": 949.4
    }
   },
   {
@@ -57,11 +81,11 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.5,
+   "peak_mb": 218.7,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 29.9,
-    "entropy": 218.5
+    "init": 30.2,
+    "entropy": 218.7
    }
   }
  ],
@@ -71,11 +95,11 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 219.6,
+   "peak_mb": 218.4,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.1,
-    "entropy": 219.6
+    "init": 30.3,
+    "entropy": 218.4
    }
   },
   {
@@ -83,11 +107,11 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.5,
+   "peak_mb": 218.7,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 29.9,
-    "entropy": 218.5
+    "init": 30.2,
+    "entropy": 218.7
    }
   },
   {
@@ -95,11 +119,11 @@
    "l": 40,
    "S": 12.05356473999947,
    "valid": true,
-   "peak_mb": 220.4,
+   "peak_mb": 220.2,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 32.6,
-    "entropy": 220.4
+    "init": 32.5,
+    "entropy": 220.2
    }
   },
   {
@@ -107,11 +131,11 @@
    "l": 40,
    "S": 12.039259430775898,
    "valid": true,
-   "peak_mb": 222.5,
+   "peak_mb": 225.1,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 32.6,
-    "entropy": 222.5
+    "init": 34.7,
+    "entropy": 225.1
    }
   }
  ]

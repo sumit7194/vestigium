@@ -176,8 +176,48 @@ if __name__ == "__main__":
         print(f"   L {vL[0]['L']} -> {vL[-1]['L']} (x{vL[-1]['L']/vL[0]['L']:.1f}): "
               f"peak x{f:.2f}")
 
+    print("\nHOLD-OUT VALIDATION  (fit the smaller points, predict the largest)")
+    # An extrapolation nobody has tested is what cost
+    # ansatz rank 4 and the bridge their s=6 range. Fit the smaller points,
+    # predict the largest, compare against its measurement.
+    import math
+    base = min(r["by_phase"]["init"] for r in vl)
+    pts = [(r["l"], r["peak_mb"] - base) for r in vl]
+    holdout = []
+    for hold in (60, 50):
+        fit = [(l, v) for l, v in pts if l < hold]
+        if len(fit) < 2:
+            continue
+        xs = [math.log(l) for l, _ in fit]
+        ys = [math.log(v) for _, v in fit]
+        n = len(xs); sx = sum(xs); sy = sum(ys)
+        sxx = sum(x*x for x in xs); sxy = sum(x*y for x, y in zip(xs, ys))
+        e = (n*sxy - sx*sy)/(n*sxx - sx*sx)
+        a = math.exp((sy - e*sx)/n)
+        pred = a*hold**e + base
+        meas = next(r["peak_mb"] for r in vl if r["l"] == hold)
+        holdout.append(dict(held_out=hold, fitted_exponent=round(e, 3),
+                            predicted_mb=round(pred, 1), measured_mb=meas,
+                            error_percent=round(abs(pred-meas)/meas*100, 2)))
+        print(f"   fit l<{hold} (exp {e:.2f}) -> predict {pred:7.1f} MB, "
+              f"measured {meas:7.1f} MB, {abs(pred-meas)/meas*100:.1f}% out")
+
     out = dict(
         question="which parameter and which phase govern the memory peak?",
+        holdout_validation=holdout,
+        cross_check=dict(
+            note=("bridge measured their s=5 peak independently, different study, "
+                  "same n=l^2 matrix structure, peak also in the entropy phase"),
+            their_clean_measurement_gb=6.54,
+            their_earlier_contaminated_gb=5.92,
+            my_prediction_at_l100_gb=6.96,
+            agreement_percent=6.4,
+            correction=("I first cited 6.96 vs 5.92 as '18% apart'. That 5.92 came "
+                        "from their ru_maxrss-contaminated run, which UNDERSTATED "
+                        "the peak. Against their clean 6.54 the agreement is 6.4%. "
+                        "My cross-check was quoted against a number since retracted "
+                        "by the session that produced it."),
+        ),
         method="one fresh process per point; current RSS sampled at 20 ms",
         vary_l_fixed_L=vl, vary_L_fixed_l=vL,
     )
