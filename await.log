@@ -1,0 +1,12 @@
+22:47:28 waiting for the box; need 8 GB and all peers idle
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 3498 MB
+   tabula: idle
+memory: 0.09 GB free, 5.25 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 5.25 GB available even after reclaim, need 8.0
+22:47:28 held
