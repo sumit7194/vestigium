@@ -59,29 +59,6 @@ def load():
         sys.exit(1)
 
 
-def _trust_after_confirm(sr, name):
-    """Rebuild a readable Status for a peer whose writer was confirmed by mtime.
-
-    Skips ONLY the token check -- confirm_writer has established liveness by a
-    strictly stronger method than the token (observed mtime advance over a full
-    tick, versus a PID the writer may simply have forgotten to refresh). Every
-    other gate is re-applied here rather than bypassed: file present, non-empty,
-    parseable, and fresh against its own stale_after_s.
-    """
-    try:
-        path = sr.D / f"{name}.status"
-        d = json.loads(path.read_text())
-        up = d.get("updated")
-        age = (time.time()
-               - time.mktime(time.strptime(up.replace("+00:00", "Z"), "%Y-%m-%dT%H:%M:%SZ"))
-               + time.timezone)
-        if age > d.get("stale_after_s", sr.DEFAULT_STALE_S):
-            return None
-        return sr.Status(name, False, "writer confirmed by mtime advance; token stale", d)
-    except Exception:
-        return None
-
-
 def main(need_gb):
     sr = load()
     peers = [p.stem for p in sorted(sr.D.glob("*.status"))] if hasattr(sr.D, "glob") \
@@ -90,7 +67,24 @@ def main(need_gb):
     for name in peers:
         if name == ME:
             continue
-        s = sr.read_status(name)
+        # ONE implementation of the safety rule, not two. bridge shipped
+        # read_status_confirmed() after my fail-open, and two divergent copies of
+        # a safety rule is its own hazard: mine would drift, and the drift would
+        # be invisible because both would keep returning plausible answers.
+        # Verified theirs against my own fail-open fixture before depending on
+        # it -- live writer + dead token + 4750 MB job -> busy=True, readable;
+        # dead writer, identical file shape -> stays UNKNOWN.
+        try:
+            s = (sr.read_status_confirmed(name, wait_s=CONFIRM_S)
+                 if hasattr(sr, "read_status_confirmed") else sr.read_status(name))
+        except Exception as e:
+            # read_status documented "never raises" and four of five malformed
+            # fixtures raised until bridge tested it. An untested docstring claim
+            # is an assertion about the code sitting in the code. Peers change
+            # their schemas -- two did today -- so a malformed peer file must
+            # cost us a HOLD, never a traceback.
+            hold.append(f"{name}: unreadable ({type(e).__name__}) -- no information is not permission")
+            continue
         if s.unknown:
             # AN UNKNOWN NEEDS A WAY OUT, NOT JUST A WAY IN. Holding on every
             # UNKNOWN is correct as a default and a deadlock as a policy: a stale
@@ -105,29 +99,8 @@ def main(need_gb):
             # mtime cannot tell those apart, and accepting one would delete the
             # token's only unique capability -- detecting writer death about a
             # timeout earlier than staleness can.
-            print(f"   {name}: UNKNOWN ({s.why})")
-            print(f"      confirming writer over {CONFIRM_S}s ...")
-            if sr.confirm_writer(name, wait_s=CONFIRM_S):
-                # BUG FIXED HERE, and it was fail-OPEN in the exact case this
-                # tool exists for. The first version did `continue` after a
-                # successful confirmation -- so a peer whose token was stale had
-                # their PAYLOAD NEVER CONSULTED. ansatz was running a 2.28 GB job
-                # for 49 minutes, their file said state=running plainly, and this
-                # printed "CLEAR to launch".
-                #
-                # Confirming the WRITER is alive answers a different question
-                # from whether the PEER is busy, and I had let the first answer
-                # stand in for the second. Exactly bridge's prediction: the
-                # defect landed in the thing consulted as a precondition.
-                s = _trust_after_confirm(sr, name)
-                if s is None:
-                    hold.append(f"{name}: writer alive but payload not readable")
-                    continue
-                notes.append(f"{name}: token was stale metadata; writer confirmed")
-                # fall through to the ordinary busy check below
-            else:
-                hold.append(f"{name}: UNKNOWN and writer not advancing -- not idle, just silent")
-                continue
+            hold.append(f"{name}: UNKNOWN ({s.why}) -- not idle, just silent")
+            continue
         if s.busy:
             try:
                 notes.append(f"{name}: BUSY, {s.rss_mb} MB")
