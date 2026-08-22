@@ -177,9 +177,19 @@ def run(s, ls_base=range(4, 21, 2), L_base=160, m_base=0.01):
         GX0 = np.real(np.fft.ifft2(inv0))/2.0
         S0 = []
         for l in ls:
+            # PER-l OUTPUT HERE TOO. It was added to the main pass and not to
+            # this one -- the same loop body, forty lines down, in the same
+            # function. Half of every regulator therefore ran with heartbeats
+            # only: alive but no position. Seventh travel failure of the day and
+            # the narrowest: not another file, not another document, the next
+            # loop.
+            STATE["phase"] = f"{nm}:k0-probe l={l}"
+            _t0 = time.time()
             XA0, PA0 = submatrices(square_sites(l, L), L, GX0, GP)
             S0.append(gaussian_entropy(XA0, PA0))
             del XA0, PA0
+            print(f"      {nm:>13} k0 l={l:3d}  {time.time()-_t0:7.1f}s  "
+                  f"rss {PEAK['rss_mb']/1024:.2f} GB", flush=True)
         _, B0, _ = fit_direct(ls, S0, 4)
         del GX0, w0, inv0
         out[nm] = dict(A=A, B=B, B_no_k0=B0, S=S,
