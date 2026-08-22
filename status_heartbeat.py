@@ -222,7 +222,7 @@ def writer_pid():
     token guaranteed dead is worse than an absent one, because always-dead looks
     like a working mechanism failing safe.
 
-    My first fix used `pgrep -f status_heartbeat_loop.sh` and had the mirror-image
+    My first fix used `pgrep -f vestigium_wr_9f2a4c.sh` and had the mirror-image
     defect: PGREP CANNOT SEE THE CALLER'S OWN ANCESTOR. From a child of the loop
     -- which is exactly what a tick is -- `pgrep -f <loop>` returns rc=1 and an
     empty string, while `ps` shows the loop plainly. So it resolved correctly to
@@ -247,7 +247,7 @@ def writer_pid():
                              capture_output=True, text=True, timeout=10).stdout
     except Exception:
         return None
-    return pid if "status_heartbeat_loop.sh" in out else None
+    return pid if "vestigium_wr_9f2a4c.sh" in out else None
 
 
 def main():
@@ -298,7 +298,7 @@ def main():
         # unknown default, permanent deadlock. A safety default plus an over-tight
         # check is not conservative, it is a system where nobody launches anything.
         # So the match string comes from the writer. This is ours:
-        "writer_cmd_match": "status_heartbeat_loop.sh",
+        "writer_cmd_match": "vestigium_wr_9f2a4c.sh",
         "writer_alive": writer_pid() is not None,
         "stale_after_s": 300,
         "detail": detail,

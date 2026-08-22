@@ -1,4 +1,13 @@
 #!/bin/bash
+# Named to match NO generic tidy-up pattern -- not keepalive/heartbeat/status/
+# coord/monitor/loop/pulse. PROTOCOL 6e: `pkill -f <word>` is a broadcast on a
+# shared box, and the previous name (status_heartbeat_loop.sh) was matched by
+# `pkill -f status`, `-f heartbeat` and `-f loop`. Three sessions' writers were
+# being killed by each other's cleanup all day; ours survived on luck alone.
+#
+# The rename is defence in depth only. It protects against OTHER sessions'
+# broad patterns; it does not replace the real rule, which is that WE kill by
+# PID from the pidfile and never by name (see stop_heartbeat.sh).
 # Tick the heartbeat every 60s. stale_after_s=300 gives peers a 5x margin, so a
 # few missed ticks reads as "recent" and a real death reads as stale within
 # minutes. Each tick RE-MEASURES (PROTOCOL 6b) -- this loop cannot bump a
@@ -14,7 +23,7 @@ cd /Users/sumit/Github/quantum
 # block a legitimate restart.
 if [ -f .heartbeat.pid ]; then
   OLD=$(cat .heartbeat.pid 2>/dev/null)
-  if [ -n "$OLD" ] && ps -p "$OLD" -o command= 2>/dev/null | grep -q status_heartbeat_loop.sh; then
+  if [ -n "$OLD" ] && ps -p "$OLD" -o command= 2>/dev/null | grep -q vestigium_wr_9f2a4c.sh; then
     echo "heartbeat already running as $OLD; refusing to start a second" >&2
     exit 0
   fi

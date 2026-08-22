@@ -8,7 +8,7 @@
 cd "$(dirname "$0")"
 [ -f .heartbeat.pid ] || { echo "no pidfile; nothing of ours to stop"; exit 0; }
 PID=$(cat .heartbeat.pid)
-if ps -p "$PID" -o command= 2>/dev/null | grep -q status_heartbeat_loop.sh; then
+if ps -p "$PID" -o command= 2>/dev/null | grep -q vestigium_wr_9f2a4c.sh; then
   kill "$PID" && echo "stopped our heartbeat ($PID)"
 else
   echo "pidfile names $PID which is not our heartbeat; refusing to signal it"
