@@ -10,3 +10,25 @@ HOLD:
    bridge: running a job
    only 5.25 GB available even after reclaim, need 8.0
 22:47:28 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 1984 MB
+   tabula: idle
+memory: 0.2 GB free, 4.62 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 4.62 GB available even after reclaim, need 8.0
+22:49:28 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 1382 MB
+   tabula: idle
+memory: 0.09 GB free, 4.32 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 4.32 GB available even after reclaim, need 8.0
+22:51:28 held
