@@ -49,6 +49,7 @@ HEAVY_FLOOR_MB = 256     # only suppresses "heavy" for trivially small jobs.
                          # memory was scarce -- backwards, the same inverted
                          # sensitivity the bridge found in ratio-shaped gates.
 MIN_AGE_S = 30           # below this, a match is shell noise, not a job
+CATCHALL_MB = 200        # anything this large in our repo is a job whatever it is
 
 
 def _age(et):
@@ -124,12 +125,47 @@ def our_processes():
             comm[int(cm.group(1))] = os.path.basename(cm.group(2).strip()).lower()
     INTERP = re.compile(r"^(python|node|julia|ruby|perl|rscript|deno|bun)")
 
+    # AN ALLOWLIST SILENTLY OMITS WHATEVER YOU WRITE NEXT, and the omission is
+    # invisible because the mechanism keeps working perfectly for everything
+    # already on the list. bridge hit this with a pgrep allowlist of their own
+    # script names: a new script would have published `idle, 0 MB` while holding
+    # gigabytes, minutes after they announced the run.
+    #
+    # Measured here rather than reasoned about: a 400 MB COMPILED binary running
+    # in this repo reported state=idle, rss=0, jobs=0. Completely invisible, in
+    # the collision direction -- a peer reads idle and launches on top of it.
+    #
+    # So the allowlist identifies, and an RSS catch-all covers everything it does
+    # not know about: anything holding more than CATCHALL_MB with a foot in this
+    # repo is a job WHATEVER IT IS CALLED. Under-matching risks a collision;
+    # over-matching only costs a peer a delay, so the fallback errs toward
+    # reporting. Shells stay out on size -- they do not hold hundreds of MB.
     def is_compute(pid):
         return bool(INTERP.match(comm.get(pid, "")))
 
+    # ...but the catch-all immediately matched THE HARNESS RUNNING THIS AGENT:
+    # the Claude Code process at 478 MB, whose cwd is naturally this repo. That
+    # is bridge's probe-matches-the-observer one level up -- the widened net
+    # caught the observer itself, and being permanent it meant permanent
+    # false-busy, which is the deadlock direction.
+    #
+    # The exclusion is a denylist, and a denylist omits whatever appears next
+    # just as an allowlist does. The difference is the direction of the miss: a
+    # new harness binary would be over-reported (a peer waits) rather than a new
+    # job under-reported (a peer collides). That asymmetry is why the identifying
+    # rule is a denylist here and an allowlist-plus-catch-all above.
+    NOT_JOBS = re.compile(r"^(claude|code|electron|iterm|terminal|finder)")
+
+    def consequential(pid, rss_kb):
+        if NOT_JOBS.match(comm.get(pid, "")):
+            return False
+        return is_compute(pid) or rss_kb/1024 >= CATCHALL_MB
+
     byname = {pid: (rss, age, cmd) for pid, rss, age, cmd in rows}
-    direct = {pid for pid, _, _, cmd in rows if REPO in cmd and is_compute(pid)}
-    cand = [pid for pid, _, _, _ in rows if pid not in direct and is_compute(pid)]
+    direct = {pid for pid, rss, _, cmd in rows
+              if REPO in cmd and consequential(pid, rss)}
+    cand = [pid for pid, rss, _, _ in rows
+            if pid not in direct and consequential(pid, rss)]
     cwd_ours = set()
     if cand:
         try:
