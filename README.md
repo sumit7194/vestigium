@@ -14,6 +14,46 @@ published measurement**, so when the machinery is later pointed at an open quest
 machinery itself is not in doubt. Two of our own bugs were caught by exactly these checks
 (both documented below).
 
+### The one result here that was not known in advance
+
+Not a new physical law — a **pre-registered prediction that was confirmed by someone else's
+computer**. The entanglement corner coefficient's regulator spread falls under lattice
+refinement as s⁻². From that law, a value for the next resolution was **written down and
+committed before the run existed**:
+
+| | |
+|---|---|
+| filed pre-run, s=5 | **0.043 %** |
+| measured independently | **0.0427 %** |
+| agreement | **0.7 %** |
+
+The measurement was made by a separate session (`thebridge`) on a resolution I never ran.
+
+**What that does and does not establish — checked against the disclosure log rather than
+recalled.** The first draft of this section claimed the measuring session was working blind
+and *"could not have tuned to the answer."* **That is false.** The log shows it held the
+s=1–4 spreads and had measured s=3 and s=4 itself, so it could have derived 1.081/25 = 0.043
+in one line. This is **pre-registration, not blinding**:
+
+- what it buys — the prediction was committed **before the s=5 run existed**, so the law
+  could not be retrofitted to the answer after the fact. That is the failure mode
+  pre-registration exists to stop, and it is stopped here.
+- what it does not buy — the executor was **not** independent of the expected value. A blind
+  confirmation would be stronger and this is not one.
+
+(The same session *was* clean on the triangular-lattice values — different study, logged
+separately. Conflating the two is what produced the wrong first draft.)
+
+**The honest caveat, because the number invites more than it can carry:** the constant behind
+that law is itself only stable to **1.3 %** across s=3, 4, 5 (1.0800, 1.0816, 1.0675). So the
+prediction landed *within its own law's scatter* — it is a genuine confirmation, and its 0.7 %
+should not be quoted as the law's precision. **1.081 is also a property of this four-regulator
+family, not of the corner term** (see the mechanism test below, which found the pairwise
+disagreement changes sign — so a small spread is not by itself evidence of universality).
+
+What *is* forced, for any family sharing a continuum limit, is the **vanishing**. That is the
+robust claim, and the spread has no measurable floor: 1.69 → 0.25 → 0.12 → 0.068 → 0.043 %.
+
 ---
 
 ## Foundations experiments
