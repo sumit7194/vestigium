@@ -32,3 +32,316 @@ HOLD:
    bridge: running a job
    only 4.32 GB available even after reclaim, need 8.0
 22:51:28 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 2612 MB
+   tabula: idle
+memory: 0.14 GB free, 4.6 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 4.6 GB available even after reclaim, need 8.0
+22:53:28 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 4581 MB
+   tabula: idle
+memory: 1.64 GB free, 6.1 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 6.1 GB available even after reclaim, need 8.0
+22:55:28 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 2774 MB
+   tabula: idle
+memory: 0.07 GB free, 3.84 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.84 GB available even after reclaim, need 8.0
+22:57:28 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 1956 MB
+   tabula: idle
+memory: 0.12 GB free, 3.45 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.45 GB available even after reclaim, need 8.0
+22:59:28 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 1035 MB
+   tabula: idle
+memory: 0.11 GB free, 3.1 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.1 GB available even after reclaim, need 8.0
+23:01:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 1119 MB
+   tabula: idle
+memory: 0.18 GB free, 3.24 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.24 GB available even after reclaim, need 8.0
+23:03:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 657 MB
+   tabula: idle
+memory: 0.07 GB free, 3.06 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.06 GB available even after reclaim, need 8.0
+23:05:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 790 MB
+   tabula: idle
+memory: 0.1 GB free, 3.08 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.08 GB available even after reclaim, need 8.0
+23:07:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 910 MB
+   tabula: idle
+memory: 0.07 GB free, 3.03 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.03 GB available even after reclaim, need 8.0
+23:09:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 4478 MB
+   tabula: idle
+memory: 0.07 GB free, 2.85 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 2.85 GB available even after reclaim, need 8.0
+23:11:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 1653 MB
+   tabula: idle
+memory: 0.62 GB free, 4.32 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 4.32 GB available even after reclaim, need 8.0
+23:13:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 2209 MB
+   tabula: idle
+memory: 5.52 GB free, 9.55 GB available after reclaim (need 8.0 GB)
+   RECLAIM-DEPENDENT: needs 8.0 GB but only 5.52 GB is free; 2.5 GB must come out of inactive.
+   This box stalls rather than failing cleanly when it reclaims under a fast allocation. Launch deliberately.
+
+HOLD:
+   bridge: running a job
+23:15:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 5211 MB
+   tabula: idle
+memory: 2.69 GB free, 8.14 GB available after reclaim (need 8.0 GB)
+   RECLAIM-DEPENDENT: needs 8.0 GB but only 2.69 GB is free; 5.3 GB must come out of inactive.
+   This box stalls rather than failing cleanly when it reclaims under a fast allocation. Launch deliberately.
+
+HOLD:
+   bridge: running a job
+23:17:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 5211 MB
+   tabula: idle
+memory: 2.6 GB free, 8.18 GB available after reclaim (need 8.0 GB)
+   RECLAIM-DEPENDENT: needs 8.0 GB but only 2.6 GB is free; 5.4 GB must come out of inactive.
+   This box stalls rather than failing cleanly when it reclaims under a fast allocation. Launch deliberately.
+
+HOLD:
+   bridge: running a job
+23:19:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 5211 MB
+   tabula: idle
+memory: 2.54 GB free, 8.08 GB available after reclaim (need 8.0 GB)
+   RECLAIM-DEPENDENT: needs 8.0 GB but only 2.54 GB is free; 5.5 GB must come out of inactive.
+   This box stalls rather than failing cleanly when it reclaims under a fast allocation. Launch deliberately.
+
+HOLD:
+   bridge: running a job
+23:21:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 5594 MB
+   tabula: idle
+memory: 2.18 GB free, 7.95 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 7.95 GB available even after reclaim, need 8.0
+23:23:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 5986 MB
+   tabula: idle
+memory: 0.19 GB free, 5.16 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 5.16 GB available even after reclaim, need 8.0
+23:25:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 2916 MB
+   tabula: idle
+memory: 1.76 GB free, 5.36 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 5.36 GB available even after reclaim, need 8.0
+23:27:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 3778 MB
+   tabula: idle
+memory: 0.07 GB free, 4.26 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 4.26 GB available even after reclaim, need 8.0
+23:29:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 2937 MB
+   tabula: idle
+memory: 0.26 GB free, 4.18 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 4.18 GB available even after reclaim, need 8.0
+23:31:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 2231 MB
+   tabula: idle
+memory: 0.11 GB free, 3.69 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.69 GB available even after reclaim, need 8.0
+23:33:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 2009 MB
+   tabula: idle
+memory: 0.11 GB free, 3.75 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.75 GB available even after reclaim, need 8.0
+23:35:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 1933 MB
+   tabula: idle
+memory: 0.15 GB free, 3.76 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.76 GB available even after reclaim, need 8.0
+23:37:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 1983 MB
+   tabula: idle
+memory: 0.07 GB free, 3.6 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.6 GB available even after reclaim, need 8.0
+23:39:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 2013 MB
+   tabula: idle
+memory: 0.1 GB free, 3.64 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.64 GB available even after reclaim, need 8.0
+23:41:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 2094 MB
+   tabula: idle
+memory: 0.6 GB free, 3.89 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.89 GB available even after reclaim, need 8.0
+23:43:29 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: BUSY, 1513 MB
+   tabula: idle
+memory: 0.28 GB free, 3.84 GB available after reclaim (need 8.0 GB)
+
+HOLD:
+   bridge: running a job
+   only 3.84 GB available even after reclaim, need 8.0
+23:45:30 held
+peers:
+   ansatz: idle
+   blackhole: idle
+   bridge: idle
+   tabula: idle
+memory: 7.91 GB free, 11.08 GB available after reclaim (need 8.0 GB)
+   RECLAIM-DEPENDENT: needs 8.0 GB but only 7.91 GB is free; 0.1 GB must come out of inactive.
+   This box stalls rather than failing cleanly when it reclaims under a fast allocation. Launch deliberately.
+
+CLEAR to launch.
+23:47:30 CLEAR -- starting s=6
+23:47:30 launched pid 44749

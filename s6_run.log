@@ -1,0 +1,9 @@
+S=6 RUN   swapouts at start: 1,149,814
+                 nn l= 24      0.0s  rss 0.03 GB  swapouts 1,149,814
+                 nn l= 36      0.2s  rss 0.03 GB  swapouts 1,149,814
+                 nn l= 48      1.3s  rss 0.48 GB  swapouts 1,149,814
+                 nn l= 60      6.2s  rss 1.43 GB  swapouts 1,149,814
+                 nn l= 72     21.2s  rss 2.84 GB  swapouts 1,149,814
+      .. alive   1.0m  in nn:entropy l=84          rss 4.29 GB
+                 nn l= 84     53.3s  rss 4.29 GB  swapouts 1,149,814
+      .. alive   2.0m  in nn:entropy l=96          rss 5.81 GB

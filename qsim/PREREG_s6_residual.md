@@ -82,3 +82,54 @@ treating all four buckets as equally earned.
   without checking whether a shared step manufactured the agreement — the
   confound they found in our s=6 memory convergence.
 - If they disagree, I will **not** assume mine is the correct one.
+
+## Outcome, and the pre-committed check that changed it
+
+**The bridge's four-regulator fraction: 23.4 %.** That lands in bucket 1 by
+value. **It does not land there in meaning**, because the pre-committed
+shared-step check fired.
+
+### The check
+
+> *If their number and mine agree, I will not report it as confirmation without
+> checking whether a shared step manufactured the agreement.*
+
+**We use the same four regulators** — `nn`, `improved`, `higher_deriv`,
+`smeared`, structurally identical, differing at most in constants. And the
+provenance is worse than coincidence: **the set came from my own spec.** Their
+file's docstring records it as a gate I wrote, frozen before their code existed.
+
+**So this is not two studies converging. It is one regulator family measured
+twice** — on different lattices, in different geometries, at different
+resolutions, by different code.
+
+### What it does and does not establish
+
+**NOT established:** that the residual is method-intrinsic — a property of
+deleting a common mode from a regulator-difference.
+
+**Established, and still worth having:** for *this* regulator family, the
+non-common zero-mode residual is **~20–40 % of the regulator signal** across
+four resolutions, two lattices, two geometries and two codebases. **Everything
+varied except the one thing most likely to be causing it.**
+
+Two further weakenings, both stated before the bridge raised them: the
+resolutions are not matched (their s=6 against my s=1,2,3), and my 21.6 / 41.5 /
+27.5 % is a three-point scatter I had already withdrawn as a trend — "23.4 sits
+inside it" is close to saying it sits inside 21–42, which almost anything would.
+
+### The test that would settle it — a fifth regulator outside the family
+
+Required: same continuum limit, an O(k⁴) perturbation like `higher_deriv`, but
+**not expressible as `m² + f(K2)`**. Candidate, verified here:
+
+    m² + K2 + c·(K4 − K2)
+
+`K4 − K2` is O(k⁴) so the continuum limit is untouched, and it is **not
+proportional to K2²** — over `K2 ∈ (0, 0.5)` the ratio `D/K2²` spans
+0.0417–0.0833, a **66.5 % spread**. Different angular structure, so it perturbs
+along a different direction in function space.
+
+**If the residual fraction survives a fifth regulator of this kind, it is
+method-intrinsic. If it moves, we have been measuring a property of four
+specific kernels.** Filed as the open question rather than answered.
