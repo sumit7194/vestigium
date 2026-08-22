@@ -1,19 +1,44 @@
 #!/bin/bash
-# Refuse a commit whose gate does not pass.
+# Two jobs: BLOCK on a red gate, REPORT on new sweep hits.
 #
-# WHY THIS EXISTS: three edits today silently did not apply and a commit went
-# out describing each. The third is the reason for a HOOK rather than more
-# asserts -- that one's assert DID fire, and the commit landed anyway, because
-# the edit ran in one shell invocation and `git commit` in a later one. A raised
-# AssertionError printed a traceback and the next command ran regardless.
+# WHY THE SECOND HALF EXISTS. Between this session and the bridge, the same
+# mechanism has fired at least six times today: articulate a rule, apply it
+# once, then fail to apply it in the very next artifact. The asserted-vs-quoted
+# distinction, the eviction effect, the travel rule -- each was described to a
+# peer and then violated within the hour by its own author.
 #
-# bridge's diagnosis: the assert has to STOP THE COMMIT, not merely print.
-# Adding more asserts does not fix a control-flow gap; moving the check into the
-# commit path does.
+# That is not a memory problem to be solved by resolving harder. It is the
+# default. The only fix either session built today that works without anyone
+# remembering anything is this hook, so the text- and shape-cued sweeps run
+# here too rather than when someone thinks of them.
+#
+# They REPORT and do not block: both are known false-positive-heavy by design
+# (2 real in 28 here, 1 in 12 on the bridge's repo), so blocking on them would
+# train the author to bypass. And the count is reported as a DELTA against the
+# last commit -- an unchanging number becomes wallpaper, which is the same
+# failure as a check that cannot fire.
 cd "$(git rev-parse --show-toplevel)" || exit 1
+
 if ! python3 verify.py > /tmp/vestigium_gate.log 2>&1; then
   echo "COMMIT REFUSED — the gate is red." >&2
   tail -12 /tmp/vestigium_gate.log >&2
   exit 1
 fi
 echo "gate green ($(grep -c '^ok ' /tmp/vestigium_gate.log) assertions)"
+
+SWEEP=/Users/sumit/Github/.claude-coordination
+STATE=.git/sweep_counts
+prev=$(cat "$STATE" 2>/dev/null || echo "0 0")
+prev_a=${prev% *}; prev_b=${prev#* }
+
+a=$(python3 "$SWEEP/audit_sweep.py" . 2>/dev/null | grep -cE "^      [A-Za-z0-9_./-]+:[0-9]+" || echo 0)
+b=$(python3 "$SWEEP/append_only.py" . 2>/dev/null | grep -c "^APPEND-ONLY" || echo 0)
+echo "$a $b" > "$STATE"
+
+if [ "$a" -gt "$prev_a" ] 2>/dev/null; then
+  echo "  audit_sweep: $a hits (UP from $prev_a) — a claim may have been added, not just moved"
+fi
+if [ "$b" -gt "$prev_b" ] 2>/dev/null; then
+  echo "  append-only sections: $b (UP from $prev_b) — a section grew again without a re-read"
+fi
+exit 0
