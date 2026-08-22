@@ -54,6 +54,16 @@ disagreement changes sign — so a small spread is not by itself evidence of uni
 What *is* forced, for any family sharing a continuum limit, is the **vanishing**. That is the
 robust claim, and the spread has no measurable floor: 1.69 → 0.25 → 0.12 → 0.068 → 0.043 %.
 
+> **Provenance, stated here rather than 40 % further down.** **This repository can produce the
+> first two of those five numbers.** s=1 and s=2 are computed by
+> [`corner_coefficient.py`](qsim/corner_coefficient.py) and stored in its artifact. **s=3, s=4
+> and s=5 were measured by a separate session (`thebridge`) on hardware and code that are not
+> here** — nothing in this repo can regenerate them, and they are relayed values. The s=5 figure
+> is the one my pre-registered prediction was tested against. An s=6 runner exists and is
+> calibrated against the known s=1 answer, but has not been run.
+
+
+
 **An open systematic, of the same order as the effect (added 2026-08-22).** The lattice zero
 mode contributes **~20 % of the corner coefficient B itself**. All four regulators weight it
 identically — `reg(0,0) = m²` exactly — so most of it cancels in a regulator-to-regulator
