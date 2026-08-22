@@ -1,0 +1,118 @@
+{
+ "question": "which parameter and which phase govern the memory peak?",
+ "method": "one fresh process per point; current RSS sampled at 20 ms",
+ "vary_l_fixed_L": [
+  {
+   "L": 160,
+   "l": 30,
+   "S": 9.03218214655899,
+   "valid": true,
+   "peak_mb": 90.2,
+   "peak_phase": "entropy",
+   "by_phase": {
+    "init": 30.1,
+    "entropy": 90.2
+   }
+  },
+  {
+   "L": 160,
+   "l": 40,
+   "S": 12.110022674534818,
+   "valid": true,
+   "peak_mb": 219.6,
+   "peak_phase": "entropy",
+   "by_phase": {
+    "init": 30.1,
+    "entropy": 219.6
+   }
+  },
+  {
+   "L": 160,
+   "l": 50,
+   "S": 15.188904584160861,
+   "valid": true,
+   "peak_mb": 472.3,
+   "peak_phase": "entropy",
+   "by_phase": {
+    "init": 30.0,
+    "submatrices": 215.8,
+    "entropy": 472.3
+   }
+  },
+  {
+   "L": 160,
+   "l": 60,
+   "S": 18.2670517809844,
+   "valid": true,
+   "peak_mb": 949.2,
+   "peak_phase": "entropy",
+   "by_phase": {
+    "init": 30.0,
+    "submatrices": 372.7,
+    "entropy": 949.2
+   }
+  },
+  {
+   "L": 160,
+   "l": 40,
+   "S": 12.110022674534818,
+   "valid": true,
+   "peak_mb": 218.5,
+   "peak_phase": "entropy",
+   "by_phase": {
+    "init": 29.9,
+    "entropy": 218.5
+   }
+  }
+ ],
+ "vary_L_fixed_l": [
+  {
+   "L": 160,
+   "l": 40,
+   "S": 12.110022674534818,
+   "valid": true,
+   "peak_mb": 219.6,
+   "peak_phase": "entropy",
+   "by_phase": {
+    "init": 30.1,
+    "entropy": 219.6
+   }
+  },
+  {
+   "L": 160,
+   "l": 40,
+   "S": 12.110022674534818,
+   "valid": true,
+   "peak_mb": 218.5,
+   "peak_phase": "entropy",
+   "by_phase": {
+    "init": 29.9,
+    "entropy": 218.5
+   }
+  },
+  {
+   "L": 240,
+   "l": 40,
+   "S": 12.05356473999947,
+   "valid": true,
+   "peak_mb": 220.4,
+   "peak_phase": "entropy",
+   "by_phase": {
+    "init": 32.6,
+    "entropy": 220.4
+   }
+  },
+  {
+   "L": 320,
+   "l": 40,
+   "S": 12.039259430775898,
+   "valid": true,
+   "peak_mb": 222.5,
+   "peak_phase": "entropy",
+   "by_phase": {
+    "init": 32.6,
+    "entropy": 222.5
+   }
+  }
+ ]
+}
