@@ -49,3 +49,5 @@ S=6 RUN   swapouts at start: 1,149,814
            improved l= 72     19.7s  rss 8.26 GB  swapouts 1,642,403
       .. alive  34.0m  in improved:entropy l=84    rss 8.26 GB
            improved l= 84     53.0s  rss 8.26 GB  swapouts 1,642,403
+      .. alive  35.0m  in improved:entropy l=96    rss 8.26 GB
+      .. alive  36.0m  in improved:entropy l=96    rss 8.26 GB
