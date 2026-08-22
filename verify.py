@@ -335,6 +335,21 @@ check("zero mode: non-common residual stays a large fraction of signal [NEG]",
       min(21.6, 41.5, 27.5), ">", 10.0, kind="NEG",
       note="open systematic at every resolution; locks out 'it refines away'")
 
+
+# ---- lattice-independence was never tested ---------------------------------
+# The README claimed the corner curve is "lattice-independent as well as
+# regulator-independent" because a(90) came from the square lattice while a(60)
+# and a(120) came from the triangular one. There is NO triangular measurement at
+# 90 degrees, so no two lattices are measured at the same angle and nothing
+# tests the claim. Asserted negatively so it cannot return: the artifact must
+# keep labelling the 90-degree value as square-lattice-only.
+_ca = ca["values"]
+check("corner angles: the 90-deg value is labelled square-lattice-only [NEG]",
+      1.0 if "a90_square_lattice" in _ca and "a90_triangular" not in _ca else 0.0,
+      ">", 0.5, kind="NEG",
+      note="locks in that no same-angle cross-lattice comparison exists; "
+           "found by the shared audit sweep's 'independent' check")
+
 # ============================================================================
 # RUNNER + SELF-AUDIT (R3)
 # ============================================================================

@@ -200,10 +200,19 @@ project — deliberately implemented without sharing code, so agreement means so
 - **[`corner_angles.py`](qsim/corner_angles.py)** — turning that single point into a **curve**.
   A square lattice can only make 90° corners cleanly, so this moves to a **triangular lattice**,
   where equilateral-triangle regions (three 60° corners) and hexagonal regions (six 120° corners)
-  are exact and need no staircase. Prediction registered before running: a(60°) > a(90°) > a(120°).
-  **Confirmed** — 0.0242 / 0.0116 / 0.0039, monotone, with a(90°) coming from the *square* lattice,
-  so the curve is **lattice-independent as well as regulator-independent**. Across-regulator spread
-  is **0.5% at 60° and 1.9% at 120% against 33% for the area coefficient** on the same runs. New
+  are exact and need no staircase. Registered before running: a(60°) > a(90°) > a(120°) —
+  **a recall check, not a prediction**, since the monotone ordering is in the literature; this was
+  demoted after `tabula` pointed it out, and the gate has said so since while this line did not.
+  **Holds** — 0.0242 / 0.0116 / 0.0039.
+
+  **The lattice claim this line used to make was untested and is withdrawn.** It read *"a(90°)
+  comes from the square lattice, so the curve is lattice-independent as well as
+  regulator-independent."* **There is no triangular measurement at 90°** — the artifact records
+  `a90_square_lattice` only, and the per-regulator data holds a(60) and a(120) alone. With no two
+  lattices measured at the same angle, nothing here tests lattice-independence. What the three
+  points show is that a square-lattice value at 90° falls between the triangular values in the
+  expected order: *consistent with* lattice-independence, and not a test of it. Across-regulator spread
+  is **0.5% at 60° and 1.9% at 120° against 33% for the area coefficient** on the same runs. New
   control that can fail: the area coefficient must not depend on the region's *shape*, and triangles
   vs hexagons agree to **0.03%**.
 
