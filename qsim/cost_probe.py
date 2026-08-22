@@ -300,7 +300,23 @@ if __name__ == "__main__":
     # clustering on the structural O(n^3) = O(l^6). That projects ~10.6 min for
     # one l=120 point and ~1.2 h for the full 8-l x 4-regulator study.
     #
-    # STATUS: requirement measured, feasibility UNTESTED. Not "out of reach".
+    # STATUS: requirement EXTRAPOLATED; feasibility since demonstrated by the
+    # bridge at the same l_max.
+    #
+    # AND THIS PROBE MUST NOT BE RE-RUN WHILE THE BOX IS LOADED. Re-running it
+    # during the bridge's s=6 gave peaks 18-21% LOW at l=45,60,65 while
+    # everything below l=50 was unchanged within 2% -- so the s=6 figure moved
+    # 14.08 -> 10.95 GB for purely environmental reasons. That is the eviction
+    # effect: under pressure a large allocation loses pages during the climb and
+    # the sampled peak reads below the true one. Small allocations fit and read
+    # the same.
+    #
+    # CONSEQUENCE FOR THE COMPARISON BELOW, and it cuts against my own
+    # correction: the bridge's observed ~7.8 GB was itself measured while their
+    # run was loading the box. If it is depressed by the same ~21%, their true
+    # peak is nearer 9.9 GB and the over-prediction is ~1.37x, not 1.74x. A
+    # pressured peak UNDERSTATES, so an observed-vs-predicted gap measured under
+    # load is inflated in the direction that makes the prediction look worse.
     feasibility = dict(
         peak_gb_s6=round((a4*120**4 + c4)/1024, 2),
         ram_gb=16.0, swap_used_gb=0.0, free_disk_gb=22, swapouts_ever=0,
@@ -322,7 +338,31 @@ if __name__ == "__main__":
                          "closed. If the same over-prediction applies here, the "
                          "real peak is nearer 8.5 GB, well inside 16 GB RAM."),
         ),
-        verdict=("requirement measured; feasibility UNTESTED. The earlier 'out of "
+        # THE NUMBER THE RETRACTED REFUSAL RESTED ON, now itself testable.
+        # I retracted "s=6 is out of reach" when the comparison behind it proved
+        # untested. I did NOT revisit the 14.08 GB the refusal rested on --
+        # quantum's own version of the failure bridge found in their file, where
+        # a retracted decision left its number standing in four places.
+        #
+        # The bridge has since RUN s=6 at the same l_max=120 and measured a peak
+        # of ~7.8 GB against their own predicted 13.55 -- an over-prediction of
+        # 74%. Both our laws were hold-out validated, residual checked and
+        # cross-checked against each other, and both were high by the same order.
+        # Their observation on that is sharper than the confound it replaced:
+        # two instruments converging tightly, by a step verified as independent,
+        # ON THE WRONG ANSWER. Independence of method bought agreement and
+        # bought nothing about correctness.
+        #
+        # So this figure carries the one relevant datum rather than standing alone:
+        observed_analogue=dict(
+            bridge_predicted_gb=13.55, bridge_observed_gb=7.8,
+            over_prediction_factor=round(13.55/7.8, 2),
+            implied_for_this_study_gb=round(14.08*7.8/13.55, 1),
+            note=("same l_max=120 sets the peak in both studies, so the scaled "
+                  "expectation is ~8 GB rather than 14. UNTESTED here -- this is "
+                  "one transfer from one measurement, not a prediction."),
+        ),
+        verdict=("requirement EXTRAPOLATED (x1.85 beyond measurement); the one comparable extrapolation that has since been tested was 74% high. Feasibility now demonstrated by the bridge at the same l_max. The earlier 'out of "
                  "reach' compared a measured requirement against `available` and "
                  "treated the comparison as settled. It is a prediction."),
     )
