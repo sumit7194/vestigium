@@ -1,3 +1,28 @@
+#!/usr/bin/env python3
+"""Do my commit messages describe changes that actually landed?
+
+Written after committing f435f21d, whose message says an independence claim was
+weakened and whose diff did no such thing: the substitution matched nothing,
+str.replace returned the string unchanged, and the script printed success.
+
+WHAT THIS DETECTS: identifiers a commit claims to introduce that are absent from
+that commit's own tree. Checked against the tree AT THAT COMMIT, not HEAD -- an
+identifier deliberately removed later is not a commit that lied. The first
+version compared against HEAD and produced two false positives on exactly that.
+
+WHAT IT DOES NOT DETECT, stated because 14-of-14 is otherwise false comfort:
+IT PASSES f435f21d. It looks for things claimed ADDED and missing; that failure
+was a phrase claimed REMOVED and still present. An extension to hunt removal
+claims was written and abandoned: 3 false positives out of 5, and its one true
+hit matched an unrelated substring of the same sentence -- the right commit for
+the wrong reason, which is not a detection.
+
+The durable check for that class is not a post-hoc scanner. It is asserting the
+substitution at edit time: assert the anchor exists before replacing, and assert
+the stale phrase is gone afterwards. This file's own header was itself a silent
+no-op on the first attempt -- a loosely-binding ternary made the assignment
+s = s -- inside the commit that was about silent no-ops. Hence the asserts above.
+"""
 import re, subprocess, sys
 def sh(*a): return subprocess.run(a, capture_output=True, text=True).stdout
 
