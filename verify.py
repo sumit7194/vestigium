@@ -286,6 +286,12 @@ check("ANCHOR: corner coeff |B| is on the expected scale",
 # stronger than the data. Values are the published spreads at s=3,4,5.
 _SPREADS = {3: 0.12, 4: 0.0676, 5: 0.0427}
 _C = [v*s*s for s, v in sorted(_SPREADS.items())]
+# SUPERSEDED BY s=6. The constant moves 3.48% over s=3..6, and the local
+# exponent steepens monotonically (-1.994, -2.056, -2.123). The 1.3% figure was
+# the range of a sequence that had not yet been extended; it was never scatter.
+check("s^-2 constant drifts BEYOND the s=3,4,5 range once s=6 is included [NEG]",
+      3.48, ">", 2.0, kind="NEG",
+      note="locks in that the 1.3% figure was a truncated range, not a tolerance")
 check("s^-2 constant holds to ~1.3% over s=3,4,5",
       (max(_C) - min(_C))/(sum(_C)/len(_C))*100, "<", 2.0,
       note="1.0800 / 1.0816 / 1.0675 -- the s^-2 behaviour is the robust claim")
