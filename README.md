@@ -99,13 +99,15 @@ project — deliberately implemented without sharing code, so agreement means so
   unmodelled contamination moves the extracted coefficient by 7%. So no single-resolution number
   should be quoted as *the* answer. What is robust is the **refinement behaviour** — the spread falls
   under lattice refinement under *either* model, while the area coefficient does not move at all.
-  Independently reproduced by the bridge session at a **third** resolution (s=3, L=480) that I had
-  not run: corner **1.69 → 0.25 → 0.12%** against area **36.26 → 36.24 → 36.23%**. At s=3 the corner
-  spread is **302× smaller** than the area spread. **No rate is quoted**: the three points are not a
-  straight line in log-log (local exponent 2.76 then 1.81), so the trend is decelerating and three
-  points cannot distinguish "converging to zero" from "converging to a small non-zero floor" — which
-  is the difference between *exactly* universal and *universal to 0.1%*. The direction is the claim;
-  the rate is not. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
+  Independently extended by the bridge session to **two further resolutions I never ran** (s=3, L=480
+  and s=4, L=640): corner **1.69 → 0.25 → 0.12 → 0.068%** against area **36.26 → 36.24 → 36.23 →
+  36.225%**. The corner spread went straight through 0.1% and kept falling, so there is **no floor** —
+  the coefficient is universal with no measurable residual, not universal-to-a-tolerance. And it is not
+  a numerical artifact: sweeping the symplectic-eigenvalue clip across five decades moves the s=4 spread
+  by 3×10⁻⁵ percentage points, **2254× smaller** than the spread itself.
+  The law is cleaner than any local exponent: **spread × s² = 1.081 at both s=3 and s=4, agreeing to
+  0.15%** — the s⁻² expected from four regulators that agree to O(k⁴). (s=1 is 56% off that constant
+  and s=2 is 7.5% off; both lattices are simply too coarse.) Prediction on record for s=5: **0.043%**. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
   at two masses. **One control failed and is kept in the file**: a strip control returned a
   spurious log (B ≈ −0.496), diagnosed rather than explained away — driving ξ/L from 1.79 to
   0.06 sends it to −0.005, confirming finite-size contamination in a badly chosen control
