@@ -42,11 +42,32 @@ P3 [GENUINE PREDICTION - the quantitative part no theorem hands me]: with
    chains. That exceeds the macrorealist bound of 1.0 AND the QUANTUM maximum
    of 1.5, approaching the algebraic ceiling of 3.
 
-   Which makes the point far sharper than the original prediction would have:
-   A LEGGETT-GARG VIOLATION IS NOT EVIDENCE OF QUANTUMNESS AT ALL. A
-   sufficiently invasive classical model beats quantum. Meanwhile CHSH stays
-   nailed at exactly 2 no matter what the classical model is allowed to do.
-   The asymmetry is the result. ***
+   SCOPE, narrowed after an adversarial read by the bridge session, whose
+   framing is better than mine and is adopted:
+
+   "A Leggett-Garg violation is not evidence of quantumness" is TRUE AND
+   TEXTBOOK -- it is the clumsiness loophole, and nobody has ever shown LG
+   violation implies non-classicality without an independent bound on
+   invasiveness. So this is a [RECALL CHECK] demonstrating a known loophole,
+   not a discovery. And K3 exceeding the quantum 1.5 is unsurprising once
+   arbitrary invasiveness is granted, since the algebraic bound for +-1
+   observables is 3 and nothing makes the quantum value a barrier.
+
+   THE PART THAT SURVIVES EVERY OBJECTION, and is the actual result:
+     WITH UNBOUNDED INVASIVENESS THE LG BOUND IS NOT A QUANTUMNESS TEST,
+     WHICH IS WHY LG EXPERIMENTS REQUIRE AN INDEPENDENT INVASIVENESS BOUND
+     AND BELL DOES NOT.
+   That asymmetry is the result. Bell needs no such bound because CHSH = 2 is
+   a wall against ANY local model, however invasive. ***
+
+   *** AND A DEFECT WORTH MORE THAN THE RESULT, caught by the bridge: for
+   several hours this docstring asserted K3 = 2.336 while the committed code
+   computed only the failed 0.609 version. I had run the projection variant in
+   an ad-hoc shell heredoc, written the number into prose, and never committed
+   the code. The file reported its own falsification directly beneath a claim it
+   could not reproduce. A RESULT WHOSE INPUTS ARE NOT ON DISK IS A CLAIM ABOUT
+   WHAT WAS SEEN, NOT A MEASUREMENT. classical_LG_projective() below is that
+   code, now committed and run by this script. ***
 
 CONTROL THAT CAN FAIL, and it is the one that makes the nulls mean anything:
    the same estimators are run on GENUINE QUANTUM systems, which must give
@@ -96,6 +117,35 @@ def classical_LG(T, Q, p0, invasive=False, rng=None):
             tot += p[s] * Q[s] * float(pj @ Q)
         return tot
     return K3_from_correlators(corr(0,1), corr(1,2), corr(0,2))
+
+
+def classical_LG_projective(T, Q, p0, targ):
+    """LG with GENUINELY invasive measurement: reading Q projects the hidden state
+    onto a definite target chosen BY THE OUTCOME.
+
+    This is the version that produces the headline number. The weaker scheme in
+    classical_LG(invasive=True) above -- uniform redistribution within the visible
+    class -- DESTROYS correlation and can only push the correlators the wrong way,
+    which is why P3 failed as filed.
+
+    targ = (state to project into on Q=+1, state to project into on Q=-1).
+    """
+    n = len(p0)
+    def ev(p, k):
+        for _ in range(k): p = p @ T
+        return p
+    def corr(i, j, disturbed):
+        p = ev(p0.copy(), i); tot = 0.0
+        for s in range(n):
+            if p[s] <= 0: continue
+            q = Q[s]
+            st = np.zeros(n)
+            st[targ[0] if q > 0 else targ[1]] = 1.0 if disturbed else 0.0
+            if not disturbed: st[s] = 1.0
+            tot += p[s]*q*float(ev(st, j-i) @ Q)
+        return tot
+    # C12 and C23 each involve a disturbing read; C13 has no read in between
+    return K3_from_correlators(corr(0,1,True), corr(1,2,True), corr(0,2,False))
 
 # ---------------------------------------------------------------- CHSH machinery
 def chsh(E):    # E[a][b] = <A_a B_b>
@@ -161,26 +211,44 @@ k_non = classical_LG(T, Q, p0, invasive=False)
 print(f"   non-invasive reading : K3 = {k_non:.4f}   (bound 1)  "
       f"{'within bound' if k_non <= 1+1e-9 else '*** EXCEEDS ***'}")
 best_inv, best_seed = -9, None
-for trial in range(200):                               # search invasive schemes
+for trial in range(200):                               # WEAK invasiveness (the failed design)
     r = np.random.default_rng(trial)
     Tt = r.random((N, N))**2 + 0.02; Tt /= Tt.sum(1, keepdims=True)
     k = classical_LG(Tt, Q, p0, invasive=True)
     if k > best_inv: best_inv, best_seed = k, trial
-print(f"   INVASIVE reading     : K3 = {best_inv:.4f}  (best of 200 chains, seed {best_seed})  "
-      f"{'EXCEEDS THE BOUND' if best_inv > 1+1e-9 else 'stays within'}")
+print(f"   weak invasive (uniform redistribution) : K3 = {best_inv:.4f}  "
+      f"(best of 200 chains)  {'EXCEEDS' if best_inv > 1+1e-9 else 'stays within -- P3 AS FILED FAILED HERE'}")
+
+# GENUINE invasiveness: outcome-conditioned projection. This is the headline run,
+# and it is COMPUTED here rather than asserted in a docstring.
+Np = 6
+Qp = np.array([+1,+1,+1,-1,-1,-1]); p0p = np.ones(Np)/Np
+best_proj, proj_seed = -9, None
+for trial in range(6000):
+    r = np.random.default_rng(trial)
+    Tt = r.random((Np, Np))**3 + 1e-3; Tt /= Tt.sum(1, keepdims=True)
+    tg = (int(r.integers(0,3)), int(r.integers(3,6)))
+    k = classical_LG_projective(Tt, Qp, p0p, tg)
+    if k > best_proj: best_proj, proj_seed = k, trial
+print(f"   GENUINE invasive (outcome-conditioned projection) : K3 = {best_proj:.4f}  "
+      f"(best of 6000 chains, seed {proj_seed})")
+print(f"      vs macrorealist bound 1.0, QUANTUM max 1.5, algebraic max 3.0")
 
 print("\nIN SPACE — CHSH, the wall")
 cmax, arg = classical_chsh_max()
 print(f"   exhaustive over ALL deterministic local strategies : {cmax:.4f}")
 mk = markov_chain_chsh(T, Q, p0)
-print(f"   4000 random coarse-grainings of the hidden chain   : {mk:.4f}")
+print(f"   4000 random coarse-grainings of the hidden chain   : {mk:.4f}   "
+      f"[CONSISTENCY CHECK ONLY -- this is an LHV model by construction, so it\n        cannot exceed 2; hitting 2.0000 shows the sampler found an extremal\n        point, it is NOT independent evidence about coarse-graining]")
 print(f"   quantum                                            : {qch:.4f}")
 
 print("\nVERDICT")
 print(f"   P1 non-invasive K3 <= 1        : {'CONFIRMED' if k_non <= 1+1e-9 else 'FAILED'}   [recall check]")
 print(f"   P2 classical CHSH capped at 2  : {'CONFIRMED' if cmax <= 2+1e-9 and mk <= 2+1e-9 else 'FAILED'}   [recall check]")
-print(f"   P3 invasive K3 > 1             : {'CONFIRMED' if best_inv > 1+1e-9 else '*** FALSIFIED ***'}   "
-      f"[genuine prediction; measured margin {best_inv-1:+.4f}]")
+print(f"   P3 as filed (weak invasive)    : {'CONFIRMED' if best_inv > 1+1e-9 else '*** FALSIFIED ***'}   "
+      f"[margin {best_inv-1:+.4f}] -- the design flaw, kept]")
+print(f"   P3 corrected (projective)      : {'CONFIRMED' if best_proj > 1+1e-9 else 'FAILED'}   "
+      f"[K3 = {best_proj:.4f}; exceeds quantum 1.5: {'YES' if best_proj > 1.5 else 'no'}]")
 print("\n   READING: coarse-graining + invasiveness buys temporal 'quantumness'.")
 print("   Nothing buys spatial Bell violation. The trace picture can imitate")
 print("   quantum behaviour in time and provably cannot in space -- which is")
