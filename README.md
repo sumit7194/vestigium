@@ -106,6 +106,16 @@ project — deliberately implemented without sharing code, so agreement means so
   geometry. It was replaced by rectangle-minus-square, where the corners cancel identically, and
   that control's residual **is** the quoted 4.1% floor.
 
+- **[`corner_angles.py`](qsim/corner_angles.py)** — turning that single point into a **curve**.
+  A square lattice can only make 90° corners cleanly, so this moves to a **triangular lattice**,
+  where equilateral-triangle regions (three 60° corners) and hexagonal regions (six 120° corners)
+  are exact and need no staircase. Prediction registered before running: a(60°) > a(90°) > a(120°).
+  **Confirmed** — 0.0242 / 0.0116 / 0.0039, monotone, with a(90°) coming from the *square* lattice,
+  so the curve is **lattice-independent as well as regulator-independent**. Across-regulator spread
+  is **0.5% at 60° and 1.9% at 120% against 33% for the area coefficient** on the same runs. New
+  control that can fail: the area coefficient must not depend on the region's *shape*, and triangles
+  vs hexagons agree to **0.03%**.
+
 The transferable lesson, now a standing entry in the family ledger: **when probing whether a
 definition is robust, scan the physical regime — the interesting answer is usually a boundary,
 not a yes/no.**
