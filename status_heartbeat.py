@@ -291,6 +291,14 @@ def main():
                      "macOS; mem_available_gb adds inactive+purgeable and is the "
                      "number to schedule against"),
         "writer_pid": writer_pid(),          # long-lived loop, or null if none
+        # bridge's reader verifies a token's IDENTITY, not just its liveness, so a
+        # recycled PID cannot masquerade as a heartbeat. Their v2 hardcoded the
+        # string "keepalive", which would have rejected every peer's differently
+        # named loop -> all peers permanently UNKNOWN -> under their busy-when-
+        # unknown default, permanent deadlock. A safety default plus an over-tight
+        # check is not conservative, it is a system where nobody launches anything.
+        # So the match string comes from the writer. This is ours:
+        "writer_cmd_match": "status_heartbeat_loop.sh",
         "writer_alive": writer_pid() is not None,
         "stale_after_s": 300,
         "detail": detail,
