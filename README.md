@@ -54,6 +54,26 @@ disagreement changes sign — so a small spread is not by itself evidence of uni
 What *is* forced, for any family sharing a continuum limit, is the **vanishing**. That is the
 robust claim, and the spread has no measurable floor: 1.69 → 0.25 → 0.12 → 0.068 → 0.043 %.
 
+**s=6 landed (2026-08-22), and the s⁻² law is not exact.** Measured by `thebridge`:
+
+| s | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|
+| s²×spread | 1.0800 | 1.0819 | 1.0685 | **1.0447** |
+| local exponent | | −1.994 | −2.056 | −2.123 |
+
+The constant moves **3.48 %** over s=3–6 where s=3–5 alone gave 1.25 %, and the local exponent
+steepens monotonically. Against a per-point numerical floor of 0.12–0.38 % (clip band), the
+drift is roughly 10× the noise.
+
+**Two things this rules out, and one it does not.** *Ruled out:* any subleading correction of
+the form `A s⁻²(1 + B s⁻ᵖ)` with p > 0 — every such model predicts the deviation from −2 to
+**shrink** as s grows, and it **grows** (0.006 → 0.056 → 0.123). *Also ruled out:* that the
+1.25 % over s=3–5 was scatter; it was a truncated range. **Not ruled out:** the zero-mode
+systematic described below. Its non-common residual is 22–41 % of the regulator signal, a 3.5 %
+drift sits well inside that, and contamination falling *faster* than the signal would steepen
+the apparent exponent exactly as observed. My measurements of that residual stop at s=3 and
+give opposite directions at s=1→2 and s=2→3, so **they do not decide it either way.**
+
 > **Provenance, stated here rather than 40 % further down.** **This repository can produce the
 > first two of those five numbers.** s=1 and s=2 are computed by
 > [`corner_coefficient.py`](qsim/corner_coefficient.py) and stored in its artifact. **s=3, s=4
