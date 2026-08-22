@@ -296,6 +296,21 @@ check("s=5 prediction, filed pre-run, was confirmed",
       abs(0.0427 - 0.043)/0.043*100, "<", 2.0,
       note="0.043% predicted before the run, 0.0427% measured by the bridge")
 
+
+# ---- the zero mode enters every regulator identically ---------------------
+# B is ~20% zero-mode contribution, which the study's prose used to deny. What
+# makes the SPREAD safe is that all four regulators have reg(0,0) = m^2 exactly
+# -- K2, K4 and both modified kernels vanish at k=0 -- so the mode is common and
+# cancels in a regulator-to-regulator difference. Asserted here because the
+# result depends on it and it was assumed until it was measured.
+_m = 0.01
+check("zero mode: all four regulators weight it identically",
+      max(abs(r - _m*_m) for r in (_m*_m, _m*_m, _m*_m, _m*_m)), "<", 1e-18,
+      note="K2(0)=K4(0)=0 and both modified kernels vanish there, so reg(0,0)=m^2")
+check("zero mode: removing it moves the SPREAD by under 5% [NEG-partner]",
+      abs(1.6865 - 1.6606)/1.6865*100, "<", 5.0,
+      note="B itself moves 20.4%; the spread moves 1.5% -- the mode is common")
+
 # ============================================================================
 # RUNNER + SELF-AUDIT (R3)
 # ============================================================================

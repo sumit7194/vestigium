@@ -27,8 +27,10 @@ TWO CONTROLS THAT CAN FAIL (a control that cannot fail is decoration):
      xi = 50 >> L, so it sits in the finite-size-dominated regime. DIAGNOSED, not
      asserted -- pushing xi/L from 1.79 down to 0.06 drives B from -0.495 to
      -0.005 (see the C2 DIAGNOSIS block at the bottom). The squares are immune:
-     they are measured at fixed L=160 with l/L <= 0.125, where the zero mode
-     contributes a constant ~0.002 independent of l.
+     they are measured at fixed L=160 with l/L <= 0.125. NOTE: the zero mode is
+     NOT the harmless constant this line used to claim -- it is ~20% of B (see
+     the C2 DIAGNOSIS block). What protects the SPREAD is that all four
+     regulators weight k=0 identically, so it cancels in their difference.
   C2' THE CONTROL I SHOULD HAVE BUILT: an l x 2l rectangle and an l x l square
      have exactly four pi/2 corners each, so the corner log CANCELS in the
      difference, leaving pure area. Same lattice, same geometry family, same
@@ -230,8 +232,30 @@ print("\nsaved -> qsim/corner_coefficient.json")
 # 1/(2 L^2 m) — which varies by 5.4x across that L range. Real non-area
 # L-dependence, which a 3-parameter fit will happily absorb into ln(L).
 # That is a defect of my control, not of the measurement: the SQUARES are
-# measured at fixed L=160 with l/L <= 0.125, where the zero mode contributes a
-# constant ~0.002 independent of l.
+# measured at fixed L=160 with l/L <= 0.125.
+#
+# THE ZERO-MODE CLAIM HERE WAS WRONG AND IS NOW TESTED (2026-08-22). It read
+# "the zero mode contributes a constant ~0.002 independent of l". The amplitude
+# per entry is right -- 1/(2 m L^2) = 0.00195 -- but the EFFECT is not constant:
+# XA is n x n with n = l^2, and a constant added to every entry is a rank-1 term
+# whose eigenvalue is c*n = c*l^2. Its contribution to S goes as log(c*l^2) =
+# 2 log l + const, which is exactly the form B extracts. Deleting the k=0 mode
+# moves B by 20.4% (0.046416 -> 0.036960). It is not a harmless constant.
+#
+# Found with bridge's `absorb` trigger -- a fitted parameter admitting in prose
+# that it swallows an unmodelled term. The prose said "a 3-parameter fit will
+# happily absorb into ln(L)", and the very next sentence asserted that the
+# squares were safe, without testing it.
+#
+# THE REPORTED RESULT SURVIVES, for a reason that had to be measured rather than
+# assumed: all four regulators have reg(0,0) = m^2 IDENTICALLY (K2, K4 and both
+# modified kernels all vanish at k=0), so the zero mode enters every regulator
+# with the same weight. The SPREAD -- which is what this study reports -- is
+# 1.6865% with the mode and 1.6606% without: a 1.5% relative change. B itself is
+# 20% zero-mode; the regulator-to-regulator difference is not.
+#
+# The reasoning in the old comment was wrong and the conclusion it defended is
+# right. Those are separate facts and only one of them was ever checked.
 #
 # Two follow-ups. (i) TEST the diagnosis rather than assert it: push the strip
 # control into the gapped regime (xi << L) where finite-size effects are cut
