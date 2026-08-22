@@ -21,7 +21,9 @@ Usage:  python3 preflight.py [required_gb]
 Exit 0 = clear to launch, 1 = hold.
 """
 import importlib.util
+import json
 import sys
+import time
 
 READER = "/Users/sumit/Github/.claude-coordination/status_read.py"
 CONFIRM_S = 70   # must exceed the slowest peer tick, or advance cannot be seen
@@ -29,10 +31,55 @@ ME = "quantum"
 
 
 def load():
-    spec = importlib.util.spec_from_file_location("status_read", READER)
-    m = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(m)
-    return m
+    """Load the shared reader, or fail EXPLICITLY.
+
+    Before this, a missing or broken reader produced a raw traceback that
+    happened to exit 1. That is fail-closed BY ACCIDENT, not by design -- the
+    same "correct by construction rather than earned" distinction that applied
+    to my JSON staying valid under load. It matters here because a precondition
+    check is consulted by someone deciding whether to do something else, and a
+    traceback is not a decision: anyone reading the OUTPUT rather than the exit
+    code gets no answer at all, and one `|| true` in a caller turns an accident
+    into a launch.
+
+    bridge's prediction is that defects concentrate in things consulted as a
+    PRECONDITION rather than read as a RESULT, because nobody is auditing them
+    at the moment they are used. This file is one of those, so its failure mode
+    is stated rather than inherited.
+    """
+    try:
+        spec = importlib.util.spec_from_file_location("status_read", READER)
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        return m
+    except Exception as e:
+        print(f"HOLD: cannot load the shared reader ({type(e).__name__}: {e})")
+        print("  No information about peers is available, and NO INFORMATION IS")
+        print("  NOT PERMISSION. Refusing to declare the machine clear.")
+        sys.exit(1)
+
+
+def _trust_after_confirm(sr, name):
+    """Rebuild a readable Status for a peer whose writer was confirmed by mtime.
+
+    Skips ONLY the token check -- confirm_writer has established liveness by a
+    strictly stronger method than the token (observed mtime advance over a full
+    tick, versus a PID the writer may simply have forgotten to refresh). Every
+    other gate is re-applied here rather than bypassed: file present, non-empty,
+    parseable, and fresh against its own stale_after_s.
+    """
+    try:
+        path = sr.D / f"{name}.status"
+        d = json.loads(path.read_text())
+        up = d.get("updated")
+        age = (time.time()
+               - time.mktime(time.strptime(up.replace("+00:00", "Z"), "%Y-%m-%dT%H:%M:%SZ"))
+               + time.timezone)
+        if age > d.get("stale_after_s", sr.DEFAULT_STALE_S):
+            return None
+        return sr.Status(name, False, "writer confirmed by mtime advance; token stale", d)
+    except Exception:
+        return None
 
 
 def main(need_gb):
@@ -61,14 +108,31 @@ def main(need_gb):
             print(f"   {name}: UNKNOWN ({s.why})")
             print(f"      confirming writer over {CONFIRM_S}s ...")
             if sr.confirm_writer(name, wait_s=CONFIRM_S):
-                notes.append(f"{name}: writer CONFIRMED alive (token was stale metadata)")
+                # BUG FIXED HERE, and it was fail-OPEN in the exact case this
+                # tool exists for. The first version did `continue` after a
+                # successful confirmation -- so a peer whose token was stale had
+                # their PAYLOAD NEVER CONSULTED. ansatz was running a 2.28 GB job
+                # for 49 minutes, their file said state=running plainly, and this
+                # printed "CLEAR to launch".
+                #
+                # Confirming the WRITER is alive answers a different question
+                # from whether the PEER is busy, and I had let the first answer
+                # stand in for the second. Exactly bridge's prediction: the
+                # defect landed in the thing consulted as a precondition.
+                s = _trust_after_confirm(sr, name)
+                if s is None:
+                    hold.append(f"{name}: writer alive but payload not readable")
+                    continue
+                notes.append(f"{name}: token was stale metadata; writer confirmed")
+                # fall through to the ordinary busy check below
+            else:
+                hold.append(f"{name}: UNKNOWN and writer not advancing -- not idle, just silent")
                 continue
-            hold.append(f"{name}: UNKNOWN and writer not advancing -- not idle, just silent")
-        elif s.busy:
+        if s.busy:
             try:
-                notes.append(f"{name}: busy, {s.rss_mb} MB")
+                notes.append(f"{name}: BUSY, {s.rss_mb} MB")
             except Exception:
-                notes.append(f"{name}: busy")
+                notes.append(f"{name}: BUSY")
             hold.append(f"{name}: running a job")
         else:
             notes.append(f"{name}: idle")

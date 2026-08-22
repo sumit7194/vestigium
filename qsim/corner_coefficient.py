@@ -277,8 +277,22 @@ for nm in NAMES:
     c2p[nm] = B
     print(f"   {nm:>13}: A = {A:8.5f}   B = {B:+9.5f}   (must be ~0)   R^2 = {r2:.6f}")
 bs = np.array(list(c2p.values()))
-print(f"   |B| max = {np.abs(bs).max():.5f}  vs the measured corner log |B| ~ 0.047 "
-      f"-> {np.abs(bs).max()/0.047*100:.1f}% of signal")
+# THE CORNER SIGNAL THIS FLOOR IS A FRACTION OF, DERIVED FROM THIS RUN rather
+# than typed as 0.047. It was a hardcoded literal until 2026-08-22, sitting
+# underneath the headline quality metric of the whole study -- every spread is
+# reported as a multiple of this floor, so a constant here silently rescales
+# the one number that says whether any of it means anything.
+#
+# I had already NAMED this in a verify.py comment ("the same disease one level
+# down") and added an anchor around it without fixing it. bridge's rule, which
+# is why it is fixed now: NAMING A RISK FEELS LIKE DISCHARGING IT. The written
+# acknowledgement is satisfying enough to substitute for the repair, and it is
+# worse than silent risk because it can be pointed at later as evidence of
+# having been on top of it.
+CORNER_SIGNAL = float(np.mean([abs(results[(0.01, nm)]["B"]) for nm in NAMES]))
+print(f"   |B| max = {np.abs(bs).max():.5f}  vs the MEASURED corner log |B| = "
+      f"{CORNER_SIGNAL:.5f} (mean over regulators, this run) "
+      f"-> {np.abs(bs).max()/CORNER_SIGNAL*100:.1f}% of signal")
 
 # ---------------------------------------------------------------------------
 # The controls run AFTER the first artifact write, so their numbers -- including
@@ -297,7 +311,10 @@ out["controls"] = {
     "C2prime_rect_minus_square": {
         "B_by_regulator": {k: float(v) for k, v in c2p.items()},
         "worst_abs_B": float(np.abs(bs).max()),
-        "floor_percent_of_corner_signal": float(np.abs(bs).max()/0.047*100),
+        "floor_percent_of_corner_signal": float(np.abs(bs).max()/CORNER_SIGNAL*100),
+        "corner_signal_used": CORNER_SIGNAL,
+        "corner_signal_source": "mean |B| over the four regulators in THIS run, "
+                                "not a typed constant",
     },
 }
 with open(ART, "w") as fh:
@@ -307,7 +324,7 @@ print(f"   re-saved with controls -> {ART}")
 # =============================================================================
 # FIGURE + final verdict against the measured systematic floor
 # =============================================================================
-FLOOR = np.abs(bs).max()/0.047*100          # C2' residual as % of corner signal
+FLOOR = np.abs(bs).max()/CORNER_SIGNAL*100   # C2' residual as % of corner signal
 print(f"\nFINAL — every spread read against the C2' systematic floor ({FLOOR:.1f}%)")
 print(f"   area  coefficient : {results[('spread',0.01)]['area']:.1f}%  "
       f"-> {cont[1]['area_spread']:.1f}% refined   [{'ABOVE' if cont[1]['area_spread']>FLOOR else 'below'} floor]")

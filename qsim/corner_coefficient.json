@@ -269,7 +269,9 @@
     "smeared": 0.001512236356279533
    },
    "worst_abs_B": 0.0019185734379714885,
-   "floor_percent_of_corner_signal": 4.082071144620189
+   "floor_percent_of_corner_signal": 4.102072334796272,
+   "corner_signal_used": 0.04677083389527244,
+   "corner_signal_source": "mean |B| over the four regulators in THIS run, not a typed constant"
   }
  }
 }
