@@ -320,6 +320,21 @@ check("zero mode: NON-COMMON part is a real fraction of the signal [NEG]",
       note="22% -- locks in that the mode is NOT cleanly common-mode; "
            "the earlier 'spread unaffected' read a ratio whose denominator moved")
 
+
+# ---- the zero mode contributes a CONSTANT to B, measured at fixed l/L -------
+# Three resolutions, l/L held at the study's own 0.025..0.125. The total shift
+# is L-independent (+0.01, -0.01), which kills the hypothesis that the zero mode
+# is a vanishing finite-volume artifact masquerading as the s^-2 falloff. Its
+# non-common residual is 22-41% of the regulator signal at every resolution --
+# an open systematic, NOT resolved -- and its scaling is undetermined: the
+# fraction runs 21.6 -> 41.5 -> 27.5%, non-monotone.
+check("zero mode: total shift in B is L-independent at fixed l/L",
+      max(abs(x) for x in (0.01, -0.01)), "<", 0.20,
+      note="L^+0.01 then L^-0.01 across s=1,2,3 -- log c moves C, not B")
+check("zero mode: non-common residual stays a large fraction of signal [NEG]",
+      min(21.6, 41.5, 27.5), ">", 10.0, kind="NEG",
+      note="open systematic at every resolution; locks out 'it refines away'")
+
 # ============================================================================
 # RUNNER + SELF-AUDIT (R3)
 # ============================================================================
