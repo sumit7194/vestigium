@@ -263,6 +263,25 @@ check("ANCHOR: corner coeff |B| is on the expected scale",
       abs(cc["controls"]["C2prime_rect_minus_square"]["worst_abs_B"]), "<", 0.02,
       note="the 0.047 corner signal the C2' floor divides by is a typed constant")
 
+
+# ---- the s^-2 constant, locked at its HONEST precision -------------------
+# The README claimed this constant was stable to 0.15%, which was the agreement
+# between the two best-agreeing resolutions quoted as the stability of a law.
+# The third point makes it 1.31%. Asserted here so the tighter number cannot
+# drift back in: a claim is allowed to be weaker than you hoped, not quietly
+# stronger than the data. Values are the published spreads at s=3,4,5.
+_SPREADS = {3: 0.12, 4: 0.0676, 5: 0.0427}
+_C = [v*s*s for s, v in sorted(_SPREADS.items())]
+check("s^-2 constant holds to ~1.3% over s=3,4,5",
+      (max(_C) - min(_C))/(sum(_C)/len(_C))*100, "<", 2.0,
+      note="1.0800 / 1.0816 / 1.0675 -- the s^-2 behaviour is the robust claim")
+check("s^-2 constant is NOT stable to 0.15% [NEG]",
+      (max(_C) - min(_C))/(sum(_C)/len(_C))*100, ">", 0.5, kind="NEG",
+      note="locks out the two-point figure the README used to quote")
+check("s=5 prediction, filed pre-run, was confirmed",
+      abs(0.0427 - 0.043)/0.043*100, "<", 2.0,
+      note="0.043% predicted before the run, 0.0427% measured by the bridge")
+
 # ============================================================================
 # RUNNER + SELF-AUDIT (R3)
 # ============================================================================

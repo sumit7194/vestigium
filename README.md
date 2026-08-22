@@ -105,9 +105,22 @@ project — deliberately implemented without sharing code, so agreement means so
   the coefficient is universal with no measurable residual, not universal-to-a-tolerance. And it is not
   a numerical artifact: sweeping the symplectic-eigenvalue clip across five decades moves the s=4 spread
   by 3×10⁻⁵ percentage points, **2254× smaller** than the spread itself.
-  The law is cleaner than any local exponent: **spread × s² = 1.081 at both s=3 and s=4, agreeing to
-  0.15%** — the s⁻² expected from four regulators that agree to O(k⁴). (s=1 is 56% off that constant
-  and s=2 is 7.5% off; both lattices are simply too coarse.) Prediction on record for s=5: **0.043%**.
+  The law is cleaner than any local exponent: **spread × s² is constant to ~1.3% over s=3,4,5** — the
+  s⁻² expected from four regulators that agree to O(k⁴). (s=1 is 56% off and s=2 is 7.5% off; both
+  lattices are simply too coarse.)
+
+  **The s=5 prediction was filed pre-run and it landed: 0.043% predicted, 0.0427% measured (0.7%).**
+  That is the strongest single result here — a number predicted before it was computed, by a session
+  that had not seen the data, and confirmed.
+
+  **Correction, 2026-08-22.** This paragraph previously read *"spread × s² = 1.081 at both s=3 and s=4,
+  agreeing to 0.15%"* and left s=5 standing as a pending prediction after the answer had arrived. Both
+  halves were wrong to leave. The three measured values are **1.0800, 1.0816, 1.0675** — the two-point
+  agreement really is 0.15%, but adding the third point gives **1.31%, nearly nine times worse**. The
+  0.15% was the agreement between the two best-agreeing points, quoted as the stability of a law. The
+  quantity computed (how close the best pair happens to sit) was not the quantity named (how constant
+  the law is). *The s⁻² behaviour survives this and is the robust claim; the precision attached to the
+  constant did not.*
   **What the constant is not:** a mechanism test — sweeping the strength of one regulator's higher-derivative
   term — found the pairwise disagreement *changes sign* near c ≈ 0.125, while the dispersion mismatch driving
   it is strictly positive and monotone. So the disagreement is **not** proportional to the O(k⁴) mismatch, and
