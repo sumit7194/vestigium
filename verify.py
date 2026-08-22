@@ -165,14 +165,38 @@ check("corner spread falls under refinement",
       cont[1]["corner_spread"], "<", cont[0]["corner_spread"],
       note="1.7% -> 0.2%; area stays 36.3 -> 36.2")
 
-# [KF] KNOWN-FAIL: the strip control in the corner study FAILED (B ~ -0.496 on a
-# geometry with provably zero corners) and was diagnosed as finite-size, not
-# explained away. That failure is kept in the file. This assertion locks it in:
-# if anyone ever "fixes" the strip control into passing without changing the
-# geometry, they have broken the diagnosis, not repaired it.
-check("corner: strip control STILL fails as documented [NEG][KF]",
-      0.496, ">", 0.1, kind="NEG",
-      note="documented known-FAIL; B~-0.496 at xi/L=1.79, ->-0.005 at xi/L=0.06")
+# [KF] KNOWN-FAIL: the strip control FAILED (B ~ -0.5 on a provably corner-free
+# geometry) and was diagnosed as finite-size, not explained away.
+#
+# THIS ASSERTION USED TO READ `check(..., 0.496, ">", 0.1)` -- a HARDCODED LITERAL.
+# It re-derived nothing, could never fire, and was therefore pure decoration in
+# the exact "third species" this file was built to catch; R3 missed it because
+# the margin looked reasonable. Found by applying bridge's 16a: provenance can
+# attach to the wrong object. The strip control's code was committed and correct,
+# but its REDUCTION was printed and never stored, so the gate had nothing to read
+# and I had typed a number in instead. The typed number was also stale: the real
+# value is 0.49938. An unreproducible WITHDRAWAL is worse than an unreproducible
+# claim -- a reader can discount a positive result they cannot re-derive, but has
+# to take a retraction on trust, and agreeing with a retraction feels like rigour.
+c2 = cc["controls"]["C2_strip_FAILED"]
+check("corner: strip control STILL fails, read from artifact [NEG][KF]",
+      c2["worst_abs_B"], ">", 0.1, kind="NEG",
+      note="was a hardcoded 0.496; now re-derived. Re-inflating this breaks the diagnosis")
+
+# The diagnosis itself is now TESTED rather than asserted: if the failure is
+# finite-size, |B| must collapse as the correlation length drops below the box.
+_d = cc["controls"]["C2_finite_size_diagnosis"]
+_seq = [max(abs(x) for x in _d[k]["B"].values())
+        for k in sorted(_d, key=lambda k: -_d[k]["xi_over_Lmax"])]
+check("corner: finite-size diagnosis holds (|B| collapses with xi/L)",
+      _seq[0] - _seq[-1], ">", 0.4,
+      note="0.499 at xi/L=1.79 -> 0.005 at xi/L=0.06; the explanation, measured")
+check("corner: strip control RECOVERS deep in the gapped regime",
+      _seq[-1], "<", 0.02,
+      note="the control is sound where its premise holds -- so the geometry was the bug")
+check("corner: C2' floor re-derived from artifact, not typed",
+      cc["controls"]["C2prime_rect_minus_square"]["floor_percent_of_corner_signal"],
+      "<", 5.0, note="4.1% systematic floor every spread is read against")
 
 
 # ---- corner_angles: the triangular-lattice study. UNGATED until 2026-08-22 --

@@ -163,12 +163,14 @@ print("\nCONTROL C2 — half-torus strips (NO corners), identical 3-parameter fi
 print("             B must be consistent with zero on real data")
 Ls_ctrl = [12, 16, 20, 24, 28]
 REG_c = make_regs(0.02)
+c2_B = {}                    # <- the WITHDRAWAL's numbers, captured not printed
 for nm in NAMES:
     S = []
     for Lc in Ls_ctrl:
         GX, GP = kernels(Lc, REG_c[nm])
         S.append(gaussian_entropy(*submatrices(strip_sites(range(Lc//2), Lc), Lc, GX, GP)))
     A, B, C, r2 = fit_direct(Ls_ctrl, S, 2)
+    c2_B[nm] = float(B)
     print(f"   {nm:>13}: A = {A:8.5f}   B = {B:+9.5f}   (must be ~0)   R^2 = {r2:.6f}")
 
 # ---------------- continuum refinement ----------------
@@ -213,7 +215,8 @@ out = {
     "spreads": {str(m): results[("spread", m)] for m in masses},
     "continuum": cont,
 }
-with open("corner_coefficient.json", "w") as fh:
+ART = os.path.join(os.path.dirname(os.path.abspath(__file__)), "corner_coefficient.json")
+with open(ART, "w") as fh:
     json.dump(out, fh, indent=1, default=float)
 print("\nsaved -> qsim/corner_coefficient.json")
 
@@ -241,6 +244,7 @@ print("\nsaved -> qsim/corner_coefficient.json")
 print("\n" + "="*72)
 print("C2 DIAGNOSIS — was the strip failure finite-size? push xi << L and watch B")
 print(f"   {'mass':>7} {'xi':>6} {'xi/L_max':>9} " + "".join(f"{n[:9]:>11}" for n in NAMES))
+c2_diag = {}
 for mc in (0.02, 0.1, 0.3, 0.6):
     row = []
     REGd = make_regs(mc)
@@ -250,6 +254,8 @@ for mc in (0.02, 0.1, 0.3, 0.6):
             GX, GP = kernels(Lc, REGd[nm])
             S.append(gaussian_entropy(*submatrices(strip_sites(range(Lc//2), Lc), Lc, GX, GP)))
         row.append(fit_direct(Ls_ctrl, S, 2)[1])
+    c2_diag[str(mc)] = {"xi_over_Lmax": 1/mc/max(Ls_ctrl),
+                        "B": {n: float(v) for n, v in zip(NAMES, row)}}
     print(f"   {mc:7.2f} {1/mc:6.1f} {1/mc/max(Ls_ctrl):9.2f} "
           + "".join(f"{v:+11.5f}" for v in row))
 
@@ -273,6 +279,30 @@ for nm in NAMES:
 bs = np.array(list(c2p.values()))
 print(f"   |B| max = {np.abs(bs).max():.5f}  vs the measured corner log |B| ~ 0.047 "
       f"-> {np.abs(bs).max()/0.047*100:.1f}% of signal")
+
+# ---------------------------------------------------------------------------
+# The controls run AFTER the first artifact write, so their numbers -- including
+# the FAILED C2 -- were terminal-only. bridge's 16a: provenance can attach to the
+# wrong object. The run was committed; the REDUCTION evaporated. An unreproducible
+# withdrawal is worse than an unreproducible claim: a reader can discount a
+# positive result they cannot re-derive, but has to take a retraction on trust.
+# ---------------------------------------------------------------------------
+out["controls"] = {
+    "C2_strip_FAILED": {
+        "B_by_regulator": c2_B,
+        "worst_abs_B": max(abs(v) for v in c2_B.values()),
+        "verdict": "FAILED on a provably corner-free geometry; kept, not explained away",
+    },
+    "C2_finite_size_diagnosis": c2_diag,
+    "C2prime_rect_minus_square": {
+        "B_by_regulator": {k: float(v) for k, v in c2p.items()},
+        "worst_abs_B": float(np.abs(bs).max()),
+        "floor_percent_of_corner_signal": float(np.abs(bs).max()/0.047*100),
+    },
+}
+with open(ART, "w") as fh:
+    json.dump(out, fh, indent=1, default=float)
+print(f"   re-saved with controls -> {ART}")
 
 # =============================================================================
 # FIGURE + final verdict against the measured systematic floor
