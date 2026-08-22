@@ -40,9 +40,17 @@ for m in re.finditer(r"COMMIT\x00([0-9a-f]+)\x00(.*?)\x00(.*?)\x00END", raw, re.
     # check against THE TREE AT THAT COMMIT, not HEAD -- an identifier deliberately
     # removed later is not a commit that lied.
     files = set(sh("git","ls-tree","-r","--name-only",sha).split())
-    blob = "".join(sh("git","show",f"{sha}:{f}")
-                   for f in files if f.endswith((".py",".sh",".md")))
-    missing = [i for i in sorted(ids) if i not in files and i not in blob]
+    # Exclude THIS FILE. Its control strings and its examples are literal text
+    # about the audit, not content of the repo under audit -- once committed,
+    # they contaminated the very controls that certify the audit can fire.
+    blob = "".join(sh("git","show",f"{sha}:{f}") for f in files
+                   if f.endswith((".py",".sh",".md")) and "commit_audit" not in f)
+    cand = [i for i in sorted(ids) if i not in files and i not in blob]
+    # An identifier that existed EARLIER is a historical reference quoted as an
+    # example, not a claim about this commit. _trust_after_confirm was flagged
+    # exactly this way: named in a message as a past false positive.
+    missing = [i for i in cand
+               if not sh("git","log","--oneline","-S",i,f"{sha}~20..{sha}").strip()]
     if missing: bad += 1
     rows.append((sha[:8], subj[:56], "ok" if not missing else "MISSING "+",".join(missing[:2])))
 
@@ -53,7 +61,9 @@ for r in rows: print(f"{r[0]:10s} {r[1]:58s} {r[2]}")
 sha = rows[0][0]
 files = set(sh("git","ls-tree","-r","--name-only",sha).split())
 blob = "".join(sh("git","show",f"{sha}:{f}") for f in files if f.endswith((".py",".sh",".md")))
-neg = "this_identifier_does_not_exist_anywhere"
+# Built at runtime so it can never appear as a literal in any tree,
+# including this file's own once it is committed.
+neg = "zz" + "_absent_" + "control_" + "%x" % 0xC0FFEE
 pos = "writer_cmd_match"
 print()
 print(f"  CONTROL absent  ({neg[:28]}...): "
