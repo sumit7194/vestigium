@@ -109,8 +109,15 @@ give opposite directions at s=1→2 and s=2→3, so **they do not decide it eith
 **An open systematic, of the same order as the effect (added 2026-08-22).** The lattice zero
 mode contributes **~20 % of the corner coefficient B itself**. All four regulators weight it
 identically — `reg(0,0) = m²` exactly — so most of it cancels in a regulator-to-regulator
-difference. **Most, not all:** the non-common residual is **22–41 % of the regulator signal**,
-measured at s = 1, 2, 3. It does not refine away — the total shift is L-independent at fixed
+difference. **Most, not all:** the non-common residual is a **real absolute quantity** —
+≈4.8e-05 in B at s=2. **The percentage figure this line used to quote (22–41 % of
+the regulator signal) is not a property of the method**: the denominator is the
+spread across whichever kernels you happen to include. Adding one further
+admissible kernel — same continuum limit, passes the O(k⁴) gate — widens the
+signal 3.5× and drops the ratio from 41.5 % to 12.2 % **without changing the
+systematic itself**. Found by `thebridge` at s=3 and replicated here at s=2.
+**The absolute residual is the stable quantity; the fraction is an artifact of
+the kernel set.** It does not refine away — the total shift is L-independent at fixed
 `l/L` (L^+0.01, L^−0.01), because the rank-1 term contributes `log c + 2 log l` and the
 L-dependence lives in the constant.
 
