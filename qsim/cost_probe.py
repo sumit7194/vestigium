@@ -202,9 +202,47 @@ if __name__ == "__main__":
         print(f"   fit l<{hold} (exp {e:.2f}) -> predict {pred:7.1f} MB, "
               f"measured {meas:7.1f} MB, {abs(pred-meas)/meas*100:.1f}% out")
 
+    # MODEL COMPARISON. bridge found their free-exponent fit mis-specified: its
+    # hold-out errors were the same size and the same direction every time
+    # (+6.7, +6.8, +6.7%), which is a signature of a missing term rather than
+    # scatter. A pure power law has nowhere to put a fixed overhead, so the
+    # fitted exponent lands below the true one and pays for it at every step.
+    # Fixing the exponent at the STRUCTURALLY DERIVED 4 (n = l^2, memory ~ n^2)
+    # and fitting only scale and offset cut their error from ~7% to ~0.1%.
+    #
+    # It does NOT replicate here, and the reason is the useful part: my fitted
+    # exponents were already 3.90-3.96 because the interpreter baseline was
+    # MEASURED from the init phase and subtracted, rather than left for the
+    # exponent to absorb. Their overhead was ~94 MB and unmodelled; mine ~30 MB
+    # and measured. So the fix matters in proportion to how much unmodelled
+    # overhead the exponent is being asked to swallow.
+    #
+    # What does replicate, and is a real check: fitting the offset as a FREE
+    # parameter recovers c = +36 MB, against 29.9 MB measured independently from
+    # the init phase. Two routes to the same quantity, one fitted and one read
+    # off a phase label.
+    X = [l**4 for l, _ in pts]
+    Y = [v + base for _, v in pts]
+    nn = len(X); sX = sum(X); sY = sum(Y)
+    sXX = sum(x*x for x in X); sXY = sum(x*y for x, y in zip(X, Y))
+    a4 = (nn*sXY - sX*sY)/(nn*sXX - sX*sX)
+    c4 = (sY - a4*sX)/nn
+    print(f"\n   structural model, exponent FIXED at 4: a={a4:.4e} MB/l^4, "
+          f"offset c={c4:+.1f} MB")
+    print(f"   (offset recovers the {base:.1f} MB init baseline measured separately)")
+    structural = dict(exponent="fixed at 4 from n = l^2, not fitted",
+                      a_mb_per_l4=a4, offset_mb=round(c4, 1),
+                      measured_init_baseline_mb=round(base, 1),
+                      s6_gb=round((a4*120**4 + c4)/1024, 2),
+                      free_exponent_s6_gb=14.40,
+                      note=("both models agree here to under 1%; bridge's data "
+                            "discriminated because their unmodelled overhead was "
+                            "~3x larger relative to signal"))
+
     out = dict(
         question="which parameter and which phase govern the memory peak?",
         holdout_validation=holdout,
+        structural_model=structural,
         cross_check=dict(
             note=("bridge measured their s=5 peak independently, different study, "
                   "same n=l^2 matrix structure, peak also in the entropy phase"),

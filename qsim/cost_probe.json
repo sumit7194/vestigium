@@ -3,19 +3,28 @@
  "holdout_validation": [
   {
    "held_out": 60,
-   "fitted_exponent": 3.912,
-   "predicted_mb": 942.0,
-   "measured_mb": 949.4,
-   "error_percent": 0.78
+   "fitted_exponent": 3.921,
+   "predicted_mb": 944.1,
+   "measured_mb": 949.3,
+   "error_percent": 0.55
   },
   {
    "held_out": 50,
-   "fitted_exponent": 3.971,
-   "predicted_mb": 487.0,
-   "measured_mb": 472.5,
-   "error_percent": 3.08
+   "fitted_exponent": 3.986,
+   "predicted_mb": 488.6,
+   "measured_mb": 472.4,
+   "error_percent": 3.43
   }
  ],
+ "structural_model": {
+  "exponent": "fixed at 4 from n = l^2, not fitted",
+  "a_mb_per_l4": 7.042970231654947e-05,
+  "offset_mb": 35.7,
+  "measured_init_baseline_mb": 30.4,
+  "s6_gb": 14.3,
+  "free_exponent_s6_gb": 14.4,
+  "note": "both models agree here to under 1%; bridge's data discriminated because their unmodelled overhead was ~3x larger relative to signal"
+ },
  "cross_check": {
   "note": "bridge measured their s=5 peak independently, different study, same n=l^2 matrix structure, peak also in the entropy phase",
   "their_clean_measurement_gb": 6.54,
@@ -31,11 +40,11 @@
    "l": 30,
    "S": 9.03218214655899,
    "valid": true,
-   "peak_mb": 90.3,
+   "peak_mb": 90.2,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.7,
-    "entropy": 90.3
+    "init": 30.5,
+    "entropy": 90.2
    }
   },
   {
@@ -43,11 +52,11 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.4,
+   "peak_mb": 218.8,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.3,
-    "entropy": 218.4
+    "init": 30.4,
+    "entropy": 218.8
    }
   },
   {
@@ -55,12 +64,12 @@
    "l": 50,
    "S": 15.188904584160861,
    "valid": true,
-   "peak_mb": 472.5,
+   "peak_mb": 472.4,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.8,
-    "submatrices": 227.5,
-    "entropy": 472.5
+    "init": 30.6,
+    "submatrices": 239.2,
+    "entropy": 472.4
    }
   },
   {
@@ -68,12 +77,12 @@
    "l": 60,
    "S": 18.2670517809844,
    "valid": true,
-   "peak_mb": 949.4,
+   "peak_mb": 949.3,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.5,
-    "submatrices": 338.6,
-    "entropy": 949.4
+    "init": 30.4,
+    "submatrices": 406.4,
+    "entropy": 949.3
    }
   },
   {
@@ -81,11 +90,11 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.7,
+   "peak_mb": 218.5,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.2,
-    "entropy": 218.7
+    "init": 30.6,
+    "entropy": 218.5
    }
   }
  ],
@@ -95,11 +104,11 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.4,
+   "peak_mb": 218.8,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.3,
-    "entropy": 218.4
+    "init": 30.4,
+    "entropy": 218.8
    }
   },
   {
@@ -107,11 +116,11 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.7,
+   "peak_mb": 218.5,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.2,
-    "entropy": 218.7
+    "init": 30.6,
+    "entropy": 218.5
    }
   },
   {
@@ -119,11 +128,11 @@
    "l": 40,
    "S": 12.05356473999947,
    "valid": true,
-   "peak_mb": 220.2,
+   "peak_mb": 220.0,
    "peak_phase": "entropy",
    "by_phase": {
     "init": 32.5,
-    "entropy": 220.2
+    "entropy": 220.0
    }
   },
   {
@@ -131,11 +140,11 @@
    "l": 40,
    "S": 12.039259430775898,
    "valid": true,
-   "peak_mb": 225.1,
+   "peak_mb": 225.3,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 34.7,
-    "entropy": 225.1
+    "init": 35.0,
+    "entropy": 225.3
    }
   }
  ]
