@@ -3,30 +3,30 @@
  "holdout_validation": [
   {
    "held_out": 60,
-   "fitted_exponent": 3.872,
-   "predicted_mb": 933.6,
-   "measured_mb": 950.0,
-   "error_percent": 1.73
+   "fitted_exponent": 3.861,
+   "predicted_mb": 929.6,
+   "measured_mb": 951.9,
+   "error_percent": 2.34
   },
   {
    "held_out": 50,
-   "fitted_exponent": 3.897,
-   "predicted_mb": 479.9,
-   "measured_mb": 475.0,
-   "error_percent": 1.03
+   "fitted_exponent": 3.879,
+   "predicted_mb": 477.9,
+   "measured_mb": 472.4,
+   "error_percent": 1.16
   }
  ],
  "structural_model": {
   "exponent": "fixed at 4 from n = l^2, not fitted",
-  "a_mb_per_l4": 6.935470316387625e-05,
-  "offset_mb": 40.2,
-  "measured_init_baseline_mb": 30.2,
-  "s6_gb": 14.08,
+  "a_mb_per_l4": 6.942235197854218e-05,
+  "offset_mb": 39.6,
+  "measured_init_baseline_mb": 29.9,
+  "s6_gb": 14.1,
   "free_exponent_s6_gb": 14.4,
   "note": "both models agree here to under 1%; bridge's data discriminated because their unmodelled overhead was ~3x larger relative to signal"
  },
  "feasibility": {
-  "peak_gb_s6": 14.08,
+  "peak_gb_s6": 14.1,
   "ram_gb": 16.0,
   "swap_used_gb": 0.0,
   "free_disk_gb": 22,
@@ -40,6 +40,16 @@
   "timing_exponent_structural": 6,
   "projected_one_point_min": 10.6,
   "projected_full_study_hours": 1.2,
+  "extrapolation_reach": {
+   "measured_range": "l = 30..65",
+   "holdout_steps_validated": [
+    "50->60 (x1.20)",
+    "45->65 (x1.44)"
+   ],
+   "s6_target": "l=120, x1.85 beyond the largest measured point",
+   "bridge_outcome": "their law over-predicted by ~40% at a x1.20 step, after hold-out validation, residual-sign checking and a cross-study check -- all three agreed on a number that was 40% high at the one point that mattered",
+   "implication": "hold-out validation certifies interpolation and a small step; it does NOT certify x1.85. I quoted a validated law outside its validated range and called the question closed. If the same over-prediction applies here, the real peak is nearer 8.5 GB, well inside 16 GB RAM."
+  },
   "verdict": "requirement measured; feasibility UNTESTED. The earlier 'out of reach' compared a measured requirement against `available` and treated the comparison as settled. It is a prediction."
  },
  "cross_check": {
@@ -58,11 +68,11 @@
    "l": 30,
    "S": 9.03218214655899,
    "valid": true,
-   "peak_mb": 90.4,
+   "peak_mb": 90.7,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.7,
-    "entropy": 90.4
+    "init": 29.9,
+    "entropy": 90.7
    }
   },
   {
@@ -70,11 +80,11 @@
    "l": 35,
    "S": 10.570829734625057,
    "valid": true,
-   "peak_mb": 146.0,
+   "peak_mb": 145.0,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 31.7,
-    "entropy": 146.0
+    "init": 30.7,
+    "entropy": 145.0
    }
   },
   {
@@ -82,12 +92,12 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.5,
+   "peak_mb": 218.4,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.6,
-    "submatrices": 125.6,
-    "entropy": 218.5
+    "init": 30.5,
+    "submatrices": 105.1,
+    "entropy": 218.4
    }
   },
   {
@@ -95,12 +105,12 @@
    "l": 45,
    "S": 13.649459268601559,
    "valid": true,
-   "peak_mb": 324.9,
+   "peak_mb": 324.6,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.2,
-    "submatrices": 124.3,
-    "entropy": 324.9
+    "init": 30.5,
+    "submatrices": 124.7,
+    "entropy": 324.6
    }
   },
   {
@@ -108,12 +118,12 @@
    "l": 50,
    "S": 15.188904584160861,
    "valid": true,
-   "peak_mb": 475.0,
+   "peak_mb": 472.4,
    "peak_phase": "entropy",
    "by_phase": {
     "init": 30.8,
-    "submatrices": 192.1,
-    "entropy": 475.0
+    "submatrices": 184.2,
+    "entropy": 472.4
    }
   },
   {
@@ -121,12 +131,12 @@
    "l": 55,
    "S": 16.728161202408284,
    "valid": true,
-   "peak_mb": 672.4,
+   "peak_mb": 672.7,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.5,
-    "submatrices": 297.8,
-    "entropy": 672.4
+    "init": 30.6,
+    "submatrices": 284.7,
+    "entropy": 672.7
    }
   },
   {
@@ -134,12 +144,12 @@
    "l": 60,
    "S": 18.2670517809844,
    "valid": true,
-   "peak_mb": 950.0,
+   "peak_mb": 951.9,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.7,
-    "submatrices": 435.8,
-    "entropy": 950.0
+    "init": 31.1,
+    "submatrices": 358.2,
+    "entropy": 951.9
    }
   },
   {
@@ -150,8 +160,8 @@
    "peak_mb": 1271.0,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 31.2,
-    "submatrices": 540.8,
+    "init": 30.7,
+    "submatrices": 544.0,
     "entropy": 1271.0
    }
   },
@@ -160,11 +170,12 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.7,
+   "peak_mb": 218.6,
    "peak_phase": "entropy",
    "by_phase": {
     "init": 30.8,
-    "entropy": 218.7
+    "submatrices": 126.3,
+    "entropy": 218.6
    }
   }
  ],
@@ -174,12 +185,12 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.5,
+   "peak_mb": 218.4,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 30.6,
-    "submatrices": 125.6,
-    "entropy": 218.5
+    "init": 30.5,
+    "submatrices": 105.1,
+    "entropy": 218.4
    }
   },
   {
@@ -187,11 +198,12 @@
    "l": 40,
    "S": 12.110022674534818,
    "valid": true,
-   "peak_mb": 218.7,
+   "peak_mb": 218.6,
    "peak_phase": "entropy",
    "by_phase": {
     "init": 30.8,
-    "entropy": 218.7
+    "submatrices": 126.3,
+    "entropy": 218.6
    }
   },
   {
@@ -199,12 +211,12 @@
    "l": 40,
    "S": 12.05356473999947,
    "valid": true,
-   "peak_mb": 220.8,
+   "peak_mb": 220.2,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 32.9,
-    "submatrices": 103.8,
-    "entropy": 220.8
+    "init": 32.6,
+    "submatrices": 129.4,
+    "entropy": 220.2
    }
   },
   {
@@ -212,12 +224,12 @@
    "l": 40,
    "S": 12.039259430775898,
    "valid": true,
-   "peak_mb": 227.5,
+   "peak_mb": 225.5,
    "peak_phase": "entropy",
    "by_phase": {
-    "init": 34.8,
-    "submatrices": 132.3,
-    "entropy": 227.5
+    "init": 33.0,
+    "submatrices": 129.7,
+    "entropy": 225.5
    }
   }
  ]

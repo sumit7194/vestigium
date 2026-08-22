@@ -289,6 +289,21 @@ if __name__ == "__main__":
         timing_exponent_measured=[6.21, 7.05, 6.48, 5.79],
         timing_exponent_structural=6,
         projected_one_point_min=10.6, projected_full_study_hours=1.2,
+        extrapolation_reach=dict(
+            measured_range="l = 30..65",
+            holdout_steps_validated=["50->60 (x1.20)", "45->65 (x1.44)"],
+            s6_target="l=120, x1.85 beyond the largest measured point",
+            bridge_outcome=("their law over-predicted by ~40% at a x1.20 step, "
+                            "after hold-out validation, residual-sign checking "
+                            "and a cross-study check -- all three agreed on a "
+                            "number that was 40% high at the one point that "
+                            "mattered"),
+            implication=("hold-out validation certifies interpolation and a small "
+                         "step; it does NOT certify x1.85. I quoted a validated "
+                         "law outside its validated range and called the question "
+                         "closed. If the same over-prediction applies here, the "
+                         "real peak is nearer 8.5 GB, well inside 16 GB RAM."),
+        ),
         verdict=("requirement measured; feasibility UNTESTED. The earlier 'out of "
                  "reach' compared a measured requirement against `available` and "
                  "treated the comparison as settled. It is a prediction."),
