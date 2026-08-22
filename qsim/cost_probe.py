@@ -239,10 +239,28 @@ if __name__ == "__main__":
     signs = "".join("+" if r > 0 else "-" for _, r in resid)
     flips = sum(1 for i in range(1, len(signs)) if signs[i] != signs[i-1])
     worst = max(abs(r) for _, r in resid)
-    print(f"   residual signs {signs}  ({flips} sign changes, max {worst:.1f} MB "
+    # THE SIGN COUNT HAS NO POWER AT THIS SAMPLE SIZE and is reported as a
+    # statistic, NOT as evidence. Under scatter the count is Binomial(n-1, 1/2):
+    # with 8 points, 5 changes gives P(X>=5)=0.227 read as adequacy and
+    # P(X<=5)=0.938 read as an arc. Neither is informative. At n=7 only ZERO
+    # sign changes reaches p<0.05, so the test can essentially never fire here.
+    #
+    # bridge computed this null after we had both been using the diagnostic all
+    # day, and withdrew a committed finding because of it -- "smooth arcs in all
+    # three regulators" was 2 changes in 6, i.e. exactly a coin flip. I had used
+    # it to claim my model was adequate. Applying a diagnostic without its null,
+    # seeing structure, and picking the threshold after the data is the same
+    # error we spent the day cataloguing, in the tool used to catalogue it.
+    from math import comb
+    n_flip = len(resid) - 1
+    p_arc = sum(comb(n_flip, i) for i in range(flips+1))/2**n_flip
+    print(f"   residual signs {signs}  ({flips} changes, max {worst:.1f} MB "
           f"= {worst/max(v+base for _, v in pts)*100:.1f}%)")
-    print("   -> scatter, not an arc: adequate here. Few sign changes would mean"
-          " a missing term.")
+    print(f"   sign count is NOT evidence: P(X<={flips} | Binom({n_flip},1/2)) "
+          f"= {p_arc:.3f}; only 0 changes would reach p<0.05 at this n")
+    print(f"   WHAT THE ADEQUACY CLAIM RESTS ON: residual magnitude "
+          f"({worst/max(v+base for _, v in pts)*100:.1f}% of the largest point) "
+          f"and the hold-out errors above, not the signs.")
 
     # AND THE TWO-ROUTES CHECK, WHICH GOT WORSE WITH MORE DATA. On four points
     # the fitted offset was +35.7 MB against 30.4 measured off the init phase --
