@@ -59,7 +59,16 @@ robust claim, and the spread has no measurable floor: 1.69 → 0.25 → 0.12 →
 | s | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|
 | s²×spread | 1.0800 | 1.0819 | 1.0685 | **1.0447** |
-| local exponent | | −1.994 | −2.056 | −2.123 |
+
+| interval | 3→4 | 4→5 | 5→6 |
+|---|---|---|---|
+| local exponent | −1.994 | −2.056 | −2.123 |
+| applies at s ≈ | 3.46 | 4.47 | 5.48 |
+
+*The exponents are finite differences, so each approximates the derivative at the **geometric
+midpoint** of its interval, not at either endpoint. The displacement is second-order for a
+slowly varying deviation and cannot flip the sign of the trend — so the exclusion below stands
+— but the three numbers are **not** the deviation at s=4, 5, 6 and must not be fitted.*
 
 The constant moves **3.48 %** over s=3–6 where s=3–5 alone gave 1.25 %, and the local exponent
 steepens monotonically. Against a per-point numerical floor of 0.12–0.38 % (clip band), the
