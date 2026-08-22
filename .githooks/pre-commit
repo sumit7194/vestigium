@@ -1,0 +1,19 @@
+#!/bin/bash
+# Refuse a commit whose gate does not pass.
+#
+# WHY THIS EXISTS: three edits today silently did not apply and a commit went
+# out describing each. The third is the reason for a HOOK rather than more
+# asserts -- that one's assert DID fire, and the commit landed anyway, because
+# the edit ran in one shell invocation and `git commit` in a later one. A raised
+# AssertionError printed a traceback and the next command ran regardless.
+#
+# bridge's diagnosis: the assert has to STOP THE COMMIT, not merely print.
+# Adding more asserts does not fix a control-flow gap; moving the check into the
+# commit path does.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+if ! python3 verify.py > /tmp/vestigium_gate.log 2>&1; then
+  echo "COMMIT REFUSED — the gate is red." >&2
+  tail -12 /tmp/vestigium_gate.log >&2
+  exit 1
+fi
+echo "gate green ($(grep -c '^ok ' /tmp/vestigium_gate.log) assertions)"
