@@ -105,6 +105,20 @@ def _swapouts():
 
 
 def sampler():
+    """Samples RSS -- and emits a HEARTBEAT so silence means death.
+
+    bridge's tracker printed only on peaks and teeth, so a stalled loop and a
+    quiet job were observationally identical; it died and they reported from its
+    stale log for an hour. That is PROTOCOL 6 -- a silent monitor is
+    indistinguishable from a dead one -- committed by the author twelve hours
+    after filing it.
+
+    The same defect was here: this runner prints on l-completion, and at s=6 a
+    single l=120 call runs 7-15 minutes, so there was up to half an hour in
+    which a stall and normal progress looked the same. An event-only channel
+    cannot report its own health, whatever the events are.
+    """
+    beat = 0
     while not _stop:
         o = subprocess.run(["ps", "-o", "rss=", "-p", _PID],
                            capture_output=True, text=True).stdout.strip()
@@ -113,6 +127,10 @@ def sampler():
             if mb > PEAK["rss_mb"]:
                 PEAK["rss_mb"], PEAK["phase"] = mb, STATE["phase"]
         PEAK["swapouts"] = max(PEAK["swapouts"], _swapouts())
+        beat += 1
+        if beat % 60 == 0:                      # every ~60 s, regardless of events
+            print(f"      .. alive {beat/60:5.1f}m  in {STATE['phase']:<24s} "
+                  f"rss {PEAK['rss_mb']/1024:.2f} GB", flush=True)
         time.sleep(1.0)
 
 

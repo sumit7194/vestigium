@@ -90,8 +90,8 @@
  "k0_noncommon": 0.00017052125424946857,
  "k0_noncommon_frac_of_signal": 0.216174499212903,
  "peak_gb": 0.03,
- "peak_phase": "nn:kernels",
- "swapouts": 366967,
+ "peak_phase": "init",
+ "swapouts": 816026,
  "swapouts_delta": 0,
  "total_seconds": 0.2
 }
