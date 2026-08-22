@@ -54,6 +54,20 @@ disagreement changes sign — so a small spread is not by itself evidence of uni
 What *is* forced, for any family sharing a continuum limit, is the **vanishing**. That is the
 robust claim, and the spread has no measurable floor: 1.69 → 0.25 → 0.12 → 0.068 → 0.043 %.
 
+**An open systematic, of the same order as the effect (added 2026-08-22).** The lattice zero
+mode contributes **~20 % of the corner coefficient B itself**. All four regulators weight it
+identically — `reg(0,0) = m²` exactly — so most of it cancels in a regulator-to-regulator
+difference. **Most, not all:** the non-common residual is **22–41 % of the regulator signal**,
+measured at s = 1, 2, 3. It does not refine away — the total shift is L-independent at fixed
+`l/L` (L^+0.01, L^−0.01), because the rank-1 term contributes `log c + 2 log l` and the
+L-dependence lives in the constant.
+
+*This does not overturn the falloff* — a mechanism where the zero mode produces the s⁻² decay
+was proposed, tested and **killed** by exactly that flatness. But it means a fifth to a half of
+the residual spread at any given resolution is not regulator physics, and **nobody has sized it
+at the resolutions where the claim lives.** Treat the spread as an upper bound on
+regulator-dependence, not a measurement of it.
+
 ---
 
 ## Foundations experiments
