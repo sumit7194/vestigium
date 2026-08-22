@@ -57,8 +57,9 @@ in one line. This is **pre-registration, not blinding**:
 separately. Conflating the two is what produced the wrong first draft.)
 
 **The honest caveat, because the number invites more than it can carry:** the constant behind
-that law is itself only stable to **1.3 %** across s=3, 4, 5 (1.0800, 1.0816, 1.0675). So the
-prediction landed *within its own law's scatter* — it is a genuine confirmation, and its 0.7 %
+that law is **not constant at all** — 1.0800, 1.0816, 1.0675, 1.0447 across s=3–6, a 3.48 %
+drift (see above; this line read "stable to 1.3 % across s=3,4,5" before s=6 existed). So the
+prediction landed *within its own law's drift* — it is a genuine confirmation, and its 0.7 %
 should not be quoted as the law's precision. **1.081 is also a property of this four-regulator
 family, not of the corner term** (see the mechanism test below, which found the pairwise
 disagreement changes sign — so a small spread is not by itself evidence of universality).
@@ -221,7 +222,8 @@ project — deliberately implemented without sharing code, so agreement means so
   **Correction, 2026-08-22.** This paragraph previously read *"spread × s² = 1.081 at both s=3 and s=4,
   agreeing to 0.15%"* and left s=5 standing as a pending prediction after the answer had arrived. Both
   halves were wrong to leave. The three measured values are **1.0800, 1.0816, 1.0675** — the two-point
-  agreement really is 0.15%, but adding the third point gives **1.31%, nearly nine times worse**. The
+  agreement really is 0.15%, but adding the third point gives 1.31% and **the fourth (s=6) gives
+  3.48 %, with the local exponent steepening — the constant is drifting, not scattering.** The
   0.15% was the agreement between the two best-agreeing points, quoted as the stability of a law. The
   quantity computed (how close the best pair happens to sit) was not the quantity named (how constant
   the law is). *The s⁻² behaviour survives this and is the robust claim; the precision attached to the
