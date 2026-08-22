@@ -273,6 +273,15 @@ if __name__ == "__main__":
             their_earlier_contaminated_gb=5.92,
             my_prediction_at_l100_gb=6.96,
             agreement_percent=6.4,
+            confound=("The cross-study agreement TIGHTENED over three rounds -- "
+                      "15.0% -> 5.6% -> 3.9% -- but most of that does not count. "
+                      "The 15->5.6 step is when BOTH sessions switched to the "
+                      "exponent fixed at 4; adopting a common model manufactures "
+                      "agreement. Only 5.6->3.9 is clean, each of us adding "
+                      "points to our own data separately. What stays independent: "
+                      "different codebases, different physical systems, and an "
+                      "exponent DERIVED FROM STRUCTURE rather than fitted -- the "
+                      "one element neither session negotiated."),
             correction=("I first cited 6.96 vs 5.92 as '18% apart'. That 5.92 came "
                         "from their ru_maxrss-contaminated run, which UNDERSTATED "
                         "the peak. Against their clean 6.54 the agreement is 6.4%. "

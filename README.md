@@ -166,7 +166,7 @@ project — deliberately implemented without sharing code, so agreement means so
   it is strictly positive and monotone. So the disagreement is **not** proportional to the O(k⁴) mismatch, and
   the spread can be made accidentally small by choosing regulators that happen to cancel. **1.081 is a property
   of this four-regulator family, not of the corner term.** What is universal is the *vanishing* — that is forced
-  for any family sharing a continuum limit. A small measured spread is not by itself evidence of universality. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
+  for any family sharing a continuum limit. A small measured spread is not by itself evidence of universality. Two extractions of the same data agree (1.7% vs 2.1%) — **not independent measurements**: both run on the same entropies, lattice and regulators, differing only in whether the constant term is fitted or differenced away, so this shows the coefficient is insensitive to that choice and nothing wider. The verdict is unchanged
   at two masses. **One control failed and is kept in the file**: a strip control returned a
   spurious log (B ≈ −0.496), diagnosed rather than explained away — driving ξ/L from 1.79 to
   0.06 sends it to −0.005, confirming finite-size contamination in a badly chosen control

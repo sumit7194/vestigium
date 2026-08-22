@@ -155,9 +155,23 @@ cc = art("corner_coefficient.json")
 sp01 = cc["spreads"]["0.01"]
 check("corner coeff spread below method floor", sp01["corner_direct"], "<", 4.1,
       note="4.1% is the measured C2' systematic floor, not a chosen number")
-check("corner: two independent extractions agree",
+# WAS: "two INDEPENDENT extractions agree". They are not independent. Both run
+# on the SAME S array, same lattice, same regulators, same lstsq -- differing
+# only in whether the constant term is fitted or differenced away. So this
+# tests one thing, narrowly and usefully: that the extracted coefficient does
+# not depend on how the constant is handled. It is not two measurements of the
+# world agreeing; it is one measurement analysed two ways.
+#
+# Found by bridge's operational form of my own rule -- write the class one level
+# more general than the case that produced it, then go looking for a second
+# instance immediately. The first instance was the s^-2 constant quoted at the
+# precision of its two best-agreeing points; the second was my probe's fitted
+# offset, which drifted from 15% to 32% agreement as data improved. This is the
+# third, and it had been sitting in the gate since the gate was written.
+check("corner: extraction is insensitive to how the constant term is handled",
       abs(sp01["corner_direct"] - sp01["corner_incr"]), "<", 1.5,
-      note="direct 3-param fit vs successive differences")
+      note="direct 3-param fit vs successive differences -- SAME data, not "
+           "independent measurements")
 check("corner: area coeff spread stays large [NEG]", sp01["area"], ">", 25.0,
       kind="NEG", note="the contrast is the result; area must NOT go universal")
 cont = cc["continuum"]
