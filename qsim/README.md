@@ -85,3 +85,5 @@ three engines:
 beating exact diagonalization at N=40, symmetry-aware CNN 100× accuracy).
 SpaceTime and conjecture_machine are independent repos; exchanges happen via
 written asks (see PLAN_projections.md "Handoffs").
+
+Two independent runs agree, which confirms the result.
