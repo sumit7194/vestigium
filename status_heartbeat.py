@@ -151,6 +151,34 @@ def disk_free_gb():
         return None
 
 
+def writer_pid():
+    """PID of the LONG-LIVED heartbeat loop, or None if there is no loop.
+
+    ansatz's failure mode, which neither the bridge nor I had: their status
+    published `$$` -- the PID of the status script itself, which exits
+    milliseconds after writing. The field existed so a reader could apply
+    blackhole's rule (a status whose pid is gone is UNKNOWN, fail open), so
+    every read of their file resolved to UNKNOWN forever.
+
+        A liveness token that is GUARANTEED dead is worse than an absent one.
+        Absent is visible; always-dead looks like a working mechanism failing safe.
+
+    So this must NOT be os.getpid() -- this process exits in milliseconds, which
+    would reproduce their bug exactly. Nor os.getppid(): when run by hand that is
+    an interactive shell, which is long-lived but is not the heartbeat, and would
+    advertise liveness for a mechanism that is not running. It is the loop, found
+    by pattern, or None -- and None is honest: it means no automatic heartbeat, so
+    trust `updated` and nothing else.
+    """
+    try:
+        out = subprocess.run(["pgrep", "-f", "status_heartbeat_loop.sh"],
+                             capture_output=True, text=True, timeout=10).stdout
+    except Exception:
+        return None
+    pids = [int(x) for x in out.split() if x.strip().isdigit() and int(x) != os.getpid()]
+    return pids[0] if pids else None
+
+
 def main():
     got = our_processes()
     procs, transient = (None, []) if got is None else got
@@ -180,6 +208,8 @@ def main():
         "transient": transient,
         "rss_total_mb": rss,
         "disk_free_gb": disk, "mem_free_gb": mem,
+        "writer_pid": writer_pid(),          # long-lived loop, or null if none
+        "writer_alive": writer_pid() is not None,
         "stale_after_s": 300,
         "detail": detail,
         "measured": True,

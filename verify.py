@@ -234,6 +234,35 @@ check("headset: no coarse-graining beats CHSH 2 [NEG]",
       ht["classical"]["chsh_markov_coarsegrain"], "<", 2.0 + 1e-9, kind="NEG",
       note="consistency check only -- an LHV model by construction, so it cannot exceed 2")
 
+
+# ---------------------------------------------------------------------------
+# SCALE ANCHORS. bridge's finding, reproduced here and worse: a gate phrased as
+# a RATIO or a RELATIVE SPREAD has a measured denominator, and corrupting the
+# data can INFLATE that denominator until the assertion is satisfied. Sensitivity
+# then runs BACKWARDS -- the more damaged the data, the easier the check passes.
+# It looks better than an absolute threshold (scale-free, no magic constant),
+# which is exactly why it gets written that way.
+#
+# Mutation test, falsifying direction: adding a common +100 to A_tri and A_hex
+# leaves their difference untouched, drives the consistency ratio to 2.5e-5, and
+# the gate scored it at MAXIMUM margin on areas that were off by three orders of
+# magnitude. The whole 26 stayed GREEN. The bridge's equivalent at least went red
+# on other assertions; mine certified garbage outright.
+#
+# Fix: every relative assertion is paired with an ABSOLUTE bound on the quantity
+# it is relative to. A ratio may only be trusted where its denominator is pinned.
+_At = [v["A_tri"] for v in ca["per_regulator"].values()]
+_a6 = [v["a60_3"] for v in ca["per_regulator"].values()]
+check("ANCHOR: triangle areas are on the expected scale",
+      max(abs(x - 0.095) for x in _At), "<", 0.035,
+      note="pins the denominator of the area-consistency ratio; 0.078-0.110 across regulators")
+check("ANCHOR: a(60) is on the expected scale",
+      max(abs(x - 0.0243) for x in _a6), "<", 0.004,
+      note="pins the denominator of the a60 spread; a common offset now fires here")
+check("ANCHOR: corner coeff |B| is on the expected scale",
+      abs(cc["controls"]["C2prime_rect_minus_square"]["worst_abs_B"]), "<", 0.02,
+      note="the 0.047 corner signal the C2' floor divides by is a typed constant")
+
 # ============================================================================
 # RUNNER + SELF-AUDIT (R3)
 # ============================================================================
