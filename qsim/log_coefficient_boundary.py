@@ -24,6 +24,7 @@ coefficient must hit 1/12 and be L-independent; (iii) even-l only, to suppress t
 known parity oscillations of the open chain in the ordered phase.
 """
 import json
+import os
 import numpy as np
 from scipy.linalg import schur
 
@@ -172,7 +173,7 @@ out = {
                  "bracketed_switch_on": (round(float(np.sqrt(lo*hi)), 3)
                                          if (lo and hi) else None)},
 }
-with open("log_coefficient_boundary.json", "w") as fh:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "log_coefficient_boundary.json"), "w") as fh:
     json.dump(out, fh, indent=1)
 print("\nsaved -> qsim/log_coefficient_boundary.json")
 

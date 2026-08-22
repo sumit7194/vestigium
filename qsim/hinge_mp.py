@@ -15,6 +15,7 @@ check is re-run here end-to-end in 60-digit arithmetic on a smaller chain:
   report S_rel_exact vs 2*pi*SUM x T00 and the float64 deficit.
 """
 import json
+import os
 import time
 import numpy as np
 from mpmath import mp, mpf, mpc, matrix, eigsy, eighe, sqrt as msqrt, log as mlog, \
@@ -133,7 +134,7 @@ for i in range(3):
     print(f"  packet {i+1}: dev {a['deviation_percent']:+.3f}% (N=100) -> "
           f"{b['deviation_percent']:+.3f}% (N=160)")
 
-with open("hinge_mp_certification.json", "w") as fh:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "hinge_mp_certification.json"), "w") as fh:
     json.dump({"leg": "high-precision certification (dps=60)",
                "results": results,
                "note": "float64 leg is precision-limited (~10% clip bands); "

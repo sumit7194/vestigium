@@ -37,6 +37,7 @@ GEOMETRY (chosen so the boundary bookkeeping is exact):
              |bd A| + |bd B| = |bd(A u B)| exactly, so every area term cancels.
 """
 import json
+import os
 import numpy as np
 
 m = 0.05                                   # mass -> correlation length 1/m = 20
@@ -434,7 +435,7 @@ out = {
         "ir_matched_spread_by_gap": [round(float(v), 4) for v in matched_spread],
     },
 }
-with open("kappa_vs_mutual_info.json", "w") as fh:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "kappa_vs_mutual_info.json"), "w") as fh:
     json.dump(out, fh, indent=1)
 print("\nsaved -> qsim/kappa_vs_mutual_info.json")
 

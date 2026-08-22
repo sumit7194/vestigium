@@ -36,6 +36,7 @@ We report tau over the full run AND within the first monotonic-flow segment (the
 regime where the paper's clock is well-defined), plus turning-point alignment.
 """
 import json
+import os
 import numpy as np
 from scipy.stats import kendalltau
 
@@ -236,7 +237,7 @@ out = {
                    "the window where the counting clock flows monotonically",
     },
 }
-with open("entropic_time.json", "w") as fh:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "entropic_time.json"), "w") as fh:
     json.dump(out, fh, indent=1)
 print("\nsaved -> qsim/entropic_time.json")
 

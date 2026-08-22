@@ -1,7 +1,8 @@
 {
  "ask": "bridge round-6 ask-2: Longo relative-entropy identity on a harmonic chain",
  "identity": "S_rel(coherent||vacuum)|wedge = 2*pi*INT x T00[f]",
- "method": "exact Gaussian S_rel = 1/2 d^T M d via Williamson modular matrix; independent implementation, no code shared with the bridge",
+ "method": "exact Gaussian S_rel = 1/2 d^T M d via Williamson modular matrix; implementation written here, no code shared with the bridge",
+ "independence": "PRECISE CLAIM, weakened 2026-08-22. This read 'independent implementation'. No code was shared and that half stands. But the bridge POSED the ask -- identity, setup and regime -- so this is a DIFFERENT INSTRUMENT, not an INDEPENDENT EXPECTATION. And there is no DISCLOSURES.md entry for this exchange, so what was known of their expected values is unrecorded and cannot be reconstructed. Absent a log the channel is UNKNOWN rather than clean -- the same rule we apply to a peer's status file.",
  "chain": {
   "N": 400,
   "mass": 0.02,

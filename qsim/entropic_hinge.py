@@ -8,7 +8,8 @@ boost energy of the classical wave:
 
     S_rel = 2*pi * INT_{x>0} x * T00[f](x) dx          (c = hbar = 1)
 
-Lattice check, independent implementation:
+Lattice check, separate implementation (different instrument, not
+independent expectation -- the bridge posed the ask):
   - harmonic chain, N sites, open BC:  H = 1/2 SUM p^2 + m^2 q^2 + (q_{i+1}-q_i)^2
   - vacuum covariance from the exact DCT-II normal modes (no matrix diag needed)
   - coherent state = vacuum displaced by classical profile f (same covariance)
@@ -32,6 +33,7 @@ Self-test: single thermal mode, displaced — machinery must reproduce the
 analytic S_rel = |d|^2/2 * ln((nu+1/2)/(nu-1/2)) at machine precision.
 """
 import json
+import os
 import numpy as np
 
 # ---------------- vacuum covariance from exact open-chain modes --------------
@@ -154,7 +156,16 @@ out = {
     "ask": "bridge round-6 ask-2: Longo relative-entropy identity on a harmonic chain",
     "identity": "S_rel(coherent||vacuum)|wedge = 2*pi*INT x T00[f]",
     "method": "exact Gaussian S_rel = 1/2 d^T M d via Williamson modular matrix; "
-              "independent implementation, no code shared with the bridge",
+              "implementation written here, no code shared with the bridge",
+    "independence": (
+        "PRECISE CLAIM, weakened 2026-08-22. This read 'independent "
+        "implementation'. No code was shared and that half stands. But the "
+        "bridge POSED the ask -- identity, setup and regime -- so this is a "
+        "DIFFERENT INSTRUMENT, not an INDEPENDENT EXPECTATION. And there is no "
+        "DISCLOSURES.md entry for this exchange, so what was known of their "
+        "expected values is unrecorded and cannot be reconstructed. Absent a "
+        "log the channel is UNKNOWN rather than clean -- the same rule we "
+        "apply to a peer's status file."),
     "chain": {"N": N, "mass": m, "cut": "center", "bc": "open"},
     "rows": rows,
     "notes": [
@@ -163,6 +174,6 @@ out = {
         "O(a) x-weight convention on the lattice target (links at midpoints)",
     ],
 }
-with open("entropic_hinge.json", "w") as fh:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "entropic_hinge.json"), "w") as fh:
     json.dump(out, fh, indent=1)
 print("saved -> qsim/entropic_hinge.json")
