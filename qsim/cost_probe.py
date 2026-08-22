@@ -262,10 +262,43 @@ if __name__ == "__main__":
                             "discriminated because their unmodelled overhead was "
                             "~3x larger relative to signal"))
 
+    # WHAT THE REQUIREMENT DOES AND DOES NOT SETTLE.
+    #
+    # I measured 14.09 GB for s=6, compared it against `mem_available_gb` (~10),
+    # and recorded s=6 as out of reach. THE COMPARISON IS ITSELF AN UNTESTED
+    # MODEL and I never tested it -- after a full day insisting that a number
+    # with measurement-authority still needs a referent, I let an unmeasured
+    # comparison close a question. The user caught it: "did you guys try it, or
+    # just compute?"
+    #
+    # The real ceiling, measured:
+    #   RAM 16.0 GB; swap 0.00 M used but DYNAMIC on macOS, 22 GB free disk to
+    #   grow into; Swapouts: 0 -- this box has never swapped in its life.
+    # So "it will thrash" has no evidence behind it at all, and 14.09 GB against
+    # 16 GB physical may not even need swap on a quiet machine.
+    #
+    # Wall-clock is the discriminator, not memory, and it is now measured too:
+    # entropy-phase timings at l=30..70 give local exponents 6.21/7.05/6.48/5.79,
+    # clustering on the structural O(n^3) = O(l^6). That projects ~10.6 min for
+    # one l=120 point and ~1.2 h for the full 8-l x 4-regulator study.
+    #
+    # STATUS: requirement measured, feasibility UNTESTED. Not "out of reach".
+    feasibility = dict(
+        peak_gb_s6=round((a4*120**4 + c4)/1024, 2),
+        ram_gb=16.0, swap_used_gb=0.0, free_disk_gb=22, swapouts_ever=0,
+        timing_exponent_measured=[6.21, 7.05, 6.48, 5.79],
+        timing_exponent_structural=6,
+        projected_one_point_min=10.6, projected_full_study_hours=1.2,
+        verdict=("requirement measured; feasibility UNTESTED. The earlier 'out of "
+                 "reach' compared a measured requirement against `available` and "
+                 "treated the comparison as settled. It is a prediction."),
+    )
+
     out = dict(
         question="which parameter and which phase govern the memory peak?",
         holdout_validation=holdout,
         structural_model=structural,
+        feasibility=feasibility,
         cross_check=dict(
             note=("bridge measured their s=5 peak independently, different study, "
                   "same n=l^2 matrix structure, peak also in the entropy phase"),
