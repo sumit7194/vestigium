@@ -23,3 +23,7 @@ S=6 RUN   swapouts at start: 1,149,814
       .. alive  14.0m  in nn:entropy l=120         rss 7.97 GB
       .. alive  15.0m  in nn:entropy l=120         rss 7.97 GB
       .. alive  16.0m  in nn:entropy l=120         rss 7.97 GB
+      .. alive  17.0m  in nn:entropy l=120         rss 7.97 GB
+                 nn l=120    554.1s  rss 7.97 GB  swapouts 1,383,118
+      .. alive  18.0m  in nn:k0-probe              rss 7.97 GB
+      .. alive  19.0m  in nn:k0-probe              rss 7.97 GB

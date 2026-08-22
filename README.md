@@ -24,7 +24,7 @@ Shape first:*
 | **Confirmed** | A value for the corner spread at s=5 was **committed before the run existed** and came back at 0.7 %. Pre-registration, not blinding — the measuring session held the earlier points. |
 | **Established** | The spread **falls** under refinement, 1.69 → 0.029 % over s=1–6. The vanishing is forced for any regulator family sharing a continuum limit. |
 | **Overturned today** | The falloff is **not exactly s⁻²**. s=6 shows the constant drifting 3.48 % with the local exponent steepening — and no subleading correction `A s⁻²(1 + B s⁻ᵖ)` can produce that shape. |
-| **Open** | A zero-mode systematic of the **same order as the effect**: its non-common residual is 22–41 % of the regulator signal and does not refine away. Whether the drift survives it is unresolved. |
+| **Open** | A systematic of the **same order as the effect**, ≈4.8e-05 in B at s=2. **Not** a property of the zero mode: the mode is identical across admissible kernels by construction (all reduce to m² at k=0), so what differs is its **coupling to the bulk**. The percentage figure this row used to carry (22–41 %) is an artifact of the kernel set — one further admissible kernel moves it 3.5×. Whether the drift survives it is unresolved. |
 | **Not mine** | Three of the five refinement points were measured by another session on code that is not in this repo. |
 
 
@@ -90,8 +90,8 @@ drift is roughly 10× the noise.
 **Two things this rules out, and one it does not.** *Ruled out:* any subleading correction of
 the form `A s⁻²(1 + B s⁻ᵖ)` with p > 0 — every such model predicts the deviation from −2 to
 **shrink** as s grows, and it **grows** (0.006 → 0.056 → 0.123). *Also ruled out:* that the
-1.25 % over s=3–5 was scatter; it was a truncated range. **Not ruled out:** the zero-mode
-systematic described below. Its non-common residual is 22–41 % of the regulator signal, a 3.5 %
+1.25 % over s=3–5 was scatter; it was a truncated range. **Not ruled out:** the bulk-coupling
+systematic described below. Its residual is ≈4.8e-05 in B at s=2 — a 3.5 %
 drift sits well inside that, and contamination falling *faster* than the signal would steepen
 the apparent exponent exactly as observed. My measurements of that residual stop at s=3 and
 give opposite directions at s=1→2 and s=2→3, so **they do not decide it either way.**
@@ -342,3 +342,22 @@ Four sibling projects, cross-validated against each other:
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+### A note on the name
+
+This was called *"the zero-mode systematic"* all through 2026-08-22. That name is
+wrong and the correction came from `thebridge` tracing their own failed
+prediction. Their reasoning ran: the admissibility gate forces every kernel to
+agree with `m² + k²` as k→0, so **at k=0 exactly every kernel *is* m²** — the
+mode is identical by construction — **therefore** the shift is identical.
+
+**The third step does not follow.** The mode is identical; its *effect on B* is
+not. Deleting it measures how that mode **couples to the rest of the spectrum**,
+and the coupling is a bulk property — precisely what an out-of-family kernel
+perturbs. So the residual is a **bulk-coupling** difference, not a property of
+the mode, and the old name asserted the very thing that turned out to be false.
+
+Measured here: the out-of-family kernel's shift sits **inside** the in-family
+range at s=1 and **outside** it at s=2 — not because its deviation grows, but
+because the in-family kernels converge on each other faster than it converges on
+them (half-width ×0.28 per doubling against its distance ×0.35).
