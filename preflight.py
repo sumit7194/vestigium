@@ -24,6 +24,7 @@ import importlib.util
 import sys
 
 READER = "/Users/sumit/Github/.claude-coordination/status_read.py"
+CONFIRM_S = 70   # must exceed the slowest peer tick, or advance cannot be seen
 ME = "quantum"
 
 
@@ -44,7 +45,25 @@ def main(need_gb):
             continue
         s = sr.read_status(name)
         if s.unknown:
-            hold.append(f"{name}: UNKNOWN ({s.why}) -- not idle, just silent")
+            # AN UNKNOWN NEEDS A WAY OUT, NOT JUST A WAY IN. Holding on every
+            # UNKNOWN is correct as a default and a deadlock as a policy: a stale
+            # token never expires, so a peer whose writer restarted without
+            # refreshing its token is invisible-as-busy FOREVER. Two individually
+            # correct conservative choices composing into a system that permits
+            # nothing -- the third time that shape has appeared today.
+            #
+            # confirm_writer() is the exit: it samples mtime twice more than a
+            # tick apart, because only mtime ADVANCE separates "writer alive with
+            # a stale token" from "writer died 30 seconds ago". A single fresh
+            # mtime cannot tell those apart, and accepting one would delete the
+            # token's only unique capability -- detecting writer death about a
+            # timeout earlier than staleness can.
+            print(f"   {name}: UNKNOWN ({s.why})")
+            print(f"      confirming writer over {CONFIRM_S}s ...")
+            if sr.confirm_writer(name, wait_s=CONFIRM_S):
+                notes.append(f"{name}: writer CONFIRMED alive (token was stale metadata)")
+                continue
+            hold.append(f"{name}: UNKNOWN and writer not advancing -- not idle, just silent")
         elif s.busy:
             try:
                 notes.append(f"{name}: busy, {s.rss_mb} MB")
