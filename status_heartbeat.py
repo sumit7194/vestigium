@@ -97,11 +97,39 @@ def our_processes():
     # processes only. This is read-only inspection whose entire purpose is to
     # tell our processes from the sibling projects' -- nothing here signals,
     # kills or otherwise touches a process, ours or anyone's.
+    # THE PROBE MUST NOT MATCH THE OBSERVER. bridge found that `pgrep -f` on a
+    # script name also matches the shell of a tool call that merely mentions it,
+    # so typing a script's name made their own status read "running". Mine was
+    # worse: the cmd-path match had NO interpreter filter, so ANY shell whose
+    # command line contained the repo path -- including a `cd` into it, or this
+    # sentence in a heredoc -- registered as a job. Verified: a bash process
+    # doing nothing but `echo "/Users/sumit/Github/quantum"; sleep 45`, launched
+    # from outside the repo, published as state=running with its own pid.
+    #
+    # Cost direction is the bad one: a PHANTOM JOB BLOCKS A PEER'S LAUNCH ON AN
+    # IDLE MACHINE, which is the whole failure this file exists to prevent.
+    #
+    # So both match paths now require the process's actual executable to be a
+    # compute interpreter, read from `ps -o comm=` rather than inferred from the
+    # command string -- the string is what the observer contaminates.
+    try:
+        craw = subprocess.run(["ps", "-axo", "pid=,comm="],
+                              capture_output=True, text=True, timeout=10).stdout
+    except Exception:
+        return None
+    comm = {}
+    for ln in craw.splitlines():
+        cm = re.match(r"\s*(\d+)\s+(.*)", ln)
+        if cm:
+            comm[int(cm.group(1))] = os.path.basename(cm.group(2).strip()).lower()
+    INTERP = re.compile(r"^(python|node|julia|ruby|perl|rscript|deno|bun)")
+
+    def is_compute(pid):
+        return bool(INTERP.match(comm.get(pid, "")))
+
     byname = {pid: (rss, age, cmd) for pid, rss, age, cmd in rows}
-    direct = {pid for pid, _, _, cmd in rows if REPO in cmd}
-    cand = [pid for pid, _, _, cmd in rows
-            if pid not in direct
-            and re.search(r"(python|node|julia|ruby|perl|Rscript)", cmd, re.I)]
+    direct = {pid for pid, _, _, cmd in rows if REPO in cmd and is_compute(pid)}
+    cand = [pid for pid, _, _, _ in rows if pid not in direct and is_compute(pid)]
     cwd_ours = set()
     if cand:
         try:
