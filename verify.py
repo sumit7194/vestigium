@@ -174,6 +174,42 @@ check("corner: strip control STILL fails as documented [NEG][KF]",
       0.496, ">", 0.1, kind="NEG",
       note="documented known-FAIL; B~-0.496 at xi/L=1.79, ->-0.005 at xi/L=0.06")
 
+
+# ---- corner_angles: the triangular-lattice study. UNGATED until 2026-08-22 --
+# Found by applying the bridge's check ("for every published number, can the
+# committed code produce it?") to the whole repo rather than to the one file
+# they read. This artifact existed and its numbers were in the README and sent
+# to tabula, but NOTHING re-asserted them -- the study under external blind
+# check was the least gated one here.
+ca = art("corner_angles.json")
+check("corner angles: a(60) > a(120) [recall check, NOT a prediction]",
+      ca["values"]["a60"] - ca["values"]["a120"], ">", 0.01,
+      note="demoted from prediction after tabula pointed out it is in the literature")
+check("corner angles: 60-deg spread stays sub-percent",
+      ca["spreads"]["a60_3"], "<", 1.0,
+      note="0.487% across four regulator families")
+check("corner angles: area spread stays large [NEG]",
+      ca["spreads"]["area"], ">", 25.0, kind="NEG",
+      note="33.2% -- the contrast with the corner spread IS the result")
+check("corner angles: triangle/hexagon area consistency",
+      max(abs(v["A_tri"]-v["A_hex"])/v["A_tri"]*100 for v in ca["per_regulator"].values()),
+      "<", 0.1, note="geometry gate; passes at 0.02-0.03%, independent of any physics")
+
+# ---- headset_toy: ungated until 2026-08-22, and the reason the audit happened.
+ht = art("headset_toy.json")
+check("headset: quantum LG control reaches 1.5 [KF-partner]",
+      ht["controls"]["quantum_LG_K3"], ">", 1.49,
+      note="if the estimator cannot see a real violation, a classical null means nothing")
+check("headset: P3 AS FILED STAYS FALSIFIED [NEG][KF]",
+      ht["classical"]["LG_weak_invasive_best"], "<", 1.0, kind="NEG",
+      note="documented known-FAIL, K3=0.609. Re-inflating this breaks the diagnosis")
+check("headset: projective K3 reproduces from committed code",
+      abs(ht["classical"]["LG_projective_best"] - 2.3361), "<", 0.01,
+      note="THE number that spent hours asserted in a docstring the code could not produce")
+check("headset: no coarse-graining beats CHSH 2 [NEG]",
+      ht["classical"]["chsh_markov_coarsegrain"], "<", 2.0 + 1e-9, kind="NEG",
+      note="consistency check only -- an LHV model by construction, so it cannot exceed 2")
+
 # ============================================================================
 # RUNNER + SELF-AUDIT (R3)
 # ============================================================================

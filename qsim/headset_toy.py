@@ -254,3 +254,37 @@ print("   Nothing buys spatial Bell violation. The trace picture can imitate")
 print("   quantum behaviour in time and provably cannot in space -- which is")
 print("   exactly where a 'reality is a coarse-grained interface' claim must")
 print("   either stop, or stop being classical.")
+
+# ---------------------------------------------------------------------------
+# ARTIFACT. Added after the bridge's adversarial read found that this file's
+# headline K3 = 2.336 had been computed in an ad-hoc shell heredoc, written into
+# the docstring, and never committed -- so the repo could not produce its own
+# published number. Implementing the function fixed half of that. This fixes the
+# other half: the numbers now leave the terminal and land in a file that
+# verify.py re-asserts, so drift is visible instead of invisible.
+# ---------------------------------------------------------------------------
+import json as _json, os as _os
+_out = dict(
+    controls=dict(quantum_LG_K3=float(qlg), quantum_CHSH=float(qch)),
+    classical=dict(
+        LG_noninvasive=float(k_non),
+        LG_weak_invasive_best=float(best_inv), weak_invasive_seed=int(best_seed),
+        LG_projective_best=float(best_proj), projective_seed=int(proj_seed),
+        chsh_exhaustive_deterministic=float(cmax),
+        chsh_markov_coarsegrain=float(mk),
+    ),
+    verdict=dict(
+        P1_recall_noninvasive_within_bound=bool(k_non <= 1 + 1e-9),
+        P2_recall_chsh_capped=bool(cmax <= 2 + 1e-9 and mk <= 2 + 1e-9),
+        P3_as_filed_FALSIFIED=bool(best_inv <= 1 + 1e-9),
+        P3_corrected_projective_exceeds_1=bool(best_proj > 1 + 1e-9),
+        projective_exceeds_quantum_1p5=bool(best_proj > 1.5),
+    ),
+    scope=("with unbounded invasiveness the LG bound is not a quantumness test, "
+           "which is why LG experiments require an independent invasiveness bound "
+           "and Bell does not"),
+)
+with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),
+                        "headset_toy.json"), "w") as _fh:
+    _json.dump(_out, _fh, indent=2)
+print("\n   artifact written: qsim/headset_toy.json")

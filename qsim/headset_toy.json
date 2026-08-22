@@ -1,0 +1,23 @@
+{
+  "controls": {
+    "quantum_LG_K3": 1.4999979059699085,
+    "quantum_CHSH": 2.8284271247461903
+  },
+  "classical": {
+    "LG_noninvasive": 0.11484297033555675,
+    "LG_weak_invasive_best": 0.6092190779738048,
+    "weak_invasive_seed": 168,
+    "LG_projective_best": 2.3360602856685952,
+    "projective_seed": 4873,
+    "chsh_exhaustive_deterministic": 2.0,
+    "chsh_markov_coarsegrain": 2.0
+  },
+  "verdict": {
+    "P1_recall_noninvasive_within_bound": true,
+    "P2_recall_chsh_capped": true,
+    "P3_as_filed_FALSIFIED": true,
+    "P3_corrected_projective_exceeds_1": true,
+    "projective_exceeds_quantum_1p5": true
+  },
+  "scope": "with unbounded invasiveness the LG bound is not a quantumness test, which is why LG experiments require an independent invasiveness bound and Bell does not"
+}
