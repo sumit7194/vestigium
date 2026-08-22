@@ -136,9 +136,20 @@ def run(s, ls_base=range(4, 21, 2), L_base=160, m_base=0.01):
         S = []
         for l in ls:
             STATE["phase"] = f"{nm}:entropy l={l}"
+            _t = time.time()
             XA, PA = submatrices(square_sites(l, L), L, GX, GP)
             S.append(gaussian_entropy(XA, PA))
             del XA, PA
+            # PER-l OUTPUT. bridge's deletion pass printed only per regulator --
+            # 45+ minutes with no output -- and when it overran they could not
+            # tell whether a regulator was nearly done or halfway, so the honest
+            # bound was a 2x range. Their lesson, and the reason this exists:
+            # PROGRESS OUTPUT IS THE ONLY INSTRUMENT YOU CANNOT ADD ONCE YOU
+            # NEED IT. Asserts, nulls, controls, hooks and triggers are all
+            # retrofittable; this one has to be there before the job starts.
+            print(f"      {nm:>13} l={l:3d}  {time.time()-_t:7.1f}s  "
+                  f"rss {PEAK['rss_mb']/1024:.2f} GB  swapouts {PEAK['swapouts']:,}",
+                  flush=True)
         A, B, C = fit_direct(ls, S, 4)
         STATE["phase"] = f"{nm}:k0-probe"
         w0 = np.sqrt(regs[nm](*np.meshgrid(2*np.pi*np.arange(L)/L,
