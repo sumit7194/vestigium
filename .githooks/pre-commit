@@ -31,7 +31,12 @@ STATE=.git/sweep_counts
 prev=$(cat "$STATE" 2>/dev/null || echo "0 0")
 prev_a=${prev% *}; prev_b=${prev#* }
 
-a=$(python3 "$SWEEP/audit_sweep.py" . 2>/dev/null | grep -cE "^      [A-Za-z0-9_./-]+:[0-9]+" || echo 0)
+# Sum the REPORTED hit totals, not the printed lines. The sweep truncates its
+# display ("... 14 more"), so counting lines measures the display rather than
+# the finding -- caught by a control that added a stale claim and saw no delta.
+a=$(python3 "$SWEEP/audit_sweep.py" . 2>/dev/null \
+    | sed -nE 's/.*— ([0-9]+) hits.*/\1/p' | paste -sd+ - | bc 2>/dev/null || echo 0)
+[ -z "$a" ] && a=0
 b=$(python3 "$SWEEP/append_only.py" . 2>/dev/null | grep -c "^APPEND-ONLY" || echo 0)
 echo "$a $b" > "$STATE"
 
