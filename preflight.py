@@ -110,18 +110,49 @@ def main(need_gb):
         else:
             notes.append(f"{name}: idle")
 
-    mine = sr.read_status(ME)
-    avail = None
-    if not mine.unknown:
-        avail = mine.raw.get("mem_available_gb") if hasattr(mine, "raw") else None
+    # WHICH MEMORY QUANTITY THIS GATE WATCHES, decided deliberately rather than
+    # inherited from whichever field was handy -- bridge's warning, and that
+    # inheritance is how their own writer watched the wrong quantity all day.
+    #
+    #   free       untouched right now
+    #   available  free + inactive + purgeable, i.e. after reclaim
+    #
+    # Those diverge hugely on this box: 7.65 GB available against 1.83 free,
+    # because ~5.8 GB sits in inactive. Comparing a job size against `available`
+    # alone approves a 6 GB launch on a machine with under 2 GB free, and the
+    # observed failure here is that reclaiming several GB under a fast
+    # allocation STALLS rather than failing cleanly.
+    #
+    # So: fitting in `free` is a clean yes. Fitting only in `available` is not a
+    # no, but it is a launch that DEPENDS ON RECLAIM, and that dependence is
+    # stated instead of hidden inside a comparison.
+    free = avail = None
+    try:
+        raw = json.loads((sr.D / f"{ME}.status").read_text())
+        free, avail = raw.get("mem_free_gb"), raw.get("mem_available_gb")
+    except Exception:
+        pass
 
     print("peers:")
     for n in notes:
         print(f"   {n}")
     if avail is not None:
-        print(f"available memory: {avail} GB (need {need_gb} GB)")
-        if need_gb and avail < need_gb:
-            hold.append(f"only {avail} GB available, need {need_gb}")
+        print(f"memory: {free} GB free, {avail} GB available after reclaim "
+              f"(need {need_gb} GB)")
+        if need_gb:
+            if avail < need_gb:
+                hold.append(f"only {avail} GB available even after reclaim, "
+                            f"need {need_gb}")
+            elif free is not None and free < need_gb:
+                # PRINTED, not appended. This first appended to `notes`, which
+                # is printed several lines ABOVE -- so the warning was computed
+                # correctly and never appeared. A safety message that runs and
+                # emits nothing is the same shape as the trap that fired without
+                # exiting: the mechanism visibly ran, the effect never happened.
+                print(f"   RECLAIM-DEPENDENT: needs {need_gb} GB but only {free} GB "
+                      f"is free; {need_gb - free:.1f} GB must come out of inactive.")
+                print(f"   This box stalls rather than failing cleanly when it "
+                      f"reclaims under a fast allocation. Launch deliberately.")
 
     if hold:
         print("\nHOLD:")
