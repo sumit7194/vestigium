@@ -16,6 +16,18 @@ machinery itself is not in doubt. Two of our own bugs were caught by exactly the
 
 ### The one result here that was not known in advance
 
+*The detail below grew one honest correction at a time and is now longer than the result.
+Shape first:*
+
+| | |
+|---|---|
+| **Confirmed** | A value for the corner spread at s=5 was **committed before the run existed** and came back at 0.7 %. Pre-registration, not blinding — the measuring session held the earlier points. |
+| **Established** | The spread **falls** under refinement, 1.69 → 0.029 % over s=1–6. The vanishing is forced for any regulator family sharing a continuum limit. |
+| **Overturned today** | The falloff is **not exactly s⁻²**. s=6 shows the constant drifting 3.48 % with the local exponent steepening — and no subleading correction `A s⁻²(1 + B s⁻ᵖ)` can produce that shape. |
+| **Open** | A zero-mode systematic of the **same order as the effect**: its non-common residual is 22–41 % of the regulator signal and does not refine away. Whether the drift survives it is unresolved. |
+| **Not mine** | Three of the five refinement points were measured by another session on code that is not in this repo. |
+
+
 Not a new physical law — a **pre-registered prediction that was confirmed by someone else's
 computer**. The entanglement corner coefficient's regulator spread falls under lattice
 refinement as s⁻². From that law, a value for the next resolution was **written down and
