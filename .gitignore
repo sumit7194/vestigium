@@ -15,3 +15,4 @@ papers/*.pdf
 # Scratch / local experiment output
 scratch/
 *.tmp
+heartbeat.err
