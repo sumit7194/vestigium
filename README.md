@@ -98,8 +98,14 @@ project — deliberately implemented without sharing code, so agreement means so
   3-parameter model; adding the physically-expected 1/ℓ correction gives **3.3%** instead, and a 1%
   unmodelled contamination moves the extracted coefficient by 7%. So no single-resolution number
   should be quoted as *the* answer. What is robust is the **refinement behaviour** — the spread falls
-  ~7× under lattice refinement under *either* model (1.69→0.25% and 3.28→0.36%), while the area
-  coefficient does not move at all. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
+  under lattice refinement under *either* model, while the area coefficient does not move at all.
+  Independently reproduced by the bridge session at a **third** resolution (s=3, L=480) that I had
+  not run: corner **1.69 → 0.25 → 0.12%** against area **36.26 → 36.24 → 36.23%**. At s=3 the corner
+  spread is **302× smaller** than the area spread. **No rate is quoted**: the three points are not a
+  straight line in log-log (local exponent 2.76 then 1.81), so the trend is decelerating and three
+  points cannot distinguish "converging to zero" from "converging to a small non-zero floor" — which
+  is the difference between *exactly* universal and *universal to 0.1%*. The direction is the claim;
+  the rate is not. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
   at two masses. **One control failed and is kept in the file**: a strip control returned a
   spurious log (B ≈ −0.496), diagnosed rather than explained away — driving ξ/L from 1.79 to
   0.06 sends it to −0.005, confirming finite-size contamination in a badly chosen control
