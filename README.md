@@ -107,7 +107,13 @@ project — deliberately implemented without sharing code, so agreement means so
   by 3×10⁻⁵ percentage points, **2254× smaller** than the spread itself.
   The law is cleaner than any local exponent: **spread × s² = 1.081 at both s=3 and s=4, agreeing to
   0.15%** — the s⁻² expected from four regulators that agree to O(k⁴). (s=1 is 56% off that constant
-  and s=2 is 7.5% off; both lattices are simply too coarse.) Prediction on record for s=5: **0.043%**. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
+  and s=2 is 7.5% off; both lattices are simply too coarse.) Prediction on record for s=5: **0.043%**.
+  **What the constant is not:** a mechanism test — sweeping the strength of one regulator's higher-derivative
+  term — found the pairwise disagreement *changes sign* near c ≈ 0.125, while the dispersion mismatch driving
+  it is strictly positive and monotone. So the disagreement is **not** proportional to the O(k⁴) mismatch, and
+  the spread can be made accidentally small by choosing regulators that happen to cancel. **1.081 is a property
+  of this four-regulator family, not of the corner term.** What is universal is the *vanishing* — that is forced
+  for any family sharing a continuum limit. A small measured spread is not by itself evidence of universality. Two independent extractions agree (1.7% vs 2.1%); the verdict is unchanged
   at two masses. **One control failed and is kept in the file**: a strip control returned a
   spurious log (B ≈ −0.496), diagnosed rather than explained away — driving ξ/L from 1.79 to
   0.06 sends it to −0.005, confirming finite-size contamination in a badly chosen control
