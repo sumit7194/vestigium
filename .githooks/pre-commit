@@ -40,6 +40,24 @@ a=$(python3 "$SWEEP/audit_sweep.py" . 2>/dev/null \
 b=$(python3 "$SWEEP/append_only.py" . 2>/dev/null | grep -c "^APPEND-ONLY" || echo 0)
 echo "$a $b" > "$STATE"
 
+# SETUP-CORRESPONDENCE, rescued by riding on the commit that adds a prereg.
+# bridge's search question -- "what has to happen for this to be used?" -- says
+# a pre-registration must be WRITTEN, and writing is followed by committing. So
+# the check that a prereg names the condition it runs at can ride here.
+#
+# The failure it guards: bridge pre-registered three outcomes for the zero-mode
+# scaling and measured at FIXED l, when the study runs at fixed l/L. All three
+# registered readings were about what the exponent would MEAN; none asked
+# whether the setup matched the claim. A prereg that fixes what you will
+# conclude still lets you measure the wrong quantity.
+for f in $(git diff --cached --name-only --diff-filter=AM | grep -i "prereg" || true); do
+  [ -f "$f" ] || continue
+  if ! grep -qiE "setup correspondence|condition the (published )?result runs at|runs at the condition|same quantity in the same condition" "$f"; then
+    echo "  PREREG WITHOUT A SETUP-CORRESPONDENCE LINE: $f"
+    echo "     state which condition this runs at and that it matches the claim."
+  fi
+done
+
 if [ "$a" -gt "$prev_a" ] 2>/dev/null; then
   echo "  audit_sweep: $a hits (UP from $prev_a) — a claim may have been added, not just moved"
 fi
