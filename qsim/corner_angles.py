@@ -24,7 +24,15 @@ as well as regulator-independence — a strictly stronger claim than either alon
 =============================== PRE-REGISTRATION ==============================
 Written before running. Falsification conditions stated.
 
-P1 ORDERING (the hard prediction): a(60) > a(90) > a(120), strictly.
+P1 ORDERING: a(60) > a(90) > a(120), strictly.
+   *** DEMOTED after tabula's observation (recorded here rather than quietly
+   fixed): this is NOT a prediction. The ordering of the corner function is
+   standard published knowledge, so registering it in advance is a RECALL CHECK,
+   not a test -- I could not have been surprised by it. Blindness is a property
+   of the whole conversation, and the literature is a conversation already had.
+   The genuinely prior-immune content of this study is the QUANTITATIVE part:
+   the across-regulator spreads, which no published result supplies, and the
+   shape-independence control. Those could have come out any way. ***
    Reason: a(theta) measures how much a corner contributes; it diverges as the
    corner closes (theta -> 0) and vanishes as the boundary flattens (theta -> pi).
    FALSIFIED by any inversion of that ordering.
