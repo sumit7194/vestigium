@@ -26,6 +26,18 @@ if ! python3 verify.py > /tmp/vestigium_gate.log 2>&1; then
 fi
 echo "gate green ($(grep -c '^ok ' /tmp/vestigium_gate.log) assertions)"
 
+# The LRL gate is 9.3s against verify.py's 0.1s -- too slow to run on every
+# commit without training the author to use --no-verify, which is the failure
+# this hook exists to prevent. So it runs only when its own files are staged.
+if git diff --cached --name-only | grep -q '^qsim/lrl_'; then
+  if ! python3 qsim/lrl_gate.py > /tmp/lrl_gate.log 2>&1; then
+    echo "COMMIT REFUSED — the LRL gate is red." >&2
+    tail -16 /tmp/lrl_gate.log >&2
+    exit 1
+  fi
+  echo "LRL gate green ($(grep -c '^ok ' /tmp/lrl_gate.log) assertions)"
+fi
+
 SWEEP=/Users/sumit/Github/.claude-coordination
 STATE=.git/sweep_counts
 prev=$(cat "$STATE" 2>/dev/null || echo "0 0")
