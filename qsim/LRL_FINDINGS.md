@@ -147,28 +147,64 @@ It is not:
 | 0.95 | 54.79 | 2.740 | 0.0173 | 0.365 |
 | 0.99 | 274.70 | 2.747 | 0.0036 | 0.364 |
 
-`|F1|` grows by **87x** across this range while `|F1|(1-e)` is constant to 1%.
-So `|F1| ~ C/(1-e)` with `C ~ 2.74`, and requiring the discarded oscillation to
-stay below the quantity being tracked, `eps |F1| << |A_LRL| = k e`, gives
+`|F1|` grows by **87x** across this range. Requiring the discarded oscillation
+to stay below the quantity being tracked, `eps |F1| << |A_LRL| = k e`, gives a
+window that closes at both ends.
+
+### Correction: the window is not a number in `eps`
+
+**The first version of this write-up reported `eps < 0.37 e(1-e)`. That is wrong
+as stated** — it is a scan at fixed `a = 1.3`, and the window scales linearly
+with `a`:
+
+| `a` | window at `e=0.5` | ratio | `w/[a e(1-e)]` |
+|---|---|---|---|
+| 0.8 | 0.0600 | 1.000 | 0.300 |
+| 1.3 | 0.0975 | 1.625 | 0.300 |
+| 2.0 | 0.1500 | 2.500 | 0.300 |
+| 4.0 | 0.3000 | 5.000 | 0.300 |
+
+The ratios track `a/0.8` exactly. Since `|F1| ∝ beta` and `|A_LRL| = k e`, the
+invariant statement is dimensionless:
 
 ```
-eps  <  (k/C) e (1-e)  ~  0.37 e (1-e)
+(eps beta) / (k a)  <  C' e (1-e),     C' = 0.29
 ```
 
-The last column confirms this over the whole range (mean 0.372, spread 9.9%).
-The window is not a fitted curve: `k/C = 1/2.74 = 0.365` is predicted from the
-measured `C` and matches.
+constant to **4.3% over 72 combinations** of `(a, e, beta, k)` — *tighter* than
+the 9.9% I originally quoted for the dimensionful version, which is itself the
+evidence that this is the right grouping. The `a` and `beta` scalings are exact;
+the residual 4.3% is an `e`-shape effect.
 
-**The window vanishes at both ends, for different reasons:**
+There is **no universal ceiling in `eps`**. "`eps < 0.09` at `e = 0.5`" is an
+`a = 1.3` statement and nothing more; at `a = 4` the same bound is 0.30.
 
-- `e -> 0` because `|A_LRL| = k e -> 0` — there is nothing to destroy, and the
-  positive control's `A_y ∝ e` vanishes with it.
-- `e -> 1` because `|F1| ~ (1-e)^-1` — the discarded oscillation diverges and
-  swamps the drift.
+This error deserves naming rather than quiet fixing. The instrument was built
+around a control whose whole purpose is to catch a quantity that measures the
+parametrisation instead of the physics — and the headline number derived from it
+was itself parametrisation-dependent, because the scan held `a` fixed and I read
+a dimensionful result as a law. The control was sound; I applied it to the
+perturbation and not to my own summary statistic.
 
-So `A != 0` is a valid necessary condition on a **band** of eccentricities, not on
-the open set as usually stated. Near-circular and near-parabolic orbits both need
-`eps` far smaller than a naive reading suggests, and nobody writes this down.
+### Correction: the `1/(1-e)` law is asymptotic
+
+`|F1|(1-e)` is constant to 1% over `e` in `[0.90, 0.99]` — but varies **14%** over
+`[0.05, 0.99]` (`C(e)` runs 0.262 → 0.300 → 0.280, peaking near `e = 0.5`). The
+first version quoted the 1% for the whole range. It is the correct `e -> 1`
+asymptotic, read off three points and written as a global law. Of the shapes
+tested, `(1-e)` is much the best — `(1-e)/(1+e)`, `(1-e^2)` and
+`(1-e)sqrt(1-e^2)` spread by 77%, 58% and 131% — so the divergence is real; only
+the claimed precision was not.
+
+### What survives
+
+The qualitative conclusion is unchanged and is the part that matters: the
+bounded-`F1` step needs its bound **uniformly** over the set of orbits the lemma
+is applied to, and that fails at both ends. So `A != 0` is a valid necessary
+condition on a **band** of eccentricities, not on the open set as usually stated.
+Near-circular and near-parabolic orbits both need a smaller perturbation than a
+naive reading suggests, and nobody writes this down. What changed is that the
+band's width is a dimensionless group, not a number.
 
 ## Verdict on the instrument
 

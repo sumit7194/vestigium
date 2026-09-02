@@ -71,8 +71,21 @@ f1 = {e: m.F1_amplitude(pos, 1.3, e) for e in (0.90, 0.95, 0.99)}
 check("F1 bound NOT uniform in e [NEG]", f1[0.99]/f1[0.90], ">", 8.0, kind="NEG",
       note="lemma is applied on an open set; boundedness is per-orbit only")
 c = [f1[e]*(1-e) for e in (0.90, 0.95, 0.99)]
-check("F1 ~ C/(1-e), C constant", (max(c)-min(c))/np.mean(c), "<", 0.02,
-      note="fixes the window at eps ~ (k/C) e (1-e)")
+check("F1 ~ C/(1-e) ASYMPTOTICALLY (e>=0.9)", (max(c)-min(c))/np.mean(c),
+      "<", 0.02, note="1% here only; 14% over e in [0.05,0.99] -- not a global law")
+cw = [m.F1_amplitude(pos, 1.3, e)*(1-e) for e in (0.05, 0.3, 0.7, 0.99)]
+check("...and NOT constant over the full e range [NEG]",
+      (max(cw)-min(cw))/np.mean(cw), ">", 0.08, kind="NEG",
+      note="stops the asymptotic being requoted as a global constant")
+
+# the window is DIMENSIONFUL: reporting it as a bare eps hides an a-scaling
+wa = [m.validity_window(pos, a, 0.5) for a in (0.8, 1.3, 2.0, 4.0)]
+check("window in eps scales with a [NEG]", max(wa)/min(wa), ">", 4.0, kind="NEG",
+      note="'eps < 0.09' is an a=1.3 statement, not a ceiling")
+g = [m.validity_window(pos, a, e)/(a*e*(1-e))
+     for a in (0.8, 1.3, 2.0, 4.0) for e in (0.2, 0.5, 0.8)]
+check("dimensionless group C' is a-invariant", (max(g)-min(g))/np.mean(g),
+      "<", 0.05, note="(eps beta)/(k a) < C' e(1-e), C' = 0.29")
 
 # --- dynamical: A is MINUS the secular rate, verified on the full system
 rate, _, _ = m.measured_drift(pos, 1.3, 0.4, 0.0025, n_orb=480)

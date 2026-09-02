@@ -294,8 +294,22 @@ def F1_amplitude(pert, a, e, k=K, n=20001):
 def validity_window(pert, a, e, k=K):
     """Secular theory needs the discarded oscillation small against the thing
     being tracked: eps |F1| << |A_LRL| = k e. Returns the eps at which they
-    are equal."""
+    are equal.
+
+    CAUTION -- this is DIMENSIONFUL and scales with a and beta. Reporting it as
+    a bare number in eps, from a scan at one value of a, states a property of
+    the parametrisation as though it were physics: exactly the failure the
+    trivial control exists to catch, committed by the author of the control.
+    The window in eps is proportional to a; the invariant statement is the
+    dimensionless group in window_group() below."""
     return k*e/F1_amplitude(pert, a, e, k)
+
+
+def window_group(pert, a, e, beta=1.0, k=K):
+    """The parametrisation-independent form: (eps beta)/(k a) < C' e (1-e).
+    Constant to 4.3% over 72 combinations of (a, e, beta, k); the residual is
+    an e-shape effect, not an a- or beta- effect, which are exact."""
+    return validity_window(pert, a, e, k)*beta/(k*a)/(e*(1.0 - e))
 
 
 # =============================================================== REPORT
@@ -327,13 +341,28 @@ def report():
     print("THE HIDDEN HYPOTHESIS -- is the F1 bound UNIFORM in e?")
     print("="*72)
     print(f"  {'e':>6}{'|F1| p-p':>13}{'|F1|(1-e)':>12}{'window eps':>13}"
-          f"{'window/[e(1-e)]':>17}")
+          f"{'C = w/[a e(1-e)]':>18}")
     for e in (0.10, 0.30, 0.50, 0.70, 0.90, 0.95, 0.99):
         f1 = F1_amplitude(pos, 1.3, e)
         w = validity_window(pos, 1.3, e)
-        print(f"  {e:6.2f}{f1:13.2f}{f1*(1-e):12.3f}{w:13.4f}{w/(e*(1-e)):17.3f}")
-    print("\n  |F1| ~ C/(1-e) with C constant  =>  window ~ (k/C) e (1-e),")
-    print("  vanishing at BOTH ends: e->0 because there is no |A|=k e to destroy,")
+        print(f"  {e:6.2f}{f1:13.2f}{f1*(1-e):12.3f}{w:13.4f}"
+              f"{w/(1.3*e*(1-e)):18.4f}")
+    print("\n  |F1| ~ C/(1-e) is the e->1 ASYMPTOTIC: |F1|(1-e) is constant to")
+    print("  1% over e in [0.90,0.99] but varies 14% over [0.05,0.99]. Quoting")
+    print("  the 1% for the whole range -- which the first version of this")
+    print("  write-up did -- reads three points as a law.")
+
+    print(f"\n  THE WINDOW IS NOT A NUMBER IN eps. It scales with a:")
+    print(f"  {'a':>6}{'window(e=0.5)':>15}{'ratio to a=0.8':>16}{'C':>9}")
+    w08 = None
+    for a in (0.8, 1.3, 2.0, 4.0):
+        w = validity_window(pos, a, 0.5)
+        w08 = w08 or w
+        print(f"  {a:6.1f}{w:15.4f}{w/w08:16.3f}{w/(a*0.25):9.4f}")
+    print("  Ratios track a/0.8 exactly. The invariant statement is")
+    print("      (eps beta)/(k a)  <  C' e (1-e),   C' = 0.29 (4.3% over 72 combos)")
+    print("  and NOT a ceiling in eps: 'eps < 0.09 at e=0.5' holds only at a=1.3.")
+    print("  Vanishes at BOTH ends: e->0 because there is no |A|=k e to destroy,")
     print("  e->1 because the discarded oscillation diverges.")
 
     print("\n" + "="*72)
