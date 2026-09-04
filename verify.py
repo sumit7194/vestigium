@@ -219,6 +219,56 @@ check("corner: C2' floor re-derived from artifact, not typed",
 # they read. This artifact existed and its numbers were in the README and sent
 # to tabula, but NOTHING re-asserted them -- the study under external blind
 # check was the least gated one here.
+# ---- kappa non-localisation: independent check of an imported claim ---------
+# From ../corner_function via thebridge-d1, 2026-09-05. Claim: C1-C6 do not bound
+# kappa/C_T, so the observed band [3.672, 4.179] is not a consequence of the
+# constraints. Verdict and the two documentation errors found: see
+# corner_function/PROVENANCE.md. These assertions are the checks, not the report.
+import numpy as _kn
+from math import factorial as _fact
+from scipy.special import gammaincc as _gic, gamma as _gm
+
+_ee = _kn.linspace(1e-9, _kn.pi-1e-9, 200001)
+_f41 = (_kn.pi**2 + 3*_ee**2)*_kn.sin(_ee) - _ee*(_kn.pi**2 - _ee**2)
+check("kappa: Lifshitz shape satisfies C3, i.e. (4.1) >= 0",
+      _f41.min(), ">", -1e-12,
+      note="(pi^2+3eps^2)sin eps >= eps(pi^2-eps^2); re-derived here, not read")
+check("kappa: (4.1) is TIGHT at the endpoints, not slack [NEG]",
+      _f41.min(), "<", 1e-9, kind="NEG",
+      note="equality at eps=0,pi -- a slack inequality would mean I derived the "
+           "wrong reduction and it happened to hold")
+_aL = lambda x: (_kn.pi**2/24)*_kn.pi**2*x**2/(_kn.pi**2 - x**2)
+check("kappa: Lifshitz sigma = pi^2 C_T/24 (C5)",
+      abs(_aL(1e-6)/1e-12 - _kn.pi**2/24), "<", 1e-9, note="0.41123352")
+check("kappa: Lifshitz kappa/C_T = pi^5/48 (C6)",
+      abs(_aL(_kn.pi-1e-7)*1e-7 - _kn.pi**5/48), "<", 1e-4, note="6.375410")
+
+def _mom(eps, n, u=0.0):
+    a, b = _kn.pi-eps, _kn.pi+eps
+    g = lambda A, x: _gic(A, x)*_gm(A) if x > 0 else _gm(A)
+    return [0.5*(g(k+3, a*u)/a**(k+3) + (-1)**k*g(k+3, b*u)/b**(k+3)) for k in range(n)]
+def _hank(m, M):
+    return _kn.linalg.det(_kn.array([[m[j+k] for k in range(M)] for j in range(M)]))
+check("kappa: C4 Hankel dets positive for the truncated family",
+      min(_hank(_mom(e_, 8, u_), M_) for e_ in (0.8, 1.5, 2.5)
+          for u_ in (0.0, 2.0, 5.0) for M_ in (1, 2, 3, 4)), ">", 1e-18,
+      note="rho_u >= 0 so C4 must hold; u=0,2,5 across eps=0.8,1.5,2.5")
+_bad = _mom(1.5, 8); _bad[3] *= -4.0
+check("kappa: the C4 test is NOT vacuous [NEG]",
+      min(_hank(_bad, M_) for M_ in (1, 2, 3, 4)), "<", -1.0, kind="NEG",
+      note="a corrupted moment sequence must fail, else C4 certifies anything")
+_su = lambda u: _kn.exp(-_kn.pi*u)*(u*u/_kn.pi + 2*u/_kn.pi**2 + 2/_kn.pi**3)
+check("kappa: kappa/C_T is unbounded on C1-C6 [NEG]",
+      (_kn.pi**2/24)/_su(50.0), ">", 1e60, kind="NEG",
+      note="8.4e64 at u=50 vs the observed band [3.672,4.179]; the band is NOT "
+           "a consequence of the constraints")
+_cs = float(_kn.trapezoid((_kn.cosh(_kn.linspace(0.1,1,4001)*(_kn.pi-1e-9))-1)
+                          / _kn.linspace(0.1,1,4001)**2, _kn.linspace(0.1,1,4001)))
+check("kappa: 'C6 holds for every rho>=0' is FALSE [NEG]",
+      _cs, "<", 1e3, kind="NEG",
+      note="compact-support rho gives a(theta->0) finite = 6.0966, so kappa=0. "
+           "Their blanket statement is wrong; the theorem does not rely on it")
+
 # ---- BWK16 BOUND: a(120) in corner_angles.json VIOLATES A THEOREM ----------
 # Reported by another workspace via thebridge-f0, 2026-09-04, and confirmed here.
 # a(th) >= (pi^2 C_T/3) log[1/sin(th/2)] follows from SSA + Lorentz invariance

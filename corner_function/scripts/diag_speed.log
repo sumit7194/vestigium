@@ -1,0 +1,33 @@
+     warm-start block E73: max|r| = 5.80e-19
+     warm-start block E74: max|r| = 6.92e-12
+     warm-start block E75: max|r| = 6.92e-12
+     warm-start block E76: max|r| = 5.95e-20
+     warm-start block E77: max|r| = 3.47e-20
+     warm-start block E78: max|r| = 1.42e-19
+     warm-start block E79: max|r| = 2.50e-16
+     warm-start block E80: max|r| = 2.50e-16
+     warm-start block E81: max|r| = 1.83e-21
+     warm-start block E82: max|r| = 3.89e-15
+     warm-start block E83: max|r| = 1.63e-20
+     GN iter 0: |r| = 9.78e-12
+     GN iter 1: |r| = 1.17e-26
+     GN iter 2: |r| = 1.93e-34
+   M=3.6742 a=0.5: dps=36 N=14 delta0=0.0027 series |r|=1.9e-34 steps=65
+M=3.6742: F(5)=0.00089675626 F(26.6)=6.44348e-5 F(90)=3.7253445e-8  [9s]  (production node M=3.6742 gave F(5)=8.9677e-04 F(26.6)=6.4436e-05 F(90)=3.7256e-08 in 338 s)
+     warm-start block E73: max|r| = 4.34e-07
+     warm-start block E74: max|r| = 9.45e-07
+     warm-start block E75: max|r| = 9.45e-07
+     warm-start block E76: max|r| = 5.70e-07
+     warm-start block E77: max|r| = 5.70e-07
+     warm-start block E78: max|r| = 2.65e-07
+     warm-start block E79: max|r| = 1.31e-06
+     warm-start block E80: max|r| = 6.83e-07
+     warm-start block E81: max|r| = 5.69e-07
+     warm-start block E82: max|r| = 1.61e-06
+     warm-start block E83: max|r| = 1.69e-10
+     GN iter 0: |r| = 3.33e-06
+     GN iter 1: |r| = 1.79e+05
+     GN iter 2: |r| = 3.51e+04
+     GN iter 3: |r| = 2.97e+04
+   M=6.0 a=0.5: dps=43 N=18 delta0=0.0017 series |r|=3.0e+04 steps=85
+M=6.0: F(5)=-9.0367114e+9 F(26.6)=-29623245.0 F(90)=-28.849411  [568s]  (production node M=3.6742 gave F(5)=8.9677e-04 F(26.6)=6.4436e-05 F(90)=3.7256e-08 in 338 s)

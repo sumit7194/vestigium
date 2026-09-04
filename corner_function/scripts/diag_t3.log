@@ -1,0 +1,48 @@
+     warm-start block E73: max|r| = 3.19e-17
+     warm-start block E74: max|r| = 1.48e-18
+     warm-start block E75: max|r| = 1.47e-18
+     warm-start block E76: max|r| = 1.02e-14
+     warm-start block E77: max|r| = 1.02e-14
+     warm-start block E78: max|r| = 6.84e-17
+     warm-start block E79: max|r| = 6.89e-19
+     warm-start block E80: max|r| = 3.15e-17
+     warm-start block E81: max|r| = 6.17e-17
+     warm-start block E82: max|r| = 6.86e-14
+     warm-start block E83: max|r| = 6.19e-17
+     GN iter 0: |r| = 7.23e-14
+     GN iter 1: |r| = 1.41e-23
+   M=1.0 a=(0.5-2.5j): dps=28 N=10 delta0=0.0100 series |r|=1.4e-23 steps=78
+t=2.5: F(5)=0.170893 F(26.6)=0.0238096 F(90)=0.00426735 w*F(5)=2.060e-07 [22s]
+     warm-start block E73: max|r| = 3.41e-17
+     warm-start block E74: max|r| = 3.41e-16
+     warm-start block E75: max|r| = 3.42e-16
+     warm-start block E76: max|r| = 1.84e-14
+     warm-start block E77: max|r| = 1.84e-14
+     warm-start block E78: max|r| = 3.98e-17
+     warm-start block E79: max|r| = 4.93e-19
+     warm-start block E80: max|r| = 3.67e-17
+     warm-start block E81: max|r| = 6.46e-19
+     warm-start block E82: max|r| = 1.23e-13
+     warm-start block E83: max|r| = 4.01e-17
+     GN iter 0: |r| = 1.34e-13
+     GN iter 1: |r| = 1.58e-21
+     GN iter 2: |r| = 2.46e-28
+   M=1.0 a=(0.5-3j): dps=28 N=10 delta0=0.0100 series |r|=2.5e-28 steps=269
+t=3.0: F(5)=0.017166 F(26.6)=0.0116689 F(90)=0.00297913 w*F(5)=8.943e-10 [66s]
+     warm-start block E73: max|r| = 7.45e-10
+     warm-start block E74: max|r| = 5.79e-06
+     warm-start block E75: max|r| = 5.81e-06
+     warm-start block E76: max|r| = 2.81e-09
+     warm-start block E77: max|r| = 2.81e-09
+     warm-start block E78: max|r| = 1.13e-09
+     warm-start block E79: max|r| = 5.55e-10
+     warm-start block E80: max|r| = 4.83e-10
+     warm-start block E81: max|r| = 1.85e-06
+     warm-start block E82: max|r| = 4.64e-09
+     warm-start block E83: max|r| = 3.36e-11
+     GN iter 0: |r| = 8.60e-06
+     GN iter 1: |r| = 6.17e-07
+     GN iter 2: |r| = 4.37e-09
+     GN iter 3: |r| = 1.09e-12
+   M=1.0 a=(0.5-4j): dps=28 N=10 delta0=0.0100 series |r|=1.1e-12 steps=9963
+t=4.0: F(5)=0.0109598 F(26.6)=0.00698084 F(90)=0.00169715 w*F(5)=1.066e-12 [677s]

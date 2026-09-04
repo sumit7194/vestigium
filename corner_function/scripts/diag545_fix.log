@@ -1,0 +1,127 @@
+     warm-start block E73: max|r| = 9.42e-19
+     warm-start block E74: max|r| = 3.89e-11
+     warm-start block E75: max|r| = 3.89e-11
+     warm-start block E76: max|r| = 9.20e-22
+     warm-start block E77: max|r| = 1.75e-21
+     warm-start block E78: max|r| = 8.70e-22
+     warm-start block E79: max|r| = 2.32e-16
+     warm-start block E80: max|r| = 2.31e-16
+     warm-start block E81: max|r| = 3.78e-23
+     warm-start block E82: max|r| = 1.34e-15
+     warm-start block E83: max|r| = 4.29e-22
+     GN iter 0: |r| = 5.50e-11
+     GN iter 1: |r| = 9.20e-24
+     GN iter 2: |r| = 1.31e-38
+     N-continuation stage N=10: |r|=1.3e-38
+     warm-start block E73: max|r| = 9.98e+04
+     warm-start block E74: max|r| = 1.40e+05
+     warm-start block E75: max|r| = 1.40e+05
+     warm-start block E76: max|r| = 5.30e-08
+     warm-start block E77: max|r| = 5.30e-08
+     warm-start block E78: max|r| = 4.52e-07
+     warm-start block E79: max|r| = 9.89e+04
+     warm-start block E80: max|r| = 5.30e+03
+     warm-start block E81: max|r| = 4.07e-47
+     warm-start block E82: max|r| = 2.73e-09
+     warm-start block E83: max|r| = 2.23e-46
+     GN iter 0: |r| = 2.66e+05
+     GN iter 1: |r| = 6.30e+02
+     GN iter 2: |r| = 4.44e+06
+     GN iter 3: |r| = 1.05e+07
+     GN iter 4: |r| = 1.27e+06
+     GN iter 5: |r| = 1.65e+04
+     N-continuation stage N=14: |r|=1.6e+04
+     warm-start block E73: max|r| = 4.14e+03
+     warm-start block E74: max|r| = 3.92e+04
+     warm-start block E75: max|r| = 3.92e+04
+     warm-start block E76: max|r| = 1.24e-01
+     warm-start block E77: max|r| = 1.24e-01
+     warm-start block E78: max|r| = 2.54e-03
+     warm-start block E79: max|r| = 1.18e+04
+     warm-start block E80: max|r| = 6.49e+03
+     warm-start block E81: max|r| = 7.47e-09
+     warm-start block E82: max|r| = 1.45e+00
+     warm-start block E83: max|r| = 4.00e-18
+     GN iter 0: |r| = 5.72e+04
+     GN iter 1: |r| = 5.66e+01
+     GN iter 2: |r| = 2.40e+01
+     GN iter 3: |r| = 1.50e+01
+     GN iter 4: |r| = 1.08e+01
+     GN iter 5: |r| = 8.16e+00
+     N-continuation stage N=16: |r|=8.2e+00
+   M=5.4523 a=0.5: dps=41 N=16 delta0=0.0018 series |r|=8.2e+00 steps=67 diag={'ambiguous': 0, 'far_jump': 0}
+M=5.4523: F(5)=-5.2272937e+11 F(27)=-2.6283538e+9 F(90)=-8801.4606 F(170)=-0.0087510572  H1=(0.0130176 + 0.0168063j) [42s]
+     warm-start block E73: max|r| = 3.61e-09
+     warm-start block E74: max|r| = 5.67e-09
+     warm-start block E75: max|r| = 5.74e-09
+     warm-start block E76: max|r| = 2.20e-09
+     warm-start block E77: max|r| = 2.20e-09
+     warm-start block E78: max|r| = 1.95e-09
+     warm-start block E79: max|r| = 3.61e-09
+     warm-start block E80: max|r| = 7.22e-09
+     warm-start block E81: max|r| = 2.63e-06
+     warm-start block E82: max|r| = 8.13e-08
+     warm-start block E83: max|r| = 8.52e-14
+     GN iter 0: |r| = 3.15e-06
+     GN iter 1: |r| = 1.76e+03
+     GN iter 2: |r| = 1.54e+03
+     GN iter 3: |r| = 1.15e+04
+     GN iter 4: |r| = 2.89e+03
+     GN iter 5: |r| = 9.94e+02
+     N-continuation stage N=10: |r|=9.9e+02
+     warm-start block E73: max|r| = 3.10e-03
+     warm-start block E74: max|r| = 5.68e-03
+     warm-start block E75: max|r| = 5.66e-03
+     warm-start block E76: max|r| = 1.19e-09
+     warm-start block E77: max|r| = 1.22e-09
+     warm-start block E78: max|r| = 3.04e-09
+     warm-start block E79: max|r| = 3.09e-03
+     warm-start block E80: max|r| = 2.13e-04
+     warm-start block E81: max|r| = 8.69e+03
+     warm-start block E82: max|r| = 1.21e+00
+     warm-start block E83: max|r| = 8.20e-10
+     GN iter 0: |r| = 1.22e+04
+     GN iter 1: |r| = 9.18e+04
+     GN iter 2: |r| = 3.46e+04
+     GN iter 3: |r| = 7.49e+03
+     GN iter 4: |r| = 1.67e+03
+     GN iter 5: |r| = 7.36e+02
+     N-continuation stage N=14: |r|=7.4e+02
+     warm-start block E73: max|r| = 7.60e-06
+     warm-start block E74: max|r| = 1.88e-05
+     warm-start block E75: max|r| = 8.46e-06
+     warm-start block E76: max|r| = 1.30e-11
+     warm-start block E77: max|r| = 1.29e-11
+     warm-start block E78: max|r| = 1.02e-10
+     warm-start block E79: max|r| = 7.44e-06
+     warm-start block E80: max|r| = 7.06e-07
+     warm-start block E81: max|r| = 1.73e+03
+     warm-start block E82: max|r| = 5.51e+00
+     warm-start block E83: max|r| = 2.60e-11
+     GN iter 0: |r| = 1.74e+03
+     GN iter 1: |r| = 1.12e+03
+     GN iter 2: |r| = 1.47e+03
+     GN iter 3: |r| = 6.71e+02
+     GN iter 4: |r| = 1.20e+02
+     GN iter 5: |r| = 6.49e+01
+     N-continuation stage N=18: |r|=6.5e+01
+     warm-start block E73: max|r| = 8.01e-06
+     warm-start block E74: max|r| = 9.24e-06
+     warm-start block E75: max|r| = 1.03e-05
+     warm-start block E76: max|r| = 1.77e-11
+     warm-start block E77: max|r| = 1.76e-11
+     warm-start block E78: max|r| = 1.02e-10
+     warm-start block E79: max|r| = 7.68e-06
+     warm-start block E80: max|r| = 3.06e-07
+     warm-start block E81: max|r| = 1.70e+02
+     warm-start block E82: max|r| = 7.83e+00
+     warm-start block E83: max|r| = 5.29e-11
+     GN iter 0: |r| = 1.74e+02
+     GN iter 1: |r| = 7.07e+03
+     GN iter 2: |r| = 2.52e+03
+     GN iter 3: |r| = 9.18e+02
+     GN iter 4: |r| = 1.58e+02
+     GN iter 5: |r| = 1.03e+02
+     N-continuation stage N=20: |r|=1.0e+02
+   M=8.0 a=0.5: dps=49 N=20 delta0=0.0013 series |r|=1.0e+02 steps=134 diag={'ambiguous': 0, 'far_jump': 0}
+M=8.0: F(5)=-3.6130479e+16 F(27)=-2.5064011e+13 F(90)=-275220.12 F(170)=-0.00036436639  H1=(1.14063e-6 + 6.62428e-7j) [278s]

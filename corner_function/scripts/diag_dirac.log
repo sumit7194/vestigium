@@ -1,0 +1,18 @@
+     warm-start block E73: max|r| = 1.41e-17
+     warm-start block E74: max|r| = 3.76e-18
+     warm-start block E75: max|r| = 2.12e-18
+     warm-start block E76: max|r| = 1.40e-16
+     warm-start block E77: max|r| = 1.31e-16
+     warm-start block E78: max|r| = 1.78e-16
+     warm-start block E79: max|r| = 1.28e-16
+     warm-start block E80: max|r| = 1.20e-16
+     warm-start block E81: max|r| = 3.54e-17
+     warm-start block E82: max|r| = 6.69e-16
+     warm-start block E83: max|r| = 2.84e-16
+     GN iter 0: |r| = 8.02e-16
+     GN iter 1: |r| = 4.65e-29
+   M=1.0 a=-0.5j: dps=28 N=10 delta0=0.0100 series |r|=4.6e-29 steps=42
+x=135.0: F=(0.00086017781 - 0.0019304236j) b=(0.586079 - 0.412408j) X1=(0.0997371 + 0.0827229j) be1=(-0.466464 - 0.662898j) B1=(0.0461043 + 0.0736426j)  Psi=(-0.01510013 - 0.88850915j)
+x=90.0: F=(0.0050772624 - 0.0081756828j) b=(0.761397 - 0.579934j) X1=(0.0822153 + 0.0774692j) be1=(-0.865854 - 1.13678j) B1=(0.0406472 + 0.076891j)  Psi=(-0.03751345 - 0.98074272j)
+x=26.6: F=(0.031271999 - 0.020667628j) b=(0.792378 - 1.51892j) X1=(0.0344716 + 0.0342817j) be1=(-1.23999 - 0.646869j) B1=(0.027532 + 0.0422719j)  Psi=(0.16371575 - 1.3884047j)
+[6s]

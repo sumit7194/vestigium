@@ -1,0 +1,10 @@
+     GN iter 0: |r| = 2.95e-02
+     GN iter 1: |r| = 1.25e-04
+     GN iter 2: |r| = 1.25e-04
+     GN iter 3: |r| = 1.25e-04
+   M=1.0: dps=28 series |r|=1.2e-04 steps=54
+     GN iter 0: |r| = 3.84e+03
+     GN iter 1: |r| = 1.94e-08
+     GN iter 2: |r| = 1.94e-08
+     GN iter 3: |r| = 1.94e-08
+   M=3.0: dps=34 series |r|=1.9e-08 steps=181

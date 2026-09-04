@@ -1,0 +1,24 @@
+=== Tier-1 style: does the spectral (moment) structure hold for the real theories? ===
+  Einstein (6 exact coefficients)        Hankel(M_2(j+k)) min eig/max eig = +3.251e-03 ; Hankel(M_2(j+k)+2) = +1.555e-04  -> PASS
+  complex scalar (8 coefficients)        Hankel(M_2(j+k)) min eig/max eig = +7.528e-06 ; Hankel(M_2(j+k)+2) = +2.227e-07  -> PASS
+  Dirac fermion (7 coefficients)         Hankel(M_2(j+k)) min eig/max eig = +3.186e-03 ; Hankel(M_2(j+k)+2) = +1.501e-04  -> PASS
+  CONTROL: Einstein with sigma''' halved Hankel(M_2(j+k)) min eig/max eig = +5.566e-03 ; Hankel(M_2(j+k)+2) = -1.969e-03  -> FAIL
+
+=== closed-form shapes, normalised to the universal sigma ===
+  a_min (BWK bound)                      C1 refl+C2 signs+C3 CHL: PASS   min[a''+a'/sin] = -3.521e-08   sigma=0.411234 (target 0.411234)   kappa=0.0033
+  Lifshitz shape, sigma-normalised       C1 refl+C2 signs+C3 CHL: PASS   min[a''+a'/sin] = +4.909e-04   sigma=0.411234 (target 0.411234)   kappa=6.3751
+  EMI shape, sigma-normalised            C1 refl+C2 signs+C3 CHL: PASS   min[a''+a'/sin] = +2.057e-04   sigma=0.411234 (target 0.411234)   kappa=3.8758
+  rho_min (sigma-normalised): total mass 0.822467 (2 sigma = 0.822467);  sigma' = M_2/24 = 0.017135
+  rho_lif (sigma-normalised): total mass 0.822467 (2 sigma = 0.822467);  sigma' = M_2/24 = 0.041667
+  rho_emi (sigma-normalised): total mass 0.822467 (2 sigma = 0.822467);  sigma' = M_2/24 = 0.027416
+  check: a_emi sigma'/sigma exact = 1/15 = 0.066667; a_lif sigma'/sigma exact = 1/pi^2 = 0.101321; Einstein sigma'/sigma = (5/192)/(pi^2/24) = 0.063326; a_min sigma'/sigma = 1/24 = 0.041667
+
+=== explicit admissible corner functions with any kappa: a = (1-lam) a_min + tail(s1) ===
+  s1=0.0, kappa/C_T=3        lam=0.471   C1 refl+C2 signs+C3 CHL: PASS   min[a''+a'/sin] = +2.310e-04   sigma=0.411234 (target 0.411234)   kappa=3.0016
+  s1=2.0, kappa/C_T=10       lam=0.079   C1 refl+C2 signs+C3 CHL: PASS   min[a''+a'/sin] = +2.987e-04   sigma=0.411234 (target 0.411234)   kappa=10.0010
+  s1=4.0, kappa/C_T=100      lam=0.005   C1 refl+C2 signs+C3 CHL: PASS   min[a''+a'/sin] = +6.520e-05   sigma=0.411234 (target 0.411234)   kappa=99.9632
+  s1=6.0, kappa/C_T=10000    lam=0.002   C1 refl+C2 signs+C3 CHL: PASS   min[a''+a'/sin] = +5.579e-05   sigma=0.411234 (target 0.411234)   kappa=9994.0051
+  s1=8.0, kappa/C_T=1e+06    lam=0.001   C1 refl+C2 signs+C3 CHL: PASS   min[a''+a'/sin] = +3.146e-05   sigma=0.411234 (target 0.411234)   kappa=999200.3232
+  s1=0.0, kappa/C_T=0.001    lam=0.000   C1 refl+C2 signs+C3 CHL: PASS   min[a''+a'/sin] = +4.234e-08   sigma=0.411234 (target 0.411234)   kappa=0.0043
+
+kappa/C_T of the known theories for scale: ECG 3.672..3.747, Einstein 3.709, Dirac 3.8005, real scalar 4.179

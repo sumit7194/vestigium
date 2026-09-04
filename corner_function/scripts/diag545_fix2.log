@@ -1,0 +1,22 @@
+     N-continuation stage N=4: |r|=1.1e-40
+     N-continuation stage N=8: |r|=9.2e-41
+     N-continuation stage N=12: |r|=1.5e-38
+     N-continuation stage N=16: |r|=2.0e-36
+   M=5.4523 a=0.5: dps=41 N=16 delta0=0.0018 series |r|=2.0e-36 steps=52 diag={'ambiguous': 0, 'far_jump': 0}
+M=5.4523: F(5)=0.00029109058 F(27)=5.5368272e-6 F(90)=5.7044386e-11 F(170)=1.3274693e-16  H1=(7.82025e-15 + 0.0j) [10s]
+     N-continuation stage N=4: |r|=1.6e-45
+     N-continuation stage N=8: |r|=1.5e-46
+     N-continuation stage N=12: |r|=1.1e-45
+     N-continuation stage N=16: |r|=1.9e-44
+     N-continuation stage N=20: |r|=8.1e-35
+   M=8.0 a=0.5: dps=49 N=20 delta0=0.0013 series |r|=8.1e-35 steps=61 diag={'ambiguous': 0, 'far_jump': 0}
+M=8.0: F(5)=8.6334229e-5 F(27)=2.4169306e-7 F(90)=8.3631572e-15 F(170)=2.4280365e-23  H1=(1.25092e-21 + 0.0j) [53s]
+     N-continuation stage N=4: |r|=2.0e-63
+     N-continuation stage N=8: |r|=5.0e-60
+     N-continuation stage N=12: |r|=2.3e-59
+     N-continuation stage N=16: |r|=8.2e-41
+     N-continuation stage N=20: |r|=1.1e-40
+     N-continuation stage N=24: |r|=2.6e-39
+     N-continuation stage N=28: |r|=3.7e-41
+   M=12.0 a=0.5: dps=61 N=28 delta0=0.0008 series |r|=3.7e-41 steps=158 diag={'ambiguous': 0, 'far_jump': 0}
+M=12.0: F(5)=1.9298858e-5 F(27)=2.637877e-9 F(90)=1.2498094e-20 F(170)=6.0542823e-34  H1=(2.24142e-32 + 0.0j) [283s]

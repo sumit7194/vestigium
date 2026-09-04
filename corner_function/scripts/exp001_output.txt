@@ -1,0 +1,85 @@
+control sigma/C_T from theta=pi-0.001: 0.411238   exact pi^2/24 = 0.411234   rel.err 1.11e-05
+control kappa/C_T from theta=0.001: 3.709228   exact pi^2 G(3/4)^4/6 = 3.709229   rel.err -2.54e-07
+control a_E(pi/2)/C_T = 1.2220 (BWK Table 1: 1.222) ; a_E(3pi/4)/C_T = 0.2642 (BWK: 0.264)
+control CHL-normalised s_H(pi/2) = 0.02321 (CHL: 0.02321) ; s_H(3pi/4) = 0.005019 (CHL: 0.005019) ; kappa_H = 0.0705 (CHL: 0.0704)
+
+---- Free-field tabulated values (sources in comments) ----
+  tan theta(deg)     holo    bound      EMI |      scalar/CT (ans,lat,ser) |     fermion/CT (ans,lat,ser)
+  0.5      26.57   7.5752   4.8386   7.8413 |   8.2115   8.1062   7.6483  |   7.6851   7.7378   7.0219
+    1      45.00   4.0369   3.1601   4.1405 |   4.2637   4.2584   4.2305  |   4.0847   4.0900   4.0289
+    2      63.43   2.4452   2.1153   2.4886 |   2.5371   2.5424   2.5350  |      nan      nan      nan
+  inf      90.00   1.2220   1.1402   1.2337 |   1.2475   1.2423   1.2459  |      nan      nan      nan
+   -2     116.57   0.5483   0.5321   0.5508 |   0.5527   0.5527   0.5532  |      nan      nan      nan
+   -1     135.00   0.2642   0.2605   0.2648 |   0.2653   0.2669   0.2653  |      nan      nan      nan
+ -0.5     153.43   0.0896   0.0892   0.0897 |   0.0900   0.0895   0.0897  |      nan      nan      nan
+
+---- CHL 2009 exact-method values normalised ----
+real scalar (CHL complex/2)  a(pi/2)/CT=1.2454  a(3pi/4)/CT=0.2653  kappa/CT=4.1794
+Dirac                        a(pi/2)/CT=1.2259  a(3pi/4)/CT=0.2643  kappa/CT=3.8005
+holographic Einstein         a(pi/2)/CT=1.2220  a(3pi/4)/CT=0.2642  kappa/CT=3.7092
+SSA bound                    a(pi/2)/CT=1.1402  a(3pi/4)/CT=0.2605  kappa/CT= (log only)
+
+---- ../quantum (vestigium) lattice real-scalar values vs exact and vs bound ----
+a(60) lattice=0.024232  /CT=2.5510   holo/CT=2.6744  bound/CT=2.2804  bound=0.021661  ok
+a(90) lattice=0.011604  /CT=1.2216   holo/CT=1.2220  bound/CT=1.1402  bound=0.010830  ok
+a(90) lattice=0.011673  /CT=1.2289   holo/CT=1.2220  bound/CT=1.1402  bound=0.010830  ok
+a(120) lattice=0.003896  /CT=0.4101   holo/CT=0.4859  bound/CT=0.4732  bound=0.004495  BELOW BOUND
+
+order p | holo sigma^(p)/C_T | boson/C_T  (dev%) | fermion/C_T (dev%) | asymptote 2kappa/pi^(2p+3)/C_T: boson, fermion, holo
+      0 |     4.112335e-01 | 4.112335e-01 ( +0.00) | 4.112335e-01 ( +0.00) | 2.6959e-01 2.4514e-01 2.3926e-01
+      1 |     2.604167e-02 | 2.870880e-02 (+10.24) | 2.639399e-02 ( +1.35) | 2.7315e-02 2.4838e-02 2.4242e-02
+      2 |     2.440680e-03 | 2.814314e-03 (+15.31) | 2.533460e-03 ( +3.80) | 2.7676e-03 2.5166e-03 2.4562e-03
+      3 |     2.443685e-04 | 2.843292e-04 (+16.35) | 2.555692e-04 ( +4.58) | 2.8041e-04 2.5499e-04 2.4887e-04
+      4 |     2.486287e-05 | 2.872758e-05 (+15.54) | 2.588382e-05 ( +4.11) | 2.8412e-05 2.5836e-05 2.5215e-05
+      5 |     2.536121e-06 | 2.901173e-06 (+14.39) | 2.620161e-06 ( +3.31) | 2.8787e-06 2.6177e-06 2.5548e-06
+
+ratio sigma^(p) / [2 kappa / pi^(2p+3)] (should -> 1 if radius of convergence is pi):
+  p=0: boson 1.5254  fermion 1.6775  holo 1.7188
+  p=1: boson 1.0510  fermion 1.0626  holo 1.0742
+  p=2: boson 1.0169  fermion 1.0067  holo 0.9937
+  p=3: boson 1.0140  fermion 1.0023  holo 0.9819
+  p=4: boson 1.0111  fermion 1.0019  holo 0.9860
+  p=5: boson 1.0078  fermion 1.0009  holo 0.9927
+
+---- ECG at the t4 = +4 and t4 = -4 limits (BCV 2021: mu=+0.00312 <-> t4=+4, mu=-0.00322 <-> t4=-4) ----
+mu=+0.00312 (t4=+4): kappa/C_T=3.6724 (-0.99% vs Einstein) ; sigma'/C_T=0.025611 (-1.65%) ; sigma''/C_T=2.3943e-03 (-1.90%)
+mu=-0.00322 (t4=-4): kappa/C_T=3.7465 (+1.00% vs Einstein) ; sigma'/C_T=0.026478 (+1.67%) ; sigma''/C_T=2.4876e-03 (+1.92%)
+free scalar (t4=+4): kappa/C_T=4.1794 (+12.68%), sigma'/C_T=0.028709 (+10.24%)
+free fermion (t4=-4): kappa/C_T=3.8005 (+2.46%), sigma'/C_T=0.026394 (+1.35%)
+
+---- Interacting O(N) at theta=pi/2, von Neumann (n=1) ----
+O(1): C_T=0.008992  quoted a1(pi/2)/C_T=1.36(0.14) -> implied a1(pi/2)=0.01223 +- 0.00126 ; vs N x free real scalar a1(pi/2)=0.01183 ; bound 0.01025
+O(2): C_T=0.017927  quoted a1(pi/2)/C_T=1.3(0.1) -> implied a1(pi/2)=0.02331 +- 0.00179 ; vs N x free real scalar a1(pi/2)=0.02366 ; bound 0.02044
+O(3): C_T=0.026906  quoted a1(pi/2)/C_T=1.3(0.1) -> implied a1(pi/2)=0.03498 +- 0.00269 ; vs N x free real scalar a1(pi/2)=0.03549 ; bound 0.03068
+holographic 1.2220, fermion 1.2259, real scalar 1.2454, bound 1.1402 (all exact/4-digit)
+
+---- Renyi n=2 at theta=pi/2 (NOT part of the n=1 collapse; sigma_2/C_T is not universal) ----
+Ising  a2(pi/2)=0.00500(0.00025) /C_T = 0.556 +- 0.028
+free real scalar a2(pi/2)=0.00642 /C_T = 0.676   (BMW Table 1 quotes 0.674 for the free scalar)
+O(3)   a2(pi/2)=0.02000(0.00075) /C_T = 0.743 +- 0.028   vs 3 free scalars a2=0.01925
+old NLCE (BMW Table 1) a2/C_T: Ising 0.62(6), O(2) 0.62(6), O(3) 0.61(6)
+
+control mu=+0.00312: sigma_ECG/sigma_E=0.990640 (exact 0.990640) ; kappa_ECG/kappa_E=0.980812 (exact 0.980812)
+control mu=-0.00322: sigma_ECG/sigma_E=1.009660 (exact 1.009660) ; kappa_ECG/kappa_E=1.019803 (exact 1.019803)
+
+    deg  Einstein  ECG t4=+4   dev%  ECG t4=-4   dev% | trial(kE)   res% trial(k_s) trial(k_f) | d(a/CT)/d(k/CT)
+  26.57    7.5752     7.5098  -0.86     7.6415  +0.87 |    7.6450  +0.92     8.1992     7.7525 | 1.1786
+  45.00    4.0369     4.0093  -0.69     4.0649  +0.69 |    4.0687  +0.79     4.2715     4.1081 | 0.4312
+  60.00    2.6744     2.6601  -0.54     2.6889  +0.54 |    2.6907  +0.61     2.7888     2.7098 | 0.2086
+  63.43    2.4452     2.4329  -0.50     2.4576  +0.51 |    2.4591  +0.57     2.5424     2.4753 | 0.1771
+  90.00    1.2220     1.2185  -0.29     1.2255  +0.29 |    1.2258  +0.31     1.2482     1.2301 | 0.0477
+ 116.57    0.5483     0.5476  -0.14     0.5491  +0.14 |    0.5491  +0.14     0.5538     0.5500 | 0.0099
+ 120.00    0.4859     0.4853  -0.12     0.4865  +0.12 |    0.4865  +0.12     0.4902     0.4872 | 0.0078
+ 135.00    0.2642     0.2640  -0.07     0.2644  +0.07 |    0.2644  +0.07     0.2655     0.2646 | 0.0023
+ 153.43    0.0896     0.0896  -0.02     0.0897  +0.02 |    0.0897  +0.02     0.0898     0.0897 | 0.0003
+
+Trial function vs exact free fields (CHL Table 1 / Helmes ansatz):
+  complex scalar  theta=  90.0: trial 1.2482  exact 1.2454  (+0.22%)
+  complex scalar  theta= 135.0: trial 0.2655  exact 0.2653  (+0.06%)
+  complex scalar  theta=  45.0: trial 4.2715  exact 4.2637  (+0.18%)
+  Dirac           theta=  90.0: trial 1.2301  exact 1.2259  (+0.34%)
+  Dirac           theta= 135.0: trial 0.2646  exact 0.2643  (+0.09%)
+  Dirac           theta=  45.0: trial 4.1081  exact 4.0847  (+0.57%)
+
+What a theta=pi/2 measurement with +-0.1 on a/C_T says about kappa/C_T (trial-function slope):
+  slope at pi/2 = 0.0477  ->  delta(kappa/C_T) = 0.1/0.0477 = +-2.10   (band of all known theories: 3.672 .. 4.179, width 0.507)
