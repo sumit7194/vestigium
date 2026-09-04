@@ -28,3 +28,23 @@ shell invocation committed anyway** — a control-flow gap *between processes*.
 covered by `.githooks/pre-commit`, which blocks the commit itself.
 
 **Different failure, different ride.** Two mechanisms, neither redundant.
+
+
+## Model routing (adopted 2026-09-05)
+
+The same rule as the gates — *the cheap check runs first, the expensive one runs on
+what the cheap one could not do* — applied to which model does which work.
+
+| tier | use for | why |
+|---|---|---|
+| **Fable** (heaviest) | hypothesis design; pre-registering the way a test is expected to fail; derivations where a sign or a convention decides the answer (three of this week's errors were exactly that); reading a theorem's *hypotheses*, not its statement; writing the **negative** assertions; judging whether a retraction is over- or under-scoped | these are the steps where a plausible wrong answer survives review |
+| **Opus** | synthesising a repo's history from its own docs; findings write-ups; implementing an instrument to a written spec; diagnosing a failing run; extracting equations from a paper | needs judgement, but the target is specified |
+| **Sonnet** | literature fetch + extraction against a fixed prompt; capability inventories of sibling repos; log monitoring; running gates and reporting margins; formatting | mechanical, verifiable after the fact |
+| **Haiku** | keep-alive ticks; polling | no judgement involved |
+
+Evidence from the day it was adopted: an Opus history pass (~140k tokens) preserved
+every caveat the README carries, including recall-check demotions; a Sonnet
+capability inventory (~105k tokens) was accurate on tools and interfaces. Watch for the
+known failure of the cheap tiers: a summary that *flattens a caveat* — "withdrawn on
+provenance" becoming "withdrawn" — which is why write-ups and anything touching the
+retraction ledger stay at Opus or above.

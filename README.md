@@ -296,6 +296,15 @@ The transferable lesson, now a standing entry in the family ledger: **when probi
 definition is robust, scan the physical regime — the interesting answer is usually a boundary,
 not a yes/no.**
 
+## What next — proposals
+
+[PROPOSALS.md](PROPOSALS.md) holds three pre-registered hypotheses, none run: **H1**
+points the validated secular-average instrument at ansatz's own open item ("deformed-Kerr
+integrability fate: UNDETERMINED"), including its weeks-old rank-3 Killing-tensor solution,
+with three controls, three cross-oracle routes, and four named ways it is expected to fail;
+**H2** files a number (`ξ/L ≈ 2.5`) for tabula's mass sweep before it lands; **H3** is the
+only item that touches the founding question, and no sister can test it.
+
 ## Method validation — is the instrument measuring the physics?
 
 Two studies whose subject is the *measuring device* rather than a physical system.
