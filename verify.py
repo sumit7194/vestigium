@@ -219,6 +219,54 @@ check("corner: C2' floor re-derived from artifact, not typed",
 # they read. This artifact existed and its numbers were in the README and sent
 # to tabula, but NOTHING re-asserted them -- the study under external blind
 # check was the least gated one here.
+# ---- BWK16 BOUND: a(120) in corner_angles.json VIOLATES A THEOREM ----------
+# Reported by another workspace via thebridge-f0, 2026-09-04, and confirmed here.
+# a(th) >= (pi^2 C_T/3) log[1/sin(th/2)] follows from SSA + Lorentz invariance
+# with sigma = pi^2 C_T/24; for a real scalar the prefactor is EXACTLY 1/32. No
+# fitted parameter, no threshold -- so a value below it is a defect, not a
+# judgement call. Diagnosis in qsim/CORNER_BOUND_FINDINGS.md.
+import numpy as _np
+_BND120 = (1.0/32.0)*_np.log(2.0/_np.sqrt(3.0))
+_BND60 = (1.0/32.0)*_np.log(2.0)
+
+def _refit(art_name, per_unit, key="R"):
+    """Refit a(theta) from RAW S values. The original artifact stored only fitted
+    coefficients, so the window could not be varied without a re-run -- itself a
+    defect. These artifacts store S."""
+    d = art(art_name)
+    x = _np.array(d[key], float); S = _np.array(d["S"], float)
+    def f(lo, hi, rich):
+        msk = (x >= lo) & (x <= hi)
+        cols = [per_unit*x[msk], _np.log(x[msk]), _np.ones(msk.sum())]
+        if rich: cols.append(1.0/x[msk])
+        c, *_ = _np.linalg.lstsq(_np.vstack(cols).T, S[msk], rcond=None)
+        return -c[1]/per_unit
+    return f
+
+check("committed a(120) is BELOW the BWK16 bound [NEG]",
+      _BND120 - art("corner_angles.json")["values"]["a120"], ">", 5e-4, kind="NEG",
+      note="0.0038956 vs bound 0.0044950 -- 13.3% under a theorem; SUPERSEDED")
+
+_h = _refit("corner_m_extrap.json", 6)
+check("corrected a(120) reaches the bound (N=2048, m=0.00125, R=26..36)",
+      _h(26, 36, False)/_BND120, ">", 0.99,
+      note="0.0044650 = 0.993x bound, 3-param from below; m->0 extrap 0.0045099 > bound")
+check("...and the 4-param fit brackets it from ABOVE",
+      _h(26, 36, True)/_BND120, ">", 1.0,
+      note="0.0045195; the two fits CONVERGE here, unlike the committed pair")
+check("the committed window is what breaks it, not the physics [NEG]",
+      _h(26, 36, False) - _h(4, 14, False), ">", 2e-4, kind="NEG",
+      note="same data, same code: R=4..14 gives 0.0041388, R=26..36 gives 0.0044650")
+check("corrected a(60) also rises, on a different shape",
+      _refit("corner_tri_check.json", 3, "l")(44, 64, False), ">", 0.0250,
+      note="0.0256670 vs committed 0.0242324; a fix that only repairs its own "
+           "target number is not a fix")
+check("regulator spread was blind to the real systematic [NEG]",
+      abs(_h(26, 36, False) - _h(4, 14, False))/_h(26, 36, False)*100, ">",
+      art("corner_angles.json")["spreads"]["a120_3"], kind="NEG",
+      note="window systematic ~7% vs the 1.85% across-regulator spread that was "
+           "quoted as the uncertainty; all four regulators shared one (N,m,window)")
+
 ca = art("corner_angles.json")
 check("corner angles: a(60) > a(120) [recall check, NOT a prediction]",
       ca["values"]["a60"] - ca["values"]["a120"], ">", 0.01,

@@ -57,5 +57,20 @@
  "verdict": {
   "P1": true,
   "P2": true
+ },
+ "SUPERSEDED": {
+  "date": "2026-09-04",
+  "by": "qsim/CORNER_BOUND_FINDINGS.md + corner_m_extrap.json",
+  "reason": "a(120)=0.0038956 is 13.3% BELOW the BWK16 bound 0.0044950, which is a theorem (SSA + Lorentz invariance, prefactor exactly 1/32 for a real scalar) and not a fit. Cause: xi/N = 0.62, so the BOX and not the mass was the IR cutoff, and the fit window R=4..14 sat in lattice corrections. Corrected a(120) = 0.00451 (+16%), which satisfies the bound. a(60) corrected 0.0242324 -> 0.0256670 (+5.9%).",
+  "still_valid": [
+   "P1 ordering a(60)>a(90)>a(120)",
+   "shape-independence control (area coefficient, <0.05%)"
+  ],
+  "not_valid": [
+   "values.a120",
+   "values.a60",
+   "per_regulator.*",
+   "spreads.* as an uncertainty estimate -- all four regulators shared one (N, m, fit window), so the spread is blind to the dominant systematic (61% from m, ~12% from the window)"
+  ]
  }
 }

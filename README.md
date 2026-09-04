@@ -24,6 +24,17 @@ Shape first:*
 | **Confirmed** | A value for the corner spread at s=5 was **committed before the run existed** and came back at 0.7 %. Pre-registration, not blinding — the measuring session held the earlier points. |
 | **Established** | The spread **falls** under refinement, 1.69 → 0.029 % over s=1–6. The vanishing is forced for any regulator family sharing a continuum limit. |
 | **Overturned today** | The falloff is **not exactly s⁻²**. s=6 shows the constant drifting 3.48 % with the local exponent steepening — and no subleading correction `A s⁻²(1 + B s⁻ᵖ)` can produce that shape. |
+> **2026-09-04 — `a(120°)` SUPERSEDED.** An external workspace checked the corner
+> numbers against the BWK16 bound `a(th) >= (pi^2 C_T/3) log[1/sin(th/2)]` — a
+> theorem with no fitted parameter — and `a(120°) = 0.0038956` sits **13.3% below**
+> it. Confirmed and diagnosed: `xi/N = 0.62`, so the **box and not the mass** was
+> the IR cutoff, and the fit window `R = 4..14` sat entirely in lattice
+> corrections. Corrected: **`a(120°) = 0.00451` (+16%), which satisfies the
+> bound**; `a(60°) = 0.0242324 -> 0.0256670` (+5.9%). The quoted 1.85%
+> across-regulator spread was **blind** to this — all four regulators shared one
+> `(N, m, window)`, and the systematic is 61% in `m` and ~12% in the window.
+> See [qsim/CORNER_BOUND_FINDINGS.md](qsim/CORNER_BOUND_FINDINGS.md).
+
 | **Open** | A systematic of the **same order as the effect**, ≈4.8e-05 in B at s=2. **Not** a property of the zero mode: the mode is identical across admissible kernels by construction (all reduce to m² at k=0), so what differs is its **coupling to the bulk**. The percentage figure this row used to carry (22–41 %) is an artifact of the kernel set — one further admissible kernel moves it 3.5×. Whether the drift survives it is unresolved. |
 | **Not mine** | Three of the five refinement points were measured by another session on code that is not in this repo. |
 
