@@ -257,6 +257,16 @@ check("...and the 4-param fit brackets it from ABOVE",
 check("the committed window is what breaks it, not the physics [NEG]",
       _h(26, 36, False) - _h(4, 14, False), ">", 2e-4, kind="NEG",
       note="same data, same code: R=4..14 gives 0.0041388, R=26..36 gives 0.0044650")
+_r = _refit("corner_ratio_measure.json", 6)
+check("m->0 ratio measured at the PLATEAU, not imported",
+      (_h(26,36,False) - _r(26,36,False)) / (0.0044650-0.0043706), ">", 4.0,
+      note="r=4.56 at the plateau vs 3.1 imported from R=4..14; the bound-"
+           "satisfied claim flips at r~4.3, so the import decided the conclusion")
+check("3-param route does NOT clear the bound after correction [NEG]",
+      _BND120 - (_h(26,36,False) + (0.0044650-0.0043706)/(4.56-1)), ">", 1e-6,
+      kind="NEG",
+      note="0.0044915 = 0.9992x; satisfied only within the 3par/4par bracket. "
+           "Stops 'quantum showed the bound is satisfied' being restated flatly")
 check("corrected a(60) also rises, on a different shape",
       _refit("corner_tri_check.json", 3, "l")(44, 64, False), ">", 0.0250,
       note="0.0256670 vs committed 0.0242324; a fix that only repairs its own "

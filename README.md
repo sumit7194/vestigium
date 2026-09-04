@@ -29,8 +29,11 @@ Shape first:*
 > theorem with no fitted parameter — and `a(120°) = 0.0038956` sits **13.3% below**
 > it. Confirmed and diagnosed: `xi/N = 0.62`, so the **box and not the mass** was
 > the IR cutoff, and the fit window `R = 4..14` sat entirely in lattice
-> corrections. Corrected: **`a(120°) = 0.00451` (+16%), which satisfies the
-> bound**; `a(60°) = 0.0242324 -> 0.0256670` (+5.9%). The quoted 1.85%
+> corrections. Corrected: **`a(120°) = 0.004465` measured (+14.6%), `0.0044915`
+> extrapolated to `m -> 0` — `0.9992x` the bound, still marginally below, while
+> the 4-param fit measures `0.0045195` above it. The bound is satisfied within
+> the two-model bracket and the deficit falls from 13.3% to 0.08%**;
+> `a(60°) = 0.0242324 -> 0.0256670` (+5.9%). The quoted 1.85%
 > across-regulator spread was **blind** to this — all four regulators shared one
 > `(N, m, window)`, and the systematic is 61% in `m` and ~12% in the window.
 > See [qsim/CORNER_BOUND_FINDINGS.md](qsim/CORNER_BOUND_FINDINGS.md).

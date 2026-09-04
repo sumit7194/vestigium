@@ -67,13 +67,54 @@ each other — 3-param from below, 4-param from above, differing by `5.5e-05` at
 the largest window and still narrowing. The original extraction had no such
 crossing; its two fits *diverged* (0.0038960 vs 0.0035869).
 
-Extrapolating `m -> 0` (increments fall ~3.1× per halving, measured):
+### The `m -> 0` extrapolation, corrected
+
+**The first version of this section claimed `BOUND SATISFIED` and it was wrong.**
+It extrapolated with `r = 3.1` increments per halving of `m` — a ratio measured
+at the **fixed `R = 4..14` window**, not at the plateau, and imported without
+checking. The conclusion is sensitive to exactly that number:
+
+| assumed `r` | a(120°) | vs bound |
+|---|---|---|
+| 2.0 | 0.0045594 | 1.0143 |
+| 3.1 (imported) | 0.0045100 | 1.0033 |
+| 4.0 | 0.0044965 | 1.0003 |
+| 5.0 | 0.0044886 | 0.9986 |
+
+It flips at `r ≈ 4.3`. With only two plateau points, `r` was unconstrained.
+
+A third plateau point at `m = 0.005, N = 512` — chosen so `xi/N = 0.391` matches
+the 0.39 of the other two, varying `m` alone at fixed geometry — **measures** it:
 
 ```
-a(120) = 0.0045099   vs bound 0.0044950     ->  BOUND SATISFIED
+m = 0.005    a(120) = 0.0039402
+m = 0.0025   a(120) = 0.0043706    increment +0.0004304
+m = 0.00125  a(120) = 0.0044650    increment +0.0000944
+
+measured r = 4.56   (not 3.1)
+extrapolation m->0 : 0.0044650 + 0.0000265 = 0.0044915 = 0.9992x bound
 ```
 
-**Correction to the committed value: +16%.**
+**Still 0.08% below.** The honest statement:
+
+- 3-param, extrapolated to `m -> 0`: **0.0044915, 0.9992× — marginally below**
+- 4-param, measured directly at `m = 0.00125`: **0.0045195, 1.0054× — above**
+
+So the bound is satisfied **within the bracket of the two fit models**, which
+differ by 1.2% at that window, but the 3-parameter route alone does not clear it.
+The deficit falls from **13.3% to 0.08%** — into the residual model ambiguity —
+and that is all that can be claimed from measurement here.
+
+**Correction to the committed value: +15.3%** (measured 0.0044650 against
+0.0038956 is +14.6%; with the corrected extrapolation, +15.3%).
+
+### Same failure, third time in one session
+
+The imported `r` is the third headline number in two days that rested on a
+parameter held fixed and never varied: the LRL window quoted at fixed `a`; this
+study's uncertainty quoted at fixed `(N, m, window)`; and now an extrapolation
+quoted at an `r` imported from a different window. **In all three the instrument
+was sound and the summary statistic carried an unexamined constant.**
 
 ## Independent confirmation on a different angle and shape
 
