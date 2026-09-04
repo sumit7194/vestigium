@@ -138,6 +138,70 @@ Everything else in the table is either already in C1–C6 or is not a statement 
 `a(θ)` at all. So the completeness question is narrower than it first appears: it
 is essentially the two items above.
 
+## The literature sweep — both routes come up empty
+
+Run 2026-09-05 on the two routes named above. **Neither constraint exists in the
+literature I could reach.** That is a negative result and it *supports* the
+completeness of C1–C6, which is what the theorem needs.
+
+**Method caveat, stated first.** Sources were fetched and extracted by a
+small model, not read end-to-end by me. Extractions that returned specific
+equation numbers (below) are good evidence the text was actually parsed; the rest
+is weaker. And a targeted sweep finding nothing is **not** proof of absence.
+
+### Route 1 — a bound on the thin-strip / cusp coefficient in terms of `C_T`. NOT FOUND.
+
+- **[BMW15b] `Universal corner entanglement from twist operators` (1507.06997).**
+  Confirms the strip connection: `a_n(θ→0) = κ_n/θ` (Eq. 1.4), with
+  `κ_n = (1/π)∫₀^∞ dt c_n(t)` (Eq. 3.20) — κ is an integral of the **2d entropic
+  c-function** for the corresponding massive free field. **No bound on `κ_n` or
+  `κ_1` in terms of `C_T` appears.** Numerical values only (Table 3).
+- **[BWK16] (1511.04077).** No upper bound on κ is derived. Lower bounds only. The
+  near-saturation of `a(π/2)` against the bound is stated as **numerical
+  observation, not proof**.
+- **Cusp bootstrap, 2026** (2609.04041, 2608.28531; also Cuomo–He–Komargodski
+  2406.10186). **Different object** — cusped *line defects / impurities*, not the
+  corner of an entangling surface — and the bounds are **lower** bounds
+  ("an optimal and universal *lower* bound on the dimension of a right angle bare
+  cusp"). Does not bear on `a(θ)`.
+- **`Disks globally maximize the entanglement entropy in 2+1d`** (2107.12394).
+  Concerns the constant term `F` for **smooth** regions, giving `F ≥ n_B F_0` — a
+  lower bound, and not a statement about the corner log coefficient.
+
+### Route 2 — a cross-`n` inequality linking the Rényi tower. NOT FOUND.
+
+- **1507.06997** states **no** inequalities relating `a_n` or `κ_n` at different
+  `n`. The Bose–Fermi duality (Eq. 4.3) is an **equality between specific
+  theories**, not a general inequality.
+- **[BWK16]** bounds are **index-specific**: `a_n(θ) ≥ h_n/[π(n−1)](θ−π)²`
+  (Eq. II.8) — each `n` bounded by *its own* twist dimension `h_n`. No comparison
+  across `n`.
+- **`Rényi mutual information inequalities from Rindler positivity`** (1909.03144),
+  the closest mechanism in the literature: the inequalities are **at fixed `n`**
+  (complete monotonicity of `F_n = e^{(n−1)I_n}` in the distance) and concern the
+  **full** mutual information, not universal log coefficients.
+
+### Why route 2 fails structurally — my own argument, not from a source
+
+Standard Rényi monotonicity (`S_n` non-increasing in `n`, `(n−1)S_n` non-decreasing)
+applies to **one region at different `n`**. Isolating a log coefficient requires
+**area terms to cancel**, which needs **two regions at the same `n`**. For a single
+region, `S_n(R) = A_n P − a_n log R + …`, and `S_n ≥ S_m` is dominated by
+`(A_n − A_m)P`, which says nothing about `a_n − a_m`.
+
+**The two operations do not compose**: Rényi monotonicity varies `n` at fixed
+geometry, and log-coefficient extraction varies geometry at fixed `n`. That is a
+structural reason the route is empty, and it is consistent with the sweep. It also
+means route 2 is unlikely to be closed by looking harder — it would need a genuinely
+new mechanism, not a missed citation.
+
+### Net effect on the theorem
+
+C1–C6 survives the sweep as the known constraint set. The theorem's load-bearing
+assumption is **better supported than before**, and route 1's negative is the one
+the original authors would want: no upper bound on κ exists to contradict them. The
+honest residual is that a sweep is not a proof of completeness.
+
 ## What the result does and does not say
 
 It says C1–C6 do not localise κ. **It does not say a CFT with large κ/C_T exists** —
