@@ -144,6 +144,22 @@ check("log coeff -> universal c/6 at criticality (L=512)",
       abs(lc["controls"]["critical_fit_rel_err"]), "<", 0.02,
       note="anchor: converges 1.034 -> 1.006 with size")
 
+# The chain's xi/L threshold bundles TWO conditions it cannot separate (2026-09-05).
+# A chain has one length besides xi; the corner study has two (R and N), and there the
+# two axes carry very different leverage. So xi/L ~ 2.5 is a bound on a composite.
+_ir = art("corner_ir_scan.json")
+_vN = [x["a14"] for x in _ir if x["m"] == 0.01]      # vary box alone
+_vm = [x["a14"] for x in _ir if x["N"] == 320]       # vary mass alone
+_sp = lambda v: (max(v) - min(v))/(sum(v)/len(v))
+check("regime condition is TWO axes, not one: mass axis dominates box axis",
+      _sp(_vm)/_sp(_vN), ">", 10.0,
+      note="61% varying m alone vs 2.3% varying N alone -- a chain, having one length "
+           "besides xi, cannot separate these and reports a single xi/L threshold")
+check("...and the box axis is NOT negligible either [NEG]",
+      _sp(_vN)*100, ">", 1.0, kind="NEG",
+      note="2.3% -- small next to 61% but larger than the 1.85% once quoted as the "
+           "whole uncertainty, so it cannot be dropped as the lesser axis")
+
 km = art("kappa_vs_mutual_info.json")
 check("kappa is regulator-JUNK and stays so [NEG]",
       km["verdict"]["kappa_spread_percent"], ">", 25.0, kind="NEG",

@@ -204,6 +204,14 @@ project — deliberately implemented without sharing code, so agreement means so
   0.6% at criticality, with universality **switching on at ξ/L ≈ 2.5**. The ordered branch is
   excluded on physics, not convenience — its ground state is exponentially degenerate, and the
   run self-flagged it (a ratio of 15.0 with the smallest mode energy at exactly 0.0).
+  *(Amended 2026-09-05, from the corner work rather than from this run.* The ξ/L collapse is
+  **correct for this chain** — but a chain has only **one** length besides ξ: the block runs
+  `L//16`→`L//2`, so region scale and box scale are locked in fixed proportion and cannot be
+  separated. The 2+1d corner study is the first system here with **two independent lengths**, and
+  there the regime condition is `R ≪ ξ ≪ N` — two conditions with very different leverage:
+  varying the box alone moves the answer **2.3%**, varying the mass alone **61%**. So `ξ/L ≈ 2.5`
+  is a threshold on a **composite** that this chain holds fixed, not on a single physical
+  condition. The number stands; its interpretation was one condition short.*)
 
 - **[`kappa_vs_mutual_info.py`](qsim/kappa_vs_mutual_info.py)** — if a quantity is
   regulator-contaminated in *every* regime, the move is not to hunt for a clean regime but to
