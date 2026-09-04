@@ -160,6 +160,22 @@ check("...and the box axis is NOT negligible either [NEG]",
       note="2.3% -- small next to 61% but larger than the 1.85% once quoted as the "
            "whole uncertainty, so it cannot be dropped as the lesser axis")
 
+# The whole s-family sits at xi/L = 0.625 BY CONSTRUCTION (L = L_base*s,
+# m = m_base/s), which is the same ratio that put a(120) 13.3% under a theorem.
+# Correct design for a lattice-refinement study -- and it means the scan can
+# never see a box systematic, because it never varies the axis that carries one.
+_s1, _s6 = art("corner_s1.json"), art("corner_s6.json")
+check("s-family holds xi/L FIXED, so it is blind to the box axis [NEG]",
+      abs((1/_s1["m"])/_s1["L"] - (1/_s6["m"])/_s6["L"]), "<", 1e-9, kind="NEG",
+      note="0.625 at s=1 and s=6 alike; varying s cannot reveal a systematic "
+           "carried by xi/L, the same way four regulators sharing one (N,m,window) "
+           "could not reveal one carried by m")
+check("...and that fixed value is OUTSIDE the CFT window [NEG]",
+      (1/_s6["m"])/_s6["L"], ">", 0.35, kind="NEG",
+      note="0.625 vs the < 0.35 the corner work established. Regulator SPREADS "
+           "survive (a common systematic cancels); 'spread falls as s^-2' must "
+           "NOT be read as 'the coefficient converges to its universal value'")
+
 km = art("kappa_vs_mutual_info.json")
 check("kappa is regulator-JUNK and stays so [NEG]",
       km["verdict"]["kappa_spread_percent"], ">", 25.0, kind="NEG",

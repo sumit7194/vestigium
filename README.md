@@ -319,6 +319,16 @@ entered — a bound on the thin-strip coefficient by `C_T`, and a cross-`n` Rén
 structural reason: Rényi monotonicity varies `n` at fixed geometry while extracting a log
 coefficient requires varying geometry at fixed `n`, and the two do not compose.
 
+> **2026-09-05 — the s-family is blind to one axis, by construction.** `L = L_base·s`
+> and `m = m_base/s`, so **ξ/L = 0.625 at every s** — the *same* ratio that put
+> `a(120°)` 13.3% below a theorem. That is correct design for a lattice-refinement
+> study, and it means the scan **can never detect a box systematic**, because it never
+> varies the axis carrying one. The regulator *spreads* survive (a systematic common to
+> all four cancels in a spread); what is **not** supported is reading "spread falls as
+> `s⁻²`" as "the coefficient converges to its universal value." Those are different
+> claims. Found by running [`regime_gate.py`](regime_gate.py) against already-committed
+> runs — a check that costs microseconds and had never been run.
+
 ## Interactive apps
 
 Self-contained HTML, no build step, no server needed — open the file.
