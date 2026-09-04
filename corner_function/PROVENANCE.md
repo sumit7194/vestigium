@@ -195,6 +195,39 @@ structural reason the route is empty, and it is consistent with the sweep. It al
 means route 2 is unlikely to be closed by looking harder — it would need a genuinely
 new mechanism, not a missed citation.
 
+### Hazard re-check (added 2026-09-05, technique from thebridge-a2)
+
+A sweep that returns **nothing found** is where a misread hides best, because the
+absence is unfalsifiable from inside the sweep. The technique — *name the way you
+expect to be wrong before you look* — was suggested after this sweep ran, so it is
+applied here retroactively as a re-check rather than a pre-registration.
+
+**Named hazards for the negatives above:**
+
+1. **Right paper, wrong theorem.** A paper proving two results, where the quoted
+   one has the hypotheses you expect and a second one does the real work. This is
+   the failure that motivated the technique.
+2. **Right absence, wrong variable.** My route-1 queries asked for a bound *in
+   terms of `C_T`*. A bound stated in `σ`, `h_n`, `F`, or another corner
+   coefficient would have been invisible to that phrasing — and the question the
+   theorem needs answered is whether κ is bounded **at all**, not whether it is
+   bounded by `C_T`.
+
+**Hazard 2 tested.** Re-queried [BWK16] with `C_T` deliberately excluded, asking
+for *any* inequality with κ on either side bounded by *anything* — σ, `h_n`, `F`,
+another corner coefficient, a numerical constant — and asking for each distinct
+main result separately. Result: **no stand-alone inequality with κ on one side
+exists.** The only relation found is the asymptotic `σ_n^(p≫1) → 2κ_n/π^(2p+3)`
+(Eq. IV.2), which *expresses* high-order smooth coefficients via κ and is not a
+bound in either direction. **The negative survives the widened query.**
+
+**Hazard 1 was hit and caught, but by luck rather than by design.** The 2026
+cusp-bootstrap papers match the search terms, carry "corner"/"cusp" in the title,
+and are a **different object** — cusped line defects, not entangling-surface
+corners — with **lower** bounds. A sweep that read the title and filed them as
+relevant would have reported the opposite of the truth. It was caught by checking
+the abstract, not because the hazard had been named in advance.
+
 ### Net effect on the theorem
 
 C1–C6 survives the sweep as the known constraint set. The theorem's load-bearing
