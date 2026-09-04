@@ -98,6 +98,46 @@ conjectural, derived only for integer Rényi index. If it failed, 𝒞 would be
 *larger* and the supremum no less infinite. So the conjectural status does not
 weaken the result.
 
+## Making the open item precise
+
+The completeness of C1–C6 is the only load-bearing thing neither workspace has
+checked. I have not swept the literature either — but the caveat is more useful as
+a **list with the gaps located** than as a sentence. Below is an enumeration from
+domain knowledge (assistant knowledge cutoff May 2026, **not** a literature
+search), of the families a general constraint on `a(θ)` could come from.
+
+| candidate source | where it lands | bounds κ above? |
+|---|---|---|
+| vacuum purity / Markov property of the vacuum | C1 | no |
+| SSA alone | C2 | no — lower bounds |
+| SSA + Lorentz boost invariance | C3 (CHL) | no — lower bounds |
+| reflection positivity, any order | C4 (`ρ ≥ 0`) | **no — their Corollary** |
+| smooth limit + stress-tensor 2-point function | C5 (`σ = π²C_T/24`) | no |
+| sharp limit | C6 | defines κ |
+| entropic c-theorem / F-theorem | RG flow between CFTs, not `a(θ)` within one | no |
+| ANEC, conformal collider | ratios of central charges; no known corner statement | no |
+| numerical bootstrap | bounds `C_T` itself, not `a(θ)/C_T` | no |
+| holographic positivity | theory-specific, not general | no |
+
+**Two places a missing constraint could plausibly hide**, and they are where a
+sweep should look first:
+
+1. **A bound relating the thin-strip / cusp coefficient to `C_T`.** As `θ → 0` the
+   wedge becomes a strip, and κ is tied to the strip entanglement coefficient. If a
+   general inequality bounded that by `C_T`, it would bound κ directly. I know of
+   no rigorous one — the Bueno–Myers-type relations in this area are conjectures —
+   but this is the most direct route to the missing constraint, and a negative
+   result here would substantially strengthen the theorem.
+2. **An inequality linking the Rényi tower across `n`.** `RESULT.md` asserts none
+   is known. Since `a_n` is computable at integer `n` where C4 is a theorem rather
+   than a conjecture, any inequality connecting `κ_n` to `κ_1` would import real
+   information into `n = 1`. This is the route that would most plausibly survive
+   their Corollary, because it is **not** a consequence of `ρ ≥ 0` at `n = 1`.
+
+Everything else in the table is either already in C1–C6 or is not a statement about
+`a(θ)` at all. So the completeness question is narrower than it first appears: it
+is essentially the two items above.
+
 ## What the result does and does not say
 
 It says C1–C6 do not localise κ. **It does not say a CFT with large κ/C_T exists** —
