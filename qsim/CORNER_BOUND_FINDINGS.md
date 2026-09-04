@@ -112,7 +112,7 @@ and that is all that can be claimed from measurement here.
 
 Worth stating, because the obvious next step is the wrong axis. The remaining
 deficit is **0.08%**; the gap between the two fit models at the same window is
-**1.22%** — model ambiguity dominates the shortfall by **15×**.
+**1.22%** — model ambiguity dominates the shortfall by **15.5×**.
 
 So pushing `m` lower (the next halving needs `N = 4096`) refines a 0.08% term
 while a 1.22% term sits unresolved, and cannot decide PASS or FAIL however far
