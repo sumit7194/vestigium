@@ -108,6 +108,22 @@ and that is all that can be claimed from measurement here.
 **Correction to the committed value: +15.3%** (measured 0.0044650 against
 0.0038956 is +14.6%; with the corrected extrapolation, +15.3%).
 
+### What would actually settle it — and what would not
+
+Worth stating, because the obvious next step is the wrong axis. The remaining
+deficit is **0.08%**; the gap between the two fit models at the same window is
+**1.22%** — model ambiguity dominates the shortfall by **15×**.
+
+So pushing `m` lower (the next halving needs `N = 4096`) refines a 0.08% term
+while a 1.22% term sits unresolved, and cannot decide PASS or FAIL however far
+it is taken. **The limiting factor is the fit model, not the `m -> 0` limit.**
+What would settle it is a better-conditioned extraction — more subleading terms
+constrained over a longer lever arm in `R` — not a smaller mass.
+
+Noting this explicitly because choosing to refine `m` here would be the same
+error a fourth time: work on the axis that is already converged while the
+dominant one is untouched.
+
 ### Same failure, third time in one session
 
 The imported `r` is the third headline number in two days that rested on a
