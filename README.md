@@ -276,13 +276,40 @@ project — deliberately implemented without sharing code, so agreement means so
   lattices measured at the same angle, nothing here tests lattice-independence. What the three
   points show is that a square-lattice value at 90° falls between the triangular values in the
   expected order: *consistent with* lattice-independence, and not a test of it. Across-regulator spread
-  is **0.5% at 60° and 1.9% at 120° against 33% for the area coefficient** on the same runs. New
+  is **0.5% at 60° and 1.9% at 120° against 33% for the area coefficient** on the same runs.
+*(Superseded 2026-09-04 — that spread is **not** the uncertainty: all four regulators shared one
+`(N, m, fit window)`, and the dominant systematics are orthogonal to regulator choice, 61% in `m`
+and ~12% in the window. See the note above and
+[qsim/CORNER_BOUND_FINDINGS.md](qsim/CORNER_BOUND_FINDINGS.md).)* New
   control that can fail: the area coefficient must not depend on the region's *shape*, and triangles
   vs hexagons agree to **0.03%**.
 
 The transferable lesson, now a standing entry in the family ledger: **when probing whether a
 definition is robust, scan the physical regime — the interesting answer is usually a boundary,
 not a yes/no.**
+
+## Method validation — is the instrument measuring the physics?
+
+Two studies whose subject is the *measuring device* rather than a physical system.
+
+| Study | The lemma / claim under test | Outcome |
+|---|---|---|
+| [`lrl_secular.py`](qsim/lrl_secular.py) · [findings](qsim/LRL_FINDINGS.md) · [gate](qsim/lrl_gate.py) | if a conserved `Q` survives a perturbation to first order, the orbit-average `A = <{H₁,Q}>` must vanish — so `A ≠ 0` disproves survival | Kepler + Laplace–Runge–Lenz, two averaging routes agreeing to `1.5e-10`. **All three controls pass**, including the trivial one: reparametrising the *same* system averages to `1e-15` while its bracket is nonzero pointwise by up to **11.0** |
+| [`corner_function/`](corner_function/) · [provenance + independent check](corner_function/PROVENANCE.md) | C1–C6 (every known general constraint on `a(θ)`) do **not** bound `κ/C_T`, so the observed band `[3.672, 4.179]` is not a consequence of the constraints | Imported from an external workspace and **checked rather than received**. All three requested checks pass; two documentation errors found that the proof does not use; `κ/C_T` reaches **8.4×10⁶⁴** under the constraints |
+
+Three things the LRL run found that were not in the framing: `A_x` is **identically zero by parity
+for every central perturbation**, so a test built on that component alone returns zero regardless of
+the physics; `A` as usually defined is **minus** the secular rate; and the averaging integral is
+**absolutely** convergent, so convergence is not where the problem is. The problem is the
+bounded-`F₁` step, which holds per orbit but is applied on an open set and needs the bound
+*uniformly* — it is not uniform, and the validity window is
+`(ε β)/(k a) < 0.29 e(1−e)`, vanishing at **both** ends.
+
+For the κ result, a literature sweep of the two routes by which a missing constraint could have
+entered — a bound on the thin-strip coefficient by `C_T`, and a cross-`n` Rényi inequality — found
+**neither exists**, which supports the claim. The cross-`n` route additionally fails for a
+structural reason: Rényi monotonicity varies `n` at fixed geometry while extracting a log
+coefficient requires varying geometry at fixed `n`, and the two do not compose.
 
 ## Interactive apps
 
