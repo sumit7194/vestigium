@@ -394,7 +394,7 @@ high-precision leg (`hinge_mp.py`) needs `mpmath` and takes ~2 minutes.
 
 ## Family
 
-Four sibling projects, cross-validated against each other:
+Five sibling projects, cross-validated against each other:
 
 - [**ansatz-machine**](https://github.com/sumit7194/ansatz-machine) — propose → verify →
   evolve, hunting exact solutions of Einstein's field equations. Proved the Kaluza reduction
@@ -404,6 +404,9 @@ Four sibling projects, cross-validated against each other:
   dimension's latent, and independently replicated this repo's Kaluza–Klein numbers.
 - [**DeepStrain**](https://github.com/sumit7194/DeepStrain) — deep-learning searches of real
   LIGO/Virgo data for black-hole signatures.
+- [**cuspis**](https://github.com/sumit7194/cuspis) — the corner function `a(θ)` of a 3d CFT:
+  why theories that share almost nothing land on nearly the same normalised curve. Uses this
+  repo's lattice numbers as one of its referees. Joined 2026-09-05.
 - [**trivium**](https://github.com/sumit7194/trivium) — the bridge: cross-validating the
   independent projects against one another, which is where several of the probes above came from.
 
