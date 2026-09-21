@@ -69,6 +69,33 @@ move with the coupling `λ` or with time `t`, once decoherence is matched.
   trace.
 - **C4 MONOTONICITY.** `I(S:F)` non-decreasing in `f` under fragment averaging.
 
+## Setup correspondence — the condition this runs at, against the claim it makes
+
+*Required by the pre-commit hook, and it is doing real work here: the claim says
+"critical environment" and the condition says something narrower.*
+
+**The claim is about a critical environment. The condition I run at is a FINITE
+CHAIN AT `g = 1` WITH `ξ > L`.** Those are not the same thing, and the ξ\* leg
+(scored `NOT COMPARABLE` earlier today) is exactly the precedent: there, a gate fired
+in a regime where `ξ ≈ 13 N`, and the conclusion was that `ξ ≪ box` was not merely
+unseparable but **not a meaningful axis at all**. A 16-site chain at `g = 1` is in
+that same regime by construction. So every result here is a statement about a finite
+chain at the critical coupling, and any sentence that says "at criticality" without
+that qualifier is over-claiming. Recorded now, before a number exists, so the
+qualifier cannot be dropped later by a version of me that likes the result.
+
+**P2's comparison runs at matched `S(ρ_S)`, not matched `t`** — stated in the
+prediction and restated here because the correspondence *is* the prediction in P2's
+case. If the comparison is ever made at equal `t`, P2 is not being tested; a
+different quantity is.
+
+**Route A and route B run at different conditions and measure different quantities**
+— A gives the full `I(S:F)` including coherences, B gives the Holevo quantity only.
+They correspond *only* on the Holevo quantity at common `L`, and that overlap is the
+only place they may be compared. A route-A number and a route-B number placed side
+by side outside that overlap are about different things, which is the leg-7 failure
+in miniature.
+
 ## Named ways this is expected to fail
 
 1. **"Matched decoherence" doing the work (the dangerous one).** Critical and gapped
