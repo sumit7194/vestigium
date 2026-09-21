@@ -373,3 +373,68 @@ gave 21 and 16 on connected sweeps. If the missing arc carries a wider range, or
 
 **What would settle it:** order 5 (four conditions), with order 3's coverage repaired
 first. A fourth point separates geometric decay to zero from a floor; three do not.
+
+
+---
+
+# ORDERS 2–5, ALL COVERAGE-FIXED — 2026-09-22
+
+Order 3's coverage repaired by **curve continuation** (its radial sweep found only
+*second* crossings, because the constant-λ point lies **on** the curve — 7 points in
+two disconnected arcs was an artefact, not physics). Order 5 run with four
+conditions, seeded from a **non-constant** point because all power-sum gradients are
+parallel to `(1,…,1)` at constant λ, making it a **singular point of the constraint
+variety** (Jacobian rank 1 where 3 is needed).
+
+| order | conditions | span | arc | per-arc | pts |
+|---|---|---|---|---|---|
+| 2 | 1 (`S*`) | 0.1661 | 1.8705 | 0.0883 | 21 |
+| 3 | 2 (`+Σλ`) | 0.1468 | 1.9666 | 0.0748 | 26 |
+| 4 | 3 (`+Σλ²`) | 0.0961 | 2.8830 | 0.0461 | 16 |
+| 5 | 4 (`+Σλ³`) | 0.0752 | 2.7226 | 0.0552 | 34 |
+
+Successive ratios `0.884, 0.655, 0.783`; overall **55% decline** across three added
+conditions. `S` held below `1.6e-10` everywhere.
+
+## The result that matters, and it is about the measurement, not the physics
+
+**Every span moved when its coverage was fixed — and by more than the trend itself:**
+
+| | first value | corrected | factor |
+|---|---|---|---|
+| order 2 | 0.0958 | 0.1661 | 1.73× |
+| order 3 | 0.0565 | 0.1468 | 2.60× |
+| order 4 | 0.0088 | 0.0961 | **10.92×** |
+| order 5 | 0.0389 | 0.0752 | 1.93× |
+
+```
+order-to-order differences:  12%,  35%,  22%
+coverage corrections:        73%, 160%, 992%, 93%
+```
+
+**The sensitivity to how well the curve was swept exceeds the signal being measured.**
+Each span is a **lower bound** whose tightness depends on the march, and I have no
+way to certify any of them is converged.
+
+## What this does and does not establish
+
+**Established:** the residual is **nonzero at every order tested**. Four scalar
+conditions still leave the record varying by `0.0752` — about **8.8% of the mean
+`I/S`**. It does not collapse.
+
+**Not established, and now I do not think it can be by this method:** the *shape* of
+the decline. Whether it tends to zero (finitely many conditions suffice) or to a
+floor (conjecture holds) cannot be read off four numbers whose individual coverage
+uncertainty is larger than the differences between them.
+
+## Correcting my own framing twice over
+
+Yesterday I said the trend was *"flat, not convergent"* — wrong, from under-swept
+data. Then I said the decline was established and only its limit was open. **Also
+too strong:** the decline is visible but its magnitude is not trustworthy at the
+precision needed to characterise it.
+
+**The defensible claim is the one that survived every correction:** matching four
+scalar conditions does not pin the environment's record, and any comparison of how
+different environments record must declare its route convention. Everything beyond
+that — convergence, exponents, limits — is below this method's resolution.
