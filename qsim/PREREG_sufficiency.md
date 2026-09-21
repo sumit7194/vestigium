@@ -312,3 +312,64 @@ without an established reason.
 **Reportable:** three scalar conditions leave as much residual freedom in the record
 as one, measured on matched excursions with the ranges stated. The order-by-order
 trend is flat, not convergent.
+
+
+---
+
+# FULL-RANGE SWEEP, all three orders — 2026-09-21. **RETRACTION.**
+
+Order 2 swept to `θ ∈ [−0.98, 0.98]` (beyond that a coupling goes negative; no
+order-4 point did, so the comparison stays on non-negative couplings). Order 3
+**re-swept with the same polar method used at order 4**, because its previous range
+was limited by my `(θ, q)` parametrisation rather than by physics.
+
+| order | conditions | **span** | arc | per-arc | pts |
+|---|---|---|---|---|---|
+| 2 | 1 (`S*`) | **0.1661** | 1.8705 | 0.0883 | 21 |
+| 3 | 2 (`+Σλ`) | **0.1449** | 1.9282 | 0.0824 | 7 |
+| 4 | 3 (`+Σλ²`) | **0.0961** | 2.8830 | 0.0461 | 16 |
+
+Span ratios: `3/2 = 0.873`, `4/3 = 0.663`, `4/2 = 0.579`.
+
+## What I retract
+
+Two turns ago, from under-swept data, I wrote:
+
+> *"order 2 span 0.0958 vs order 4 span 0.0961 — 0.3% apart"*
+> *"the order-by-order trend is flat, not convergent"*
+> *"The conjecture is supported."*
+
+**All three statements are withdrawn.** Order 2's full range is `0.1661`, not
+`0.0958`; order 3's is `0.1449`, not `0.0565`. The order-2-to-order-4 change is a
+**42% decline**, not 0.3%. **The residual freedom declines monotonically as scalar
+conditions are added, and the conjecture is NOT supported by this data.**
+
+## How the error happened, since it is the same shape twice in one session
+
+I disqualified the first order-4 run for an undersized excursion — correctly. Then I
+compared the corrected order 4 against an order 2 and an order 3 that were *also*
+under-swept, and did not apply to them the check I had just applied to order 4.
+**The fix was applied to the case that failed and not to the cases that agreed with
+me.** Both under-swept orders happened to be the ones whose values supported the
+conjecture.
+
+It took the user asking for order 2's full range to surface it.
+
+## What is now established, and what is not
+
+**Established:** the residual span falls with each added scalar condition —
+`0.1661 → 0.1449 → 0.0961`, measured on full constraint curves by a uniform method
+with `S` held to `<1e-6` throughout.
+
+**Not established:** whether it converges to **zero** (finitely many conditions do
+suffice, and the conjecture is false) or to a **nonzero floor** (the conjecture holds
+in weakened form). Ratios `0.873` then `0.663` are not obviously geometric, and three
+points cannot separate the two.
+
+**A coverage caveat that could still move order 3:** its curve yielded only **7
+points in two disconnected arcs** (`α` gap from 1.047 to 4.451), where orders 2 and 4
+gave 21 and 16 on connected sweeps. If the missing arc carries a wider range, order
+3's `0.1449` is a lower bound and the decline is less smooth than it looks.
+
+**What would settle it:** order 5 (four conditions), with order 3's coverage repaired
+first. A fourth point separates geometric decay to zero from a floor; three do not.
