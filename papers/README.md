@@ -37,7 +37,7 @@ the full 52-entry bibliography compiled by the originating workspace is in
 | Casini & Huerta (2012), *Positivity, entanglement entropy, and minimal surfaces* | [1203.4007](https://arxiv.org/abs/1203.4007) | reflection positivity / the Hankel conditions (C4) |
 | Casini, Huerta, Magán & Pontello (2021), *Is the EMI model a QFT?* | [2105.11464](https://arxiv.org/abs/2105.11464) | the EMI shape is not a CFT corner function |
 | Blanco, Casini et al., *Rényi MI inequalities from Rindler positivity* | [1909.03144](https://arxiv.org/abs/1909.03144) | checked for a cross-n inequality (fixed n only) |
-| Cuomo, He & Komargodski (2024), *Impurities with a cusp* | [2406.10186](https://arxiv.org/abs/2406.10186) | checked and **not applicable** — cusped line defects, a different object from an entangling corner |
+| Cuomo, He & Komargodski (2024), *Impurities with a cusp* | [2406.10186](https://arxiv.org/abs/2406.10186) | **correction 2026-09-21: applicable.** In d=3 the twist operator is a line defect and an entangling corner is a cusp on it, so this is the *same* object. Earlier "not applicable" was wrong |
 
 The first six IDs above are cross-checked against
 [`corner_function/references.md`](../corner_function/references.md), which the originating

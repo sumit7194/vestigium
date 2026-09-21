@@ -159,11 +159,58 @@ is weaker. And a targeted sweep finding nothing is **not** proof of absence.
 - **[BWK16] (1511.04077).** No upper bound on κ is derived. Lower bounds only. The
   near-saturation of `a(π/2)` against the bound is stated as **numerical
   observation, not proof**.
-- **Cusp bootstrap, 2026** (2609.04041, 2608.28531; also Cuomo–He–Komargodski
+- ~~**Cusp bootstrap, 2026** (2609.04041, 2608.28531; also Cuomo–He–Komargodski
   2406.10186). **Different object** — cusped *line defects / impurities*, not the
-  corner of an entangling surface — and the bounds are **lower** bounds
-  ("an optimal and universal *lower* bound on the dimension of a right angle bare
-  cusp"). Does not bear on `a(θ)`.
+  corner of an entangling surface — and the bounds are **lower** bounds. Does not
+  bear on `a(θ)`.~~ **WRONG — struck 2026-09-21, see below.**
+
+> **The exclusion above is an error, and it invalidates this route's negative.**
+> Flagged by thebridge 2026-09-21; verified here independently before accepting.
+>
+> In `d = 3` the entangling surface is **codimension-2**, i.e. a *line*, so the
+> replica twist operator **is** a conformal line defect and an entangling corner
+> **is a cusp on it**. The cusp anomalous dimension of the replica twist defect is
+> the corner contribution; [BMW15b] gives `h_n/σ_n = (n−1)π` for exactly this. They
+> are the **same object**, not different ones.
+>
+> Two papers already in this bibliography say so — **[BMW15b] (1507.06997)**, whose
+> title is *Universal corner entanglement from twist operators*, and **[BMMS16]
+> (1511.06713)**, *Rényi entropy and conformal defects*. The contradicting sources
+> were in my own reference list while I wrote the exclusion three times.
+>
+> The second reason I gave — "and the bounds are lower bounds" — is **not a reason
+> either**. A lower bound on a cusp anomalous dimension maps through `h_n/σ_n =
+> (n−1)π` to a lower bound on `σ_n`, which is the *same direction* as the BWK16
+> bound this project already relies on.
+>
+> **Consequence for route 1: the negative is WITHDRAWN.** Not "found to be false" —
+> withdrawn because it was produced by a query that excluded the object, so it is no
+> longer evidence either way. A sweep that excludes the relevant literature returns
+> nothing for reasons that have nothing to do with whether the thing exists.
+>
+> **Consequence for the κ non-localisation result:** its load-bearing assumption is
+> that C1–C6 is every known general constraint. My sweep was offered as support for
+> that, and it is now weaker support than it appeared, because an entire body of
+> constraints on the same object — the cusped-defect bootstrap literature — was
+> excluded by construction. The theorem is **not refuted**; a lower bound cannot
+> contradict an unboundedness-from-above claim. But the completeness assumption
+> should be treated as **less supported than it was on 09-05**, not more.
+>
+> **What I have NOT verified:** thebridge reports that one of those papers supplied
+> a bound the corner project needed. I have not checked that, and the abstract of
+> 2609.04041 does not mention entanglement, Rényi entropy, or twist operators — its
+> bound is on a right-angle bare cusp for *conjugate* defects in a rectangular
+> geometry, and whether the replica twist defect meets those hypotheses is a further
+> step. That claim is theirs, not mine, and is recorded here unverified.
+>
+> **The methodological point, which is the worst part.** After the 09-05 hazard
+> re-check I widened this sweep along the *variable* axis — from "a bound in terms of
+> `C_T`" to "a bound in terms of anything" — and concluded the negative survived. I
+> never widened it along the **object** axis. So the re-check that was supposed to
+> cure a narrow query was itself narrow, in the one direction that mattered. That is
+> the same shape as the s-family holding `ξ/L` fixed and the four regulators sharing
+> one `(N, m, window)`: **varied the axis I chose, held fixed the one that carried
+> the error.**
 - **`Disks globally maximize the entanglement entropy in 2+1d`** (2107.12394).
   Concerns the constant term `F` for **smooth** regions, giving `F ≥ n_B F_0` — a
   lower bound, and not a statement about the corner log coefficient.
@@ -221,12 +268,16 @@ exists.** The only relation found is the asymptotic `σ_n^(p≫1) → 2κ_n/π^(
 (Eq. IV.2), which *expresses* high-order smooth coefficients via κ and is not a
 bound in either direction. **The negative survives the widened query.**
 
-**Hazard 1 was hit and caught, but by luck rather than by design.** The 2026
-cusp-bootstrap papers match the search terms, carry "corner"/"cusp" in the title,
-and are a **different object** — cusped line defects, not entangling-surface
-corners — with **lower** bounds. A sweep that read the title and filed them as
-relevant would have reported the opposite of the truth. It was caught by checking
-the abstract, not because the hazard had been named in advance.
+~~**Hazard 1 was hit and caught, but by luck rather than by design.** The 2026
+cusp-bootstrap papers ... are a **different object** ... A sweep that read the title
+and filed them as relevant would have reported the opposite of the truth.~~
+
+**STRUCK 2026-09-21. This was not a near-miss and not a catch — it was the miss.**
+The titles matched because the papers are about the *same object*; filing them as
+relevant would have been **correct**. I recorded a successful catch of a hazard I
+had in fact walked into, and the write-up of the near-miss is what made the error
+look like evidence of care. A wrong exclusion that is documented as a deliberate
+check is harder to find later than an undocumented one.
 
 ### Net effect on the theorem
 
