@@ -305,6 +305,28 @@ with three controls, three cross-oracle routes, and four named ways it is expect
 **H2** files a number (`ξ/L ≈ 2.5`) for tabula's mass sweep before it lands; **H3** is the
 only item that touches the founding question, and no sister can test it.
 
+## The founding question, resumed
+
+[qsim/H3_FINDINGS.md](qsim/H3_FINDINGS.md) — *when does a possibility become a fact?*
+asked as: **how is the record laid down, and can two environments be compared at all?**
+
+The defensible result: **the system's path-independence does not extend to the
+environment.** Under Gaussian pure dephasing the qubit's state depends only on a
+scalar decoherence function — weak-coupling-long and strong-coupling-brief are
+provably equivalent *for the qubit*. They are not equivalent for the record: at
+`S(ρ_S) = 0.150000` held to **`4.7e-16`**, the fraction on the coupling site runs
+**0.766 → 0.998** by route alone. Single fragment, no sampling.
+
+Matching duration too is still insufficient (**12.7%** over temporal shape); so are
+four scalar conditions (**8.8%** residual). Comparing environments at *fixed
+coupling* — which two published studies do — is confounded by a **44×** capacity gap,
+only 9.5× of which is local-operator variance.
+
+**Not defensible, and stated as such:** the order-by-order trend, whose coverage
+sensitivity (73–992%) exceeds its signal (12–35%); and any critical-vs-gapped
+comparison of record *structure*, which is not yet well-posed. The capacity result
+itself reproduces [Quan et al. 2006] and is instrument validation, not a discovery.
+
 ## Method validation — is the instrument measuring the physics?
 
 Two studies whose subject is the *measuring device* rather than a physical system.

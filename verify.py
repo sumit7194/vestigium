@@ -251,6 +251,56 @@ check("corner: C2' floor re-derived from artifact, not typed",
 # they read. This artifact existed and its numbers were in the README and sent
 # to tabula, but NOTHING re-asserted them -- the study under external blind
 # check was the least gated one here.
+# ---- H3: how a record is laid down (2026-09-21/22) --------------------------
+# Findings: qsim/H3_FINDINGS.md. Assertions here cover only what that document
+# defends; the order-by-order trend is deliberately NOT asserted, because its
+# coverage sensitivity (73-992%) exceeds the signal (12-35%).
+_dc = art("darwinism_controls.json")
+check("H3 C1 trivial: lambda=0 gives I(S:F)=0",
+      _dc["C1_worst_I_at_lambda0"], "<", 1e-10,
+      note="9.4e-16, AND the chain is genuinely entangled (next check)")
+check("H3 C1 is not trivially zero: the chain IS entangled [NEG]",
+      _dc["C1_chain_half_entropy"], ">", 0.5, kind="NEG",
+      note="0.547 -- a zero from an unentangled chain would prove nothing, the "
+           "failure the LRL trivial control was built for")
+check("H3 C3 pure-state sum rule I(S:all) = 2 S(rho_S)",
+      abs(_dc["C3_I_all"] - _dc["C3_2S"]), "<", 1e-9,
+      note="exact to 10 digits; this is what catches a wrong partial trace")
+
+_pd = art("path_decisive.json")
+check("H3 decoherence matched to machine precision across routes",
+      _pd["maxdevS"], "<", 1e-12,
+      note="4.7e-16 -- without this the route comparison is between different "
+           "decoherence levels and means nothing")
+check("H3 THE RESULT: the record is NOT a function of decoherence alone [NEG]",
+      _pd["span"], ">", 0.15, kind="NEG",
+      note="I(S:i0)/S spans 0.7660..0.9976 at identical S(rho_S). Single "
+           "fragment, no sampling. The system's path-independence theorem does "
+           "NOT extend to the environment")
+
+_su = art("sufficiency.json")
+check("H3 two-step machinery reproduces single-step exactly",
+      _su["c_reproduce_diff"], "<", 1e-9,
+      note="5.6e-16, so the shape effect below is physics and not stepping error")
+check("H3 matching (S*, t*) is ALSO insufficient [NEG]",
+      _su["spread"], ">", 0.05, kind="NEG",
+      note="0.113 over temporal shape at fixed S* and t*; (S*,t*) is a protocol "
+           "convention, not a physical characterisation")
+
+_o5 = art("order5.json")
+check("H3 four scalar conditions still leave the record free [NEG]",
+      _o5["span"], ">", 0.03, kind="NEG",
+      note="0.0752 with S*, sum, sum^2, sum^3 all fixed -- ~8.8% of mean I/S")
+check("H3 order-5 decoherence held while sweeping the free direction",
+      _o5["maxdevS"], "<", 1e-8, note="1.5e-10 across 34 continuation points")
+
+_dk = art("darwinism_critical.json")
+_cap = [v["max"] for v in _dk["capacity"].values()]
+check("H3 fixed-coupling comparison is confounded [NEG]",
+      max(_cap)/min(_cap), ">", 20.0, kind="NEG",
+      note="44x capacity gap at identical lambda between g=1 and g=3; only 9.5x "
+           "is local-operator variance, so normalising by sqrt(Var) cannot fix it")
+
 # ---- kappa non-localisation: independent check of an imported claim ---------
 # From ../corner_function via thebridge-d1, 2026-09-05. Claim: C1-C6 do not bound
 # kappa/C_T, so the observed band [3.672, 4.179] is not a consequence of the
