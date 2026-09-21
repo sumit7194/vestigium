@@ -128,3 +128,89 @@ It cannot answer when a possibility becomes a fact. It can measure whether the
 has structure at every scale. If P1–P3 all hold, the claim available is that the
 approach to redundancy carries a universal exponent — not that the founding question
 is answered.
+
+
+---
+
+# OUTCOME — 2026-09-21, route A, `L = 10`
+
+Controls all pass: C1 `9.4e-16` at `λ=0` while the chain's own half-entropy is
+`0.547` (so the zero is not trivial); C3 sum rule exact to ten digits; C4 monotone;
+C2 reproduces textbook Darwinism.
+
+## 1. Capacity — reproduces a known 2006 result, and is NOT new
+
+The most which-path information each chain can ever hold, identical coupling `λ=0.6`:
+
+| `g` | max `S(ρ_S)` | at `t` | ratio to `g=1` |
+|---|---|---|---|
+| 1.00 (critical) | **0.29352** | 58.8 | 1.000 |
+| 1.20 | 0.16325 | 5.9 | 0.556 |
+| 1.50 | 0.06656 | 0.65 | 0.227 |
+| 2.00 | 0.02610 | 0.45 | 0.089 |
+| 3.00 | 0.00664 | 0.25 | **0.023** |
+
+A **44× spread**, and the critical chain is also fastest to any given level.
+
+**This is Quan, Song, Liu, Zanardi & Sun, PRL 96, 140604 (2006)** — *Decay of
+Loschmidt Echo Enhanced by Quantum Criticality* — a qubit coupled to a
+transverse-field Ising chain, decoherence accelerated by criticality. They couple to
+**all** spins; I couple to **one site**, so this is a local-coupling variant. **It
+validates the instrument and it is not a new result.** Recorded that way because the
+temptation to present it as the headline is exactly what this repo keeps catching.
+
+## 2. The pre-registered comparison is DEGENERATE — and that is the finding
+
+P2 required matching at equal `S(ρ_S)`. Correct, and hazard 1 was the right hazard.
+But the capacity gap forces the common level to `≤ 0.8 × min capacity = 0.00531`,
+and there:
+
+| `g` | `t_match` | `f_δ` | `R_δ` | `I(f=1)/S` |
+|---|---|---|---|---|
+| 1.00 | 0.047 | 5 | **2.00** | 0.1174 |
+| 1.20 | 0.057 | 5 | **2.00** | 0.1276 |
+| 1.50 | 0.072 | 5 | **2.00** | 0.1373 |
+| 2.00 | 0.099 | 5 | **2.00** | 0.1457 |
+| 3.00 | 0.178 | 5 | **2.00** | 0.1517 |
+
+**`f_δ = L/2` and `R_δ = 2.00` for every `g`.** Needing half the environment is the
+*opposite* of a redundant record. At the only decoherence level all five chains can
+reach, **the phenomenon under study does not exist**.
+
+So: **P2 is NOT RESOLVED — neither confirmed nor falsified.** The design that
+correctly avoids hazard 1 and the phenomenon it was built to measure are
+**incompatible in this system**. P1 and P3 are untestable for the same reason.
+
+**The non-preregistered measure, flagged as such.** `I(f=1)/S` is monotone in `g`
+and runs the way P2's *reasoning* predicted — a single site carries 29% less of the
+record at criticality than at `g=3`. **I am not promoting this to the result.** It
+was not pre-registered, the spread is small, and elevating a secondary measure
+because the registered one came out flat is the exact post-hoc move this repo has
+logged repeatedly.
+
+## 3. Two bugs, both mine, both found by watching rather than reasoning
+
+**(a) 1 GB allocation on a shared box.** `rdm` built a `2^(L+1)` matrix — 8192×8192,
+1.07 GB, at `f = L` for `L = 12`. The global state is **pure**, so `S(A) = S(Ā)`
+exactly and the trace should always go to the smaller side; the identity was
+available the whole time. Caught by watching RSS climb past 0.95 GB while ansatz had
+just said RAM is the binding constraint and deepstrain had 2.4 GB live. Fixed: max
+matrix `2^6` instead of `2^11`, sum rule still exact.
+
+**(b) A scan floor that lied about the fastest case.** `match()` scanned linearly
+from `t = 0.05` and reported **"no crossing" for the critical chain** — the one with
+44× the capacity — because it passes the tiny target *before* `t = 0.05`. **A scan
+floor is an assumption about rates, and it was wrong by the largest margin exactly
+where the physics was fastest.** Fixed with log spacing from `1e-4`.
+
+## 4. What is actually established
+
+- The instrument is validated (four controls, one exact sum rule, one known-answer
+  reproduction of a 2006 result).
+- A gapless environment records which-path information far better than a gapped one
+  — **known since 2006, reproduced here under local coupling.**
+- **The redundancy question this was built to ask cannot be answered in this system**,
+  because matched decoherence and measurable redundancy do not co-exist. Answering it
+  needs a system where the capacity gap is small enough that both chains reach a
+  decoherence level at which a record is actually redundant — a different setup, not
+  a longer run.
