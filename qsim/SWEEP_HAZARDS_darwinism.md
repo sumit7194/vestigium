@@ -117,3 +117,66 @@ if `λ` is allowed to rise: `g=3` reaches `S(ρ_S)=0.153` at `λ=3.0` and `0.999
 0.289, 0.876, 0.994, 0.849, 0.729 for `λ` = 0.6, 1.5, 3, 6, 12). So "solve for the
 `λ` that reaches the target" has **multiple roots**, and the convention must be fixed
 in advance — **smallest `λ`** — or the choice becomes a free parameter after the fact.
+
+---
+
+# Sweep result, part 2 of 2 — Darwinism in many-body environments (2026-09-21)
+
+Twelve query formulations across six vocabularies (list in the agent report).
+**Per hazard H4 these are "not found in a sweep of those terms", never "nobody has
+asked".**
+
+## The three questions
+
+**Q1 — has anyone compared redundancy across environment *phases* at MATCHED
+DECOHERENCE? Not found.** Every paper that varies a many-body environment's phase and
+touches Darwinism compares at **fixed coupling**. Quan et al. 2006 *does* sweep the
+Ising chain across criticality but measures only the Loschmidt echo — **it never
+measures redundancy at all.**
+
+**Q2 — path-independence of the record? Not found.**
+
+**Q3 — "critical decoheres faster but records less redundantly"? Not found as a
+claim.** Quan 2006 establishes the *faster* half; nothing joins it to redundancy.
+
+## Hazard H3 fired, and it confirms the gap rather than closing it
+
+H3 said: finding a Darwinism-in-a-spin-chain paper does not answer the question —
+**check what each one held fixed.** Two did exactly what I did wrong:
+
+- **`arXiv:2011.13385`** (structured "onion" spin environment) states plainly: *"We
+  fix the system-environment interaction…"* — fixed coupling, varying the
+  intra-environment interaction type.
+- **Mirkin & Wisniacki, Entropy 23, 1377 (2021), `arXiv:2109.01922`** — the closest
+  match found. Sweeps disorder across the **many-body-localization transition**, a
+  genuine phase comparison. Holds the interaction Hamiltonian fixed and normalizes
+  the environment's **initial energy density** — a normalization of the initial
+  condition, **not of the decoherence outcome**. `S(ρ_S)` is not equalized across
+  the sweep.
+
+So the confound I hit is in the published literature too. **That is evidence the
+question is open, not that it is answered** — which is precisely what H3 told me to
+check for rather than to celebrate.
+
+## One result that cuts toward the tension, in a different system
+
+Mirkin & Wisniacki find **deeper MBL ⇒ more objectivity** — a more localized
+environment gives a *more* redundant record. That is the same direction as my own
+unregistered `I(f=1)/S` trend (gapped ⇒ more per-site record). Two different systems,
+same sign. **It is not corroboration** — MBL is not the gapped phase of a clean
+chain, and their axis is disorder, not a critical point — but it is the nearest
+independent data point and it does not contradict.
+
+## What the contribution now is, stated at the size it actually is
+
+1. **Methodological, and solid.** Comparing environments at fixed coupling is
+   confounded, shown quantitatively: a **44× capacity gap**, of which only **9.5×**
+   is local-operator variance. Published work does this. The fix requires knowing
+   whether matching on `S(ρ_S)` is legitimate, which is (2).
+2. **The open question, sharply posed.** The system's path-independence is a theorem
+   (Gaussian pure dephasing: reduced state depends only on `Γ`). **Does it extend to
+   the environment's record?** Not found addressed. Either answer is useful: yes
+   licenses every matched-decoherence comparison; no means fixed-coupling studies are
+   confounded *and* matched-decoherence ones are ill-posed.
+3. **The physics claim, still unearned.** "Decoheres fastest, records least
+   objectively." Needs (2) first.
