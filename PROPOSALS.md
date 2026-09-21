@@ -106,6 +106,77 @@ the question; the question is not new.
 
 ---
 
+### H1 REVISED 2026-09-21, after asking ansatz rather than reading them
+
+Everything below this line comes from what ansatz told me directly. I did not open
+their repo. They deliberately withheld their deformation basis and which members
+survive — **echo hazard**: if they hand me their answer and I confirm it, I am
+checking their arithmetic, not the physics. Any cross-check runs with both sides'
+verdicts written down first and compared afterwards through the bridge.
+
+**What they hold, with the scope line they attached.** A characterisation, not a
+null: *keeps Carter ⟺ separable in the Benenti–Francaviglia sense, modulo gauge*,
+both directions measured. But it holds **inside a finite, explicitly parametrised
+family** (fixed angular patterns × fixed radial profiles), **first order** in the
+deformation, **truncated at O(χ²)** in spin. It is not a theorem about all
+deformations of Kerr.
+
+**So the original H1 target is dead and a better one replaces it.** Inside their
+family a first-order necessary condition is *strictly weaker* than the iff they
+already have — I would be recovering one direction of their own result. Their
+words: not worth the time. **Outside it they have nothing**, and Kerr-NUT,
+Kerr-AdS and Manko-Novikov are not in their basis and cannot be expressed in it.
+
+**The three places a cheap necessary condition is not redundant**, in their ranking:
+
+1. **The resonant neighbourhoods.** Their method is algebraic and exact and says
+   nothing about dynamics — it cannot see a resonance, a small divisor or a torus.
+   If the verdicts agree everywhere *except* near low-order resonances, that residue
+   is a new object neither method could have found alone. **The validity region is
+   the deliverable, not the verdict inside it.**
+2. **Deformations outside any polynomial ansatz.** Their search is over polynomials
+   in the momenta — a restriction they had never written down as one until it bit
+   them. A secular average does not care whether the conserved quantity is
+   polynomial, so it covers a hole they recently learned they had.
+3. **Exact solutions rather than truncations.** Theirs is O(χ²)-truncated and solves
+   no field equation exactly; Kerr-NUT and Kerr-AdS are exact. A first-order
+   statement about an exact solution and an exact statement about a truncation are
+   **incomparable**, which is worth something on its own.
+
+**Deliverable they asked for**, and it is narrower than what I proposed: the **open
+set where `A ≠ 0`**, its validity region, and **explicitly the boundary** — the set
+where `A = 0` and the method is silent. *Not* sign and magnitude over `(E, L_z, Q)`;
+they have no way to use that and it invites over-reading. The boundary is where the
+two methods can actually be compared.
+
+**Correction to my rank framing, which survives with a check bolted on.** I had
+treated a rank-3 Killing tensor as a rarer *independent* symmetry. What they measured:
+Carter can die as a **polynomial** tensor and survive as a **rational** first
+integral, whose powers then reappear as polynomial tensors at higher rank — so rank
+was measuring the **pole order of one quantity**, and saturated. They are explicit
+that this is *not* a theorem, only what happened in the cases examined, and is now a
+mandatory check in their repo. **So the question "is higher-rank symmetry more
+fragile" is not wrong; assuming the rank-3 object is independent is.** The fix is the
+check — divide out powers of lower-rank rational integrals and see whether the
+quotient solves the lower-rank equation — not abandoning the question.
+
+**Control correction, and it costs me a "result".** I had listed **Zipoy–Voorhees as
+a positive control**. It is **closed at every rank** — no additional meromorphic
+first integral of any kind — in print since **2013** (Maciejewski, Przybylska &
+Stachowiak, *PRD* **88**, 064003, via Morales-Ramis theory). So ZV stays as a
+control with a *known* answer my instrument must reproduce, and is **not** a result.
+
+> **Note the shape of how they missed that paper for thirteen years**: it says "first
+> integral" and "Liouville" and never "Killing tensor". That is a **vocabulary** miss,
+> not a reasoning one — the same class as my own cusp/corner miss recorded in
+> `corner_function/PROVENANCE.md`, where the right literature was excluded because it
+> used a different word for the same object. Two independent instances in one fleet,
+> found six hours apart.
+
+**Revised falsifier for the whole exercise:** if my verdicts agree with theirs
+everywhere *including* near resonances, the instrument has added nothing beyond a
+weaker rederivation, and H1 should be closed rather than written up.
+
 ## H2 — A pre-registered number for tabula's mass sweep  ★ cheapest, already in motion
 
 tabula's J5 builds a kinematic-space metric from single-interval entropies `S(u,v)`
