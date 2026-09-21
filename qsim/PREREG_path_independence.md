@@ -99,3 +99,78 @@ sampled uniformly at random.** These are not the same statement, and the gap is
 hazard 4 above. The test runs at a *single* `g` at a time — this is a within-chain
 question, not a between-chain one, and no conclusion about comparing *different*
 environments follows until the within-chain answer is in.
+
+
+---
+
+# OUTCOME — 2026-09-21. **P2 FALSIFIED.**
+
+## The decisive number
+
+At **identical** `S(ρ_S) = 0.150000` (six decimals, control C-TARGET passes exactly),
+`g = 1`, `L = 10`, varying only the route:
+
+| `λ` | `t` | `v_max·t` | `I(S : i₀)` | `/S` |
+|---|---|---|---|---|
+| 0.5 | 0.5333 | 1.067 | 0.114899 | **0.7660** |
+| 0.8 | 0.2753 | 0.551 | 0.139079 | 0.9272 |
+| 1.2 | 0.1760 | 0.352 | 0.145068 | 0.9671 |
+| 2.0 | 0.1036 | 0.207 | 0.148090 | 0.9873 |
+| 3.0 | 0.0687 | 0.137 | 0.149091 | 0.9939 |
+| 5.0 | 0.0411 | 0.082 | 0.149643 | **0.9976** |
+
+`i₀` is the coupling site, reached by every route **by definition**, so there is no
+causal-reach escape. This is a **single fragment**: no averaging, no sampling, no
+noise floor to argue about. The numbers are exact.
+
+**The system's reduced state is identical across all six rows. The environment's
+record is not.** The fraction of the record held by one site runs from 77% to 99.8%.
+
+**So: the system's path-independence theorem does NOT extend to the environment.**
+Under Gaussian pure dephasing the qubit's state depends only on the scalar
+decoherence function; the environment's record does not. As `λ → ∞`, `t → 0` and the
+record has no time to leave the site it was written on — `I(S:i₀)/S → 1`.
+
+## What this costs the programme, which is the point of having run it first
+
+**Matching on `S(ρ_S)` is necessary but NOT sufficient** to compare how two
+environments record. The fix I proposed three hours ago for the fixed-coupling
+confound is itself insufficient. A sound comparison needs **matched decoherence AND
+matched spreading** — two conditions, failing independently.
+
+That is the **seventh** instance of this repo's recurring shape, and the first found
+**before** a study was built on the bad assumption rather than after. The check cost
+an hour; the study it would have invalidated was a day.
+
+## P1 and P3
+
+**P1 (raw plots differ): confirmed, and uninteresting** — recorded in advance as not
+the finding.
+
+**P3 (direction): NOT cleanly answered, and I am not going to force it.** Two
+measures point opposite ways. The record *concentrates* at high `λ` (99.8% on one
+site), which by the "how many independent copies" reading is **less** redundant. But
+the average over *uniformly random* single fragments **rises** with `λ`
+(0.0783 → 0.0965), because a concentrated record with a high value beats a thin one
+for the mean. `R_δ = L/f_δ` assumes fragments are interchangeable and they are not
+here. **A direction claim needs a redundancy measure that survives a spatially
+inhomogeneous record, and `R_δ` is not it.**
+
+## Hazards that fired
+
+- **H2 (threshold-dependent light cone): fired.** The measured causal radius was
+  `3,3,2,2,2` at `10⁻⁴` but **saturated at 5 — the chain edge — for every route** at
+  `10⁻⁶` and `10⁻⁸`. The causal normalisation the design rested on was therefore
+  **inert**, and P1/P2 were never separated the way the registration intended. The
+  decisive test above replaced it and is stronger, being exact.
+- **H3 (too few sites inside the cone): fired.** At `λ = 3`, `v_max·t = 0.14` — under
+  one lattice spacing. Strictly, *no* site but `i₀` is inside the hard cone; what is
+  measured at distance ≥ 1 is the Lieb–Robinson exponential tail. This is why the
+  decisive test uses `i₀` alone.
+- **A flaw in my own first analysis, caught before it was reported.** The first pass
+  compared a **paired** route spread (same fragments for every route, so sampling
+  noise cancels in the difference) against an **unpaired** noise floor (measured
+  across different seeds). That inflates the floor and biased toward
+  path-independence — it returned "PATH-INDEPENDENT, ratio 0.68". The tell was that
+  the ordering was monotone in `λ` in every column, which noise does not do. Redone
+  paired, then replaced entirely by the exact single-fragment test.
