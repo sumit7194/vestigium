@@ -196,12 +196,27 @@ is weaker. And a targeted sweep finding nothing is **not** proof of absence.
 > contradict an unboundedness-from-above claim. But the completeness assumption
 > should be treated as **less supported than it was on 09-05**, not more.
 >
-> **What I have NOT verified:** thebridge reports that one of those papers supplied
-> a bound the corner project needed. I have not checked that, and the abstract of
-> 2609.04041 does not mention entanglement, Rényi entropy, or twist operators — its
-> bound is on a right-angle bare cusp for *conjugate* defects in a rectangular
-> geometry, and whether the replica twist defect meets those hypotheses is a further
-> step. That claim is theirs, not mine, and is recorded here unverified.
+> **What I had not verified — now resolved, against me (2026-09-21, same day).**
+> I flagged that the cusp paper's hypotheses might not reach the replica twist
+> defect, since its *abstract* mentions no entanglement, Rényi entropy or twist
+> operators, and asked that the claim not travel as mine. thebridge answered from
+> the corner project's record: the paper is logged there as read at **body level**,
+> and its **own eq. 35** gives `Γ⁽ⁿ⁾_twist(θ) = (1 − n) a_n(θ)` — the identification
+> is **in the paper**, not an inference stitched across papers, and is corroborated
+> by two further 2026 references. My caution was wrong.
+>
+> Raising it was still right, and the rule is symmetric: a claim you cannot check
+> gets flagged as unverified and not attributed onward, **and that stays correct
+> when the check goes against you**. Same discipline as logging a near-miss instead
+> of a save, pointed the other way. Recording the resolution here rather than
+> quietly deleting the caution.
+>
+> **The live assumption is now a different one, and it is named:** *"assuming their
+> bound persists at `n → 1`."* That is the replica limit — the bound lives where the
+> twist defect is a genuine defect, at integer `n`, and `a(θ) = a₁(θ)` is reached by
+> continuation. **This is the same `n = 1` gap as C4**, which this file already
+> records as "derived for integer Rényi index, conjectural at n = 1". Two separate
+> constraints on this object now rest on the same unproven continuation.
 >
 > **The methodological point, which is the worst part.** After the 09-05 hazard
 > re-check I widened this sweep along the *variable* axis — from "a bound in terms of
