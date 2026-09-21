@@ -65,6 +65,31 @@ So: **a match confirms the composite threshold. It confirms neither condition
 separately, and neither of us can get at that from a chain.** Any claim stronger
 than that, from either side, is over-reading.
 
+## 3a. Setup correspondence — the condition this runs at
+
+*Written because my own pre-commit hook demanded it, and the failure it guards is
+live here: thebridge once pre-registered three outcomes for a scaling exponent and
+measured at fixed `l` when the study ran at fixed `l/L`. All three registered
+readings were about what the exponent would MEAN; none asked whether the setup
+matched the claim.*
+
+**The condition my result runs at:** the threshold `ξ/L ∈ [1.95, 3.13]` was measured
+with the fit window held at a **fixed fraction of the system** — `l` from `L//16` to
+`L//2` — while `L` was varied over `{64, 128, 256, 512}` and `ξ` varied through `g`.
+The `ξ/L` collapse (≤0.058 across that range of `L`) is what licenses quoting a
+single ratio at all. **The quantity is "fixed `l/L`, scan `ξ/L`".**
+
+**Whether tabula's sweep runs at the matching condition, I do not know**, and this is
+the single most likely way the comparison is void. If their interval is fixed in
+**absolute** units while mass is swept at one `L`, they are scanning a different
+composite from mine, and a number that agrees or disagrees is measuring something
+else either way. **This must be established before the numbers are compared**, and
+if it cannot be, §6's "not comparable" is the outcome.
+
+I am registering this as the correspondence check rather than as a caveat: a match
+counts **only** if their setup is "interval at fixed fraction of the ring, scan
+`ξ/L`". If it is not, no grade in §4 applies.
+
 ## 4. Falsifiers, stated before the number exists
 
 | outcome | verdict |
