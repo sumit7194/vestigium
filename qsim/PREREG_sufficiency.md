@@ -130,3 +130,69 @@ moving at some order, that order is the physical answer and is worth knowing.
 **Until that runs, the reportable claim is the narrow one:** matching on decoherence
 and duration is not sufficient, and any comparison of how different environments
 record must declare its route convention as an assumption.
+
+
+---
+
+# ORDER-3 OUTCOME — 2026-09-21. **Structure still moves.**
+
+Registered in `fea2840` before running, with both readings stated in advance.
+
+## Controls
+
+| control | value | |
+|---|---|---|
+| C-REPRODUCE — three equal steps vs single step | `2.11e-15` | PASS |
+| C-TARGET — `|S − S*|/S*` | `0.0000%` | PASS |
+| C-SUM — `|Σλ − A|` | `0.00e+00` (by construction) | PASS |
+| **±θ degeneracy hazard** | `0.056545` | **not degenerate — the sweep is live** |
+
+That last row matters: had `+θ` and `−θ` given identical structure, the sweep would
+have been testing a symmetry rather than the physics — the `A_x ≡ 0` parity trap
+again. It does not.
+
+## The result
+
+`S*`, `t*` **and** `∫λ dt` all held fixed; only the remaining free direction swept:
+
+| `θ` | `λ_a` | `λ_b` | `λ_c` | `Σλ` | `S(ρ_S)` | `I(S:i₀)/S` |
+|---|---|---|---|---|---|---|
+| −0.30 | 0.4954 | 0.5565 | 0.9200 | 1.9719 | 0.150000 | **0.9157** |
+| 0.00 | 0.6575 | 0.6569 | 0.6575 | 1.9719 | 0.150000 | 0.8887 |
+| +0.30 | 0.9129 | 0.5675 | 0.4916 | 1.9719 | 0.150000 | **0.8592** |
+
+**6.37% relative spread, monotone.** Three scalars fixed and the record structure is
+still not determined. **The conjecture stands at order 3.**
+
+## The comparison I must NOT make
+
+It is tempting to read `12.70% → 6.37%` as *the residual halving with each added
+condition*, which would suggest convergence rather than the conjecture. **That
+comparison is invalid and I am recording why rather than making it quietly:**
+
+- the order-2 sweep ranged `c_a/c_b` over `4 → 0.25`, a **16× range**;
+- the order-3 sweep ranged `θ` over `−0.3 → +0.3` only, because **`θ = ±0.6` has no
+  root** — no `q` reaches `S*` there.
+
+Different sweep extents. The two spreads are **not comparable**, and any claim that
+the residual is shrinking would be exactly the "measured at a different condition
+than the claim" error this repo has logged eight times. *Whether the residual
+converges with order is unresolved.*
+
+## Limitation, stated plainly
+
+Only **three θ points resolved**. Hazard 2 of this registration — "shape range too
+narrow" — **fired**. The effect is monotone and far above the exact-arithmetic noise
+floor, and the ±θ check rules out degeneracy, so *structure moves* is solid. But
+three points cannot characterise a trend.
+
+## What would settle convergence
+
+Sweep ranges matched by a physical measure rather than by parameter name — e.g. equal
+variance of `λ(t)` about its mean, or equal `L²` distance in coupling space — at
+orders 2, 3 and 4. Only then does "the residual shrinks with order" become a
+statement about physics rather than about how wide each parameter happened to be
+swept.
+
+**Reportable now:** three scalar conditions do not fix the record. Whether any finite
+number does remains open, and the order-by-order trend is **not** measured.
