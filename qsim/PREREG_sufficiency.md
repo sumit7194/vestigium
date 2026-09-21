@@ -67,3 +67,66 @@ how far spread". The condition is: `L=10` TFI chain at `g=1`, one coupling site,
 two-step piecewise-constant `λ`, `S*` measured as `S(ρ_S)`, structure read from
 `I(S:i₀)`. A null over two-step shapes does **not** establish sufficiency over
 arbitrary `λ(t)` — it establishes it over the two-step family, and must say so.
+
+
+---
+
+# OUTCOME — 2026-09-21. **P-SUFF FALSIFIED.**
+
+## The control first, because it is what makes the result readable
+
+**C-REPRODUCE passes at `5.55e-16`.** Two-step machinery with equal steps reproduces
+the single-step result to machine precision (`I(S:i₀) = 0.1333005352` both ways). So
+every difference below is physics, not stepping machinery. **C-TARGET: 0.000%** — all
+five shapes hit `S(ρ_S) = 0.150000` exactly.
+
+## The result
+
+`g=1`, `L=10`, `S* = 0.150000`, `t* = 0.35`, one coupling site, varying only the
+*temporal shape* of `λ`:
+
+| `c_a : c_b` | `λ_a` | `λ_b` | `S(ρ_S)` | `I(S:i₀)/S` |
+|---|---|---|---|---|
+| 4 : 1 (front-loaded) | 1.0181 | 0.2545 | 0.150000 | **0.8304** |
+| 2 : 1 | 0.8677 | 0.4338 | 0.150000 | 0.8553 |
+| 1 : 1 (constant) | 0.6573 | 0.6573 | 0.150000 | 0.8887 |
+| 1 : 2 | 0.4335 | 0.8670 | 0.150000 | 0.9209 |
+| 1 : 4 (back-loaded) | 0.2543 | 1.0172 | 0.150000 | **0.9431** |
+
+**12.70% relative spread, monotone in the loading parameter**, with `S(ρ_S)` identical
+to six decimals and `t*` identical by construction. Single fragment — no sampling, no
+noise floor.
+
+Direction is as predicted: **write early and the record spreads; write late and it
+does not.**
+
+## What it means
+
+**`(S*, t*)` is a PROTOCOL CONVENTION, not a physical characterisation.** It works
+only because "constant `λ`" is silently acting as a *third* condition that was never
+written down. The scheme remains usable — but it must declare three conditions, not
+two, and the third is an arbitrary choice of route rather than a physical quantity.
+
+The count has gone **1 → 2 → 3** in two days:
+- match the coupling → confounded (44× capacity gap)
+- match `S(ρ_S)` → insufficient (record structure runs 0.766–0.998)
+- match `(S, t)` → insufficient (12.70% spread over shape)
+
+## The conjecture this suggests, stated as a conjecture
+
+Each condition pins **one scalar**. The record is a **function** — `I(S : ·)` over all
+fragments — with far more degrees of freedom than any finite list of scalars can fix.
+So:
+
+> **No finite set of scalar matching conditions makes two environments comparable.**
+> Every such scheme is a convention that fixes the remaining freedom by fiat.
+
+**This is NOT established here.** What is established is that it holds for the first
+three. The test that would settle it: three-step coupling gives three knobs plus `t`;
+impose `S*`, `t*`, and a *third* scalar (e.g. `∫λ dt`), leaving one free direction;
+sweep it. If structure still moves at every order, the conjecture stands. If it stops
+moving at some order, that order is the physical answer and is worth knowing.
+
+**Until that runs, the reportable claim is the narrow one:** matching on decoherence
+and duration is not sufficient, and any comparison of how different environments
+record must declare its route convention as an assumption.
