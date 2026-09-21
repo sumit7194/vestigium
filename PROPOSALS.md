@@ -177,7 +177,17 @@ control with a *known* answer my instrument must reproduce, and is **not** a res
 everywhere *including* near resonances, the instrument has added nothing beyond a
 weaker rederivation, and H1 should be closed rather than written up.
 
-## H2 — A pre-registered number for tabula's mass sweep  ★ cheapest, already in motion
+## H2 — A pre-registered number for tabula's mass sweep  ★ RAN 2026-09-21 → NOT COMPARABLE
+
+**Outcome: the correspondence check fired and no grade applies.** Blinding held
+(their prereg and my seal both predate their number; they had read access here and
+did not use it). Their setup used an *absolute* interval band at one system size,
+so the `ξ/L` collapse that licenses quoting a single ratio was never established on
+their side — and their instrument declined to produce the quantity anyway, since `ξ`
+came out ~7.7× the box while being fitted inside `r ≤ N/4`. **The prediction remains
+sealed and live.** Full scoring in [PREREG_xi_star.md](PREREG_xi_star.md).
+
+
 
 tabula's J5 builds a kinematic-space metric from single-interval entropies `S(u,v)`
 on a ring and reads the central charge off its Gaussian curvature; they reported

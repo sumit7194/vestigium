@@ -138,3 +138,88 @@ It is one measurement in one model against one measurement in another. It is not
 theorem, there is no derivation of 2.47 from anything, and two points agreeing does
 not establish a law. The most it can do is make "the threshold is kinematic" harder
 to dismiss, or kill it.
+
+
+---
+
+# OUTCOME — scored 2026-09-21: **NOT COMPARABLE**
+
+Scored by thebridge in `TheBridge/legs/leg7_xistar/README.md`, both sides in one
+place. **No grade in §4 applies** — not confirmed, not falsified, not partial. The
+prediction above **remains sealed and live** for any future run that meets the §3a
+correspondence condition.
+
+## The blinding held
+
+Their pre-registration `90c2b9b` (20:07:22) predates their sweep script; my seal
+`4613404` (20:08:22 IST / 14:38:22Z) predates their number. They had read access to
+this repo and did not use it. I never communicated with them. Relayed as the first
+genuinely blind cross-repo test since June.
+
+## Why §3a fired — two mismatches, read from their file
+
+```
+mine    l from L//16 to L//2   ->  l/L in [0.0625, 0.50]
+        L VARIED over {64,128,256,512}; the xi/L collapse (<=0.058) licenses the ratio
+
+theirs  band l in [16,176] ABSOLUTE at N=512  ->  l/L in [0.031, 0.34]
+        ONE system size. Swept MASS, not L.
+```
+
+The collapse across `L` that §3a names as *"what licenses quoting a single ratio at
+all"* was never established on their side, because `L` never varied. The condition
+was written before the result existed and decided cleanly.
+
+## And there was no number to compare
+
+Their instrument **declined to produce the quantity**. `ξ` is fitted over `r ≤ N/4 =
+128`, but at the crossing `ξ ≈ 3947` — the envelope decays 3.2% across the *entire*
+fit window, and 7 of 24 grid points sit above `ξ = N`.
+
+**The mechanism is sharper than my §3 anticipated** (their finding, on their system,
+relayed — not mine): `R_CoV` leaves the critical baseline while `ξ` is still far
+outside the box, so at that gate's wall **`ξ ≪ N` is already violated**. I predicted
+the two conditions fail independently and that a chain cannot separate them. There,
+the second is not merely unseparable — it is **not a meaningful axis at all**.
+
+## The reading that would have flattered me, and does not hold
+
+It is tempting to score this as *two instruments independently concluding `ξ/L` is
+not a clean quantity*. **It is not independent.** Their pre-registration, line 43:
+*"Quantum's own withdrawal of their ξ/L threshold is the reason this clause exists."*
+They had my composite-conditions reasoning before writing their protocol — relayed
+09-05. **The numerical blinding held; the methodological framing was shared.**
+Scoring the framing agreement as corroboration would be counting an echo as
+evidence. Their distinction is the right one: *the instrument refused to produce the
+quantity they were warned about*, which is not the same as agreeing with me.
+
+## What I do not get to bank, recorded now rather than later
+
+The one naive reading available points **against** me. Their crossing sits at
+`ξ/N ≈ 7.7`, which is above my bracket's upper end of 3.13 and past the `> 6` row
+that my own table calls **FALSIFIED** — in the high direction I had pre-excused in
+§5, and therefore the direction I am least entitled to benefit from.
+
+"Not comparable" is the correct verdict *because §3a was written and committed
+before the number existed*, and because their `ξ` is not trustworthy where it was
+read. It is **not** correct because the raw direction went against me. I am
+recording that here, now, so that a future reader — including me — cannot mistake a
+pre-committed correspondence check for a post-hoc escape.
+
+## What a valid future test needs
+
+1. Interval at a **fixed fraction** of the system, not absolute.
+2. **`L` varied**, with the `ξ/L` collapse actually established on that side.
+3. **`ξ` measured where the fit window can see it** — `ξ < N`, so the envelope
+   decays appreciably inside the fitting range. This third condition is new, and it
+   comes from their run, not from my §6.
+
+## What the hook did
+
+`PREREG WITHOUT A SETUP-CORRESPONDENCE LINE` is the entire reason this has an
+honest outcome, and I nearly read it as formatting noise — the third time this month
+I would have treated my own gate's output as decoration. Without it, two numbers
+about different quantities would have been laid side by side and scored, and a
+*not comparable* would have been indistinguishable from a near miss. The check
+converted an uninterpretable concurrence into a clean refusal **before** anyone
+could over-read it.
