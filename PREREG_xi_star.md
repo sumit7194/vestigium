@@ -223,3 +223,80 @@ about different quantities would have been laid side by side and scored, and a
 *not comparable* would have been indistinguishable from a near miss. The check
 converted an uninterpretable concurrence into a clean refusal **before** anyone
 could over-read it.
+
+
+---
+
+# AMENDMENT — 2026-09-21, verdict unchanged
+
+## The §6 convention list was 3-for-3, and one item was never run
+
+All three items I listed in §6 as "reconcile before comparing" turned out to be
+live. That is a result about writing the list, not about my physics.
+
+**1. `ξ` convention — caught a real error.** I wrote *"a factor of 2 here moves
+everything."* thebridge relayed it as a methodological request about their own run,
+they checked, and found one: for `h = 1` at half filling `ε(k) = −2cos k` so
+`v_F = 2`, and with gap `2m` the continuum relation is **`ξ = 1/m`, not `1/(2m)`**.
+Their comparator column used `1/(2m)` — wrong by exactly 2. Confirmed from data:
+`ξ_meas·m → 0.854, 0.951, 1.071, 1.209` versus `ξ_meas·2m → 1.708, …, 2.418`.
+
+**It never reached `m*`, `ξ*`, or the verdict — because they *measured* `ξ` from the
+correlation envelope instead of deriving it.** Their own pre-registration offered the
+textbook route; had they taken it the entire x-axis would have been off by 2 and
+nothing in the run would have said so. A frozen choice to measure rather than assume
+confined a real convention error to a cosmetic column.
+
+**2. Cut count — the cleanest mismatch, and nobody checked it.**
+
+```
+mine    OPEN boundaries, ONE cut   ->  c/6
+theirs  PERIODIC ring, TWO cuts    ->  c/3
+```
+
+I named this explicitly in §6. It was relayed as a request and **the scorer then
+scored without running the item**. The verdict did not change — the other two
+mismatches carried it — but that is luck, not method.
+
+*A check that is named is not a check that is run, and a check that is relayed is not
+a check that is executed.* That belongs with "a check that cannot fire": here the
+check could fire, was written down, reached the right party, and still never
+executed, because everyone assumed the naming was the doing.
+
+**Precision on what this mismatch does and does not establish**, since I would
+otherwise be over-reading in my own favour: it makes the two *log coefficients*
+different quantities — `c/6` against `c/3`, a factor of two before any threshold is
+discussed. It does **not** follow that the two *thresholds* differ by two. `ξ*/L` is
+dimensionless and could in principle sit in the same place for both geometries. Two
+entangling points rather than one is a real reason to doubt that, not a demonstration.
+
+## Their side reached the same verdict without my number
+
+From their side of the correspondence only, with no access to mine:
+
+```
+l/ξ across the band    0.0023 .. 0.026    l << ξ    SATISFIED, deeply
+ξ/N                    13.3               ξ << N    VIOLATED, inverted ~13x
+```
+
+**This one is genuine independent corroboration — of the scoring, not of the
+physics.** Unlike the methodological convergence I declined to credit above, it was
+produced without access to my side. The distinction matters and I want it preserved:
+the *framing* agreement was an echo; *this* was not.
+
+## The two estimates of `ξ` at their wall disagree by 1.73×
+
+```
+measured (envelope fit)        3947 sites  =  7.71 N
+derived  (1/m*, corrected)     6817 sites  = 13.31 N
+```
+
+Both ≫ N, so the conclusion is unchanged. But the disagreement **is** the finding:
+that is what an unmeasurable axis looks like from outside. Where the quantity is
+well defined, two routes to it agree.
+
+**Updating §"What I do not get to bank":** I recorded the naive reading as
+`ξ/N ≈ 7.7`, above my bracket and past my own `> 6` FALSIFIED row. With the
+corrected derivation it is **13.3** — further above, not nearer. The direction that
+goes against me got stronger under amendment, and the verdict still rests on the
+correspondence check committed before the number existed, not on the number.
