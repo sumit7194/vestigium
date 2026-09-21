@@ -143,6 +143,9 @@ def A_avg_time(pert, a, e, k=K, rtol=1e-12, atol=1e-13):
     ts = np.linspace(0.0, T, 4001)
     sol = solve_ivp(rhs, (0.0, T), np.concatenate([rv0, pv0]), t_eval=ts,
                     rtol=rtol, atol=atol, method="DOP853")
+    if not sol.success:                # an incomplete integration returns a SHORTER
+        raise RuntimeError(            # array, and averaging it looks like an answer
+            f"solve_ivp failed: {sol.message}")
     vals = np.array([bracket_H1_A(pert.gradV(sol.y[:3, i]), sol.y[:3, i], sol.y[3:, i])
                      for i in range(len(ts))])
     return np.trapezoid(vals, ts, axis=0)/T
@@ -170,6 +173,9 @@ def measured_drift(pert, a, e, eps, n_orb=60, k=K):
     ts = np.arange(n_orb + 1)*T                      # stroboscopic, one per orbit
     sol = solve_ivp(rhs, (0.0, ts[-1]), np.concatenate([rv0, pv0]), t_eval=ts,
                     rtol=1e-12, atol=1e-13, method="DOP853")
+    if not sol.success:                # an incomplete integration returns a SHORTER
+        raise RuntimeError(            # array, and averaging it looks like an answer
+            f"solve_ivp failed: {sol.message}")
     Av = np.array([lrl(sol.y[:3, i], sol.y[3:, i], k) for i in range(len(ts))])
     phi = np.unwrap(np.arctan2(Av[:, 1], Av[:, 0]))
     mag = np.linalg.norm(Av, axis=1)

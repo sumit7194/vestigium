@@ -111,9 +111,22 @@ def hexagon(R, N):      # 6 corners at 120 deg
                      if abs(i + j) <= R])
 
 def fit(xs, S, per_unit, rich=False):
+    """Least-squares fit for A and B.
+
+    RAISES on a rank-deficient design matrix rather than returning the
+    minimum-norm solution. lstsq does not fail on a singular system -- it
+    returns a plausible-looking vector, which is the 'failing mechanism produces
+    the output of a working one' shape. The rank was being discarded by
+    `c, *_ =`. Checked 2026-09-22: every committed fit here is full rank, so no
+    published number changes; the guard is for the next run, not this one."""
     x = np.array(xs, float)
     cols = [per_unit*x, np.log(x), np.ones(x.size)] + ([1.0/x] if rich else [])
-    c, *_ = np.linalg.lstsq(np.vstack(cols).T, np.array(S), rcond=None)
+    M = np.vstack(cols).T
+    c, _res, rank, _sv = np.linalg.lstsq(M, np.array(S), rcond=None)
+    if rank < M.shape[1]:
+        raise RuntimeError(f"rank-deficient fit: rank {rank} < {M.shape[1]} columns "
+                           f"(xs={list(xs)}) -- the returned coefficients would be a "
+                           f"minimum-norm artefact, not a measurement")
     return c[0], c[1]                                 # A, B
 
 # ================================ measurement ================================

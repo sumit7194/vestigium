@@ -251,6 +251,19 @@ check("corner: C2' floor re-derived from artifact, not typed",
 # they read. This artifact existed and its numbers were in the README and sent
 # to tabula, but NOTHING re-asserted them -- the study under external blind
 # check was the least gated one here.
+# ---- is this gate actually WIRED? -------------------------------------------
+# core.hooksPath lives in .git/config, which is NOT cloned. A fresh clone gets
+# .githooks/pre-commit -- tracked, reviewable, in the diff -- and no active gate.
+# That passes any review consisting of reading the repository. So the gate checks
+# its own activation; run ./install_hooks.sh if this fails.
+import subprocess as _sp
+_hp = _sp.run(["git", "config", "core.hooksPath"], capture_output=True,
+              text=True).stdout.strip()
+check("the pre-commit gate is ACTIVATED, not merely tracked",
+      1.0 if _hp == ".githooks" else 0.0, ">", 0.5,
+      note="core.hooksPath is not cloned; a fresh clone has the hook file and no "
+           "gate. Fix: ./install_hooks.sh (which also proves it blocks)")
+
 # ---- H3: how a record is laid down (2026-09-21/22) --------------------------
 # Findings: qsim/H3_FINDINGS.md. Assertions here cover only what that document
 # defends; the order-by-order trend is deliberately NOT asserted, because its
