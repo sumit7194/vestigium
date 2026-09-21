@@ -126,6 +126,21 @@ apply to orders 2 and 3 — **both of which happened to be the ones supporting m
 conjecture**; and an order-3 radial sweep that found only second crossings because
 the constant-λ point lies on the curve.
 
+# A note on the shape of my own errors here
+
+Across this work I asserted **"flat, not convergent"** at one point and
+**"declining, only the limit open"** at another. Both were too strong, and they point
+in **opposite directions**.
+
+So this was not a bias toward a preferred conclusion — it was a bias toward **having
+one**. That failure mode leaves no consistent fingerprint: you cannot detect it by
+checking whether the errors favour your hypothesis, because they need not. The only
+thing the two claims had in common was arriving before the data could support either.
+
+Applying the nuisance-sensitivity test (`EDITING.md`) would have blocked both: the
+trend is 12–35% between orders against a 73–992% coverage sensitivity, so there was
+never a trend to characterise in either direction.
+
 # The one claim to carry forward
 
 **Matching outcome scalars — however many — does not pin the environment's record.

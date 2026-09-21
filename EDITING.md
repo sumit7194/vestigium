@@ -48,3 +48,44 @@ capability inventory (~105k tokens) was accurate on tools and interfaces. Watch 
 known failure of the cheap tiers: a summary that *flattens a caveat* — "withdrawn on
 provenance" becoming "withdrawn" — which is why write-ups and anything touching the
 retraction ledger stay at Opus or above.
+
+
+## The nuisance-sensitivity test (adopted 2026-09-22)
+
+Before believing a trend, **measure how much it moves under a nuisance parameter and
+compare the two IN THE SAME UNITS.**
+
+> **A trend smaller than its own sweep sensitivity is not a weak result. It is not a
+> result.**
+
+This is sharper than the older rule ("sweep the nuisance parameter and report the
+drift"), which leaves you holding two numbers and a judgement. Comparing them
+directly is a **verdict**.
+
+Two independent instances, a day apart, from different repos:
+
+| | signal | nuisance swing |
+|---|---|---|
+| tabula | a `√3` claim | **334%** from a window change on data that never moved |
+| here (H3 order trend) | 12–35% between orders | **73–992%** from fixing sweep coverage |
+
+Both died. Neither author was looking for it; in this repo it surfaced only because
+the user asked for a fuller sweep of the one case I had not re-checked.
+
+**Operationally:** any reported trend ships with its nuisance sensitivity measured,
+or it does not ship. And do not gate a number whose error bar you cannot establish —
+*a gate asserting a number you cannot bound is a fabrication with a green light on
+it.*
+
+## Expected-pass output is where the catches and the misses both live
+
+Paired from two repos on the same day (relayed by thebridge, who could see both):
+
+- **ansatz**: 3 of 7 bugs caught by reading output they *expected to pass*.
+- **here**: one missed by *not* reading output I expected to pass — specifically the
+  cases that agreed with my conjecture.
+
+**"Looks fine" and "agrees with what I expected" are the same appearance from the
+inside.** So the cases most in need of re-checking are exactly the ones that generate
+no impulse to re-check them. A fix applied only to the case that failed, and not to
+the cases that agreed, is the general form.
