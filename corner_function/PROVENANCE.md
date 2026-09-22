@@ -308,3 +308,22 @@ the authors are explicit, and one endpoint is a z = 2 Lifshitz shape that is not
 Lorentz invariant. The observed narrow band may still reflect a real theorem; the
 corollary correctly states that such a theorem must carry information not contained
 in ρ ≥ 0.
+
+
+---
+
+# 2026-09-22 — vendored implementation removed, and why
+
+`corner_function/scripts/` (211 files, cuspis's implementation) was **`git rm`'d**
+before starting an independent check of their sub-45° corner-function magnitudes.
+`scripts_check/` is retained — those two files are mine.
+
+**What the removal buys and what it does not.** It prevents *future* exposure. It
+**cannot un-read anything**, and the files remain in history at `dbd443a`. The
+stronger fact is a values-blind detector — reporting only counts, never values, so
+running it could not contaminate the reader — which found **zero angle-indexed
+numeric tables below 45°** in the snapshot.
+
+Per the fleet's `SCOPE_MANIFEST` field 9, a non-empty *shared input* field permits a
+**CHECK** and forbids a **REPLICATION**. Mine is non-empty. The check is
+pre-registered in [`PREREG_cuspis_sub45_check.md`](../PREREG_cuspis_sub45_check.md).
