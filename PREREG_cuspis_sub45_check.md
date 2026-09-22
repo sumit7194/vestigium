@@ -340,6 +340,34 @@ sits exactly where CHL's own lattice checks sit. **Consistent — and it is a
 genuinely independent third point**, being pre-exposure, a different method, and
 neither cuspis's nor the one being built.
 
+## CORRECTION (2026-09-23): one published sub-45° value exists, and two more exact controls
+
+This document's premise that **no published value exists below 45°** was wrong by
+one point. A literature pass (delegated, every number then checked by me) found:
+
+- **Helmes, Hayward Sierens, Chandran, Witczak-Krempa, Melko, PRB 94, 125142 (2016),
+  arXiv:1606.03096, Table 1**, at `θ = arctan(1/2) ≈ 26.565°`, **complex** scalar,
+  von Neumann: series (Taylor about π to 16th order, a rigorous **lower bound**)
+  `0.1453`; their interpolating ansatz `0.156`; lattice (NLCE) `0.154`. Their 90°
+  entry is `0.02367`, matching CHL09's complex `0.02366`, which fixes the
+  normalisation. **Real scalar = half (my inference):** lower bound `0.07265`,
+  lattice `0.077`, ansatz `0.078`.
+- Precision is ~1–2%. **It is a coarse external anchor, not a check of cuspis's
+  digits** — but it is a sub-45° point that cuspis did not supply, and it is the
+  only one in the literature.
+
+Added as **declared additional controls**, not replacements for the registered four:
+
+| control | value (real scalar) | source | independent of cuspis? |
+|---|---|---|---|
+| `c₂ = σ` | `1/256` exact | Elvang–Hadjiantonis 2015 (arXiv:1506.06729); FLP16 via `C_T` | yes |
+| `c₄` | `(20+3π²)/(18432π²) = 2.72700937e-4` exact | Helmes et al. 2016, Table 3 (complex form halved); CHL09 prints `5.45402e-4` complex | **yes** — I had seen this closed form in cuspis's `report.md`, but it is published, and the published source is what is cited |
+| `c₆` | `5.34656e-5/2` (6 figures) | CHL09 Table 1 | yes |
+| `a(26.565°)` | lattice `0.077`, bounded below by `0.07265` | Helmes et al. 2016, Table 1 | yes |
+
+The delegated summary attached `c₆`'s digits to the `c₄` formula; recomputing the
+closed form caught it (`(20+3π²)/(9216π²) = 5.45402e-4`, matching CHL09 to 2e-7).
+
 ## Setup correspondence — am I computing the same quantity at all?
 
 *Required by the pre-commit hook, which has now caught this omission three times.

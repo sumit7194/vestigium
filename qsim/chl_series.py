@@ -108,7 +108,8 @@ def residuals(F, a, M, T):
     return R
 
 
-def solve_series(a, M, start, N=24, iters=40, tol=1e-13, guess=None, verbose=False):
+def solve_series(a, M, start, N=24, iters=40, tol=1e-13, guess=None, verbose=False,
+                 strict=True, want_jacobian=False):
     """Newton on the coefficient vector. `start` = chl_corner.start_data(a, M).
 
     Residual orders 0..N-1 are enforced (the derivative loses the top order).
@@ -194,13 +195,25 @@ def solve_series(a, M, start, N=24, iters=40, tol=1e-13, guess=None, verbose=Fal
                 break
             lam *= 0.5
         z = zt
-    if hist[-1] >= tol:
+    if hist[-1] >= tol and strict:
         raise RuntimeError(f"series Newton did not converge at a={a}, M={M}: "
                            f"residual {hist[-1]:.2e} after {len(hist)} iterations")
-    return unpack(z), dict(residual=hist[-1], history=hist, n_unknowns=len(z), n_eqs=len(r))
+    info = dict(residual=hist[-1], history=hist, n_unknowns=len(z), n_eqs=len(r),
+                converged=hist[-1] < tol)
+    if want_jacobian:
+        # at the returned iterate, central differences (exact for quadratic eqs)
+        J = np.empty((len(r), len(z)), dtype=complex)
+        for j in range(len(z)):
+            h = 1e-2*colscale[j]
+            zp = z.copy(); zp[j] += h
+            zm = z.copy(); zm[j] -= h
+            J[:, j] = (resvec(zp) - resvec(zm))/(2*h)
+        info.update(J=J, colscale=colscale, idx=idx)
+    return unpack(z), info
 
 
-def continue_in_t(t_target, M, N=32, dt=0.05, dt_min=1e-3, start_fn=None, keep=None):
+def continue_in_t(t_target, M, N=32, dt=0.05, dt_min=1e-3, start_fn=None, keep=None,
+                  strict=True):
     """Series at a = 1/2 - i t, for every t in `keep` up to t_target, by
     continuation from t = 0 with a SECANT predictor (linear extrapolation from
     the last two converged series) and adaptive steps. Returns {t: series}.
@@ -213,7 +226,7 @@ def continue_in_t(t_target, M, N=32, dt=0.05, dt_min=1e-3, start_fn=None, keep=N
     t, h = 0.0, dt
     G_prev, t_prev = None, None
     a = 0.5 + 0j
-    G, _ = solve_series(a, M, start_fn(a, M), N=N)
+    G, _ = solve_series(a, M, start_fn(a, M), N=N, strict=strict)
     if 0.0 in keep:
         out[0.0] = G
     pending = [k for k in keep if k > 0]
@@ -226,7 +239,9 @@ def continue_in_t(t_target, M, N=32, dt=0.05, dt_min=1e-3, start_fn=None, keep=N
             guess = {n: G[n] + w*(G[n] - G_prev[n]) for n in NAMES}
         a = 0.5 - 1j*nxt
         try:
-            Gn, _ = solve_series(a, M, start_fn(a, M), N=N, guess=guess)
+            Gn, inf = solve_series(a, M, start_fn(a, M), N=N, guess=guess, strict=strict)
+            if not strict and inf["residual"] > 1e-6:
+                raise RuntimeError("guess too poor even for refinement")
         except RuntimeError:
             h *= 0.5
             if h < dt_min:
