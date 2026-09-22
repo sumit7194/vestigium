@@ -19,3 +19,5 @@ heartbeat.err
 .heartbeat.pid
 
 qsim/chl_btf_cache/
+qsim/chl_controls_nodes.jsonl
+qsim/chl_run_controls.log
