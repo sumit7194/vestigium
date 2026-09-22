@@ -18,7 +18,7 @@ import chl_controls as C
 PI = math.pi
 run = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "chl_controls_run.json")))
 res = run["resolutions"]
-lo, hi = res["16x8x20"], res["22x12x30"]
+lo, hi = res["coarse"], res["fine"]
 for r in (lo, hi):
     if r["missing"]:
         raise SystemExit(f"INCOMPLETE: {len(r['missing'])} nodes missing or failed -- no control is judged")
