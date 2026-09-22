@@ -167,3 +167,32 @@ def B_direct(a, M):
     val, _ = quad(lambda t: sol.sol(t)[0]*sol.sol(PI - t)[0]*np.sin(t),
                   th0, PI - s0, limit=400, epsabs=1e-14, epsrel=1e-11)
     return 2*PI*val*norm**2
+
+
+# =============================================================================
+# 2026-09-22, RESOLVED: the "inconsistency" was MY EXTRACTION ERROR in eq (32)
+# =============================================================================
+# The rendered PDF (CH07 p.5) reads
+#   0 = -4a(a-1) - m^2 (4 - 8 b1 b2 + bc + 3u^2)
+#         - 4 cos(x) ( a(a-1) + m^2 (u^2 + 1) ) + m^2 cos(2x) (bc - u^2)
+# pdftotext dropped the parentheses: cos(x) multiplies a(a-1) + m^2(u^2+1),
+# not a(a-1) alone. I diagnosed "a typo in the paper" that was a typo in MY
+# READING -- and should have looked at the rendered page first.
+#
+# What makes the resolution trustworthy rather than convenient: BEFORE viewing
+# the page, the O(eps^2) content of (32) was identified from exact identities
+# alone (a null vector over 12 (a,M) points, smallest singular value 9.6e-9
+# against 0.27): coefficients [-2, -2, -2, 8, 0] on
+# [a(a-1), M^2, M^2 bc, M^2 k^2 bc, M^2 u1^2]. The rendered equation expands to
+# exactly that, including the vanishing u^2 coefficient. Reconstruction and
+# typesetting agree independently.
+#
+# Also established at x = pi, by the rotation L1 being the azimuthal derivative
+# about the endpoint axis: beta1 = beta2 = 0 EXACTLY, beta ~ k eps (b, c).
+# (80) then holds as a closed identity among direct X1,X2,b,c,B1,B2 to 1e-9.
+# And (32) at eps^2 gives k in closed form, checked against the direct k:
+#   k^2 = (a(a-1) + M^2 (1 + bc)) / (4 M^2 bc),   k < 0 for real a.
+
+def k_closed(a, M):
+    b, c = b_typeset(a, M), b_typeset(1 - a, M)
+    return -np.sqrt((a*(a - 1) + M*M*(1 + b*c)) / (4*M*M*b*c))
