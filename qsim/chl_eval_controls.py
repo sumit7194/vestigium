@@ -18,7 +18,7 @@ import chl_controls as C
 PI = math.pi
 run = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "chl_controls_run.json")))
 res = run["resolutions"]
-lo, hi = res["12x16"], res["16x24"]
+lo, hi = res["16x8x20"], res["22x12x30"]
 for r in (lo, hi):
     if r["missing"]:
         raise SystemExit(f"INCOMPLETE: {len(r['missing'])} nodes missing or failed -- no control is judged")
@@ -36,7 +36,7 @@ for n in ["c2", "c4", "c6", "s90", "s135"]:
     d = abs(a - b)/abs(b)
     ok = d < 1e-7
     conv_ok &= ok
-    print(f"   {n:>5}: 12x16 {a:.12e}   16x24 {b:.12e}   rel diff {d:.1e}  {'ok' if ok else 'NOT CONVERGED'}")
+    print(f"   {n:>5}: coarse {a:.12e}   fine {b:.12e}   rel diff {d:.1e}  {'ok' if ok else 'NOT CONVERGED'}")
 print("t-tail bounds (beyond t = 3):", {k: f"{v:.1e}" for k, v in hi["t_tail_bound"].items()})
 if not conv_ok:
     raise SystemExit("quadrature not converged -- controls not judged")

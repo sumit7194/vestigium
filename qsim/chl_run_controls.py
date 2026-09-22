@@ -18,17 +18,37 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 CKPT = os.path.join(HERE, "chl_controls_nodes.jsonl")
 OUT = os.path.join(HERE, "chl_controls_run.json")
-T_MAX, Q_MAX = 3.0, 8.0
+CKPT = os.path.join(HERE, "chl_controls_nodes_v2.jsonl")
+T_MAX = 4.0
 XS = [3*math.pi/4, math.pi/2]
-RESOLUTIONS = [(12, 16), (16, 24)]
+# Ridge-adapted quadrature (diagnosed 2026-09-23 after the first stage-1 pass
+# failed its own convergence gate, 1-7e-5 between resolutions):
+#  - every integrand has a PLATEAU for q < t (tr G -> -2 ln sin(x/2) exactly;
+#    c2-integrand -> 1/4), a sigmoid step at q ~ t, and decay ~ e^{-2x(q-t)}.
+#  - so q runs over [0, t + S] with S = 7.5 (90 deg: e^{-pi*7.5} ~ 6e-11), in two
+#    panels: plateau [0, t-1.5] and ridge+tail [t-1.5, t+S].
+#  - t runs to 4 (tail ~ t^3 e^{-2 pi t}: ~1e-8 relative; bounded below).
+S_TAIL, RIDGE_HALF = 7.5, 1.5
+RESOLUTIONS = [(16, 8, 20), (22, 12, 30)]      # (n_t, n_plateau, n_ridge)
 
 
-def nodes(nt, nq):
-    tn, tw = np.polynomial.legendre.leggauss(nt)
-    qn, qw = np.polynomial.legendre.leggauss(nq)
-    tn, tw = 0.5*T_MAX*(tn + 1), 0.5*T_MAX*tw
-    qn, qw = 0.5*Q_MAX*(qn + 1), 0.5*Q_MAX*qw
-    return [(float(t), float(wt), float(q), float(wq)) for t, wt in zip(tn, tw) for q, wq in zip(qn, qw)]
+def _gl(n, lo, hi):
+    x, w = np.polynomial.legendre.leggauss(n)
+    return 0.5*(hi - lo)*(x + 1) + lo, 0.5*(hi - lo)*w
+
+
+def nodes(nt, n1, n2):
+    out = []
+    tn, tw = _gl(nt, 0.0, T_MAX)
+    for t, wt in zip(tn, tw):
+        split = max(0.0, t - RIDGE_HALF)
+        panels = [(n2, split, t + S_TAIL)]
+        if split > 0.05:
+            panels.insert(0, (n1, 0.0, split))
+        for n, lo, hi in panels:
+            qn, qw = _gl(n, lo, hi)
+            out += [(float(t), float(wt), float(q), float(wq)) for q, wq in zip(qn, qw)]
+    return out
 
 
 def key(t, q):
@@ -103,10 +123,10 @@ def main(workers=3):
                     print(f"  {i}/{len(todo)}  ({time.time()-t0:.0f}s)"
                           + ("" if r["ok"] else f"  FAILED t={r['t']:.3f} q={r['q']:.3f}: {r['error']}"), flush=True)
     done = load_done()
-    summary = dict(T_MAX=T_MAX, Q_MAX=Q_MAX, xs=XS, resolutions={})
+    summary = dict(T_MAX=T_MAX, S_TAIL=S_TAIL, RIDGE_HALF=RIDGE_HALF, xs=XS, resolutions={})
     for res in RESOLUTIONS:
         acc, tail, missing = integrate(res, done)
-        summary["resolutions"][f"{res[0]}x{res[1]}"] = dict(values=acc, t_tail_bound=tail,
+        summary["resolutions"]["x".join(map(str, res))] = dict(values=acc, t_tail_bound=tail,
                                                            missing=missing)
     with open(OUT, "w") as fh:
         json.dump(summary, fh, indent=1)
