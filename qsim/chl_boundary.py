@@ -130,3 +130,40 @@ if __name__ == "__main__":
     for a, M in [(0.2,1.0),(0.35,2.5),(0.1,0.7),(0.45,3.0),(0.3,1.5),(0.7,1.2)]:
         bd, bt = b_direct(a, M), b_typeset(a, M)
         print(f"{a:>5} {M:>5} {bd:>14.8e} {bt:>14.8e} {bt/bd:>14.10f}")
+
+
+# =============================================================================
+# 2026-09-22: B1, B2 at x = pi, direct -- and the inconsistency they expose
+# =============================================================================
+# At x = pi, R maps theta -> pi - theta in the frame with the endpoints at the
+# poles, so S1(Rz) = F_a(pi - theta) e^{i a phi}. Then
+#   B12 = int S2* S1(Rz)  integrates e^{i phi} over the azimuth  ->  exactly 0
+#   B1  = 2 pi int F_a(th) F_a(pi - th) sin(th) dth,   B2 likewise with 1-a.
+# With finite beta at x = pi, (81) forces beta2 B1 = beta1 B2 and (83) forces
+# beta1 c = b beta2, so a nonzero beta needs B1 c = b B2.
+# MEASURED B1 c / (b B2) = 1.642, 1.091, 2.588, 1.233 at the four (a,M) below.
+# So (81)+(83) admit only beta = 0 at x = pi, while (82) demands beta1 beta2 = 3/8.
+# With (79) this is two independent failures of the same kind. Either my
+# identification of some auxiliary variable differs from CH07's by a phase or
+# normalisation, or the typeset system contains an error. CHL09 Appendix B
+# COPIES CH07 ("to make this paper self contained"), so agreement between the
+# two typesettings is not evidence against a typo.
+# UNRESOLVED. No integrator is built on top of this until it is.
+
+def B_direct(a, M):
+    """B1(pi) = int dOmega S1*(z) S1(Rz), normalised as in X1_direct."""
+    from scipy.integrate import quad
+    s0 = th0 = 1e-3
+    c = frob_c(a, M)
+    def rhs(th, y):
+        F, dF = y
+        return [dF, -np.cos(th)/np.sin(th)*dF + (a*a/np.sin(th)**2 + M*M)*F]
+    sol = solve_ivp(rhs, [PI - s0, th0],
+                    [s0**a*(1 + c*s0**2), -(a*s0**(a-1) + c*(a+2)*s0**(a+1))],
+                    method="DOP853", rtol=1e-12, atol=1e-14, dense_output=True)
+    if not sol.success:
+        raise RuntimeError(sol.message)
+    norm = 1.0/(4*PI*a*A_coeff(a, M))
+    val, _ = quad(lambda t: sol.sol(t)[0]*sol.sol(PI - t)[0]*np.sin(t),
+                  th0, PI - s0, limit=400, epsabs=1e-14, epsrel=1e-11)
+    return 2*PI*val*norm**2
