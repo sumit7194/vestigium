@@ -458,3 +458,67 @@ repo, which is a different and weaker thing than a clean measurement of my own t
 The honest summary is: **the n = 1 arm is clean on cuspis's dates, contaminated in
 principle by eighteen days of holding their solver, and checked by someone who has now
 been wrong twice about what he was holding.**
+
+---
+
+# OUTCOME — STAGE 1, 2026-09-23. **CONTROL 1 FAILED.**
+
+Third quadrature pass (v3: nested Clenshaw–Curtis in `q`, sinh-mapped Gauss in
+`t`, 2136 nodes, all in mpmath). Passes 1 and 2 failed their own convergence gate
+and produced no verdict; that record is in the commit history. Pass 3 converged
+(coarse vs fine: `c₂` 2.7e-9, `c₄` 1.4e-8, `c₆` 6.5e-8, `s(90°)` 1.2e-9,
+`s(135°)` 2.1e-9). Verdict script committed before the run: `98b9d2c`; full
+output in `qsim/chl_controls_verdict.txt`.
+
+| control | mine (real scalar) | reference | rel | tol | |
+|---|---|---|---|---|---|
+| **1. `a(90°)`** | **`0.011833425`** | `0.02366/2` | **`2.89e-4`** | `2.1e-4` | **FAIL** |
+| `a(135°)` | `0.0025200268` | `0.005040/2` | `1.1e-5` | `2e-4` | pass |
+| BWK16 at 90°, 135° | ratio `1.0926`, `1.0185` | bound | — | — | pass |
+| `c₂ = σ` | `3.9062499527e-3` | `1/256` | `1.2e-8` | `1e-7` | pass |
+| `c₄` | `2.7270093492e-4` | exact closed form | `8.0e-9` | `1e-6` | pass |
+| `c₆` | `2.6732774640e-5` | `5.34656e-5/2` | `9.5e-7` | `2e-6` | pass |
+
+Every control first rejected its own poison. **Per this document: "If control 1
+fails, nothing below 45° is reportable, and I will say the instrument failed
+rather than quietly widening the tolerance." So: the instrument is NOT validated
+under this registration. The failure stands and is not reclassified.**
+
+## What is known about the reference — and when it was known
+
+Stated separately from the verdict, because it bears on the reference and must
+not be allowed to bear on the grade:
+
+- **Recorded before my number existed** (literature pass, returned 2026-09-23
+  ~01:00; this run completed ~05:00): Helmes et al. 2016, Table 1, 90°, complex
+  scalar: *series* (Taylor about π to order 16, which they state is a rigorous
+  **lower bound**) `0.02367`. CHL09 prints `0.02366`. If both are correctly
+  rounded, the bound (`≥ 0.023665`) lies outside CHL's interval
+  `[0.023655, 0.023665)`: **the two published values are mutually inconsistent at
+  CHL's fourth digit.** Mine, `2 × 0.011833425 = 0.0236669`, agrees with Helmes.
+- CHL09 p.8 states their curves were produced from a Taylor series about π. With
+  positive coefficients a truncated series **undershoots**, most at the angle
+  farthest from π. The pattern here fits that: 135° (`ε = π/4`) agrees to 1e-5,
+  90° (`ε = π/2`) is low by 2.9e-4, and my `c₂, c₄, c₆` match their printed
+  Taylor coefficients to 1e-8…1e-6.
+- **My error, recorded:** this document called `0.011830` the *"exact published
+  value"* and set its tolerance from rounding alone. It is at best a
+  truncated-series value, and I never checked how CHL obtained it.
+
+This is an **explanation, not a pass.** Adopting it after seeing the number is
+exactly the move the registration forbids, however strong the evidence.
+
+## Next, registered BEFORE it is run: hypothesis R
+
+**R: CHL09's `s(π/2)` is a truncated Taylor sum about π.** From my own
+coefficients `c₂…c₁₆` (start series only, no path integration), compute
+`S_K = Σ_{k≤K} c_{2k} (π/2)^{2k}`:
+- **R-a (sharp, from Helmes):** `2·S_8` must round to `0.02367`, i.e. lie in
+  `[0.023665, 0.023675)`, and must not exceed my full value `0.0236669`.
+- **R-b:** my `c₈` must match CHL09's printed `5.40167e-6/2` to `2e-6`.
+- **R-c (weak, stated as weak):** some `K ≤ 7` gives `2·S_K ∈ [0.023655, 0.023665)`.
+  Weak, because the truncation order is a free parameter here.
+R-a or R-b failing → R is rejected, and the discrepancy is unexplained.
+**Even if R holds, control 1 stays FAILED under this registration.** Whether any
+sub-45° work proceeds under an openly labelled amendment is a decision for the
+user, not for me.

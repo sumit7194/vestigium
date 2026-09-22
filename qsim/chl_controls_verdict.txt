@@ -1,0 +1,31 @@
+CONVERGENCE (two resolutions must agree before anything is judged):
+      c2: coarse 3.906249963137e-03   fine 3.906249952700e-03   rel diff 2.7e-09  ok
+      c4: coarse 2.727009310855e-04   fine 2.727009349180e-04   rel diff 1.4e-08  ok
+      c6: coarse 2.673277636669e-05   fine 2.673277464031e-05   rel diff 6.5e-08  ok
+     s90: coarse 1.183342486143e-02   fine 1.183342484743e-02   rel diff 1.2e-09  ok
+    s135: coarse 2.520026813401e-03   fine 2.520026808098e-03   rel diff 2.1e-09  ok
+t-tail bounds (beyond t = 3): {'2.356194490192': '2.6e-11', '1.570796326795': '1.2e-10'}
+
+CONTROLS (each rejects its own poison before its verdict counts):
+  FAIL  known value at 90.000 deg
+        a(90.000 deg) = 0.011833425 vs published 0.01183 [CHL09 Table 1 / 2]: relative difference 2.894e-04 exceeds 2.1e-04
+  PASS  known value at 135.000 deg
+        a = 0.0025200268 vs published 0.00252 [CHL09 Table 1 / 2], rel 1.064e-05 <= 2.0e-04
+        (first rejected poison 0.0025205544000000005: a(135.000 deg) = 0.0025205544 vs published 0.00252 [CHL09 Table 1 / 2]: relative difference 2.200e-04 exceeds 2.0e-04)
+  PASS  BWK16 bound at 90.000 deg
+        a = 0.011833425 >= bound 0.010830425 (ratio 1.092609)
+        (first rejected poison 0.010819594271552898: a(90.000 deg) = 0.010819594 is BELOW the BWK16 bound 0.010830425 (ratio 0.999000))
+  PASS  BWK16 bound at 135.000 deg
+        a = 0.0025200268 >= bound 0.0024741747 (ratio 1.018532)
+        (first rejected poison 0.0024717005724461667: a(135.000 deg) = 0.0024717006 is BELOW the BWK16 bound 0.0024741747 (ratio 0.999000))
+  PASS  c2 = sigma
+        c2 = sigma = 3.906249952700e-03 vs 3.906250000000e-03 [exact; Elvang-Hadjiantonis 2015], rel 1.21e-08 <= 1e-07
+        (first rejected poison 0.0039062504296875: c2 = sigma = 3.9062504297e-03 vs 3.9062500000e-03 [exact; Elvang-Hadjiantonis 2015]: rel 1.10e-07 > 1e-07)
+  PASS  c4
+        c4 = 2.727009349180e-04 vs 2.727009371119e-04 [exact; Helmes et al. 2016 Table 3 / 2], rel 8.04e-09 <= 1e-06
+        (first rejected poison 0.00027270123708294245: c4 = 2.7270123708e-04 vs 2.7270093711e-04 [exact; Helmes et al. 2016 Table 3 / 2]: rel 1.10e-06 > 1e-06)
+  PASS  c6
+        c6 = 2.673277464031e-05 vs 2.673280000000e-05 [CHL09 Table 1 / 2], rel 9.49e-07 <= 2e-06
+        (first rejected poison 2.673285881216e-05: c6 = 2.6732858812e-05 vs 2.6732800000e-05 [CHL09 Table 1 / 2]: rel 2.20e-06 > 2e-06)
+
+STAGE 1: A CONTROL FAILED -- the instrument is not validated; nothing below 45 deg is reportable
