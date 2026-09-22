@@ -171,3 +171,81 @@ def make_known_value_control(theta, published, rtol, source):
         check=check,
         poison=lambda v: published * (1.0 + 1.1 * rtol),
     )
+
+
+def make_smooth_limit_control(theta, c_t=C_T_SCALAR, rtol=1e-3):
+    """Control 2: a(theta) -> sigma (pi-theta)^2 as theta -> pi.
+
+    Weaker than it looks and labelled so. Near theta = pi BOTH a(theta) and the
+    reference go to zero, so their ratio is a comparison of two small numbers
+    and is forgiving of an error that scales the same way. It checks the
+    SHAPE and the normalisation of sigma; it does not check the magnitude of
+    a(theta) anywhere the corner is actually sharp. It is not a substitute for
+    control 1 and must never be quoted as if it were.
+    """
+    ref = smooth_limit(theta, c_t)
+
+    def check(value):
+        rel = relative(value, ref)
+        if rel > rtol:
+            raise ControlFailed(
+                f"a({math.degrees(theta):.4f} deg) = {value:.8g} vs smooth-limit "
+                f"{ref:.8g}: ratio {value/ref:.6f}, rel {rel:.3e} > {rtol:.1e}")
+        return f"a/sigma(pi-theta)^2 = {value/ref:.6f} (rel {rel:.3e})"
+
+    return Control(
+        name=f"smooth limit at {math.degrees(theta):.4f} deg",
+        why="fixes the normalisation of sigma; does NOT test the sharp region",
+        check=check,
+        poison=lambda v: ref * (1.0 + 1.1 * rtol),
+    )
+
+
+def make_sharp_limit_control(theta, kappa, rtol, source):
+    """Control 4: a(theta) -> kappa/theta as theta -> 0.
+
+    This is the control that speaks to the region under audit, so it carries
+    the most weight below 45 degrees and also the most risk: kappa itself is a
+    published constant whose field content and normalisation must match the
+    conventions above. A kappa taken from the wrong field makes this control
+    reject a correct solver, which is the expensive direction of failure.
+    """
+    ref = kappa / theta
+
+    def check(value):
+        rel = relative(value, ref)
+        if rel > rtol:
+            raise ControlFailed(
+                f"a({math.degrees(theta):.4f} deg) = {value:.8g} vs kappa/theta "
+                f"{ref:.8g} [{source}]: rel {rel:.3e} > {rtol:.1e}")
+        return f"a*theta/kappa = {value*theta/kappa:.6f} (rel {rel:.3e})"
+
+    return Control(
+        name=f"sharp limit at {math.degrees(theta):.4f} deg",
+        why="the only control that constrains the sub-45 region directly",
+        check=check,
+        poison=lambda v: ref * (1.0 + 1.1 * rtol),
+    )
+
+
+def convergence_floor(values_by_setting, rtol=1e-6):
+    """The pre-registered precision floor, enforced BEFORE any comparison.
+
+    'My implementation must demonstrate its own convergence INDEPENDENTLY --
+    agreement with cuspis is not evidence that either is converged.'
+
+    `values_by_setting` maps a working-precision label to the value it produced.
+    Returns (converged, spread, detail). Two implementations can land on the
+    same wrong number by inheriting the same truncation, so this must pass on
+    its own before a single number of theirs is looked at.
+    """
+    if len(values_by_setting) < 2:
+        raise ValueError(
+            "convergence needs at least two working precisions; one value "
+            "cannot demonstrate stability and reporting it as converged is the "
+            "failure this floor exists to prevent")
+    vals = list(values_by_setting.values())
+    lo, hi = min(vals), max(vals)
+    spread = relative(lo, hi)
+    detail = ", ".join(f"{k}: {v:.12g}" for k, v in values_by_setting.items())
+    return spread <= rtol, spread, f"spread {spread:.3e} over [{detail}]"
