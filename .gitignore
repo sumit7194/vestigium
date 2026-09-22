@@ -18,3 +18,4 @@ scratch/
 heartbeat.err
 .heartbeat.pid
 
+qsim/chl_btf_cache/
