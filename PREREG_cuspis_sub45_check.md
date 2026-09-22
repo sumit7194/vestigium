@@ -92,6 +92,33 @@ stable before any comparison.
 **If control 1 fails, nothing below 45° is reportable**, and I will say the
 instrument failed rather than quietly widening the tolerance.
 
+## Setup correspondence — am I computing the same quantity at all?
+
+*Required by the pre-commit hook, which has now caught this omission three times.
+Here it is not a formality: the correspondence IS the risk.*
+
+**The claim is "cuspis's sub-45° magnitudes are right/wrong." The condition is my
+solver, at the conventions above, for a specific field content, at a specific
+normalisation of `a(θ)`, with `θ` defined as the opening angle.** Those are the same
+statement **only if** every one of those choices matches theirs.
+
+They are not free parameters I may reconcile afterwards. A scalar and a Dirac fermion
+have genuinely different `a(θ)`; a factor of 2 in the `log` normalisation or an
+opening-vs-deficit angle convention produces a clean-looking disagreement that is
+pure bookkeeping. **Both must be established before the numbers are placed side by
+side, not after one of us dislikes the answer** — the ξ\* leg died exactly here, and
+that verdict was correct.
+
+So the gating order is fixed: **conventions reconciled → my controls pass → then and
+only then a comparison.** If conventions cannot be reconciled, the result is
+**NOT COMPARABLE** and no grade in the agreement table applies. That is a legitimate
+outcome of this exercise and not a failure of it.
+
+**And the asymmetric part:** my sub-45° numbers will exist whether or not the
+correspondence holds. The temptation on finding a mismatch will be to hunt for the
+convention that removes it. Registering the order in advance is what makes that
+visible if I do it.
+
 ## Named ways this fails
 
 1. **A shared convention correlating two errors.** The failure that needs no shared
