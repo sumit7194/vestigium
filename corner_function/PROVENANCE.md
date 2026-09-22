@@ -319,10 +319,31 @@ before starting an independent check of their sub-45° corner-function magnitude
 `scripts_check/` is retained — those two files are mine.
 
 **What the removal buys and what it does not.** It prevents *future* exposure. It
-**cannot un-read anything**, and the files remain in history at `dbd443a`. The
-stronger fact is a values-blind detector — reporting only counts, never values, so
-running it could not contaminate the reader — which found **zero angle-indexed
-numeric tables below 45°** in the snapshot.
+**cannot un-read anything**; the files remain in history at `dbd443a`, and **this
+repository is public**, so cuspis's solver is recoverable with one `git show` by any
+reader. Binding consequence, recorded in the pre-registration: **no git archaeology**
+while the replacement solver is built.
+
+**CORRECTION, same day — the detector's zero is withdrawn.** This note originally
+called a values-blind detector "the stronger fact" and reported **zero angle-indexed
+numeric tables below 45°** in the snapshot. That was wrong. Cuspis found a Rényi-2
+result file with an explicit angle key carrying **seven entries below 45°**, plus
+**145 per-node files**, in the tree I had scanned; I confirmed the 145 from filenames
+alone. The detector was never committed and never mutation-tested — so it was never
+shown to be *able* to return non-zero, which makes "zero" and "blind" the same
+output. It also read prose while the values sit in JSON, and read file contents while
+`exp004_nodes/` encodes its parameters in the **filenames**. Withdrawn rather than
+repaired: §8b — *a detector that under-reports is worse than none*.
+
+The n = 1 arm survives on cuspis's **dates** (their sub-45° work is 2026-09-05,
+postdating this snapshot), not on my instrument. The **n = 2 arm is excluded and
+declared contaminated**, since the missed values are n = 2 and their n = 2 sharp-end
+constant was later derived from that file.
+
+**And `dbd443a` is my own hash, not a cuspis commit** — it is the vendoring commit
+here. Cuspis's `5131089` cites it correctly as *"INDEPENDENTLY VERIFIED by ../quantum
+(dbd443a)"*; three repos then read it back as naming a cuspis state. The snapshot's
+content was identified correctly because cuspis compared trees, not hashes.
 
 Per the fleet's `SCOPE_MANIFEST` field 9, a non-empty *shared input* field permits a
 **CHECK** and forbids a **REPLICATION**. Mine is non-empty. The check is

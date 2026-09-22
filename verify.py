@@ -264,6 +264,56 @@ check("the pre-commit gate is ACTIVATED, not merely tracked",
       note="core.hooksPath is not cloned; a fresh clone has the hook file and no "
            "gate. Fix: ./install_hooks.sh (which also proves it blocks)")
 
+# ---- the withdrawn contamination detector stays withdrawn --------------------
+# 2026-09-22. A pre-registration here claimed a values-blind detector found ZERO
+# angle-indexed tables below 45 deg in the vendored cuspis tree. It was false:
+# 145 per-node files and a Renyi-2 result file with seven sub-45 entries were in
+# the tree it scanned. The detector was never committed and never mutation-tested,
+# so "zero" and "blind" were the same output. These three assertions exist because
+# a withdrawal that lives only in prose can be re-narrated by a later version of me
+# who finds the clean story more attractive.
+import os as _os
+import io as _io
+
+_pre = _io.open("PREREG_cuspis_sub45_check.md", encoding="utf-8").read()
+
+# (a) the withdrawal is stated, in those words
+check("the sub-45 detector's zero is marked WITHDRAWN in the pre-registration",
+      1.0 if "zero is withdrawn" in _pre.lower() else 0.0, ">", 0.5,
+      note="the claim was false; if this fires, the withdrawal was edited away")
+
+# (b) no file in the repo makes the zero as a LIVE claim. The withdrawal text
+#     necessarily quotes the old wording, so the test is for the wording appearing
+#     without "withdraw" nearby -- i.e. restated as fact rather than as history.
+_live = []
+for _root, _dirs, _files in _os.walk("."):
+    _dirs[:] = [d for d in _dirs if d not in (".git", "__pycache__", "node_modules")]
+    for _f in _files:
+        if not _f.endswith(".md"):
+            continue
+        _path = _os.path.join(_root, _f)
+        try:
+            _t = _io.open(_path, encoding="utf-8").read().lower()
+        except (OSError, UnicodeDecodeError):
+            continue
+        _i = _t.find("zero angle-indexed")
+        while _i != -1:
+            if "withdraw" not in _t[max(0, _i - 900):_i + 900]:
+                _live.append(_path)
+                break
+            _i = _t.find("zero angle-indexed", _i + 1)
+check("no document restates the sub-45 zero as a live claim",
+      float(len(_live)), "<", 0.5,
+      note=f"restated without a withdrawal within 900 chars: {_live}")
+
+# (c) the n=2 arm is excluded. The missed values were n=2, and cuspis's n=2
+#     sharp-end constant was derived from that same file, so for n=2 I am not a
+#     valid instrument regardless of what the solver does.
+check("the n=2 arm is declared excluded/contaminated",
+      1.0 if ("n = 2 arm is EXCLUDED" in _pre or
+              "n = 2 arm is excluded" in _pre) else 0.0, ">", 0.5,
+      note="n=2 is out of scope by contamination, not by difficulty")
+
 # ---- H3: how a record is laid down (2026-09-21/22) --------------------------
 # Findings: qsim/H3_FINDINGS.md. Assertions here cover only what that document
 # defends; the order-by-order trend is deliberately NOT asserted, because its

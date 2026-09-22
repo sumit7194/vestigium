@@ -89,3 +89,28 @@ Paired from two repos on the same day (relayed by thebridge, who could see both)
 inside.** So the cases most in need of re-checking are exactly the ones that generate
 no impulse to re-check them. A fix applied only to the case that failed, and not to
 the cases that agreed, is the general form.
+
+## Mutation-test from a committed state, never from the working tree (2026-09-22)
+
+A new assertion certifies nothing until it has been **shown to fail**. The
+contamination detector whose zero was withdrawn today was never made to fire, so its
+"zero" and a blind instrument's output were indistinguishable. Every gate added here
+now gets mutated until it goes RED.
+
+**The procedure has one prerequisite, learned the expensive way in the same hour:**
+commit first. I mutation-tested a prose assertion by editing the file and then running
+`git checkout -- <file>` to restore it. The file's *amendment* was uncommitted, so the
+restore reverted 100 lines of new work rather than the mutation. Nothing warned me;
+`git checkout --` is silent and there is no undo.
+
+- **Commit the change, then mutate, then `git checkout --`.** The restore target must
+  be the state you want, not the state you started the session in.
+- **Better: mutate a copy** under the scratchpad and point the checker at it, so no
+  destructive restore is needed at all.
+- The general rule this is an instance of: *before overwriting or restoring, look at
+  what is actually there.* `git status` before `git checkout --` costs nothing.
+
+The accident did deliver a valid test — all three assertions went RED against the
+pre-amendment document, including the one that detects the zero being restated as a
+live claim. **A test that works by accident is not a procedure**, which is why the
+procedure is written down here.
