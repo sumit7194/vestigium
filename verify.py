@@ -314,6 +314,25 @@ check("the n=2 arm is declared excluded/contaminated",
               "n = 2 arm is excluded" in _pre) else 0.0, ">", 0.5,
       note="n=2 is out of scope by contamination, not by difficulty")
 
+# ---- CHL check: boundary conditions validated from the derivation -----------
+# qsim/chl_boundary.py. The typeset (35)/(38) are ambiguous under text extraction;
+# picking the parse that reproduces a published s-value would be tuning to the
+# controls. Instead X1(pi) and b(pi) are computed directly from CH07 Appendix A's
+# definitions, which never mention s. Recomputed inline here at one (a, M).
+# The NEG assertion is the wrong parse, so this gate carries its own known-fail.
+sys.path.insert(0, QS)
+import chl_boundary as _cb
+_a, _M = 0.3, 1.5
+_x1d = _cb.X1_direct(_a, _M)
+check("CH07 (35): X1(pi) typeset / direct-from-Appendix-A", 
+      abs(_cb.X1_typeset(_a, _M, ("mod", "den"))/_x1d - 1.0), "<", 1e-7,
+      note="|Gamma(1/2-a+i mu/2)|^2 in the DENOMINATOR; direct route stable to 4e-10")
+check("CH07 (38): b(pi) typeset / direct-from-Appendix-A",
+      abs(_cb.b_typeset(_a, _M)/_cb.b_direct(_a, _M) - 1.0), "<", 1e-7)
+check("CH07 (35): the numerator-placement parse is REJECTED [NEG]",
+      abs(_cb.X1_typeset(_a, _M, ("mod", "num"))/_x1d - 1.0), ">", 0.5,
+      kind="NEG", note="if this ever passes, the direct route lost its power to discriminate")
+
 # ---- H3: how a record is laid down (2026-09-21/22) --------------------------
 # Findings: qsim/H3_FINDINGS.md. Assertions here cover only what that document
 # defends; the order-by-order trend is deliberately NOT asserted, because its

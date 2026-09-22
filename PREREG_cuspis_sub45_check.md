@@ -161,6 +161,18 @@ For each angle compared:
 | `> 1e-3` | **DISAGREES** — and the disagreement is the finding |
 | conventions irreconcilable | **NOT COMPARABLE** — no grade applies |
 
+**DEFECT, recorded 2026-09-22 — control 1 cannot certify beyond `2.1e-4`.** The
+published `0.02366` has four significant figures, so the real-scalar value
+`0.01183` derived from it carries a half-ulp of `2.1e-4` relative. Control 1 can
+therefore reject a solver wrong by more than that and **cannot see anything finer**.
+The `< 1e-6` AGREES band below remains meaningful as a statement about **two
+implementations agreeing with each other** — but the absolute anchor for that
+agreement is only `2.1e-4` from control 1. The one control that certifies to high
+precision is σ, where `1/256` is exact; and it certifies only the smooth end.
+**So a `< 1e-6` agreement with cuspis below 45° would establish that we agree,
+not that either of us is right to `1e-6`.** Written down now so it cannot be
+rounded up later.
+
 **Precision floor declared in advance:** my implementation must demonstrate its own
 convergence *independently* — agreement with cuspis is not evidence that either is
 converged. I will report my value at two working precisions and show the digits are
@@ -212,12 +224,16 @@ reads:
 and the ordering.** I did not assemble this control set from the literature and
 then discover cuspis had the same one. I took theirs.
 
-**The proof is the citation error.** This document cited **CHL09 — the Dirac
+**The citation error corroborates it; the verbatim line match proves it.** This document cited **CHL09 — the Dirac
 fermion paper — for a free-scalar value.** Anyone reading the primary sources
 would cite the scalar paper (CH07, `hep-th/0606256`) for a scalar number; the
 fermion paper's own abstract says it *"extend[s] a previous work in which the
-scalar case was treated."* Citing the fermion paper for a scalar value is not an
-error one makes from the papers. It is a **fingerprint of transcription**, and
+scalar case was treated."* *(Softened 2026-09-22 at the bridge's correction: CHL09's Table 1 **does**
+print the complex scalar beside the fermion, so citing it for the real scalar is
+**imprecise** — a comparison table instead of the original paper, plus an unstated
+halving — rather than a field error. Two readers independently making both moves is
+unlikely, so it corroborates; but the conclusion rests on the line match, not on
+this.)* The shared attribution is a **corroborating fingerprint**, and
 `corner_function/TODO.md` line 153 carries the identical attribution: *"below the
 exact 0.011830 [CHL09]"*. **I inherited cuspis's number together with cuspis's
 mistake, and the mistake is how I can tell.**
@@ -246,6 +262,22 @@ So the withdrawn detector has a **fourth** failure mode, and it is the worst one
 **the information was in a file I kept, not only in the files I deleted.** The
 detector was pointed at `scripts/`. The prose describing `scripts/` was never in
 its field of view.
+
+### Implementation-axis exposure, picked up while tracing the number
+
+Declared because hazard 2 (*"my prior exposure leaking through structure rather
+than values"*) is about exactly this, and I read it on 2026-09-22 in the grep
+output that located `0.011830`. The same `TODO.md` passage states that cuspis's
+production route used **mpmath at "25+3M digits" with N-continuation**, hit a
+**double-precision floor at M ≈ 4**, and ran the Rényi-2 result to **M = 15** with
+a **measured tail decay of 0.83 per unit M**.
+
+That is **method**, not values — but method is the axis this check runs on. It
+tells me in advance where double precision will fail and roughly how far in `M`
+the integral must go. **If my implementation independently hits a floor near
+M ≈ 4, that is not independent confirmation of theirs**; it may be me reaching for
+arbitrary precision at the point I was told to. Recorded so that any such
+coincidence is read at its discounted value.
 
 ### What survives
 
