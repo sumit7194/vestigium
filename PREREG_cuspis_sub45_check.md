@@ -358,12 +358,38 @@ one point. A literature pass (delegated, every number then checked by me) found:
 
 Added as **declared additional controls**, not replacements for the registered four:
 
-| control | value (real scalar) | source | independent of cuspis? |
+| control | value (real scalar) | source | shared with cuspis? |
 |---|---|---|---|
-| `c₂ = σ` | `1/256` exact | Elvang–Hadjiantonis 2015 (arXiv:1506.06729); FLP16 via `C_T` | yes |
-| `c₄` | `(20+3π²)/(18432π²) = 2.72700937e-4` exact | Helmes et al. 2016, Table 3 (complex form halved); CHL09 prints `5.45402e-4` complex | **yes** — I had seen this closed form in cuspis's `report.md`, but it is published, and the published source is what is cited |
-| `c₆` | `5.34656e-5/2` (6 figures) | CHL09 Table 1 | yes |
-| `a(26.565°)` | lattice `0.077`, bounded below by `0.07265` | Helmes et al. 2016, Table 1 | yes |
+| `c₂ = σ` | `1/256` exact | Elvang–Hadjiantonis 2015; FLP16 via `C_T` | value **shared** (cuspis TODO lists σ = 1/256); **my route via `C_T` is not** |
+| `c₄` | `(20+3π²)/(18432π²) = 2.72700937e-4` exact | Helmes et al. 2016 (HHCWM16) Table 3, halved | **SHARED** — cuspis cites HHCWM16 Tables 3–4 (RESULT.md:150). *Corrected: I first marked this independent.* |
+| `c₆` | `5.34656e-5/2` | CHL09 Table 1 | **shared** (same table cuspis uses) |
+| `a(26.565°)` | lattice `0.077`, lower bound `0.07265` | HHCWM16 Table 1 | **SHARED** — cuspis used HHCWM16 as its referee over 20°–45° |
+
+**What "shared" costs, stated so it is not blurred.** Every one of these is a
+published value, so each is a valid anchor **against reality**: an instrument that
+fails one is broken. None can **discriminate me from cuspis**: we were both
+refereed by the same numbers, so agreeing with them says nothing about whether we
+agree with each other for independent reasons. These all go under `SHARED INPUT
+WITH` — the hazard this whole check began from.
+
+### Correction to the premise, and whose it is (2026-09-23)
+
+The premise "no published value exists below 45°" was **a dropped qualifier, not
+a missed search.** Cuspis's claim, in the `TODO.md` I held from 2026-09-04,
+line 30: *"No **four-digit** free-field a(θ)/C_T exists below 45° (only
+[HHCWM16] ansatz/lattice pairs, ±1.3% …)."* HHCWM16 appears 8 times across the
+cuspis prose files I kept. The bridge reports that its own relay carried the
+stripped version and has recorded that against itself (A4 §8i). **Wherever I
+took the stripped form from, the qualifier was in my own tree, in a file I had
+grepped, and I did not use it.** Third instance this week of a claim losing its
+qualifier in transit — here, in a direction that made the check look more
+novel than it is.
+
+**Not adopted:** the bridge relays that cuspis treats HHCWM16 eq (22) as a
+lower bound with one-sided error ≤ 2.6e-4 at 26.6°. That error figure is
+cuspis's derived number, and my delegated summary called eq (22) the *ansatz*,
+not the bound. So the two sources disagree on what eq (22) is. Neither is used
+until I have read HHCWM16 myself — not the relay, not the summary.
 
 The delegated summary attached `c₆`'s digits to the `c₄` formula; recomputing the
 closed form caught it (`(20+3π²)/(9216π²) = 5.45402e-4`, matching CHL09 to 2e-7).
