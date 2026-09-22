@@ -168,19 +168,145 @@ stable before any comparison.
 
 ## Known-answer controls, which must pass before the sub-45° region is touched
 
-1. **`θ = π/2`.** Exact published value for the free scalar is `0.011830` (CHL09).
-   My implementation must reproduce it. *This is the whole basis for trusting the
-   sub-45° output* — the region where no published value exists is checked by an
-   instrument validated where one does.
+1. **`θ = π/2`.** Real free scalar: **`0.011830`**. *This is the whole basis for
+   trusting the sub-45° output* — the region where no published value exists is
+   checked by an instrument validated where one does.
+
+   **AMENDED 2026-09-22 — this control was sourced from cuspis, not from the
+   literature, and it arrived with their citation error attached.** See
+   "The control values were inherited" below. Re-sourced from primary literature:
+   `0.02366` is printed in **Table 1 of arXiv:0811.1968** for a **complex** scalar;
+   the real scalar is **half** that by the explicit rule at **hep-th/0606256 p.7,
+   eq. (40)** — *"for a real scalar field (half the complex scalar result)"*.
+   So `0.02366/2 = 0.01183`. **The number is not printed anywhere**; it is derived
+   from a printed 4-significant-figure value, which sets a hard precision floor of
+   `2.1e-4` relative — see the defect note under the agreement criterion.
 2. **Smooth limit.** `a(θ) → σ(π−θ)²` as `θ → π` with `σ = π²C_T/24`. Verified in
-   this repo already to ratio `1.000000` at `θ = 179.9°`.
+   this repo already to ratio `1.000000` at `θ = 179.9°`. Real scalar
+   `σ = 1/256 = 0.00390625` exactly. **Independently confirmed against CHL's
+   numerics** — see the σ cross-check below, which is the one piece of this that
+   cuspis could not have handed me.
 3. **BWK16 bound.** `a(θ) ≥ (π²C_T/3)·log[1/sin(θ/2)]` must hold at every angle
    computed. Below 45° this bound is *strong*, so it is a live constraint there and
    not a formality.
-4. **Sharp limit.** `a(θ) → κ/θ` as `θ → 0`.
+4. **Sharp limit.** `a(θ) → κ/θ` as `θ → 0`. Real scalar `κ = 0.0397`
+   (`0.0794/2`, Table 1 `c₋₁⁽⁰⁾`, same halving rule). Also inherited — see below.
 
 **If control 1 fails, nothing below 45° is reportable**, and I will say the
 instrument failed rather than quietly widening the tolerance.
+
+## The control values were INHERITED FROM CUSPIS. Hazard 1 has fired.
+
+Found 2026-09-22 while re-sourcing the controls, and it is the most serious thing
+in this document.
+
+`0.011830` appears in exactly two places in my working tree: this
+pre-registration, and **cuspis's own prose**. `corner_function/TODO.md` line 43
+reads:
+
+> *"run the known-answer controls first (σ = 1/256, s(π/2) = 0.01183,
+> s(3π/4) = 0.002520, κ = 0.0397 for the scalar; σ = 1/128, s(π/2) = 0.02329,
+> κ = 0.0722 for Dirac)"*
+
+**That is my four known-answer controls. All four values, the scalar/Dirac split,
+and the ordering.** I did not assemble this control set from the literature and
+then discover cuspis had the same one. I took theirs.
+
+**The proof is the citation error.** This document cited **CHL09 — the Dirac
+fermion paper — for a free-scalar value.** Anyone reading the primary sources
+would cite the scalar paper (CH07, `hep-th/0606256`) for a scalar number; the
+fermion paper's own abstract says it *"extend[s] a previous work in which the
+scalar case was treated."* Citing the fermion paper for a scalar value is not an
+error one makes from the papers. It is a **fingerprint of transcription**, and
+`corner_function/TODO.md` line 153 carries the identical attribution: *"below the
+exact 0.011830 [CHL09]"*. **I inherited cuspis's number together with cuspis's
+mistake, and the mistake is how I can tell.**
+
+`hep-th/0606256` likewise appears in my tree only in **cuspis's**
+`references.md`. My own bibliography has the fermion paper and not the scalar one.
+So this document's claim that the citation was *"already in this repo's
+bibliography, cited independently in the corner work before this task existed"* was
+**true of CHL09 and false of the paper the control actually needed.**
+
+**This is hazard 1 of this very document** — *"a shared convention correlating two
+errors; the failure that needs no shared code"* — and it fired on the citation
+before a line of solver existed. Recorded rather than quietly repaired, because a
+corrected citation with no note would have destroyed the only evidence that the
+inheritance happened.
+
+### And I hold more sub-45° information than "values sealed" implied
+
+The same `TODO.md` — one of the four prose files I **kept** — also carries
+`"measured decay 0.83/unit M; ≈4·10⁻⁴ at 5°"`. That is a truncation-tail
+magnitude, not `a(5°)`, so it does not give me the answer. **But it is a
+quantitative statement about the sub-45° region, in a file I retained and said I
+had grepped.** It names the Rényi-2 result file and the 145 nodes outright, too.
+
+So the withdrawn detector has a **fourth** failure mode, and it is the worst one:
+**the information was in a file I kept, not only in the files I deleted.** The
+detector was pointed at `scripts/`. The prose describing `scripts/` was never in
+its field of view.
+
+### What survives
+
+The inheritance does **not** make the controls wrong — re-sourced from primary
+literature, all four of cuspis's values are **correct**. It makes them **not
+independent**, which is a different defect and the one that matters for a check.
+Corrected standing:
+
+- Every control value is now cited to its **printed** source and the published
+  halving rule, with the derivation shown.
+- The **σ cross-check below is the only control genuinely independent of cuspis**,
+  because it comes from a relation they never used.
+- This is declared in the write-up in its own voice, not a footnote.
+
+## The σ cross-check — the one control cuspis could not have handed me
+
+CHL09 Table 1 gives `c₂⁽ᵖⁱ⁾ = 7.81253×10⁻³` for a complex scalar, computed
+numerically in 2009. Halved for a real scalar: **`3.906265×10⁻³`**.
+
+My convention, fixed in this document *before* any source was fetched, gives
+`σ = π²C_T/24` with `C_T = 3/(32π²)`, i.e. **`3/768 = 1/256 = 0.00390625` exactly**.
+
+**Relative difference `3.8×10⁻⁶`** — precisely the resolution of CHL's printed six
+figures. So CHL's numerically-computed coefficient *is* the exact rational `1/256`.
+
+This matters for three reasons:
+
+1. **It validates my `C_T` normalisation against an independent number.** The
+   `σ = π²C_T/24` relation is [FLP16]; CHL's `c₂` is 2009 numerics. **Neither
+   paper cites the other** — the agent's full-text grep found **no occurrence of
+   `C_T` in any of the three CHL papers.** Two literatures seven years apart,
+   agreeing to their stated precision.
+2. **It is immune to the inheritance above**, because cuspis's route to `1/256`
+   was not through `C_T` at all.
+3. **It explains a "coincidence" CHL flagged and could not account for.** They
+   write that *"the quadratic coefficients of s_D(x) and s_S(x) turn out to be
+   equal"* and call it remarkable. It is not remarkable: in d = 3,
+   `C_T(complex scalar) = 2 × 3/(32π²) = 3/(16π²) = C_T(Dirac)`, verified
+   identical here to machine precision. **Equal `C_T` ⇒ equal σ.** *Claimed as an
+   explanation, not a discovery* — the relation is published and anyone holding
+   both facts gets this immediately. It is recorded because it is a second,
+   independent confirmation that my normalisation is the right one.
+
+### The bound is live at the angles where a value exists
+
+| θ | `a(θ)` real scalar | BWK16 bound | ratio |
+|---|---|---|---|
+| 90° | 0.011830 | 0.01083042 | 1.0923 |
+| 135° | 0.002520 | 0.00247418 | **1.0185** |
+
+135° clears by **1.85%**. The bound is not slack here, so control 3 is a real
+constraint and not a formality — and below 45° it is stronger still.
+
+### My own lattice route, for scale
+
+This repo's pre-exposure square-lattice run gives `a(90°) = 0.011720`, **0.93%
+below** 0.011830. CHL check their own continuum results against lattice numerics
+and report *"perfect accord (around one percent error)"*. So the lattice route
+sits exactly where CHL's own lattice checks sit. **Consistent — and it is a
+genuinely independent third point**, being pre-exposure, a different method, and
+neither cuspis's nor the one being built.
 
 ## Setup correspondence — am I computing the same quantity at all?
 
