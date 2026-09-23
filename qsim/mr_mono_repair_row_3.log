@@ -1,0 +1,2 @@
+[2.7s] r_xi2: {'verdict': 'NO_OBSTRUCTION', 'why': 'imprimitive (base point 1.4358+0.0049j)', 'det_err': np.float64(5.283780455251128e-12)}
+[5.2s] r_xi1: {'verdict': 'NO_OBSTRUCTION', 'why': 'imprimitive (base point 1.4358+0.0049j)', 'det_err': np.float64(5.283780455251128e-12)}

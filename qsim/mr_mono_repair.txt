@@ -1,0 +1,12 @@
+ 0 VAL ZV d=2 A mu=2                      => PASS                                          [('r_xi2', 'OBSTRUCTION', 3.3378777979447287e-11), ('r_xi1', 'OBSTRUCTION', 7.683572778154535e-12)] [guard ok, peak 87.0 MB, 11.4 s]
+ 1 VAL C1 ZV d=2 via WP loader            => PASS                                          [('r_xi2', 'OBSTRUCTION', 3.3378777979447287e-11), ('r_xi1', 'OBSTRUCTION', 7.683572778154535e-12)] [guard ok, peak 87.0 MB, 11.4 s]
+ 2 VAL Kerr BL B1 (3,0,118)               => PASS                                          [('r_xi2', 'NO_OBSTRUCTION', 3.996843523867924e-12), ('r_xi1', 'NO_OBSTRUCTION', 3.996843523867924e-12)] [guard ok, peak 86.0 MB, 6.2 s]
+ 3 VAL C3 Kerr-WP P1 (1,0,4)              => PASS                                          [('r_xi2', 'NO_OBSTRUCTION', 5.283780455251128e-12), ('r_xi1', 'NO_OBSTRUCTION', 5.283780455251128e-12)] [guard ok, peak 87.0 MB, 6.2 s]
+ 4 VAL C3 Kerr-WP P2 (1,0,4)              => PASS                                          [('r_xi2', 'NO_OBSTRUCTION', 5.206138056700921e-12), ('r_xi1', 'NO_OBSTRUCTION', 5.206138056700921e-12)] [guard ok, peak 87.0 MB, 6.2 s]
+ 5 TS  TS2 P1 (1,0,4)                     => still uncorroborated (['FAILED', 'FAILED'])   [('r_xi2', 'FAILED', None), ('r_xi1', 'FAILED', None)] [guard ok, peak 94.0 MB, 8.3 s]
+ 6 TS  TS2 P2 (1,0,4)                     => still uncorroborated (['FAILED', 'FAILED'])   [('r_xi2', 'FAILED', None), ('r_xi1', 'FAILED', None)] [guard ok, peak 92.0 MB, 8.3 s]
+ 7 TS  TS2 P1 (1,0,9)                     => still uncorroborated (['FAILED', 'FAILED'])   [('r_xi2', 'FAILED', None), ('r_xi1', 'FAILED', None)] [guard ok, peak 93.0 MB, 8.3 s]
+ 8 TS  TS2 P2 (1,0,9)                     => still uncorroborated (['FAILED', 'FAILED'])   [('r_xi2', 'FAILED', None), ('r_xi1', 'FAILED', None)] [guard ok, peak 93.0 MB, 8.3 s]
+ 9 TS  TS2 P1 (1,1,4)                     => still uncorroborated (['FAILED', 'FAILED'])   [('r_xi2', 'FAILED', None), ('r_xi1', 'FAILED', None)] [guard ok, peak 93.0 MB, 8.3 s]
+10 TS  TS2 P2 (1,1,4)                     => still uncorroborated (['FAILED', 'FAILED'])   [('r_xi2', 'FAILED', None), ('r_xi1', 'FAILED', None)] [guard ok, peak 93.0 MB, 8.3 s]
+EXIT 0

@@ -306,3 +306,19 @@ used.
 - **A failure:** the grade stays "uncorroborated".
 
 The same guard applies (≤ 1 GB, ≤ 30 min per row), and the work finishes before the job-2 go.
+
+### OUTCOME of the post-hoc monodromy repair (2026-09-24): **validation PASS; TS still uncorroborated.** No conflict.
+
+`qsim/mr_mono_repair.txt` and `mr_mono_repair_run.json`.
+
+- **Validation, 5/5 PASS on both forms.** ZV δ=2 A and C1 give SL2 (det err ≤ 3e-11); Kerr B1 and C3 at P1 and
+  P2 give NO_OBSTRUCTION (det err ≤ 5e-12).
+- **TS, 6 rows: FAILED again.** The best clearance ratio over 5000 wide candidates is **0.451** (ξ₂, 19 points)
+  and **0.543** (ξ₁, 11 points), against the unchanged Stage-1 threshold of 1.0. No monodromy verdict was
+  produced, so **there is no disagreement**.
+
+The committed grade **stands unchanged**: route OBSTRUCTION on both forms at all 6 rows; monodromy
+uncorroborated; post-failure.
+
+A further repair would need a new, separately approved step, for example curved loops, or a relaxed clearance
+with the det check as the accuracy gate. It is not done here.

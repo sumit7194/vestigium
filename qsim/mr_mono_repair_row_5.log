@@ -1,0 +1,2 @@
+[5.8s] r_xi2: {'verdict': 'FAILED', 'why': 'RuntimeError: no clean base point found (wide search, best ratio 0.451)'}
+[7.2s] r_xi1: {'verdict': 'FAILED', 'why': 'RuntimeError: no clean base point found (wide search, best ratio 0.543)'}

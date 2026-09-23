@@ -1,0 +1,254 @@
+[
+ {
+  "tag": "VAL",
+  "name": "ZV d=2 A mu=2",
+  "expected": "OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "OBSTRUCTION",
+    "why": "SL2 (base point 0.2470+2.8573j)",
+    "det_err": 3.3378777979447287e-11
+   },
+   "r_xi1": {
+    "verdict": "OBSTRUCTION",
+    "why": "SL2 (base point 0.2470+2.8573j)",
+    "det_err": 7.683572778154535e-12
+   }
+  },
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 87.0,
+   "seconds": 11.4
+  }
+ },
+ {
+  "tag": "VAL",
+  "name": "C1 ZV d=2 via WP loader",
+  "expected": "OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "OBSTRUCTION",
+    "why": "SL2 (base point 0.2470+2.8573j)",
+    "det_err": 3.3378777979447287e-11
+   },
+   "r_xi1": {
+    "verdict": "OBSTRUCTION",
+    "why": "SL2 (base point 0.2470+2.8573j)",
+    "det_err": 7.683572778154535e-12
+   }
+  },
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 87.0,
+   "seconds": 11.4
+  }
+ },
+ {
+  "tag": "VAL",
+  "name": "Kerr BL B1 (3,0,118)",
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 1.0334-0.0182j)",
+    "det_err": 3.996843523867924e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 1.0334-0.0182j)",
+    "det_err": 3.996843523867924e-12
+   }
+  },
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 86.0,
+   "seconds": 6.2
+  }
+ },
+ {
+  "tag": "VAL",
+  "name": "C3 Kerr-WP P1 (1,0,4)",
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 1.4358+0.0049j)",
+    "det_err": 5.283780455251128e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 1.4358+0.0049j)",
+    "det_err": 5.283780455251128e-12
+   }
+  },
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 87.0,
+   "seconds": 6.2
+  }
+ },
+ {
+  "tag": "VAL",
+  "name": "C3 Kerr-WP P2 (1,0,4)",
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 0.1924+0.0444j)",
+    "det_err": 5.206138056700921e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 0.1924+0.0444j)",
+    "det_err": 5.206138056700921e-12
+   }
+  },
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 87.0,
+   "seconds": 6.2
+  }
+ },
+ {
+  "tag": "TS",
+  "name": "TS2 P1 (1,0,4)",
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.451)"
+   },
+   "r_xi1": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.543)"
+   }
+  },
+  "assessment": "still uncorroborated (['FAILED', 'FAILED'])",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 94.0,
+   "seconds": 8.3
+  }
+ },
+ {
+  "tag": "TS",
+  "name": "TS2 P2 (1,0,4)",
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.632)"
+   },
+   "r_xi1": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.500)"
+   }
+  },
+  "assessment": "still uncorroborated (['FAILED', 'FAILED'])",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 92.0,
+   "seconds": 8.3
+  }
+ },
+ {
+  "tag": "TS",
+  "name": "TS2 P1 (1,0,9)",
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.427)"
+   },
+   "r_xi1": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.517)"
+   }
+  },
+  "assessment": "still uncorroborated (['FAILED', 'FAILED'])",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 93.0,
+   "seconds": 8.3
+  }
+ },
+ {
+  "tag": "TS",
+  "name": "TS2 P2 (1,0,9)",
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.392)"
+   },
+   "r_xi1": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.697)"
+   }
+  },
+  "assessment": "still uncorroborated (['FAILED', 'FAILED'])",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 93.0,
+   "seconds": 8.3
+  }
+ },
+ {
+  "tag": "TS",
+  "name": "TS2 P1 (1,1,4)",
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.649)"
+   },
+   "r_xi1": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.629)"
+   }
+  },
+  "assessment": "still uncorroborated (['FAILED', 'FAILED'])",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 93.0,
+   "seconds": 8.3
+  }
+ },
+ {
+  "tag": "TS",
+  "name": "TS2 P2 (1,1,4)",
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.724)"
+   },
+   "r_xi1": {
+    "verdict": "FAILED",
+    "why": "RuntimeError: no clean base point found (wide search, best ratio 0.629)"
+   }
+  },
+  "assessment": "still uncorroborated (['FAILED', 'FAILED'])",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 93.0,
+   "seconds": 8.3
+  }
+ }
+]

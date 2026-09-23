@@ -1,0 +1,2 @@
+[5.3s] r_xi2: {'verdict': 'OBSTRUCTION', 'why': 'SL2 (base point 0.2470+2.8573j)', 'det_err': np.float64(3.3378777979447287e-11)}
+[10.3s] r_xi1: {'verdict': 'OBSTRUCTION', 'why': 'SL2 (base point 0.2470+2.8573j)', 'det_err': np.float64(7.683572778154535e-12)}
