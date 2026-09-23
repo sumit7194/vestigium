@@ -1,0 +1,274 @@
+{
+ "rows": [
+  {
+   "control": "A",
+   "name": "ZV delta=2, mu=2",
+   "expected": "OBSTRUCTION",
+   "forms": {
+    "r_xi2": {
+     "verdict": "OBSTRUCTION",
+     "case": 4,
+     "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point 0.0946+3.8167j)",
+     "monodromy_det_err": 9.627792028163078e-11
+    },
+    "r_xi1": {
+     "verdict": "OBSTRUCTION",
+     "case": 4,
+     "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point 0.0946+3.8167j)",
+     "monodromy_det_err": 2.7187138190034323e-11
+    }
+   },
+   "seconds": 28.2,
+   "guard": {
+    "status": "ok",
+    "returncode": 0,
+    "peak_mb": 95.0,
+    "seconds": 29.5
+   },
+   "forms_agree": true,
+   "verdict": "OBSTRUCTION",
+   "monodromy_agree": true,
+   "ok": true
+  },
+  {
+   "control": "A",
+   "name": "ZV delta=2, mu=3",
+   "expected": "OBSTRUCTION",
+   "forms": {
+    "r_xi2": {
+     "verdict": "OBSTRUCTION",
+     "case": 4,
+     "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point 0.0709+2.8663j)",
+     "monodromy_det_err": 5.2237487584356615e-11
+    },
+    "r_xi1": {
+     "verdict": "OBSTRUCTION",
+     "case": 4,
+     "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point 0.0709+2.8663j)",
+     "monodromy_det_err": 1.3184328150457113e-11
+    }
+   },
+   "seconds": 28.3,
+   "guard": {
+    "status": "ok",
+    "returncode": 0,
+    "peak_mb": 95.0,
+    "seconds": 29.6
+   },
+   "forms_agree": true,
+   "verdict": "OBSTRUCTION",
+   "monodromy_agree": true,
+   "ok": true
+  },
+  {
+   "control": "A'",
+   "name": "ZV delta=1, mu=2",
+   "expected": "NO_OBSTRUCTION",
+   "forms": {
+    "r_xi2": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": "analytic",
+     "reason": "DEGENERATE NVE, B == 0: decoupled, G0 in the additive group (analytic argument, NOT a Kovacic verdict)",
+     "monodromy": "NOT_APPLICABLE"
+    },
+    "r_xi1": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": 1,
+     "reason": "Kovacic case 1 with two exponential solutions: G diagonal",
+     "monodromy": "NO_OBSTRUCTION",
+     "monodromy_why": "finite (base point 0.0630+2.5494j)",
+     "monodromy_det_err": 5.6278871603757805e-12
+    }
+   },
+   "seconds": 0.3,
+   "guard": {
+    "status": "ok",
+    "returncode": 0,
+    "peak_mb": 87.0,
+    "seconds": 2.1
+   },
+   "forms_agree": true,
+   "verdict": "NO_OBSTRUCTION",
+   "monodromy_agree": true,
+   "ok": true
+  },
+  {
+   "control": "A'",
+   "name": "ZV delta=1, mu=3",
+   "expected": "NO_OBSTRUCTION",
+   "forms": {
+    "r_xi2": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": "analytic",
+     "reason": "DEGENERATE NVE, B == 0: decoupled, G0 in the additive group (analytic argument, NOT a Kovacic verdict)",
+     "monodromy": "NOT_APPLICABLE"
+    },
+    "r_xi1": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": 1,
+     "reason": "Kovacic case 1 with two exponential solutions: G diagonal",
+     "monodromy": "NO_OBSTRUCTION",
+     "monodromy_why": "finite (base point 0.0532+2.1534j)",
+     "monodromy_det_err": 4.971067658614571e-12
+    }
+   },
+   "seconds": 0.3,
+   "guard": {
+    "status": "ok",
+    "returncode": 0,
+    "peak_mb": 0.0,
+    "seconds": 1.0
+   },
+   "forms_agree": true,
+   "verdict": "NO_OBSTRUCTION",
+   "monodromy_agree": true,
+   "ok": true
+  },
+  {
+   "control": "A''",
+   "name": "ZV delta=1, L=1, mu=2",
+   "expected": "NO_OBSTRUCTION",
+   "forms": {
+    "r_xi2": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": 2,
+     "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric certificate, verified by an exact identity]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point 1.7277+1.2560j)",
+     "monodromy_det_err": 4.2129169481860014e-12
+    },
+    "r_xi1": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": 2,
+     "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric certificate, verified by an exact identity]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point 1.7277+1.2560j)",
+     "monodromy_det_err": 4.2129169481860014e-12
+    }
+   },
+   "seconds": 501.0,
+   "guard": {
+    "status": "ok",
+    "returncode": 0,
+    "peak_mb": 170.0,
+    "seconds": 502.8
+   },
+   "forms_agree": true,
+   "verdict": "NO_OBSTRUCTION",
+   "monodromy_agree": false,
+   "ok": false
+  },
+  {
+   "control": "A''",
+   "name": "ZV delta=1, L=1, mu=3",
+   "expected": "NO_OBSTRUCTION",
+   "forms": {
+    "r_xi2": {
+     "verdict": "INCONCLUSIVE",
+     "case": null,
+     "reason": "resource limit: time_limit",
+     "monodromy": "NOT_RUN"
+    },
+    "r_xi1": {
+     "verdict": "INCONCLUSIVE",
+     "case": null,
+     "reason": "resource limit: time_limit",
+     "monodromy": "NOT_RUN"
+    }
+   },
+   "guard": {
+    "status": "time_limit",
+    "returncode": -9,
+    "peak_mb": 315.0,
+    "seconds": 1800.1
+   },
+   "forms_agree": true,
+   "verdict": "INCONCLUSIVE",
+   "monodromy_agree": true,
+   "ok": false
+  },
+  {
+   "control": "B1",
+   "name": "Kerr a=3/5 L=0 E=3 mu^2=118",
+   "expected": "NO_OBSTRUCTION",
+   "forms": {
+    "r_xi2": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": 2,
+     "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric certificate, verified by an exact identity]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point -1.8521+0.5202j)",
+     "monodromy_det_err": 6.663410890619744e-11
+    },
+    "r_xi1": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": 2,
+     "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric certificate, verified by an exact identity]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point -1.8521+0.5202j)",
+     "monodromy_det_err": 6.663410890619744e-11
+    }
+   },
+   "seconds": 14.8,
+   "guard": {
+    "status": "ok",
+    "returncode": 0,
+    "peak_mb": 97.0,
+    "seconds": 15.6
+   },
+   "forms_agree": true,
+   "verdict": "NO_OBSTRUCTION",
+   "monodromy_agree": false,
+   "ok": false
+  },
+  {
+   "control": "B2",
+   "name": "Kerr a=3/5 L=2 E=1 mu^2=125/63",
+   "expected": "NO_OBSTRUCTION",
+   "forms": {
+    "r_xi2": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": 2,
+     "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric certificate, verified by an exact identity]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point 2.6216+1.8140j)",
+     "monodromy_det_err": 5.228368801863015e-11
+    },
+    "r_xi1": {
+     "verdict": "NO_OBSTRUCTION",
+     "case": 2,
+     "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric certificate, verified by an exact identity]",
+     "monodromy": "OBSTRUCTION",
+     "monodromy_why": "SL2 (base point 2.6216+1.8140j)",
+     "monodromy_det_err": 5.228368801863015e-11
+    }
+   },
+   "seconds": 14.8,
+   "guard": {
+    "status": "ok",
+    "returncode": 0,
+    "peak_mb": 97.0,
+    "seconds": 15.6
+   },
+   "forms_agree": true,
+   "verdict": "NO_OBSTRUCTION",
+   "monodromy_agree": false,
+   "ok": false
+  }
+ ],
+ "verdict": {
+  "A_prime": false,
+  "A": false,
+  "B": false,
+  "no_inconclusive": false,
+  "STAGE1_CONTROLS_PASS": false
+ }
+}

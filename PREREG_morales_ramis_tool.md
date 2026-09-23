@@ -236,3 +236,36 @@ bridge):**
    Their logarithmic derivatives are algebraic of degree 2 (through `ẋ = √rational`),
    so **A″ should come out as Kovacic case 2.** This is an expectation, not a
    criterion; the criterion is still `NO_OBSTRUCTION`.
+
+---
+
+## OUTCOME of guarded run 1, and AMENDMENT 5 (2026-09-24)
+
+**Guarded run 1: FAILED under the registered rule.** A and A′ pass. A″ (`μ = 2`),
+B1 and B2 gave **Kovacic `NO_OBSTRUCTION` (case 2, certified by the exact identity)
+but monodromy `OBSTRUCTION`**, and the routes must agree. A″ (`μ = 3`) hit the
+30-minute limit and was recorded `INCONCLUSIVE`. **That failure stays on the record.**
+
+**Resolved on an independent known answer, not by preferring the route I liked.**
+The monodromy classifier looked for the invariant pair of lines only among the
+eigenvectors of each generator. A *swap* (trace 0, order 4 — the local monodromy
+at an exponent difference ½, e.g. a turning point) has eigenvectors that are not the
+pair, so a group generated entirely by swaps fell through to `SL(2)`.
+**Demonstrated on `P(½,½,√2)`**, an infinite dihedral group whose two finite
+generators both have trace 0: Kovacic says case 2, Kimura family 1, and monodromy
+said `SL(2)`. The calibration never caught it, because its only dihedral entry was
+finite, so the BFS closed before the imprimitive branch ran. **A coverage gap in my
+own calibration.**
+
+**Fixes:**
+1. Imprimitive candidates now include pairwise products of generators: two swaps of
+   one pair multiply to a diagonal element whose eigenvectors are the pair.
+   `P(½,½,√2)` is added to the calibration. **The full calibration passes on all
+   three routes** (`qsim/mr_calibration_allroutes.txt`), and `SL(2)` detection is
+   intact (`P(⅓,⅕,⅐)` is still `SL(2)`).
+2. The case-2 certificate search runs **before** case 1. A verified certificate
+   proves `G⁰` abelian on its own, so the verdict no longer waits on the radical
+   case-1 search that timed out.
+
+**Guarded run 2 follows, and it must re-establish A as well:** the change touches the
+classifier that corroborated A.

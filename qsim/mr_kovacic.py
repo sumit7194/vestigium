@@ -610,6 +610,15 @@ def has_log_point(R):
 # ----------------------------------------------------------------------------
 def kovacic(r, z, use_log_filter=True):
     R = RationalR(r, z)
+    # Certificate first (amendment 5): a verified case-2 certificate proves G0 abelian ON
+    # ITS OWN -- two distinct Riccati solutions fix a pair of lines, so G0 cannot be the
+    # full Borel group -- so the verdict does not depend on first running case 1, whose
+    # radical arithmetic timed out on one control. Reported as a certificate, not as
+    # "Kovacic's case".
+    c2s = kovacic_case2_symmetric(R)
+    if c2s:
+        return dict(case=2, data=c2s, R=R,
+                    note="Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched")
     sols = kovacic_case1(R)
     if sols:
         return dict(case=1, solutions=sols, R=R)

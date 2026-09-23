@@ -151,8 +151,17 @@ def classify(gens, tol=1e-6, max_elems=600):
         if all(_trace_is_root_of_unity(M) for M in Ms):
             return "reducible-finite-characters", True, info
         return "reducible-full-Borel", False, info
-    # imprimitive? a pair of lines preserved as a set
-    for M in Ms:
+    # imprimitive? a pair of lines preserved as a set.
+    # Candidates come from the eigenvectors of each generator AND of pairwise
+    # products. First version used generators only -- but a "swap" (trace 0, order 4:
+    # the local monodromy at an exponent difference 1/2, e.g. a turning point) has
+    # eigenvectors that are NOT the invariant pair, so a group generated entirely by
+    # swaps was misread as SL(2). Two swaps of the same pair multiply to a diagonal
+    # element whose eigenvectors ARE the pair. Found through a control disagreement
+    # and confirmed independently on P(1/2,1/2,sqrt2) (infinite dihedral).
+    cands = list(Ms) + [A @ B for A, B in itertools.combinations(Ms, 2)] \
+        + [A @ np.linalg.inv(B) for A, B in itertools.combinations(Ms, 2)]
+    for M in cands:
         w, V = np.linalg.eig(M)
         if abs(w[0] - w[1]) < 1e-8:
             continue

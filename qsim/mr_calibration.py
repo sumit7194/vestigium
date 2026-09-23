@@ -48,6 +48,11 @@ ADDED = [
     # y1^-2 * rational -> additive part non-trivial -> full Borel G0.
     ("Fuchsian full Borel", sp.simplify(sp.diff(_w, z) + _w**2), K.OBSTRUCTION, 1,
      "irrational exponent + non-elementary quadrature"),
+    # INFINITE dihedral, all generators swaps (exponent differences 1/2 at 0 and 1):
+    # added 2026-09-24 after a controls disagreement exposed that the monodromy
+    # classifier's imprimitive branch had never been exercised on an infinite group.
+    ("P(1/2,1/2,sqrt2)", riemann_P(R_(1, 2), R_(1, 2), sp.sqrt(2)), K.NO_OBSTRUCTION, 2,
+     "infinite dihedral: Kimura family 1"),
     # Abbasi, arXiv:2211.00804, Sec. 3 worked examples, with the Kovacic case HE reports
     ("Abbasi case-1 ex1", (4*z**2 + 8*z + 6)/(2*z + 1)**2, None, 1, "published: case 1"),
     # published: case 1 (group not stated). Verdict checked BY HAND: y1 = sqrt(z(z-1)) e^{-2/(z-1)}
