@@ -59,6 +59,24 @@ ROWS = [
      for i in (7, 8, 9, 10, 13, 14)]
 N_VALIDATION = len([r for r in ROWS if r[0] != "TARGET"])
 
+# --- 2b' (AMENDMENT, post-failure, dc4f53e + 0dacd90): `--v2` selects analyse_v2 and adds the
+# P-step poison (reduced Legendre, n = 2, 3: reducible, log at +-1, non-trivial P of degree n).
+ROUTE, PREFIX = F.analyse, "mr_ts2b"
+V2 = "--v2" in sys.argv
+if V2:
+    sys.argv.remove("--v2")
+    ROUTE, PREFIX = F.analyse_v2, "mr_ts2bp"
+
+    def _legendre():
+        x = sp.Symbol("x")
+        out = []
+        for n in (2, 3):
+            p, q = -2*x/(1 - x**2), sp.Integer(n*(n + 1))/(1 - x**2)
+            out.append((f"reduced Legendre n={n}", sp.cancel(p**2/4 + sp.diff(p, x)/2 - q), x))
+        return out
+    ROWS = ROWS[:2] + [("V-neg", "P-step poison: reduced Legendre n=2,3", _legendre, "not_OBS", False)] + ROWS[2:]
+    N_VALIDATION += 1
+
 
 def _mono(r, v, numeric):
     try:
@@ -77,8 +95,8 @@ def run_row(i):
     items = build()
     out = dict(group=group, name=name, expect=expect, items=[])
     for label, r, v in items:
-        a = F.analyse(r, v)
-        it = dict(label=label, route=a["verdict"], reason=a["reason"],
+        a = ROUTE(r, v)
+        it = dict(label=label, route=a["verdict"], reason=a["reason"], case1_tested=a.get("case1_tested"),
                   factors=a.get("factors"), inf=a.get("inf"), ord_inf=a.get("ord_inf"),
                   case1_candidates=a.get("case1_candidates"), log_point=a.get("log_point"))
         print(f"[{time.time()-t0:.1f}s] {label}: route {a['verdict']} -- {a['reason']}", flush=True)
@@ -120,12 +138,12 @@ def run_guarded_all(only=None, mem_limit_mb=1024, time_limit_s=1800):
     for i, (group, name, build, expect, mono) in enumerate(ROWS):
         if only is not None and i not in only:
             continue
-        outp = os.path.join(HERE, f"mr_ts2b_row_{i}.json")
+        outp = os.path.join(HERE, f"{PREFIX}_row_{i}.json")
         if os.path.exists(outp):
             os.remove(outp)
-        g = W.run_guarded([sys.executable, "-u", os.path.abspath(__file__), "--one", str(i), outp],
+        g = W.run_guarded([sys.executable, "-u", os.path.abspath(__file__)] + (["--v2"] if V2 else []) + ["--one", str(i), outp],
                           mem_limit_mb=mem_limit_mb, time_limit_s=time_limit_s, cwd=HERE,
-                          log=os.path.join(HERE, f"mr_ts2b_row_{i}.log"))
+                          log=os.path.join(HERE, f"{PREFIX}_row_{i}.log"))
         if g["status"] == "ok" and os.path.exists(outp):
             row = json.load(open(outp))
             row["assessment"] = assess(row)
@@ -138,7 +156,7 @@ def run_guarded_all(only=None, mem_limit_mb=1024, time_limit_s=1800):
                          for it in row["items"])
         print(f"{i:>2} {group:<7} {name:<52} => {row['assessment']}   [{summ[:300]}]   "
               f"[guard {g['status']}, peak {g['peak_mb']} MB, {g['seconds']} s]", flush=True)
-        json.dump(rows, open(os.path.join(HERE, "mr_ts2b_run.json"), "w"), indent=1, default=str)
+        json.dump(rows, open(os.path.join(HERE, f"{PREFIX}_run.json"), "w"), indent=1, default=str)
     return rows
 
 

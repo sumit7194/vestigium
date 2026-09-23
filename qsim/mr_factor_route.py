@@ -220,3 +220,87 @@ def numeric_poles(r, x, dps=30):
     for g, m in sp.factor_list(sp.Poly(t, x, domain=QQ))[1]:
         cs += [complex(c) for c in sp.Poly(g, x).nroots(n=dps, maxsteps=200)]
     return cs
+
+
+# ----------------------------------------------------------------------------
+# 2b' (AMENDMENT, post-failure; PREREG_ts2b_factor_route.md dc4f53e + 0dacd90)
+# ----------------------------------------------------------------------------
+# Lemma: with a log point, case 1 has at most ONE rational Riccati solution, and it lies in Q(x).
+# Hence at every factor with RATIONAL exponents the same alpha is taken at all conjugate roots,
+# theta = sum alpha_j g_j'/g_j is in Q(x), and P is a monic polynomial over Q: search it exactly.
+def analyse_v2(r, x):
+    import itertools
+    import mr_kovacic as K
+    base = analyse(r, x)
+    base["route"] = "2b'"
+    if "log_point" not in base:                       # out of scope in 2b's checks
+        return base
+    if not base["log_point"]:
+        base.update(verdict=INCONCLUSIVE, reason="no logarithmic point: the uniqueness lemma does not apply")
+        return base
+    r = sp.cancel(sp.together(sp.sympify(r)))
+    s, t = sp.fraction(r)
+    tP = sp.Poly(t, x, domain=QQ)
+    tP = tP*(1/tP.LC())
+    facs = [(sp.Poly(g, x, domain=QQ).monic(), m) for g, m in sp.factor_list(tP)[1]]
+    opts, irr_even, impossible = [], [], []
+    for fi, (g, m) in zip(base["factors"], facs):
+        n = g.degree()
+        if m == 1:
+            opts.append((g, [sp.Integer(1)]))
+            continue
+        coef, msq = sp.Rational(fi["sqrt_1p4b"][0]), fi["sqrt_1p4b"][1]
+        if msq == 1:
+            al = sorted({sp.Rational(1, 2) + coef/2, sp.Rational(1, 2) - coef/2})
+            opts.append((g, al))
+        elif n % 2 == 1:
+            impossible.append(fi["factor"])            # Tr(alpha) in Q forces sum eps = 0: impossible, n odd
+        else:
+            irr_even.append((fi["factor"], n))
+    if impossible:
+        base.update(verdict=OBSTRUCTION, case1_tested=[],
+                    reason=f"log point excludes cases 2, 3; irrational exponents at odd-degree factor(s) {impossible} "
+                           "make case 1 impossible (trace argument): G = SL(2)")
+        return base
+    inf = base["inf"]
+    if base["ord_inf"] > 2:
+        inf_alphas = [sp.Integer(0), sp.Integer(1)]
+    else:
+        c, m = sp.Rational(inf["sqrt_1p4b"][0]), inf["sqrt_1p4b"][1]
+        inf_alphas = sorted({sp.Rational(1, 2) + c/2, sp.Rational(1, 2) - c/2}) if m == 1 else []   # irrational: no integer d
+    shift = sum(sp.Rational(n, 2) for _, n in irr_even)
+    tested, blocked = [], []
+    for choice in itertools.product(*[al for _, al in opts]):
+        S = sum(ch*g.degree() for ch, (g, _) in zip(choice, opts)) + shift
+        for ainf in inf_alphas:
+            d = ainf - S
+            if not (d.is_integer and d >= 0):
+                continue
+            d = int(d)
+            if irr_even:
+                blocked.append(dict(d=d, why=f"needs a non-symmetric pattern at {irr_even}"))
+                continue
+            theta = sum(ch*sp.diff(g.as_expr(), x)/g.as_expr() for ch, (g, _) in zip(choice, opts))
+            T2 = sp.cancel(sp.together(2*theta))
+            Q0 = sp.cancel(sp.together(sp.diff(theta, x) + theta**2 - r))
+            eq = lambda P, T2=T2, Q0=Q0: sp.diff(P, x, 2) + T2*sp.diff(P, x) + Q0*P
+            try:
+                P = K._monic_poly_solution(eq, d, x)
+            except K.Inconclusive as e:
+                blocked.append(dict(d=d, why=str(e)))
+                continue
+            tested.append(dict(alphas=[str(a) for a in choice], alpha_inf=str(ainf), d=d,
+                               P=(str(P) if P is not None else None)))
+    base["case1_tested"] = tested
+    base["case1_blocked"] = blocked
+    found = [tt for tt in tested if tt["P"] is not None]
+    if found:
+        base.update(verdict=INCONCLUSIVE, reason=f"case 1 HOLDS: P of degree {found[0]['d']} found ({found[0]['P'][:80]}); "
+                                                  "the Borel part is not graded by this route")
+    elif blocked:
+        base.update(verdict=INCONCLUSIVE, reason=f"case-1 candidate(s) not searchable: {blocked[:3]}")
+    else:
+        base.update(verdict=OBSTRUCTION,
+                    reason=f"log point excludes cases 2, 3; all {len(tested)} symmetric case-1 candidates (d in Z>=0) "
+                           "have NO monic P over Q (uniqueness lemma): case 1 impossible, G = SL(2)")
+    return base
