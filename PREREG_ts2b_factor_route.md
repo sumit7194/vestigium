@@ -138,3 +138,62 @@ outcome. The target is **6 rows**: T1, T2 and T3 at P1 and P2.
 **Diagnosis: sound but underpowered.** The necessary condition alone does not exclude case 1 on the obstruction
 control. No rule change is made here. A strengthened route is proposed to the bridge as a post-failure amendment
 and needs its approval before it is registered.
+
+---
+
+## AMENDMENT 2b′ (2026-09-24), POST-FAILURE, approved by the bridge. Filed before any 2b′ code or computation.
+
+This is labelled post-failure because 2b as registered failed V-pos (cbc61af). The failure stays on record, and
+2b′ is weaker evidence than a first-attempt pass.
+
+**Lemma.** Let `y'' = r y` with `r ∈ ℚ(x)`, and suppose it has a logarithmic singular point. If case 1 of
+Kovacic's algorithm holds (a solution y with `ω = y'/y ∈ ℚ̄(x)`), then that ω is **unique** and **ω ∈ ℚ(x)**.
+
+**Proof.**
+1. At a regular singular point with integer exponent difference N and a logarithm, the exponents are `(1 ∓ N)/2`.
+   Both `e^{2πi(1∓N)/2}` equal `(−1)^{1−N}`, so the local monodromy is `M = ±u`, with u unipotent and `u ≠ I`
+   (the log term). Monodromy lies in the differential Galois group G (over `ℚ̄(x)`).
+2. Solutions y with `y'/y ∈ ℚ̄(x)` correspond one-to-one to G-invariant lines in the solution space. For
+   `σ ∈ G`, `σ(y) = λ_σ y` iff σ fixes `y'/y`. By the Galois correspondence, `y'/y` lies in the base field iff every
+   σ fixes it.
+3. A G-invariant line is M-invariant. `±u` with `u ≠ I` unipotent has exactly one eigenline, so G has **at most
+   one** invariant line, and case 1 has at most one ω.
+4. `r ∈ ℚ(x)`, so for `τ ∈ Gal(ℚ̄/ℚ)` acting on coefficients, `ω^τ` also solves `ω' + ω² = r`. By uniqueness,
+   `ω^τ = ω` for all τ, so every coefficient of ω is fixed by `Gal(ℚ̄/ℚ)`, and `ω ∈ ℚ(x)`. ∎
+
+**Consequence for the search.** In Kovacic's case 1 with every finite pole of order ≤ 2 and `ord∞ ≥ 2`,
+`ω = Σ_c α_c/(x−c) + P'/P` with P monic, where the `α_c` range over the local exponents.
+- **Scope condition (bridge).** Each factor's local coefficient b must be in ℚ, so that every root of `g_j` has the
+  same pair `α_j±`. Any factor with `b ∈ ℚ(c) \ ℚ` gives **INCONCLUSIVE (out of scope)**. This was already the 2b
+  rule, and it is kept.
+- Given that, ω ∈ ℚ(x) forces the same `α_j` at every root of `g_j`. Its residues are Galois-conjugate, and
+  conjugate roots of an irreducible g are permuted transitively. So `θ = Σ_j α_j g_j'/g_j ∈ ℚ(x)`.
+- For P: its roots are the zeros of y off the singular set. That set is Galois-stable because `ω ∈ ℚ(x)`, so
+  `P = exp ∫(ω − θ) ∈ ℚ[x]`, monic.
+- **Why the counts drop.** This is where 2b′ is stronger than 2b: only the symmetric choices `k_j ∈ {0, n_j}` need
+  enumerating, `2^{#order-2 factors} × 2` at ∞, and each surviving d gets the P-search.
+- **Where the Stage-1 cases would apply.** At a factor with `N = 0` both exponents coincide; for simple poles α = 1.
+  Other Stage-1 cases (order > 2 poles, `ord∞ < 2`) are out of scope as in 2b.
+
+**Route 2b′ (a new function `analyse_v2` in `mr_factor_route.py`; `analyse` is kept unchanged for the record):**
+
+1. Scope and local data exactly as 2b: m ∈ {1, 2}, `ord∞ ≥ 2`, b ∈ ℚ on every factor.
+2. A log point is required. It is found exactly as in 2b.
+3. For each symmetric choice, `d = α∞ − Σ_j n_j α_j`. If `d ∈ ℤ≥0` (exact, with square roots split as in 2b),
+   solve for a monic `P ∈ ℚ[x]` of degree d with `P'' + 2θP' + (θ' + θ² − r)P = 0`. That is an exact linear
+   system over ℚ, the Stage-1 `_monic_poly_solution`, degree cap 60. A cap hit gives INCONCLUSIVE.
+4. **OBSTRUCTION** iff a log point exists AND no symmetric choice yields P. **INCONCLUSIVE** if a P is found:
+   case 1 holds, and this route does not grade the Borel part. It is also INCONCLUSIVE when there is no log point,
+   when something is out of scope, or when the cap is hit. It never outputs NO_OBSTRUCTION.
+
+**Re-validation, in full, post-failure.**
+- The same V-neg, V-pos, V-info and V-mono sets as 2b, with the same pass rule.
+- **Plus a new poison aimed at the P-step:** the reduced Legendre equation for n = 2 and n = 3. It is reducible:
+  `y₁ = P_n(x)·(1 − x²)^{1/2}` with P_n non-trivial, of degree n. It has a log at ±1 (double exponent). It must
+  **not** be OBSTRUCTION; the expected result is INCONCLUSIVE, with P of degree n found.
+- 2b′ passes iff V-neg has no OBSTRUCTION, V-pos (ZV δ=2 at μ = 2, 3, and C1) is all OBSTRUCTION, and V-mono
+  agrees. Only then do the 6 TS rows run, under the row rule and wording of 2b.
+
+**Noted, not used.** The bridge's message quotes `b = −3/16` at the TS turning points. **I have not computed any
+TS local data**; that is the bridge's expectation from the general theory of turning points. It is not a result,
+and it plays no part in this registration.
