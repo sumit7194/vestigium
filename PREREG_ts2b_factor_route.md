@@ -197,3 +197,18 @@ Kovacic's algorithm holds (a solution y with `ω = y'/y ∈ ℚ̄(x)`), then tha
 **Noted, not used.** The bridge's message quotes `b = −3/16` at the TS turning points. **I have not computed any
 TS local data**; that is the bridge's expectation from the general theory of turning points. It is not a result,
 and it plays no part in this registration.
+
+**CLARIFICATION to 2b′ (before any 2b′ code).** The step "ω ∈ ℚ(x) forces the same `α_j` at every root" holds
+when the exponents `α_j± = ½ ± ½√(1+4b_j)` are **rational**. The residue of ω at c lies in ℚ(c) and
+`α_{τc} = τ(α_c)`; a rational α is fixed by τ, and the roots are permuted transitively.
+
+If `b_j ∈ ℚ` but `√(1+4b_j) ∉ ℚ`, the rule is:
+- Summing the conjugate residues gives `Σ_c α_c = Tr_{ℚ(c)/ℚ}(α_c) ∈ ℚ`. With `α_c = ½ + ε_c √u/2`, this
+  forces `Σ ε_c = 0`.
+- **Odd `n_j`:** no such choice exists, so case 1 is **impossible**. That is proved, and the factor contributes
+  no case-1 solution.
+- **Even `n_j`:** a non-symmetric pattern is possible, and its θ is not in ℚ(x), so it cannot be P-searched
+  root-free. The row is **INCONCLUSIVE (out of scope)**, unless the exact d-test (2b's split-radical test, with
+  this factor contributing `n_j/2`) already leaves no `d ∈ ℤ≥0`.
+
+The same applies at ∞, which is a rational point: an irrational `α∞` simply fails the exact integer test for d.
