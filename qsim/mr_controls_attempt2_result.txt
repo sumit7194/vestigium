@@ -1,0 +1,13 @@
+=== attempt 2 exited ===
+A    ZV delta=2, mu=2               -> OBSTRUCTION     (cases [4, 4]; forms agree True; monodromy ['OBSTRUCTION', 'OBSTRUCTION']) expected OBSTRUCTION: PASS   [guard ok, peak 95.0 MB, 20.9 s]
+A    ZV delta=2, mu=3               -> OBSTRUCTION     (cases [4, 4]; forms agree True; monodromy ['OBSTRUCTION', 'OBSTRUCTION']) expected OBSTRUCTION: PASS   [guard ok, peak 95.0 MB, 20.8 s]
+A'   ZV delta=1, mu=2               -> NO_OBSTRUCTION  (cases ['analytic', 2]; forms agree True; monodromy ['NOT_APPLICABLE', 'NO_OBSTRUCTION']) expected NO_OBSTRUCTION: PASS   [guard ok, peak 85.0 MB, 2.1 s]
+A'   ZV delta=1, mu=3               -> NO_OBSTRUCTION  (cases ['analytic', 2]; forms agree True; monodromy ['NOT_APPLICABLE', 'NO_OBSTRUCTION']) expected NO_OBSTRUCTION: PASS   [guard ok, peak 86.0 MB, 2.1 s]
+A''  ZV delta=1, L=1, mu=2          -> NO_OBSTRUCTION  (cases [2, 2]; forms agree True; monodromy ['NO_OBSTRUCTION', 'NO_OBSTRUCTION']) expected NO_OBSTRUCTION: PASS   [guard ok, peak 117.0 MB, 184.9 s]
+A''  ZV delta=1, L=1, mu=3          -> INCONCLUSIVE    (cases [None, None]; forms agree True; monodromy ['NOT_RUN', 'NOT_RUN']) expected NO_OBSTRUCTION: FAIL   [guard time_limit, peak 368.0 MB, 1800.5 s]
+B1   Kerr a=3/5 L=0 E=3 mu^2=118    -> NO_OBSTRUCTION  (cases [2, 2]; forms agree True; monodromy ['NO_OBSTRUCTION', 'NO_OBSTRUCTION']) expected NO_OBSTRUCTION: PASS   [guard ok, peak 96.0 MB, 15.6 s]
+B2   Kerr a=3/5 L=2 E=1 mu^2=125/63 -> NO_OBSTRUCTION  (cases [2, 2]; forms agree True; monodromy ['NO_OBSTRUCTION', 'NO_OBSTRUCTION']) expected NO_OBSTRUCTION: PASS   [guard ok, peak 97.0 MB, 15.6 s]
+
+TRUST-ORDERED: {'A_prime': False, 'A': False, 'B': True, 'no_inconclusive': False, 'STAGE1_CONTROLS_PASS': False}
+
+[exited with code 0]

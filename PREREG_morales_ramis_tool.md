@@ -286,3 +286,29 @@ unchanged (18 entries plus `P(½,½,√2)`).
 bug fix and a search-order fix, both found by guarded run 1. **Guarded run 1's FAIL
 stays on the record beside it.** The controls, parameters and expected outcomes are
 unchanged; nothing about A″, B1 or B2 was altered.
+
+---
+
+## OUTCOME — SECOND ATTEMPT (post-failure), 2026-09-24. **Stage 1 NOT PASSED: one control INCONCLUSIVE.**
+
+(`qsim/mr_controls_attempt2_result.txt`.) This attempt follows guarded run 1, which
+**FAILED**, and that failure stands beside it.
+
+| control | verdict | routes | |
+|---|---|---|---|
+| A, ZV δ=2, μ=2 and μ=3 | `OBSTRUCTION` | Kovacic case 4 in both forms; monodromy `SL(2)` in both | pass |
+| A′, Schwarzschild L=0, μ=2 and μ=3 | `NO_OBSTRUCTION` | analytic (degenerate `ξ₂`); `ξ₁` certified case 2; monodromy agrees | pass |
+| A″, Schwarzschild L=1, μ=2 | `NO_OBSTRUCTION` | case-2 certificate in both forms; monodromy agrees | pass |
+| **A″, Schwarzschild L=1, μ=3** | **`INCONCLUSIVE`** | **30-minute limit** | **not passed** |
+| B1, Kerr L=0 | `NO_OBSTRUCTION` | case-2 certificate in both forms; monodromy agrees | pass |
+| B2, Kerr L=2 | `NO_OBSTRUCTION` | case-2 certificate in both forms; monodromy agrees | pass |
+
+**By the registered criterion** — no control may be `INCONCLUSIVE`, and A counts
+only after A′ and A″ — **Stage 1 has not passed.** Nothing returned a wrong verdict:
+every row that finished agrees with its expected outcome, and the two independent
+routes agree on every row that ran. The single gap is a resource limit on one
+parameter point.
+
+What a pass needs: A″ at μ=3 to finish. That's an algorithmic question, and the
+same rule applies as for A″ before: fix the algorithm, never the control. Not
+started tonight, because ansatz's job is queued behind this machine's current work.
