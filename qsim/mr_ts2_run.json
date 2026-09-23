@@ -1,0 +1,626 @@
+[
+ {
+  "control": "T1",
+  "name": "TS2 P1 (1,0,4)",
+  "ELmu2": [
+   "1",
+   "0",
+   "4"
+  ],
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 34,
+     "deg_den": 38,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ],
+      [
+       "<deg 8 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   },
+   "r_xi1": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 18,
+     "deg_den": 22,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   }
+  },
+  "seconds": 1.8,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 94.0,
+   "seconds": 3.1
+  },
+  "forms_agree": true,
+  "verdict": "INCONCLUSIVE",
+  "monodromy_agree": true,
+  "single_route": true,
+  "identity_ok": true,
+  "ok": null
+ },
+ {
+  "control": "T1",
+  "name": "TS2 P2 (1,0,4)",
+  "ELmu2": [
+   "1",
+   "0",
+   "4"
+  ],
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 34,
+     "deg_den": 38,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ],
+      [
+       "<deg 8 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   },
+   "r_xi1": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 18,
+     "deg_den": 22,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   }
+  },
+  "seconds": 1.7,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 95.0,
+   "seconds": 3.1
+  },
+  "forms_agree": true,
+  "verdict": "INCONCLUSIVE",
+  "monodromy_agree": true,
+  "single_route": true,
+  "identity_ok": true,
+  "ok": null
+ },
+ {
+  "control": "T2",
+  "name": "TS2 P1 (1,0,9)",
+  "ELmu2": [
+   "1",
+   "0",
+   "9"
+  ],
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 34,
+     "deg_den": 38,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ],
+      [
+       "<deg 8 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   },
+   "r_xi1": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 18,
+     "deg_den": 22,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   }
+  },
+  "seconds": 1.8,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 93.0,
+   "seconds": 3.1
+  },
+  "forms_agree": true,
+  "verdict": "INCONCLUSIVE",
+  "monodromy_agree": true,
+  "single_route": true,
+  "identity_ok": true,
+  "ok": null
+ },
+ {
+  "control": "T2",
+  "name": "TS2 P2 (1,0,9)",
+  "ELmu2": [
+   "1",
+   "0",
+   "9"
+  ],
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 34,
+     "deg_den": 38,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ],
+      [
+       "<deg 8 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   },
+   "r_xi1": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 18,
+     "deg_den": 22,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   }
+  },
+  "seconds": 1.7,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 93.0,
+   "seconds": 3.1
+  },
+  "forms_agree": true,
+  "verdict": "INCONCLUSIVE",
+  "monodromy_agree": true,
+  "single_route": true,
+  "identity_ok": true,
+  "ok": null
+ },
+ {
+  "control": "C3",
+  "name": "Kerr-WP P1 (1,1,4)",
+  "ELmu2": [
+   "1",
+   "1",
+   "4"
+  ],
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "3*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 2.3691+1.6564j)",
+    "monodromy_det_err": 4.469709546750374e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "3*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 2.3691+1.6564j)",
+    "monodromy_det_err": 4.469709546750374e-12
+   }
+  },
+  "seconds": 16.1,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 100.0,
+   "seconds": 16.5
+  },
+  "forms_agree": true,
+  "verdict": "NO_OBSTRUCTION",
+  "monodromy_agree": true,
+  "single_route": false,
+  "identity_ok": true,
+  "ok": true
+ },
+ {
+  "control": "C3",
+  "name": "Kerr-WP P2 (1,1,4)",
+  "ELmu2": [
+   "1",
+   "1",
+   "4"
+  ],
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.9966+1.4238j)",
+    "monodromy_det_err": 4.726677185025527e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.9966+1.4238j)",
+    "monodromy_det_err": 4.726677185025527e-12
+   }
+  },
+  "seconds": 15.8,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 99.0,
+   "seconds": 16.5
+  },
+  "forms_agree": true,
+  "verdict": "NO_OBSTRUCTION",
+  "monodromy_agree": true,
+  "single_route": false,
+  "identity_ok": true,
+  "ok": true
+ },
+ {
+  "control": "T3",
+  "name": "TS2 P1 (1,1,4)",
+  "ELmu2": [
+   "1",
+   "1",
+   "4"
+  ],
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 34,
+     "deg_den": 38,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ],
+      [
+       "<deg 8 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   },
+   "r_xi1": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 18,
+     "deg_den": 22,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   }
+  },
+  "seconds": 2.0,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 94.0,
+   "seconds": 3.1
+  },
+  "forms_agree": true,
+  "verdict": "INCONCLUSIVE",
+  "monodromy_agree": true,
+  "single_route": true,
+  "identity_ok": true,
+  "ok": null
+ },
+ {
+  "control": "T3",
+  "name": "TS2 P2 (1,1,4)",
+  "ELmu2": [
+   "1",
+   "1",
+   "4"
+  ],
+  "expected": null,
+  "forms": {
+   "r_xi2": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 34,
+     "deg_den": 38,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ],
+      [
+       "<deg 8 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   },
+   "r_xi1": {
+    "verdict": "INCONCLUSIVE",
+    "case": null,
+    "reason": "the poles of r are not all explicitly computable",
+    "structure": {
+     "deg_num": 18,
+     "deg_den": 22,
+     "den_factors": [
+      [
+       "x",
+       2
+      ],
+      [
+       "<deg 4 factor>",
+       2
+      ],
+      [
+       "<deg 6 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "INCONCLUSIVE",
+    "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+    "monodromy_det_err": null
+   }
+  },
+  "seconds": 1.9,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 93.0,
+   "seconds": 3.1
+  },
+  "forms_agree": true,
+  "verdict": "INCONCLUSIVE",
+  "monodromy_agree": true,
+  "single_route": true,
+  "identity_ok": true,
+  "ok": null
+ }
+]

@@ -145,3 +145,42 @@ Stated per parameter point P and per row. **Never pooled into "TS is chaotic".**
 - Python/SymPy as in Stage 1, on the same machine, which is shared.
 - Output files: `qsim/mr_ts2_*.json`, `qsim/mr_ts2_*.log`, and `qsim/mr_ts2_result.txt`.
 - The report goes to the bridge.
+
+---
+
+## OUTCOME, 2026-09-24. **Stage 2: controls PASS 9/9; target INCONCLUSIVE at every row (tool scope).** No verdict on TS δ=2.
+
+Runner: `qsim/mr_ts2.py` (2643196). Controls: `qsim/mr_ts2_controls.txt` and `mr_ts2_controls_run.json`
+(baadcbd, committed before any target row ran). Target: `qsim/mr_ts2_target.txt` and `mr_ts2_run.json`.
+Every row ran guarded; peak memory ≤ 111 MB.
+
+**Controls.**
+
+| row | result |
+|---|---|
+| C1 | ZV δ=2 through the WP loader. r equals Stage-1 A's r **exactly** (both forms). OBSTRUCTION, case 4, two routes. **PASS** |
+| C2 (B1, B2) | Ansatz's WP Kerr at σ=4/5 equals `σ²R_BL(σx+1)` of the Stage-1 Boyer–Lindquist Kerr **exactly**, both forms. For B2 it holds with **L → −L**: WP φ is oriented opposite to BL, a convention the prereg allowed for, now recorded. NO_OBSTRUCTION, case 2. **PASS** |
+| C3 | Kerr-WP at P1 and P2 at (1,0,4), (1,0,9), (1,1,4): all NO_OBSTRUCTION (case 2, Galois-symmetric certificate), monodromy agrees. **PASS** (6/6) |
+
+**Target: T1, T2 and T3 at P1 and P2 (8 rows) are all `INCONCLUSIVE`: "the poles of r are not all explicitly
+computable".** Both routes refused within 2 s. The monodromy route is gated on the same explicit pole list.
+
+**Diagnostic, run after the registered rows (descriptive only, not a verdict).** The denominator of r is the same
+at every level. All poles are **double**, and `deg den − deg num = 4`, so the NVE is Fuchsian and regular at ∞.
+- `x` (order 2).
+- **Quartic = the ring polynomial** `p²x⁴ + 2p x³ − 2p x − 1`. Its roots include 1.136802 (P1) and 1.057417 (P2),
+  matching the manifest. Galois group S4.
+- **Sextic = the turning-point polynomial**, the numerator of ẋ². It changes with μ². Galois group **S6**, so its
+  roots are **not expressible by radicals**. This is the direct cause of the refusal.
+- **Octic**, only in the ξ₂ form: the zeros of B, the elimination's own singularities.
+- No pole at x = ±1.
+
+**What this does and does not say.**
+- Nothing about TS integrability. INCONCLUSIVE is not NO_OBSTRUCTION.
+- The Stage-1 tool's scope (explicit poles) does not reach a metric whose turning points have non-solvable
+  Galois group.
+- Extending it would be a **new, separately registered stage (2b)**, not an amendment of this one. The sketch:
+  run the Kovacic necessary conditions and the case-1 degree test factor by factor, using local exponents computed
+  per irreducible factor over ℚ, as the log check already does. Then case 4 can be proved without the roots if a
+  log point excludes cases 2 and 3 and every case-1 exponent count gives `d ∉ ℤ≥0`.
+- Stage 2b is not started. It is the bridge's and the user's decision.

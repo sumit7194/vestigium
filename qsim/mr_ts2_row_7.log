@@ -1,0 +1,8 @@
+[0.3s] loaded
+[1.7s] NVE built
+[1.8s] r_xi2: {'deg_num': 34, 'deg_den': 38, 'den_factors': [('x', 2), ('<deg 4 factor>', 2), ('<deg 6 factor>', 2), ('<deg 8 factor>', 2)]}
+[1.8s] r_xi2: Kovacic -> INCONCLUSIVE (the poles of r are not all explicitly computable)
+[1.8s] r_xi2: monodromy -> INCONCLUSIVE (outside scope: the poles of r are not all explicitly computable)
+[1.8s] r_xi1: {'deg_num': 18, 'deg_den': 22, 'den_factors': [('x', 2), ('<deg 4 factor>', 2), ('<deg 6 factor>', 2)]}
+[1.8s] r_xi1: Kovacic -> INCONCLUSIVE (the poles of r are not all explicitly computable)
+[1.8s] r_xi1: monodromy -> INCONCLUSIVE (outside scope: the poles of r are not all explicitly computable)

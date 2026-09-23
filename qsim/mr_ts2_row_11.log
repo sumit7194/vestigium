@@ -1,0 +1,8 @@
+[0.1s] loaded
+[0.3s] NVE built
+[0.3s] r_xi2: {'deg_num': 4, 'deg_den': 8, 'den_factors': [('3*x + 5', 2), ('<deg 3 factor>', 2)]}
+[10.1s] r_xi2: Kovacic -> NO_OBSTRUCTION (Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched])
+[12.5s] r_xi2: monodromy -> NO_OBSTRUCTION (imprimitive (base point 2.3691+1.6564j))
+[12.5s] r_xi1: {'deg_num': 4, 'deg_den': 8, 'den_factors': [('3*x + 5', 2), ('<deg 3 factor>', 2)]}
+[13.7s] r_xi1: Kovacic -> NO_OBSTRUCTION (Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched])
+[16.1s] r_xi1: monodromy -> NO_OBSTRUCTION (imprimitive (base point 2.3691+1.6564j))

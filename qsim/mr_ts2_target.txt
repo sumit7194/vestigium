@@ -1,0 +1,9 @@
+ 7 T1  TS2 P1 (1,0,4)                         -> INCONCLUSIVE           cases [None, None] monodromy ['INCONCLUSIVE', 'INCONCLUSIVE']  [TARGET]   [guard ok, peak 94.0 MB, 3.1 s]
+ 8 T1  TS2 P2 (1,0,4)                         -> INCONCLUSIVE           cases [None, None] monodromy ['INCONCLUSIVE', 'INCONCLUSIVE']  [TARGET]   [guard ok, peak 95.0 MB, 3.1 s]
+ 9 T2  TS2 P1 (1,0,9)                         -> INCONCLUSIVE           cases [None, None] monodromy ['INCONCLUSIVE', 'INCONCLUSIVE']  [TARGET]   [guard ok, peak 93.0 MB, 3.1 s]
+10 T2  TS2 P2 (1,0,9)                         -> INCONCLUSIVE           cases [None, None] monodromy ['INCONCLUSIVE', 'INCONCLUSIVE']  [TARGET]   [guard ok, peak 93.0 MB, 3.1 s]
+11 C3  Kerr-WP P1 (1,1,4)                     -> NO_OBSTRUCTION         cases [2, 2] monodromy ['NO_OBSTRUCTION', 'NO_OBSTRUCTION'] expected NO_OBSTRUCTION: PASS   [guard ok, peak 100.0 MB, 16.5 s]
+12 C3  Kerr-WP P2 (1,1,4)                     -> NO_OBSTRUCTION         cases [2, 2] monodromy ['NO_OBSTRUCTION', 'NO_OBSTRUCTION'] expected NO_OBSTRUCTION: PASS   [guard ok, peak 99.0 MB, 16.5 s]
+13 T3  TS2 P1 (1,1,4)                         -> INCONCLUSIVE           cases [None, None] monodromy ['INCONCLUSIVE', 'INCONCLUSIVE']  [TARGET]   [guard ok, peak 94.0 MB, 3.1 s]
+14 T3  TS2 P2 (1,1,4)                         -> INCONCLUSIVE           cases [None, None] monodromy ['INCONCLUSIVE', 'INCONCLUSIVE']  [TARGET]   [guard ok, peak 93.0 MB, 3.1 s]
+EXIT 0
