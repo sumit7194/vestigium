@@ -175,3 +175,25 @@ arXiv:1302.4234 uses the same Frobenius argument.
 **Every `OBSTRUCTION` that rests on this filter says so in its reason string**
 ("cases 2 and 3 excluded: logarithmic point at …"), so a reader can always see
 which argument carried the verdict.
+
+---
+
+## AMENDMENT 3 (2026-09-24) — filed after A's result, before any A′/A″/B result
+
+**State at filing:** A has run and **passed**: `OBSTRUCTION` at `μ = 2, 3`, case 4
+in both NVE forms, with monodromy independently finding `SL(2)`. A′ then
+**crashed** before producing any verdict. A″ and B have not run.
+
+**Cause:** the registered A′ (`δ = 1, L = 0`) is **degenerate**. By spherical
+symmetry `∂²H/∂y² ≡ 0` (checked symbolically), so the NVE decouples into
+`ξ₂′ = 0`, `ξ₁′ = aξ₂`, and `G⁰` lies in the additive group — abelian, **by an
+analytic argument**. The `ξ₂` elimination divides by `B` and is undefined.
+- The degenerate form now returns the analytic `NO_OBSTRUCTION`, **explicitly
+  labelled as not a Kovacic verdict**. The `ξ₁` form still goes through Kovacic
+  and must itself give `NO_OBSTRUCTION`.
+- **This made A′ a weaker poison than intended**, so a **non-degenerate** one is
+  added. **A″** is Schwarzschild (`δ = 1`) with `L = 1`, where
+  `B = 1/(x+1)² ≠ 0`. It is integrable by spherical symmetry, so it must give
+  `NO_OBSTRUCTION`, at `μ = 2, 3`, `E = 1`.
+- The trust order now requires A′ **and** A″ before A counts.
+- **A's own verdict is unaffected**; the rerun must reproduce it identically.

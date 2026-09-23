@@ -42,14 +42,21 @@ def nve_equatorial(ginv, x, y, E, L, mu):
     Hfull = sp.Rational(1, 2)*(V + comps["xx"]*px**2)          # p_y = 0 part
     B = sp.diff(Hfull, y, 2).subs(y, 0).subs(px**2, px2)
     B = sp.factor(sp.together(sp.simplify(B)))
-    # xi2 equation
-    p2 = -(sp.diff(B, x)/B - sp.diff(xdot2, x)/(2*xdot2))
     q = A*B/xdot2
-    r2 = sp.factor(sp.together(p2**2/4 + sp.diff(p2, x)/2 - q))
+    # DEGENERATE case: B == 0 identically (e.g. a radial Schwarzschild geodesic, where
+    # spherical symmetry makes the latitude perturbation just another radial geodesic).
+    # Then xi2' = 0, xi1' = a xi2: solutions xi2 = c, xi1 = c int a + d, so G0 lies in the
+    # ADDITIVE group -- abelian, analytically. The xi2 elimination divides by B and is
+    # undefined; it is returned as None and flagged, never passed to Kovacic.
+    if sp.simplify(B) == 0:
+        r2 = None
+    else:
+        p2 = -(sp.diff(B, x)/B - sp.diff(xdot2, x)/(2*xdot2))
+        r2 = sp.factor(sp.together(p2**2/4 + sp.diff(p2, x)/2 - q))
     # xi1 equation: xi1'' - (a'/a) xi1' + a b xi1 = 0
     p1 = -(sp.diff(A, x)/A - sp.diff(xdot2, x)/(2*xdot2))
     r1 = sp.factor(sp.together(p1**2/4 + sp.diff(p1, x)/2 - q))
-    return dict(r_xi2=r2, r_xi1=r1, xdot2=xdot2, A=A, B=B)
+    return dict(r_xi2=r2, r_xi1=r1, xdot2=xdot2, A=A, B=B, degenerate=(r2 is None))
 
 
 # ---------------------------------------------------------------------------

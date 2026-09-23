@@ -26,6 +26,10 @@ CONTROLS = [
     ("A",  "ZV delta=2, mu=3", lambda: N.nve_equatorial(N.zipoy_voorhees(2, x, y), x, y, E=1, L=0, mu=3), x, K.OBSTRUCTION),
     ("A'", "ZV delta=1, mu=2", lambda: N.nve_equatorial(N.zipoy_voorhees(1, x, y), x, y, E=1, L=0, mu=2), x, K.NO_OBSTRUCTION),
     ("A'", "ZV delta=1, mu=3", lambda: N.nve_equatorial(N.zipoy_voorhees(1, x, y), x, y, E=1, L=0, mu=3), x, K.NO_OBSTRUCTION),
+    # AMENDMENT 3 (filed after A's result, before any A'/A''/B result): the registered A' is
+    # DEGENERATE (B == 0), so a NON-degenerate Schwarzschild poison is added -- L = 1.
+    ("A''", "ZV delta=1, L=1, mu=2", lambda: N.nve_equatorial(N.zipoy_voorhees(1, x, y), x, y, E=1, L=1, mu=2), x, K.NO_OBSTRUCTION),
+    ("A''", "ZV delta=1, L=1, mu=3", lambda: N.nve_equatorial(N.zipoy_voorhees(1, x, y), x, y, E=1, L=1, mu=3), x, K.NO_OBSTRUCTION),
     ("B1", "Kerr a=3/5 L=0 E=3 mu^2=118",
      lambda: N.nve_equatorial(N.kerr(1, sp.Rational(3, 5), r_, u), r_, u, E=3, L=0, mu=sp.sqrt(118)), r_, K.NO_OBSTRUCTION),
     ("B2", "Kerr a=3/5 L=2 E=1 mu^2=125/63",
@@ -41,6 +45,14 @@ def run():
         row = dict(control=tag, name=name, expected=expected, forms={})
         for form in ("r_xi2", "r_xi1"):
             rr = nve[form]
+            if rr is None:                      # degenerate xi2 elimination (B == 0)
+                row["forms"][form] = dict(
+                    verdict=K.NO_OBSTRUCTION, case="analytic",
+                    reason="DEGENERATE NVE, B == 0: decoupled, G0 in the additive group "
+                           "(analytic argument, NOT a Kovacic verdict)",
+                    poles={}, ord_inf=None, monodromy="NOT_APPLICABLE", monodromy_why="degenerate",
+                    monodromy_det_err=None)
+                continue
             R = K.RationalR(rr, var)
             v, reason, k = K.morales_ramis_verdict(rr, var)
             mv, mwhy, minfo = MO.monodromy_verdict(rr, var)
@@ -64,7 +76,7 @@ def run():
               f"{'PASS' if row['ok'] else 'FAIL'}  ({row['seconds']}s)", flush=True)
     # trust order, mechanically
     ok = lambda t: all(rw["ok"] for rw in out if rw["control"] == t)
-    A_ok, Ap_ok = ok("A"), ok("A'")
+    A_ok, Ap_ok = ok("A"), ok("A'") and ok("A''")
     B_ok = ok("B1") and ok("B2")
     verdict = dict(
         A_prime=Ap_ok,
