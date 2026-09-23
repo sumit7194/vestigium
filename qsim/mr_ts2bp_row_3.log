@@ -1,0 +1,7 @@
+[0.0s] Airy: route INCONCLUSIVE -- out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)
+[0.0s] Bessel 0: route INCONCLUSIVE -- out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)
+[0.0s] Weber z^2+1: route INCONCLUSIVE -- out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)
+[0.0s] P(1/3,1/5,1/7): route INCONCLUSIVE -- no logarithmic point: the uniqueness lemma does not apply
+[0.0s] Fuchsian full Borel: route INCONCLUSIVE -- coefficients not in Q (out of scope)
+[0.0s] Abbasi case-1 ex1: route INCONCLUSIVE -- out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)
+[0.0s] Abbasi case-1 ex2: route INCONCLUSIVE -- out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)

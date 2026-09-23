@@ -1,0 +1,2 @@
+[0.0s] reduced Legendre n=2: route INCONCLUSIVE -- case 1 HOLDS: P of degree 2 found (x**2 - 1/3); the Borel part is not graded by this route
+[0.1s] reduced Legendre n=3: route INCONCLUSIVE -- case 1 HOLDS: P of degree 3 found (x**3 - 3*x/5); the Borel part is not graded by this route

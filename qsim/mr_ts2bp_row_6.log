@@ -1,0 +1,6 @@
+[1.1s] r_xi2: route OBSTRUCTION -- log point excludes cases 2, 3; all 9 symmetric case-1 candidates (d in Z>=0) have NO monic P over Q (uniqueness lemma): case 1 impossible, G = SL(2)
+[5.9s] r_xi2: numeric-pole monodromy OBSTRUCTION (SL2 (base point 0.0709+2.8663j))
+[10.7s] r_xi2: default monodromy OBSTRUCTION
+[11.2s] r_xi1: route OBSTRUCTION -- log point excludes cases 2, 3; all 7 symmetric case-1 candidates (d in Z>=0) have NO monic P over Q (uniqueness lemma): case 1 impossible, G = SL(2)
+[16.0s] r_xi1: numeric-pole monodromy OBSTRUCTION (SL2 (base point 0.0709+2.8663j))
+[20.8s] r_xi1: default monodromy OBSTRUCTION

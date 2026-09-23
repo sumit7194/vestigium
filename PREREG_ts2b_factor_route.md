@@ -212,3 +212,15 @@ If `b_j ∈ ℚ` but `√(1+4b_j) ∉ ℚ`, the rule is:
   this factor contributing `n_j/2`) already leaves no `d ∈ ℤ≥0`.
 
 The same applies at ∞, which is a rational point: an irrational `α∞` simply fails the exact integer test for d.
+
+### OUTCOME of the 2b′ re-validation (post-failure), 2026-09-24: **PASS.**
+
+`qsim/mr_ts2bp_validation.txt` and `mr_ts2bp_run.json`, rows 0–19, guarded, peak ≤ 91 MB.
+
+- **V-pos: PASS.** ZV δ=2 at μ = 2 and 3, and C1, give OBSTRUCTION on both forms, with numeric monodromy SL2.
+- **V-neg: PASS.** No OBSTRUCTION anywhere. The Legendre P-step poison gives INCONCLUSIVE, with P found:
+  `x² − 1/3` and `x³ − 3x/5`. Kerr (BL and WP), Schwarzschild, the calibration cases and the algebraic poisons all
+  give INCONCLUSIVE.
+- **V-mono: PASS.** Numeric-pole monodromy equals default monodromy on every Hamiltonian row.
+
+The TS rows are cleared to run.
