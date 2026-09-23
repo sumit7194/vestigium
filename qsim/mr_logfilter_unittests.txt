@@ -1,0 +1,8 @@
+PASS  r = 2/z**2                 log point: False (None)   expected False: z^2, z^-1: integer difference 3, NO log
+PASS  r = 3/(4*z**2)             log point: False (None)   expected False: z^{3/2}, z^{-1/2}: integer difference 2, NO log
+PASS  r = 6/z**2                 log point: False (None)   expected False: z^3, z^-2: integer difference 5, NO log (needs N+1 = 6 terms)
+PASS  r = -1/(4*z**2)            log point: True (z = 0)   expected True: sqrt z, sqrt z log z: repeated exponent
+PASS  r = 1/z                    log point: True (z = 0)   expected True: simple pole: exponents 0,1, the 0-series fails
+PASS  r = -1 - 1/(4*z**2)        log point: True (z = 0)   expected True: Bessel order 0: repeated exponent
+PASS  r = 1/z + 2/z**2           log point: True (z = 0)   expected None: difference 3 with a perturbation: computed, shown
+all pass: True

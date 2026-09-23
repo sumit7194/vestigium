@@ -434,13 +434,89 @@ def _is_algebraic_exp(omega, z):
 
 
 # ----------------------------------------------------------------------------
+# logarithmic singular points: a rigorous pre-filter for cases 2 and 3
+# ----------------------------------------------------------------------------
+# DECLARED ADDITION (after the pre-registration, before any control result).
+# If a singular point has an integer exponent difference N and the Frobenius
+# recursion for the smaller exponent is inconsistent at k = N, the solutions
+# carry a logarithm and the local monodromy is a NON-TRIVIAL UNIPOTENT element.
+# A finite group (case 3) contains none; nor does a subgroup of the diagonal /
+# anti-diagonal group (case 2). So a log point excludes cases 2 and 3 outright.
+# It only skips searches that must fail -- the calibration is re-run to show
+# every verdict is unchanged. (arXiv:1302.4234 uses the same Frobenius argument.)
+
+def _frobenius_log(f, order, N_extra=None):
+    """f: Laurent coefficients with r = e^{-order} sum f_k e^k at a regular singular point
+    (order 1 or 2). Returns True if the point is logarithmic."""
+    if order == 1:
+        return f[0] != 0                   # exponents 0, 1: the exponent-0 series always fails at k = 1
+    r0 = f[0]
+    disc = sp.nsimplify(1 + 4*r0)
+    N = sp.sqrt(disc)
+    try:
+        Nv = complex(sp.N(N, 40))
+    except TypeError:
+        raise Inconclusive("cannot evaluate an exponent difference")
+    if abs(Nv.imag) > 1e-30 or abs(Nv.real - round(Nv.real)) > 1e-30:
+        return False                        # non-integer difference: never logarithmic
+    Ni = int(round(Nv.real))
+    if sp.simplify(N - Ni) != 0:
+        return False
+    if Ni == 0:
+        return True                          # repeated exponent: always a log
+    a2 = sp.Rational(1, 2) - sp.Rational(Ni, 2)   # smaller exponent
+    coeffs = f + [0]*(Ni + 2)
+    a = [sp.Integer(1)]
+    for k in range(1, Ni + 1):
+        rhs = sum(coeffs[j]*a[k - j] for j in range(1, k + 1))
+        lhs = sp.simplify((a2 + k)*(a2 + k - 1) - r0)
+        if k < Ni:
+            a.append(sp.simplify(rhs/lhs))
+        else:
+            return sp.simplify(rhs) != 0      # consistency condition fails -> log
+    return False
+
+
+def _log_at(get_coeffs, m):
+    """get_coeffs(n) -> first n Laurent coefficients at the point; m = pole order (1 or 2).
+    Fetches exactly as many coefficients as the exponent difference N requires --
+    a fixed-length fetch would silently zero-pad for N > len and fabricate or hide a log."""
+    if m == 1:
+        return _frobenius_log(get_coeffs(1), 1)
+    f0 = get_coeffs(1)[0]
+    Nv = complex(sp.N(sp.sqrt(1 + 4*f0), 40))
+    need = max(2, int(round(abs(Nv.real))) + 2)
+    return _frobenius_log(get_coeffs(need), 2)
+
+
+def has_log_point(R):
+    z = R.z
+    for c, m in R.poles.items():
+        if m in (1, 2) and _log_at(lambda n, c=c: R.laurent_at(c, n), m):
+            return True, f"z = {c}"
+    oi = R.ord_inf
+    if oi in (2, 3):                         # infinity regular singular: order 4 - oi at w = 0
+        w = sp.Symbol("w_log")
+        rt = sp.cancel(sp.together(R.r.subs(z, 1/w)/w**4))
+        Rw = RationalR(rt, w)
+        m = Rw.poles.get(sp.Integer(0))
+        if m in (1, 2) and _log_at(lambda n: Rw.laurent_at(sp.Integer(0), n), m):
+            return True, "z = infinity"
+    return False, None
+
+
+# ----------------------------------------------------------------------------
 # the verdict
 # ----------------------------------------------------------------------------
-def kovacic(r, z):
+def kovacic(r, z, use_log_filter=True):
     R = RationalR(r, z)
     sols = kovacic_case1(R)
     if sols:
         return dict(case=1, solutions=sols, R=R)
+    if use_log_filter:
+        logp, where = has_log_point(R)
+        if logp:
+            return dict(case=4, R=R, note=f"cases 2 and 3 excluded: logarithmic point at {where}")
     c2 = kovacic_case2(R)
     if c2:
         return dict(case=2, data=c2, R=R)
@@ -450,12 +526,13 @@ def kovacic(r, z):
     return dict(case=4, R=R)
 
 
-def morales_ramis_verdict(r, z):
+def morales_ramis_verdict(r, z, use_log_filter=True):
     """-> (verdict, reason, kovacic_result_or_None). Exceptions -> INCONCLUSIVE."""
     try:
-        k = kovacic(r, z)
+        k = kovacic(r, z, use_log_filter=use_log_filter)
         if k["case"] == 4:
-            return OBSTRUCTION, "Kovacic case 4: no Liouvillian solution, G = SL(2)", k
+            return OBSTRUCTION, ("Kovacic case 4: no Liouvillian solution, G = SL(2)"
+                                 + (f" [{k['note']}]" if "note" in k else "")), k
         if k["case"] == 3:
             return NO_OBSTRUCTION, f"Kovacic case 3 ({k['data']['group']}): G finite", k
         if k["case"] == 2:

@@ -142,3 +142,36 @@ point (`r₁ = 2` for B1, `r₁ = 3` for B2) and solving for `μ²` makes the cu
 `(r − r₁) × quadratic`, with exact roots. **The values were chosen for exact
 computability, before any verdict, and no values were tried and discarded on the
 basis of an outcome.**
+
+---
+
+## AMENDMENT 2 — a declared pre-filter (2026-09-24), filed BEFORE any control result
+
+The first control run was **aborted after 10 minutes with no output**. No
+verdict or partial result had been printed, so nothing was seen. The cause:
+Kovacic's case 3 at `n = 12` over the six singular points of the ZV NVE is
+~13⁶ exponent families, thousands of which need degree-40+ polynomial searches.
+
+**Added — a mathematically rigorous pre-filter, not a change of criterion.** If a
+singular point has an integer exponent difference **and** the Frobenius
+recursion is inconsistent there (a logarithm), its local monodromy is a
+non-trivial unipotent element. A finite group (case 3) contains none, and neither
+does a subgroup of the diagonal/anti-diagonal group (case 2). **So a log point
+excludes cases 2 and 3.** If case 1 has also failed, `G = SL(2)`, i.e. case 4.
+arXiv:1302.4234 uses the same Frobenius argument.
+
+**Validated before use:**
+- **Verdicts are identical with and without the filter on all 18 calibration
+  entries** (`qsim/mr_calibration_logfilter.txt`).
+- **Detector unit tests** against equations with exact solutions
+  (`qsim/mr_logfilter_unittests.txt`). **No false log** at integer differences 2,
+  3 and 5 (`z^{3/2}, z^{−1/2}`; `z², z⁻¹`; `z³, z⁻²`), and logs found where they
+  exist (a repeated exponent, a simple pole, Bessel-0).
+- A bug caught before use: the first version fetched a fixed 6 Laurent
+  coefficients. For `N > 5` it would have zero-padded the recursion, and so
+  fabricated or hidden a log. It now fetches `N+1`, and the difference-5 unit test
+  exercises this.
+
+**Every `OBSTRUCTION` that rests on this filter says so in its reason string**
+("cases 2 and 3 excluded: logarithmic point at …"), so a reader can always see
+which argument carried the verdict.
