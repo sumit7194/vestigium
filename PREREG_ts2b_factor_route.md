@@ -117,3 +117,24 @@ announces ansatz's go, I stop at a row boundary and report.
 
 **ERRATUM (before any 2b computation).** "The same 8" target rows is a miscount carried over from the Stage-2
 outcome. The target is **6 rows**: T1, T2 and T3 at P1 and P2.
+
+---
+
+## OUTCOME OF VALIDATION, 2026-09-24. **2b as registered FAILS validation (V-pos).** The TS rows were not run.
+
+`qsim/mr_ts2b_validation.txt` and `mr_ts2b_run.json`; rows 0–18, all guarded, peak ≤ 89 MB.
+
+- **V-neg: PASS.** No OBSTRUCTION anywhere across the Stage-1 calibration NO_OBSTRUCTION cases, the two
+  algebraic-factor poisons (log found at x² − 2 and at x³ − 2, d = 0 survives, INCONCLUSIVE as expected), Kerr BL
+  B1 and B2, Kerr WP C2 and C3 (8 rows), and Schwarzschild A″ at μ = 2 and 3.
+- **V-mono: PASS.** Numeric-pole monodromy equals the default-path monodromy on every Hamiltonian row: SL2 on
+  ZV δ=2, and NO_OBSTRUCTION on Kerr and Schwarzschild.
+- **V-info.** P(0, 0, 1/3) gives OBSTRUCTION, consistent with Kimura. The Stage-1 OBSTRUCTION calibration
+  cases are out of scope or give no log point, so INCONCLUSIVE, as allowed.
+- **V-pos: FAIL.** ZV δ=2 at μ = 2 and 3, and C1: route **INCONCLUSIVE** on both forms. The log point is found
+  (x = 0, N = 2), but the case-1 **necessary** condition leaves `d ∈ {0, 1, 2, 3}` (ξ₂) and `{0, 1}` (ξ₁). Stage 1
+  excluded these only by the P-search, a step this route does not have.
+
+**Diagnosis: sound but underpowered.** The necessary condition alone does not exclude case 1 on the obstruction
+control. No rule change is made here. A strengthened route is proposed to the bridge as a post-failure amendment
+and needs its approval before it is registered.

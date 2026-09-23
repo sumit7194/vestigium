@@ -1,0 +1,2 @@
+[0.0s] r = y1''/y1, y1 = sqrt(x**2 - 2): route INCONCLUSIVE -- case-1 candidate degree(s) d = [0] survive
+[0.0s] r = y1''/y1, y1 = sqrt(x**3 - 2): route INCONCLUSIVE -- case-1 candidate degree(s) d = [0] survive

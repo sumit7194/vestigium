@@ -1,0 +1,6 @@
+[0.3s] r_xi2: route INCONCLUSIVE -- no logarithmic point: cases 2 and 3 are not excluded by this route
+[2.7s] r_xi2: numeric-pole monodromy NO_OBSTRUCTION (imprimitive (base point 1.4747+1.0979j))
+[5.1s] r_xi2: default monodromy NO_OBSTRUCTION
+[5.1s] r_xi1: route INCONCLUSIVE -- no logarithmic point: cases 2 and 3 are not excluded by this route
+[7.5s] r_xi1: numeric-pole monodromy NO_OBSTRUCTION (imprimitive (base point 1.4747+1.0979j))
+[9.9s] r_xi1: default monodromy NO_OBSTRUCTION

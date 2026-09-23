@@ -1,0 +1,6 @@
+[0.3s] r_xi2: route INCONCLUSIVE -- case-1 candidate degree(s) d = [0, 1, 2, 3] survive
+[5.0s] r_xi2: numeric-pole monodromy OBSTRUCTION (SL2 (base point 0.0946+3.8167j))
+[9.7s] r_xi2: default monodromy OBSTRUCTION
+[9.8s] r_xi1: route INCONCLUSIVE -- case-1 candidate degree(s) d = [0, 1] survive
+[14.4s] r_xi1: numeric-pole monodromy OBSTRUCTION (SL2 (base point 0.0946+3.8167j))
+[19.2s] r_xi1: default monodromy OBSTRUCTION
