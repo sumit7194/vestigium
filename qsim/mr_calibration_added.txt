@@ -1,0 +1,8 @@
+Declared additions (after 59c4ae3, before any control), both routes:
+PASS  Fuchsian full Borel  Kovacic OBSTRUCTION case 1 | monodromy AGREE: reducible-full-Borel
+PASS  Abbasi case-1 ex1    Kovacic NO_OBSTRUCTION case 1 | monodromy n/a (not Fuchsian)
+PASS  Abbasi case-1 ex2    Kovacic OBSTRUCTION case 1 | monodromy n/a; verdict confirmed BY HAND (Ei quadrature)
+PASS  Abbasi case-2 ex1    Kovacic NO_OBSTRUCTION case 2 | monodromy n/a
+PASS* Abbasi case-3 ex1    Kovacic NO_OBSTRUCTION case 1 | monodromy AGREE: reducible-finite-characters
+      * published label "case 3" is wrong for the algorithm's outcome: y = z^3 solves the ODE exactly,
+        so the group is reducible and Kovacic stops at case 1. Expectation corrected, visibly.

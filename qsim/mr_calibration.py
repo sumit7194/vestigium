@@ -39,6 +39,30 @@ CASES = [
     ("sin z", sp.sin(z), K.INCONCLUSIVE, None, "not rational: must be refused"),
 ]
 
+# --- DECLARED ADDITIONS, added after the pre-registration (59c4ae3), before any control ---
+_w = sp.sqrt(2)/z + R_(1, 2)/(z - 1)
+ADDED = [
+    # a FUCHSIAN full-Borel case, so the monodromy route's "reducible-full-Borel"
+    # branch is exercised on a true positive (Weber is not Fuchsian). y1 = z^sqrt2 (z-1)^(1/2)
+    # is transcendental; y2/y1 = int z^(-2 sqrt 2)(z-1)^(-1): incomplete beta, not of the form
+    # y1^-2 * rational -> additive part non-trivial -> full Borel G0.
+    ("Fuchsian full Borel", sp.simplify(sp.diff(_w, z) + _w**2), K.OBSTRUCTION, 1,
+     "irrational exponent + non-elementary quadrature"),
+    # Abbasi, arXiv:2211.00804, Sec. 3 worked examples, with the Kovacic case HE reports
+    ("Abbasi case-1 ex1", (4*z**2 + 8*z + 6)/(2*z + 1)**2, None, 1, "published: case 1"),
+    # published: case 1 (group not stated). Verdict checked BY HAND: y1 = sqrt(z(z-1)) e^{-2/(z-1)}
+    # is transcendental; with u = 1/(z-1) the quadrature is int e^{4u}/(u+1) du = e^{-4} Ei(4(u+1)),
+    # non-elementary -> additive part non-trivial -> full Borel -> OBSTRUCTION.
+    ("Abbasi case-1 ex2", (7*z**2 + 10*z - 1)/(4*z**2*(z - 1)**4), K.OBSTRUCTION, 1, "published: case 1; Ei quadrature"),
+    ("Abbasi case-2 ex1", (-3 - 8*z)/(16*z**2), K.NO_OBSTRUCTION, 2, "published: case 2"),
+    # EXPECTATION CORRECTED 2026-09-24: Abbasi labels this "case 3", but y = z^3 solves his ODE
+    # (1-z)z^2 y'' + (5z-4)z y' + (6-9z) y = 0 EXACTLY (verified), so the group is reducible and
+    # Kovacic's algorithm terminates in case 1 before case 3 is reached. His section illustrates the
+    # case-3 procedure on an equation case 1 already settles. Monodromy independently: reducible.
+    # The verdict (NO_OBSTRUCTION) is the same either way; the tool was right, the copied label was not.
+    ("Abbasi case-3 ex1", (4 - z)/(4*z*(z - 1)**2), K.NO_OBSTRUCTION, 1, "reducible: y = z^3 (label corrected)"),
+]
+
 
 def run(verbose=True):
     results = []
