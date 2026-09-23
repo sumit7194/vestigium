@@ -322,3 +322,22 @@ uncorroborated; post-failure.
 
 A further repair would need a new, separately approved step, for example curved loops, or a relaxed clearance
 with the det check as the accuracy gate. It is not done here.
+
+### RECEIVED, 2026-09-24: independent corroboration from the bridge (V8′). **Reported to me, not re-run by me.**
+
+The bridge reports that its own derivation of the equatorial NVE from ansatz's metric
+(`TheBridge falsification/V8_ts2_obstruction_check`, 30a8476), sharing no code with this tool, reproduces the
+ξ₁ structure on all 6 TS rows:
+- x = 0 has b = 3/4, N = 2, and a non-zero log term;
+- the ring quartic and the turning-point sextic have b = −3/16 at every root, checked exactly;
+- ∞ has order 4;
+- Σα_min = 2 > 1, so there are zero case-1 candidates, and the result is OBSTRUCTION.
+
+The bridge's controls: ZV gives OBSTRUCTION (via the case-1 solve); Kerr has no log point; two poisons give NOT
+OBSTRUCTION. Vacuum was re-checked exactly at fresh points. The bridge discloses that its run is also
+post-failure, that its first pass had a symbol-parsing bug, and that the check is AI-on-AI and non-blind.
+
+**Grade here:** route OBSTRUCTION on both forms at all 6 rows; post-failure; this tool's monodromy
+uncorroborated; **ξ₁ result independently reproduced (bridge V8′, per its report)**. The bridge closed the
+curved-loop and relaxed-clearance repair; it is not done. Per the bridge, the TS result is not shared with
+other sessions while tabula's run is pending.
