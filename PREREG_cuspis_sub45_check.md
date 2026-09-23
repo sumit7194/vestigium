@@ -572,3 +572,34 @@ failed value and cuspis; be filed before any sub-45° number exists; **replace t
 reference, never widen the tolerance**; declare any replacement that cuspis also
 used (HHCWM16's exact series) as SHARED INPUT; and label every downstream result
 *"passed under an amendment adopted after a documented control failure"*.
+
+## OUTCOME — hypothesis R, 2026-09-23. **R REJECTED as registered.**
+
+Coefficient pass: 2136 nodes, none missing; coarse vs fine agree to
+2.7e-9 (`c₂`) … 3.2e-6 (`c₁₆`). Artifact: `qsim/chl_coeffs_run.json`.
+
+| test | result | criterion | |
+|---|---|---|---|
+| **R-a** | `2·S₈ = 0.02366659` | in `[0.023665, 0.023675)`, and `≤ 2·full = 0.02366685` | **pass** |
+| **R-b** | my `c₈ = 2.70080308e-6` vs CHL `5.40167e-6/2`: rel **`1.18e-5`** | `≤ 2e-6` | **FAIL** |
+| R-c (weak) | `2·S₆ = 0.02366271` rounds to `0.02366` | some `K ≤ 7` | holds, but K is a free parameter |
+
+Partial sums (complex normalisation), for the record: order 8 `0.02360037`,
+10 `0.02365028`, 12 `0.02366271`, 14 `0.02366582`, 16 `0.02366659`, full
+`0.02366685`.
+
+**Registered rule: "R-a or R-b failing → R is rejected, and the discrepancy is
+unexplained." R-b failed. So the 90° discrepancy is formally UNEXPLAINED, and
+control 1 remains FAILED.**
+
+**The fragility of R-b, stated against myself.** R-b's tolerance assumed CHL's
+`c₈` is exact to its printed digits — the same assumption that failed control 1.
+At `b388f70`, filed while R was running, I had already shown that CHL's `c₂`
+violates it (`3.8e-6`). I did not revise R-b then, and I do not revise it now:
+revising a criterion because I foresee it failing is the same move as revising
+it after it has failed. The failure stands.
+
+What R-a does establish, narrowly: **my Taylor coefficients, truncated at the
+order Helmes et al. state, reproduce Helmes et al.'s published sum at its printed
+precision.** That is a statement about my coefficients against a SHARED published
+value. It is not a statement about how CHL computed `0.02366`.
