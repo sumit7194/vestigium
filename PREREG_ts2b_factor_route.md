@@ -277,3 +277,32 @@ The grade carries these caveats:
   tested parameters only, and the supplied metric, whose vacuum property was checked pointwise by
   Schwartz–Zippel;
 - it does **not** say how much chaos there is, or anything observable.
+
+---
+
+## POST-HOC CORROBORATION: monodromy base-point repair (2026-09-24). Approved by the bridge; filed before the code.
+
+**The committed verdict and grade (ce2cab8) are unchanged by this section unless the repaired route
+DISAGREES.** A disagreement is reported immediately as a **CONFLICT**, not a correction.
+
+**Diagnosis.** The TS singular points include complex-conjugate pairs with equal real parts: 19 points (ξ₂),
+minimum separation 0.107; 11 points (ξ₁), minimum separation 0.692. The Stage-1 search samples 200 base points
+only in `Im ∈ (0.3, span)`, among the poles, and takes the first clear star. Clear stars are rare there.
+
+**Repair.** A declared additive option `base_search="wide"` in `monodromy_generators`; the default stays Stage-1.
+- It samples 5000 seeded candidates uniformly in `|Re|, |Im| ≤ 3·span`, over both half-planes.
+- It keeps those that pass the **unchanged** Stage-1 clearance criteria.
+- It uses the one with the **largest** minimum clearance ratio.
+- Integration tolerances, ρ, the det check and the classifier are all unchanged.
+- Loops from one base point along non-crossing straight segments still generate π₁, so the generators are valid.
+
+**Validation first.** The repaired search must reproduce the recorded monodromy verdicts on ZV δ=2 A (μ = 2)
+and C1 (SL2), and on Kerr B1 and C3 at P1 and P2 (1, 0, 4) (NO_OBSTRUCTION), both forms. Otherwise it is not
+used.
+
+**Grading of the 6 TS rows.**
+- **SL2 on both forms:** "route OBSTRUCTION, monodromy corroborated **post hoc**".
+- **Any NO_OBSTRUCTION:** CONFLICT, reported at once.
+- **A failure:** the grade stays "uncorroborated".
+
+The same guard applies (≤ 1 GB, ≤ 30 min per row), and the work finishes before the job-2 go.
