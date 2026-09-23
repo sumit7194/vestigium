@@ -108,3 +108,37 @@ Passing Stage 1 shows the tool **reproduces two textbook-class answers and a cal
 ## Environment and provenance
 
 Built in the repo's own `sims/.venv` (sympy 1.14.0, mpmath 1.3.0); **no download**. The implementation follows Kovacic, J. Symbolic Comput. 2 (1986) 3–43, and published expositions. Pointers the bridge relayed (arXiv:2211.00804, 2309.04449, Morales-Ruiz–Ramis–Simó 2007) are **verified before being relied on**. No fleet code is used; ansatz's code in particular is not consulted.
+
+---
+
+## AMENDMENT 1 — particular solutions fixed (2026-09-24), filed BEFORE any control has run
+
+**No Hamiltonian control has been run at the time of filing.** Calibration status
+at this point: the Kovacic half passes 13/13 (`qsim/mr_calibration_kovacic.txt`).
+The cross-route half (Kimura, monodromy) is **not yet done**, so Stage 1 has not
+passed.
+
+**The NVE derivation is validated before any verdict.** `qsim/mr_nve.py`, derived
+here from the metric, reproduces arXiv:1302.4234 eqs. (16)–(17) **exactly**
+(symbolic difference 0 for general `p₀, μ`), using their variable `ξ₂ = δp_y`. My
+derivation and the paper's printed NVE agree on a 21-term polynomial, which
+checks both the derivation and the transcription of the paper.
+
+Each control is run on **both** NVE forms (`ξ₂ = δp_y` and `ξ₁ = δy`). They
+describe the same system, so they must give the same verdict; a disagreement fails
+the control.
+
+| control | metric | particular solution | parameters |
+|---|---|---|---|
+| **A** | Zipoy–Voorhees `δ = 2`, `m = 1` | the paper's: `y = 0, p_y = 0, p_φ = 0` (equatorial straight line through the centre) | `p₀ = E = 1`; **`μ = 2` and `μ = 3`**, both generic. They avoid the paper's special values `μ ∈ {0, ±1, ±√5}`, where the generic argument doesn't apply. |
+| **A′** | Zipoy–Voorhees `δ = 1` (Schwarzschild) | the same | the same `μ = 2, 3` |
+| **B1** | Kerr, `M = 1`, `a = 3/5` | equatorial `u = cos θ = 0, p_u = 0`, **`L = 0`** | `E = 3`, `μ² = 118` |
+| **B2** | Kerr, the same | equatorial, **`L = 2`** | `E = 1`, `μ² = 125/63` |
+
+**Why these Kerr numbers.** Kovacic needs every pole exactly computable.
+`a = 3/5` makes the horizons rational (`r± = 9/5, 1/5`). The equatorial radial
+potential is `r × cubic` and is **linear in `μ²`**, so choosing a rational turning
+point (`r₁ = 2` for B1, `r₁ = 3` for B2) and solving for `μ²` makes the cubic
+`(r − r₁) × quadratic`, with exact roots. **The values were chosen for exact
+computability, before any verdict, and no values were tried and discarded on the
+basis of an outcome.**
