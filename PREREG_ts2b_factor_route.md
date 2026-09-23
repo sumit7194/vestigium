@@ -52,6 +52,13 @@ optional `poles=` argument. When it is given, the finite singular points come fr
 of each factor (`nroots`, 30 digits) instead of `RationalR`. The default path is byte-for-byte unchanged.
 Everything else is the Stage-1 classifier.
 
+## Setup correspondence
+
+This runs at exactly the Stage-2 condition: the same supplied metric, P1 and P2, σ = 1, the same (E, L, μ²),
+and the same equatorial Γ, through the same loader and NVE. An OBSTRUCTION here supports exactly the Stage-2
+claim, with exactly its gaps (see `PREREG_ts2_morales_ramis.md` § Setup correspondence), and nothing wider. The
+only change is *how* G⁰ is decided: root-free necessary conditions instead of explicit-pole Kovacic.
+
 ## Validation, run first, all guarded; the order is fixed
 
 **V-neg: must never be OBSTRUCTION** (a false OBSTRUCTION here voids 2b).
