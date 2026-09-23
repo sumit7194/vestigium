@@ -51,6 +51,25 @@ is the ring (1.1368… at p = 3/5, 1.0574… at p = 4/5, per the manifest).
 - If the ring pole has order > 2, the NVE is not Fuchsian there. The monodromy route then returns
   NOT_APPLICABLE, and the row rests on the Kovacic route alone. The report flags such a row as **single-route**.
 
+## Setup correspondence: is the run testing the claim it will be quoted for?
+
+**The claim an OBSTRUCTION would be quoted for.** "The TS δ=2 geodesic flow has no Carter-like fourth integral."
+
+**The condition actually tested.** "At (p, q) = P, σ = 1, and the stated (E, L, μ²), there is no first integral
+of `H_{E,L}` that is meromorphic in a neighbourhood of the equatorial phase curve Γ." That condition runs on the
+**supplied** rational metric (vacuum checked pointwise, not symbolically).
+
+The two match only up to these gaps, which every report carries:
+- **Meromorphic only.** Rational and polynomial-in-momenta integrals are covered; others are not.
+- **Neighbourhood of Γ.** This is the complex continuation, so it excludes integrals that exist only on a real
+  subdomain outside the ring.
+- **Parameter points.** The result holds at the two P values and the tested levels. It is not a statement for
+  all q, and special values are not excluded.
+- **The supplied metric.** The result is about the metric as supplied, with the Schwartz–Zippel caveat above.
+
+The Kerr controls test the tool's soundness on this pipeline. They do not re-establish Kerr's integrability,
+which is known (Carter 1968).
+
 ## Rows (registered; nothing else is run on the target)
 
 The target is TS δ=2 at `P1 = (p, q) = (3/5, 4/5)` (file t1o2) and `P2 = (4/5, 3/5)` (file t1o3), with σ = 1.
