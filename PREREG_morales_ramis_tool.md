@@ -197,3 +197,42 @@ analytic argument**. The `ξ₂` elimination divides by `B` and is undefined.
   `NO_OBSTRUCTION`, at `μ = 2, 3`, `E = 1`.
 - The trust order now requires A′ **and** A″ before A counts.
 - **A's own verdict is unaffected**; the rerun must reproduce it identically.
+
+---
+
+## AMENDMENT 4 (2026-09-24) — resource incident, watchdog, and a radical-free certificate search
+
+**State at filing:** A passed. A′ passed (degenerate: analytic argument, plus
+Kovacic on the `ξ₁` form). **No A″, B1 or B2 result has been produced.**
+
+**Incident, mine.** The controls process ran over an hour on A″ and reached a
+**10 GB footprint** on the shared machine, with swap at 3.1/4.1 GB. It had no
+watchdog. RSS read only 0.8 GB, because most of the footprint was compressed or
+swapped, so RSS is not a usable signal. The bridge flagged it and I killed it.
+Cause: A″'s NVE has order-2 poles at the three roots of the irreducible cubic
+`3x³ + x² − 6x − 6` (Galois group `S₃`). sympy wrote them as nested Cardano
+radicals, and the Laurent and linear algebra over those radicals swelled.
+
+**Fixes (algorithmic; A″'s definition and expected outcome are unchanged, per the
+bridge):**
+1. **Watchdog** (`qsim/mr_watchdog.py`): every control runs in its own child
+   process. The parent polls the **physical footprint** (macOS `footprint`) and
+   kills the child above 4 GB or after 30 minutes. **Box guards:** it also kills if
+   free swap < 512 MB or free disk < 5 GB. A killed control is recorded as
+   `INCONCLUSIVE (resource limit)`, never as a verdict.
+2. **A Galois-symmetric case-2 certificate search over ℚ**, with no radicals: one
+   exponent per irreducible factor, so `θ` is rational. **Whatever it finds is
+   checked by an exact rational identity that is a proof on its own:** for rational
+   `φ`, with `Δ = 4r − φ² − 2φ′`, the conditions `Δ′ + 2φΔ ≡ 0` and `Δ ≢ 0` make
+   `(φ ± √Δ)/2` two distinct Riccati solutions, which puts `G⁰` in a torus. **If the
+   search finds nothing, the full search still runs, guarded**, and a failure there is
+   `INCONCLUSIVE`, never an obstruction by default.
+   - Validated: the calibration still passes 18/18, and both known case-2 equations
+     are now found through this path and certified.
+   - Poison test: the identity **rejects** `φ + 1/z`, `φ + 1/7` and `φ + 1/(z−3)`
+     on both.
+3. **Physics expectation, recorded before the run:** Schwarzschild with `L ≠ 0` is
+   spherically symmetric, so the out-of-plane perturbations are `∝ e^{±iφ(x)}`.
+   Their logarithmic derivatives are algebraic of degree 2 (through `ẋ = √rational`),
+   so **A″ should come out as Kovacic case 2.** This is an expectation, not a
+   criterion; the criterion is still `NO_OBSTRUCTION`.

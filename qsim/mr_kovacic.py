@@ -319,6 +319,106 @@ def _is_int(v):
 
 
 # ----------------------------------------------------------------------------
+# Galois-symmetric case-2 CERTIFICATE search, entirely over Q (no radicals)
+# ----------------------------------------------------------------------------
+# DECLARED ADDITION (2026-09-24, amendment 4). Poles at roots of an irreducible
+# factor of degree > 1 were handled through explicit radicals (Cardano for a cubic),
+# whose nested arithmetic swelled one control run to a 10 GB footprint.
+#
+# This search takes ONE exponent e_f per irreducible factor g_f of the denominator,
+# so theta = sum_f (e_f/2) g_f'/g_f is a RATIONAL function over Q and every step
+# runs in Q. It is a CERTIFICATE search, not a replacement: whatever it finds is
+# verified by an exact rational identity that is a proof on its own --
+#     phi rational, Delta = 4r - phi^2 - 2 phi',  Delta' + 2 phi Delta == 0,  Delta != 0
+#   => (phi +- sqrt Delta)/2 are two DISTINCT solutions of w' + w^2 = r
+#   => G preserves the pair of lines they span => G0 lies in a torus => abelian.
+# If it finds nothing, the full (radical) search still runs, guarded; a failure
+# there is INCONCLUSIVE, never an obstruction by default.
+
+def _local_b_at_factor(R, g):
+    """b = lim (z - c)^2 r at a root c of the irreducible monic factor g (order-2 pole),
+    as an element of Q(c) = Q[a]/(g(a)). Returns the rational value if b is rational,
+    else None."""
+    z = R.z
+    a = sp.Symbol("a_fac")
+    t = R.t.as_expr()
+    gp = sp.Poly(g, z)
+    rest = sp.cancel(t/g**2)
+    num = sp.Poly(R.s.as_expr().subs(z, a), a)
+    den = sp.Poly((rest*sp.diff(g, z)**2).subs(z, a), a)
+    ga = sp.Poly(g.subs(z, a), a)
+    inv = sp.invert(den.rem(ga).as_expr(), ga.as_expr(), a)
+    b = sp.Poly(sp.expand(num.as_expr()*inv), a).rem(ga)
+    cs = b.all_coeffs()
+    if all(sp.simplify(c) == 0 for c in cs[:-1]):
+        return sp.nsimplify(cs[-1])
+    return None
+
+
+def case2_certificate_check(phi, r, z):
+    """The exact rational identity above. Returns True iff it proves G0 abelian."""
+    Delta = sp.together(4*r - phi**2 - 2*sp.diff(phi, z))
+    if sp.simplify(Delta) == 0:
+        return False
+    return sp.simplify(sp.together(sp.diff(Delta, z) + 2*phi*Delta)) == 0
+
+
+def kovacic_case2_symmetric(R):
+    z = R.z
+    if R.zero:
+        return None
+    t_monic = sp.Poly(R.t.as_expr(), z)
+    facs = sp.factor_list(t_monic)[1]
+    E = []
+    for g, m in facs:
+        g = sp.Poly(g, z).monic().as_expr()
+        if m == 1:
+            E.append((g, 1, [4]))
+        elif m == 2:
+            b = (R.laurent_at(sp.roots(sp.Poly(g, z), z).popitem()[0], 1)[0]
+                 if sp.Poly(g, z).degree() == 1 else _local_b_at_factor(R, g))
+            if b is None:
+                E.append((g, 2, [2]))               # 1+4b irrational: only k = 0 survives
+            else:
+                rt = sp.sqrt(1 + 4*b)
+                E.append((g, 2, sorted(set(int(sp.simplify(v)) for v in (2, 2 + 2*rt, 2 - 2*rt) if _is_int(v)))))
+        else:
+            E.append((g, m, [m]))
+    if not any(m == 2 or (m > 2 and m % 2 == 1) for _, m, _ in E):
+        return None
+    oi = R.ord_inf
+    if oi > 2:
+        Einf = [0, 2, 4]
+    elif oi == 2:
+        b = R.laurent_at_inf(1)[0]
+        rt = sp.sqrt(1 + 4*b)
+        Einf = sorted(set(int(sp.simplify(v)) for v in (2, 2 + 2*rt, 2 - 2*rt) if _is_int(v)))
+    else:
+        Einf = [oi]
+    r = R.r
+    for combo in itertools.product(*[e for _, _, e in E], Einf):
+        ef, einf = combo[:-1], combo[-1]
+        if all(v % 2 == 0 for v in combo):
+            continue
+        tot = sum(sp.Poly(g, z).degree()*e for (g, _, _), e in zip(E, ef))
+        dd = sp.Rational(einf - tot, 2)
+        if dd < 0 or dd != int(dd):
+            continue
+        d = int(dd)
+        theta = sp.together(sum(sp.Rational(e, 2)*sp.diff(g, z)/g for (g, _, _), e in zip(E, ef)))
+        eq = lambda P, th=theta: (sp.diff(P, z, 3) + 3*th*sp.diff(P, z, 2)
+                                  + (3*th**2 + 3*sp.diff(th, z) - 4*r)*sp.diff(P, z)
+                                  + (sp.diff(th, z, 2) + 3*th*sp.diff(th, z) + th**3
+                                     - 4*r*th - 2*sp.diff(r, z))*P)
+        P = _monic_poly_solution(eq, d, z)
+        if P is not None:
+            phi = sp.together(theta + sp.diff(P, z)/P)
+            if case2_certificate_check(phi, r, z):
+                return dict(theta=theta, P=P, d=d, phi=phi, certified=True)
+    return None
+
+
+# ----------------------------------------------------------------------------
 # Kovacic case 3
 # ----------------------------------------------------------------------------
 def kovacic_case3(R):
@@ -517,6 +617,9 @@ def kovacic(r, z, use_log_filter=True):
         logp, where = has_log_point(R)
         if logp:
             return dict(case=4, R=R, note=f"cases 2 and 3 excluded: logarithmic point at {where}")
+    c2s = kovacic_case2_symmetric(R)
+    if c2s:
+        return dict(case=2, data=c2s, R=R, note="Galois-symmetric certificate, verified by an exact identity")
     c2 = kovacic_case2(R)
     if c2:
         return dict(case=2, data=c2, R=R)
@@ -536,7 +639,11 @@ def morales_ramis_verdict(r, z, use_log_filter=True):
         if k["case"] == 3:
             return NO_OBSTRUCTION, f"Kovacic case 3 ({k['data']['group']}): G finite", k
         if k["case"] == 2:
-            return NO_OBSTRUCTION, "Kovacic case 2: imprimitive, G0 in a torus", k
+            phi = k["data"].get("phi")
+            if phi is not None and not case2_certificate_check(phi, k["R"].r, z):
+                return INCONCLUSIVE, "case-2 solution found but its certificate identity FAILS", k
+            return NO_OBSTRUCTION, ("Kovacic case 2: imprimitive, G0 in a torus"
+                                    + (f" [{k['note']}]" if "note" in k else "")), k
         # case 1
         sols = k["solutions"]
         if len(sols) >= 2:

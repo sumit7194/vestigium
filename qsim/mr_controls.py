@@ -90,5 +90,85 @@ def run():
     return out, verdict
 
 
+def run_one(i, outpath):
+    """Run control i alone (used as a guarded child process)."""
+    global CONTROLS
+    keep = CONTROLS
+    CONTROLS = [keep[i]]
+    rows, _ = run_rows_only()
+    json.dump(rows[0], open(outpath, "w"), indent=1, default=str)
+
+
+def run_rows_only():
+    out = []
+    for tag, name, build, var, expected in CONTROLS:
+        t0 = time.time()
+        nve = build()
+        row = dict(control=tag, name=name, expected=expected, forms={})
+        for form in ("r_xi2", "r_xi1"):
+            rr = nve[form]
+            if rr is None:
+                row["forms"][form] = dict(verdict=K.NO_OBSTRUCTION, case="analytic",
+                    reason="DEGENERATE NVE, B == 0: decoupled, G0 in the additive group "
+                           "(analytic argument, NOT a Kovacic verdict)",
+                    monodromy="NOT_APPLICABLE")
+                continue
+            v, reason, k = K.morales_ramis_verdict(rr, var)
+            mv, mwhy, minfo = MO.monodromy_verdict(rr, var)
+            row["forms"][form] = dict(verdict=v, case=(k["case"] if k else None), reason=reason,
+                                      monodromy=mv, monodromy_why=mwhy,
+                                      monodromy_det_err=(minfo or {}).get("det_err"))
+        row["seconds"] = round(time.time() - t0, 1)
+        out.append(row)
+    return out, None
+
+
+def run_guarded_all(mem_limit_mb=4096, time_limit_s=1800):
+    """Every control in its own child process under the footprint watchdog.
+    A killed child is recorded as INCONCLUSIVE (resource limit) -- never a verdict."""
+    import mr_watchdog as W
+    py = sys.executable
+    rows = []
+    for i, (tag, name, build, var, expected) in enumerate(CONTROLS):
+        outp = os.path.join(HERE, f"mr_controls_row_{i}.json")
+        if os.path.exists(outp):
+            os.remove(outp)
+        g = W.run_guarded([py, "-u", os.path.abspath(__file__), "--one", str(i), outp],
+                          mem_limit_mb=mem_limit_mb, time_limit_s=time_limit_s, cwd=HERE,
+                          log=os.path.join(HERE, f"mr_controls_row_{i}.log"))
+        if g["status"] == "ok" and os.path.exists(outp):
+            row = json.load(open(outp))
+        else:
+            row = dict(control=tag, name=name, expected=expected,
+                       forms={f: dict(verdict=K.INCONCLUSIVE, case=None,
+                                      reason=f"resource limit: {g['status']}", monodromy="NOT_RUN")
+                              for f in ("r_xi2", "r_xi1")})
+        row["guard"] = g
+        vs = {f["verdict"] for f in row["forms"].values()}
+        mono = [f["monodromy"] for f in row["forms"].values() if f["monodromy"] not in ("NOT_APPLICABLE", "NOT_RUN")]
+        row["forms_agree"] = len(vs) == 1
+        row["verdict"] = row["forms"]["r_xi2"]["verdict"]
+        row["monodromy_agree"] = all(m == row["verdict"] for m in mono)
+        row["ok"] = row["forms_agree"] and row["monodromy_agree"] and row["verdict"] == expected
+        rows.append(row)
+        print(f"{tag:<4} {name:<30} -> {row['verdict']:<15} "
+              f"(cases {[f.get('case') for f in row['forms'].values()]}; forms agree {row['forms_agree']}; "
+              f"monodromy {[f['monodromy'] for f in row['forms'].values()]}) expected {expected}: "
+              f"{'PASS' if row['ok'] else 'FAIL'}   [guard {g['status']}, peak {g['peak_mb']} MB, {g['seconds']} s]",
+              flush=True)
+    ok = lambda t: all(rw["ok"] for rw in rows if rw["control"] == t)
+    verdict = dict(A_prime=ok("A'") and ok("A''"), A=ok("A") and ok("A'") and ok("A''"),
+                   B=ok("B1") and ok("B2") and ok("A"),
+                   no_inconclusive=all(rw["verdict"] != K.INCONCLUSIVE for rw in rows))
+    verdict["STAGE1_CONTROLS_PASS"] = all(verdict.values())
+    print("\nTRUST-ORDERED:", verdict, flush=True)
+    json.dump(dict(rows=rows, verdict=verdict), open(os.path.join(HERE, "mr_controls_run.json"), "w"),
+              indent=1, default=str)
+    return rows, verdict
+
+
 if __name__ == "__main__":
-    run()
+    if len(sys.argv) >= 4 and sys.argv[1] == "--one":
+        run_one(int(sys.argv[2]), sys.argv[3])
+    else:
+        run_guarded_all()
