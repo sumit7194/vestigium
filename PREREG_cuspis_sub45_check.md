@@ -522,3 +522,53 @@ R-a or R-b failing → R is rejected, and the discrepancy is unexplained.
 **Even if R holds, control 1 stays FAILED under this registration.** Whether any
 sub-45° work proceeds under an openly labelled amendment is a decision for the
 user, not for me.
+
+## Refinements to R, filed while R is running and BEFORE it reports (2026-09-23)
+
+From the bridge, adopted:
+
+1. **Wording.** Where I wrote that my value "agrees with Helmes": a lower bound
+   is *satisfied*, not agreed with. Mine (`0.0236669`, complex normalisation)
+   **satisfies** Helmes's order-16 lower bound `0.02367`.
+2. **The Helmes-vs-CHL inconsistency is on a rounding boundary.** The intervals
+   of `0.02367` and `0.02366` meet at `0.023665`; the two published values may
+   differ by only ~1e-5 relative. It **supports**, it cannot **carry**.
+3. **R as registered cannot separate two stories**: (i) CHL's `s(π/2)` is a
+   truncated Taylor sum; (ii) CHL truncated digits instead of rounding. Both put
+   the printed value within one unit and outside half a unit. **R-a tests my
+   coefficients against Helmes's published sum; it says nothing about CHL's
+   procedure.** So R passing would explain less than it appears to.
+
+A discriminator from **published numbers only** (neither my failed value nor
+cuspis):
+- **CHL's table rounds.** Exact complex `c₄ = 5.4540187e-4` rounds to `5.45402`
+  (CHL's print); truncation would give `5.45401`. One data point, against story (ii).
+- **CHL's table carries numerical error beyond rounding.** CHL prints
+  `c₂ = 7.81253e-3`; exact is `7.81250e-3` — three units in the sixth figure,
+  `3.8e-6` relative. Their tabulated values are not exact to the printed digits.
+
+And from the arithmetic alone (bridge): one unit in CHL's last digit at 90° is
+`1e-5/0.02366 = 4.2e-4` relative; the gap is `2.89e-4` = **0.68 units**. The
+registered tolerance (`2.1e-4`, half a unit) assumed correct rounding of an exact
+value. The table demonstrably carries error at that level (`c₂` above). **The most
+probable reading is a tolerance that demanded more of the reference than it
+delivers — but that is a reading, and control 1 stays FAILED.**
+
+## Exposure received and NOT used
+
+The bridge relayed that cuspis's `report.md` (f9882d9, 2026-09-05) records the
+same `+2.9e-4` against CHL09 at 90° and attributes it to CHL09's last digit. It
+postdates my 09-04 snapshot, so I did not hold it. **It is the audited party's
+instrument agreeing with mine** — the strongest corroboration available and
+exactly the kind this check exists to exclude. It is recorded so that it cannot
+surface later as a surprise, and it is **excluded from any justification**, as
+the eq (22) figure was.
+
+## Conditions under which an amendment would be worth anything (bridge, adopted)
+
+Any amendment is the user's decision. If one is made, it must: keep this FAILED
+verdict on the record; draw its justification from evidence independent of both my
+failed value and cuspis; be filed before any sub-45° number exists; **replace the
+reference, never widen the tolerance**; declare any replacement that cuspis also
+used (HHCWM16's exact series) as SHARED INPUT; and label every downstream result
+*"passed under an amendment adopted after a documented control failure"*.
