@@ -1,0 +1,7 @@
+20 TARGET  T1: TS2 P1 (1,0,4)                                   => OBSTRUCTION (route), monodromy uncorroborated ['FAILED', 'FAILED']   [r_xi2: OBSTRUCTION/mono FAILED; r_xi1: OBSTRUCTION/mono FAILED]   [guard ok, peak 113.0 MB, 18.7 s]
+21 TARGET  T1: TS2 P2 (1,0,4)                                   => OBSTRUCTION (route), monodromy uncorroborated ['FAILED', 'FAILED']   [r_xi2: OBSTRUCTION/mono FAILED; r_xi1: OBSTRUCTION/mono FAILED]   [guard ok, peak 112.0 MB, 20.8 s]
+22 TARGET  T2: TS2 P1 (1,0,9)                                   => OBSTRUCTION (route), monodromy uncorroborated ['FAILED', 'FAILED']   [r_xi2: OBSTRUCTION/mono FAILED; r_xi1: OBSTRUCTION/mono FAILED]   [guard ok, peak 113.0 MB, 20.8 s]
+23 TARGET  T2: TS2 P2 (1,0,9)                                   => OBSTRUCTION (route), monodromy uncorroborated ['FAILED', 'FAILED']   [r_xi2: OBSTRUCTION/mono FAILED; r_xi1: OBSTRUCTION/mono FAILED]   [guard ok, peak 111.0 MB, 19.8 s]
+24 TARGET  T3: TS2 P1 (1,1,4)                                   => OBSTRUCTION (route), monodromy uncorroborated ['FAILED', 'FAILED']   [r_xi2: OBSTRUCTION/mono FAILED; r_xi1: OBSTRUCTION/mono FAILED]   [guard ok, peak 113.0 MB, 18.7 s]
+25 TARGET  T3: TS2 P2 (1,1,4)                                   => OBSTRUCTION (route), monodromy uncorroborated ['FAILED', 'FAILED']   [r_xi2: OBSTRUCTION/mono FAILED; r_xi1: OBSTRUCTION/mono FAILED]   [guard ok, peak 112.0 MB, 18.7 s]
+EXIT 0

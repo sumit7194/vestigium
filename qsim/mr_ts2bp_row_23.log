@@ -1,0 +1,4 @@
+[18.5s] r_xi2: route OBSTRUCTION -- log point excludes cases 2, 3; all 7 symmetric case-1 candidates (d in Z>=0) have NO monic P over Q (uniqueness lemma): case 1 impossible, G = SL(2)
+[18.6s] r_xi2: numeric-pole monodromy FAILED (RuntimeError: no clean base point found)
+[18.7s] r_xi1: route OBSTRUCTION -- log point excludes cases 2, 3; all 0 symmetric case-1 candidates (d in Z>=0) have NO monic P over Q (uniqueness lemma): case 1 impossible, G = SL(2)
+[18.7s] r_xi1: numeric-pole monodromy FAILED (RuntimeError: no clean base point found)

@@ -224,3 +224,56 @@ The same applies at ∞, which is a rational point: an irrational `α∞` simply
 - **V-mono: PASS.** Numeric-pole monodromy equals default monodromy on every Hamiltonian row.
 
 The TS rows are cleared to run.
+
+---
+
+## OUTCOME — TS δ=2 under 2b′ (post-failure), 2026-09-24
+
+**Graded: at every row, route OBSTRUCTION on both forms, monodromy uncorroborated.**
+
+Files: `qsim/mr_ts2bp_target.txt`, and `mr_ts2bp_row_20..25.{log,json}`. Every row was guarded; peak memory
+≤ 113 MB and each took ≤ 21 s.
+
+| row | P | (E, L, μ²) | ξ₂ route | ξ₁ route | numeric monodromy |
+|---|---|---|---|---|---|
+| T1 | P1, P2 | (1, 0, 4) | OBSTRUCTION | OBSTRUCTION | FAILED ("no clean base point found") |
+| T2 | P1, P2 | (1, 0, 9) | OBSTRUCTION | OBSTRUCTION | FAILED |
+| T3 | P1, P2 | (1, 1, 4) | OBSTRUCTION | OBSTRUCTION | FAILED |
+
+Local data are identical at every row (values in `mr_ts2bp_row_*.json`):
+
+| singular points | b | exponents | log? |
+|---|---|---|---|
+| x = 0 | 3/4 | N = 2 | yes: the Frobenius term at k = 2 is non-zero |
+| ring quartic | −3/16 | 1/4, 3/4 | no |
+| turning-point sextic | −3/16 | 1/4, 3/4 | no |
+| ξ₂-only octic | 3/4 | N = 2 | no (apparent singularities) |
+| ∞ | — (ord∞ = 4) | 0 or 1 | no |
+
+Every exponent is rational, so there is no out-of-scope factor.
+
+- **ξ₂:** 7 symmetric case-1 candidates (d ∈ {0, 1, 2, 3}), and none has a monic P over ℚ.
+- **ξ₁:** **no** exponent combination gives d ∈ ℤ≥0. The minimum Σα is −½ + 1 + 3/2 = 2, which exceeds the
+  maximum α∞ = 1. So on this form case 1 fails on **Kovacic's necessary condition alone**; the uniqueness lemma
+  is not needed there. This is an observation from the recorded data, not a new computation.
+- Together with the log at x = 0, which excludes cases 2 and 3: G = SL(2), and G⁰ is non-abelian on both forms.
+
+**Monodromy.** The numeric-pole base-point search, which is Stage-1 code, found no clean base point among the
+~19 singular points (some are complex; the search samples the upper half-plane). This is a failure of the
+corroborating route's numerics. It is **not** a disagreement, because no monodromy verdict was produced. By the
+registered rule the grade is therefore **"route OBSTRUCTION, monodromy uncorroborated"**, a lesser grade than the
+Stage-1 house standard. Repairing the base-point search would be a separately labelled post-hoc corroboration,
+not part of this grade.
+
+**Wording (registered).** For TS δ=2 at P1 = (3/5, 4/5) and at P2 = (4/5, 3/5), σ = 1, the reduced geodesic flow
+`H_{E,L}` at `(E, L) = (1, 0)` (μ² = 4, 9) and `(1, 1)` (μ² = 4) admits no additional first integral meromorphic
+in a neighbourhood of the equatorial phase curve Γ. Hence it is not meromorphically Liouville-integrable, in the
+Morales–Ramis sense, at those points and levels.
+
+The grade carries these caveats:
+- **post-failure:** 2b failed its first validation;
+- **monodromy uncorroborated;**
+- the gaps from the setup correspondence: meromorphic integrals only, the complex neighbourhood of Γ, the
+  tested parameters only, and the supplied metric, whose vacuum property was checked pointwise by
+  Schwartz–Zippel;
+- it does **not** say how much chaos there is, or anything observable.
