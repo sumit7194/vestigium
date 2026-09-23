@@ -46,7 +46,7 @@ def _transport(rf, Y0, path, rtol=1e-12, atol=1e-14):
     return np.array([[v[0], v[1]], [v[2], v[3]]])
 
 
-def monodromy_generators(r, z, base=None, rho_frac=0.3, seed=1, poles=None):
+def monodromy_generators(r, z, base=None, rho_frac=0.3, seed=1, poles=None, base_search="stage1"):
     # poles=: DECLARED ADDITION for Stage 2b (PREREG_ts2b_factor_route.md). Numeric finite
     # singular points supplied by the caller (roots of non-solvable factors); the caller is then
     # responsible for the Fuchsian check. poles=None is the Stage-1 path, unchanged.
@@ -73,14 +73,41 @@ def monodromy_generators(r, z, base=None, rho_frac=0.3, seed=1, poles=None):
             if abs(p + t*(q - p) - d) < margin*rho[d]/rho_frac*0.5:
                 return False
         return True
-    for _ in range(200):
-        z0 = base if base is not None else complex(rng.uniform(-span, span), rng.uniform(0.3, span))
+    if base_search == "wide":
+        # DECLARED POST-HOC REPAIR (PREREG_ts2b_factor_route.md, 0855be6): 5000 seeded candidates over
+        # both half-planes, |Re|,|Im| <= 3 span; the SAME clearance criteria as below; keep the candidate
+        # with the LARGEST minimum clearance ratio (ratio >= 1 is exactly the Stage-1 criterion).
+        def ratio(z0):
+            if any(abs(z0 - c) <= 2*rho[c] for c in cs):
+                return 0.0
+            pts = {c: c + rho[c]*(z0 - c)/abs(z0 - c) for c in cs}
+            worst = np.inf
+            for c in cs:
+                p, q = z0, pts[c]
+                for d in cs:
+                    if d == c:
+                        continue
+                    t = np.clip(((d - p)*np.conj(q - p)).real/abs(q - p)**2, 0, 1)
+                    worst = min(worst, abs(p + t*(q - p) - d)/(rho[d]/rho_frac*0.5))
+            return worst
+        best, z0 = 0.0, None
+        for _ in range(5000):
+            cand = complex(rng.uniform(-3*span, 3*span), rng.uniform(-3*span, 3*span))
+            rt = ratio(cand)
+            if rt > best:
+                best, z0 = rt, cand
+        if z0 is None or best < 1.0:
+            raise RuntimeError(f"no clean base point found (wide search, best ratio {best:.3f})")
         pts = {c: c + rho[c]*(z0 - c)/abs(z0 - c) for c in cs}
-        if all(clear(z0, pts[c], c, 1.0) for c in cs) and all(abs(z0 - c) > 2*rho[c] for c in cs):
-            break
-        base = None
     else:
-        raise RuntimeError("no clean base point found")
+        for _ in range(200):
+            z0 = base if base is not None else complex(rng.uniform(-span, span), rng.uniform(0.3, span))
+            pts = {c: c + rho[c]*(z0 - c)/abs(z0 - c) for c in cs}
+            if all(clear(z0, pts[c], c, 1.0) for c in cs) and all(abs(z0 - c) > 2*rho[c] for c in cs):
+                break
+            base = None
+        else:
+            raise RuntimeError("no clean base point found")
     gens = []
     for c in cs:
         p = pts[c]
