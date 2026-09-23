@@ -1,0 +1,541 @@
+[
+ {
+  "control": "C1",
+  "name": "ZV delta=2 via WP loader (1,0,4)",
+  "ELmu2": [
+   "1",
+   "0",
+   "4"
+  ],
+  "expected": "OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "OBSTRUCTION",
+    "case": 4,
+    "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+    "structure": {
+     "deg_num": 6,
+     "deg_den": 10,
+     "den_factors": [
+      [
+       "x - 3",
+       2
+      ],
+      [
+       "x - 1",
+       2
+      ],
+      [
+       "x",
+       2
+      ],
+      [
+       "x + 1",
+       2
+      ],
+      [
+       "3*x - 1",
+       2
+      ]
+     ]
+    },
+    "monodromy": "OBSTRUCTION",
+    "monodromy_why": "SL2 (base point 0.0946+3.8167j)",
+    "monodromy_det_err": 9.627792028163078e-11
+   },
+   "r_xi1": {
+    "verdict": "OBSTRUCTION",
+    "case": 4,
+    "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+    "structure": {
+     "deg_num": 6,
+     "deg_den": 10,
+     "den_factors": [
+      [
+       "x - 3",
+       2
+      ],
+      [
+       "x - 1",
+       2
+      ],
+      [
+       "x",
+       2
+      ],
+      [
+       "x + 1",
+       2
+      ],
+      [
+       "3*x - 1",
+       2
+      ]
+     ]
+    },
+    "monodromy": "OBSTRUCTION",
+    "monodromy_why": "SL2 (base point 0.0946+3.8167j)",
+    "monodromy_det_err": 2.7187138190034323e-11
+   }
+  },
+  "identity": {
+   "r_xi2": true,
+   "r_xi1": true
+  },
+  "seconds": 17.4,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 95.0,
+   "seconds": 18.6
+  },
+  "forms_agree": true,
+  "verdict": "OBSTRUCTION",
+  "monodromy_agree": true,
+  "single_route": false,
+  "identity_ok": true,
+  "ok": true
+ },
+ {
+  "control": "C2",
+  "name": "Kerr-WP P2 sigma=4/5 B1 (3,0,118)",
+  "ELmu2": [
+   "3",
+   "0",
+   "118"
+  ],
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x - 5",
+       2
+      ],
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "436*x**2 + 1000*x + 589",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.4747+1.0979j)",
+    "monodromy_det_err": 6.290311144507628e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x - 5",
+       2
+      ],
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "436*x**2 + 1000*x + 589",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.4747+1.0979j)",
+    "monodromy_det_err": 6.290311144507628e-12
+   }
+  },
+  "identity": {
+   "L_sign_+1": {
+    "r_xi2": true,
+    "r_xi1": true
+   },
+   "L_sign_-1": {
+    "r_xi2": true,
+    "r_xi1": true
+   }
+  },
+  "seconds": 33.4,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 111.0,
+   "seconds": 34.1
+  },
+  "forms_agree": true,
+  "verdict": "NO_OBSTRUCTION",
+  "monodromy_agree": true,
+  "single_route": false,
+  "identity_ok": true,
+  "ok": true
+ },
+ {
+  "control": "C2",
+  "name": "Kerr-WP P2 sigma=4/5 B2 (1,2,125/63)",
+  "ELmu2": [
+   "1",
+   "2",
+   "125/63"
+  ],
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 0.1069+4.3112j)",
+    "monodromy_det_err": 3.5082632299431373e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 0.1069+4.3112j)",
+    "monodromy_det_err": 3.5082632299431373e-12
+   }
+  },
+  "identity": {
+   "L_sign_+1": {
+    "r_xi2": false,
+    "r_xi1": false
+   },
+   "L_sign_-1": {
+    "r_xi2": true,
+    "r_xi1": true
+   }
+  },
+  "seconds": 15.8,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 101.0,
+   "seconds": 16.5
+  },
+  "forms_agree": true,
+  "verdict": "NO_OBSTRUCTION",
+  "monodromy_agree": true,
+  "single_route": false,
+  "identity_ok": true,
+  "ok": true
+ },
+ {
+  "control": "C3",
+  "name": "Kerr-WP P1 (1,0,4)",
+  "ELmu2": [
+   "1",
+   "0",
+   "4"
+  ],
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "3*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 2.2697+1.5943j)",
+    "monodromy_det_err": 4.515813708895162e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "3*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 2.2697+1.5943j)",
+    "monodromy_det_err": 4.515813708895162e-12
+   }
+  },
+  "seconds": 16.0,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 100.0,
+   "seconds": 16.5
+  },
+  "forms_agree": true,
+  "verdict": "NO_OBSTRUCTION",
+  "monodromy_agree": true,
+  "single_route": false,
+  "identity_ok": true,
+  "ok": true
+ },
+ {
+  "control": "C3",
+  "name": "Kerr-WP P2 (1,0,4)",
+  "ELmu2": [
+   "1",
+   "0",
+   "4"
+  ],
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.9357+1.3858j)",
+    "monodromy_det_err": 4.5708148531853275e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.9357+1.3858j)",
+    "monodromy_det_err": 4.5708148531853275e-12
+   }
+  },
+  "seconds": 15.6,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 99.0,
+   "seconds": 16.5
+  },
+  "forms_agree": true,
+  "verdict": "NO_OBSTRUCTION",
+  "monodromy_agree": true,
+  "single_route": false,
+  "identity_ok": true,
+  "ok": true
+ },
+ {
+  "control": "C3",
+  "name": "Kerr-WP P1 (1,0,9)",
+  "ELmu2": [
+   "1",
+   "0",
+   "9"
+  ],
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "3*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.7477+1.2684j)",
+    "monodromy_det_err": 3.471633645587608e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "3*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.7477+1.2684j)",
+    "monodromy_det_err": 3.471633645587608e-12
+   }
+  },
+  "seconds": 15.8,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 100.0,
+   "seconds": 16.5
+  },
+  "forms_agree": true,
+  "verdict": "NO_OBSTRUCTION",
+  "monodromy_agree": true,
+  "single_route": false,
+  "identity_ok": true,
+  "ok": true
+ },
+ {
+  "control": "C3",
+  "name": "Kerr-WP P2 (1,0,9)",
+  "ELmu2": [
+   "1",
+   "0",
+   "9"
+  ],
+  "expected": "NO_OBSTRUCTION",
+  "forms": {
+   "r_xi2": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.5557+1.1485j)",
+    "monodromy_det_err": 4.046695645304737e-12
+   },
+   "r_xi1": {
+    "verdict": "NO_OBSTRUCTION",
+    "case": 2,
+    "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+    "structure": {
+     "deg_num": 4,
+     "deg_den": 8,
+     "den_factors": [
+      [
+       "4*x + 5",
+       2
+      ],
+      [
+       "<deg 3 factor>",
+       2
+      ]
+     ]
+    },
+    "monodromy": "NO_OBSTRUCTION",
+    "monodromy_why": "imprimitive (base point 1.5557+1.1485j)",
+    "monodromy_det_err": 4.046695645304737e-12
+   }
+  },
+  "seconds": 16.2,
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 100.0,
+   "seconds": 17.6
+  },
+  "forms_agree": true,
+  "verdict": "NO_OBSTRUCTION",
+  "monodromy_agree": true,
+  "single_route": false,
+  "identity_ok": true,
+  "ok": true
+ }
+]

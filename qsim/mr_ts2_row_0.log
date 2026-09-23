@@ -1,0 +1,9 @@
+[0.0s] loaded
+[0.3s] NVE built
+[0.7s] identity {'r_xi2': True, 'r_xi1': True}
+[0.7s] r_xi2: {'deg_num': 6, 'deg_den': 10, 'den_factors': [('x - 3', 2), ('x - 1', 2), ('x', 2), ('x + 1', 2), ('3*x - 1', 2)]}
+[5.4s] r_xi2: Kovacic -> OBSTRUCTION (Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0])
+[10.1s] r_xi2: monodromy -> OBSTRUCTION (SL2 (base point 0.0946+3.8167j))
+[10.1s] r_xi1: {'deg_num': 6, 'deg_den': 10, 'den_factors': [('x - 3', 2), ('x - 1', 2), ('x', 2), ('x + 1', 2), ('3*x - 1', 2)]}
+[12.8s] r_xi1: Kovacic -> OBSTRUCTION (Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0])
+[17.4s] r_xi1: monodromy -> OBSTRUCTION (SL2 (base point 0.0946+3.8167j))

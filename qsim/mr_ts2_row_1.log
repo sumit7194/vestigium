@@ -1,0 +1,9 @@
+[0.1s] loaded
+[0.3s] NVE built
+[0.4s] identity {'L_sign_+1': {'r_xi2': True, 'r_xi1': True}, 'L_sign_-1': {'r_xi2': True, 'r_xi1': True}}
+[0.4s] r_xi2: {'deg_num': 4, 'deg_den': 8, 'den_factors': [('4*x - 5', 2), ('4*x + 5', 2), ('436*x**2 + 1000*x + 589', 2)]}
+[26.6s] r_xi2: Kovacic -> NO_OBSTRUCTION (Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched])
+[29.0s] r_xi2: monodromy -> NO_OBSTRUCTION (imprimitive (base point 1.4747+1.0979j))
+[29.0s] r_xi1: {'deg_num': 4, 'deg_den': 8, 'den_factors': [('4*x - 5', 2), ('4*x + 5', 2), ('436*x**2 + 1000*x + 589', 2)]}
+[31.1s] r_xi1: Kovacic -> NO_OBSTRUCTION (Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched])
+[33.4s] r_xi1: monodromy -> NO_OBSTRUCTION (imprimitive (base point 1.4747+1.0979j))
