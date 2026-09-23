@@ -269,3 +269,20 @@ own calibration.**
 
 **Guarded run 2 follows, and it must re-establish A as well:** the change touches the
 classifier that corroborated A.
+
+---
+
+## AMENDMENT 6 (2026-09-24) — run 2 aborted; the second attempt is labelled post-failure
+
+**Guarded run 2 was aborted by me.** Its only completed row, Control A, hit the
+30-minute limit (`INCONCLUSIVE`). Cause, mine: amendment 5 moved the case-2
+certificate search ahead of everything. On Control A's six singular points that
+search is slow, whereas the log check excludes case 2 there immediately. Fixed:
+the log check now runs first, and the certificate search runs only when there is no
+log point. Control A is back to `OBSTRUCTION` in 6.5 s, and the calibration is
+unchanged (18 entries plus `P(½,½,√2)`).
+
+**The next run is the SECOND ATTEMPT, post-failure.** It comes after a monodromy
+bug fix and a search-order fix, both found by guarded run 1. **Guarded run 1's FAIL
+stays on the record beside it.** The controls, parameters and expected outcomes are
+unchanged; nothing about A″, B1 or B2 was altered.

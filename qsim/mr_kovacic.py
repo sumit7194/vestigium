@@ -615,10 +615,15 @@ def kovacic(r, z, use_log_filter=True):
     # full Borel group -- so the verdict does not depend on first running case 1, whose
     # radical arithmetic timed out on one control. Reported as a certificate, not as
     # "Kovacic's case".
-    c2s = kovacic_case2_symmetric(R)
-    if c2s:
-        return dict(case=2, data=c2s, R=R,
-                    note="Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched")
+    # A logarithmic point excludes case 2, so check it BEFORE the certificate search:
+    # putting the certificate first made Control A (6 singular points, a log at x = 0)
+    # time out at 30 min where it had taken 30 s.
+    logp, where = has_log_point(R) if use_log_filter else (False, None)
+    if not logp:
+        c2s = kovacic_case2_symmetric(R)
+        if c2s:
+            return dict(case=2, data=c2s, R=R,
+                        note="Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched")
     sols = kovacic_case1(R)
     if sols:
         return dict(case=1, solutions=sols, R=R)
