@@ -312,3 +312,28 @@ parameter point.
 What a pass needs: A″ at μ=3 to finish. That's an algorithmic question, and the
 same rule applies as for A″ before: fix the algorithm, never the control. Not
 started tonight, because ansatz's job is queued behind this machine's current work.
+
+---
+
+## AMENDMENT 7 (2026-09-24) — the A″ μ=3 stall was the LOG CHECK; third attempt, post-failure
+
+**Diagnosed with stage timings, guarded (≤1 GB).** A″ at μ=3 stalled inside
+`has_log_point`, which expanded Laurent series at every pole. Here the poles sit at
+the roots of the irreducible cubic `8x³ + 6x² − 11x − 11`, so those expansions ran
+through Cardano radicals — the same swell amendment 4 removed from the certificate
+search, one layer up. The exponent data at that factor, computed without radicals:
+`b = −3/16`, so `1+4b = 1/4` (a turning point, difference ½). That matches μ=2; the
+two points are not structurally different.
+
+**Fix (algorithmic; the control is unchanged).** The log check now works **per
+irreducible factor over ℚ**. A log requires an integer exponent difference
+`√(1+4b)`, which is possible only if `b` is rational and `1+4b` is a rational square.
+`b` comes from the radical-free routine, and only a genuinely integer difference at a
+non-linear factor falls back to radicals. The calibration is unchanged (18 plus
+`P(½,½,√2)`), and so are the log unit tests. **A″ μ=3 now takes 10 s** (peak 61 MB),
+and a case-2 certificate is found in both NVE forms.
+
+**Because the log check feeds every row, the entire control set is re-run as the
+THIRD ATTEMPT, post-failure.** Guarded run 1 (FAILED) and the second attempt
+(NOT PASSED: A″ μ=3 INCONCLUSIVE) stay on the record. Controls, parameters and
+expected outcomes are unchanged. Per the bridge: ≤1 GB and ≤30 min per child.

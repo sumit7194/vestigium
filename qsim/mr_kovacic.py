@@ -590,10 +590,33 @@ def _log_at(get_coeffs, m):
 
 
 def has_log_point(R):
+    """Log points, found PER IRREDUCIBLE FACTOR over Q wherever possible. The first
+    version expanded Laurent series at every pole, which for poles at cubic roots meant
+    Cardano radicals -- the swell that stalled A'' (mu = 3). A log needs an INTEGER
+    exponent difference sqrt(1+4b), which is possible only if b is rational and 1+4b a
+    rational square; b comes from the radical-free _local_b_at_factor. Only a genuinely
+    integer difference at a non-linear factor falls back to the radical path."""
     z = R.z
-    for c, m in R.poles.items():
-        if m in (1, 2) and _log_at(lambda n, c=c: R.laurent_at(c, n), m):
-            return True, f"z = {c}"
+    for g, m in sp.factor_list(sp.Poly(R.t.as_expr(), z))[1]:
+        g = sp.Poly(g, z).monic()
+        if m == 1:
+            return True, f"simple pole at a root of {g.as_expr()}"
+        if m != 2:
+            continue
+        if g.degree() == 1:
+            c = sp.roots(g, z).popitem()[0]
+            if _log_at(lambda n, c=c: R.laurent_at(c, n), 2):
+                return True, f"z = {c}"
+            continue
+        b = _local_b_at_factor(R, g.as_expr())
+        if b is None:
+            continue                          # 1+4b irrational: the difference is not an integer
+        rt = sp.sqrt(1 + 4*b)
+        if not _is_int(rt):
+            continue                          # rational but non-integer difference: no log
+        for c in R.poles:                     # rare: integer difference at a non-linear factor
+            if sp.simplify(g.as_expr().subs(z, c)) == 0 and _log_at(lambda n, c=c: R.laurent_at(c, n), 2):
+                return True, f"root of {g.as_expr()}"
     oi = R.ord_inf
     if oi in (2, 3):                         # infinity regular singular: order 4 - oi at w = 0
         w = sp.Symbol("w_log")
