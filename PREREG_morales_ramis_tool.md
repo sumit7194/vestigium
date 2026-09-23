@@ -337,3 +337,42 @@ and a case-2 certificate is found in both NVE forms.
 THIRD ATTEMPT, post-failure.** Guarded run 1 (FAILED) and the second attempt
 (NOT PASSED: A″ μ=3 INCONCLUSIVE) stay on the record. Controls, parameters and
 expected outcomes are unchanged. Per the bridge: ≤1 GB and ≤30 min per child.
+
+---
+
+# OUTCOME — THIRD ATTEMPT (post-failure), 2026-09-24. **STAGE 1 PASSES.**
+
+(`qsim/mr_controls_attempt3_result.json`.) Guarded, 1 GB cap per child; every
+child peaked below 100 MB, and the whole set took about 100 s.
+
+| control | verdict | Kovacic | monodromy | |
+|---|---|---|---|---|
+| A, ZV δ=2, μ=2 | `OBSTRUCTION` | case 4, both forms | `SL(2)`, both | pass |
+| A, ZV δ=2, μ=3 | `OBSTRUCTION` | case 4, both forms | `SL(2)`, both | pass |
+| A′, Schwarzschild L=0, μ=2 | `NO_OBSTRUCTION` | analytic + case-2 certificate | agrees | pass |
+| A′, Schwarzschild L=0, μ=3 | `NO_OBSTRUCTION` | analytic + case-2 certificate | agrees | pass |
+| A″, Schwarzschild L=1, μ=2 | `NO_OBSTRUCTION` | case-2 certificate, both forms | agrees | pass |
+| A″, Schwarzschild L=1, μ=3 | `NO_OBSTRUCTION` | case-2 certificate, both forms | agrees | pass |
+| B1, Kerr L=0 | `NO_OBSTRUCTION` | case-2 certificate, both forms | agrees | pass |
+| B2, Kerr L=2 | `NO_OBSTRUCTION` | case-2 certificate, both forms | agrees | pass |
+
+Trust-ordered: A′ and A″ pass, so A counts; A passes, so B counts; nothing is
+`INCONCLUSIVE`. **Every pre-registered Stage-1 criterion is met.**
+
+**How to read this pass.** It's the third attempt. Guarded run 1 **FAILED** (the
+routes disagreed, which exposed a monodromy bug), and the second attempt was **NOT
+PASSED** (A″ μ=3 hit its time limit, which exposed a log-check swell). Each fix was
+algorithmic. Each was confirmed on an independent known answer or by re-running the
+full calibration, and none changed a control, a parameter or an expected outcome.
+**A pass reached after two documented failures, with their fixes on record, is
+weaker evidence than a first-attempt pass, and it is reported as exactly that.**
+
+**What the tool now rests on, for Stage 2:**
+- every `NO_OBSTRUCTION` is backed by an **exact rational certificate**
+  (`Δ′ + 2φΔ ≡ 0`, `Δ ≢ 0`), which is a stand-alone proof, or by an explicitly
+  labelled analytic argument;
+- every `OBSTRUCTION` is backed by Kovacic case 4 (or case 1 with a full Borel
+  group), **plus** an independent numerical `SL(2)` from monodromy wherever the NVE
+  is Fuchsian;
+- every run is guarded (footprint, time, free swap, free disk), and a killed run is
+  always `INCONCLUSIVE`, never a verdict.
