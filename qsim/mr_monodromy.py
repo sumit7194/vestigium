@@ -46,12 +46,18 @@ def _transport(rf, Y0, path, rtol=1e-12, atol=1e-14):
     return np.array([[v[0], v[1]], [v[2], v[3]]])
 
 
-def monodromy_generators(r, z, base=None, rho_frac=0.3, seed=1):
-    ok, R = is_fuchsian(r, z)
-    if not ok:
-        return None, "not Fuchsian: monodromy route not applicable"
+def monodromy_generators(r, z, base=None, rho_frac=0.3, seed=1, poles=None):
+    # poles=: DECLARED ADDITION for Stage 2b (PREREG_ts2b_factor_route.md). Numeric finite
+    # singular points supplied by the caller (roots of non-solvable factors); the caller is then
+    # responsible for the Fuchsian check. poles=None is the Stage-1 path, unchanged.
+    if poles is None:
+        ok, R = is_fuchsian(r, z)
+        if not ok:
+            return None, "not Fuchsian: monodromy route not applicable"
+        cs = [complex(sp.N(c, 30)) for c in R.poles]
+    else:
+        cs = [complex(c) for c in poles]
     rf = sp.lambdify(z, sp.sympify(r), "numpy")
-    cs = [complex(sp.N(c, 30)) for c in R.poles]
     if not cs:
         return [], "no finite singular points"
     rng = np.random.default_rng(seed)

@@ -114,3 +114,6 @@ announces ansatz's go, I stop at a row boundary and report.
 2. A surviving d ∈ ℤ≥0 (for example from an apparent singularity with integer exponent difference): INCONCLUSIVE.
 3. No log point at all: INCONCLUSIVE. This route cannot exclude case 2 without one.
 4. Numeric monodromy fails to converge (19 singular points, some close together): uncorroborated.
+
+**ERRATUM (before any 2b computation).** "The same 8" target rows is a miscount carried over from the Stage-2
+outcome. The target is **6 rows**: T1, T2 and T3 at P1 and P2.

@@ -184,3 +184,8 @@ at every level. All poles are **double**, and `deg den − deg num = 4`, so the 
   per irreducible factor over ℚ, as the log check already does. Then case 4 can be proved without the roots if a
   log point excludes cases 2 and 3 and every case-1 exponent count gives `d ∉ ℤ≥0`.
 - Stage 2b is not started. It is the bridge's and the user's decision.
+
+**ERRATUM (2026-09-24, added while writing the 2b runner).** "All 8 target rows" above is a **miscount**. The
+registered target is T1, T2 and T3 at P1 and P2, which is **6 rows** (runner indices 7, 8, 9, 10, 13, 14). The
+15 runner rows are 9 controls plus 6 target rows. All 6 are INCONCLUSIVE, and nothing else changes. The same
+miscount went to the bridge and is corrected there.
