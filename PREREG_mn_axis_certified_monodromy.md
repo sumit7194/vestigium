@@ -216,3 +216,26 @@ step: `simplify(B)` for the degeneracy test and `cancel` over ℚ(x, E). Neither
 The integrator (G0-validated) is unchanged. **Re-validation:** G2 is re-run in full through the amended path.
 The Kerr axial rows must not find a certificate, and ZV equatorial must find one. Only then is G3 re-run
 (attempt 2). The committed attempt-1 outcome stands.
+
+## AMENDMENT A2 (2026-09-27), POST-FAILURE: a sharper majorant constant. Filed before the code change.
+
+**Observation (A1 G2 re-run).** ZV equatorial passes again (certificate on both forms). But the first **raw**
+Kerr axial row runs for more than 20 min: with unsimplified expressions, the single box evaluation of |r| over
+the step disk is heavily overestimated (the dependency problem), so the Mρ² ≤ 4 guard forces tiny steps. If that
+row hits its time limit, it is recorded as FAIL (did not run), and G2 stops by rule.
+
+**Change (integrator; rigour unchanged, bound sharper).** In the majorant, replace the Cauchy bound M ρ^{−k} for
+**all** k with:
+- the **exact** |r_k| (the ball upper bounds of the Taylor coefficients already computed) for k ≤ N;
+- the Cauchy bound `M′ ρ′^{−k}` for k > N, with **ρ′ = 1.5ρ**. Here M′ = sup |r| on the box enclosing the disk
+  of radius ρ′, which must be certified finite.
+
+With `m_k = |r_k| ρ^k`, the recursion `n(n−1) B_n = ρ² Σ_k m_k B_{n−2−k}` gives, as before,
+`S_n ≤ S_{n−1}(1 + M̄ρ²/(n(n−1)))`, where `M̄ = max(max_{k≤N} m_k, M′ (2/3)^{N+1})`. At N = 100 the factor
+(2/3)^{101} ≈ 10⁻¹⁸, so an overestimated M′ is harmless. S_N uses the exact m_k. The step guard becomes
+`M̄ ρ² ≤ 4`. Everything else is unchanged.
+
+**Re-validation, in order:**
+1. G0 again, in full. The same exact traces must be enclosed with ≥ 10 digits.
+2. G2 again, in full.
+3. Only then G3 (attempt 2).
