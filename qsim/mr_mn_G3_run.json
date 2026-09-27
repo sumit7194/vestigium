@@ -1,54 +1,54 @@
 [
  {
   "forms": {},
-  "failed": "mem_limit",
+  "failed": "time_limit",
   "tag": "G3",
   "name": "MN p1 axial (E=1, mu2=4)",
   "assessment": "INCONCLUSIVE",
   "guard": {
-   "status": "mem_limit",
+   "status": "time_limit",
    "returncode": -9,
-   "peak_mb": 2142.0,
-   "seconds": 55.0
+   "peak_mb": 92.0,
+   "seconds": 1800.4
   }
  },
  {
   "forms": {},
-  "failed": "mem_limit",
+  "failed": "time_limit",
   "tag": "G3",
   "name": "MN p1 axial (E=1, mu2=9)",
   "assessment": "INCONCLUSIVE",
   "guard": {
-   "status": "mem_limit",
+   "status": "time_limit",
    "returncode": -9,
-   "peak_mb": 2140.0,
-   "seconds": 54.9
+   "peak_mb": 93.0,
+   "seconds": 1801.0
   }
  },
  {
   "forms": {},
-  "failed": "mem_limit",
+  "failed": "time_limit",
   "tag": "G3",
   "name": "MN p2 axial (E=1, mu2=4)",
   "assessment": "INCONCLUSIVE",
   "guard": {
-   "status": "mem_limit",
+   "status": "time_limit",
    "returncode": -9,
-   "peak_mb": 2072.0,
-   "seconds": 80.8
+   "peak_mb": 94.0,
+   "seconds": 1800.4
   }
  },
  {
   "forms": {},
-  "failed": "mem_limit",
+  "failed": "time_limit",
   "tag": "G3",
   "name": "MN p2 axial (E=1, mu2=9)",
   "assessment": "INCONCLUSIVE",
   "guard": {
-   "status": "mem_limit",
+   "status": "time_limit",
    "returncode": -9,
-   "peak_mb": 2073.0,
-   "seconds": 80.7
+   "peak_mb": 94.0,
+   "seconds": 1801.0
   }
  }
 ]

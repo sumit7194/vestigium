@@ -314,3 +314,14 @@ Every test now goes through the P/Q path with the centred bound. The exact trace
   registered candidate list, which is consistent with the equatorial-only positive control (scope note).
 
 G3, attempt 2, follows.
+
+## G3, attempt 2 (post-failure, under A1–A4), 2026-09-27: **all 4 rows INCONCLUSIVE, time limit.** No verdict.
+
+`qsim/mr_mn_G3_A4.txt`, `mr_mn_row_6..9.*`.
+- Every row hit the 30-min guard while still in the **ξ₂** certificate search. Memory peaked at 92–94 MB.
+- The ξ₂ forms have **15–22 located singular points**. The registered search computes a certified loop for
+  **every** generator before testing any pair, and loops among closely spaced points are slow in ball arithmetic.
+- ξ₁, the lighter form (31/53 terms), was never reached.
+
+**Not a verdict and not a correctness failure.** Any further change (search order, early testing, time limit) is
+a new post-failure amendment, **proposed to the bridge first** because four amendments already sit on this route.
