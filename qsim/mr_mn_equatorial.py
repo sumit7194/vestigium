@@ -375,7 +375,7 @@ def check_form(rq, src, En, L, mu2, form, pts=(sp.Rational(9, 4), sp.Integer(3),
     for tv in pts:
         ref = numeric_ref(C, x, y, En, L, mu2, form, tv)
         va = a_(a_._const(tv))
-        vam = mp.mpc(str(va.real.mid()), str(va.imag.mid()))
+        vam = mp.mpc(va.real.mid().str(60, radius=False), va.imag.mid().str(60, radius=False))
         worst = max(worst, float(abs(vam - ref)/abs(ref)))
     return worst
 
