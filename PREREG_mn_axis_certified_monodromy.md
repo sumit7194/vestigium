@@ -244,3 +244,8 @@ With `m_k = |r_k| ρ^k`, the recursion `n(n−1) B_n = ρ² Σ_k m_k B_{n−2−
 each row child imports `ia_hub` fresh, so later rows would have run the A2 integrator. Row 0 (ZV equatorial)
 had PASSED under A1. Row 1 (raw Kerr axial) was still in its first certificate search after 16 min. PIDs 9915
 and 11094 were mine and are killed. `qsim/mr_mn_G2_A1.txt` is kept. G0 and G2 are now re-run under A2.
+
+## G0 under A2 (2026-09-27): **PASS.**
+
+The exact traces are enclosed: `[−1.0000… ± 2.9e−24]`, `[−1.618033988749894848204… ± 7.4e−24]`, and for the
+exp pullback `[−1.618033988749894848205 ± 5.0e−22]`. That is 22–23 digits.
