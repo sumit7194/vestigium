@@ -82,6 +82,22 @@ identity component, G⁰ ∈ {1, 𝔾_m, 𝔾_a} up to conjugacy:
   essential singularity at 0), and the pairwise products γ_iγ_j. The certificate search tests pairs from this
   finite list in a fixed order and stops at the first pair satisfying (i)–(iii).
 
+## Setup correspondence
+
+**The claim an OBSTRUCTION would be quoted for.** "MN (the q-anomaly subclass) has no Carter-like fourth integral."
+
+**The condition actually tested.** At (M, a, β) = p1 or p2 and L = 0 with the stated (E, μ²), there is no first
+integral of H_{E,0} that is meromorphic in a neighbourhood of the **axial** phase curve. The test runs on the
+supplied closed-form metric.
+
+The two match only up to these gaps, which every report carries:
+- **Meromorphic only.**
+- **The L = 0 sector only.** The axis forces L = 0. A Carter-like integral would restrict to this sector; an
+  integral that exists only for L ≠ 0 levels is not excluded.
+- **The tested points only.**
+- **The supplied metric,** whose vacuum was checked pointwise and exactly in a formal field. It is a
+  transcription of the published MN form, verified but not derived.
+
 ## Gates, in order; each gate is reported to the bridge
 
 **G0: validation of the integrator on equations with known monodromy.** Failure stops everything.
