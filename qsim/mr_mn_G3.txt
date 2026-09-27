@@ -1,0 +1,5 @@
+ 6 G3   MN p1 axial (E=1, mu2=4)                     => INCONCLUSIVE                   {} [guard mem_limit, peak 2142.0 MB, 55.0 s]
+ 7 G3   MN p1 axial (E=1, mu2=9)                     => INCONCLUSIVE                   {} [guard mem_limit, peak 2140.0 MB, 54.9 s]
+ 8 G3   MN p2 axial (E=1, mu2=4)                     => INCONCLUSIVE                   {} [guard mem_limit, peak 2072.0 MB, 80.8 s]
+ 9 G3   MN p2 axial (E=1, mu2=9)                     => INCONCLUSIVE                   {} [guard mem_limit, peak 2073.0 MB, 80.7 s]
+EXIT 0

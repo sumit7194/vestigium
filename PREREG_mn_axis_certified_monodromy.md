@@ -189,3 +189,10 @@ regular L = 0 axial particular solution exists.
 certificate machinery can fire. It does not show power on axial solutions specifically, and the ZV axial info row
 found nothing there. G0(b) covers the loop mechanics near an essential singularity. So an axial INCONCLUSIVE would
 be uninformative, and an axial OBSTRUCTION stands on its own certificate. The verdict's scope says so.
+
+## G3, first attempt (2026-09-27): **all 4 rows INCONCLUSIVE, resource limit.** No verdict.
+
+MN p1 and p2 at (1, 4) and (1, 9): the memory guard (2 GB) fired at 55–81 s, **before the NVE was built**, in the
+symbolic derivation or simplification of the 92 kB components. The certified integration never started.
+(`qsim/mr_mn_G3.txt`, `mr_mn_row_6..9.*`.) An earlier launch failed on a path error before any computation; the
+relaunch is this attempt. Next: a guarded profiling diagnostic, then an amendment, labelled post-failure.
