@@ -126,3 +126,13 @@ at y = 0) decomposed **exactly** into integer powers of the three registered gen
    - the result is mapped to t by `x′² r_x − S/2`.
    Criterion: relative difference < 1e−25, unchanged. Checked on ξ₁ at MN p1 and p2 at (1, 0, 4) and (1, 1, 4),
    Kerr p1, and ZV.
+
+## Q2 OUTCOME (2026-09-28, under the pipeline fix): **PASS.**
+
+The ξ₁ form built in ℚ(t, E) agrees with the **independent** numerical-differentiation reference (mpmath at
+60 digits, direct component evaluation) with relative differences of **1.9e−52 and 2.0e−52** (MN p1), **1.1e−50**
+(MN p2), **≤ 1.1e−56** (Kerr p1) and **≤ 4.8e−57** (ZV). That covers both (1, 0, 4) and the L ≠ 0 level (1, 1, 4);
+the criterion was < 1e−25 (`qsim/mr_mneq_Q2.json`).
+
+Before this: one crash in my check code (arb midpoint string conversion), fixed at 261c666, before any
+comparison ran.
