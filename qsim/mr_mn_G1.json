@@ -1,0 +1,15 @@
+{
+ "p1": {
+  "omega(y=1)": "0",
+  "zero(y=1)": true,
+  "omega(y=-1)": "0",
+  "zero(y=-1)": true
+ },
+ "p2": {
+  "omega(y=1)": "0",
+  "zero(y=1)": true,
+  "omega(y=-1)": "0",
+  "zero(y=-1)": true
+ },
+ "G1_PASS": true
+}

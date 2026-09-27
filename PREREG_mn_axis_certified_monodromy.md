@@ -171,3 +171,8 @@ and runs detached if it is long. Logs go in `qsim/`. Everything is committed and
   `qsim/mr_mn_G0.json` and `mr_mn_G0.log`.
 
 These settings are frozen for G1–G3: `MRHO2_MAX = 4`, h ≤ 0.2 dist, N = 100, 192 bits.
+
+## G1 OUTCOME (2026-09-27): **PASS.**
+
+ω = −g_tφ/g_tt reduces **exactly to 0** at y = +1 and at y = −1, at both p1 and p2 (`qsim/mr_mn_G1.json`). The
+regular L = 0 axial particular solution exists.
