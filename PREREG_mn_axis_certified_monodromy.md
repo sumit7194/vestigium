@@ -298,3 +298,8 @@ This replaces the single box evaluation of r (M′) in `_step`. Everything else 
 192 bits) is unchanged. The G0 tests are routed through the **same** P/Q path: P and Q come from `together`.
 
 **Re-validation:** G0 in full, then G2 in full, then G3 (attempt 2).
+
+## G0 under A4 (2026-09-27): **PASS.**
+
+Every test now goes through the P/Q path with the centred bound. The exact traces are enclosed with about
+22 digits each (`qsim/mr_mn_G0.json`).
