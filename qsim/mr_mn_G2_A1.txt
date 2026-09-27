@@ -1,0 +1,2 @@
+ 0 G2   ZV d=2 equatorial (1,0,4) [must FIND]        => PASS                           {'r_xi2': True, 'r_xi1': True} [guard ok, peak 72.0 MB, 333.2 s]
+EXIT 143

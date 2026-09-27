@@ -239,3 +239,8 @@ With `m_k = |r_k| ρ^k`, the recursion `n(n−1) B_n = ρ² Σ_k m_k B_{n−2−
 1. G0 again, in full. The same exact traces must be enclosed with ≥ 10 digits.
 2. G2 again, in full.
 3. Only then G3 (attempt 2).
+
+**A1 G2 re-run: stopped by me (2026-09-27).** It was stopped before the A2 code change could reach any row:
+each row child imports `ia_hub` fresh, so later rows would have run the A2 integrator. Row 0 (ZV equatorial)
+had PASSED under A1. Row 1 (raw Kerr axial) was still in its first certificate search after 16 min. PIDs 9915
+and 11094 were mine and are killed. `qsim/mr_mn_G2_A1.txt` is kept. G0 and G2 are now re-run under A2.

@@ -96,19 +96,20 @@ def _step(rc, za, zb, N):
     """Transfer matrix T(za -> zb) for (y, y') with rigorous enclosure, or None if the disk
     |z - za| <= rho = 2|zb - za| is not certified analytic.
 
-    Majorant: |r_k| <= M rho^-k (Cauchy, M = sup |r| on the disk). With A_0 = A_1 = 1 (>= |a_0|, |a_1|
+    Majorant (A2): |r_k| <= rabs_k (exact ball bounds) for k <= N; |r_k| <= M' rho'^-k (Cauchy on rho' = 1.5 rho)
+    for k > N. With m_k = |r_k| rho^k <= Mbar = max(max_k<=N m_k, M' (2/3)^(N+1)) the tail recursion below holds with
+    M rho^2 replaced by Mbar rho^2. (Stage-1 form, kept for the record:) |r_k| <= M rho^-k (Cauchy, M = sup |r| on the disk). With A_0 = A_1 = 1 (>= |a_0|, |a_1|
     of both basis solutions) and n(n-1) A_n = sum_{k<=n-2} M rho^-k A_{n-2-k}, induction gives |a_n| <= A_n.
     B_n = A_n rho^n, S_n = sum_{j<=n} B_j satisfy S_n <= S_{n-1}(1 + M rho^2/(n(n-1))), so for n > N
     B_n <= S* = S_N exp(M rho^2/N). At |t| = rho/2 (q = 1/2): tail of y <= S* q^(N+1)/(1-q),
     tail of y' <= (S*/rho) q^N ((N+1) - N q)/(1-q)^2."""
     h = abs(complex(zb) - complex(za))
     rho = 2*h
-    Mb = rc(box(za, rho))
+    rhop = 1.5*rho                      # A2: Cauchy bound only for k > N, on the larger disk rho' = 1.5 rho
+    Mb = rc(box(za, rhop))
     if not Mb.is_finite():
         return None
-    M = arb(upper(Mb))
-    if upper(M*arb(rho)**2) > MRHO2_MAX:
-        return None
+    Mp = arb(upper(Mb))
     # Taylor coefficients of r at za
     old = ctx.cap
     ctx.cap = N + 2
@@ -118,6 +119,16 @@ def _step(rc, za, zb, N):
     finally:
         ctx.cap = old
     rk = rk + [acb(0)]*(N + 1 - len(rk))
+    rho_a = arb(rho)
+    rabs = [arb(upper(c)) for c in rk]                       # rigorous upper bounds |r_k|
+    mk = [rabs[k]*rho_a**k for k in range(N + 1)]
+    Mbar = Mp*(arb(rho)/arb(rhop))**(N + 1)
+    for v in mk:
+        if upper(v) > upper(Mbar):
+            Mbar = arb(upper(v))
+    M = arb(upper(Mbar))
+    if upper(M*rho_a**2) > MRHO2_MAX:
+        return None
     t = acb(complex(zb)) - acb(complex(za))
     T = []
     for a0, a1 in ((acb(1), acb(0)), (acb(0), acb(1))):
@@ -135,12 +146,11 @@ def _step(rc, za, zb, N):
             tp *= t
         T.append((y, yp))
     # majorant tail
-    rho_a = arb(rho)
     A = [arb(1), arb(1)]
-    for n in range(2, N + 1):
+    for n in range(2, N + 1):                                 # A2: exact |r_k| (k <= N-2 here)
         acc = arb(0)
         for k in range(0, n - 1):
-            acc += M/rho_a**k*A[n - 2 - k]
+            acc += rabs[k]*A[n - 2 - k]
         A.append(acc/(n*(n - 1)))
     S_N = sum(A[j]*rho_a**j for j in range(N + 1))
     Sstar = S_N*(M*rho_a**2/N).exp()
