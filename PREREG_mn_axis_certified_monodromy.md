@@ -196,3 +196,23 @@ MN p1 and p2 at (1, 4) and (1, 9): the memory guard (2 GB) fired at 55–81 s, *
 symbolic derivation or simplification of the 92 kB components. The certified integration never started.
 (`qsim/mr_mn_G3.txt`, `mr_mn_row_6..9.*`.) An earlier launch failed on a path error before any computation; the
 relaunch is this attempt. Next: a guarded profiling diagnostic, then an amendment, labelled post-failure.
+
+## AMENDMENT A1 (2026-09-27), POST-FAILURE: no global symbolic simplification. Filed before the code change.
+
+**Diagnosis** (`qsim/mr_mn_profile.log`, guarded). The y-derivatives and y = 1 substitutions are cheap: the
+largest expression is about 6.3·10³ operations, under 0.5 s. The 2 GB blow-up is the **global simplification**
+step: `simplify(B)` for the degeneracy test and `cancel` over ℚ(x, E). Neither is needed for rigour.
+
+**Change.**
+1. **Degeneracy.** B ≢ 0 is proved by **one certified ball evaluation** at a fixed point (x = 2.3 + 0.7i), with
+   B certainly ≠ 0. A nonzero value is a proof. If the ball contains 0, a second point is tried; failing both gives
+   INCONCLUSIVE for the ξ₂ form.
+2. **The reduced forms** are built by `sp.diff` only, with no simplify, cancel or factor. They are compiled with
+   `cse` and evaluated directly in ball arithmetic, exp() included. The evaluator still refuses non-integer
+   powers.
+3. **The exp check** is kept, on the exp **atoms only**: every exp must be `E^m`, with m rational.
+4. **Pole location (float, loop choice only)** uses `1/r` directly, without `together`.
+
+The integrator (G0-validated) is unchanged. **Re-validation:** G2 is re-run in full through the amended path.
+The Kerr axial rows must not find a certificate, and ZV equatorial must find one. Only then is G3 re-run
+(attempt 2). The committed attempt-1 outcome stands.

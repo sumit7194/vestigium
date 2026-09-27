@@ -1,0 +1,13 @@
+[0.1s] loaded
+[0.1s] g_tt: ops 480
+[0.1s] g_tphi: ops 1403
+[0.1s] g_phiphi: ops 1891
+[0.1s] g_xx: ops 426
+[0.1s] g_yy: ops 426
+[0.2s] diff f
+[0.2s] subs: ops 978
+[0.2s] diff om
+[0.2s] subs om_y: ops 986
+[0.3s] rho2_y: ops 6317
+[0.4s] gxx: ops 1347
+[0.4s] A: ops 126
