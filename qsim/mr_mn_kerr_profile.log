@@ -1,0 +1,8 @@
+[0.4s] forms built; ops r_xi2 = 29016
+[0.4s] compiled; cse repl 155
+[0.4s] point eval [0.17989192759061510828344869853944629263446562340209178 +/- 7.59e-54] + [0.14646148512110411558135238165275297413485306945747519 +/- 9.53e-54]j
+[0.5s] series eval N=100
+[0.5s] box eval rad .1: nan + nanj
+[0.5s] box eval rad .01: nan + nanj
+[2.5s] simplified ops 22
+[2.5s] simplified box rad .1: [+/- 4.02] + [+/- 3.99]j

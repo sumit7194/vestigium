@@ -249,3 +249,26 @@ and 11094 were mine and are killed. `qsim/mr_mn_G2_A1.txt` is kept. G0 and G2 ar
 
 The exact traces are enclosed: `[−1.0000… ± 2.9e−24]`, `[−1.618033988749894848204… ± 7.4e−24]`, and for the
 exp pullback `[−1.618033988749894848205 ± 5.0e−22]`. That is 22–23 digits.
+
+## AMENDMENT A3 (2026-09-27), POST-FAILURE: build r inside ℚ(x, E). Supersedes A1's "raw" path. Filed before the code change.
+
+**Diagnosis** (`qsim/mr_mn_kerr_profile.log`, `mr_mn_simp_profile.log`, both guarded):
+- A1's raw r is 29,016 operations for Kerr. Its box evaluation is **NaN even on a disk of radius 0.01**, because
+  near-cancelling denominators defeat interval arithmetic, so every step fails. That is why the A1 and A2 Kerr
+  rows crawled.
+- Simplified, the same Kerr r is 22 operations, with a tight box bound.
+- For MN p1, reducing the **building blocks** A, B and ẋ² over ℚ(x, E) with `together` plus a polynomial gcd
+  takes **1.4 s** and gives small polynomials: B has a 30-term numerator of degree (8, 4) in (x, E).
+- The 2 GB blow-up of attempt 1 came from forming r first and simplifying afterwards.
+
+**Change.**
+1. Canonicalise A, B, ẋ² as P/Q, with P, Q ∈ ℚ[x, E], coprime by exact polynomial gcd. There is **no**
+   `factor` and no `simplify`.
+2. Build p and r **inside ℚ(x, E)** using the derivation `D = ∂_x + (−6β/x⁴)·E·∂_E`, which is exact because
+   E′ = −6βE/x⁴. After every rational operation, reduce by polynomial gcd.
+3. **Degeneracy is now exact:** B ≢ 0 iff its canonical numerator is a nonzero polynomial.
+4. **Evaluation:** the numerator and denominator polynomials, with E ↦ exp(2β/x³), are compiled with cse.
+   Kerr and ZV (no E) take the same path with β = 0.
+
+The A2 integrator (G0-validated) is unchanged. **The A2 G2 re-run was stopped by me** during its row 1 (PIDs
+15106 and 16481, mine). Row 0 (ZV equatorial) had PASSED. Re-validation: G2 in full under A3, then G3 (attempt 2).
