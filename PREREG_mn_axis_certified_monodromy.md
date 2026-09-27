@@ -344,3 +344,11 @@ first certified pair, cannot bias correctness; there is no multiple-testing issu
 **Terminal condition (bridge).** If G3 under A5 returns INCONCLUSIVE on any ground (time, resources, or no
 certificate), MN stands at **INCONCLUSIVE**, recorded as "says nothing about integrability", together with the
 route's full history. **There is no A6 without the user's decision.**
+
+## G2 under A5 (2026-09-27): **PASS.** (`qsim/mr_mn_G2_A5.txt`)
+
+- **ZV δ=2 equatorial:** certificate **found** on ξ₁ (6 s). ξ₂ was not run because a certificate was already found.
+- **Kerr p1 and p2 axial:** **none**, 4/4 rows, both forms.
+- **Info:** ZV δ=2 axial: none.
+
+G3, attempt 3 (the last under this route), follows.

@@ -1,17 +1,17 @@
 {
  "spec": "('kerr_ax', 'p2', 1, 4)",
  "forms": {
-  "r_xi2": {
+  "r_xi1": {
    "found": false,
-   "why": "no certified pair in the registered candidate list",
+   "why": "no certified pair in the registered candidate list (A5 incremental)",
    "base": "(2.6374609491737644+2.7359814226535404j)",
    "generator_traces": {
-    "g[-1.0833-0.4167j]": "[+/- 5.99e-21] + [+/- 5.99e-21]j",
-    "g[-1.0833+0.4167j]": "[+/- 1.51e-21] + [+/- 1.51e-21]j",
-    "g[-1.0219-0.0000j]": "[+/- 2.33e-21] + [+/- 2.33e-21]j",
-    "g[1.7442-0.0000j]": "[+/- 4.14e-23] + [+/- 4.14e-23]j"
+    "g[1.7442-0.0000j, rad 0.5232]": "[+/- 4.14e-23] + [+/- 4.14e-23]j",
+    "g[-1.0833+0.4167j, rad 0.1263]": "[+/- 1.51e-21] + [+/- 1.51e-21]j",
+    "g[-1.0219-0.0000j, rad 0.1263]": "[+/- 2.33e-21] + [+/- 2.33e-21]j",
+    "g[-1.0833-0.4167j, rad 0.1263]": "[+/- 5.99e-21] + [+/- 5.99e-21]j"
    },
-   "pairs_tried": 10,
+   "pairs_tried": 45,
    "n_generators": 4,
    "located": [
     "(-1.08333-0.41667j)",
@@ -20,17 +20,17 @@
     "(1.74415-0j)"
    ]
   },
-  "r_xi1": {
+  "r_xi2": {
    "found": false,
-   "why": "no certified pair in the registered candidate list",
+   "why": "no certified pair in the registered candidate list (A5 incremental)",
    "base": "(2.6374609491737644+2.7359814226535404j)",
    "generator_traces": {
-    "g[-1.0833-0.4167j]": "[+/- 5.99e-21] + [+/- 5.99e-21]j",
-    "g[-1.0833+0.4167j]": "[+/- 1.51e-21] + [+/- 1.51e-21]j",
-    "g[-1.0219-0.0000j]": "[+/- 2.33e-21] + [+/- 2.33e-21]j",
-    "g[1.7442-0.0000j]": "[+/- 4.14e-23] + [+/- 4.14e-23]j"
+    "g[1.7442-0.0000j, rad 0.5232]": "[+/- 4.14e-23] + [+/- 4.14e-23]j",
+    "g[-1.0833+0.4167j, rad 0.1263]": "[+/- 1.51e-21] + [+/- 1.51e-21]j",
+    "g[-1.0219-0.0000j, rad 0.1263]": "[+/- 2.33e-21] + [+/- 2.33e-21]j",
+    "g[-1.0833-0.4167j, rad 0.1263]": "[+/- 5.99e-21] + [+/- 5.99e-21]j"
    },
-   "pairs_tried": 10,
+   "pairs_tried": 45,
    "n_generators": 4,
    "located": [
     "(-1.08333-0.41667j)",
@@ -52,5 +52,5 @@
  },
  "degenerate_xi2": false,
  "steps": 2036,
- "seconds": 8.9
+ "seconds": 8.8
 }

@@ -1,0 +1,7 @@
+ 0 G2   ZV d=2 equatorial (1,0,4) [must FIND]        => PASS                           {'r_xi1': True, 'r_xi2': None} [guard ok, peak 72.0 MB, 6.2 s]
+ 1 G2   Kerr p1 axial (E=1, mu2=4) [must NOT find]   => PASS                           {'r_xi1': False, 'r_xi2': False} [guard ok, peak 70.0 MB, 8.3 s]
+ 2 G2   Kerr p1 axial (E=1, mu2=9) [must NOT find]   => PASS                           {'r_xi1': False, 'r_xi2': False} [guard ok, peak 70.0 MB, 8.3 s]
+ 3 G2   Kerr p2 axial (E=1, mu2=4) [must NOT find]   => PASS                           {'r_xi1': False, 'r_xi2': False} [guard ok, peak 70.0 MB, 9.3 s]
+ 4 G2   Kerr p2 axial (E=1, mu2=9) [must NOT find]   => PASS                           {'r_xi1': False, 'r_xi2': False} [guard ok, peak 70.0 MB, 9.3 s]
+ 5 G2i  ZV d=2 axial (1,0,4) [info]                  => INFO: not found                {'r_xi1': False, 'r_xi2': False} [guard ok, peak 89.0 MB, 5.2 s]
+EXIT 0

@@ -1,34 +1,34 @@
 {
  "spec": "zv_ax",
  "forms": {
-  "r_xi2": {
-   "found": false,
-   "why": "no certified pair in the registered candidate list",
-   "base": "(-3.8894486214889175+3.9758371876446357j)",
-   "generator_traces": {
-    "g[-1.0000-0.0000j]": "[-85.0314572037386067042 +/- 1.50e-20] + [+/- 1.50e-20]j",
-    "g[3.0000+0.0000j]": "[+/- 1.31e-20] + [+/- 1.31e-20]j"
-   },
-   "pairs_tried": 2,
-   "n_generators": 2,
-   "located": [
-    "(-1-0j)",
-    "(3+0j)"
-   ]
-  },
   "r_xi1": {
    "found": false,
-   "why": "no certified pair in the registered candidate list",
+   "why": "no certified pair in the registered candidate list (A5 incremental)",
    "base": "(-3.8894486214890702+3.9758371876447915j)",
    "generator_traces": {
-    "g[-1.0000-0.0000j]": "[-85.0314572037386067042 +/- 1.52e-20] + [+/- 1.52e-20]j",
-    "g[3.0000-0.0000j]": "[+/- 8.60e-22] + [+/- 8.60e-22]j"
+    "g[-1.0000-0.0000j, rad 0.3000]": "[-85.0314572037386067042 +/- 1.52e-20] + [+/- 1.52e-20]j",
+    "g[3.0000-0.0000j, rad 0.9000]": "[+/- 8.60e-22] + [+/- 8.60e-22]j"
    },
    "pairs_tried": 2,
    "n_generators": 2,
    "located": [
     "(-1-0j)",
     "(3-0j)"
+   ]
+  },
+  "r_xi2": {
+   "found": false,
+   "why": "no certified pair in the registered candidate list (A5 incremental)",
+   "base": "(-3.8894486214889175+3.9758371876446357j)",
+   "generator_traces": {
+    "g[-1.0000-0.0000j, rad 0.3000]": "[-85.0314572037386067042 +/- 1.50e-20] + [+/- 1.50e-20]j",
+    "g[3.0000+0.0000j, rad 0.9000]": "[+/- 1.31e-20] + [+/- 1.31e-20]j"
+   },
+   "pairs_tried": 2,
+   "n_generators": 2,
+   "located": [
+    "(-1-0j)",
+    "(3+0j)"
    ]
   }
  },
