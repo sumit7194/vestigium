@@ -1,0 +1,38 @@
+{
+ "spec": "zv_ax",
+ "forms": {
+  "r_xi2": {
+   "found": false,
+   "why": "no certified pair in the registered candidate list",
+   "base": "(-3.889448621461241+3.975837187616344j)",
+   "generator_traces": {
+    "g[-1.0000-0.0000j]": "[-85.03145720373860670420 +/- 6.37e-21] + [+/- 6.35e-21]j",
+    "g[3.0000-0.0000j]": "[+/- 5.55e-21] + [+/- 5.55e-21]j"
+   },
+   "pairs_tried": 2,
+   "n_generators": 2,
+   "located": [
+    "(-1-0j)",
+    "(3-0j)"
+   ]
+  },
+  "r_xi1": {
+   "found": false,
+   "why": "no certified pair in the registered candidate list",
+   "base": "(-3.889448621461242+3.975837187616345j)",
+   "generator_traces": {
+    "g[-1.0000-0.0000j]": "[-85.03145720373860670420 +/- 6.68e-21] + [+/- 6.66e-21]j",
+    "g[3.0000-0.0000j]": "[+/- 3.72e-22] + [+/- 3.72e-22]j"
+   },
+   "pairs_tried": 2,
+   "n_generators": 2,
+   "located": [
+    "(-1-0j)",
+    "(3-0j)"
+   ]
+  }
+ },
+ "degenerate_xi2": false,
+ "steps": 544,
+ "seconds": 4.5
+}

@@ -1,0 +1,5 @@
+[2.6s] NVE built: forms ['r_xi2', 'r_xi1']
+[2.8s] r_xi2: 4 located singular points
+[7.5s] r_xi2: certificate found = False  no certified pair in the registered candidate list
+[7.7s] r_xi1: 4 located singular points
+[12.4s] r_xi1: certificate found = False  no certified pair in the registered candidate list

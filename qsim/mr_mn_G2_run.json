@@ -1,0 +1,317 @@
+[
+ {
+  "spec": "zv_eq",
+  "forms": {
+   "r_xi2": {
+    "found": true,
+    "g": "g[-1.0000+0.0000j]*g[1.0000+0.0000j]",
+    "h": "g[1.0000+0.0000j]*g[3.0000+0.0000j]",
+    "base": "(-3.889448621475095+3.975837187630506j)",
+    "tr_g": "[95.66084516725 +/- 8.89e-12] + [-86.1153163154 +/- 2.08e-11]j",
+    "tr_h": "[128.673612227166 +/- 6.44e-13] + [+/- 3.37e-13]j",
+    "tr_comm": "[+/- 11.0] + [+/- 1.24]j",
+    "pairs_tried": 2,
+    "n_generators": 3,
+    "located": [
+     "(-1+0j)",
+     "(1+0j)",
+     "(3+0j)"
+    ]
+   },
+   "r_xi1": {
+    "found": true,
+    "g": "g[-1.0000-0.0000j]*g[1.0000-0.0000j]",
+    "h": "g[1.0000-0.0000j]*g[3.0000+0.0000j]",
+    "base": "(-3.8894486214454402+3.9758371876001926j)",
+    "tr_g": "[95.66084516725357 +/- 7.86e-15] + [-86.1153163154155 +/- 4.48e-14]j",
+    "tr_h": "[-128.6736122271663 +/- 2.57e-14] + [+/- 1.91e-14]j",
+    "tr_comm": "[-9.736 +/- 6.85e-4] + [+/- 4.03e-4]j",
+    "pairs_tried": 2,
+    "n_generators": 3,
+    "located": [
+     "(-1-0j)",
+     "(1-0j)",
+     "(3+0j)"
+    ]
+   }
+  },
+  "steps": 61158,
+  "seconds": 331.5,
+  "tag": "G2",
+  "name": "ZV d=2 equatorial (1,0,4) [must FIND]",
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 72.0,
+   "seconds": 332.1
+  }
+ },
+ {
+  "spec": "('kerr_ax', 'p1', 1, 4)",
+  "forms": {
+   "r_xi2": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(0.9097398895455321+2.898947490297392j)",
+    "generator_traces": {
+     "g[-1.2500-0.7500j]": "[+/- 7.85e-21] + [+/- 7.85e-21]j",
+     "g[-1.2500+0.7500j]": "[+/- 3.33e-22] + [+/- 3.33e-22]j",
+     "g[-1.0717-0.0000j]": "[+/- 1.13e-21] + [+/- 1.13e-21]j",
+     "g[1.9050-0.0000j]": "[+/- 5.67e-23] + [+/- 5.67e-23]j"
+    },
+    "pairs_tried": 10,
+    "n_generators": 4,
+    "located": [
+     "(-1.25-0.75j)",
+     "(-1.25+0.75j)",
+     "(-1.07171-0j)",
+     "(1.90505-0j)"
+    ]
+   },
+   "r_xi1": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(0.9097398895455321+2.898947490297392j)",
+    "generator_traces": {
+     "g[-1.2500-0.7500j]": "[+/- 7.85e-21] + [+/- 7.85e-21]j",
+     "g[-1.2500+0.7500j]": "[+/- 3.33e-22] + [+/- 3.33e-22]j",
+     "g[-1.0717-0.0000j]": "[+/- 1.13e-21] + [+/- 1.13e-21]j",
+     "g[1.9050-0.0000j]": "[+/- 5.67e-23] + [+/- 5.67e-23]j"
+    },
+    "pairs_tried": 10,
+    "n_generators": 4,
+    "located": [
+     "(-1.25-0.75j)",
+     "(-1.25+0.75j)",
+     "(-1.07171-0j)",
+     "(1.90505-0j)"
+    ]
+   }
+  },
+  "degenerate_xi2": false,
+  "steps": 1706,
+  "seconds": 12.4,
+  "tag": "G2",
+  "name": "Kerr p1 axial (E=1, mu2=4) [must NOT find]",
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 78.0,
+   "seconds": 13.5
+  }
+ },
+ {
+  "spec": "('kerr_ax', 'p1', 1, 9)",
+  "forms": {
+   "r_xi2": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(2.3621804996787277+2.450418068218253j)",
+    "generator_traces": {
+     "g[-1.2500-0.7500j]": "[+/- 6.40e-21] + [+/- 6.40e-21]j",
+     "g[-1.2500+0.7500j]": "[+/- 6.96e-22] + [+/- 6.96e-22]j",
+     "g[-1.0333-0.0000j]": "[+/- 1.20e-21] + [+/- 1.20e-21]j",
+     "g[1.3458-0.0000j]": "[+/- 3.00e-23] + [+/- 3.00e-23]j"
+    },
+    "pairs_tried": 10,
+    "n_generators": 4,
+    "located": [
+     "(-1.25-0.75j)",
+     "(-1.25+0.75j)",
+     "(-1.0333-0j)",
+     "(1.3458-0j)"
+    ]
+   },
+   "r_xi1": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(2.3621804996787277+2.450418068218253j)",
+    "generator_traces": {
+     "g[-1.2500-0.7500j]": "[+/- 6.40e-21] + [+/- 6.40e-21]j",
+     "g[-1.2500+0.7500j]": "[+/- 6.96e-22] + [+/- 6.96e-22]j",
+     "g[-1.0333-0.0000j]": "[+/- 1.20e-21] + [+/- 1.20e-21]j",
+     "g[1.3458-0.0000j]": "[+/- 3.00e-23] + [+/- 3.00e-23]j"
+    },
+    "pairs_tried": 10,
+    "n_generators": 4,
+    "located": [
+     "(-1.25-0.75j)",
+     "(-1.25+0.75j)",
+     "(-1.0333-0j)",
+     "(1.3458-0j)"
+    ]
+   }
+  },
+  "degenerate_xi2": false,
+  "steps": 1696,
+  "seconds": 12.2,
+  "tag": "G2",
+  "name": "Kerr p1 axial (E=1, mu2=9) [must NOT find]",
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 77.0,
+   "seconds": 13.5
+  }
+ },
+ {
+  "spec": "('kerr_ax', 'p2', 1, 4)",
+  "forms": {
+   "r_xi2": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(2.6374609491803196+2.7359814226603403j)",
+    "generator_traces": {
+     "g[-1.0833-0.4167j]": "[+/- 1.79e-20] + [+/- 1.79e-20]j",
+     "g[-1.0833+0.4167j]": "[+/- 3.42e-21] + [+/- 3.42e-21]j",
+     "g[-1.0219-0.0000j]": "[+/- 4.54e-21] + [+/- 4.54e-21]j",
+     "g[1.7442-0.0000j]": "[+/- 3.33e-23] + [+/- 3.33e-23]j"
+    },
+    "pairs_tried": 10,
+    "n_generators": 4,
+    "located": [
+     "(-1.08333-0.41667j)",
+     "(-1.08333+0.41667j)",
+     "(-1.02193-0j)",
+     "(1.74415-0j)"
+    ]
+   },
+   "r_xi1": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(2.6374609491803196+2.7359814226603403j)",
+    "generator_traces": {
+     "g[-1.0833-0.4167j]": "[+/- 1.79e-20] + [+/- 1.79e-20]j",
+     "g[-1.0833+0.4167j]": "[+/- 3.42e-21] + [+/- 3.42e-21]j",
+     "g[-1.0219-0.0000j]": "[+/- 4.54e-21] + [+/- 4.54e-21]j",
+     "g[1.7442-0.0000j]": "[+/- 3.33e-23] + [+/- 3.33e-23]j"
+    },
+    "pairs_tried": 10,
+    "n_generators": 4,
+    "located": [
+     "(-1.08333-0.41667j)",
+     "(-1.08333+0.41667j)",
+     "(-1.02193-0j)",
+     "(1.74415-0j)"
+    ]
+   }
+  },
+  "degenerate_xi2": false,
+  "steps": 2280,
+  "seconds": 15.5,
+  "tag": "G2",
+  "name": "Kerr p2 axial (E=1, mu2=4) [must NOT find]",
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 77.0,
+   "seconds": 16.6
+  }
+ },
+ {
+  "spec": "('kerr_ax', 'p2', 1, 9)",
+  "forms": {
+   "r_xi2": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(2.1920537260006396+2.2739363301947773j)",
+    "generator_traces": {
+     "g[-1.0833-0.4167j]": "[+/- 1.61e-20] + [+/- 1.61e-20]j",
+     "g[-1.0833+0.4167j]": "[+/- 2.60e-21] + [+/- 2.60e-21]j",
+     "g[-1.0099-0.0000j]": "[+/- 3.67e-21] + [+/- 3.67e-21]j",
+     "g[1.2807-0.0000j]": "[+/- 2.94e-23] + [+/- 2.94e-23]j"
+    },
+    "pairs_tried": 10,
+    "n_generators": 4,
+    "located": [
+     "(-1.08333-0.41667j)",
+     "(-1.08333+0.41667j)",
+     "(-1.0099-0j)",
+     "(1.28073-0j)"
+    ]
+   },
+   "r_xi1": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(2.1920537260006396+2.2739363301947773j)",
+    "generator_traces": {
+     "g[-1.0833-0.4167j]": "[+/- 1.61e-20] + [+/- 1.61e-20]j",
+     "g[-1.0833+0.4167j]": "[+/- 2.60e-21] + [+/- 2.60e-21]j",
+     "g[-1.0099-0.0000j]": "[+/- 3.67e-21] + [+/- 3.67e-21]j",
+     "g[1.2807-0.0000j]": "[+/- 2.94e-23] + [+/- 2.94e-23]j"
+    },
+    "pairs_tried": 10,
+    "n_generators": 4,
+    "located": [
+     "(-1.08333-0.41667j)",
+     "(-1.08333+0.41667j)",
+     "(-1.0099-0j)",
+     "(1.28073-0j)"
+    ]
+   }
+  },
+  "degenerate_xi2": false,
+  "steps": 2244,
+  "seconds": 15.4,
+  "tag": "G2",
+  "name": "Kerr p2 axial (E=1, mu2=9) [must NOT find]",
+  "assessment": "PASS",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 78.0,
+   "seconds": 16.6
+  }
+ },
+ {
+  "spec": "zv_ax",
+  "forms": {
+   "r_xi2": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(-3.889448621461241+3.975837187616344j)",
+    "generator_traces": {
+     "g[-1.0000-0.0000j]": "[-85.03145720373860670420 +/- 6.37e-21] + [+/- 6.35e-21]j",
+     "g[3.0000-0.0000j]": "[+/- 5.55e-21] + [+/- 5.55e-21]j"
+    },
+    "pairs_tried": 2,
+    "n_generators": 2,
+    "located": [
+     "(-1-0j)",
+     "(3-0j)"
+    ]
+   },
+   "r_xi1": {
+    "found": false,
+    "why": "no certified pair in the registered candidate list",
+    "base": "(-3.889448621461242+3.975837187616345j)",
+    "generator_traces": {
+     "g[-1.0000-0.0000j]": "[-85.03145720373860670420 +/- 6.68e-21] + [+/- 6.66e-21]j",
+     "g[3.0000-0.0000j]": "[+/- 3.72e-22] + [+/- 3.72e-22]j"
+    },
+    "pairs_tried": 2,
+    "n_generators": 2,
+    "located": [
+     "(-1-0j)",
+     "(3-0j)"
+    ]
+   }
+  },
+  "degenerate_xi2": false,
+  "steps": 544,
+  "seconds": 4.5,
+  "tag": "G2i",
+  "name": "ZV d=2 axial (1,0,4) [info]",
+  "assessment": "INFO: not found",
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 92.0,
+   "seconds": 5.2
+  }
+ }
+]

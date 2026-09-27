@@ -176,3 +176,16 @@ These settings are frozen for G1–G3: `MRHO2_MAX = 4`, h ≤ 0.2 dist, N = 100,
 
 ω = −g_tφ/g_tt reduces **exactly to 0** at y = +1 and at y = −1, at both p1 and p2 (`qsim/mr_mn_G1.json`). The
 regular L = 0 axial particular solution exists.
+
+## G2 OUTCOME (2026-09-27): **PASS.**
+
+`qsim/mr_mn_G2.txt`, `mr_mn_G2_run.json`, `mr_mn_row_0..5.{log,json}`.
+
+- **ZV δ=2 equatorial (1, 0, 4), which must find a certificate:** **found on both forms** (332 s).
+- **Kerr p1 and p2 axial at (1, 4) and (1, 9), which must not find one:** **not found**, 4/4 rows, both forms.
+- **Info:** ZV δ=2 **axial** has **no certificate** (2 located singular points).
+
+**Scope note (bridge, recorded).** The positive control is **equatorial**; the MN target is **axial**. G2 shows the
+certificate machinery can fire. It does not show power on axial solutions specifically, and the ZV axial info row
+found nothing there. G0(b) covers the loop mechanics near an essential singularity. So an axial INCONCLUSIVE would
+be uninformative, and an axial OBSTRUCTION stands on its own certificate. The verdict's scope says so.
