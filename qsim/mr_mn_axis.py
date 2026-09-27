@@ -34,7 +34,8 @@ def g0():
     R_ = sp.Rational
     lam, mu, nu = R_(1, 3), R_(1, 5), R_(1, 7)
     out = {}
-    rP = IA.Compiled(riemann_P(lam, mu, nu, z), z)
+    nP, dP = sp.fraction(sp.together(riemann_P(lam, mu, nu, z)))
+    rP = IA.RationalFn(nP, dP, z)                                   # A4: the P/Q path
     exp_tr = lambda l: -2*math.cos(math.pi*float(l))
     from flint import arb
     def contains(t, l):
@@ -51,7 +52,8 @@ def g0():
     lp = sp.diff(sp.log(sp.diff(phi, x)), x)            # phi''/phi' = -4/x - 6/x^4 (rational)
     lp = sp.simplify(lp)
     rb = sp.together(lp**2/4 - sp.diff(lp, x)/2) + sp.diff(phi, x)**2*riemann_P(lam, mu, nu, phi)
-    rB = IA.Compiled(rb, x)
+    nB, dB = sp.fraction(sp.together(rb))
+    rB = IA.RationalFn(nB, dB, x, bad=[0])                          # A4: P/Q path, essential point x = 0
     x1 = complex(sp.N((-sp.I/sp.pi)**sp.Rational(1, 3), 30))       # principal root of x^3 = 2/(2 pi i)
     check = abs(cmath.exp(2/x1**3) - 1)
     Y = IA.transport(rB, IA.loop_points(x1 + 0.01, x1, 0.01, ngon=32), hmax=0.004)
@@ -270,8 +272,8 @@ def locate_singular(r_eval, x, box_=6.0, rho0=0.35, grid=90):
     return sorted(found, key=lambda c: (round(c.real, 6), round(c.imag, 6)))
 
 
-def certificate_search(r_eval, x, sing, stats, max_pairs=400, rho0=0.35):
-    rc = IA.Compiled(r_eval, x)
+def certificate_search(r_eval, x, sing, stats, max_pairs=400, rho0=0.35, PQ=None, bad=()):
+    rc = IA.RationalFn(PQ[0], PQ[1], x, bad) if PQ is not None else IA.Compiled(r_eval, x)   # A4
     pts = [c for c in sing if abs(c) >= rho0]
     if len(pts) < 2:
         return dict(found=False, why=f"only {len(pts)} located singular points")
@@ -335,6 +337,8 @@ def run_task(spec):
         forms = {k: n[k] for k in ("r_xi2", "r_xi1") if n[k] is not None}
         var = xs
         evals = {k: sp.cancel(v) for k, v in forms.items()}
+        pq = {k: sp.fraction(v) for k, v in evals.items()}
+        bad = []
     else:
         if spec == "zv_ax":
             import mr_ts2 as T2
@@ -360,6 +364,9 @@ def run_task(spec):
         formsq = reduced_forms_QxE(Aq, Bq, Xq)
         forms = formsq
         evals = {k: v.to_expr() for k, v in formsq.items()}
+        sub = (lambda e: e.subs(Esym, sp.exp(2*bq/xx**3))) if bq else (lambda e: e)
+        pq = {k: (sub(v.P.as_expr()), sub(v.Q.as_expr())) for k, v in formsq.items()}
+        bad = [0] if bq else []
         out["QxE_terms"] = {k: [len(v.P.terms()), len(v.Q.terms())] for k, v in formsq.items()}
         var = xx
         out["degenerate_xi2"] = "r_xi2" not in forms           # A3: exact (B's canonical numerator is 0)
@@ -368,7 +375,7 @@ def run_task(spec):
         sing = locate_singular(rv, var)
         print(f"[{time.time()-t0:.1f}s] {k}: {len(sing)} located singular points", flush=True)
         try:
-            res = certificate_search(rv, var, sing, stats)
+            res = certificate_search(rv, var, sing, stats, PQ=pq[k], bad=bad)
         except Exception as e:
             res = dict(found=False, why=f"{type(e).__name__}: {e}")
         res["located"] = [str(complex(round(c.real, 5), round(c.imag, 5))) for c in sing]

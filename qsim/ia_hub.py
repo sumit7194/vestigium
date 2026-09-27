@@ -74,6 +74,49 @@ class Compiled:
         return self._ev(self.out, env)
 
 
+class RationalFn:
+    """A4: r = P/Q with P, Q built from polynomials in z and exp(.) (no division; analytic except at the listed
+    `bad` points). Point/series evaluation is P/Q in ball (series) arithmetic; sup |r| on a disk uses the centred
+    bound  (sum_k<=N |p_k| rho^k + T_P) / (|q_0| - sum_1<=k<=N |q_k| rho^k - T_Q)  with Cauchy tails on a 1.5x disk."""
+    def __init__(self, P, Q, z, bad=()):
+        self.Pc, self.Qc, self.z, self.bad = Compiled(P, z), Compiled(Q, z), z, [complex(b) for b in bad]
+
+    def __call__(self, zval):
+        return self.Pc(zval)/self.Qc(zval)
+
+    def sup_bound(self, za, rad, N):
+        za = complex(za)
+        rho2 = 1.5*rad
+        for b in self.bad:
+            if abs(za - b) <= 1.05*rho2:
+                return None
+        old = ctx.cap
+        ctx.cap = N + 2
+        try:
+            zs = acb_series([acb(za), 1])
+            ps, qs = self.Pc(zs), self.Qc(zs)
+            pk = list(ps.coeffs()) if isinstance(ps, acb_series) else [ps]
+            qk = list(qs.coeffs()) if isinstance(qs, acb_series) else [qs]
+        finally:
+            ctx.cap = old
+        MP2, MQ2 = self.Pc(box(za, rho2)), self.Qc(box(za, rho2))
+        if not (MP2.is_finite() and MQ2.is_finite()):
+            return None
+        th = arb(1)/arb(1.5)
+        ra = arb(rad)
+        TP = arb(upper(MP2))*th**(N + 1)/(1 - th)
+        TQ = arb(upper(MQ2))*th**(N + 1)/(1 - th)
+        num = TP
+        for k, c in enumerate(pk):
+            num += arb(upper(c))*ra**k
+        den = abs(qk[0]).lower() - TQ if qk else -TQ
+        for k, c in enumerate(qk[1:], start=1):
+            den -= arb(upper(c))*ra**k
+        if not den > 0:
+            return None
+        return arb(upper(num/den))
+
+
 def box(c, rad):
     """Complex box containing the disk |z - c| <= rad."""
     c = complex(c)
@@ -106,10 +149,15 @@ def _step(rc, za, zb, N):
     h = abs(complex(zb) - complex(za))
     rho = 2*h
     rhop = 1.5*rho                      # A2: Cauchy bound only for k > N, on the larger disk rho' = 1.5 rho
-    Mb = rc(box(za, rhop))
-    if not Mb.is_finite():
-        return None
-    Mp = arb(upper(Mb))
+    if hasattr(rc, "sup_bound"):                             # A4: centred bound for r = P/Q
+        Mp = rc.sup_bound(za, rhop, N)
+        if Mp is None:
+            return None
+    else:
+        Mb = rc(box(za, rhop))
+        if not Mb.is_finite():
+            return None
+        Mp = arb(upper(Mb))
     # Taylor coefficients of r at za
     old = ctx.cap
     ctx.cap = N + 2
