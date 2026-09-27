@@ -88,6 +88,10 @@ def upper(x):
 # ----------------------------------------------------------------------------------------------
 # one certified Taylor step
 # ----------------------------------------------------------------------------------------------
+MRHO2_MAX = 4.0     # step policy: reject disks with M rho^2 above this (the tail bound carries exp(M rho^2/N);
+                    # near-pole boxes give finite but huge M). Policy only -- every accepted step is rigorous.
+
+
 def _step(rc, za, zb, N):
     """Transfer matrix T(za -> zb) for (y, y') with rigorous enclosure, or None if the disk
     |z - za| <= rho = 2|zb - za| is not certified analytic.
@@ -103,6 +107,8 @@ def _step(rc, za, zb, N):
     if not Mb.is_finite():
         return None
     M = arb(upper(Mb))
+    if upper(M*arb(rho)**2) > MRHO2_MAX:
+        return None
     # Taylor coefficients of r at za
     old = ctx.cap
     ctx.cap = N + 2
@@ -152,7 +158,7 @@ def _matmul(P, Q):
             [P[1][0]*Q[0][0] + P[1][1]*Q[1][0], P[1][0]*Q[0][1] + P[1][1]*Q[1][1]]]
 
 
-def transport(rc, pts, N=60, hmax=0.25, dist=None, min_h=1e-6, stats=None):
+def transport(rc, pts, N=100, hmax=0.25, dist=None, min_h=1e-6, stats=None):
     """Certified transfer matrix along the polyline pts (complex). dist(z) (optional) is a float
     estimate of the distance to the nearest singularity, used only to pick step sizes."""
     Y = [[acb(1), acb(0)], [acb(0), acb(1)]]
@@ -163,7 +169,7 @@ def transport(rc, pts, N=60, hmax=0.25, dist=None, min_h=1e-6, stats=None):
         while abs(q - z) > 0:
             h = min(abs(q - z), hmax)
             if dist is not None:
-                h = min(h, 0.4*dist(z))
+                h = min(h, 0.2*dist(z))
             while True:
                 zb = q if h >= abs(q - z) else z + h*(q - z)/abs(q - z)
                 T = _step(rc, z, zb, N)

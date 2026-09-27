@@ -153,3 +153,21 @@ and runs detached if it is long. Logs go in `qsim/`. Everything is committed and
 4. The axial NVE is degenerate at L = 0 (B ≡ 0): INCONCLUSIVE.
 5. The axial G⁰ is genuinely abelian for MN (possible, since the axis is a special orbit): no certificate, so
    INCONCLUSIVE. This would **not** be evidence of integrability.
+
+---
+
+## G0 OUTCOME (2026-09-27): **PASS on the third attempt.** The two failed attempts are on record.
+
+- **Attempt 1: FAIL.** The balls exploded to about 1e600. Step policy: disks that nearly touched a pole gave
+  finite but huge M (about 1e5), so the rigorous tail exp(Mρ²/N) blew up. Nothing false was produced: the gate
+  refused them on digits (NaN).
+  - **Fix (step policy only; every accepted step stays rigorous):** reject disks with Mρ² > 4 (`MRHO2_MAX`), and
+    take h ≤ 0.2 × dist, down from 0.4.
+- **Attempt 2: FAIL on the registered 10-digit rule.** The enclosures contained the exact values, but test (b)
+  had 9.7 digits. **Fix:** Taylor order N = 60 → 100 (the tail is about 2⁻ᴺ per step).
+- **Attempt 3: PASS.** Loop around 0: `[−1.000… ± 1.1e−23]` ∋ −2cos(π/3). Loop around 1:
+  `[−1.6180339887498948482046 ± 2.9e−23]` ∋ −2cos(π/5). **(b), the pullback by exp(2/x³):**
+  `[−1.618033988749894848205 ± 6.6e−22]` ∋ −2cos(π/5). About 22 digits each, det = 1 inside the balls.
+  `qsim/mr_mn_G0.json` and `mr_mn_G0.log`.
+
+These settings are frozen for G1–G3: `MRHO2_MAX = 4`, h ≤ 0.2 dist, N = 100, 192 bits.
