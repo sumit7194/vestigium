@@ -1,0 +1,27 @@
+[0.1s] kerr_p1: QxE forms built, terms [(5, 9), (5, 9)]
+[0.4s]    r_xi2 at (2.3+0.7j): rel diff 0.00e+00
+[0.4s]    r_xi2 at (1.7-1.1j): rel diff 0.00e+00
+[0.4s]    r_xi2 at (-2.9+0.4j): rel diff 0.00e+00
+[0.4s]    r_xi2 box(.05) finite=False nan + nanj
+[0.4s]    r_xi1 at (2.3+0.7j): rel diff 0.00e+00
+[0.4s]    r_xi1 at (1.7-1.1j): rel diff 0.00e+00
+[0.4s]    r_xi1 at (-2.9+0.4j): rel diff 0.00e+00
+[0.4s]    r_xi1 box(.05) finite=False nan + nanj
+[2.0s] mn_p1: QxE forms built, terms [(409, 349), (31, 53)]
+[10.0s]    r_xi2 at (2.3+0.7j): rel diff 0.00e+00
+[10.0s]    r_xi2 at (1.7-1.1j): rel diff 0.00e+00
+[10.0s]    r_xi2 at (-2.9+0.4j): rel diff 0.00e+00
+[10.0s]    r_xi2 box(.05) finite=False nan + nanj
+[10.1s]    r_xi1 at (2.3+0.7j): rel diff 0.00e+00
+[10.1s]    r_xi1 at (1.7-1.1j): rel diff 0.00e+00
+[10.1s]    r_xi1 at (-2.9+0.4j): rel diff 0.00e+00
+[10.1s]    r_xi1 box(.05) finite=False nan + nanj
+[11.8s] mn_p2: QxE forms built, terms [(409, 349), (31, 53)]
+[20.3s]    r_xi2 at (2.3+0.7j): rel diff 0.00e+00
+[20.3s]    r_xi2 at (1.7-1.1j): rel diff 0.00e+00
+[20.3s]    r_xi2 at (-2.9+0.4j): rel diff 0.00e+00
+[20.3s]    r_xi2 box(.05) finite=False nan + nanj
+[20.4s]    r_xi1 at (2.3+0.7j): rel diff 0.00e+00
+[20.4s]    r_xi1 at (1.7-1.1j): rel diff 0.00e+00
+[20.4s]    r_xi1 at (-2.9+0.4j): rel diff 0.00e+00
+[20.4s]    r_xi1 box(.05) finite=False nan + nanj

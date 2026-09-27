@@ -272,3 +272,29 @@ exp pullback `[−1.618033988749894848205 ± 5.0e−22]`. That is 22–23 digits
 
 The A2 integrator (G0-validated) is unchanged. **The A2 G2 re-run was stopped by me** during its row 1 (PIDs
 15106 and 16481, mine). Row 0 (ZV equatorial) had PASSED. Re-validation: G2 in full under A3, then G3 (attempt 2).
+
+## AMENDMENT A4 (2026-09-27), POST-FAILURE: a centred bound for sup |r| on the step disk. Filed before the code change.
+
+**Correctness check of A3 first** (`qsim/mr_mn_A3_check.log`). At 3 points per form (Kerr p1, MN p1, MN p2),
+the ℚ(x, E) forms agree with the raw formula to machine precision (relative difference 0). They are compact:
+MN ξ₂ is 409/349 terms, ξ₁ is 31/53.
+
+**Remaining failure.** The box evaluation of the **expanded** denominator is useless: the Kerr degree-8 Q on a
+box of radius 0.05 at 2.3 + 0.7i gives ±3.1·10³, which contains 0. That is cancellation overestimation, not a pole.
+
+**Change (integrator).** For r = P/Q with P, Q built from polynomials in x and exp(c/x³) (analytic for x ≠ 0),
+the bound on sup |r| over the disk D(z_a, ρ′) is
+
+    sup|r| ≤ ( Σ_{k≤N} |p_k| ρ′^k + T_P ) / ( |q_0| − Σ_{1≤k≤N} |q_k| ρ′^k − T_Q ),
+
+accepted only when the denominator is certainly > 0.
+- p_k and q_k are the exact Taylor coefficients at z_a (ball series arithmetic).
+- `T_P = M_P″ θ^{N+1}/(1 − θ)`, with θ = ρ′/ρ″ and ρ″ = 1.5ρ′. Here M_P″ is a crude box bound of |P| on D(z_a, ρ″),
+  which is finite because P has no division. T_Q is defined the same way.
+- The disk D(z_a, ρ″) must certainly exclude x = 0, the only non-analytic point of P and Q.
+- If the denominator is not certainly positive, the step is halved.
+
+This replaces the single box evaluation of r (M′) in `_step`. Everything else (A2 majorant, N = 100, Mρ² ≤ 4,
+192 bits) is unchanged. The G0 tests are routed through the **same** P/Q path: P and Q come from `together`.
+
+**Re-validation:** G0 in full, then G2 in full, then G3 (attempt 2).

@@ -138,6 +138,89 @@ def _certainly_nonzero(expr, x):
     return False
 
 
+class QxE:
+    """A3: exact element P/Q of Q(x, E), E = exp(2 beta/x^3), P, Q in Q[x, E] coprime (exact polynomial gcd;
+    no factor/simplify). The derivation D = d/dx + (-6 beta/x^4) E d/dE is exact because E' = -6 beta E/x^4."""
+    def __init__(self, P, Q, x, E, beta):
+        self.x, self.E, self.beta = x, E, beta
+        if Q.is_zero:
+            raise ZeroDivisionError("QxE with zero denominator")
+        g = sp.gcd(P, Q)
+        P, Q = sp.quo(P, g), sp.quo(Q, g)
+        lc = Q.LC()
+        self.P, self.Q = P*(1/lc) if not P.is_zero else P, Q*(1/lc)
+
+    @classmethod
+    def from_expr(cls, e, x, E, beta):
+        if beta is not None and e.has(sp.exp):
+            e = exp_to_E(e, x, beta, E)
+        e = sp.together(e)
+        n, d = sp.fraction(e)
+        return cls(sp.Poly(n, x, E, domain="QQ"), sp.Poly(d, x, E, domain="QQ"), x, E, beta or 0)
+
+    def _new(self, P, Q):
+        return QxE(P, Q, self.x, self.E, self.beta)
+
+    def __add__(self, o):
+        o = self._lift(o)
+        return self._new(self.P*o.Q + o.P*self.Q, self.Q*o.Q)
+
+    def __sub__(self, o):
+        o = self._lift(o)
+        return self._new(self.P*o.Q - o.P*self.Q, self.Q*o.Q)
+
+    def __mul__(self, o):
+        o = self._lift(o)
+        return self._new(self.P*o.P, self.Q*o.Q)
+
+    def __truediv__(self, o):
+        o = self._lift(o)
+        if o.P.is_zero:
+            raise ZeroDivisionError("division by the zero element of Q(x, E)")
+        return self._new(self.P*o.Q, self.Q*o.P)
+
+    __radd__ = __add__
+    __rmul__ = __mul__
+
+    def __neg__(self):
+        return self._new(-self.P, self.Q)
+
+    def _lift(self, o):
+        if isinstance(o, QxE):
+            return o
+        return self._new(sp.Poly(sp.Rational(o), self.x, self.E, domain="QQ"),
+                         sp.Poly(1, self.x, self.E, domain="QQ"))
+
+    def _Dpoly_x4(self, P):
+        """x^4 * D(P) as a polynomial."""
+        x4 = sp.Poly(self.x**4, self.x, self.E, domain="QQ")
+        Ep = sp.Poly(self.E, self.x, self.E, domain="QQ")
+        return x4*P.diff(self.x) - sp.Rational(6)*sp.Rational(self.beta)*Ep*P.diff(self.E)
+
+    def D(self):
+        x4 = sp.Poly(self.x**4, self.x, self.E, domain="QQ")
+        return self._new(self._Dpoly_x4(self.P)*self.Q - self.P*self._Dpoly_x4(self.Q), x4*self.Q*self.Q)
+
+    def is_zero(self):
+        return self.P.is_zero
+
+    def to_expr(self):
+        e = self.P.as_expr()/self.Q.as_expr()
+        return e.subs(self.E, sp.exp(2*self.beta/self.x**3)) if self.beta else e
+
+
+def reduced_forms_QxE(A, B, X):
+    """A3: the reduced forms computed exactly inside Q(x, E)."""
+    out = {}
+    q = A*B/X
+    if not B.is_zero():
+        p2 = -(B.D()/B - X.D()/(X*2))
+        out["r_xi2"] = p2*p2/4 + p2.D()/2 - q
+    p1 = -(A.D()/A - X.D()/(X*2))
+    out["r_xi1"] = p1*p1/4 + p1.D()/2 - q
+    return out
+
+
 def reduced_forms(A, B, xdot2, x):
     out = {}
     if _certainly_nonzero(B, x):
@@ -271,18 +354,15 @@ def run_task(spec):
             fname, beta = MN_POINTS[p]
             C, xx, yy = load(fname)
         A, B, xdot2 = axial_nve(C, xx, yy, En, mu2)
-        forms = reduced_forms(A, B, xdot2, xx)
         Esym = sp.Symbol("E")
-        evals = {}
-        for k, v in forms.items():
-            # A1: raw expression, no global simplification; exp atoms checked to be powers of E
-            if beta is not None:
-                for a in v.atoms(sp.exp):
-                    exp_to_E(a, xx, beta, Esym)
-            evals[k] = v
-            out.setdefault("ops", {})[k] = int(sp.count_ops(v))
+        bq = beta if beta is not None else 0
+        Aq, Bq, Xq = (QxE.from_expr(e, xx, Esym, bq) for e in (A, B, xdot2))      # A3
+        formsq = reduced_forms_QxE(Aq, Bq, Xq)
+        forms = formsq
+        evals = {k: v.to_expr() for k, v in formsq.items()}
+        out["QxE_terms"] = {k: [len(v.P.terms()), len(v.Q.terms())] for k, v in formsq.items()}
         var = xx
-        out["degenerate_xi2"] = "r_xi2" not in forms
+        out["degenerate_xi2"] = "r_xi2" not in forms           # A3: exact (B's canonical numerator is 0)
     print(f"[{time.time()-t0:.1f}s] NVE built: forms {list(evals)}", flush=True)
     for k, rv in evals.items():
         sing = locate_singular(rv, var)
