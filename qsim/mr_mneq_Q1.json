@@ -1,0 +1,17 @@
+{
+ "p1": {
+  "g_tt": true,
+  "g_tphi": true,
+  "g_phiphi": true,
+  "g_xx": true,
+  "g_yy": true
+ },
+ "p2": {
+  "g_tt": true,
+  "g_tphi": true,
+  "g_phiphi": true,
+  "g_xx": true,
+  "g_yy": true
+ },
+ "Q1_PASS": true
+}

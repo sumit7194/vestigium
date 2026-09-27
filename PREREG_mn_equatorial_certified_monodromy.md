@@ -97,3 +97,11 @@ The two match only up to these gaps:
 **Resources.** Detached, with the fixed watchdog: 2 GB tree, memory_pressure below 10 % free, disk 5 GB, and
 ≤ 3 h per row. deepstrain's network-only prefetch runs alongside. Everything is committed and pushed as it goes.
 If the bridge is unreachable, notes go to `inbox/bridge`.
+
+---
+
+## Q1 OUTCOME (2026-09-28): **PASS.**
+
+∂_y g_ab at y = 0 is **identically 0** in ℚ(t, E₁, E₂, E₃) for all five lower components, at p1 and p2 (exact;
+`qsim/mr_mneq_Q1.json`). The equatorial plane is invariant. Every exp atom (value, first and second y-derivatives
+at y = 0) decomposed **exactly** into integer powers of the three registered generators.
