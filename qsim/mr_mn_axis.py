@@ -283,29 +283,28 @@ def certificate_search(r_eval, x, sing, stats, max_pairs=400, rho0=0.35, PQ=None
     rng = np.random.default_rng(7)
     span = max(abs(c) for c in pts) + 1.0
     z0 = max((complex(rng.uniform(-span, span), rng.uniform(-span, span)) for _ in range(4000)), key=dmin)
-    gens = {}
+    # A5: nearest-first generators, INCREMENTAL testing, stop at the first certified pair
+    pts = sorted(pts, key=lambda c: abs(c - z0))
+    gens, cand, tried = [], [], 0
     for c in pts:
         rad = 0.3*sep[c]
-        gens[c] = IA.transport(rc, IA.loop_points(z0, c, rad), dist=dmin, stats=stats)
-    cand = [(f"g[{c:.4f}]", Y) for c, Y in gens.items()]
-    keys = list(gens)
-    for i in range(len(keys)):
-        for j in range(i + 1, len(keys)):
-            cand.append((f"g[{keys[i]:.4f}]*g[{keys[j]:.4f}]", IA._matmul(gens[keys[i]], gens[keys[j]])))
-    tried = 0
-    for a in range(len(cand)):
-        if not IA.certainly_not_in_segment(IA.tr(cand[a][1])):
-            continue
-        for b in range(a + 1, len(cand)):
-            tried += 1
-            ok, det_ = IA.certificate(cand[a][1], cand[b][1])
-            if ok:
-                return dict(found=True, g=cand[a][0], h=cand[b][0], base=str(z0), **det_, pairs_tried=tried,
-                            n_generators=len(gens))
-            if tried >= max_pairs:
-                break
-    traces = {k: str(IA.tr(Y)) for k, Y in cand[:len(gens)]}
-    return dict(found=False, why="no certified pair in the registered candidate list", base=str(z0),
+        Y = IA.transport(rc, IA.loop_points(z0, c, rad), dist=dmin, stats=stats)
+        name = f"g[{c:.4f}, rad {rad:.4f}]"
+        new = [(name, Y)] + [(f"{gn}*{name}", IA._matmul(GY, Y)) for gn, GY in gens]
+        gens.append((name, Y))
+        for nn, NY in new:
+            for on, OY in cand:
+                for (an, AY), (bn, BY) in (((on, OY), (nn, NY)), ((nn, NY), (on, OY))):
+                    if not IA.certainly_not_in_segment(IA.tr(AY)):
+                        continue
+                    tried += 1
+                    ok, det_ = IA.certificate(AY, BY)
+                    if ok:
+                        return dict(found=True, g=an, h=bn, base=str(z0), **det_, pairs_tried=tried,
+                                    n_generators=len(gens))
+            cand.append((nn, NY))
+    traces = {gn: str(IA.tr(GY)) for gn, GY in gens}
+    return dict(found=False, why="no certified pair in the registered candidate list (A5 incremental)", base=str(z0),
                 generator_traces=traces, pairs_tried=tried, n_generators=len(gens))
 
 
@@ -371,7 +370,12 @@ def run_task(spec):
         var = xx
         out["degenerate_xi2"] = "r_xi2" not in forms           # A3: exact (B's canonical numerator is 0)
     print(f"[{time.time()-t0:.1f}s] NVE built: forms {list(evals)}", flush=True)
-    for k, rv in evals.items():
+    order = [k for k in ("r_xi1", "r_xi2") if k in evals]                  # A5: xi1 first
+    for k in order:
+        rv = evals[k]
+        if any(f.get("found") for f in out["forms"].values()):
+            out["forms"][k] = dict(found=None, why="not run: certificate already found on the other form (A5)")
+            continue
         sing = locate_singular(rv, var)
         print(f"[{time.time()-t0:.1f}s] {k}: {len(sing)} located singular points", flush=True)
         try:
@@ -404,7 +408,7 @@ def run_gate(gate):
         i = allrows.index((tag, name, spec, expect))
         outp = os.path.join(HERE, f"mr_mn_row_{i}.json")
         g = W.run_guarded([py, "-u", os.path.abspath(__file__), "--one", f"row{i}", outp], mem_limit_mb=2048,
-                          time_limit_s=1800, cwd=HERE, log=os.path.join(HERE, f"mr_mn_row_{i}.log"))
+                          time_limit_s=5400, cwd=HERE, log=os.path.join(HERE, f"mr_mn_row_{i}.log"))   # A5: 90 min
         res = json.load(open(outp)) if g["status"] == "ok" and os.path.exists(outp) else dict(forms={}, failed=g["status"])
         found = any(f.get("found") for f in res.get("forms", {}).values())
         if expect is True:
