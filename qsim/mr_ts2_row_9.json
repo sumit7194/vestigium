@@ -1,0 +1,69 @@
+{
+ "control": "T2",
+ "name": "TS2 P1 (1,0,9)",
+ "ELmu2": [
+  "1",
+  "0",
+  "9"
+ ],
+ "expected": null,
+ "forms": {
+  "r_xi2": {
+   "verdict": "INCONCLUSIVE",
+   "case": null,
+   "reason": "the poles of r are not all explicitly computable",
+   "structure": {
+    "deg_num": 34,
+    "deg_den": 38,
+    "den_factors": [
+     [
+      "x",
+      2
+     ],
+     [
+      "<deg 4 factor>",
+      2
+     ],
+     [
+      "<deg 6 factor>",
+      2
+     ],
+     [
+      "<deg 8 factor>",
+      2
+     ]
+    ]
+   },
+   "monodromy": "INCONCLUSIVE",
+   "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+   "monodromy_det_err": null
+  },
+  "r_xi1": {
+   "verdict": "INCONCLUSIVE",
+   "case": null,
+   "reason": "the poles of r are not all explicitly computable",
+   "structure": {
+    "deg_num": 18,
+    "deg_den": 22,
+    "den_factors": [
+     [
+      "x",
+      2
+     ],
+     [
+      "<deg 4 factor>",
+      2
+     ],
+     [
+      "<deg 6 factor>",
+      2
+     ]
+    ]
+   },
+   "monodromy": "INCONCLUSIVE",
+   "monodromy_why": "outside scope: the poles of r are not all explicitly computable",
+   "monodromy_det_err": null
+  }
+ },
+ "seconds": 1.8
+}

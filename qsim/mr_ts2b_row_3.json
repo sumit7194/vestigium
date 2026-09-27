@@ -1,0 +1,51 @@
+{
+ "group": "V-info",
+ "name": "P(0,0,1/3) (Kimura: non-Liouvillian)",
+ "expect": null,
+ "items": [
+  {
+   "label": "P(0,0,1/3)",
+   "route": "OBSTRUCTION",
+   "reason": "log point(s) at roots of ['z - 1', 'z'] exclude cases 2, 3; no d in Z>=0 over every count combination excludes case 1: G = SL(2)",
+   "factors": [
+    {
+     "factor": "z - 1",
+     "deg": 1,
+     "mult": 2,
+     "b": "-1/4",
+     "sqrt_1p4b": [
+      "0",
+      1
+     ],
+     "N": 0,
+     "log": true
+    },
+    {
+     "factor": "z",
+     "deg": 1,
+     "mult": 2,
+     "b": "-1/4",
+     "sqrt_1p4b": [
+      "0",
+      1
+     ],
+     "N": 0,
+     "log": true
+    }
+   ],
+   "inf": {
+    "b": "-2/9",
+    "sqrt_1p4b": [
+     "1/3",
+     1
+    ],
+    "log": false,
+    "N": null
+   },
+   "ord_inf": 2,
+   "case1_candidates": [],
+   "log_point": true
+  }
+ ],
+ "seconds": 0.0
+}

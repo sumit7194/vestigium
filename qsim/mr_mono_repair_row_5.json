@@ -1,0 +1,15 @@
+{
+ "tag": "TS",
+ "name": "TS2 P1 (1,0,4)",
+ "expected": null,
+ "forms": {
+  "r_xi2": {
+   "verdict": "FAILED",
+   "why": "RuntimeError: no clean base point found (wide search, best ratio 0.451)"
+  },
+  "r_xi1": {
+   "verdict": "FAILED",
+   "why": "RuntimeError: no clean base point found (wide search, best ratio 0.543)"
+  }
+ }
+}

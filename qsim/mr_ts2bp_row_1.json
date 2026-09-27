@@ -1,0 +1,89 @@
+{
+ "group": "V-neg",
+ "name": "algebraic-factor Liouvillian poisons",
+ "expect": "not_OBS",
+ "items": [
+  {
+   "label": "r = y1''/y1, y1 = sqrt(x**2 - 2)",
+   "route": "INCONCLUSIVE",
+   "reason": "case 1 HOLDS: P of degree 0 found (1); the Borel part is not graded by this route",
+   "case1_tested": [
+    {
+     "alphas": [
+      "1/2"
+     ],
+     "alpha_inf": "1",
+     "d": 0,
+     "P": "1"
+    }
+   ],
+   "factors": [
+    {
+     "factor": "x**2 - 2",
+     "deg": 2,
+     "mult": 2,
+     "b": "-1/4",
+     "sqrt_1p4b": [
+      "0",
+      1
+     ],
+     "N": 0,
+     "log": true
+    }
+   ],
+   "inf": {
+    "alpha": "0 or 1",
+    "log": false
+   },
+   "ord_inf": 4,
+   "case1_candidates": [
+    0
+   ],
+   "log_point": true
+  },
+  {
+   "label": "r = y1''/y1, y1 = sqrt(x**3 - 2)",
+   "route": "INCONCLUSIVE",
+   "reason": "case 1 HOLDS: P of degree 0 found (1); the Borel part is not graded by this route",
+   "case1_tested": [
+    {
+     "alphas": [
+      "1/2"
+     ],
+     "alpha_inf": "3/2",
+     "d": 0,
+     "P": "1"
+    }
+   ],
+   "factors": [
+    {
+     "factor": "<deg 3>",
+     "deg": 3,
+     "mult": 2,
+     "b": "-1/4",
+     "sqrt_1p4b": [
+      "0",
+      1
+     ],
+     "N": 0,
+     "log": true
+    }
+   ],
+   "inf": {
+    "b": "3/4",
+    "sqrt_1p4b": [
+     "2",
+     1
+    ],
+    "log": false,
+    "N": 2
+   },
+   "ord_inf": 2,
+   "case1_candidates": [
+    0
+   ],
+   "log_point": true
+  }
+ ],
+ "seconds": 0.0
+}

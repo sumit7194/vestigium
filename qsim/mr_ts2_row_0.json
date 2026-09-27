@@ -1,0 +1,85 @@
+{
+ "control": "C1",
+ "name": "ZV delta=2 via WP loader (1,0,4)",
+ "ELmu2": [
+  "1",
+  "0",
+  "4"
+ ],
+ "expected": "OBSTRUCTION",
+ "forms": {
+  "r_xi2": {
+   "verdict": "OBSTRUCTION",
+   "case": 4,
+   "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+   "structure": {
+    "deg_num": 6,
+    "deg_den": 10,
+    "den_factors": [
+     [
+      "x - 3",
+      2
+     ],
+     [
+      "x - 1",
+      2
+     ],
+     [
+      "x",
+      2
+     ],
+     [
+      "x + 1",
+      2
+     ],
+     [
+      "3*x - 1",
+      2
+     ]
+    ]
+   },
+   "monodromy": "OBSTRUCTION",
+   "monodromy_why": "SL2 (base point 0.0946+3.8167j)",
+   "monodromy_det_err": 9.627792028163078e-11
+  },
+  "r_xi1": {
+   "verdict": "OBSTRUCTION",
+   "case": 4,
+   "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+   "structure": {
+    "deg_num": 6,
+    "deg_den": 10,
+    "den_factors": [
+     [
+      "x - 3",
+      2
+     ],
+     [
+      "x - 1",
+      2
+     ],
+     [
+      "x",
+      2
+     ],
+     [
+      "x + 1",
+      2
+     ],
+     [
+      "3*x - 1",
+      2
+     ]
+    ]
+   },
+   "monodromy": "OBSTRUCTION",
+   "monodromy_why": "SL2 (base point 0.0946+3.8167j)",
+   "monodromy_det_err": 2.7187138190034323e-11
+  }
+ },
+ "identity": {
+  "r_xi2": true,
+  "r_xi1": true
+ },
+ "seconds": 17.4
+}

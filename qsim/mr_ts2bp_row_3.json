@@ -1,0 +1,118 @@
+{
+ "group": "V-info",
+ "name": "Stage-1 calibration, expected OBSTRUCTION or None",
+ "expect": null,
+ "items": [
+  {
+   "label": "Airy",
+   "route": "INCONCLUSIVE",
+   "reason": "out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)",
+   "case1_tested": null,
+   "factors": [],
+   "inf": null,
+   "ord_inf": -1,
+   "case1_candidates": null,
+   "log_point": null
+  },
+  {
+   "label": "Bessel 0",
+   "route": "INCONCLUSIVE",
+   "reason": "out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)",
+   "case1_tested": null,
+   "factors": [],
+   "inf": null,
+   "ord_inf": 0,
+   "case1_candidates": null,
+   "log_point": null
+  },
+  {
+   "label": "Weber z^2+1",
+   "route": "INCONCLUSIVE",
+   "reason": "out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)",
+   "case1_tested": null,
+   "factors": [],
+   "inf": null,
+   "ord_inf": -2,
+   "case1_candidates": null,
+   "log_point": null
+  },
+  {
+   "label": "P(1/3,1/5,1/7)",
+   "route": "INCONCLUSIVE",
+   "reason": "no logarithmic point: the uniqueness lemma does not apply",
+   "case1_tested": null,
+   "factors": [
+    {
+     "factor": "z - 1",
+     "deg": 1,
+     "mult": 2,
+     "b": "-6/25",
+     "sqrt_1p4b": [
+      "1/5",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "z",
+     "deg": 1,
+     "mult": 2,
+     "b": "-2/9",
+     "sqrt_1p4b": [
+      "1/3",
+      1
+     ],
+     "N": null,
+     "log": false
+    }
+   ],
+   "inf": {
+    "b": "-12/49",
+    "sqrt_1p4b": [
+     "1/7",
+     1
+    ],
+    "log": false,
+    "N": null
+   },
+   "ord_inf": 2,
+   "case1_candidates": [],
+   "log_point": false
+  },
+  {
+   "label": "Fuchsian full Borel",
+   "route": "INCONCLUSIVE",
+   "reason": "coefficients not in Q (out of scope)",
+   "case1_tested": null,
+   "factors": null,
+   "inf": null,
+   "ord_inf": null,
+   "case1_candidates": null,
+   "log_point": null
+  },
+  {
+   "label": "Abbasi case-1 ex1",
+   "route": "INCONCLUSIVE",
+   "reason": "out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)",
+   "case1_tested": null,
+   "factors": [],
+   "inf": null,
+   "ord_inf": 0,
+   "case1_candidates": null,
+   "log_point": null
+  },
+  {
+   "label": "Abbasi case-1 ex2",
+   "route": "INCONCLUSIVE",
+   "reason": "out of scope: a pole of order > 2 or ord_inf < 2 (not Fuchsian)",
+   "case1_tested": null,
+   "factors": [],
+   "inf": null,
+   "ord_inf": 4,
+   "case1_candidates": null,
+   "log_point": null
+  }
+ ],
+ "seconds": 0.0
+}

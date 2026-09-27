@@ -1,0 +1,22 @@
+{
+ "control": "A'",
+ "name": "ZV delta=1, mu=2",
+ "expected": "NO_OBSTRUCTION",
+ "forms": {
+  "r_xi2": {
+   "verdict": "NO_OBSTRUCTION",
+   "case": "analytic",
+   "reason": "DEGENERATE NVE, B == 0: decoupled, G0 in the additive group (analytic argument, NOT a Kovacic verdict)",
+   "monodromy": "NOT_APPLICABLE"
+  },
+  "r_xi1": {
+   "verdict": "NO_OBSTRUCTION",
+   "case": 2,
+   "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+   "monodromy": "NO_OBSTRUCTION",
+   "monodromy_why": "finite (base point 0.0630+2.5494j)",
+   "monodromy_det_err": 5.6278871603757805e-12
+  }
+ },
+ "seconds": 1.2
+}

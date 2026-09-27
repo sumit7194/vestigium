@@ -1,0 +1,134 @@
+{
+ "group": "V-neg",
+ "name": "Stage-1 B2: Kerr BL (1,2,125/63)",
+ "expect": "not_OBS",
+ "items": [
+  {
+   "label": "r_xi2",
+   "route": "INCONCLUSIVE",
+   "reason": "no logarithmic point: the uniqueness lemma does not apply",
+   "case1_tested": null,
+   "factors": [
+    {
+     "factor": "r - 3",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "r",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "r**2 - 32*r/31 + 1029/775",
+     "deg": 2,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    }
+   ],
+   "inf": {
+    "alpha": "0 or 1",
+    "log": false
+   },
+   "ord_inf": 4,
+   "case1_candidates": [
+    0
+   ],
+   "log_point": false,
+   "mono_numeric": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 2.6216+1.8140j)",
+    "det_err": 5.228368801863015e-11
+   },
+   "mono_default": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 2.6216+1.8140j)",
+    "det_err": 5.228368801863015e-11
+   }
+  },
+  {
+   "label": "r_xi1",
+   "route": "INCONCLUSIVE",
+   "reason": "no logarithmic point: the uniqueness lemma does not apply",
+   "case1_tested": null,
+   "factors": [
+    {
+     "factor": "r - 3",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "r",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "r**2 - 32*r/31 + 1029/775",
+     "deg": 2,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    }
+   ],
+   "inf": {
+    "alpha": "0 or 1",
+    "log": false
+   },
+   "ord_inf": 4,
+   "case1_candidates": [
+    0
+   ],
+   "log_point": false,
+   "mono_numeric": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 2.6216+1.8140j)",
+    "det_err": 5.228368801863015e-11
+   },
+   "mono_default": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 2.6216+1.8140j)",
+    "det_err": 5.228368801863015e-11
+   }
+  }
+ ],
+ "seconds": 9.9
+}

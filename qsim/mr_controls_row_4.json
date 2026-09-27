@@ -1,0 +1,24 @@
+{
+ "control": "A''",
+ "name": "ZV delta=1, L=1, mu=2",
+ "expected": "NO_OBSTRUCTION",
+ "forms": {
+  "r_xi2": {
+   "verdict": "NO_OBSTRUCTION",
+   "case": 2,
+   "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+   "monodromy": "NO_OBSTRUCTION",
+   "monodromy_why": "imprimitive (base point 1.7277+1.2560j)",
+   "monodromy_det_err": 4.2129169481860014e-12
+  },
+  "r_xi1": {
+   "verdict": "NO_OBSTRUCTION",
+   "case": 2,
+   "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+   "monodromy": "NO_OBSTRUCTION",
+   "monodromy_why": "imprimitive (base point 1.7277+1.2560j)",
+   "monodromy_det_err": 4.2129169481860014e-12
+  }
+ },
+ "seconds": 15.3
+}

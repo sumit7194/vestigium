@@ -1,0 +1,57 @@
+{
+ "control": "C3",
+ "name": "Kerr-WP P1 (1,0,9)",
+ "ELmu2": [
+  "1",
+  "0",
+  "9"
+ ],
+ "expected": "NO_OBSTRUCTION",
+ "forms": {
+  "r_xi2": {
+   "verdict": "NO_OBSTRUCTION",
+   "case": 2,
+   "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+   "structure": {
+    "deg_num": 4,
+    "deg_den": 8,
+    "den_factors": [
+     [
+      "3*x + 5",
+      2
+     ],
+     [
+      "<deg 3 factor>",
+      2
+     ]
+    ]
+   },
+   "monodromy": "NO_OBSTRUCTION",
+   "monodromy_why": "imprimitive (base point 1.7477+1.2684j)",
+   "monodromy_det_err": 3.471633645587608e-12
+  },
+  "r_xi1": {
+   "verdict": "NO_OBSTRUCTION",
+   "case": 2,
+   "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+   "structure": {
+    "deg_num": 4,
+    "deg_den": 8,
+    "den_factors": [
+     [
+      "3*x + 5",
+      2
+     ],
+     [
+      "<deg 3 factor>",
+      2
+     ]
+    ]
+   },
+   "monodromy": "NO_OBSTRUCTION",
+   "monodromy_why": "imprimitive (base point 1.7477+1.2684j)",
+   "monodromy_det_err": 3.471633645587608e-12
+  }
+ },
+ "seconds": 15.8
+}

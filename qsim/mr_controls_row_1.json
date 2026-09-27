@@ -1,0 +1,24 @@
+{
+ "control": "A",
+ "name": "ZV delta=2, mu=3",
+ "expected": "OBSTRUCTION",
+ "forms": {
+  "r_xi2": {
+   "verdict": "OBSTRUCTION",
+   "case": 4,
+   "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+   "monodromy": "OBSTRUCTION",
+   "monodromy_why": "SL2 (base point 0.0709+2.8663j)",
+   "monodromy_det_err": 5.2237487584356615e-11
+  },
+  "r_xi1": {
+   "verdict": "OBSTRUCTION",
+   "case": 4,
+   "reason": "Kovacic case 4: no Liouvillian solution, G = SL(2) [cases 2 and 3 excluded: logarithmic point at z = 0]",
+   "monodromy": "OBSTRUCTION",
+   "monodromy_why": "SL2 (base point 0.0709+2.8663j)",
+   "monodromy_det_err": 1.3184328150457113e-11
+  }
+ },
+ "seconds": 17.2
+}

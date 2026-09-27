@@ -1,0 +1,108 @@
+{
+ "group": "V-neg",
+ "name": "Stage-1 A'': ZV d=1 L=1 mu=3",
+ "expect": "not_OBS",
+ "items": [
+  {
+   "label": "r_xi2",
+   "route": "INCONCLUSIVE",
+   "reason": "no logarithmic point: cases 2 and 3 are not excluded by this route",
+   "factors": [
+    {
+     "factor": "x + 1",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "<deg 3>",
+     "deg": 3,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    }
+   ],
+   "inf": {
+    "alpha": "0 or 1",
+    "log": false
+   },
+   "ord_inf": 4,
+   "case1_candidates": [
+    0
+   ],
+   "log_point": false,
+   "mono_numeric": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 1.4707+1.0955j)",
+    "det_err": 4.888457194484742e-12
+   },
+   "mono_default": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 1.4707+1.0955j)",
+    "det_err": 4.888457194484742e-12
+   }
+  },
+  {
+   "label": "r_xi1",
+   "route": "INCONCLUSIVE",
+   "reason": "no logarithmic point: cases 2 and 3 are not excluded by this route",
+   "factors": [
+    {
+     "factor": "x + 1",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "<deg 3>",
+     "deg": 3,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    }
+   ],
+   "inf": {
+    "alpha": "0 or 1",
+    "log": false
+   },
+   "ord_inf": 4,
+   "case1_candidates": [
+    0
+   ],
+   "log_point": false,
+   "mono_numeric": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 1.4707+1.0955j)",
+    "det_err": 4.888457194484742e-12
+   },
+   "mono_default": {
+    "verdict": "NO_OBSTRUCTION",
+    "why": "imprimitive (base point 1.4707+1.0955j)",
+    "det_err": 4.888457194484742e-12
+   }
+  }
+ ],
+ "seconds": 9.9
+}

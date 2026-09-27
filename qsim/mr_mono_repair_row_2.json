@@ -1,0 +1,17 @@
+{
+ "tag": "VAL",
+ "name": "Kerr BL B1 (3,0,118)",
+ "expected": "NO_OBSTRUCTION",
+ "forms": {
+  "r_xi2": {
+   "verdict": "NO_OBSTRUCTION",
+   "why": "imprimitive (base point 1.0334-0.0182j)",
+   "det_err": 3.996843523867924e-12
+  },
+  "r_xi1": {
+   "verdict": "NO_OBSTRUCTION",
+   "why": "imprimitive (base point 1.0334-0.0182j)",
+   "det_err": 3.996843523867924e-12
+  }
+ }
+}

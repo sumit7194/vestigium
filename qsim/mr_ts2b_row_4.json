@@ -1,0 +1,184 @@
+{
+ "group": "V-pos",
+ "name": "Stage-1 A: ZV d=2 mu=2",
+ "expect": "OBS",
+ "items": [
+  {
+   "label": "r_xi2",
+   "route": "INCONCLUSIVE",
+   "reason": "case-1 candidate degree(s) d = [0, 1, 2, 3] survive",
+   "factors": [
+    {
+     "factor": "x - 3",
+     "deg": 1,
+     "mult": 2,
+     "b": "5/16",
+     "sqrt_1p4b": [
+      "3/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "x - 1",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "x",
+     "deg": 1,
+     "mult": 2,
+     "b": "3/4",
+     "sqrt_1p4b": [
+      "2",
+      1
+     ],
+     "N": 2,
+     "log": true
+    },
+    {
+     "factor": "x + 1",
+     "deg": 1,
+     "mult": 2,
+     "b": "45/16",
+     "sqrt_1p4b": [
+      "7/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "x - 1/3",
+     "deg": 1,
+     "mult": 2,
+     "b": "5/16",
+     "sqrt_1p4b": [
+      "3/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    }
+   ],
+   "inf": {
+    "alpha": "0 or 1",
+    "log": false
+   },
+   "ord_inf": 4,
+   "case1_candidates": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "log_point": true,
+   "mono_numeric": {
+    "verdict": "OBSTRUCTION",
+    "why": "SL2 (base point 0.0946+3.8167j)",
+    "det_err": 9.627792028163078e-11
+   },
+   "mono_default": {
+    "verdict": "OBSTRUCTION",
+    "why": "SL2 (base point 0.0946+3.8167j)",
+    "det_err": 9.627792028163078e-11
+   }
+  },
+  {
+   "label": "r_xi1",
+   "route": "INCONCLUSIVE",
+   "reason": "case-1 candidate degree(s) d = [0, 1] survive",
+   "factors": [
+    {
+     "factor": "x - 3",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "x - 1",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "x",
+     "deg": 1,
+     "mult": 2,
+     "b": "3/4",
+     "sqrt_1p4b": [
+      "2",
+      1
+     ],
+     "N": 2,
+     "log": true
+    },
+    {
+     "factor": "x + 1",
+     "deg": 1,
+     "mult": 2,
+     "b": "21/16",
+     "sqrt_1p4b": [
+      "5/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    },
+    {
+     "factor": "x - 1/3",
+     "deg": 1,
+     "mult": 2,
+     "b": "-3/16",
+     "sqrt_1p4b": [
+      "1/2",
+      1
+     ],
+     "N": null,
+     "log": false
+    }
+   ],
+   "inf": {
+    "alpha": "0 or 1",
+    "log": false
+   },
+   "ord_inf": 4,
+   "case1_candidates": [
+    0,
+    1
+   ],
+   "log_point": true,
+   "mono_numeric": {
+    "verdict": "OBSTRUCTION",
+    "why": "SL2 (base point 0.0946+3.8167j)",
+    "det_err": 2.7187138190034323e-11
+   },
+   "mono_default": {
+    "verdict": "OBSTRUCTION",
+    "why": "SL2 (base point 0.0946+3.8167j)",
+    "det_err": 2.7187138190034323e-11
+   }
+  }
+ ],
+ "seconds": 18.7
+}

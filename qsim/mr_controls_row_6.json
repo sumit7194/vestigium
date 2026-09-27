@@ -1,0 +1,24 @@
+{
+ "control": "B1",
+ "name": "Kerr a=3/5 L=0 E=3 mu^2=118",
+ "expected": "NO_OBSTRUCTION",
+ "forms": {
+  "r_xi2": {
+   "verdict": "NO_OBSTRUCTION",
+   "case": 2,
+   "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+   "monodromy": "NO_OBSTRUCTION",
+   "monodromy_why": "imprimitive (base point -1.8521+0.5202j)",
+   "monodromy_det_err": 6.663410890619744e-11
+  },
+  "r_xi1": {
+   "verdict": "NO_OBSTRUCTION",
+   "case": 2,
+   "reason": "Kovacic case 2: imprimitive, G0 in a torus [Galois-symmetric case-2 CERTIFICATE (exact identity); case 1 not searched]",
+   "monodromy": "NO_OBSTRUCTION",
+   "monodromy_why": "imprimitive (base point -1.8521+0.5202j)",
+   "monodromy_det_err": 6.663410890619744e-11
+  }
+ },
+ "seconds": 11.9
+}
