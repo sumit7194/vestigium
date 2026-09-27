@@ -1,0 +1,139 @@
+# Pre-registration — Manko–Novikov on the symmetry axis: a certified-monodromy (Ziglin-form) obstruction test
+
+**Committed before any route code and before any MN computation beyond the feasibility look.** The feasibility
+opinion was sent to the bridge on 2026-09-27. The bridge relayed the user's approval, and the user approved the
+python-flint download in my own chat.
+
+This is the fleet's interval-arithmetic hub. The reusable part goes in `qsim/ia_hub.py`; the MN-specific part
+goes in `qsim/mr_mn_axis.py`.
+
+**Environment.**
+- python-flint **0.9.0** from PyPI, wheel `python_flint-0.9.0-cp313-cp313-macosx_11_0_arm64.whl`,
+  sha256 `70e965a6f8096b3f40cd335d16227715a61c59e27a1cf9979e57717cfae4e6da`.
+- Installed with `uv pip` into `sims/.venv` only (Python 3.13.12, arm64).
+- Everything else is the Stage-1/2 environment.
+
+**Independence (unchanged).**
+- Ansatz's `data/sealed/MN_PREDICTION_SEALED.md` stays unopened.
+- No MN integrability or chaos literature until this verdict is committed.
+- Nothing from tabula.
+- Already seen: the package manifest, and the feasibility look. That look found the exponential arguments on
+  y = 1 and y = 0; then the watchdog's (since-fixed) swap bug killed it.
+
+## Why Kovacic is not used, and what replaces it
+
+The MN metric is transcendental in (x, y). On the axis y = 1 every exponential is a power of `E = exp(2β/x³)`,
+and `R = √(x² + y² − 1) = x`. So the axial NVE has coefficients in `ℚ(x, E)`, not `ℚ(x)`, and Kovacic's algorithm
+does not apply.
+
+**The theorem used (Ziglin; Morales–Ramis over the field M(Γ) of meromorphic functions on the phase curve).** If
+H is integrable with first integrals meromorphic in a neighbourhood of Γ, then G⁰ is abelian, where G is the
+differential Galois group of the NVE over M(Γ). The monodromy group of the NVE along closed loops **in Γ** is
+contained in G. No rationality of coefficients is needed, and an essential singularity (here x = 0) is simply a
+puncture of Γ.
+
+**Certificate rule and its proof (fixed now).** Suppose two monodromy elements g, h ∈ SL(2, ℂ) satisfy three
+conditions, each **certified** by ball arithmetic:
+- (i) tr g ∉ [−2, 2];
+- (ii) tr h ∉ [−2, 2];
+- (iii) tr(g h g⁻¹ h⁻¹) ≠ 2.
+
+Then G⁰ is non-abelian.
+
+*Proof.* Condition (i) or (ii) means the element is loxodromic: it has distinct eigenvalues μ, μ⁻¹ with |μ| ≠ 1.
+So it has infinite order, and it is diagonalisable with exactly two eigenlines. In SL(2), tr[g, h] = 2 iff g and
+h have a common eigenvector, so (iii) says they have none. Now take the three possibilities for an abelian
+identity component, G⁰ ∈ {1, 𝔾_m, 𝔾_a} up to conjugacy:
+- **G⁰ = 1:** G is finite, contradicting the infinite order of g.
+- **G⁰ = 𝔾_a:** G normalises 𝔾_a, so G ⊂ Borel. Then g and h share an eigenvector, contradicting (iii).
+- **G⁰ = 𝔾_m:** G ⊂ N(T). Elements of N(T) \ T have trace 0 ∈ [−2, 2], so g, h ∈ T. They commute, so
+  tr[g, h] = 2, contradicting (iii). ∎
+
+**Invariances used.**
+- Every condition is invariant under g ↦ λg for scalars λ: the eigenvalue ratio and the commutator are
+  unchanged. So scalar gauge factors between the reduced x-equation and the NVE on Γ (for example
+  (ẋ²)^{1/4} B^{−1/2}) do not matter.
+- Loops in the x-plane lift to closed loops on Γ (a double cover branched at the odd zeros of ẋ²) at least after
+  squaring. And (g, h) satisfies (i)–(iii) iff (g², h²) does: a loxodromic g² has the same eigenlines as g, and its
+  eigenvalues μ² still have modulus ≠ 1. So the certificate transfers to Γ **without** invoking the
+  covering lemma.
+
+## Certified integrator (`ia_hub.py`)
+
+- The reduced equation `y'' = r(z) y` is transported along polylines by Taylor steps.
+- **One step** from z_a with step h uses a disk radius ρ = 2h:
+  - The Taylor coefficients of r at z_a come from exact truncated power-series ball arithmetic (Arb `acb_series`),
+    up to order N.
+  - **M** is a rigorous bound on |r| over the box enclosing the disk, from a single ball evaluation of r.
+  - If that ball is unbounded or contains a pole, the step is halved. No step is ever taken on a disk that isn't
+    certified.
+- **Tail bound, majorant method.** With |r_k| ≤ M ρ^{−k} (Cauchy), the majorant coefficients satisfy
+  `n(n−1) A_n = Σ_{k=0}^{n−2} M ρ^{−k} A_{n−2−k}`, and `|a_n| ≤ A_n` by induction. Set `B_n = A_n ρⁿ` and
+  `S_n = Σ_{j≤n} B_j`; then `S_n ≤ S_{n−1}(1 + Mρ²/(n(n−1)))`. For all n > N this gives
+  `B_n ≤ S* := S_N exp(Mρ²/N)`. At |t| ≤ h = ρ/2 the truncation error in y is ≤ `S* 2^{−N}`, and in y′ it is
+  ≤ `S* ρ^{−1} Σ_{n>N} n 2^{−(n−1)}` (closed form). Both are added as ball radii.
+- The fundamental matrix (two basis solutions) is propagated in ball arithmetic at 192 bits (raised if balls
+  grow). det = 1 is reported as a consistency check, **not** used as a proof.
+- **Loops:** a base point z₀; for a target singular point c, the segment from z₀ to c + ρ_c·(z₀ − c)/|z₀ − c|, an
+  inscribed 16-gon of radius ρ_c around c, and back. Approximate singular locations come from floating-point root
+  finding. They only choose loops: every loop is closed and certified to avoid singularities, so **every** loop
+  gives a genuine monodromy element, whatever it encloses.
+- **Candidate elements:** the generators γ_i for the located singular points with |c| ≥ ρ₀ (away from the
+  essential singularity at 0), and the pairwise products γ_iγ_j. The certificate search tests pairs from this
+  finite list in a fixed order and stops at the first pair satisfying (i)–(iii).
+
+## Gates, in order; each gate is reported to the bridge
+
+**G0: validation of the integrator on equations with known monodromy.** Failure stops everything.
+- (a) Reduced Riemann P with exponent differences (1/3, 1/5, 1/7) at 0, 1, ∞. The certified enclosure of
+  tr(local monodromy around 0) must contain −2cos(π/3), and around 1 it must contain −2cos(π/5).
+- (b) An exponential-path test that exercises `E` and the essential singularity. Pull the same P-equation back by
+  `w = exp(2/x³)` into a reduced equation in x with coefficients in ℚ(x, E). A small loop around a root x₁ of
+  E(x) = 1, with x₁³ = 2/(2πi), maps to a single loop around w = 1. Its trace must contain −2cos(π/5).
+- (c) The enclosures must be tight enough to decide (i)–(iii) on (a): at least 10 correct digits.
+
+**G1: the ω gate (exact, symbolic).**
+- ω = −g_tφ/g_tt at y = +1 must vanish identically, at both MN points. This is decided exactly with E as a
+  symbol. If it fails, there is no regular L = 0 axial solution on that half-axis, and it is **NOT FEASIBLE**.
+- y = −1 is also checked and reported. Γ lies on y = +1 and never meets y = −1.
+- Evenness in θ is automatic: every function of y = cos θ is even.
+
+**G2: controls on this same route.** A misbehaving control stops everything and is reported.
+- **ZV δ=2, equatorial, (E, L, μ²) = (1, 0, 4):** G = SL(2) is known (published, and our Stage 1). A certificate
+  **must be found**.
+- **Kerr (MN at β = 0, p1 and p2), axial, the same levels as the target:** Kerr is integrable, so a certificate
+  **must NOT be found**. Finding one means a bug.
+- **Info, not gating:** ZV δ=2 axial; Kerr equatorial.
+
+**G3: target.** MN at p1 and p2, axial, L = 0, (E, μ²) = (1, 4) and (1, 9).
+
+**Axial NVE.**
+- Coordinates (x, θ) with y = cos θ; Γ is θ = 0, p_θ = 0.
+- `A = g^θθ|₀`, where `g_θθ = g_yy sin²θ`.
+- `B = ∂²H/∂θ²|₀ = −∂_y H|_{y=1}`, with p_θ = 0 and p_x² eliminated through the constraint.
+- `g^tt = f ω²/ρ² − 1/f`, which needs G1.
+- Reduced ξ₂- and ξ₁-forms as in `mr_nve`. They are derived symbolically, with E a symbol, then evaluated.
+- B ≡ 0 (degenerate) gives INCONCLUSIVE for that form.
+
+**Verdict wording.** A certificate on **either** form at P gives **OBSTRUCTION**: for MN at P, the reduced flow
+H_{E, L=0} admits no additional first integral meromorphic in a neighbourhood of the axial phase curve Γ, so it is
+not meromorphically Liouville-integrable at that level. The caveats:
+- computer-assisted: rigorous ball arithmetic, but AI-written code;
+- meromorphic integrals only;
+- the tested levels only;
+- the supplied metric (pointwise-exact vacuum only);
+- nothing about how much chaos there is.
+
+**No certificate gives INCONCLUSIVE, never "integrable".**
+
+**Resources.** Every run goes through `mr_watchdog.run_guarded` (fixed in bed3891), ≤ 2 GB and ≤ 30 min per job,
+and runs detached if it is long. Logs go in `qsim/`. Everything is committed and pushed.
+
+## Named ways this fails
+
+1. G0(b) fails: the E-series or the essential-singularity handling is wrong. Stop.
+2. Enclosures blow up before closing a loop. The result is INCONCLUSIVE (loss of precision), not a verdict.
+3. G1 fails (ω ≠ 0 on the axis): the axial route is not available.
+4. The axial NVE is degenerate at L = 0 (B ≡ 0): INCONCLUSIVE.
+5. The axial G⁰ is genuinely abelian for MN (possible, since the axis is a special orbit): no certificate, so
+   INCONCLUSIVE. This would **not** be evidence of integrability.
