@@ -128,9 +128,19 @@ def axial_nve(C, x, y, En, mu2):
     return A, B, xdot2
 
 
+def _certainly_nonzero(expr, x):
+    """A1: B != 0 identically, proved by one certified ball evaluation (a nonzero value is a proof)."""
+    rc = IA.Compiled(expr, x)
+    for pt in (2.3 + 0.7j, 3.1 - 1.3j):
+        v = rc(acb(pt))
+        if v.is_finite() and IA.certainly_ne(v, 0):
+            return True
+    return False
+
+
 def reduced_forms(A, B, xdot2, x):
     out = {}
-    if sp.simplify(B) != 0:
+    if _certainly_nonzero(B, x):
         p2 = -(sp.diff(B, x)/B - sp.diff(xdot2, x)/(2*xdot2))
         out["r_xi2"] = p2**2/4 + sp.diff(p2, x)/2 - A*B/xdot2
     p1 = -(sp.diff(A, x)/A - sp.diff(xdot2, x)/(2*xdot2))
@@ -154,7 +164,7 @@ def locate_singular(r_eval, x, box_=6.0, rho0=0.35, grid=90):
     """Float estimates of poles of r: local maxima of |r| on a grid refined by Newton on 1/r.
     Only used to choose loops; rigour does not depend on them."""
     f = sp.lambdify(x, r_eval, "numpy")
-    g = sp.lambdify(x, 1/sp.together(r_eval), "mpmath")
+    g = sp.lambdify(x, 1/r_eval, "mpmath")                       # A1: no together()
     import mpmath as mp
     xs = np.linspace(-box_, box_, grid)
     Z = xs[None, :] + 1j*xs[:, None]
@@ -265,12 +275,12 @@ def run_task(spec):
         Esym = sp.Symbol("E")
         evals = {}
         for k, v in forms.items():
-            if beta is None:
-                evals[k] = sp.factor(sp.cancel(sp.together(v)))
-            else:
-                ev, qxe = to_rational_in_E(v, xx, beta, Esym)
-                evals[k] = ev
-                out.setdefault("QxE_size", {})[k] = len(str(qxe))
+            # A1: raw expression, no global simplification; exp atoms checked to be powers of E
+            if beta is not None:
+                for a in v.atoms(sp.exp):
+                    exp_to_E(a, xx, beta, Esym)
+            evals[k] = v
+            out.setdefault("ops", {})[k] = int(sp.count_ops(v))
         var = xx
         out["degenerate_xi2"] = "r_xi2" not in forms
     print(f"[{time.time()-t0:.1f}s] NVE built: forms {list(evals)}", flush=True)
