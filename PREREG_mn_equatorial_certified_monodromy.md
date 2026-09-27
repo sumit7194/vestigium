@@ -105,3 +105,24 @@ If the bridge is unreachable, notes go to `inbox/bridge`.
 ∂_y g_ab at y = 0 is **identically 0** in ℚ(t, E₁, E₂, E₃) for all five lower components, at p1 and p2 (exact;
 `qsim/mr_mneq_Q1.json`). The equatorial plane is invariant. Every exp atom (value, first and second y-derivatives
 at y = 0) decomposed **exactly** into integer powers of the three registered generators.
+
+## Q2, first attempt: killed by the 2 GB guard at 901 s. Pipeline fix before Q2 passes (allowed by the registration; recorded)
+
+**Profile** (`qsim/mr_mneq_build_profile.log`, MN p1, (1, 0, 4)):
+- The y = 0 data takes 20 s and is small.
+- **The ξ₁ form r₁ in ℚ(t, E) takes 35 s: 1389/1361 terms.**
+- The ξ₂ intermediate p₂ is already 1426/1450 terms. r₂ is far heavier, and it and the raw symbolic reference used
+  by Q2 are what exceeded memory.
+
+**Fix (construction only; integrator, search policy and certificate rule untouched):**
+1. **ξ₂ is built lazily**, only if ξ₁ yields no certificate at that row. It is then checked **inline** by the Q2
+   criterion before any search on it. If building it exceeds the row's resources, ξ₂ is INCONCLUSIVE for that row.
+2. **Q2 reference replaced.** Raw symbolic differentiation is replaced by **independent numerical differentiation**
+   in mpmath at 60 digits:
+   - the lower components are evaluated directly, numerically, from the package's srepr, not through the chain-rule
+     or ℚ(t, E) code;
+   - B uses `mp.diff` in y;
+   - p₁ and p₁′ use `mp.diff` in x;
+   - the result is mapped to t by `x′² r_x − S/2`.
+   Criterion: relative difference < 1e−25, unchanged. Checked on ξ₁ at MN p1 and p2 at (1, 0, 4) and (1, 1, 4),
+   Kerr p1, and ZV.
