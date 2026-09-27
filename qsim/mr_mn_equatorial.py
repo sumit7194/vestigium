@@ -218,6 +218,18 @@ def equatorial_nve(G, En, L, mu2):
     return A, B, tdot2
 
 
+def form_t(A, B, X, which):
+    """One reduced form, built only when needed (xi2 lazily: pipeline fix, 2880887)."""
+    q = A*B/X
+    if which == "r_xi1":
+        p1 = -(A.D()/A - X.D()/(X*2))
+        return p1*p1/4 + p1.D()/2 - q
+    if B.is_zero():
+        return None
+    p2 = -(B.D()/B - X.D()/(X*2))
+    return p2*p2/4 + p2.D()/2 - q
+
+
 def reduced_forms_t(A, B, X):
     q = A*B/X
     out = {}
@@ -315,11 +327,57 @@ def certificate_search_t(PQ, sing, bad, stats):
 # gates
 # ----------------------------------------------------------------------------------------------
 def build(kind, p, En, L, mu2):
+    """-> (G, (A, B, X), cd, (C, x, y, beta)); forms are built lazily by form_t."""
     C, x, y, beta = source(kind, p)
     cd = field_ctx(beta)
     G = lower_at_equator(C, x, y, cd)
-    A, B, X = equatorial_nve(G, En, L, mu2)
-    return G, reduced_forms_t(A, B, X), cd, (C, x, y, beta)
+    return G, equatorial_nve(G, En, L, mu2), cd, (C, x, y, beta)
+
+
+def numeric_ref(C, x, y, En, L, mu2, form, tv, dps=60):
+    """INDEPENDENT reference: lower components evaluated numerically (mpmath), derivatives by mp.diff;
+    mapped to t: r_t = x'(t)^2 r_x - S/2. Shares no code with the chain-rule / Q(t,E) path."""
+    import mpmath as mp
+    mp.mp.dps = dps
+    f = {k: sp.lambdify((x, y), C[k], "mpmath") for k in COMP}
+    half = mp.mpf(1)/2
+
+    def V(xv, yv):
+        tt, tp, pp = f["g_tt"](xv, yv), f["g_tphi"](xv, yv), f["g_phiphi"](xv, yv)
+        return (pp*En**2 + 2*tp*En*L + tt*L**2)/(tt*pp - tp**2)
+    gxi = lambda xv, yv: 1/f["g_xx"](xv, yv)
+    A = lambda xv: 1/f["g_yy"](xv, 0)
+    X = lambda xv: gxi(xv, 0)*(-mu2 - V(xv, 0))
+
+    def B(xv):
+        px2 = (-mu2 - V(xv, 0))/gxi(xv, 0)
+        return half*px2*mp.diff(lambda yy: gxi(xv, yy), 0, 2) + half*mp.diff(lambda yy: V(xv, yy), 0, 2)
+    tv = mp.mpf(sp.Rational(tv).p)/sp.Rational(tv).q
+    xv = (tv**2 + 1)/(2*tv)
+    F = A if form == "r_xi1" else B
+    Fv, Fp, Fpp = F(xv), mp.diff(F, xv, 1), mp.diff(F, xv, 2)
+    Xv, Xp, Xpp = X(xv), mp.diff(X, xv, 1), mp.diff(X, xv, 2)
+    p_ = -(Fp/Fv - Xp/(2*Xv))
+    dp = -((Fpp*Fv - Fp**2)/Fv**2 - (Xpp*Xv - Xp**2)/(2*Xv**2))
+    rx = p_**2/4 + dp/2 - A(xv)*B(xv)/Xv
+    xp = (1 - 1/tv**2)/2
+    xpp, xppp = 1/tv**3, -3/tv**4
+    S = xppp/xp - mp.mpf(3)/2*(xpp/xp)**2
+    return xp**2*rx - S/2
+
+
+def check_form(rq, src, En, L, mu2, form, pts=(sp.Rational(9, 4), sp.Integer(3), sp.Rational(7, 4))):
+    """Q2 criterion for one form: max relative difference vs numeric_ref at dyadic t > 1."""
+    import mpmath as mp
+    C, x, y, beta = src
+    a_ = IA.Compiled(rq.to_expr(), T_)
+    worst = 0.0
+    for tv in pts:
+        ref = numeric_ref(C, x, y, En, L, mu2, form, tv)
+        va = a_(a_._const(tv))
+        vam = mp.mpc(str(va.real.mid()), str(va.imag.mid()))
+        worst = max(worst, float(abs(vam - ref)/abs(ref)))
+    return worst
 
 
 def q1():
@@ -334,29 +392,14 @@ def q1():
 
 
 def q2():
-    """r from Q(t,E) vs the raw x-formula transformed: r_t = x'^2 r_x(x(t)) - S/2, at dyadic real t > 1
-    (x > 1, R > 0: the principal sqrt(x^2-1) equals the chosen branch R(t)). Raw side in mpmath at 40 digits."""
-    import mpmath as mp
-    mp.mp.dps = 40
+    """Pipeline check (fix 2880887): xi1 from Q(t,E) vs the independent numerical-differentiation reference."""
     out = {}
-    xp, xpp, xppp = [sp.diff(X_OF_T, T_, k) for k in (1, 2, 3)]
-    S = xppp/xp - sp.Rational(3, 2)*(xpp/xp)**2
     for kind, p in (("mn", "p1"), ("mn", "p2"), ("kerr", "p1"), ("zv", None)):
         for En, L, mu2 in ((1, 0, 4), (1, 1, 4)):
-            G, F, cd, (C, x, y, beta) = build(kind, p, En, L, mu2)
-            Ax, Bx, Xx = raw_equatorial(raw_inverse(C, y), x, y, En, L, mu2)
-            Fx = raw_reduced(Ax, Bx, Xx, x)
-            for k, rq in F.items():
-                a_ = IA.Compiled(rq.to_expr(), T_)
-                fx = sp.lambdify(x, Fx[k], "mpmath")
-                worst = 0.0
-                for tv in (sp.Rational(9, 4), sp.Integer(3), sp.Rational(7, 4)):
-                    xv = mp.mpf(X_OF_T.subs(T_, tv))
-                    rt_ref = mp.mpf((xp**2).subs(T_, tv))*fx(xv) - mp.mpf(S.subs(T_, tv))/2
-                    va = a_(a_._const(tv))
-                    vam = mp.mpc(str(va.real.mid()), str(va.imag.mid()))
-                    worst = max(worst, float(abs(vam - rt_ref)/abs(rt_ref)))
-                out[f"{kind}{p or ''} {k} (E,L,mu2)=({En},{L},{mu2})"] = worst
+            G, (A, B, X), cd, src = build(kind, p, En, L, mu2)
+            r1 = form_t(A, B, X, "r_xi1")
+            out[f"{kind}{p or ''} r_xi1 (E,L,mu2)=({En},{L},{mu2})"] = check_form(r1, src, En, L, mu2, "r_xi1")
+            print(out, flush=True)
     out["Q2_PASS"] = all(v < 1e-25 for v in out.values() if isinstance(v, float))
     return out
 
@@ -401,19 +444,35 @@ def rows():
     return r
 
 
-def run_row(spec):
+def run_row(spec, outp=None):
     kind, p, En, L, mu2 = spec
     t0 = time.time()
     stats = {}
-    G, F, cd, _ = build(kind, p, En, L, mu2)
-    out = dict(spec=str(spec), forms={}, terms={k: [len(v.P.terms()), len(v.Q.terms())] for k, v in F.items()})
-    print(f"[{time.time()-t0:.1f}s] NVE built in Q(t,E): {out['terms']}", flush=True)
+    G, (A, B, X), cd, src = build(kind, p, En, L, mu2)
+    out = dict(spec=str(spec), forms={}, terms={})
     bad = BAD if cd["gens"] else []
-    for k in [k for k in ("r_xi1", "r_xi2") if k in F]:
+    save = (lambda: json.dump(out, open(outp, "w"), indent=1, default=str)) if outp else (lambda: None)
+    print(f"[{time.time()-t0:.1f}s] y = 0 data and A, B, tdot^2 built", flush=True)
+    for k in ("r_xi1", "r_xi2"):
         if any(f.get("found") for f in out["forms"].values()):
             out["forms"][k] = dict(found=None, why="not run: certificate already found on the other form")
             continue
-        rq = F[k]
+        out["forms"][k] = dict(found=None, why="building (a kill here leaves this form INCONCLUSIVE)")
+        save()
+        rq = form_t(A, B, X, k)
+        if rq is None:
+            out["forms"][k] = dict(found=None, why="degenerate: B == 0 exactly")
+            continue
+        out["terms"][k] = [len(rq.P.terms()), len(rq.Q.terms())]
+        print(f"[{time.time()-t0:.1f}s] {k} built in Q(t,E): {out['terms'][k]}", flush=True)
+        if k == "r_xi2":                                       # inline pipeline check (fix 2880887)
+            err = check_form(rq, src, En, L, mu2, k)
+            out["xi2_inline_check_relerr"] = err
+            print(f"[{time.time()-t0:.1f}s] xi2 inline check rel err {err:.2e}", flush=True)
+            if not err < 1e-25:
+                out["forms"][k] = dict(found=None, why=f"xi2 pipeline check FAILED ({err:.2e}): not searched")
+                save()
+                continue
         sing = locate_singular_t(rq.to_expr())
         print(f"[{time.time()-t0:.1f}s] {k}: {len(sing)} located singular points", flush=True)
         try:
@@ -422,9 +481,11 @@ def run_row(spec):
             res = dict(found=False, why=f"{type(e).__name__}: {e}")
         res["located"] = [str(complex(round(c.real, 5), round(c.imag, 5))) for c in sing]
         out["forms"][k] = res
+        save()
         print(f"[{time.time()-t0:.1f}s] {k}: certificate found = {res['found']}  {res.get('why', '')}", flush=True)
     out["steps"] = stats.get("steps", 0)
     out["seconds"] = round(time.time() - t0, 1)
+    save()
     return out
 
 
@@ -445,9 +506,19 @@ def run_gate(gate):
         if tag != gate:
             continue
         outp = os.path.join(HERE, f"mr_mneq_row_{i}.json")
+        if os.path.exists(outp):
+            os.remove(outp)
         g = W.run_guarded([py, "-u", os.path.abspath(__file__), "--one", f"row{i}", outp], mem_limit_mb=2048,
                           time_limit_s=10800, cwd=HERE, log=os.path.join(HERE, f"mr_mneq_row_{i}.log"))
-        res = json.load(open(outp)) if g["status"] == "ok" and os.path.exists(outp) else dict(forms={}, failed=g["status"])
+        if os.path.exists(outp):
+            res = json.load(open(outp))
+            if g["status"] != "ok":
+                res["killed"] = g["status"]
+                for f in res.get("forms", {}).values():
+                    if f.get("found") is None and "not run" not in f.get("why", ""):
+                        f["why"] = f"INCONCLUSIVE (resource: {g['status']}) -- " + f.get("why", "")
+        else:
+            res = dict(forms={}, failed=g["status"])
         found = any(f.get("found") for f in res.get("forms", {}).values())
         if expect is True:
             verdict = "PASS" if found else "FAIL (certificate not found)"
@@ -475,7 +546,7 @@ if __name__ == "__main__":
         elif task == "Q2":
             res = q2()
         else:
-            res = run_row(rows()[int(task[3:])][2])
+            res = run_row(rows()[int(task[3:])][2], outp)
         json.dump(res, open(outp, "w"), indent=1, default=str)
     else:
         run_gate(sys.argv[1])
