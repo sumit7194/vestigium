@@ -325,3 +325,22 @@ G3, attempt 2, follows.
 
 **Not a verdict and not a correctness failure.** Any further change (search order, early testing, time limit) is
 a new post-failure amendment, **proposed to the bridge first** because four amendments already sit on this route.
+
+## AMENDMENT A5 (2026-09-27), POST-FAILURE, bridge-approved. **The LAST amendment on this route.** Filed before the code change.
+
+**Why it is legitimate.** A certificate is an individual rigorous proof. The search order, and stopping at the
+first certified pair, cannot bias correctness; there is no multiple-testing issue.
+
+**Change (search only; integrator, certificate rule and candidate classes unchanged):**
+1. **Form order: ξ₁ first**, then ξ₂. A certificate on either form suffices, as registered.
+2. **Incremental testing.** Generators are built nearest-first by distance from the base point. After each new
+   loop, the candidate list (generators so far, plus the pairwise products among them) is extended, and every new
+   pair is tested. The search stops at the first certified pair.
+3. **Resources:** ≤ 90 min per row (was 30), 2 GB, detached, with the same watchdog.
+
+**Re-validation before MN:** G2 re-run in full under A5. ZV δ=2 equatorial must find a certificate; Kerr axial
+(4 rows) must find none.
+
+**Terminal condition (bridge).** If G3 under A5 returns INCONCLUSIVE on any ground (time, resources, or no
+certificate), MN stands at **INCONCLUSIVE**, recorded as "says nothing about integrability", together with the
+route's full history. **There is no A6 without the user's decision.**
