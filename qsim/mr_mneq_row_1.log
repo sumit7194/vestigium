@@ -1,0 +1,4 @@
+[0.3s] y = 0 data and A, B, tdot^2 built
+[0.4s] r_xi1 built in Q(t,E): [11, 15]
+[0.6s] r_xi1: 6 located singular points
+[6.6s] r_xi1: certificate found = True  

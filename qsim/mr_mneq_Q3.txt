@@ -1,0 +1,9 @@
+ 0 Q3 ZV d=2 equatorial (1,0,4) [must FIND]            => PASS                         {'r_xi1': True, 'r_xi2': None} [guard ok, peak 91.0 MB, 8.3 s]
+ 1 Q3 ZV d=2 equatorial (1,0,9) [must FIND]            => PASS                         {'r_xi1': True, 'r_xi2': None} [guard ok, peak 90.0 MB, 7.2 s]
+ 2 Q3 Kerr p1 equatorial (1,0,4) [must NOT find]       => PASS                         {'r_xi1': False, 'r_xi2': False} [guard ok, peak 73.0 MB, 42.3 s]
+ 3 Q3 Kerr p1 equatorial (1,0,9) [must NOT find]       => PASS                         {'r_xi1': False, 'r_xi2': False} [guard ok, peak 73.0 MB, 50.5 s]
+ 4 Q3 Kerr p1 equatorial (1,1,4) [must NOT find]       => PASS                         {'r_xi1': False, 'r_xi2': False} [guard ok, peak 73.0 MB, 48.5 s]
+ 5 Q3 Kerr p2 equatorial (1,0,4) [must NOT find]       => PASS                         {'r_xi1': False, 'r_xi2': False} [guard ok, peak 73.0 MB, 54.7 s]
+ 6 Q3 Kerr p2 equatorial (1,0,9) [must NOT find]       => PASS                         {'r_xi1': False, 'r_xi2': False} [guard ok, peak 73.0 MB, 51.6 s]
+ 7 Q3 Kerr p2 equatorial (1,1,4) [must NOT find]       => PASS                         {'r_xi1': False, 'r_xi2': False} [guard ok, peak 73.0 MB, 55.7 s]
+EXIT 0

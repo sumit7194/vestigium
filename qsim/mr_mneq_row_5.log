@@ -1,0 +1,8 @@
+[0.3s] y = 0 data and A, B, tdot^2 built
+[0.4s] r_xi1 built in Q(t,E): [17, 21]
+[0.8s] r_xi1: 7 located singular points
+[27.1s] r_xi1: certificate found = False  no certified pair in the registered candidate list
+[27.1s] r_xi2 built in Q(t,E): [17, 21]
+[27.1s] xi2 inline check rel err 5.58e-56
+[27.7s] r_xi2: 7 located singular points
+[53.9s] r_xi2: certificate found = False  no certified pair in the registered candidate list
