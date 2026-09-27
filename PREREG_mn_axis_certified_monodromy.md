@@ -352,3 +352,58 @@ route's full history. **There is no A6 without the user's decision.**
 - **Info:** ZV δ=2 axial: none.
 
 G3, attempt 3 (the last under this route), follows.
+
+---
+
+# VERDICT — Manko–Novikov (q-anomaly subclass), axial L = 0 sector: **OBSTRUCTION at p1 and p2, all 4 tested levels**
+
+**Route history, stated in full (every step post-failure after the first):**
+
+| step | trigger | fix | re-validated by |
+|---|---|---|---|
+| G0 attempt 1 | FAIL: balls about 1e600; near-pole disks gave huge finite M | step policy: Mρ² ≤ 4, h ≤ 0.2 dist | G0 attempt 3 |
+| G0 attempt 2 | FAIL: 9.7 digits < 10 | Taylor order N = 100 | G0 attempt 3 (PASS, 22 digits) |
+| G3 attempt 1 | all INCONCLUSIVE: 2 GB guard in symbolic simplification | **A1**: no global simplify; raw cse evaluation | G2 re-run (stopped by me when A2 was coded) |
+| A1 G2 | raw Kerr row crawled | **A2**: exact |r_k| in the majorant, Cauchy tail on a 1.5× disk | G0 PASS |
+| A2 G2 | raw box evaluation NaN (dependency problem) | **A3**: r built exactly in ℚ(x, E) (derivation + polynomial gcd); matches raw at points to relative diff 0 | (A4 follows) |
+| A3 check | expanded-denominator box contains 0 | **A4**: centred sup-bound from exact Taylor coefficients of P, Q | G0 PASS; G2 PASS |
+| G3 attempt 2 | all INCONCLUSIVE on the 30-min limit (ξ₂, 15–22 poles, all loops before any test) | **A5 (LAST, bridge-approved)**: ξ₁ first, incremental nearest-first testing, 90 min | G2 PASS |
+| **G3 attempt 3** | — | — | **certificate on every row** |
+
+The integrator's correctness was validated after every change touching it (G0: exact monodromy traces enclosed
+to about 22 digits, including an exp(2/x³) pullback near an essential singularity). The controls were re-passed
+after every change (G2).
+
+**Results (G3 attempt 3; `qsim/mr_mn_G3_A5.txt`, `mr_mn_row_6..9.{log,json}`), all on the ξ₁ form:**
+
+| row | g (loxodromic) | h (loxodromic) | tr g | tr h | tr[g, h] |
+|---|---|---|---|---|---|
+| p1, (1, 4) | γ(1.8415)·γ(0.5805+0.2051i) | γ(−0.0915+0.4620i) | −92.414 − 41.768i (±7e−19) | −6.1875 − 0.6230i (±6e−17) | 1.672·10⁷ + 6.528·10⁷i (±4e−3) |
+| p1, (1, 9) | γ(1.2933)·γ(0.5805+0.2051i) | γ(0.0634+0.4514i) | −31.827 − 4.850i | −229.723 + 8.646i | −4.174·10⁹ − 9.671·10⁸i (±6) |
+| p2, (1, 4) | γ(1.8526)·γ(0.4906+0.4445i) | γ(1.8526)·γ(0.2107+0.7076i) | −4.661 + 94.697i | −16.114 + 27.719i | 1.897·10⁵ + 1.251·10⁵i (±4e−7) |
+| p2, (1, 9) | γ(1.3719)·γ(0.4906+0.4445i) | γ(1.3719)·γ(0.2107+0.7076i) | 37.077 + 57.645i | 8.120 + 26.439i | 3.999·10⁴ − 9.162·10⁴i (±4e−8) |
+
+γ(c) is a certified loop from the recorded base point around c, with the recorded radius.
+
+**Where the non-abelian part lives (the bridge's question).**
+- Kerr's axial generators all have trace ≈ 0: elliptic order-4 turning points.
+- For MN, the certifying elements are **products** of the loop around the **real** singular point that moves with
+  μ² (x ≈ 1.84, 1.29, 1.85, 1.37) with loops around **complex** singular points at |x| ≈ 0.46–0.74. In one row
+  h is a single complex-point loop.
+- No certifying loop encloses x = 0, the essential singularity: target circles have radius 0.3·separation, which
+  is below |c|.
+
+**Verdict (registered wording).** For MN at p1 (M = 5, a = 3, β = 1/5) and at p2 (M = 13, a = 5, β = −1/3), the
+reduced geodesic flow H_{E, L=0} at E = 1, μ² ∈ {4, 9} admits **no additional first integral meromorphic in a
+neighbourhood of the axial phase curve Γ**. Hence it is **not meromorphically Liouville-integrable** at those levels.
+
+**Scope and caveats (all carried into every report):**
+- **Post-failure:** two G0 failures, five amendments (A1–A5), and two INCONCLUSIVE G3 attempts, all on record above.
+- **Computer-assisted:** rigorous Arb ball arithmetic with a majorant tail bound, but AI-written code checking an
+  AI-transcribed metric. No independent human or second-code check of this route yet.
+- **The positive control was equatorial** (ZV δ=2); ZV δ=2 *axial* gave no certificate. So the route's power on
+  axial solutions has no known-answer test. The MN certificates stand on their own proofs.
+- **The L = 0 sector only;** meromorphic integrals only; the tested levels and parameter points only.
+- **The supplied metric:** a verified transcription of the published MN form, with vacuum checked exactly but
+  pointwise in a formal field.
+- It says nothing about how much chaos there is, or anything observable.
