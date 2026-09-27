@@ -303,3 +303,14 @@ This replaces the single box evaluation of r (M′) in `_step`. Everything else 
 
 Every test now goes through the P/Q path with the centred bound. The exact traces are enclosed with about
 22 digits each (`qsim/mr_mn_G0.json`).
+
+## G2 under A4 (2026-09-27): **PASS.** (`qsim/mr_mn_G2_A4.txt`, `mr_mn_row_0..5.*`)
+
+- **ZV δ=2 equatorial:** certificate **found** on both forms (11 s; it was 330 s before A4).
+- **Kerr p1 and p2 axial, (1, 4) and (1, 9):** **not found**, 4/4 rows. Every generator was computed; their traces
+  are all ≈ 0 (±1e−21), elliptic of order 4, as expected around turning points. So "no certificate" here is
+  structural, not a failed integration.
+- **Info:** ZV δ=2 axial has 2 generators, traces −85.03 (loxodromic) and ≈ 0. No certified pair exists in the
+  registered candidate list, which is consistent with the equatorial-only positive control (scope note).
+
+G3, attempt 2, follows.

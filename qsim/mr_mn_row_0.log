@@ -1,5 +1,5 @@
 [0.4s] NVE built: forms ['r_xi2', 'r_xi1']
-[0.8s] r_xi2: 3 located singular points
-[164.9s] r_xi2: certificate found = True  
-[165.1s] r_xi1: 3 located singular points
-[331.5s] r_xi1: certificate found = True  
+[0.7s] r_xi2: 3 located singular points
+[5.3s] r_xi2: certificate found = True  
+[5.5s] r_xi1: 3 located singular points
+[10.1s] r_xi1: certificate found = True  
