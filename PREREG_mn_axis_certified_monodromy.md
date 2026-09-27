@@ -407,3 +407,18 @@ neighbourhood of the axial phase curve Γ**. Hence it is **not meromorphically L
 - **The supplied metric:** a verified transcription of the published MN form, with vacuum checked exactly but
   pointwise in a formal field.
 - It says nothing about how much chaos there is, or anything observable.
+
+### RECEIVED, 2026-09-27: independent second-route reproduction (numerical), bridge V9. **Reported to me, not re-run here.**
+
+`TheBridge falsification/V9_mn_obstruction_check`, commit 0ab99ad. As the bridge reports it:
+- **Independent inputs:** its own MN transcription, matching ansatz's components to 1e−15; its own axial NVE
+  (A, B = −∂_yH, the ξ₁ normal form); scipy DOP853 in complex double precision. The only input taken from this
+  route was the **loop geometry**.
+- **Result:** on all 4 rows it reproduces tr g, tr h and tr[g, h] to 7–9 significant digits, and tr[g, h] does not
+  depend on product order.
+- **Controls:** an integrator test on z″ = βz/x² is exact to 1e−14. Kerr axial generator traces are all 0 to
+  1e−12, from the bridge's own singular-point location.
+
+This is **numerical corroboration, not a second certificate.** The Arb enclosures above remain the proof.
+**Updated grade:** OBSTRUCTION (certified), post-failure; **independent second-route reproduction
+(numerical, bridge V9)**. All the scope caveats above are unchanged.
