@@ -136,3 +136,23 @@ the criterion was < 1e−25 (`qsim/mr_mneq_Q2.json`).
 
 Before this: one crash in my check code (arb midpoint string conversion), fixed at 261c666, before any
 comparison ran.
+
+## Q3 OUTCOME (overnight, 2026-09-28): **PASS, 8/8.** (`qsim/mr_mneq_Q3.txt`, pushed at 2b2ce0f)
+
+- **ZV δ=2 equatorial** at (1, 0, 4) and (1, 0, 9): certificate **found** (ξ₁, 7–8 s each).
+- **Kerr equatorial**, p1 and p2 at (1, 0, 4), (1, 0, 9) and (1, 1, 4): **none**, 6/6 rows, both forms.
+
+On the same solution type and the same pipeline, the known-answer tests behave correctly in both directions,
+including the L ≠ 0 level.
+
+## Q4, partial (as of 2026-09-28 10:36): rows 8–10 **INCONCLUSIVE, time limit**; rows 11–13 are running
+
+MN p1 at (1, 0, 4), (1, 0, 9) and (1, 1, 4): the 3-h guard fired **during the ξ₁ certificate search**. ξ₁ was built
+in 36 s (1389/1361 terms) and 8 singular points were located, but the search did not finish.
+
+The row JSON still shows "building" for ξ₁. That is only because partial results are saved before the search, not
+during it. The row log shows the true stage (`qsim/mr_mneq_row_8..10.log`).
+
+The cost is the per-step series evaluation of a large 4-generator expression, plus small steps near the
+essential singularities at t = ±1. By the registration there are **no amendments**. Rows 11–13 (p2) run to
+completion or to their limit, and the final Q4 outcome is recorded when they finish.
