@@ -2,3 +2,4 @@
 gate green (75 assertions)
 1 MN p1 eq (1, 0, 9) => INCONCLUSIVE (no certificate) [guard ok, peak 116.0 MB, 319.5 s]
 gate green (75 assertions)
+2 MN p1 eq (1, 1, 4) => INCONCLUSIVE (no certificate) [guard ok, peak 117.0 MB, 219.1 s]
