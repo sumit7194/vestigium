@@ -1,5 +1,14 @@
 # DRAFT for review — Interval-arithmetic hub v2: certified monodromy, done properly
 
+## Setup correspondence
+
+**Claim to be supported.** "Certified non-integrability," at the registered (P, E, L, μ²), for the solution
+families stated per target registration.
+
+**What v2 tests.** The same claim as the v1 stages, by a different integrator, a different equation form, and a
+second, independent equation derivation. It does not widen any claim. Each target is registered separately, with
+its own setup-correspondence section.
+
 **Status: DESIGN DRAFT, for review by the user and the bridge. Not registered for running.** Nothing in here
 touches a target until this draft is accepted and committed as a registration.
 
@@ -51,6 +60,14 @@ and **how often we evaluate it**.
     `S_{n+1} ≤ S_n(1 + ρM̄/(n+1))`, so `B_n ≤ S_N (n/N)^{ρM̄}` for n > N. At q = |t|/ρ = ½ the tail is explicitly
     summable.
   - For k ≤ N use the exact ‖M_k‖ (A2); for k > N use the centred Cauchy bound on a 1.5× disk (A4).
+  - **Explicit product bound (bridge review).** With c = ρM̄,
+    `S_n ≤ S_N Π_{k=N}^{n−1}(1 + c/(k+1)) ≤ S_N exp(c Σ_{k=N+1}^{n} 1/k) ≤ S_N (n/N)^c`,
+    so `B_n ≤ S_N (n/N)^c` for every n > N.
+  - **Where the 1.5× disk enters.** For k > N, ‖M_k‖ ≤ M′/ρ′ᵏ with ρ′ = 1.5ρ and M′ = the centred sup-bound
+    of ‖M‖ on D(z, ρ′). So m_k = ‖M_k‖ρᵏ ≤ M′(ρ/ρ′)ᵏ ≤ M′(2/3)^{N+1}, and
+    M̄ = max(max_{k≤N} ‖M_k‖ρᵏ, M′(2/3)^{N+1}).
+  - The y and y′ tails at q = ½ are bounded by `S_N Σ_{n>N} (n/N)^c 2^{−n}`, with a closed-form upper bound
+    written out in the registration.
 
 ## 2. Evaluation: once per step, compiled
 
@@ -96,20 +113,42 @@ Agreement here is two rigorous enclosures, each sufficient alone, not two number
 - **L3.** Every element of N(T) \ T in SL(2) has trace 0.
 - **L4.** Invariance of (i)–(iii) under g ↦ λg and under (g, h) ↦ (g², h²).
 - **L5.** The GL(2) restatement: tr²/det ∉ [0, 4] ⇔ the normalised trace ∉ [−2, 2].
-- **L6.** The group-theoretic core of the certificate: a subgroup of SL(2, ℂ) containing g, h as in (i)–(iii) is
-  **not virtually abelian**, and has no finite-index subgroup fixing a line or a pair of lines.
+- **L6 (restated, bridge review).** If g, h ∈ SL(2, ℂ) satisfy (i)–(iii), then **⟨g, h⟩ is not virtually
+  abelian**.
+  - *Proof:* suppose an abelian subgroup has finite index. Then g^m and h^m commute for some m ≥ 1. Commuting
+    loxodromics share both eigenlines, and g^m has the same eigenlines as g. So g and h share an eigenline, giving
+    tr[g, h] = 2, a contradiction.
+  - **Corollary:** G⁰ is not abelian. If it were, Γ ∩ G⁰ would be an abelian subgroup of finite index in Γ,
+    because G⁰ has finite index in G.
+  - Entirely formalisable. It **removes the classification of algebraic subgroups of SL(2) from the cited list.**
 - **L7** (TS route). The algebraic core of the 2b′ uniqueness lemma: ±(unipotent ≠ I) has exactly one eigenline.
 
 **Cited, not formalised (stated as such in every verdict):**
 - the Ziglin / Morales–Ramis theorem;
 - Schlesinger's theorem;
-- the classification of algebraic subgroups of SL(2) by their identity component;
+- that the identity component G⁰ of an algebraic group G has finite index (standard and elementary; it could be
+  formalised later);
 - Kovacic's algorithm.
 
 Formalising differential Galois theory is out of scope; to my knowledge it isn't in Mathlib.
 
 **Setup in progress** (2026-10-03): elan 4.2.4 via Homebrew; Mathlib project `lean/ZiglinCert` with the pre-built
 cache. A disk guard stops the setup if free disk falls below 4 GB, per the user.
+
+## 5b. Equation provenance: closing the common-mode gap (bridge review, point 1)
+
+v1 replaying v2 makes the **integrator** independent. But both read their equation from the same SymPy front
+end: the metric transcription loader, then A, B, ẋ². An error there would be shared and replayed faithfully.
+
+**Added rung V-provenance:** v2's (p, q), evaluated at test points, must match an **independently derived** NVE.
+- **Axial:** the bridge's V9 code (`TheBridge/falsification/V9_mn_obstruction_check/code/v9_nve.py`), which has
+  its own transcription, its own A and B = −∂_yH, and its own ẋ².
+- **Equatorial:** the bridge has offered to extend V9. The requested form is the non-reduced ξ₁ equation
+  `ξ₁″ + p_x ξ₁′ + q_x ξ₁ = 0` **in x**, at real x > 1 (principal √), at the registered levels. On this side it is
+  mapped to t by `p_t = x′p_x − x″/x′` and `q_t = x′²q_x`.
+- **Criterion:** relative difference < 1e−25 at ≥ 3 points per level and per MN point.
+- Q2's existing numerical-differentiation reference already shares no algebra with the ℚ(t, E) path, but it does
+  share the component loader. V-provenance is the step that removes that.
 
 ## 6. Validation ladder (all before any target; each rung committed and pushed)
 
@@ -122,11 +161,20 @@ cache. A disk guard stops the setup if free disk falls below 4 GB, per the user.
    - on the **same** v2 pipeline.
 3. **V-reproduce:** the **already proven axial MN certificates** (2ce8b41) must come out again. Overlapping balls
    with v1 are fine; a different certifying pair is also fine, provided it is replayed by v1.
-4. **V-Lean:** L1–L7 checked by Lean, with no `sorry`.
+4. **V-provenance** (§5b): v2's equation matches an independent derivation.
+5. **V-Lean:** L1–L7 checked by Lean, with no `sorry`.
 
 Only then: the MN equatorial target, all 6 rows at the registered levels, under the two-implementation rule.
 
-## 7. Open questions for review
+## 7. Decisions from review (bridge, 2026-10-03)
+
+- **Re-certify TS δ=2 with v2**, as its own registration after MN equatorial. TS's monodromy was uncorroborated
+  (no clean base point), so this gives it a second, independent route.
+- **v1 is the replay engine,** which is enough for integrator independence. The bigger risk was common mode,
+  which §5b addresses.
+- **The current v1 run (p2 rows 11–13) finishes untouched;** its outcome stands on its own.
+
+## 8. Open questions for review (original)
 
 - **Scope of v2's first target:** MN equatorial only, or also re-certify TS δ=2 by this independent route?
 - **Who replays:** keep v1 as the replay engine (most independent), or also add a Python v2 for a three-way check?
