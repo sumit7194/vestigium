@@ -75,3 +75,10 @@ The two match only up to these gaps:
   equation is independently derived.
 
 The Ziglin / Morales–Ramis theorem is cited.
+
+**Resource note (2026-10-04, during row 0's v1 replay).** The bridge's overnight budget is **≤ 5 CPU threads** in
+total for this session, shared with ansatz's memory-heavy run. So the v2 search's native thread count drops from
+6 to **3**, from row 1 on; row 0 had already finished its search.
+- This is **resource only.** Within each batch the loops are tested in the same nearest-first order, and the
+  first certified pair does not depend on the batch size.
+- The guard keys on `memory_pressure` < 10 % free and disk < 5 GB, as fixed (bed3891, 955b4c0).

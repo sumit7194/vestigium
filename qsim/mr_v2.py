@@ -120,7 +120,7 @@ def locate(S, box_=6.0, grid=120):
 # ----------------------------------------------------------------------------------------------
 # incremental certificate search (A5 policy), loops transported in parallel batches
 # ----------------------------------------------------------------------------------------------
-def search(S, sing, threads=6, log=print, max_gen=40):
+def search(S, sing, threads=3, log=print, max_gen=40):   # 2026-10-04: 6 -> 3 (bridge CPU budget, <= 5 threads total); resource only, same search order
     b, entries = compile_system(S)
     obst = list(sing) + [complex(c) for c in S["bad"]]
     if len(sing) < 2:
