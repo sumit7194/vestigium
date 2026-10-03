@@ -192,4 +192,6 @@ def replay_v1(S, cert, sing):
         return Y
     g, h = elem(cert["g"]), elem(cert["h"])
     ok, info = IA.certificate(g, h)
-    return dict(replayed=ok, **info)
+    c = IA.tr(IA._matmul(IA._matmul(g, h), IA._matmul(IA.inv(g), IA.inv(h))))
+    return dict(replayed=ok, **info, tr_g_midrad=IN.midrad(IA.tr(g)), tr_h_midrad=IN.midrad(IA.tr(h)),
+                tr_comm_midrad=IN.midrad(c))

@@ -231,3 +231,20 @@ These are development runs, not ladder results.
 - **Rung 5b, equatorial: PASS earlier,** at 4.3e−50 (ad7bd15).
 - **VCTRL** then **VREPRO:** running detached; outcomes are recorded as they land.
 - **V-Lean:** waiting on the Lean toolchain and Mathlib download (slow link).
+
+**VCTRL: PASS** (12/12 plus 1 info; `qsim/mr_v2_VCTRL.txt`).
+- ZV δ=2 equatorial at (1, 0, 4) and (1, 0, 9): certificate found **and replayed by v1**.
+- Kerr equatorial, p1 and p2 × 3 levels (including L = 1), and Kerr axial, p1 and p2 × 2 levels: **none**. For
+  example the Kerr axial generators have tr²/det = 0 to within 1e−71: order-4 elliptic turning-point loops.
+- Info: ZV δ=2 axial has no certificate, as with v1.
+
+**Audit note (VREPRO row 0, MN p1 axial (1, 4)).** v1's replay commutator trace was *displayed* as
+`[+/- 8.54e+12] + [+/- 5.54e+12]j`, which looks like a ball containing 0. The actual ball is
+**5.8166e12 ± 2.72e12**, which **certainly** excludes 2. Arb collapses a ball to `[+/- |mid|+rad]` when no digit is
+accurate. The rigorous comparisons used the ball, never the string, so the certificate is genuine. This was checked
+by re-running the replay and reading `mid()` and `rad()` directly.
+- From now on, every certificate record also stores **explicit mid ± rad** (`ia_native.midrad`); this is a
+  formatting change only.
+- It also shows that v1's reduced-form enclosures are much looser than v2's (about 47 % relative on that
+  commutator, against v2's ±5e5 on 6e12). They are sufficient, but the two-implementation rule here rests on a
+  loose second enclosure.

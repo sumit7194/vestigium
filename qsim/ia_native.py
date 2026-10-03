@@ -213,7 +213,16 @@ def loxodromic_gl2(g):
     return certainly_outside_0_4(tr(g)**2/det(g))
 
 
+def midrad(x):
+    """Explicit 'mid +/- rad' for each part: Arb's display collapses a ball to '[+/- |mid|+rad]' when no digit is
+    accurate, which is a poor audit trail (it looked like a ball containing 0 when it certainly excluded 2)."""
+    f = lambda a: f"{a.mid().str(25, radius=False)} +/- {a.rad().str(5, radius=False)}"
+    return dict(re=f(x.real), im=f(x.imag))
+
+
 def certificate_gl2(g, h):
     c = tr(matmul(matmul(g, h), matmul(inv(g), inv(h))))
+    wg, wh = tr(g)**2/det(g), tr(h)**2/det(h)
     ok = loxodromic_gl2(g) and loxodromic_gl2(h) and certainly_ne(c, 2)
-    return ok, dict(w_g=str(tr(g)**2/det(g)), w_h=str(tr(h)**2/det(h)), tr_comm=str(c))
+    return ok, dict(w_g=str(wg), w_h=str(wh), tr_comm=str(c),
+                    w_g_midrad=midrad(wg), w_h_midrad=midrad(wh), tr_comm_midrad=midrad(c))
