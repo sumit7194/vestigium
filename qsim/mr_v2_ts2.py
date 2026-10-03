@@ -64,9 +64,9 @@ def run_row(i):
     P, (En, L, mu2) = ROWS[i]
     t0 = time.time()
     S, _ = system(P, En, L, mu2)
-    sing = V.locate(S)
+    sing = V.locate_a6(S)                                   # pre-run amendment: A6 locator
     print(f"[{time.time()-t0:.0f}s] TS {P} eq ({En},{L},{mu2}): {len(sing)} located singular points", flush=True)
-    r = V.search(S, sing, log=lambda m: print(f"[{time.time()-t0:.0f}s] {m}", flush=True))
+    r = V.search(S, sing, log=lambda m: print(f"[{time.time()-t0:.0f}s] {m}", flush=True), skip_failed=True)
     r["located"] = [str(complex(round(c.real, 6), round(c.imag, 6))) for c in sing]
     print(f"[{time.time()-t0:.0f}s] v2 certificate found: {r['found']} {r.get('why', '')}", flush=True)
     if r["found"]:

@@ -75,3 +75,15 @@ levels, at x = 5/4, 5/3, 2 and 13/4.
   code. It confirmed ansatz's components (g_TT = −f, g_xx, g_yy, and ω satisfying both twist equations) exactly at
   3 random rational points per parameter point.
 - So this check covers the **metric** as well as the equation.
+
+## PRE-RUN AMENDMENT (2026-10-04), bridge-approved, committed before the TS search launches: the A6 search policy
+
+The TS search uses the A6 locator and skip-not-abort, as defined in `PREREG_mn_equatorial_v2.md` § Amendment A6:
+- the complete float locator (finer grid; Newton on the denominators of p and q; conjugate closure; t ↦ 1/t images
+  only as Newton-verified candidates);
+- skip, rather than abort on, an uncertifiable loop.
+
+**Motivation.** For TS this is purely a **completeness and robustness gain on the search side**. The TS δ=2 NVE
+coefficients are rational in x (and t), so there are **no essential singularities** and the MN failure mechanism
+(growth near t = ±1) **does not apply**. The change is search-only and cannot create a false certificate: skipping
+only removes candidates, and every certificate still needs the v1 replay.
