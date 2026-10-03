@@ -82,3 +82,16 @@ total for this session, shared with ansatz's memory-heavy run. So the v2 search'
 - This is **resource only.** Within each batch the loops are tested in the same nearest-first order, and the
   first certified pair does not depend on the batch size.
 - The guard keys on `memory_pressure` < 10 % free and disk < 5 GB, as fixed (bed3891, 955b4c0).
+
+**Robustness and resource note (2026-10-04 ~02:50, during row 0's v1 replay, about 3 h in).** Applies from row 1 on;
+row 0 keeps its original code.
+1. The **v2 certificate is saved to disk before the v1 replay starts** (`mr_v2_mneq_row{i}_v2cert.json`). Before
+   this, a guard kill during a long replay would have lost the certificate data, because the row file is only
+   written at the end.
+2. The **v1 replay's 2–4 certifying loops run in parallel forked processes** (≤ 3, within the bridge's thread
+   budget). It is the identical computation; results come back by **exact, outward-rounded** ball serialisation
+   (mantissa/exponent; the rebuilt ball contains the original).
+   - Tested on ZV equatorial: `replayed = True` on the same 3 loops as the earlier single-process run, in 5 s
+     instead of 13 s. The batch size changed (2 vs 6) and the certifying pair did not, as stated.
+
+Neither change touches the certificate rule, the search order or the integrator.

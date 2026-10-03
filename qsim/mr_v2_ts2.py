@@ -70,6 +70,9 @@ def run_row(i):
     r["located"] = [str(complex(round(c.real, 6), round(c.imag, 6))) for c in sing]
     print(f"[{time.time()-t0:.0f}s] v2 certificate found: {r['found']} {r.get('why', '')}", flush=True)
     if r["found"]:
+        # save the v2 certificate BEFORE the (slow) v1 replay, so a later guard kill cannot lose it
+        json.dump(dict(r, assessment="v2 certificate found; v1 replay pending"), open(
+            os.path.join(HERE, f"{os.path.basename(__file__)[:-3]}_row{i}_v2cert.json"), "w"), indent=1, default=str)
         r["v1_replay"] = V.replay_v1(S, r, sing)
         print(f"[{time.time()-t0:.0f}s] v1 replay: {r['v1_replay']['replayed']}", flush=True)
         r["assessment"] = "CORROBORATED (v2 certificate, v1 replay)" if r["v1_replay"]["replayed"] else \

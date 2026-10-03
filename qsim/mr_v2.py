@@ -170,28 +170,56 @@ def search(S, sing, threads=3, log=print, max_gen=40):   # 2026-10-04: 6 -> 3 (b
 # ----------------------------------------------------------------------------------------------
 # two-implementation rule: replay a v2 certificate with the frozen v1 hub on the REDUCED form
 # ----------------------------------------------------------------------------------------------
-def replay_v1(S, cert, sing):
-    """Recompute the certifying loops with ia_hub (v1, reduced form r = P/Q, SL(2) certificate)."""
+_RCTX = {}
+
+
+def _ser_ball(x):
+    """Exact, outward-rounded serialisation of an acb ball (mid as mantissa/exponent; radius rounded up)."""
+    from flint import arb
+    def one(a):
+        m, e = a.mid().man_exp(); rm, re_ = a.rad().man_exp()
+        return (int(m), int(e), int(rm), int(re_))
+    return (one(x.real), one(x.imag))
+
+
+def _de_ball(t):
+    from flint import arb, acb
+    def one(u):
+        m, e, rm, re_ = u
+        return arb(arb(m)*arb(2)**e, arb(rm)*arb(2)**re_)     # contains the original ball (outward rounding)
+    return acb(one(t[0]), one(t[1]))
+
+
+def _replay_worker(name):
+    rc, dmin, geo = _RCTX["rc"], _RCTX["dmin"], _RCTX["geo"]
+    gm = geo[name]
+    Y = IA.transport(rc, IA.loop_points(complex(*gm["base"]), complex(*gm["center"]), gm["radius"]), dist=dmin)
+    return name, [[_ser_ball(Y[i][j]) for j in range(2)] for i in range(2)]
+
+
+def replay_v1(S, cert, sing, procs=3):
+    """Recompute the certifying loops with ia_hub (v1, reduced form r = P/Q, SL(2) certificate).
+    2026-10-04: the 2-4 certifying loops run in parallel forked processes (resource only; identical computation),
+    results returned by exact outward-rounded ball serialisation."""
+    import multiprocessing as mpr
     r1 = S["reduced"]()
     rc = IA.RationalFn(S["to_expr"](r1, "P"), S["to_expr"](r1, "Q"), S["var"], S["bad"])
     obst = list(sing) + [complex(c) for c in S["bad"]]
     dmin = lambda q: min(abs(q - c) for c in obst)
     geo = cert["geometry"]
-    cache = {}
-    def loop(name):
-        if name not in cache:
-            gm = geo[name]
-            c = complex(*gm["center"]); z0 = complex(*gm["base"])
-            cache[name] = IA.transport(rc, IA.loop_points(z0, c, gm["radius"]), dist=dmin)
-        return cache[name]
+    names = sorted(set(cert["g"].split("*") + cert["h"].split("*")))
+    _RCTX.update(rc=rc, dmin=dmin, geo=geo)
+    with mpr.get_context("fork").Pool(processes=min(procs, len(names))) as pool:
+        got = dict(pool.map(_replay_worker, names))
+    cache = {n: [[_de_ball(got[n][i][j]) for j in range(2)] for i in range(2)] for n in names}
     def elem(expr):
         parts = expr.split("*")
-        Y = loop(parts[0])
+        Y = cache[parts[0]]
         for p_ in parts[1:]:
-            Y = IA._matmul(Y, loop(p_))
+            Y = IA._matmul(Y, cache[p_])
         return Y
     g, h = elem(cert["g"]), elem(cert["h"])
     ok, info = IA.certificate(g, h)
     c = IA.tr(IA._matmul(IA._matmul(g, h), IA._matmul(IA.inv(g), IA.inv(h))))
     return dict(replayed=ok, **info, tr_g_midrad=IN.midrad(IA.tr(g)), tr_h_midrad=IN.midrad(IA.tr(h)),
-                tr_comm_midrad=IN.midrad(c))
+                tr_comm_midrad=IN.midrad(c), loops_replayed=names)
