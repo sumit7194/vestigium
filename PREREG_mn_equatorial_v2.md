@@ -95,3 +95,40 @@ row 0 keeps its original code.
      instead of 13 s. The batch size changed (2 vs 6) and the certifying pair did not, as stated.
 
 Neither change touches the certificate rule, the search order or the integrator.
+
+---
+
+## Row 0 RESULT (2026-10-04): MN p1, (E, L, μ²) = (1, 0, 4): **OBSTRUCTION** (v2 certificate, v1 replay)
+
+`qsim/mr_v2_mneq_row0.{json,log}`.
+
+**The v2 search** found the certificate in 493 s (3 generators, 15 pairs, 2370 certified steps). Base point
+z₀ = 2.02462 + 2.10024i in the t-plane.
+- g = γ(t = 0.185747, ρ = 0.10037) · γ(t = −0.560195, ρ = 0.01331)
+- h = γ(t = −0.148818, ρ = 0.10037) · γ(t = −0.560195, ρ = 0.01331)
+
+All three centres are **real** singular points of the t-equation. In x = (t + 1/t)/2 they sit at about 2.785, −3.435
+and −1.173. No loop encircles the essential singularities t = ±1.
+
+**The GL(2) certificate (v2, explicit mid ± rad):**
+
+| quantity | value |
+|---|---|
+| tr(g)²/det g | −313428.513645928235049718 − 106383.324905049348261505i (± 3.4e−20) |
+| tr(h)²/det h | 26436.875183026811107649 (± 5.7e−19), real and > 4 |
+| tr[g, h] | −290240.66028442123932780 − 86714.147183097016909894i (± 6.1e−12) |
+
+So tr²/det ∉ [0, 4] for both, and tr[g, h] ≠ 2.
+
+**The v1 replay** (reduced form, SL(2), 10,986 s) gives `replayed = True`:
+- tr g = 93.70749334087501245 − 567.63510105890947259i (± 2.8e−15). Its square, −313428.5 − 106383.3i,
+  **equals v2's tr²/det**, as it must.
+- tr h = −162.59420402654828676 (± 2.1e−12), real with |tr| > 2.
+- tr[g, h] = −290240.66028442123932780 − 86714.14718309701690989i (± 8.7e3). Its **midpoint agrees with v2's to
+  about 25 digits**; v1's ball is wider but certainly excludes 2.
+
+**Verdict (registered wording).** For MN at p1 (M = 5, a = 3, β = 1/5), with (E, L, μ²) = (1, 0, 4), the reduced
+flow admits no additional first integral meromorphic in a neighbourhood of the **equatorial** phase curve, so it is
+not meromorphically Liouville-integrable at that level.
+- Logic: the machine-checked `L6_gl2`, plus the cited Ziglin / Morales–Ramis theorem and the finite-index fact.
+- The positive control is on the **same solution type** (ZV equatorial, VCTRL).
