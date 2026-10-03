@@ -188,3 +188,22 @@ swap dips below 512 MB even with 77–87 % of memory free. The watchdog's swap r
 
 **Rows 12 and 13 are re-run** under the fixed watchdog, with unchanged code and the user's approval for the p2
 rows. Row 11 is not re-run, because it already used 99.3 % of its budget.
+
+## FINAL OUTCOME of the v1 equatorial stage (2026-10-04)
+
+**INCONCLUSIVE at every target row. No certificate. This says nothing about integrability.**
+- Q1 (exact invariance), Q2 (pipeline check) and Q3 (controls, 8/8) PASSED.
+- Q4 target rows:
+
+| rows | outcome |
+|---|---|
+| p1, rows 8–10 | 3-h limit |
+| p2, row 11 | 10,720 s of 10,800 s, then killed by the false-positive swap guard (fixed in 955b4c0) |
+| p2, row 12 | 3-h limit |
+| p2, row 13 | 3-h limit |
+
+The cause is cost: per-step series evaluation of the 1389/1361-term reduced form, with tiny steps near t = ±1.
+
+This stage is **superseded by an independent route,** `PREREG_mn_equatorial_v2.md` (iahub v2). The v2 route has
+already given an OBSTRUCTION at p1, (1, 0, 4), replayed by v1 and reproduced by the bridge; further rows are in
+progress. This stage's own result stands as recorded.
