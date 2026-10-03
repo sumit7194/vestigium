@@ -180,3 +180,19 @@ Only then: the MN equatorial target, all 6 rows at the registered levels, under 
 - **Who replays:** keep v1 as the replay engine (most independent), or also add a Python v2 for a three-way check?
 - **The L6 boundary:** how much of the algebraic-group step to formalise versus cite. The proposal is to cite
   the classification and formalise everything around it.
+
+---
+
+## Rung 5b result (2026-10-03): **PASS**, equatorial MN equation provenance
+
+- **Reference:** the bridge's **independent** derivation (TheBridge 92c3ec5, `v9_equatorial_provenance.py`): its
+  own MN transcription, with symbolic sympy differentiation in y and x.
+- **Ours:** the exact ℚ(t, E) pipeline (`mr_mn_equatorial.lower_at_equator` → `equatorial_nve`), mapped to x with
+  d/dx = (1/x′(t)) d/dt.
+- **Compared:** p_x, q_x, A, B and ẋ² of the non-reduced ξ₁ equation, at x = 5/4, 5/3, 2 and 13/4, for MN p1 and
+  p2 at (1, 0, 4), (1, 0, 9) and (1, 1, 4).
+- **Result:** maximum relative difference **4.3e−50**. That is the full 50-digit precision of the reference;
+  the criterion was < 1e−25. Files: `qsim/mr_mneq_provenance.py`, `.json` and `.log`.
+
+The common-mode risk from the shared front end (component loader, A, B, ẋ²) is closed for the equatorial
+equation. The axial case has V9's earlier agreement on traces, to 7–9 digits.
