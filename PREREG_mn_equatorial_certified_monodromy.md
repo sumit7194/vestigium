@@ -168,3 +168,7 @@ Rows 12–13 (p2 at (1, 0, 9) and (1, 1, 4)) never started. This is not a result
 - p2: no completed row.
 
 Resuming rows 11–13 is a re-run of registered rows with unchanged code and settings. It is **not** an amendment.
+
+**Re-run of rows 11–13 (2026-10-03, user's decision).** The code and settings are unchanged, apart from a
+row-filter option on the runner (`Q4 11,12,13`), so that p1 rows 8–10 are not repeated. The run is launched with
+`nohup`, so it survives a session end. Output goes to `qsim/mr_mneq_Q4_p2.txt`.

@@ -489,7 +489,7 @@ def run_row(spec, outp=None):
     return out
 
 
-def run_gate(gate):
+def run_gate(gate, only=None):
     import mr_watchdog as W
     py = sys.executable
     if gate in ("Q1", "Q2"):
@@ -503,7 +503,7 @@ def run_gate(gate):
     allr = rows()
     results = []
     for i, (tag, name, spec, expect) in enumerate(allr):
-        if tag != gate:
+        if tag != gate or (only is not None and i not in only):
             continue
         outp = os.path.join(HERE, f"mr_mneq_row_{i}.json")
         if os.path.exists(outp):
@@ -549,4 +549,5 @@ if __name__ == "__main__":
             res = run_row(rows()[int(task[3:])][2], outp)
         json.dump(res, open(outp, "w"), indent=1, default=str)
     else:
-        run_gate(sys.argv[1])
+        only = set(int(a) for a in sys.argv[2].split(",")) if len(sys.argv) > 2 else None   # row filter (re-run)
+        run_gate(sys.argv[1], only)
