@@ -1,0 +1,1 @@
+0 MN p1 eq (1, 0, 4) => OBSTRUCTION (v2 certificate, v1 replay) [guard ok, peak 127.0 MB, 11589.0 s]
