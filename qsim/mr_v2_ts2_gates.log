@@ -1,0 +1,11 @@
+{
+ "P1 invariance": true,
+ "P2 invariance": true,
+ "P1 (1, 0, 4) provenance worst rel": 1.6253541946877643e-55,
+ "P1 (1, 0, 9) provenance worst rel": 2.7854734471091345e-55,
+ "P1 (1, 1, 4) provenance worst rel": 2.7854734471091345e-55,
+ "P2 (1, 0, 4) provenance worst rel": 2.7854734471091345e-55,
+ "P2 (1, 0, 9) provenance worst rel": 2.7854734471091345e-55,
+ "P2 (1, 1, 4) provenance worst rel": 2.7854734471091345e-55,
+ "GATES_PASS": true
+}

@@ -56,3 +56,12 @@ The same claim and the same gaps as Stage 2 (`PREREG_ts2_morales_ramis.md` § Se
 - the supplied metric (vacuum checked by Schwartz–Zippel only).
 
 This stage changes **how** non-abelian G⁰ is shown, not **what** is claimed.
+
+## Pre-run gates (2026-10-04): **PASS**
+
+- **y = 0 invariance:** exact at P1 and P2.
+- **Provenance:** the reduced ξ₁ form from the shared ℚ(t) pipeline matches the Stage-2 loader's independent
+  derivation (`mr_ts2.load_wp` + `mr_nve`, in x, mapped to t) to a relative difference of **≤ 2.8e−55** on all
+  6 rows.
+
+`qsim/mr_v2_ts2_gates.{json,log}`. The search runs after the MN equatorial v2 target, as registered.
