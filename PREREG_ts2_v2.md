@@ -1,0 +1,58 @@
+# Pre-registration — Tomimatsu–Sato δ = 2, re-certified by iahub v2 (certified monodromy, second route)
+
+**Committed before any code or computation for this stage.** The bridge approved it on 2026-10-03 (review point 4):
+"re-certify TS δ=2 with v2 … TS's monodromy route was 'uncorroborated' (no clean base point) … run it as a separate
+registration", to run **after** the MN equatorial v2 target. Ladder: `PREREG_iahub_v2.md`, complete
+(VG0, VCTRL, VREPRO, V-provenance, V-Lean).
+
+**What already stands (unchanged by this stage).** TS δ=2 has an OBSTRUCTION from the root-free Kovacic route 2b′:
+post-failure, both forms, all 6 rows (ce2cab8). The ξ₁ form was independently reproduced by the bridge (V8′).
+The monodromy corroboration was **uncorroborated**: v1's base-point search found no clean star.
+
+This stage adds an **independent certified-monodromy route**: a different method (monodromy instead of
+Kovacic), a different integrator (v2), and a v1 replay.
+
+## What runs
+
+**Rows.** As in Stage 2: TS δ=2 at P1 = (3/5, 4/5) and P2 = (4/5, 3/5), σ = 1, on the equatorial solution, at
+(E, L, μ²) = (1, 0, 4), (1, 0, 9) and (1, 1, 4). That is 6 rows.
+
+**Equation.** The TS lower components (ansatz's package, rational in x and y) go through the **same** equatorial
+pipeline as MN, Kerr and ZV (`mr_mn_equatorial`: y = 0 data, chain rule, t-uniformisation x = (t + 1/t)/2,
+exact ℚ(t) field), as the non-reduced ξ₁ system. There are no exponentials, so there are no `bad` points.
+
+- **Pre-run gate.** Before any search, the equatorial y = 0 invariance check must pass exactly. TS components
+  must satisfy ∂_y g_ab = 0 at y = 0, as Stage 2 found.
+- **Equation-provenance cross-check.** At 3 dyadic t > 1 points per row, the v2 ξ₁ system coefficients must match
+  the **Stage-2 loader's** independent symbolic NVE (`mr_ts2.load_wp` + `mr_nve`-style derivation in x), mapped
+  to t, to a relative difference below 1e−25. If they disagree, the stage stops.
+
+**Search and rule.** The frozen v2 driver: nearest-first, incremental, first certified pair. The scale-free GL(2)
+certificate (Lean `L6_gl2`). A certificate counts only after the **v1 replay** satisfies the SL(2) certificate
+on the reduced ξ₁ form.
+
+**Resources.** One guarded child per row: 2 GB, 6 h, detached. Committed and pushed per row.
+
+## Verdict wording
+
+For each row:
+- **CORROBORATED (certified monodromy, v2 + v1 replay):** the TS δ=2 OBSTRUCTION at that row, from 2b′, is
+  independently confirmed by certified monodromy (Ziglin form). G⁰ is non-abelian by `L6_gl2` and the cited
+  finite-index fact.
+- **No certificate:** "monodromy corroboration still absent at that row". That does **not** weaken or contradict
+  the committed 2b′ OBSTRUCTION, which rests on its own proof.
+- **A v1 replay failure:** reported as such, not as corroboration.
+
+A certificate cannot "contradict" 2b′. Both say obstruction, and monodromy can only add evidence. A **control**
+misbehaving would stop the stage. The controls are the already-passed VCTRL rows; ZV and Kerr are not re-run
+here.
+
+## Setup correspondence
+
+The same claim and the same gaps as Stage 2 (`PREREG_ts2_morales_ramis.md` § Setup correspondence):
+- meromorphic integrals only;
+- the complex neighbourhood of Γ;
+- the tested parameters;
+- the supplied metric (vacuum checked by Schwartz–Zippel only).
+
+This stage changes **how** non-abelian G⁰ is shown, not **what** is claimed.
