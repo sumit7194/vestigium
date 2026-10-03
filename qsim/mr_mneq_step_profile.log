@@ -1,0 +1,31 @@
+[24.29s] built y=0 data
+[38.74s] r_xi1 built 1389/1361
+[40.28s] compiled: P cse 318 Q cse 417; ops P 4739
+[41.14s] series eval of P (N=100): 278.5 ms
+[42.20s] series eval of Q (N=100): 353.8 ms
+[44.11s] series P/Q division: 637.0 ms
+[44.12s] box eval P: 2.5 ms
+[46.08s] sup_bound (series P,Q + 2 box): 653.6 ms
+[47.43s] full _step: 673.0 ms
+[48.08s] Taylor recursion (one basis): 1.4 ms
+         205449 function calls (179881 primitive calls) in 0.666 seconds
+
+   Ordered by: cumulative time
+   List reduced from 27 to 12 due to restriction <12>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.666    0.666 /Users/sumit/Github/quantum/qsim/ia_hub.py:138(_step)
+        1    0.002    0.002    0.666    0.666 /Users/sumit/Github/quantum/qsim/ia_hub.py:87(sup_bound)
+        4    0.001    0.000    0.663    0.166 /Users/sumit/Github/quantum/qsim/ia_hub.py:70(__call__)
+26732/1474    0.639    0.000    0.662    0.000 /Users/sumit/Github/quantum/qsim/ia_hub.py:44(_ev)
+7076/7014    0.003    0.000    0.007    0.000 /Users/sumit/Github/quantum/sims/.venv/lib/python3.13/site-packages/sympy/core/expr.py:432(is_number)
+     6198    0.001    0.000    0.005    0.000 /Users/sumit/Github/quantum/sims/.venv/lib/python3.13/site-packages/sympy/core/numbers.py:1622(__eq__)
+     3834    0.001    0.000    0.005    0.000 /Users/sumit/Github/quantum/sims/.venv/lib/python3.13/site-packages/sympy/core/numbers.py:1965(__eq__)
+     6198    0.001    0.000    0.003    0.000 /Users/sumit/Github/quantum/sims/.venv/lib/python3.13/site-packages/sympy/core/sympify.py:514(_sympify)
+    37668    0.003    0.000    0.003    0.000 /Users/sumit/Github/quantum/sims/.venv/lib/python3.13/site-packages/sympy/core/basic.py:315(__hash__)
+7076/7014    0.001    0.000    0.003    0.000 {built-in method builtins.all}
+     6198    0.002    0.000    0.002    0.000 /Users/sumit/Github/quantum/qsim/ia_hub.py:31(_const)
+     7234    0.002    0.000    0.002    0.000 /Users/sumit/Github/quantum/sims/.venv/lib/python3.13/site-packages/sympy/core/basic.py:497(__eq__)
+
+
+

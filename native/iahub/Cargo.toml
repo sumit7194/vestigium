@@ -1,0 +1,10 @@
+[package]
+name = "iahub"
+version = "0.1.0"
+edition = "2021"
+description = "Native core of the interval-arithmetic hub: certified continuation via FLINT/Arb FFI (setup scaffold)"
+
+[dependencies]
+
+[profile.release]
+strip = false
