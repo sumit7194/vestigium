@@ -216,3 +216,18 @@ So **N = 140** is the default, inside the registered 60–150 range. The driver 
 - Kerr equatorial: none found (6 generators, 210 pairs).
 
 These are development runs, not ladder results.
+
+## Ladder progress (2026-10-03)
+
+- **VG0: PASS** (b577db9). Through the native core, every exact value is enclosed with **37–38 correct digits**
+  (N = 140):
+  - reduced Riemann P (1/3, 1/5, 1/7): traces −2cos(π/3) and −2cos(π/5);
+  - non-reduced Gauss hypergeometric: traces 1 + e^{2πi(1−c)} and 1 + e^{2πi(c−a−b)}, with their dets;
+  - the exp(2/x³) pullback near an essential singularity.
+- **Rung 5b, axial: PASS.** The axial Q(x, E) NVE, shared by v1 and v2, matches the bridge's **independent**
+  derivation (TheBridge 35abf26): p_x, q_x, A, B and X for MN p1 and p2 at (1, 0, 4) and (1, 0, 9), at x = 5/4,
+  5/3, 2 and 13/4. Maximum relative difference **4.3e−50**, the full precision of the reference
+  (`qsim/mr_v2_provenance_axial.{py,json,log}`).
+- **Rung 5b, equatorial: PASS earlier,** at 4.3e−50 (ad7bd15).
+- **VCTRL** then **VREPRO:** running detached; outcomes are recorded as they land.
+- **V-Lean:** waiting on the Lean toolchain and Mathlib download (slow link).
