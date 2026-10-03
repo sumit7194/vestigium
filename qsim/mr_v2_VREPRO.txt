@@ -1,0 +1,6 @@
+ 0 VREPRO MN p1 axial (1,4)          => PASS                                     [guard ok, peak 86.0 MB, 301.9 s]
+ 1 VREPRO MN p1 axial (1,9)          => PASS                                     [guard ok, peak 86.0 MB, 333.2 s]
+ 2 VREPRO MN p2 axial (1,4)          => PASS                                     [guard ok, peak 84.0 MB, 228.9 s]
+ 3 VREPRO MN p2 axial (1,9)          => PASS                                     [guard ok, peak 86.0 MB, 155.4 s]
+VREPRO PASS
+EXIT 0
