@@ -132,3 +132,24 @@ flow admits no additional first integral meromorphic in a neighbourhood of the *
 not meromorphically Liouville-integrable at that level.
 - Logic: the machine-checked `L6_gl2`, plus the cited Ziglin / Morales–Ramis theorem and the finite-index fact.
 - The positive control is on the **same solution type** (ZV equatorial, VCTRL).
+
+## Row 1 RESULT: MN p1, (1, 0, 9): **INCONCLUSIVE** (transport failure; not a verdict)
+
+The v2 search aborted after 319 s: "transport failed on γ(t = 0.611725, ρ = 0.11648): step size underflow near
+t = 0.70765 − 0.06576i". That point lies at distance 0.1163 from the loop's centre, i.e. **on the loop's circle**:
+a singular point the float locator **missed**, so its loop radius was not limited by it.
+
+The located list (6 points) is visibly **incomplete**:
+- the coefficients are real, so singular points come in conjugate pairs, but −0.98142 + 0.21985i and
+  −0.74271 + 0.06204i appear without their conjugates;
+- x(t) = x(1/t), so the singular set is invariant under t ↦ 1/t, but 0.611725 appears without 1/0.611725
+  ≈ 1.6347.
+
+The grid-local-minimum locator (spacing 0.1 on [−6, 6]²) is too coarse for this equation.
+
+**Under the frozen policy, this is INCONCLUSIVE for the row.** No certificate is lost or invented. The fix is a
+search-policy change, so it is **proposed to the bridge** and not applied:
+- a complete singular-point locator (conjugate and t ↦ 1/t closure, finer grid, Newton verification);
+- skip, rather than abort on, a loop whose transport cannot be certified.
+
+Rows 2–5 continue under the frozen policy.
