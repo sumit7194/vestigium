@@ -1,0 +1,62 @@
+[
+ {
+  "spec": "('mn', 'p1', 1, 0, 4)",
+  "forms": {
+   "r_xi1": {
+    "found": null,
+    "why": "INCONCLUSIVE (resource: time_limit) -- building (a kill here leaves this form INCONCLUSIVE)"
+   }
+  },
+  "terms": {},
+  "killed": "time_limit",
+  "tag": "Q4",
+  "name": "MN p1 equatorial (1,0,4)",
+  "assessment": "INCONCLUSIVE",
+  "guard": {
+   "status": "time_limit",
+   "returncode": -9,
+   "peak_mb": 226.0,
+   "seconds": 10800.2
+  }
+ },
+ {
+  "spec": "('mn', 'p1', 1, 0, 9)",
+  "forms": {
+   "r_xi1": {
+    "found": null,
+    "why": "INCONCLUSIVE (resource: time_limit) -- building (a kill here leaves this form INCONCLUSIVE)"
+   }
+  },
+  "terms": {},
+  "killed": "time_limit",
+  "tag": "Q4",
+  "name": "MN p1 equatorial (1,0,9)",
+  "assessment": "INCONCLUSIVE",
+  "guard": {
+   "status": "time_limit",
+   "returncode": -9,
+   "peak_mb": 225.0,
+   "seconds": 10800.1
+  }
+ },
+ {
+  "spec": "('mn', 'p1', 1, 1, 4)",
+  "forms": {
+   "r_xi1": {
+    "found": null,
+    "why": "INCONCLUSIVE (resource: time_limit) -- building (a kill here leaves this form INCONCLUSIVE)"
+   }
+  },
+  "terms": {},
+  "killed": "time_limit",
+  "tag": "Q4",
+  "name": "MN p1 equatorial (1,1,4)",
+  "assessment": "INCONCLUSIVE",
+  "guard": {
+   "status": "time_limit",
+   "returncode": -9,
+   "peak_mb": 224.0,
+   "seconds": 10800.3
+  }
+ }
+]

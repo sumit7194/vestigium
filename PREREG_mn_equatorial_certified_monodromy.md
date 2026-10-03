@@ -156,3 +156,15 @@ during it. The row log shows the true stage (`qsim/mr_mneq_row_8..10.log`).
 The cost is the per-step series evaluation of a large 4-generator expression, plus small steps near the
 essential singularities at t = ±1. By the registration there are **no amendments**. Rows 11–13 (p2) run to
 completion or to their limit, and the final Q4 outcome is recorded when they finish.
+
+## Q4 status (recorded 2026-10-03): row 11 **interrupted**; rows 12–13 **not run**
+
+The overnight chain was stopped when the Claude session ended on 2026-09-28. Row 11 (MN p2, (1, 0, 4)) was
+**cut off about 2 min into its ξ₁ certificate search** (4 located singular points); its own 3-h guard did not fire.
+Rows 12–13 (p2 at (1, 0, 9) and (1, 1, 4)) never started. This is not a result.
+
+**State of Q4:**
+- p1, 3/3 rows: INCONCLUSIVE (time limit).
+- p2: no completed row.
+
+Resuming rows 11–13 is a re-run of registered rows with unchanged code and settings. It is **not** an amendment.
