@@ -1,0 +1,15 @@
+ 0 VCTRL ZV eq (1,0,4)              => PASS                                     [guard ok, peak 91.0 MB, 20.1 s]
+ 1 VCTRL ZV eq (1,0,9)              => PASS                                     [guard ok, peak 90.0 MB, 18.1 s]
+ 2 VCTRL Kerr p1 eq (1,0,4)         => PASS                                     [guard ok, peak 72.0 MB, 10.6 s]
+ 3 VCTRL Kerr p1 eq (1,0,9)         => PASS                                     [guard ok, peak 72.0 MB, 8.4 s]
+ 4 VCTRL Kerr p1 eq (1,1,4)         => PASS                                     [guard ok, peak 72.0 MB, 13.5 s]
+ 5 VCTRL Kerr p1 axial (1,4)        => PASS                                     [guard ok, peak 70.0 MB, 3.1 s]
+ 6 VCTRL Kerr p1 axial (1,9)        => PASS                                     [guard ok, peak 71.0 MB, 3.1 s]
+ 7 VCTRL Kerr p2 eq (1,0,4)         => PASS                                     [guard ok, peak 73.0 MB, 19.2 s]
+ 8 VCTRL Kerr p2 eq (1,0,9)         => PASS                                     [guard ok, peak 72.0 MB, 11.6 s]
+ 9 VCTRL Kerr p2 eq (1,1,4)         => PASS                                     [guard ok, peak 72.0 MB, 11.7 s]
+10 VCTRL Kerr p2 axial (1,4)        => PASS                                     [guard ok, peak 71.0 MB, 3.2 s]
+11 VCTRL Kerr p2 axial (1,9)        => PASS                                     [guard ok, peak 71.0 MB, 4.2 s]
+12 VCTRL ZV axial (1,4)             => INFO (found=False, v1 replay=None)       [guard ok, peak 89.0 MB, 5.3 s]
+VCTRL PASS
+EXIT 0
