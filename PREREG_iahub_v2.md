@@ -9,8 +9,17 @@ families stated per target registration.
 second, independent equation derivation. It does not widen any claim. Each target is registered separately, with
 its own setup-correspondence section.
 
-**Status: DESIGN DRAFT, for review by the user and the bridge. Not registered for running.** Nothing in here
-touches a target until this draft is accepted and committed as a registration.
+**Status: REGISTERED, 2026-10-03.** The user approved the plan ("best result, not the fastest; do all the setup
+work"). The bridge reviewed the draft (five points, all folded in at fdb5cbd). From this commit on, §§1–6 are
+binding.
+- **No target** (MN equatorial, TS re-certification) runs until the validation ladder in §6 passes in full.
+- **Each target** gets its own registration.
+- **Already run before this registration,** as a check rather than a target: rung 5b, equation provenance for the
+  equatorial MN NVE. It PASSED at 4.3e−50 (ad7bd15).
+
+**Implementation note (fixed now).** The Rust core reaches Arb through a **thin C shim with opaque handles**,
+compiled by `build.rs` with the system `cc` and no external crates. Rust never assumes FLINT's struct layouts;
+the C shim includes FLINT's own headers. The smoke test's hand-written `#[repr(C)]` layout is replaced by this.
 
 **Goal (the user's framing):** the *best* result, not the fastest. Up-front work is welcome when it buys rigour.
 
