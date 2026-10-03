@@ -269,3 +269,28 @@ point at x ≈ −1.04 / −1.02 together with complex points. Any certified pai
 | V-Lean | PENDING (the Lean toolchain and Mathlib are still downloading on a slow link) |
 
 Under §6, the MN equatorial target waits for V-Lean.
+
+**V-Lean: PASS (2026-10-04).** `lean/ZiglinCert` (Lean 4.35.0-rc3, Mathlib at c55e6e78): `lake build` succeeds
+(8961 jobs) with **no `sorry`**. Every key theorem depends only on `propext`, `Classical.choice`, `Quot.sound`
+(`Axioms.lean`).
+
+**Proved:**
+- `L1_common_eigvec_comm_trace`: a common eigenvector forces tr[g, h] = 2. This is the direction the chain uses.
+- `lox_eigenbasis`: a loxodromic element of SL(2, ℂ) has an eigenbasis with eigenvalues μ, μ⁻¹, ‖μ‖ ≠ 1.
+- `eig_in_basis`, `commute_eigvec`, `pow_ne_inv_pow`, `no_commuting_powers`.
+- **`L6_not_virtually_abelian`:** loxodromic g, h ∈ SL(2, ℂ) with tr[g, h] ≠ 2 ⇒ no finite-index subgroup of
+  ⟨g^k, h^k⟩ is abelian, for **every k ≥ 1**. That subsumes the squaring step: k = 2 is the lift to the phase curve.
+- **`L5_gl2_restatement`**, and **`L6_gl2`**: the GL(2) form, with tr²/det ∉ [0, 4] for both and tr[G, H] ≠ 2.
+  This is exactly the certificate the v2 core checks on the non-reduced system.
+- `L3_antidiag_trace_zero` and `L7_unipotent_one_eigenline` (TS route).
+
+**Changes from the draft:**
+- L1 is needed, and proved, in one direction only.
+- L2 became `lox_eigenbasis`.
+- L4a and L4b are absorbed into `L6_gl2` (scalars) and the all-k statement (squares).
+- L6 is proved by the bridge's argument, with no classification.
+
+**Still CITED:** the Ziglin / Morales–Ramis theorem, and that G⁰ has finite index in G.
+
+**The ladder is complete:** VG0, VCTRL, VREPRO, V-provenance (equatorial and axial) and V-Lean all PASS. Under
+§6, the MN equatorial target may now be registered and run.

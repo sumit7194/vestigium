@@ -1,19 +1,3 @@
-/-
-  ZiglinCert.Certificate — machine-checked GLUE LEMMAS of the certified-monodromy obstruction route
-  (PREREG_iahub_v2.md §5). Every theorem here is checked by Lean 4 + Mathlib, with no `sorry`; the axioms used
-  are only `propext`, `Classical.choice`, `Quot.sound` (see `Axioms.lean`).
-
-  The chain from "two certified monodromy matrices" to "the monodromy group is not virtually abelian":
-    * `L1_common_eigvec_comm_trace` : a common eigenvector forces `tr[g,h] = 2`        (contrapositive used)
-    * `lox_eigenbasis`              : loxodromic ⇒ eigenbasis, eigenvalues μ, μ⁻¹, ‖μ‖ ≠ 1  (old L2)
-    * `eig_in_basis`, `commute_eigvec`, `pow_ne_inv_pow`, `no_commuting_powers`
-    * `L6_not_virtually_abelian`    : SL(2) form, all powers `k ≥ 1`  (k = 2: lift to the phase curve; old L4b)
-    * `L5_gl2_restatement`          : `tr g / s ∉ [−2,2] ⇔ tr²/det ∉ [0,4]`
-    * `L6_gl2`                      : GL(2) form — the certificate the v2 core checks (scalars: old L4a)
-    * `L3_antidiag_trace_zero`, `L7_unipotent_one_eigenline` (TS route)
-  CITED, not formalised: the Ziglin / Morales–Ramis theorem (meromorphic integrability ⇒ G⁰ abelian) and that
-  G⁰ has finite index in G (so "G⁰ abelian" would give an abelian finite-index subgroup of the monodromy group).
--/
 import Mathlib
 open Matrix Complex
 
@@ -356,69 +340,5 @@ theorem L6_gl2 (G H : (Matrix (Fin 2) (Fin 2) ℂ)ˣ)
   exact no_commuting_powers g h hdg hdh hlg hlh (by rw [hcomm_gh]; exact hc) _ _
     (Nat.mul_pos hk hm0) (Nat.mul_pos hk hn0) hpow
 
-
-/-- L3. Anti-diagonal 2×2 matrices have trace 0. -/
-theorem L3_antidiag_trace_zero (b c : ℂ) :
-    (!![0, b; c, 0] : Matrix (Fin 2) (Fin 2) ℂ).trace = 0 := by
-  simp [Matrix.trace_fin_two]
-
-/-- An eigenvector of `1 + N` with `N² = 0` lies in `ker N`. -/
-lemma eig_of_unipotent_ker (N : Matrix (Fin 2) (Fin 2) ℂ) (hN2 : N * N = 0) (v : Fin 2 → ℂ)
-    (hv : IsEigvec (1 + N) v) : N.mulVec v = 0 := by
-  obtain ⟨hv0, μ, hμ⟩ := hv
-  have h1 : N.mulVec v = (μ - 1) • v := by
-    rw [Matrix.add_mulVec, Matrix.one_mulVec] at hμ
-    rw [sub_smul, one_smul, ← hμ]; abel
-  have h2 : N.mulVec (N.mulVec v) = 0 := by
-    rw [Matrix.mulVec_mulVec, hN2, Matrix.zero_mulVec]
-  rw [h1, Matrix.mulVec_smul, h1, smul_smul] at h2
-  rcases smul_eq_zero.mp h2 with h | h
-  · have : μ - 1 = 0 := mul_self_eq_zero.mp h
-    rw [h1, this, zero_smul]
-  · exact absurd h hv0
-
-theorem L7_unipotent_one_eigenline (N : Matrix (Fin 2) (Fin 2) ℂ) (hN : N ≠ 0) (hN2 : N * N = 0)
-    (v w : Fin 2 → ℂ) (hv : IsEigvec (1 + N) v) (hw : IsEigvec (1 + N) w) :
-    ∃ c : ℂ, w = c • v := by
-  have kv := eig_of_unipotent_ker N hN2 v hv
-  have kw := eig_of_unipotent_ker N hN2 w hw
-  have hv0 := hv.1
-  -- a nonzero entry gives a nonzero row (a, b) annihilating both v and w
-  obtain ⟨i, j, hij⟩ : ∃ i j, N i j ≠ 0 := by
-    by_contra hcon
-    push Not at hcon
-    exact hN (Matrix.ext hcon)
-  have rv : N i 0 * v 0 + N i 1 * v 1 = 0 := by
-    have := congrFun kv i
-    simpa [Matrix.mulVec, dotProduct, Fin.sum_univ_two] using this
-  have rw' : N i 0 * w 0 + N i 1 * w 1 = 0 := by
-    have := congrFun kw i
-    simpa [Matrix.mulVec, dotProduct, Fin.sum_univ_two] using this
-  -- the 2x2 determinant of (v, w) vanishes
-  have hdet : v 0 * w 1 - v 1 * w 0 = 0 := by
-    have ha : N i 0 * (v 0 * w 1 - v 1 * w 0) = 0 := by linear_combination w 1 * rv - v 1 * rw'
-    have hb : N i 1 * (v 0 * w 1 - v 1 * w 0) = 0 := by linear_combination -(w 0) * rv + v 0 * rw'
-    fin_cases j
-    · exact (mul_eq_zero.mp ha).resolve_left hij
-    · exact (mul_eq_zero.mp hb).resolve_left hij
-  by_cases h0 : v 0 = 0
-  · have h1 : v 1 ≠ 0 := by
-      intro h1; apply hv0; ext k; fin_cases k
-      · exact h0
-      · exact h1
-    have hw0 : w 0 = 0 := by
-      have : v 1 * w 0 = 0 := by rw [h0] at hdet; linear_combination -hdet
-      exact (mul_eq_zero.mp this).resolve_left h1
-    refine ⟨w 1 / v 1, ?_⟩
-    ext k; fin_cases k
-    · show w 0 = w 1 / v 1 * v 0
-      rw [h0, hw0, mul_zero]
-    · show w 1 = w 1 / v 1 * v 1
-      field_simp
-  · refine ⟨w 0 / v 0, ?_⟩
-    ext k; fin_cases k
-    · show w 0 = w 0 / v 0 * v 0
-      field_simp
-    · show w 1 = w 0 / v 0 * v 1
-      field_simp
-      linear_combination hdet
+#print axioms L6_gl2
+#print axioms L6_not_virtually_abelian
