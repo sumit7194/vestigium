@@ -205,3 +205,14 @@ Only then: the MN equatorial target, all 6 rows at the registered levels, under 
 
 The common-mode risk from the shared front end (component loader, A, B, ẋ²) is closed for the equatorial
 equation. The axial case has V9's earlier agreement on traces, to 7–9 digits.
+
+**Development note (2026-10-03, before any ladder rung).** On the ZV equatorial control, enclosure widths are set
+by the **Taylor order**, not by the working precision:
+- prec 192 → 320 at N = 100: identical widths;
+- N = 100 → 140: worst relative radius 1.3e−9 → **1.5e−21**.
+
+So **N = 140** is the default, inside the registered 60–150 range. The driver smoke test (`qsim/mr_v2.py`):
+- ZV equatorial: certificate found in 6 s, and **replayed by v1** on the reduced form;
+- Kerr equatorial: none found (6 generators, 210 pairs).
+
+These are development runs, not ladder results.

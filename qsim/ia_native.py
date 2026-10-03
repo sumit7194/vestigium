@@ -138,7 +138,7 @@ def fmt(v):
     return repr(float(v))
 
 
-def write_job(b, entries, loops, bad=(), obst=(), prec=192, N=100, cmax=4.0, hmax=0.25, frac=0.2, threads=4,
+def write_job(b, entries, loops, bad=(), obst=(), prec=192, N=140, cmax=4.0, hmax=0.25, frac=0.2, threads=4,
               path=None):
     """entries: 2x2 nested list of (num_reg, den_reg); loops: list of (name, [complex points])."""
     lines = [f"PREC {prec}", f"N {N}", f"CMAX {cmax}", f"HMAX {hmax}", f"FRAC {frac}", f"THREADS {threads}"]
