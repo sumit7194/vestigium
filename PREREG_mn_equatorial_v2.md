@@ -194,3 +194,12 @@ The real cause is **growth near the essential singularity t = 1**, 0.30 away: th
 - Row 2's failure, near t = −0.73436 + 0.14529i, about 0.30 from t = −1, is presumably the same mechanism near
   the other essential singularity.
 - Row 0's result is unaffected.
+
+**Row 0, independent numerical reproduction (bridge V9-eq′, reported, not re-run here).**
+- Method: the bridge's own equatorial NVE and a DOP853 integrator, from my loop recipe only.
+- Relative agreement: tr²/det(g) 7.0e−11, tr²/det(h) 5.9e−11, tr[g, h] 4.3e−11. tr²/det(h) comes out real to
+  about 1e−6, the commutator is the same in both composition orders, and the Abel det and tolerance checks pass.
+- The bridge's first run disagreed because of its own √(R₀²) branch bug. It is disclosed and kept on record on
+  its side.
+
+**Row 0 grade:** OBSTRUCTION (v2 certificate + v1 replay), **independently reproduced (numerical, bridge V9-eq′).**
