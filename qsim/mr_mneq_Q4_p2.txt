@@ -1,0 +1,4 @@
+11 Q4 MN p2 equatorial (1,0,4)                         => INCONCLUSIVE                 {'r_xi1': None} [guard box_swap_guard, peak 227.0 MB, 10720.4 s]
+12 Q4 MN p2 equatorial (1,0,9)                         => INCONCLUSIVE                 {} [guard box_swap_guard, peak 73.0 MB, 1.1 s]
+13 Q4 MN p2 equatorial (1,1,4)                         => INCONCLUSIVE                 {'r_xi1': None} [guard box_swap_guard, peak 200.0 MB, 45.9 s]
+EXIT 0

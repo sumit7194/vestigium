@@ -172,3 +172,19 @@ Resuming rows 11–13 is a re-run of registered rows with unchanged code and set
 **Re-run of rows 11–13 (2026-10-03, user's decision).** The code and settings are unchanged, apart from a
 row-filter option on the runner (`Q4 11,12,13`), so that p1 rows 8–10 are not repeated. The run is launched with
 `nohup`, so it survives a session end. Output goes to `qsim/mr_mneq_Q4_p2.txt`.
+
+## Q4 p2 re-run outcome (2026-10-03): stopped by a **false-positive box swap guard**
+
+`qsim/mr_mneq_Q4_p2.txt`:
+- **Row 11** (p2, (1, 0, 4)): killed at **10,720 s of its 10,800 s** budget, in the ξ₁ search, with no
+  certificate. It ran 99.3 % of its budget, so in effect INCONCLUSIVE (time), like the p1 rows.
+- **Rows 12 and 13:** killed after 1.1 s and 45.9 s. **They never ran**; not results.
+
+**Cause.** macOS grows swap on demand (total 0 → 2 GB during the run). Just before a new swap file is added, free
+swap dips below 512 MB even with 77–87 % of memory free. The watchdog's swap rule fired on that.
+
+**Fix (resource policy, not science):** the swap rule now also requires system memory free below 20 %.
+`memory_pressure` below 10 % free remains the main trigger.
+
+**Rows 12 and 13 are re-run** under the fixed watchdog, with unchanged code and the user's approval for the p2
+rows. Row 11 is not re-run, because it already used 99.3 % of its budget.

@@ -1,62 +1,55 @@
 [
  {
-  "spec": "('mn', 'p1', 1, 0, 4)",
+  "spec": "('mn', 'p2', 1, 0, 4)",
   "forms": {
    "r_xi1": {
     "found": null,
-    "why": "INCONCLUSIVE (resource: time_limit) -- building (a kill here leaves this form INCONCLUSIVE)"
+    "why": "INCONCLUSIVE (resource: box_swap_guard) -- building (a kill here leaves this form INCONCLUSIVE)"
    }
   },
   "terms": {},
-  "killed": "time_limit",
+  "killed": "box_swap_guard",
   "tag": "Q4",
-  "name": "MN p1 equatorial (1,0,4)",
+  "name": "MN p2 equatorial (1,0,4)",
   "assessment": "INCONCLUSIVE",
   "guard": {
-   "status": "time_limit",
+   "status": "box_swap_guard",
    "returncode": -9,
-   "peak_mb": 226.0,
-   "seconds": 10800.2
+   "peak_mb": 227.0,
+   "seconds": 10720.4
   }
  },
  {
-  "spec": "('mn', 'p1', 1, 0, 9)",
-  "forms": {
-   "r_xi1": {
-    "found": null,
-    "why": "INCONCLUSIVE (resource: time_limit) -- building (a kill here leaves this form INCONCLUSIVE)"
-   }
-  },
-  "terms": {},
-  "killed": "time_limit",
+  "forms": {},
+  "failed": "box_swap_guard",
   "tag": "Q4",
-  "name": "MN p1 equatorial (1,0,9)",
+  "name": "MN p2 equatorial (1,0,9)",
   "assessment": "INCONCLUSIVE",
   "guard": {
-   "status": "time_limit",
+   "status": "box_swap_guard",
    "returncode": -9,
-   "peak_mb": 225.0,
-   "seconds": 10800.1
+   "peak_mb": 73.0,
+   "seconds": 1.1
   }
  },
  {
-  "spec": "('mn', 'p1', 1, 1, 4)",
+  "spec": "('mn', 'p2', 1, 1, 4)",
   "forms": {
    "r_xi1": {
     "found": null,
-    "why": "INCONCLUSIVE (resource: time_limit) -- building (a kill here leaves this form INCONCLUSIVE)"
+    "why": "INCONCLUSIVE (resource: box_swap_guard) -- building (a kill here leaves this form INCONCLUSIVE)"
    }
   },
   "terms": {},
-  "killed": "time_limit",
+  "killed": "box_swap_guard",
   "tag": "Q4",
-  "name": "MN p1 equatorial (1,1,4)",
+  "name": "MN p2 equatorial (1,1,4)",
   "assessment": "INCONCLUSIVE",
   "guard": {
-   "status": "time_limit",
+   "status": "box_swap_guard",
    "returncode": -9,
-   "peak_mb": 224.0,
-   "seconds": 10800.3
+   "peak_mb": 200.0,
+   "seconds": 45.9
   }
  }
 ]

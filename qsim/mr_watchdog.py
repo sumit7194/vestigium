@@ -57,7 +57,10 @@ def disk_free_gb(path="/"):
 
 # Box-level guards (bridge, 2026-09-24): kill the child if the SHARED machine is in
 # trouble, regardless of the child's own size.
-SWAP_FREE_MIN_MB = 512          # applied only when swap exists (total > 0)
+SWAP_FREE_MIN_MB = 512          # applied only when swap exists (total > 0) AND memory is actually short (below)
+SWAP_RULE_MEM_PCT = 20          # 2026-10-03: macOS grows swap on demand, so free swap dips just before a new swap file
+                                # is added even with ~80% memory free -- that false alarm killed 3 MN rows. The swap rule now
+                                # needs real memory pressure too.
 MEM_FREE_MIN_PCT = 10           # system-wide memory free % (memory_pressure): the real trigger
 DISK_FREE_MIN_GB = 5.0
 
@@ -80,9 +83,9 @@ def run_guarded(cmd, mem_limit_mb=4096, time_limit_s=900, poll=1.0, cwd=None, lo
             if time.time() - t0 > time_limit_s:
                 status = "time_limit"
             sw = swap_free_mb()
-            if sw is not None and sw < SWAP_FREE_MIN_MB:
-                status = "box_swap_guard"
             mp = mem_free_pct()
+            if sw is not None and sw < SWAP_FREE_MIN_MB and (mp is None or mp < SWAP_RULE_MEM_PCT):
+                status = "box_swap_guard"
             if mp is not None and mp < MEM_FREE_MIN_PCT:
                 status = "box_memory_pressure_guard"
             if disk_free_gb() < DISK_FREE_MIN_GB:
