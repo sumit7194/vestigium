@@ -178,3 +178,19 @@ rows 2–5 finish, within the CPU budget.
 skip behaviour are opt-in.
 
 Row 0 is unaffected: each certified loop is a legitimate element of π₁, whatever it encloses.
+
+**CORRECTION to the row-1 diagnosis (2026-10-04, before any A6 run).** The failure point t = 0.70765 − 0.06576i is
+**not** an unlocated pole:
+- the denominators of p and q are clearly nonzero there (|Q_p| ≈ 0.51, |Q_q| ≈ 0.26), and Newton from that point
+  finds no root nearby;
+- the A6 locator (25 points against the old 6, conjugate pairs complete) finds nothing within 0.116 of it.
+
+The real cause is **growth near the essential singularity t = 1**, 0.30 away: the exponent g₃ = −3β²/(4R⁶) reaches
+|g₃| ≈ 13.7 there, so the coefficients vary by factors around e¹³, and the certified step's ρM̄ ≤ 4 forces h below the
+1e−7 floor. The loop's straight path passed through that region.
+
+- **A6 (b), skip-not-abort, is what fixes this.** A6 (a) is still a real completeness improvement (the old list
+  was incomplete), but it was not the cause here.
+- Row 2's failure, near t = −0.73436 + 0.14529i, about 0.30 from t = −1, is presumably the same mechanism near
+  the other essential singularity.
+- Row 0's result is unaffected.

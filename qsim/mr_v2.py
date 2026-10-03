@@ -117,10 +117,55 @@ def locate(S, box_=6.0, grid=120):
     return sorted(found, key=lambda c: (round(c.real, 6), round(c.imag, 6)))
 
 
+def locate_a6(S, box_=6.0, grid=480):
+    """A6 (post-failure, bridge-approved): complete float locator -- 4x finer grid, Newton on the denominators of
+    p and q, closure under complex conjugation (valid: real coefficients), and t -> 1/t images tried ONLY as
+    Newton-verified candidates (not a symmetry: R(1/t) = -R(t) on the rational branch). Dedupe at 1e-8."""
+    import mpmath as mp
+    v = S["var"]
+    dens = [S["to_expr"](e, "Q") for e in (S["p"], S["q"])]
+    fs = [sp.lambdify(v, d, "numpy") for d in dens]
+    gs = [sp.lambdify(v, d, "mpmath") for d in dens]
+    found = []
+    def add(c):
+        if abs(c) <= box_ and all(abs(c - d) > 1e-8 for d in found) and \
+                all(abs(c - bp) >= S["skip"] for bp in S["skip_near"]):
+            found.append(c)
+    def newton(g, c0):
+        """findroot raises unless it converges to tol; a converged root is returned, else None."""
+        try:
+            return complex(mp.findroot(g, mp.mpc(c0), tol=1e-25, maxsteps=80))
+        except Exception:
+            return None
+    xs = np.linspace(-box_, box_, grid)
+    Z = xs[None, :] + 1j*xs[:, None] + 1e-4*(1 + 1j)
+    for f, g in zip(fs, gs):
+        with np.errstate(all="ignore"):
+            V = np.abs(f(Z))
+        V[~np.isfinite(V)] = np.inf
+        for i in range(1, grid - 1):
+            for j in range(1, grid - 1):
+                if np.isfinite(V[i, j]) and V[i, j] == V[i-1:i+2, j-1:j+2].min():
+                    c = newton(g, Z[i, j])
+                    if c is not None:
+                        add(c)
+    # closure: conjugates (verified), and 1/t images as candidates (verified; many rejected)
+    for c in list(found):
+        for cand in (c.conjugate(), 1/c if c != 0 else None):
+            if cand is None:
+                continue
+            for g in gs:
+                r = newton(g, cand)
+                if r is not None and abs(r - cand) < 1e-6:
+                    add(r)
+                    break
+    return sorted(found, key=lambda c: (round(c.real, 6), round(c.imag, 6)))
+
+
 # ----------------------------------------------------------------------------------------------
 # incremental certificate search (A5 policy), loops transported in parallel batches
 # ----------------------------------------------------------------------------------------------
-def search(S, sing, threads=3, log=print, max_gen=40):   # 2026-10-04: 6 -> 3 (bridge CPU budget, <= 5 threads total); resource only, same search order
+def search(S, sing, threads=3, log=print, max_gen=40, skip_failed=False):   # 2026-10-04: 6 -> 3 (bridge CPU budget, <= 5 threads total); resource only, same search order
     b, entries = compile_system(S)
     obst = list(sing) + [complex(c) for c in S["bad"]]
     if len(sing) < 2:
@@ -133,6 +178,7 @@ def search(S, sing, threads=3, log=print, max_gen=40):   # 2026-10-04: 6 -> 3 (b
     pts = sorted(sing, key=lambda c: abs(c - z0))[:max_gen]
     gens, cand, tried, steps = [], [], 0, 0
     geo = {}
+    skipped = []
     for k0 in range(0, len(pts), threads):
         batch = pts[k0:k0 + threads]
         loops = []
@@ -148,6 +194,10 @@ def search(S, sing, threads=3, log=print, max_gen=40):   # 2026-10-04: 6 -> 3 (b
         for name, _ in loops:
             r = res[name]
             if not r["status"].startswith("ok"):
+                if skip_failed:                       # A6 (b): skip, do not abort -- only removes candidates
+                    skipped.append(dict(loop=name, status=r["status"]))
+                    log(f"  skipped {name}: {r['status']}")
+                    continue
                 return dict(found=False, why=f"transport failed on {name}: {r['status']}", base=str(z0))
             steps += r["steps"]
             Y = r["M"]
@@ -159,10 +209,10 @@ def search(S, sing, threads=3, log=print, max_gen=40):   # 2026-10-04: 6 -> 3 (b
                     ok, info = IN.certificate_gl2(OY, NY)
                     if ok:
                         return dict(found=True, g=on, h=nn, base=str(z0), **info, pairs_tried=tried,
-                                    n_generators=len(gens), steps=steps, geometry=geo)
+                                    n_generators=len(gens), steps=steps, geometry=geo, skipped=skipped)
                 cand.append((nn, NY))
         log(f"  batch {k0//threads + 1}: {len(gens)} generators, {tried} pairs, {steps} steps, {time.time()-t0:.1f}s")
-    return dict(found=False, why="no certified pair in the registered candidate list", base=str(z0),
+    return dict(found=False, why="no certified pair in the registered candidate list", base=str(z0), skipped=skipped,
                 generator_w={gn: str(IN.tr(GY)**2/IN.det(GY)) for gn, GY in gens}, pairs_tried=tried,
                 n_generators=len(gens), steps=steps, geometry=geo)
 
