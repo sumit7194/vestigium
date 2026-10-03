@@ -153,3 +153,28 @@ search-policy change, so it is **proposed to the bridge** and not applied:
 - skip, rather than abort on, a loop whose transport cannot be certified.
 
 Rows 2–5 continue under the frozen policy.
+
+## AMENDMENT A6 (2026-10-04), POST-FAILURE, bridge-approved: search policy only. Filed before the code.
+
+Triggered by row 1's transport failure: an unlocated singular point lay on a loop.
+
+**(a) A complete singular-point locator.**
+- Grid 4× finer (spacing about 0.025 on [−6, 6]²); local minima of |den| for the denominators of p and q; Newton
+  refinement.
+- Then **closure under complex conjugation**, valid because the coefficients are real-rational in t and exp of
+  real-rationals. Each conjugate is Newton-verified.
+- The **t ↦ 1/t images are tried only as Newton-verified candidates.** Per the bridge's correction this is **not** a
+  symmetry: R(1/t) = −R(t) on the single rational branch, and the MN coefficients contain odd powers of R. Many
+  images are expected to be rejected, and an absent image is **not** evidence of a miss.
+- Dedupe at 1e−8.
+
+**(b) Skip, don't abort.** If a loop's transport cannot be certified, that loop is recorded and **skipped**, and
+the search continues. Skipping only removes candidates, so it cannot create a false certificate.
+
+**(c) Re-runs, labelled post-failure:** row 1, and any later row whose search fails the same way. They run after
+rows 2–5 finish, within the CPU budget.
+
+**Frozen defaults are unchanged** for the rows still running under the original policy: the new locator and the
+skip behaviour are opt-in.
+
+Row 0 is unaffected: each certified loop is a legitimate element of π₁, whatever it encloses.
