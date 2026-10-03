@@ -248,3 +248,24 @@ by re-running the replay and reading `mid()` and `rad()` directly.
 - It also shows that v1's reduced-form enclosures are much looser than v2's (about 47 % relative on that
   commutator, against v2's ±5e5 on 6e12). They are sufficient, but the two-implementation rule here rests on a
   loose second enclosure.
+
+**VREPRO: PASS, 4/4** (`qsim/mr_v2_VREPRO.txt` and `_row0..3.json`). All the proven axial MN rows (p1 and p2 at
+(1, 4) and (1, 9)) are **found by v2 and replayed by v1**:
+- v2 times: 302, 333, 229 and 155 s per row;
+- v1 replay: about 4–5 min per row.
+
+The certifying pairs differ from the original 2ce8b41 run in places; for p2, v2 uses loops around the real singular
+point at x ≈ −1.04 / −1.02 together with complex points. Any certified pair is a valid proof, so these are
+**independent re-proofs**.
+
+**Ladder status:**
+
+| rung | status |
+|---|---|
+| VG0 | PASS |
+| VCTRL | PASS |
+| VREPRO | PASS |
+| V-provenance | PASS (equatorial and axial, 4.3e−50) |
+| V-Lean | PENDING (the Lean toolchain and Mathlib are still downloading on a slow link) |
+
+Under §6, the MN equatorial target waits for V-Lean.
