@@ -65,3 +65,13 @@ This stage changes **how** non-abelian G⁰ is shown, not **what** is claimed.
   6 rows.
 
 `qsim/mr_v2_ts2_gates.{json,log}`. The search runs after the MN equatorial v2 target, as registered.
+
+**Additional provenance check vs the bridge's INDEPENDENT V8 derivation (2026-10-04): PASS.** TheBridge ed433e7
+(`v8_ts_provenance.json`) gives p_x, q_x, A, B and X of the non-reduced ξ₁ equation, for TS P1 and P2 at all 3
+levels, at x = 5/4, 5/3, 2 and 13/4.
+- Maximum relative difference against the v2 pipeline: **3.2e−50**, the full precision of the reference
+  (`qsim/mr_v2_ts2_provenance.{py,json,log}`).
+- The bridge also re-derived f and e^{2γ} from the δ=2 Ernst potential, and its own twist potential χ, with its own
+  code. It confirmed ansatz's components (g_TT = −f, g_xx, g_yy, and ω satisfying both twist equations) exactly at
+  3 random rational points per parameter point.
+- So this check covers the **metric** as well as the equation.
