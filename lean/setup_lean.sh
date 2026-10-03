@@ -16,7 +16,7 @@ guard() { while kill -0 $1 2>/dev/null; do
 # 1. toolchain, resumable, retried until complete
 if [ ! -x $TCDIR/bin/lean ]; then
   for attempt in $(seq 1 200); do
-    curl -L -C - --retry 20 --retry-delay 5 --retry-all-errors --speed-time 120 --speed-limit 1 -s -o $ARCH $URL &
+    curl -L -C - --speed-time 120 --speed-limit 1 -s -o $ARCH $URL &   # no internal --retry (it restarts from 0); the outer loop resumes with -C -
     CP=$!; guard $CP; wait $CP; RC=$?
     SZ=$(stat -f %z $ARCH 2>/dev/null || echo 0)
     echo "toolchain attempt $attempt rc=$RC size=$SZ $(date)" >> $LOG
