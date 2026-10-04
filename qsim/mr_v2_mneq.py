@@ -52,10 +52,18 @@ def run_all():
                   f"raw output\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>' && git push -q origin main")
 
 
+def append_a6_summary(i, r):
+    """Merge row i into the A6 summary file, keeping the other rows' entries (bookkeeping only)."""
+    fn = os.path.join(HERE, "mr_v2_mneq_a6.json")
+    res = [x for x in (json.load(open(fn)) if os.path.exists(fn) else []) if tuple(x.get("level", ())) != tuple(ROWS[i][1])
+           or x.get("point") != ROWS[i][0]]
+    res.append(r)
+    json.dump(res, open(fn, "w"), indent=1, default=str)
+
+
 def run_a6(rows):
     """A6 re-runs (post-failure): complete locator + skip-not-abort."""
     import mr_watchdog as W
-    res = []
     for i in rows:
         outp = os.path.join(HERE, f"mr_v2_mneq_row{i}_a6.json")
         if os.path.exists(outp):
@@ -65,10 +73,9 @@ def run_a6(rows):
         r = json.load(open(outp)) if (g["status"] == "ok" and os.path.exists(outp)) else \
             dict(assessment=f"INCONCLUSIVE (guard: {g['status']})")
         r.update(point=ROWS[i][0], level=ROWS[i][1], guard=g, amendment="A6 post-failure")
-        res.append(r)
+        append_a6_summary(i, r)
         print(f"{i} [A6] MN {ROWS[i][0]} eq {ROWS[i][1]} => {r['assessment']} [guard {g['status']}, peak {g['peak_mb']} MB, "
               f"{g['seconds']} s]", flush=True)
-        json.dump(res, open(os.path.join(HERE, "mr_v2_mneq_a6.json"), "w"), indent=1, default=str)
         os.system(f"cd {os.path.dirname(HERE)} && git add qsim/mr_v2_mneq_a6.json qsim/mr_v2_mneq_row{i}_a6.json "
                   f"qsim/mr_v2_mneq_row{i}_a6.log qsim/mr_v2_mneq_a6.txt qsim/mr_v2_mneq_row{i}_a6_v2cert.json 2>/dev/null; "
                   f"git commit -q -m 'MN equatorial v2 A6 re-run: row {i} raw output\n\nCo-Authored-By: Claude Opus 5.5 "

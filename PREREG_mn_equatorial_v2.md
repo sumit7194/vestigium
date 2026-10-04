@@ -324,3 +324,28 @@ with v2 to about 15 digits, and it was **not a contradiction**.
 - **Bridge numerical reproduction (V9, pre-registered): REPRODUCED.**
   - Relative agreement: tr²/det(g) 2.5e−10, tr²/det(h) 1.5e−11, tr[g,h] 8.9e−9.
   - Abel gate 3.2e−10; convergence 1.1e−8; the commutator is the same in both composition orders.
+
+## 2026-10-04 15:56 — unplanned machine reboot; resumed on the user's instruction
+
+The Mac rebooted unexpectedly. No shutdown record, cause unknown. At that point:
+- the A7 row-1 re-replay at N = 140 was still running (it had run for more than 3 h; nothing is saved mid-run);
+- row 4's v1 replay was running. Its v2 certificate had been saved before the replay, as designed:
+  `qsim/mr_v2_mneq_row4_a6_v2cert.json`.
+
+Row 5 and the TS stage had not started. **No result was lost or altered**: unfinished computations simply have no
+outcome yet.
+
+**Resumed, with no change to any method:**
+1. **A7 row-1 re-replay at N = 140.** The certificate, loops and rule are unchanged. The singular-point list is now
+   rebuilt by the same deterministic `locate_a6` the row run used, and asserted equal to the stored list. The killed
+   attempt used the stored 6-digit-rounded list; that list only steers step sizes, and rigour comes from the ball
+   evaluation either way.
+   - Guard 3 GB / **12 h**. A resource change only: the first attempt passed 3 h with a loop near t ≈ 1.27 still
+     running.
+2. **Row 4:** v1 replay of the saved certificate at N = 100. If that replay fails without an error (the
+   tail-limited pattern), it is repeated at N = 140 under A7 term 4, and both results are logged.
+3. **Row 5 A6**, then the **TS v2 stage**, both as registered.
+
+Each step uses ≤ 3 threads alongside A7's 2 processes, so the total stays ≤ 5. Code: `qsim/mr_v2_a7.py`
+(REPLAY / FINISH), `qsim/resume_chain.sh`. The A6 summary file now merges rows instead of being rewritten
+(bookkeeping only).
