@@ -275,3 +275,18 @@ The A6 re-runs of rows 1, 2, 4 and 5 (post-failure) start now, via the overnight
 
 By the registered rule the row is **INCONCLUSIVE**. A fix (a v1 replay at a higher order N, after re-running v1's
 G0 at that N) needs the bridge's approval; it is proposed, not applied.
+
+## AMENDMENT A7 (2026-10-04), POST-FAILURE, bridge-approved: v1 replay at Taylor order N = 140. Filed before the code.
+
+Triggered by row 1's A6 replay at N = 100: `replayed = False`, the commutator radius was 1.3e11, the midpoints agreed
+with v2 to about 15 digits, and it was **not a contradiction**.
+
+1. **v1's G0 is re-run at N = 140 first.** The known traces must be enclosed with ≥ 10 digits, or A7 stops there.
+2. **The row-1 v2 certificate is re-replayed by v1 at N = 140, unchanged:** the same loops and the same SL(2)
+   certificate rule.
+3. **A7 is ONE declared step.** If N = 140 still cannot certify, the row stays INCONCLUSIVE. Any further raise of N,
+   or any change of method, is a new amendment through the bridge.
+4. **From now on,** any v1 replay that hits the same tail-limited failure is repeated at N = 140, and the N = 100
+   result is logged each time.
+
+**Resources:** the re-replay uses 2 processes, alongside the running A6 rows, within the 5-thread budget.
