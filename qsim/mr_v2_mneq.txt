@@ -8,3 +8,4 @@ gate green (75 assertions)
 gate green (75 assertions)
 4 MN p2 eq (1, 0, 9) => INCONCLUSIVE (no certificate) [guard ok, peak 116.0 MB, 278.7 s]
 gate green (75 assertions)
+5 MN p2 eq (1, 1, 4) => INCONCLUSIVE (no certificate) [guard ok, peak 115.0 MB, 1447.8 s]
