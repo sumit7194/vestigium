@@ -1,0 +1,4 @@
+[2s] TS P1 eq (1,1,4): 20 located singular points
+[10s]   batch 1: 3 generators, 15 pairs, 993 steps, 7.5s
+[19s] v2 certificate found: True 
+[35s] v1 replay: True
