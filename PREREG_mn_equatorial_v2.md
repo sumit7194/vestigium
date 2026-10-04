@@ -242,3 +242,18 @@ implementations plus an independent numerical reproduction.
 The search aborted at 278 s on γ(−0.801214 + 0.112890i): step-size underflow near t = −0.73491 + 0.16353i, about
 0.31 from the essential point t = −1. This is the same mechanism as rows 1 and 2. The row is queued for the A6
 re-run (skip-not-abort).
+
+## Row 5 RESULT: MN p2, (1, 1, 4): **INCONCLUSIVE** under the frozen policy (transport failure)
+
+The search aborted at 1447 s on γ(−0.763109 + 0.100024i), near t = −0.73838 + 0.15504i, close to t = −1. Same
+mechanism as rows 1, 2 and 4.
+
+**Frozen-policy summary:**
+
+| rows | outcome |
+|---|---|
+| 0 (p1, (1, 0, 4)) | **OBSTRUCTION** |
+| 3 (p2, (1, 0, 4)) | **OBSTRUCTION** |
+| 1, 2, 4, 5 | INCONCLUSIVE (transport failure near t = ±1) |
+
+The A6 re-runs of rows 1, 2, 4 and 5 (post-failure) start now, via the overnight chain.
