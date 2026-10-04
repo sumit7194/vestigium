@@ -236,3 +236,9 @@ orders, and the Abel and convergence gates pass at 1e−11.
 
 Both parameter points (p1 row 0, p2 row 3) are now obstructed on the equatorial solution, each by two rigorous
 implementations plus an independent numerical reproduction.
+
+## Row 4 RESULT: MN p2, (1, 0, 9): **INCONCLUSIVE** under the frozen policy (transport failure)
+
+The search aborted at 278 s on γ(−0.801214 + 0.112890i): step-size underflow near t = −0.73491 + 0.16353i, about
+0.31 from the essential point t = −1. This is the same mechanism as rows 1 and 2. The row is queued for the A6
+re-run (skip-not-abort).
