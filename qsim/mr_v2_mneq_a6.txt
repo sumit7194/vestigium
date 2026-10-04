@@ -2,3 +2,6 @@
 gate green (75 assertions)
 2 [A6] MN p1 eq (1, 1, 4) => OBSTRUCTION (v2 certificate, v1 replay) [guard ok, peak 137.0 MB, 11337.6 s]
 gate green (75 assertions)
+row 4 v1 replay N=100: False [guard ok, 11181.8 s]
+row 4 v1 replay N=140: True [guard ok, 11835.5 s]
+4 [A6] MN p2 eq (1, 0, 9) => OBSTRUCTION (v2 certificate, v1 replay) [v1 N=140]
