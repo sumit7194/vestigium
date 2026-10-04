@@ -227,3 +227,12 @@ skipped). Base point z₀ = 2.667119562555136 + 2.7667479123938024i.
 **Verdict (registered wording):** for MN at p2 (M = 13, a = 5, β = −1/3), with (E, L, μ²) = (1, 0, 4), the reduced
 flow admits no additional first integral meromorphic in a neighbourhood of the equatorial Γ, so it is not
 meromorphically Liouville-integrable at that level.
+
+**Row 3, independent numerical reproduction (bridge V9-eq′, first run, reported, not re-run here).** Relative
+agreement: tr²/det(g) 2.2e−12, tr²/det(h) 4.6e−13, tr[g, h] 2.2e−12. The commutator is the same in both composition
+orders, and the Abel and convergence gates pass at 1e−11.
+
+**Row 3 grade:** OBSTRUCTION (v2 certificate + v1 replay), **independently reproduced (numerical, bridge V9-eq′).**
+
+Both parameter points (p1 row 0, p2 row 3) are now obstructed on the equatorial solution, each by two rigorous
+implementations plus an independent numerical reproduction.
