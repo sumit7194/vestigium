@@ -1,0 +1,2 @@
+[34s] MN p2 eq (1,0,9): 6 located singular points
+[278s] v2 certificate found: False transport failed on g[-0.801214+0.112890j,r0.05787]: err step size underflow near (-0.7349077207907753, 0.16352515497477368)

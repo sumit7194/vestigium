@@ -299,5 +299,32 @@
    "peak_mb": 117.0,
    "seconds": 8687.0
   }
+ },
+ {
+  "found": false,
+  "why": "transport failed on g[-0.801214+0.112890j,r0.05787]: err step size underflow near (-0.7349077207907753, 0.16352515497477368)",
+  "base": "(2.6478084529899895+2.7467154500979643j)",
+  "located": [
+   "(-1.627128+0.657419j)",
+   "(-0.952324+0.240004j)",
+   "(-0.858717-0.071247j)",
+   "(-0.801214+0.11289j)",
+   "(-0.526407+0.17788j)",
+   "(0.42361+0j)"
+  ],
+  "assessment": "INCONCLUSIVE (no certificate)",
+  "seconds": 278.2,
+  "point": "p2",
+  "level": [
+   1,
+   0,
+   9
+  ],
+  "guard": {
+   "status": "ok",
+   "returncode": 0,
+   "peak_mb": 116.0,
+   "seconds": 278.7
+  }
  }
 ]
