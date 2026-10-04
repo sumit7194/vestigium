@@ -378,3 +378,25 @@ and very likely of row 1's 1.3e11 radius.
 - an assert keeps the check that the det ball contains 1;
 - it applies to v1 only;
 - it is filed as its own amendment through the bridge.
+
+## A7 step 2 — row 1, v1 re-replay at N = 140: **`replayed = True` → row 1 OBSTRUCTION**
+
+MN p1 = (β = 1/5), (E, L, μ²) = (1, 0, 9). The certificate, loops and SL(2) rule are unchanged
+(`qsim/mr_v2_a7_row1_replay.json`, 21 386 s, guard ok).
+- **v1 values:**
+  - tr g = 1081.908658362446608144 + 1928.320008126658253952i (±5.5e−19);
+  - tr h = 39.14894909118748933261 + 91.37717906664021126471i (±8e−26);
+  - tr[g,h] = 51202181.92116583575865 + 30889220.29971540544108i (±0.16), certainly ≠ 2.
+- **Consistency with v2:**
+  - tr g² and tr h² reproduce v2's tr²/det(g) = −2547891.7087 + 4172532.2258i and
+    tr²/det(h) = −6817.1486 + 7154.6411i;
+  - the two commutator midpoints differ by 4.9e−8, inside both balls (v2 ±37, v1 ±0.16).
+- **N = 100 result (logged per A7 term 4):** `replayed = False`, commutator radius 1.3e11. It remains in the row file
+  as `v1_replay_N100`.
+- The bridge's V9 numerical reproduction is consistent, with a thin margin (5.1e−8 relative).
+
+**Verdict (as registered, via A6 + A7, both post-failure and bridge-approved): OBSTRUCTION** at MN p1, (1, 0, 9). The
+argument is Lean `L6_gl2` / `L6_not_virtually_abelian` plus the cited Morales–Ramis / Ziglin theorem.
+
+Resource note: the run took 5 h 56 min, just under the original 6 h guard. The 12 h guard set at the resume was
+needed.
