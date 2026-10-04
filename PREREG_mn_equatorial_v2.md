@@ -320,4 +320,7 @@ with v2 to about 15 digits, and it was **not a contradiction**.
   - The replay was not tail-limited, so A7 term 4 does not apply.
 - **Verdict (as registered): OBSTRUCTION** at MN p1, (1, 1, 4). Per Lean `L6_gl2` / `L6_not_virtually_abelian` and the cited
   Morales–Ramis / Ziglin theorem, the system has no meromorphic first integral independent of H near the equatorial
-  solution, at this parameter row. Pending the bridge's numerical reproduction.
+  solution, at this parameter row.
+- **Bridge numerical reproduction (V9, pre-registered): REPRODUCED.**
+  - Relative agreement: tr²/det(g) 2.5e−10, tr²/det(h) 1.5e−11, tr[g,h] 8.9e−9.
+  - Abel gate 3.2e−10; convergence 1.1e−8; the commutator is the same in both composition orders.
