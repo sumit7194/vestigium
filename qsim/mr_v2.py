@@ -241,13 +241,13 @@ def _de_ball(t):
 
 
 def _replay_worker(name):
-    rc, dmin, geo = _RCTX["rc"], _RCTX["dmin"], _RCTX["geo"]
+    rc, dmin, geo, N = _RCTX["rc"], _RCTX["dmin"], _RCTX["geo"], _RCTX.get("N", 100)
     gm = geo[name]
-    Y = IA.transport(rc, IA.loop_points(complex(*gm["base"]), complex(*gm["center"]), gm["radius"]), dist=dmin)
+    Y = IA.transport(rc, IA.loop_points(complex(*gm["base"]), complex(*gm["center"]), gm["radius"]), N=N, dist=dmin)
     return name, [[_ser_ball(Y[i][j]) for j in range(2)] for i in range(2)]
 
 
-def replay_v1(S, cert, sing, procs=3):
+def replay_v1(S, cert, sing, procs=3, N=100):
     """Recompute the certifying loops with ia_hub (v1, reduced form r = P/Q, SL(2) certificate).
     2026-10-04: the 2-4 certifying loops run in parallel forked processes (resource only; identical computation),
     results returned by exact outward-rounded ball serialisation."""
@@ -258,7 +258,7 @@ def replay_v1(S, cert, sing, procs=3):
     dmin = lambda q: min(abs(q - c) for c in obst)
     geo = cert["geometry"]
     names = sorted(set(cert["g"].split("*") + cert["h"].split("*")))
-    _RCTX.update(rc=rc, dmin=dmin, geo=geo)
+    _RCTX.update(rc=rc, dmin=dmin, geo=geo, N=N)            # A7: v1 Taylor order (default 100 unchanged)
     with mpr.get_context("fork").Pool(processes=min(procs, len(names))) as pool:
         got = dict(pool.map(_replay_worker, names))
     cache = {n: [[_de_ball(got[n][i][j]) for j in range(2)] for i in range(2)] for n in names}
@@ -272,4 +272,4 @@ def replay_v1(S, cert, sing, procs=3):
     ok, info = IA.certificate(g, h)
     c = IA.tr(IA._matmul(IA._matmul(g, h), IA._matmul(IA.inv(g), IA.inv(h))))
     return dict(replayed=ok, **info, tr_g_midrad=IN.midrad(IA.tr(g)), tr_h_midrad=IN.midrad(IA.tr(h)),
-                tr_comm_midrad=IN.midrad(c), loops_replayed=names)
+                tr_comm_midrad=IN.midrad(c), loops_replayed=names, N=N)
