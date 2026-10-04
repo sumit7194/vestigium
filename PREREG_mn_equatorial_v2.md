@@ -349,3 +349,12 @@ outcome yet.
 Each step uses ≤ 3 threads alongside A7's 2 processes, so the total stays ≤ 5. Code: `qsim/mr_v2_a7.py`
 (REPLAY / FINISH), `qsim/resume_chain.sh`. The A6 summary file now merges rows instead of being rewritten
 (bookkeeping only).
+
+**Row 4, bridge numerical reproduction (V9, pre-registered, β = −1/3): INCONCLUSIVE by the bridge's own gates.**
+- Abel 7.7e−8 and convergence 4.2e−7 miss their 1e−8 and 1e−7 gates. Loops a and b, near t = 1, exhaust complex128.
+- Recorded but not graded: the bridge's values agree with the v2 midpoints to 1.5e−6 (g and comm) and 1.1e−11 (h),
+  and lie well inside the v2 balls, so nothing points the other way.
+- Row 4's grade rests on the v1 replay (N = 100, then N = 140 under A7 term 4 if tail-limited).
+- A tighter bridge check would need a pre-registered method change; none has been started.
+- Note: the recipe message gave "β = 1/5" by a typo. The run uses p2's β = −1/3 (checked at runtime and in the data
+  file header).
