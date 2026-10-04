@@ -358,3 +358,10 @@ Each step uses ≤ 3 threads alongside A7's 2 processes, so the total stays ≤ 
 - A tighter bridge check would need a pre-registered method change; none has been started.
 - Note: the recipe message gave "β = 1/5" by a typo. The run uses p2's β = −1/3 (checked at runtime and in the data
   file header).
+
+**Row 4, v1 replay at N = 100 (logged per A7 term 4): `replayed = False`, the tail-limited pattern, not a contradiction.**
+- tr g = 2470.922213831767 + 7803.744734379116i (±0.035) and tr h = 11.590472881549 − 4.636608841620i (±2.4e−8).
+- Both are certainly loxodromic. Squared, they reproduce the v2 midpoints of tr²/det to ~5 and ~10 digits.
+- tr[g,h] = NaN: g's entries are ~1e4 with radius ~0.03, so the ball for det = ad − bc, about ±700 wide, contains 0
+  and g⁻¹ cannot be bounded. This is the same loose-enclosure mechanism as row 1.
+- The N = 140 replay started automatically under A7 term 4 (`qsim/mr_v2_a7_row4_N100.{json,log}`, 11 182 s).
