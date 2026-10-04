@@ -290,3 +290,6 @@ with v2 to about 15 digits, and it was **not a contradiction**.
    result is logged each time.
 
 **Resources:** the re-replay uses 2 processes, alongside the running A6 rows, within the 5-thread budget.
+
+**A7 step 1 — v1 G0 at N = 140: PASS.** All known traces are enclosed, at 34.5, 34.5 and 33.9 digits
+(`qsim/mr_v2_a7_G0.{json,log}`). Step 2, the row-1 re-replay at N = 140 (2 procs, guarded), is running.
