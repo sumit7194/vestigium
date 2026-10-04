@@ -5,3 +5,6 @@ gate green (75 assertions)
 row 4 v1 replay N=100: False [guard ok, 11181.8 s]
 row 4 v1 replay N=140: True [guard ok, 11835.5 s]
 4 [A6] MN p2 eq (1, 0, 9) => OBSTRUCTION (v2 certificate, v1 replay) [v1 N=140]
+gate green (75 assertions)
+EXIT 0 (row 4 finish)
+5 [A6] MN p2 eq (1, 1, 4) => INCONCLUSIVE (v2 certificate, v1 replay FAILED) [guard ok, peak 138.0 MB, 11229.7 s]

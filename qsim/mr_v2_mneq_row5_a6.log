@@ -5,3 +5,4 @@
 [811s]   batch 2: 4 generators, 45 pairs, 4254 steps, 222.8s
 [990s]   skipped g[0.816639-0.360313j,r0.03445]: err step size underflow near (1.2284933577457566, 0.3209686414974125)
 [990s] v2 certificate found: True 
+[11229s] v1 replay: False
