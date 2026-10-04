@@ -203,3 +203,27 @@ The real cause is **growth near the essential singularity t = 1**, 0.30 away: th
   its side.
 
 **Row 0 grade:** OBSTRUCTION (v2 certificate + v1 replay), **independently reproduced (numerical, bridge V9-eq′).**
+
+## Row 3 RESULT (2026-10-04): MN p2, (E, L, μ²) = (1, 0, 4): **OBSTRUCTION** (v2 certificate, v1 replay)
+
+**The v2 search** found the certificate in 251 s (13 located points, 3 generators, 9 pairs, 2689 steps, no loop
+skipped). Base point z₀ = 2.667119562555136 + 2.7667479123938024i.
+- g = γ(0.307967384242499, ρ 0.20760978472725028) · γ(−0.4751366065599529 + 0.22858319755496656i, ρ 0.07700413164438846)
+- h = γ(0.307967384242499, ρ 0.20760978472725028) · γ(−0.7703523566330759 + 0.37656494220755987i, ρ 0.017435697281317466)
+
+**The GL(2) certificate (v2, mid ± rad):**
+
+| quantity | value |
+|---|---|
+| tr²/det(g) | 1345.2758406025942679 − 1011.6353858956783367i (± 9.8e−16) |
+| tr²/det(h) | −2371.4390654371280839 − 7787.8783024198235091i (± 1.6e−16) |
+| tr[g, h] | −389140.59069213841206 + 1464024.0755057192621i (± 8.9e−11) |
+
+**The v1 replay** (parallel; 8686 s for the whole row) gives `replayed = True`:
+- tr g = 38.913231095430261 − 12.998604297530035i. Its square equals v2's tr²/det(g).
+- tr h = −53.709835242169482 + 72.499554944689964i.
+- tr[g, h] = −389140.59069213841206 + 1464024.0755057192621i (± 0.05). It agrees with v2 to about 19 digits.
+
+**Verdict (registered wording):** for MN at p2 (M = 13, a = 5, β = −1/3), with (E, L, μ²) = (1, 0, 4), the reduced
+flow admits no additional first integral meromorphic in a neighbourhood of the equatorial Γ, so it is not
+meromorphically Liouville-integrable at that level.
