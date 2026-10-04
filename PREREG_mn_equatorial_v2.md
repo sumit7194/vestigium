@@ -400,3 +400,22 @@ argument is Lean `L6_gl2` / `L6_not_virtually_abelian` plus the cited Morales–
 
 Resource note: the run took 5 h 56 min, just under the original 6 h guard. The 12 h guard set at the resume was
 needed.
+
+## Row 4, A6 + A7 term 4 — v1 replay at N = 140: **`replayed = True` → row 4 OBSTRUCTION**
+
+MN p2 = (M, a, β) = (13, 5, −1/3), (E, L, μ²) = (1, 0, 9). This is the v1 replay of the saved v2 certificate
+(`qsim/mr_v2_a7_row4_N140.json`, 11 722 s, guard ok).
+- **v1 values:**
+  - tr g = 2470.9222138317666648 + 7803.7447343791164096i (±2.6e−14);
+  - tr h = 11.590472881549370865 − 4.636608841619880899i (±2.8e−20);
+  - tr[g,h] = 9307414017.84987 − 4874574714.68493i (±1.2e5), certainly ≠ 2.
+- **Consistency with v2:**
+  - tr g² and tr h² reproduce v2's tr²/det targets;
+  - the commutator midpoints differ by ~1.6e4 (relative ~2e−6), inside both balls (v2 ±3.2e9, v1 ±1.2e5);
+  - this is consistent with the bridge's ungraded V9 agreement of 1.5e−6.
+- **N = 100 result (logged):** `replayed = False`, an unbounded g⁻¹ because the det ball contained 0. It stays in the
+  row file under `v1_replay_by_N`.
+
+**Verdict (as registered, via A6 + A7 term 4, post-failure and bridge-approved): OBSTRUCTION** at MN p2, (1, 0, 9).
+
+**MN equatorial v2, running score:** rows 0, 1, 2, 3, 4 are OBSTRUCTION. Row 5 (p2, 1,1,4) A6 is running.
