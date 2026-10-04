@@ -87,3 +87,28 @@ The TS search uses the A6 locator and skip-not-abort, as defined in `PREREG_mn_e
 coefficients are rational in x (and t), so there are **no essential singularities** and the MN failure mechanism
 (growth near t = ±1) **does not apply**. The change is search-only and cannot create a false certificate: skipping
 only removes candidates, and every certificate still needs the v1 replay.
+
+## RESULT (2026-10-05, 01:40 IST): **all 6 rows CORROBORATED** (v2 certificate + v1 replay)
+
+The run used the registered frozen driver with the A6 search policy (the pre-run amendment), and v1's replay of the
+certifying loops (reduced ξ₁ form, SL(2) rule, N = 100). Each row took 29–39 s under its guard; peak ≤ 110 MB. No loop
+was skipped and no replay was tail-limited.
+Files: `qsim/mr_v2_ts2.{txt,json}`, `qsim/mr_v2_ts2_row{0..5}.{json,log}`, `qsim/mr_v2_ts2_row{0..5}_v2cert.json`.
+
+| row | point, (E,L,μ²) | pairs | v2 tr[g,h] (GL2, non-reduced) | v1 tr[g,h] (SL2, reduced) |
+|---|---|---|---|---|
+| 0 | P1, (1,0,4) | 24 | 1.5828596194084398657 − 75.617797717067582763i ±1.8e−19 | same to ~20 digits, ±4.3e−13 |
+| 1 | P1, (1,0,9) | 9 | −2.3362886125588271483 + 6.5727523980736595341i ±3.3e−18 | same, ±1.6e−11 |
+| 2 | P1, (1,1,4) | 24 | 33.578391634390881343 − 50.744938715928926702i ±1.2e−19 | same, ±3.4e−13 |
+| 3 | P2, (1,0,4) | 24 | −49.075933489700411569 + 101.82768659276654930i ±1.4e−18 | same, ±3.5e−12 |
+| 4 | P2, (1,0,9) | 13 | −0.98173973435702930883 + 0·i ±3.4e−23 | same, ±1.2e−8 |
+| 5 | P2, (1,1,4) | 9 | −92.115500570103437838 + 20.638261599509652743i ±2.0e−19 | same, ±9.9e−13 |
+
+- **Consistency.** In every row, v1's tr g² and tr h² reproduce v2's tr²/det (for example, row 0:
+  (6.3604025 − 6.0800291i)² = 3.4879660 − 77.3428648i).
+- **Row 4.** The commutator trace is real, −0.9817, so it is certainly ≠ 2. In that row tr²/det(h) = conj(tr²/det(g)).
+- **Verdict (as registered):** the TS δ=2 OBSTRUCTION from route 2b′ is **CORROBORATED by certified monodromy (Ziglin
+  form) at all 6 rows**: v2 found each certificate and v1 replayed it. G⁰ is non-abelian by Lean `L6_gl2` and the
+  cited finite-index fact.
+- This is the independent second route that was "uncorroborated" in Stage 2. The bridge's numerical reproduction is
+  pending.
