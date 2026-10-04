@@ -1,1 +1,2 @@
 1 [A6] MN p1 eq (1, 0, 9) => INCONCLUSIVE (v2 certificate, v1 replay FAILED) [guard ok, peak 137.0 MB, 11292.8 s]
+gate green (75 assertions)

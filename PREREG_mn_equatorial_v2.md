@@ -257,3 +257,21 @@ mechanism as rows 1, 2 and 4.
 | 1, 2, 4, 5 | INCONCLUSIVE (transport failure near t = ±1) |
 
 The A6 re-runs of rows 1, 2, 4 and 5 (post-failure) start now, via the overnight chain.
+
+## Row 1, A6 re-run (post-failure): MN p1, (1, 0, 9): **INCONCLUSIVE (v2 certificate, v1 replay FAILED)**
+
+- **v2:** the certificate was found at 773 s, after 3 loops near t = 1 were skipped (A6 (b)).
+  - g = γ(1.261448 + 0.321527i) · γ(1.287403 + 0.239791i), h = γ(1.261448 + 0.321527i) · γ(−0.160033)
+  - tr²/det(g) = −2547891.7087 + 4172532.2258i (± 5e−5)
+  - tr²/det(h) = −6817.1486 + 7154.6411i
+  - tr[g, h] = 51202181.921165786 + 30889220.299715389i (± 37)
+- **v1 replay** (11,293 s) gave `replayed = False`, and it is **not a contradiction**:
+  - v1's tr[g, h] midpoint, 51202181.921165836 + 30889220.299715405i, agrees with v2's to about **15 digits**;
+  - v1's tr(g)², about −2.5479e6 + 4.1725e6i, matches v2's tr²/det(g);
+  - but v1's commutator ball has radius **1.3e11**, larger than the value, so it cannot certify tr ≠ 2.
+- **Cause:** a precision shortfall in v1. The certifying loops sit at t ≈ 1.26–1.29, about 0.3 from the essential
+  point t = 1, where coefficient growth makes v1's tail bounds at N = 100 very loose, and the four-loop
+  commutator product amplifies them.
+
+By the registered rule the row is **INCONCLUSIVE**. A fix (a v1 replay at a higher order N, after re-running v1's
+G0 at that N) needs the bridge's approval; it is proposed, not applied.
