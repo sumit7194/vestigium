@@ -4,3 +4,4 @@ gate green (75 assertions)
 gate green (75 assertions)
 2 MN p1 eq (1, 1, 4) => INCONCLUSIVE (no certificate) [guard ok, peak 117.0 MB, 219.1 s]
 gate green (75 assertions)
+3 MN p2 eq (1, 0, 4) => OBSTRUCTION (v2 certificate, v1 replay) [guard ok, peak 117.0 MB, 8687.0 s]
