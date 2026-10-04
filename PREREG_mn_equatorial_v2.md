@@ -365,3 +365,16 @@ Each step uses ≤ 3 threads alongside A7's 2 processes, so the total stays ≤ 
 - tr[g,h] = NaN: g's entries are ~1e4 with radius ~0.03, so the ball for det = ad − bc, about ±700 wide, contains 0
   and g⁻¹ cannot be bounded. This is the same loose-enclosure mechanism as row 1.
 - The N = 140 replay started automatically under A7 term 4 (`qsim/mr_v2_a7_row4_N100.{json,log}`, 11 182 s).
+
+**Noted for later; NOT part of A7, and nothing has been changed.** The bridge observed that v1's reduced form y″ = r·y is
+trace-free, so every monodromy matrix has det = 1 exactly (Abel/Liouville). The true g⁻¹ is then adj(g) =
+[[d, −b], [−c, a]], and the enclosure of adj(g) is a rigorous enclosure of g⁻¹ without any division.
+
+Confirmed in the code: `ia_hub.inv` (line 262) divides by the det ball. That is the source of row 4's NaN commutator,
+and very likely of row 1's 1.3e11 radius.
+
+**Candidate amendment A8**, to be proposed only if N = 140 still cannot certify rows 1 or 4:
+- v1's SL(2) path uses the adjugate;
+- an assert keeps the check that the det ball contains 1;
+- it applies to v1 only;
+- it is filed as its own amendment through the bridge.
