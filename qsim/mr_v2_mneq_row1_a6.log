@@ -1,0 +1,8 @@
+[92s] MN p1 eq (1,0,9): 25 located singular points
+[241s]   skipped g[1.016558+0.377838j,r0.07538]: err step size underflow near (1.0030943303687896, 0.45176561858441966)
+[241s]   batch 1: 2 generators, 3 pairs, 1909 steps, 149.3s
+[614s]   skipped g[0.611725+0.000000j,r0.11648]: err step size underflow near (0.7074804732311218, -0.06517040179345418)
+[614s]   batch 2: 4 generators, 45 pairs, 6280 steps, 373.3s
+[773s]   skipped g[1.016558-0.377838j,r0.07538]: err step size underflow near (1.2703216441675238, 0.13317085180829005)
+[773s] v2 certificate found: True 
+[11292s] v1 replay: False
