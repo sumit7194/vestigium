@@ -8,3 +8,5 @@ row 4 v1 replay N=140: True [guard ok, 11835.5 s]
 gate green (75 assertions)
 EXIT 0 (row 4 finish)
 5 [A6] MN p2 eq (1, 1, 4) => INCONCLUSIVE (v2 certificate, v1 replay FAILED) [guard ok, peak 138.0 MB, 11229.7 s]
+gate green (75 assertions)
+EXIT 0 (row 5)

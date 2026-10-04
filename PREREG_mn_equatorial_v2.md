@@ -427,3 +427,11 @@ MN p2 = (M, a, β) = (13, 5, −1/3), (E, L, μ²) = (1, 0, 9). This is the v1 r
 - The bridge's converged tr[g,h] ≈ −1.29999e10 − 2.03482e11i. Numerically, its imaginary part is far from 0, which
   supports the thin Im-only exclusion of 2 (numerical, not a certificate).
 - The grade waits for the v1 replay (N = 100, then N = 140 under A7 term 4 if tail-limited). A8 stays parked.
+
+**Row 5, v1 replay at N = 100 (logged per A7 term 4): `replayed = False`, the tail-limited pattern.**
+- tr g = −865.43764231152593 − 486.66383617065217i (±2.3e−4) and tr h = −1535.3030904994618 − 3401.5560711705944i
+  (±2.7e−3).
+- Both are certainly loxodromic, and their squares reproduce v2's tr²/det.
+- tr[g,h] = NaN: the det ball contains 0, so g⁻¹ cannot be bounded, the same mechanism as row 4.
+- The N = 140 replay from the saved certificate was launched under A7 term 4 (2 procs, 12 h guard), alongside the
+  TS stage (3 threads).
