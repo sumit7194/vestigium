@@ -419,3 +419,11 @@ MN p2 = (M, a, β) = (13, 5, −1/3), (E, L, μ²) = (1, 0, 9). This is the v1 r
 **Verdict (as registered, via A6 + A7 term 4, post-failure and bridge-approved): OBSTRUCTION** at MN p2, (1, 0, 9).
 
 **MN equatorial v2, running score:** rows 0, 1, 2, 3, 4 are OBSTRUCTION. Row 5 (p2, 1,1,4) A6 is running.
+
+**Row 5 (p2, 1,1,4), bridge V9 numerical reproduction (pre-registered): CONSISTENT, not REPRODUCED.**
+- All of the bridge's gates pass: Abel 4.2e−9, convergence 2.6e−8.
+- Agreement with the v2 midpoints: 1.3e−8 (g), 2.8e−7 (h), 2.7e−7 (comm). All lie inside the v2 balls, but h and comm
+  miss the bridge's 1e−7 REPRODUCED bar.
+- The bridge's converged tr[g,h] ≈ −1.29999e10 − 2.03482e11i. Numerically, its imaginary part is far from 0, which
+  supports the thin Im-only exclusion of 2 (numerical, not a certificate).
+- The grade waits for the v1 replay (N = 100, then N = 140 under A7 term 4 if tail-limited). A8 stays parked.
