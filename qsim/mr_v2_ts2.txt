@@ -9,3 +9,5 @@ gate green (75 assertions)
 4 TS P2 eq (1, 0, 9) => CORROBORATED (v2 certificate, v1 replay) [guard ok, peak 108.0 MB, 33.5 s]
 gate green (75 assertions)
 5 TS P2 eq (1, 1, 4) => CORROBORATED (v2 certificate, v1 replay) [guard ok, peak 108.0 MB, 30.4 s]
+gate green (75 assertions)
+EXIT 0
