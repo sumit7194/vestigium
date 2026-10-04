@@ -300,3 +300,24 @@ with v2 to about 15 digits, and it was **not a contradiction**.
 - The loops near t ≈ 1.27 cost about 5 digits, consistent with the v1 tail limit.
 - This corroborates the midpoints to about 7 digits. It is **not** a substitute for A7: the row's grade waits for the
   N = 140 v1 replay.
+
+## Row 2, A6 re-run: MN p1, (E, L, μ²) = (1, 1, 4) — **OBSTRUCTION** (v2 certificate + v1 replay at N = 100)
+
+- **Certificate.** v2 tried 9 pairs over 3 generators. Base point z₀ = 2.4691717810397047 + 2.5614059326191394i.
+  - g = M_a·M_b, with a = γ(1.0407508871125104 + 0.4677121389555332i, ρ 0.03132088280290887) and
+    b = γ(1.0080515742827576 + 0.36856210426090547i, ρ 0.03132088280290887).
+  - h = M_a·M_c, with c = γ(0.19761156121947301, ρ 0.1154952476585107).
+  - Skipped (step underflow): the conjugate loops g[1.008052 − 0.368562i] and g[1.040751 − 0.467712i].
+- **v2 enclosures:**
+  - tr²/det(g) = 48.16395921732219238937 − 56.11599596601088473492i (±8.2e−16);
+  - tr²/det(h) = −12146.88614102791808418 − 6932.690639883441608725i (±8.6e−22);
+  - tr[g,h] = 544.0346538066000467109 − 550.2748225118644843529i (±8.7e−12).
+- **v1 replay (reduced form, SL(2) rule): `replayed = True`.**
+  - tr g = −7.813933230303 + 3.590765003493i (±5e−9);
+  - tr h = 30.324446564554152 − 114.308609476602497i (±1e−15);
+  - tr[g,h] = 544.03465380660005 − 550.27482251186448i (±0.98), so certainly ≠ 2.
+  - The midpoints agree with v2 to about 18 digits.
+  - The replay was not tail-limited, so A7 term 4 does not apply.
+- **Verdict (as registered): OBSTRUCTION** at MN p1, (1, 1, 4). Per Lean `L6_gl2` / `L6_not_virtually_abelian` and the cited
+  Morales–Ramis / Ziglin theorem, the system has no meromorphic first integral independent of H near the equatorial
+  solution, at this parameter row. Pending the bridge's numerical reproduction.
