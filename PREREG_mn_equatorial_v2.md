@@ -293,3 +293,10 @@ with v2 to about 15 digits, and it was **not a contradiction**.
 
 **A7 step 1 — v1 G0 at N = 140: PASS.** All known traces are enclosed, at 34.5, 34.5 and 33.9 digits
 (`qsim/mr_v2_a7_G0.{json,log}`). Step 2, the row-1 re-replay at N = 140 (2 procs, guarded), is running.
+
+**Row 1, bridge numerical reproduction (V9, pre-registered): REPRODUCED, with a thin margin.**
+- Relative agreement: tr²/det(g) 5.1e−8, tr²/det(h) 1.7e−12, tr[g,h] 5.1e−8.
+- Abel gate: 1.1e−10. Tolerance convergence: 9.9e−8, against its 1e−7 gate.
+- The loops near t ≈ 1.27 cost about 5 digits, consistent with the v1 tail limit.
+- This corroborates the midpoints to about 7 digits. It is **not** a substitute for A7: the row's grade waits for the
+  N = 140 v1 replay.
