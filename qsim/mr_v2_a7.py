@@ -6,6 +6,7 @@ except for N.
 
 Usage:  python mr_v2_a7.py G0
         python mr_v2_a7.py REPLAY <row> <N> <procs> <out.json>
+        python mr_v2_a7.py FINISH140 <row> <procs>   (N=100 already ran in the row run and failed: N=140 only)
         python mr_v2_a7.py FINISH <row>      (guarded N=100 replay; if it fails without an error, N=140 per A7 term 4;
                                               writes mr_v2_mneq_row<row>_a6.json and appends to the A6 summary)
 """
@@ -47,11 +48,17 @@ def _commit(paths, msg):
         subprocess.run(["git", "push", "-q", "origin", "main"], cwd=REPO)
 
 
-def finish(i):
+def finish(i, only140=False, procs140=3):
     import mr_watchdog as W, mr_v2_mneq as M
     cert = json.load(open(os.path.join(HERE, f"mr_v2_mneq_row{i}_a6_v2cert.json")))
     runs = {}
-    for N, procs, tl in ((100, 3, 21600), (140, 3, 43200)):
+    if only140:      # the N = 100 replay already ran inside the row run: take its logged result, do not repeat it
+        prev = json.load(open(os.path.join(HERE, f"mr_v2_mneq_row{i}_a6.json")))
+        assert prev["v1_replay"]["replayed"] is False and prev["v1_replay"].get("N", 100) == 100
+        runs[100] = prev["v1_replay"]
+    for N, procs, tl in ((100, 3, 21600), (140, procs140, 43200)):
+        if N in runs:
+            continue
         outp = os.path.join(HERE, f"mr_v2_a7_row{i}_N{N}.json")
         g = W.run_guarded([PY, "-u", os.path.abspath(__file__), "REPLAY", str(i), str(N), str(procs), outp],
                           mem_limit_mb=3072, time_limit_s=tl, cwd=HERE, log=os.path.join(HERE, f"mr_v2_a7_row{i}_N{N}.log"))
@@ -88,3 +95,5 @@ if __name__ == "__main__":
         print(json.dumps({k: v for k, v in r.items() if "midrad" in k}, indent=1), flush=True)
     elif sys.argv[1] == "FINISH":
         finish(int(sys.argv[2]))
+    elif sys.argv[1] == "FINISH140":                       # python mr_v2_a7.py FINISH140 <row> <procs>
+        finish(int(sys.argv[2]), only140=True, procs140=int(sys.argv[3]))
