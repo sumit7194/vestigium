@@ -58,10 +58,12 @@ def disk_free_gb(path="/"):
 # Box-level guards (bridge, 2026-09-24): kill the child if the SHARED machine is in
 # trouble, regardless of the child's own size.
 SWAP_FREE_MIN_MB = 512          # applied only when swap exists (total > 0) AND memory is actually short (below)
-SWAP_RULE_MEM_PCT = 20          # 2026-10-03: macOS grows swap on demand, so free swap dips just before a new swap file
+SWAP_RULE_MEM_PCT = 8           # 2026-10-03: macOS grows swap on demand, so free swap dips just before a new swap file
                                 # is added even with ~80% memory free -- that false alarm killed 3 MN rows. The swap rule now
                                 # needs real memory pressure too.
-MEM_FREE_MIN_PCT = 10           # system-wide memory free % (memory_pressure): the real trigger
+MEM_FREE_MIN_PCT = 8            # system-wide memory free % (memory_pressure): the real trigger
+# 2026-10-05: both memory triggers 10/20 -> 8 % free, to match ansatz's own stop on the shared 16 GB box (user: use memory
+# overnight, avoid OOM). My children are ~150 MB under their own footprint caps, so killing them would free nothing.
 DISK_FREE_MIN_GB = 5.0
 
 
