@@ -112,3 +112,10 @@ Files: `qsim/mr_v2_ts2.{txt,json}`, `qsim/mr_v2_ts2_row{0..5}.{json,log}`, `qsim
   cited finite-index fact.
 - This is the independent second route that was "uncorroborated" in Stage 2. The bridge's numerical reproduction is
   pending.
+
+**Bridge numerical reproduction (V8-mono, pre-registered): all 6 rows REPRODUCED.**
+- The bridge used its own V8 equations, built on ansatz's metric.
+- Agreement ≤ 2.9e−9 on tr²/det(g), tr²/det(h) and tr[g,h] in every row; Abel ≤ 5.5e−10; convergence ≤ 6.6e−9.
+- Row 4: tr[g,h] = −0.98173974, real to 1e−9.
+
+TS monodromy is now certified (v2 + v1) **and** independently reproduced.
