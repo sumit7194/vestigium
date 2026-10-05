@@ -435,3 +435,37 @@ MN p2 = (M, a, β) = (13, 5, −1/3), (E, L, μ²) = (1, 0, 9). This is the v1 r
 - tr[g,h] = NaN: the det ball contains 0, so g⁻¹ cannot be bounded, the same mechanism as row 4.
 - The N = 140 replay from the saved certificate was launched under A7 term 4 (2 procs, 12 h guard), alongside the
   TS stage (3 threads).
+
+## Row 5, A6 + A7 term 4 — v1 replay at N = 140: **`replayed = True` → row 5 OBSTRUCTION**
+
+MN p2 = (13, 5, −1/3), (E, L, μ²) = (1, 1, 4) (`qsim/mr_v2_a7_row5_N140.json`, 19 371 s, guard ok).
+- **v1 values:**
+  - tr g = −865.43764231152593300 − 486.66383617065217147i (±2.5e−16);
+  - tr h = −1535.3030904994618373 − 3401.5560711705944404i (±2.3e−15);
+  - tr[g,h] = −12999927129.4587 − 203481690679.4769i (±1.6e6), certainly ≠ 2 in both parts.
+- **Consistency with v2:**
+  - the commutator midpoints differ by ~5e4 (relative ~2.6e−7), inside both balls (v2 ±1.6e11, v1 ±1.6e6);
+  - this matches the bridge's V9 CONSISTENT agreement of 2.7e−7.
+- **N = 100 result (logged):** `replayed = False`, an unbounded g⁻¹.
+- **Verdict (as registered, via A6 + A7 term 4): OBSTRUCTION.** A8 was never needed.
+
+---
+
+# FINAL OUTCOME — MN equatorial v2 (2026-10-05, 07:02 IST): **OBSTRUCTION at all 6 rows**
+
+| row | point, (E,L,μ²) | route | v1 N | bridge V9 |
+|---|---|---|---|---|
+| 0 | p1, (1,0,4) | frozen | 100 | REPRODUCED |
+| 1 | p1, (1,0,9) | A6 + A7 | 140 | REPRODUCED (thin margin) |
+| 2 | p1, (1,1,4) | A6 | 100 | REPRODUCED |
+| 3 | p2, (1,0,4) | frozen | 100 | REPRODUCED |
+| 4 | p2, (1,0,9) | A6 + A7 t4 | 140 | INCONCLUSIVE by its gates (consistent, not graded) |
+| 5 | p2, (1,1,4) | A6 + A7 t4 | 140 | CONSISTENT (2.7e−7 vs a 1e−7 bar) |
+
+- **Basis of every row.** A v2 GL(2) certificate (non-reduced ξ₁ form, Arb balls), replayed by the independent v1
+  SL(2) certificate (reduced form). G⁰ is non-abelian by Lean `L6_gl2` / `L6_not_virtually_abelian` (axioms propext,
+  Classical.choice, Quot.sound), plus the cited Morales–Ramis / Ziglin theorem and the finite-index fact.
+- **Amendments.** A6 and A7 are post-failure, and both were bridge-approved before use. Every N = 100 failure is
+  logged next to its N = 140 success.
+- **Claim scope.** As registered: meromorphic first integrals, a complex neighbourhood of the equatorial solution, the
+  tested parameter points and levels, and the supplied metric.
