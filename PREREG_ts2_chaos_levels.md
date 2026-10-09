@@ -107,3 +107,43 @@ in a neighbourhood of the equatorial phase curve Γ at that level. This **matche
 
 One guarded child per row: 2 GB, 1 h, ≤ 3 threads. Ansatz's chaos scans run alongside (about 1 GB, a few
 threads), so the total stays within the box. Commit and push per row.
+
+## OUTCOME (2026-10-10, 04:49 IST): **all 8 bound-orbit rows OBSTRUCTION (two routes); both Kerr controls PASS**
+
+Files: `qsim/mr_ts2_chaos.{txt,json}`, `qsim/mr_ts2_chaos_row{0..9}.{json,log}` (full recipes: base, loop geometry,
+words, v2 and v1 midrads). Every row was guarded; peak ≤ 138 MB.
+
+| row | p | (E, L, μ²) | gates (provenance) | 2b′ ξ₂ / ξ₁ | v2 cert | v1 replay | v2 tr[g,h] | verdict |
+|---|---|---|---|---|---|---|---|---|
+| 1 Dubeibe Fig. 1 | 4/5 | (47/50, −39/5, 1) | pass | OBS / OBS | yes | N=100 ✓ | 0.97422 (real) | **OBSTRUCTION, two routes** |
+| 2 | 3/5 | (47/50, −52/5, 1) | pass | OBS / OBS | yes | N=100 ✓ | 4.4972 − 7.3406i | **two routes** |
+| 3 | 4/5 | (19/20, −773/100, 1) | pass | OBS / OBS | yes | N=100 ✓ | 0.63414 (real) | **two routes** |
+| 4 | 4/5 | (97/100, −201/25, 1) | pass | OBS / OBS | yes | N=100 ✓ | 0.81868 (real) | **two routes** |
+| 5 | 4/5 | (97/100, 1051/100, 1) | pass | OBS / OBS | yes | N=100 ✓ | 15.462 − 18.659i | **two routes** |
+| 6 | 3/5 | (19/20, −93/10, 1) | pass | OBS / OBS | yes | N=100 ✗ → N=140 ✓ | 1.29013 (real) | **two routes** |
+| 7 | 3/5 | (97/100, −48/5, 1) | pass | OBS / OBS | yes | N=100 ✗ → N=140 ✓ | 1.37113 (real) | **two routes** |
+| 8 | 3/5 | (97/100, 287/20, 1) | pass | OBS / OBS | yes | N=100 ✓ | −4.1810 − 14.056i | **two routes** |
+| ctrl | Kerr 4/5 | row-1 level | pass | INC / INC | none | — | — | **PASS** |
+| ctrl | Kerr 3/5 | row-2 level | pass | INC / INC | none | — | — | **PASS** |
+
+- **Provenance** worst relative difference ≤ 2e−54 across rows.
+- The N = 140 replays in rows 6–7 follow the **pre-registered** retry rule (tail-limited at N = 100). Both N = 100
+  results are logged in `v1_replay_by_N`.
+- **v1 vs v2** commutator midpoints agree to ≥ 20 digits in every row.
+- In rows 1, 3, 4, 6 and 7, tr[g,h] is real and in (0, 2), with v1 radius ≤ 0.15, so it is certainly ≠ 2.
+- In every near-equatorial "−L" row, tr²/det(h) is real and of order 10⁴, i.e. real-hyperbolic, well outside
+  [0, 4].
+
+**Predictions.**
+- **P1 (all 8 OBSTRUCTION by both routes): HELD.**
+- **P2 (Kerr controls clean): HELD.**
+- **P3 (each row < 2 min): MISSED narrowly.** Row 7 took 137 s, because of its N = 140 replay.
+
+**Verdict (as registered), per row.** At each (p, E, L, μ²) above, the reduced TS δ=2 geodesic flow H_{E,L} admits
+no additional first integral meromorphic in a neighbourhood of the equatorial phase curve Γ, **and the real part of
+that Γ includes a bound equatorial orbit**. That includes **Dubeibe et al. 2007's Fig. 1 level**, whose
+regular-looking sections were the basis of the "completely integrable" description.
+- **Scope, unchanged:** meromorphic integrals; the complex neighbourhood; these points.
+- This says nothing about where chaos lies or how large the chaotic layers are. It does not contradict regular
+  sections; it rules out the integrability reading of them.
+- Γ is the equatorial orbit, while Dubeibe's sections are meridional motion at the same (E, L).
