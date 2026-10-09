@@ -16,3 +16,5 @@ gate green (75 assertions)
 7 row8 near-sep other sense        => OBSTRUCTION (two routes) [guard ok, peak 137.0 MB, 100.1 s]
 gate green (75 assertions)
 8 ctrl Kerr p=4/5 at row1 level    => CONTROL PASS (no obstruction) [guard ok, peak 111.0 MB, 28.3 s]
+gate green (75 assertions)
+9 ctrl Kerr p=3/5 at row2 level    => CONTROL PASS (no obstruction) [guard ok, peak 111.0 MB, 29.4 s]
