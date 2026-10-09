@@ -26,7 +26,8 @@ listed here by arXiv ID so you can fetch it yourself.
 
 Used for the `a(θ)` work in `qsim/` and the imported result in `corner_function/`. No PDFs held;
 the full 52-entry bibliography compiled by the originating workspace is in
-[`corner_function/references.md`](../corner_function/references.md).
+`references.md` of the cuspis project, now public at [github.com/sumit7194/cuspis](https://github.com/sumit7194/cuspis)
+(the vendored copy here was removed 2026-10-10, 8398475; it remains in this repo's history at dbd443a).
 
 | Paper | arXiv | Used for |
 |---|---|---|
@@ -40,7 +41,8 @@ the full 52-entry bibliography compiled by the originating workspace is in
 | Cuomo, He & Komargodski (2024), *Impurities with a cusp* | [2406.10186](https://arxiv.org/abs/2406.10186) | **correction 2026-09-21: applicable.** In d=3 the twist operator is a line defect and an entangling corner is a cusp on it, so this is the *same* object. Earlier "not applicable" was wrong |
 
 The first six IDs above are cross-checked against
-[`corner_function/references.md`](../corner_function/references.md), which the originating
+cuspis's `references.md` ([github.com/sumit7194/cuspis](https://github.com/sumit7194/cuspis); the copy used was
+the 2026-09-04 snapshot, dbd443a), which the originating
 workspace verified. The last two are not in that bibliography: `1909.03144` was confirmed by
 fetching the abstract directly; `2406.10186` comes from a search result and is **not**
 independently verified here.
