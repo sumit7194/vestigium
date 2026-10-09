@@ -124,8 +124,41 @@ def regen_v1(S, sing, d, v1rec, N):
     return g, h, ok, rec, new
 
 
+def regen_kerr(S, sing, b):
+    """Integrable control: the first two recorded Kerr generators (no certificate exists). Gate: their tr^2/det
+    strings reproduce the recorded generator_w exactly."""
+    import mr_v2 as V, ia_native as IN, ia_hub as IA
+    bb, entries = V.compile_system(S)
+    obst = list(sing) + [complex(c) for c in S["bad"]]
+    names = list(b["generator_w"])[:2]
+    geo = b["geometry"]
+    loops = [(n, IA.loop_points(complex(*geo[n]["base"]), complex(*geo[n]["center"]), geo[n]["radius"])) for n in names]
+    job = IN.write_job(bb, entries, loops, bad=S["bad"], obst=obst, threads=2)
+    res = IN.run_job(job); os.remove(job)
+    g, h = res[names[0]]["M"], res[names[1]]["M"]
+    rec = {n: b["generator_w"][n] for n in names}
+    new = {n: str(IN.tr(res[n]["M"])**2/IN.det(res[n]["M"])) for n in names}
+    return g, h, names, rec, new
+
+
 def run(family, row, which):
     t0 = time.time()
+    if family == "kerrctl":                                  # tschaos control rows 8, 9 (Kerr-WP)
+        import mr_ts2_chaos as C, mr_v2 as V
+        name, key, p, (En, L, mu2), kind = C.ROWS[row]
+        S, _ = C.system(key, En, L, mu2)
+        b = json.load(open(os.path.join(HERE, f"mr_ts2_chaos_row{row}.json")))["route_b"]
+        g, h, names, rec, new = regen_kerr(S, V.locate_a6(S), b)
+        out = dict(family=family, row=row, which="v2", N=140, g_word=names[0], h_word=names[1], certificate_ok=False,
+                   control="integrable Kerr: check must be FALSE", gate_bit_for_bit=(rec == new), recorded=rec,
+                   regenerated=new, seconds=round(time.time() - t0, 1))
+        if rec == new:
+            Bg, Bh = box(g), box(h)
+            out.update(readback=(readback_ok(g, Bg) and readback_ok(h, Bh)), G=Bg, H=Bh)
+        os.makedirs(OUTDIR, exist_ok=True)
+        json.dump(out, open(os.path.join(OUTDIR, f"kerrctl_{row}_v2.json"), "w"), indent=1)
+        print(f"kerrctl row {row}: bit_for_bit={rec == new} readback={out.get('readback')} [{out['seconds']} s]", flush=True)
+        return out
     S, sing, d, v1rec, N = source(family, row)
     if which == "v2":
         g, h, ok, rec, new = regen_v2(S, sing, d)
