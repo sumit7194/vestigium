@@ -74,6 +74,24 @@ points; the supplied metric).
 - It does not contradict Dubeibe's regular-looking sections, which are a statement about the measure and
   visibility of chaos, not about integrability.
 
+## Setup correspondence: is the run testing the claim it will be quoted for?
+
+**The claim this will be quoted for.** "The levels at which ansatz searches for chaos, including Dubeibe's
+'completely integrable' Fig. 1 level, admit no additional meromorphic first integral."
+
+**The condition actually tested.** At each (p, E, L, μ²) in the table: no first integral of H_{E,L} meromorphic
+in a neighbourhood of the equatorial phase curve Γ at that level. This **matches** the claim:
+- the rows are exactly ansatz's levels, in the same units and sign convention (confirmed by ansatz: M = 2σ/p,
+  L < 0 for Dubeibe);
+- the bound pocket at each level was checked to be real and to lie on Γ;
+- the metric is the same WP file that ansatz's integrator uses.
+
+**Gaps that remain, stated so they are not overclaimed:**
+- meromorphic integrals only;
+- the complex neighbourhood of Γ, not a real region;
+- Γ is the equatorial orbit, while Dubeibe's sections are meridional (off-equator) motion at the same (E, L);
+- the result covers these points only.
+
 ## Predictions (filed now)
 
 - **P1. All 8 rows OBSTRUCTION by both routes.** Reason: at all 6 earlier levels the 2b′ local data were
