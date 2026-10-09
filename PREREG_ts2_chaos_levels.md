@@ -147,3 +147,12 @@ regular-looking sections were the basis of the "completely integrable" descripti
 - This says nothing about where chaos lies or how large the chaotic layers are. It does not contradict regular
   sections; it rules out the integrability reading of them.
 - Γ is the equatorial orbit, while Dubeibe's sections are meridional motion at the same (E, L).
+
+**Bridge V8-mono numerical reproduction (pre-registered, 2026-10-10).**
+- **REPRODUCED:** R2 (3.0e−8), R5 (2.4e−10), R8 (7.6e−11).
+- **INCONCLUSIVE by the bridge's own gates:** R1, R3, R4, R6, R7.
+  - Its complex128 DOP853 transport fails convergence (2e−7 to 1e−5), and for R6/R7 it also fails Abel
+    (~1.7e−7). These are exactly the rows with real tr[g,h] ∈ (0, 2) and a real-hyperbolic h of order 1e4.
+  - Ungraded: its values agree with these certificates to 6e−8 to 6e−6, and all are clearly ≠ 2.
+- The bridge is adding a pre-registered high-precision (mpmath, 30+ digit) transport for those five rows.
+- The verdicts above rest on the two certified routes, which are unaffected; the bridge check is corroboration.
