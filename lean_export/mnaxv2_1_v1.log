@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/Users/sumit/Github/quantum/qsim/lean_export.py", line 229, in <module>
+  File "/Users/sumit/Github/quantum/qsim/lean_export.py", line 210, in run
+    if which == "v2":
+    
+  File "/Users/sumit/Github/quantum/qsim/lean_export.py", line 127, in regen_v1
+    allnew = dict(info, tr_g_midrad=IN.midrad(IA.tr(g)), tr_h_midrad=IN.midrad(IA.tr(h)), tr_comm_midrad=IN.midrad(c))
+              ^^^^^^^^
+KeyError: 'tr_g_midrad'
