@@ -104,3 +104,29 @@ passes.** A certificate that fails its gate is reported as such and is not cover
 
 **Gap:** the boxes are only as trustworthy as the enclosure that produced them, and that stays outside Lean, by
 design and stated.
+
+## DISCLOSURE (2026-10-10): export gate failures on tschaos rows 1 and 4, diagnosis, and an exporter fix (post-failure)
+
+**What failed.** For tschaos rows 1 and 4 (v1 and v2), the regenerated certificates were valid (`certificate_ok`)
+and agreed with the record at every midpoint digit, but **radii differed in the 4th significant digit**, for example
+1.5275e−26 vs 1.5276e−26. Per the gate, **nothing was exported for them.**
+
+**Diagnosis, demonstrated rather than assumed.**
+1. `locate_a6` is bitwise deterministic within a process: 4 repeated runs agree exactly.
+2. The regeneration reproduces itself exactly across fresh processes.
+3. **Hash seed is not the cause:** the compiled forms are identical under PYTHONHASHSEED = 0…3.
+4. **The cause is hidden global state.** `locate_a6` refines roots with `mp.findroot`, which uses the process-global
+   `mpmath.mp.dps`. The recorded TS chaos-levels run (`mr_ts2_chaos.run_row`) located its singular points AFTER
+   `gates()` had set `mp.mp.dps = 60`. The exporter ran at the default dps = 15. **With dps = 60 set first, the row-1
+   regeneration matches the record BIT-FOR-BIT.**
+
+**Fix (exporter only; the gate is unchanged and still bit-for-bit).** For the tschaos family, the exporter
+reproduces the recorded process state (`mpmath.mp.dps = 60` before locating). This replicates the recorded
+computation; no parameter was chosen to make the gate pass.
+- It is labelled **post-failure**, because it was found through a gate failure.
+- Rows 1 and 4 are re-exported under it at the end of the batch. Other families' recorded runs never ran
+  `gates()` before locating, so the default precision is the right state for them, and they pass as they are.
+
+**Recorded as a reproducibility hazard of the frozen pipeline** (not a rigour issue): the singular-point list,
+which only steers step sizes, depends on mpmath's global precision as left by earlier code in the same process.
+Every enclosure stays valid whatever the list is. Only bit-for-bit reproduction depends on it.

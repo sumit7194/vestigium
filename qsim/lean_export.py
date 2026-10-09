@@ -25,7 +25,11 @@ def source(family, row):
         d = json.load(open(os.path.join(HERE, f"mr_v2_ts2_row{row}.json")))
         return S, V.locate_a6(S), d, d["v1_replay"], 100
     if family == "tschaos":
-        import mr_ts2_chaos as C
+        import mr_ts2_chaos as C, mpmath
+        # 2026-10-10, disclosed post-gate-failure fix (tschaos row 1): the recorded run located singular points AFTER
+        # mr_ts2_chaos.gates() had left the GLOBAL mpmath precision at dps = 60, and locate_a6 refines with
+        # mp.findroot at that global precision. Reproduce that process state; the gate itself stays bit-for-bit.
+        mpmath.mp.dps = 60
         name, key, p, (En, L, mu2), kind = C.ROWS[row]
         S, _ = C.system(key, En, L, mu2)
         b = json.load(open(os.path.join(HERE, f"mr_ts2_chaos_row{row}.json")))["route_b"]
