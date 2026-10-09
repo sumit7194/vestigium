@@ -1,1 +1,3 @@
 0 row1 Dubeibe Fig.1               => OBSTRUCTION (two routes) [guard ok, peak 137.0 MB, 88.3 s]
+gate green (75 assertions)
+1 row2 Dubeibe level p=3/5         => OBSTRUCTION (two routes) [guard ok, peak 137.0 MB, 64.5 s]
