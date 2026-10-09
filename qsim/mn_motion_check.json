@@ -1,0 +1,167 @@
+{
+ "p1 equatorial (1, 0, 4)": {
+  "E_over_mu": 0.5,
+  "mass_M": "5/4",
+  "allowed": [
+   {
+    "interval": [
+     1.000000001,
+     1.0440128330328016
+    ],
+    "kind": "FROM-HORIZON"
+   },
+   {
+    "interval": [
+     1.0762420515050761,
+     2.002138298087553
+    ],
+    "kind": "BOUND"
+   }
+  ]
+ },
+ "p1 equatorial (1, 0, 9)": {
+  "E_over_mu": 0.3333333333333333,
+  "mass_M": "5/4",
+  "allowed": [
+   {
+    "interval": [
+     1.000000001,
+     1.0426910971245755
+    ],
+    "kind": "FROM-HORIZON"
+   },
+   {
+    "interval": [
+     1.0762420515050761,
+     1.4494401872561056
+    ],
+    "kind": "BOUND"
+   }
+  ]
+ },
+ "p1 equatorial (1, 1, 4)": {
+  "E_over_mu": 0.5,
+  "mass_M": "5/4",
+  "allowed": [
+   {
+    "interval": [
+     1.000000001,
+     1.0440128330328016
+    ],
+    "kind": "FROM-HORIZON"
+   },
+   {
+    "interval": [
+     1.0762420515050761,
+     1.9694358604457058
+    ],
+    "kind": "BOUND"
+   }
+  ]
+ },
+ "p1 axial (1, 4)": {
+  "E_over_mu": 0.5,
+  "mass_M": "5/4",
+  "allowed": [
+   {
+    "interval": [
+     1.000000001,
+     1.841546727838726
+    ],
+    "kind": "FROM-HORIZON"
+   }
+  ]
+ },
+ "p1 axial (1, 9)": {
+  "E_over_mu": 0.3333333333333333,
+  "mass_M": "5/4",
+  "allowed": [
+   {
+    "interval": [
+     1.000000001,
+     1.294896390217506
+    ],
+    "kind": "FROM-HORIZON"
+   }
+  ]
+ },
+ "p2 equatorial (1, 0, 4)": {
+  "E_over_mu": 0.5,
+  "mass_M": "13/12",
+  "allowed": [
+   {
+    "interval": [
+     1.0191839490455106,
+     1.020475886826725
+    ],
+    "kind": "BOUND"
+   },
+   {
+    "interval": [
+     1.2092768814359596,
+     1.6203745185217824
+    ],
+    "kind": "BOUND"
+   }
+  ]
+ },
+ "p2 equatorial (1, 0, 9)": {
+  "E_over_mu": 0.3333333333333333,
+  "mass_M": "13/12",
+  "allowed": [
+   {
+    "interval": [
+     1.0191839490455106,
+     1.020475886826725
+    ],
+    "kind": "BOUND"
+   }
+  ]
+ },
+ "p2 equatorial (1, 1, 4)": {
+  "E_over_mu": 0.5,
+  "mass_M": "13/12",
+  "allowed": [
+   {
+    "interval": [
+     1.0191839490455106,
+     1.020475886826725
+    ],
+    "kind": "BOUND"
+   },
+   {
+    "interval": [
+     1.2092768814359596,
+     1.6101433646831094
+    ],
+    "kind": "BOUND"
+   }
+  ]
+ },
+ "p2 axial (1, 4)": {
+  "E_over_mu": 0.5,
+  "mass_M": "13/12",
+  "allowed": [
+   {
+    "interval": [
+     1.000000001,
+     1.853248262179304
+    ],
+    "kind": "FROM-HORIZON"
+   }
+  ]
+ },
+ "p2 axial (1, 9)": {
+  "E_over_mu": 0.3333333333333333,
+  "mass_M": "13/12",
+  "allowed": [
+   {
+    "interval": [
+     1.000000001,
+     1.3725965937377136
+    ],
+    "kind": "FROM-HORIZON"
+   }
+  ]
+ }
+}

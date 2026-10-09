@@ -469,3 +469,9 @@ MN p2 = (13, 5, −1/3), (E, L, μ²) = (1, 1, 4) (`qsim/mr_v2_a7_row5_N140.json
   logged next to its N = 140 success.
 - **Claim scope.** As registered: meromorphic first integrals, a complex neighbourhood of the equatorial solution, the
   tested parameter points and levels, and the supplied metric.
+
+
+**FOOTNOTE (2026-10-10, bridge request): bound or plunging real motion at the registered MN levels.** `qsim/mn_motion_check.{py,json}`, a NUMERIC sign scan of ẋ² (mpmath, dense log grid on x > 1). Not a proof, and not used by any verdict: Morales–Ramis needs only the complex phase curve, and an OBSTRUCTION along any particular solution rules out a global meromorphic integral. Mass at σ = 1: M = 5/4 (p1), 13/12 (p2).
+- **Axial levels (1,4), (1,9), p1 and p2: plunge-only.** Real motion runs from the horizon (x = 1) out to a single turning point at x = 1.30–1.85.
+- **Equatorial levels:** a plunge region from the horizon to x ≈ 1.04 (p1), **plus an inner BOUND pocket close to the central object**: x ∈ (1.076, 2.00) at p1 (1,0,4) and (1,1,4); (1.076, 1.45) at p1 (1,0,9); (1.21, 1.62) at p2 (1,0,4) and (1,1,4). There is also a very narrow pocket at x ≈ 1.019–1.020 at p2, possibly a grid artefact at this resolution.
+- No far-field bound orbits exist at these levels, since E/μ = 1/2 and 1/3 are deeply bound energies. The equatorial obstruction verdicts therefore concern near-horizon bound and plunging equatorial motion; the axial ones concern plunging motion.
