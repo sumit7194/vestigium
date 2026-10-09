@@ -104,8 +104,9 @@ def regen_v2(S, sing, d):
     cache = {n: res[n]["M"] for n in names}
     g, h = _compose(d["g"], cache, IN.matmul), _compose(d["h"], cache, IN.matmul)
     ok, info = IN.certificate_gl2(g, h)
-    rec = {k: d[k] for k in ("w_g_midrad", "w_h_midrad", "tr_comm_midrad")}
-    new = {k: info[k] for k in rec}
+    keys = [k for k in ("w_g", "w_h", "tr_comm", "w_g_midrad", "w_h_midrad", "tr_comm_midrad") if k in d]
+    rec = {k: d[k] for k in keys}                       # every recorded field that exists is compared exactly
+    new = {k: info[k] for k in keys}
     return g, h, ok, rec, new
 
 
@@ -123,8 +124,10 @@ def regen_v1(S, sing, d, v1rec, N):
     g, h = _compose(d["g"], cache, IA._matmul), _compose(d["h"], cache, IA._matmul)
     ok, info = IA.certificate(g, h)
     c = IA.tr(IA._matmul(IA._matmul(g, h), IA._matmul(IA.inv(g), IA.inv(h))))
-    new = dict(tr_g_midrad=IN.midrad(IA.tr(g)), tr_h_midrad=IN.midrad(IA.tr(h)), tr_comm_midrad=IN.midrad(c))
-    rec = {k: v1rec[k] for k in new}
+    allnew = dict(info, tr_g_midrad=IN.midrad(IA.tr(g)), tr_h_midrad=IN.midrad(IA.tr(h)), tr_comm_midrad=IN.midrad(c))
+    keys = [k for k in ("tr_g", "tr_h", "tr_comm", "tr_g_midrad", "tr_h_midrad", "tr_comm_midrad") if k in v1rec]
+    rec = {k: v1rec[k] for k in keys}                   # every recorded field that exists is compared exactly
+    new = {k: allnew[k] for k in keys}
     return g, h, ok, rec, new
 
 
@@ -145,8 +148,48 @@ def regen_kerr(S, sing, b):
     return g, h, names, rec, new
 
 
+def regen_mnaxv1(row):
+    """MN axial A5 verdict certificates (mr_mn_axis G3, 2ce8b41): the record holds names rounded to 4 decimals, not
+    exact geometry, so the frozen deterministic search itself is re-run (seeded base point, nearest-first, first
+    certified pair), and the matrices are captured at the moment IA.certificate first returns ok.
+    Gate: the recorded g/h words and tr_g / tr_h / tr_comm Arb strings are reproduced exactly."""
+    import mr_mn_axis as MA, ia_hub as IA
+    rec_all = json.load(open(os.path.join(HERE, "mr_mn_G3_run.json")))[row]
+    p_, lev = [(p, l) for p in ("p1", "p2") for l in MA.LEVELS][row]
+    cap, orig = {}, IA.certificate
+    def wrap(A, B):
+        ok, info = orig(A, B)
+        if ok and "g" not in cap:
+            cap.update(g=A, h=B)
+        return ok, info
+    IA.certificate = wrap
+    try:
+        out = MA.run_task(("mn_ax", p_, lev[0], lev[1]))
+    finally:
+        IA.certificate = orig
+    f_rec, f_new = rec_all["forms"]["r_xi1"], out["forms"]["r_xi1"]
+    keys = ("g", "h", "tr_g", "tr_h", "tr_comm")
+    rec = {k: f_rec.get(k) for k in keys}
+    new = {k: f_new.get(k) for k in keys}
+    return cap.get("g"), cap.get("h"), bool(f_new.get("found")), rec, new
+
+
 def run(family, row, which):
     t0 = time.time()
+    if family == "mnaxv1":
+        g, h, ok, rec, new = regen_mnaxv1(row)
+        out = dict(family=family, row=row, which="v1", N=100, g_word=new["g"], h_word=new["h"], certificate_ok=ok,
+                   gate_bit_for_bit=(rec == new), recorded=rec, regenerated=new, seconds=round(time.time() - t0, 1))
+        if rec == new and g is not None:
+            Bg, Bh = box(g), box(h)
+            out.update(readback=(readback_ok(g, Bg) and readback_ok(h, Bh)), G=Bg, H=Bh)
+        os.makedirs(OUTDIR, exist_ok=True)
+        json.dump(out, open(os.path.join(OUTDIR, f"mnaxv1_{row}_v1.json"), "w"), indent=1)
+        print(f"mnaxv1 row {row}: certificate_ok={ok} bit_for_bit={rec == new} readback={out.get('readback')} "
+              f"[{out['seconds']} s]", flush=True)
+        if rec != new:
+            print("  recorded  :", rec, "\n  regenerated:", new, flush=True)
+        return out
     if family == "kerrctl":                                  # tschaos control rows 8, 9 (Kerr-WP)
         import mr_ts2_chaos as C, mr_v2 as V
         name, key, p, (En, L, mu2), kind = C.ROWS[row]
