@@ -1,0 +1,278 @@
+{
+ "ts2_0_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 29.6,
+  "N": 100,
+  "words": [
+   "g[0.482413-1.762450j,r0.27067]*g[1.677466+0.000000j,r0.20324]",
+   "g[0.482413-1.762450j,r0.27067]*g[0.000000-1.000000j,r0.14813]"
+  ],
+  "error": null
+ },
+ "ts2_0_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.4,
+  "N": 140,
+  "words": [
+   "g[0.482413-1.762450j,r0.27067]*g[1.677466+0.000000j,r0.20324]",
+   "g[0.482413-1.762450j,r0.27067]*g[0.000000-1.000000j,r0.14813]"
+  ],
+  "error": null
+ },
+ "ts2_1_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.6,
+  "N": 100,
+  "words": [
+   "g[0.396025+1.604447j,r0.21679]*g[1.677466-0.000000j,r0.20324]",
+   "g[0.396025+1.604447j,r0.21679]*g[-0.000000+1.000000j,r0.13118]"
+  ],
+  "error": null
+ },
+ "ts2_1_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.1,
+  "N": 140,
+  "words": [
+   "g[0.396025+1.604447j,r0.21679]*g[1.677466-0.000000j,r0.20324]",
+   "g[0.396025+1.604447j,r0.21679]*g[-0.000000+1.000000j,r0.13118]"
+  ],
+  "error": null
+ },
+ "ts2_2_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.0,
+  "N": 100,
+  "words": [
+   "g[0.566089-1.762415j,r0.28488]*g[1.677466+0.000000j,r0.20324]",
+   "g[0.566089-1.762415j,r0.28488]*g[-0.000000-1.000000j,r0.15390]"
+  ],
+  "error": null
+ },
+ "ts2_2_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.3,
+  "N": 140,
+  "words": [
+   "g[0.566089-1.762415j,r0.28488]*g[1.677466+0.000000j,r0.20324]",
+   "g[0.566089-1.762415j,r0.28488]*g[-0.000000-1.000000j,r0.15390]"
+  ],
+  "error": null
+ },
+ "ts2_3_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.5,
+  "N": 100,
+  "words": [
+   "g[0.229563-1.462175j,r0.15481]*g[1.401119+0.000000j,r0.12034]",
+   "g[0.229563-1.462175j,r0.15481]*g[-0.000000-1.000000j,r0.10460]"
+  ],
+  "error": null
+ },
+ "ts2_3_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.3,
+  "N": 140,
+  "words": [
+   "g[0.229563-1.462175j,r0.15481]*g[1.401119+0.000000j,r0.12034]",
+   "g[0.229563-1.462175j,r0.15481]*g[-0.000000-1.000000j,r0.10460]"
+  ],
+  "error": null
+ },
+ "ts2_4_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.9,
+  "N": 100,
+  "words": [
+   "g[0.146429+1.070289j,r0.04637]*g[1.401119+0.000000j,r0.12034]",
+   "g[1.401119+0.000000j,r0.12034]*g[0.125479+0.917160j,r0.04511]"
+  ],
+  "error": null
+ },
+ "ts2_4_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.5,
+  "N": 140,
+  "words": [
+   "g[0.146429+1.070289j,r0.04637]*g[1.401119+0.000000j,r0.12034]",
+   "g[1.401119+0.000000j,r0.12034]*g[0.125479+0.917160j,r0.04511]"
+  ],
+  "error": null
+ },
+ "ts2_5_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.5,
+  "N": 100,
+  "words": [
+   "g[0.372968+1.518838j,r0.19169]*g[1.401119+0.000000j,r0.12034]",
+   "g[0.372968+1.518838j,r0.19169]*g[-0.000000+1.000000j,r0.12257]"
+  ],
+  "error": null
+ },
+ "ts2_5_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.5,
+  "N": 140,
+  "words": [
+   "g[0.372968+1.518838j,r0.19169]*g[1.401119+0.000000j,r0.12034]",
+   "g[0.372968+1.518838j,r0.19169]*g[-0.000000+1.000000j,r0.12257]"
+  ],
+  "error": null
+ },
+ "tschaos_0_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.1,
+  "N": 100,
+  "words": [
+   "g[0.765281+1.062042j,r0.16354]*g[1.401119-0.000000j,r0.12034]",
+   "g[0.765281+1.062042j,r0.16354]*g[0.446596+0.619777j,r0.16354]"
+  ],
+  "error": null
+ },
+ "tschaos_0_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 5.9,
+  "N": 140,
+  "words": [
+   "g[0.765281+1.062042j,r0.16354]*g[1.401119-0.000000j,r0.12034]",
+   "g[0.765281+1.062042j,r0.16354]*g[0.446596+0.619777j,r0.16354]"
+  ],
+  "error": null
+ },
+ "tschaos_1_v1": {
+  "status": "export gate not passed"
+ },
+ "tschaos_1_v2": {
+  "status": "export gate not passed"
+ },
+ "tschaos_2_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.5,
+  "N": 100,
+  "words": [
+   "g[0.751335+1.074910j,r0.16469]*g[1.401119+0.000000j,r0.12034]",
+   "g[0.751335+1.074910j,r0.16469]*g[0.436839+0.624971j,r0.16469]"
+  ],
+  "error": null
+ },
+ "tschaos_2_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.2,
+  "N": 140,
+  "words": [
+   "g[0.751335+1.074910j,r0.16469]*g[1.401119+0.000000j,r0.12034]",
+   "g[0.751335+1.074910j,r0.16469]*g[0.436839+0.624971j,r0.16469]"
+  ],
+  "error": null
+ },
+ "tschaos_3_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.1,
+  "N": 100,
+  "words": [
+   "g[0.767422+1.065078j,r0.16530]*g[1.401119+0.000000j,r0.12034]",
+   "g[0.767422+1.065078j,r0.16530]*g[0.445314+0.618036j,r0.16530]"
+  ],
+  "error": null
+ },
+ "tschaos_3_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.7,
+  "N": 140,
+  "words": [
+   "g[0.767422+1.065078j,r0.16530]*g[1.401119+0.000000j,r0.12034]",
+   "g[0.767422+1.065078j,r0.16530]*g[0.445314+0.618036j,r0.16530]"
+  ],
+  "error": null
+ },
+ "tschaos_4_v1": {
+  "status": "export gate not passed"
+ },
+ "tschaos_4_v2": {
+  "status": "export gate not passed"
+ },
+ "tschaos_5_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.7,
+  "N": 140,
+  "words": [
+   "g[0.774246+0.975857j,r0.13288]*g[1.677466+0.000000j,r0.20324]",
+   "g[0.774246+0.975857j,r0.13288]*g[0.498949+0.628874j,r0.13288]"
+  ],
+  "error": null
+ },
+ "tschaos_5_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.2,
+  "N": 140,
+  "words": [
+   "g[0.774246+0.975857j,r0.13288]*g[1.677466+0.000000j,r0.20324]",
+   "g[0.774246+0.975857j,r0.13288]*g[0.498949+0.628874j,r0.13288]"
+  ],
+  "error": null
+ },
+ "tschaos_6_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.3,
+  "N": 140,
+  "words": [
+   "g[0.790762+0.965491j,r0.13401]*g[1.677466+0.000000j,r0.20324]",
+   "g[0.790762+0.965491j,r0.13401]*g[0.507719+0.619907j,r0.13401]"
+  ],
+  "error": null
+ },
+ "tschaos_6_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.6,
+  "N": 140,
+  "words": [
+   "g[0.790762+0.965491j,r0.13401]*g[1.677466+0.000000j,r0.20324]",
+   "g[0.790762+0.965491j,r0.13401]*g[0.507719+0.619907j,r0.13401]"
+  ],
+  "error": null
+ }
+}

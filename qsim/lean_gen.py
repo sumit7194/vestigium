@@ -46,6 +46,8 @@ def {n}_H : MB := {mb(d['H'])}
 {"" if not kerr else "/-- INTEGRABLE CONTROL (Kerr): the checker must REJECT. -/"}
 theorem {n}_check : check {n}_G {n}_H = {"false" if kerr else "true"} := by decide +kernel
 {"" if kerr else chr(10) + f"theorem {n} : CertConclusion {n}_G {n}_H := cert_of_check _ _ {n}_check" + chr(10)}
+{"" if kerr else f"#print axioms {n}"}
+
 end Certs
 """
     fn = os.path.join(OUT, f"{n}.lean")
