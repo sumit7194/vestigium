@@ -603,3 +603,66 @@ What R-a does establish, narrowly: **my Taylor coefficients, truncated at the
 order Helmes et al. state, reproduce Helmes et al.'s published sum at its printed
 precision.** That is a statement about my coefficients against a SHARED published
 value. It is not a statement about how CHL computed `0.02366`.
+
+---
+
+# AMENDMENT C1-R (2026-10-10), POST-FAILURE: replacement reference for control 1. Filed before the reference is computed.
+
+**Status and label.** The user approved this, delegated through the bridge; Cuspis was consulted on the choice of
+reference. **Control 1 FAILED under the original registration (2026-09-23), and that verdict stays on the
+record.** Every downstream result of this amendment carries the label *"passed under an amendment adopted after
+a documented control failure"*.
+
+**What is replaced, and what is not.** The reference `0.02366/2` (CHL09 Table 1, 4 significant figures) is
+**replaced**. The tolerance is **unchanged: 2.1e−4 relative.** Nothing else in this registration changes.
+
+**New reference: HHCWM16** (Helmes, Hayward Sierens, Chandran, Witczak-Krempa, Melko, PRB 94, 125142;
+arXiv:1606.03096), **Table 3, boson, α = 1 row.**
+- **Transcribed by me from the paper's arXiv HTML** (generated from the authors' TeX). Checked visually against
+  the rendered table, and NOT taken from any workspace copy. (The bridge's note of a copy at
+  `scripts/exp012_sign.py` in this tree: no such file exists here or anywhere in this repo's history.)
+- **The coefficients are SHARED INPUT with cuspis**, declared as such.
+
+| coefficient (complex boson) | transcribed value |
+|---|---|
+| σ = σ⁽⁰⁾ | 1/128 (exact; self-check, = 2 × 1/256) |
+| σ′ = σ⁽¹⁾ | (20 + 3π²)/(9216π²) (exact closed form) |
+| σ″ = σ⁽²⁾ | 5.34655497 × 10⁻⁵ |
+| σ⁽³⁾ | 5.40160621 × 10⁻⁶ |
+| σ⁽⁴⁾ | 5.45758486 × 10⁻⁷ |
+| σ⁽⁵⁾ | 5.51156763 × 10⁻⁸ |
+| σ⁽⁶⁾ | 5.57181927 × 10⁻⁹ |
+| σ⁽⁷⁾ | 5.63580458 × 10⁻¹⁰ |
+
+- **Rounding.** HHCWM16 Appendix A: "the last one was rounded". So each tabulated value carries ±½ unit in its
+  last digit, propagated into both ends.
+- **Convention.** HHCWM16 eqs. (22)–(23) give a(θ) = Σ_{p≥0} σ⁽ᵖ⁾ (θ − π)^{2p+2}. At θ = π/2, ε = π/2.
+- **κ** (for the reference tail only): CHL09 Table 1, complex scalar `c₋₁⁽⁰⁾ = 7.94 × 10⁻²`. Transcribed by me
+  from the arXiv HTML and confirmed against the published PDF, p. 9 (the user's download).
+
+**The reference is an interval, built one-sided and honestly.**
+- **Lower end L = S₈**, the 8-term truncated sum (p = 0…7), evaluated with each coefficient at the bottom of its
+  rounding interval. **Rigorous**, because every term is positive.
+- **Upper end U = S₈ (upper rounding) + T(r₇)**, where T(r) = (2r/π¹⁷)·ε¹⁸/[θ(2π − θ)] is the geometric tail
+  for p ≥ 8, and r₇ = σ⁽⁷⁾π¹⁷/2, taken at the top of σ⁽⁷⁾'s rounding interval.
+- **Why r₇ and not κ.** I checked before filing this: the normalised r_p = σ⁽ᵖ⁾π^{2p+3}/2 **decrease toward κ from
+  above** (0.08345, 0.08074, 0.08051, 0.08028, 0.08002, 0.07984, 0.07970 for p = 1…7, against κ = 0.0794). So eq.
+  (22)'s κ-tail **underestimates** the remainder and cannot serve as an upper end.
+- **U rests on the assumption that r_p keeps decreasing for p ≥ 8.** That is observed for p = 1…7 and NOT
+  proven, and it is labelled as such wherever U is quoted.
+- The κ-tail value S₈ + T(κ) is reported for reference only.
+- The interval is computed in mpmath interval arithmetic (iv), in both normalisations: complex as tabulated, and
+  real scalar = ½ × complex.
+
+**Control-1 test (amended).** Mine is the committed Stage-1 v3 value, `qsim/chl_controls_run.json`,
+**a(90°) = 0.011833425 (real scalar)**. The instrument is unchanged, so no re-run is needed for the verdict.
+- rel = 0 if mine ∈ [L, U]; otherwise rel = distance to the nearer end ÷ L.
+- **PASS iff rel ≤ 2.1e−4.**
+- The bridge receives L and U before the comparison is made, as an independent transcription check against a
+  value it holds sealed. **No comparison is made until the bridge confirms.**
+
+**Exposure, declared.** My own Taylor coefficients' order-16 partial sum, 2·S₈ = 0.02366659 (complex), is already
+on record under hypothesis R, and so is my full value 0.02366685. The new reference is built from Helmes's
+coefficients by the same kind of sum. So I can roughly anticipate the outcome. This amendment fixes the procedure,
+the transcription and the tolerance before the reference is computed, which is what limits that exposure to
+"known, not exploitable". The original FAILED verdict and the R rejection stand.
