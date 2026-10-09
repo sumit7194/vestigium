@@ -708,3 +708,67 @@ to every digit carried. Then `qsim/chl_c1r_verdict.{py,json}` ran.
 **Consequence under this registration:** control 1 now passes, so the sub-45° region is reportable, with every
 result carrying the amendment label. **No sub-45° number has been computed yet.** That is the next registered
 step, and the bridge will be told before it runs.
+
+---
+
+# STAGE 2 ADDENDUM (2026-10-10): the sub-45° run. Filed before any sub-45° node is computed.
+
+Control 1 passed under C1-R (66f5b2b). The bridge gave the GO for the registered stage.
+
+**Convention reconciliation: DONE, matches.** Cuspis's Part A was relayed verbatim by the bridge, with no values.
+- Real free scalar (complex = 2×).
+- n = 1.
+- S ⊃ −a(θ) log(R/δ) per corner, a > 0.
+- θ = opening angle (θ → π smooth, θ → 0 sharp).
+- C_T(real) = 3/(32π²).
+- Cuspis reports a(θ) (field "s", real-scalar normalisation) and quantities in units of C_T.
+
+These are exactly the conventions in "Conventions, fixed BEFORE seeing anything of theirs" above, so the gating step
+"conventions reconciled" is satisfied. **The Dirac arm is out of scope**: this solver implements the scalar equation
+(CHL09 eq. 61).
+
+**Angle list.** The list is cuspis's reported scalar angles, as literal decimal degrees converted with
+math.radians, plus two declared extras.
+
+| θ | role |
+|---|---|
+| 15, 20, 26.565, 30, 40 (literal decimals) | **compared** (sealed, by the bridge) |
+| arctan(1/2) = 26.5650512°… | HHCWM16 Table 1 anchor. **A different angle** from cuspis's 26.565, not compared with it |
+| 45 | the join to the validated region (reported, not compared) |
+| 90 | consistency: must reproduce Stage 1's 0.0118334248474 to ≤ 1e−9 (same instrument) |
+
+Each (t, q) node integrates once from x = π down to 15° and records every listed angle on the way, so 15° sets the
+cost.
+
+**Instrument: unchanged from Stage 1 v3.**
+- Same quadrature: coarse and fine resolutions as in `chl_run_controls.py`.
+- Same node solver (`chl_node.compute_node`), the same dps = 30 + 3M, the same T_MAX, and the same per-node
+  checkpointing.
+- **Gate (unchanged):** coarse and fine must agree to ≤ 1e−7 at an angle, or no value is reported there.
+- **One declared escalation step, fixed now:** if an angle fails the gate, a third resolution "finest" is run
+  (q: CC (32, 64, 64); t: n_s = 30) and the gate is fine vs finest. If that also fails, the angle is
+  **INCONCLUSIVE**. No other change is permitted without a new amendment.
+- **Two working precisions** (the registered precision floor): for the 30 nodes with the largest |weight ×
+  integrand| at 15°, recompute at dps + 15. The per-node values must agree to ≤ 1e−12 relative.
+
+**Controls on the output** (any failure means no value is reported):
+- a(θ) > 0 at every angle;
+- a strictly decreasing across the grid;
+- BWK16 a(θ) ≥ (π²C_T/3)·log[1/sin(θ/2)] at every angle;
+- the a(90°) consistency above;
+- **declared coarse anchor:** a(arctan 1/2) ≥ 0.07265 (HHCWM16 order-16 series lower bound, halved), and within
+  2.5% of the lattice value 0.077 (halved; HHCWM16 Table 1). This is SHARED INPUT with cuspis, so it is a reality
+  anchor, not a discriminator.
+- **Sharp-limit trend (information, not a gate):** θ·a(θ) at 15° and 20°, against κ_real = 0.0397.
+
+**Reporting.** Values with both resolutions, the gate margin, the controls, and a(θ)/C_T go to **the bridge first**.
+The bridge does the sealed comparison against cuspis using the registered agreement table (< 1e−6 AGREES;
+1e−6–1e−3 AGREES WITH A DISCREPANCY TO EXPLAIN; > 1e−3 DISAGREES). Nothing of cuspis's comes to me. **Every result
+carries the C1-R label:** *"passed under an amendment adopted after a documented control failure."*
+
+**Exposure, restated so it is read at the right discount.** Cuspis's TODO.md, which I held, mentions a
+double-precision floor near M ≈ 4 and a tail decay of 0.83 per unit M. If my run shows similar behaviour, it is not
+independent confirmation. My dps = 30 + 3M scaling was fixed in Stage 1, before this stage.
+
+**First step: a timing probe.** Single nodes at 15° (a typical (t, q) and the stiffest corner of the grid), timed and
+reported to the bridge before the full run.
