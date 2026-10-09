@@ -1,0 +1,57 @@
+{
+ "source": "HHCWM16 Table 3 (boson, alpha=1), transcribed from arXiv:1606.03096 HTML; kappa from CHL09 Table 1",
+ "r_p": [
+  "0.12111827",
+  "0.083451855",
+  "0.080740819",
+  "0.080508508",
+  "0.08028217",
+  "0.080019068",
+  "0.079839005",
+  "0.079702834"
+ ],
+ "r7_upper": "0.07970283442",
+ "complex_boson": {
+  "conservative": [
+   "0.0236665916715821",
+   "0.0236668497525976"
+  ],
+  "tight": [
+   "0.0236668486081205",
+   "0.0236668497525976"
+  ],
+  "S8": [
+   "0.0236665916715821",
+   "0.0236665916735759"
+  ],
+  "tail_r7": "2.58079e-7",
+  "tail_kappa": [
+   "2.56937e-7",
+   "2.5726e-7"
+  ]
+ },
+ "real_scalar": {
+  "conservative": [
+   "0.0118332958357911",
+   "0.0118334248762988"
+  ],
+  "tight": [
+   "0.0118334243040602",
+   "0.0118334248762988"
+  ],
+  "S8": [
+   "0.0118332958357911",
+   "0.0118332958367879"
+  ],
+  "tail_r7": "1.2904e-7",
+  "tail_kappa": [
+   "1.28468e-7",
+   "1.2863e-7"
+  ]
+ },
+ "labels": [
+  "L (S8) assumes non-negative omitted coefficients (observed, not proven at n=1)",
+  "U uses r7: assumes r_p non-increasing for p >= 8 (observed p=1..7, not proven)",
+  "control-1 verdict uses the CONSERVATIVE interval"
+ ]
+}
