@@ -679,3 +679,32 @@ wording above where they conflict.**
    - **Conservative:** [S₈, S₈ + T(r₇)].
    - **The control-1 verdict uses the CONSERVATIVE interval.** The tight interval is reported alongside it.
    - The rel and PASS rule are as stated above, applied to the conservative interval.
+
+## OUTCOME — amendment C1-R, control 1 (2026-10-10). **PASS under the amendment.**
+
+The bridge's sealed transcription check passed first: two independent transcriptions of HHCWM16 Table 3 agree
+to every digit carried. Then `qsim/chl_c1r_verdict.{py,json}` ran.
+
+| | value (real scalar) |
+|---|---|
+| mine (Stage-1 v3, fine resolution, committed in cfb2291) | **0.0118334248474285** |
+| conservative reference [S₈, S₈ + T(r₇)] | [0.0118332958357911, 0.0118334248762988] |
+| tight reference [S₈ + T(κ), S₈ + T(r₇)] | [0.0118334243040602, 0.0118334248762988] |
+| inside conservative / tight | **yes / yes** |
+| rel (registered rule) | **0** (tolerance 2.1e−4, unchanged) |
+
+- **Verdict: PASS**, *"passed under an amendment adopted after a documented control failure."*
+- Mine lies inside even the tight interval, 2.9e−11 (2.4e−9 relative) below its upper end. That is consistent
+  with the solver's own coarse-vs-fine convergence of 1.2e−9 at 90°.
+- **The original FAILED verdict (vs CHL09's 0.02366/2) and the R rejection stay on the record.** The 2.89e−4 gap
+  is now attributable to the 4-figure CHL09 reference, which the series shows to be low. That is an
+  explanation consistent with the amendment's justification, which rests on HHCWM16's published coefficients,
+  not on my failed value.
+- **Labels carried forward:**
+  - the lower end assumes non-negative omitted coefficients;
+  - the upper end assumes monotone r_p;
+  - the HHCWM16 coefficients are SHARED INPUT with cuspis.
+
+**Consequence under this registration:** control 1 now passes, so the sub-45° region is reportable, with every
+result carrying the amendment label. **No sub-45° number has been computed yet.** That is the next registered
+step, and the bridge will be told before it runs.

@@ -1,0 +1,18 @@
+{
+ "mine": "0.0118334248474285",
+ "conservative": [
+  "0.0118332958357911",
+  "0.0118334248762988"
+ ],
+ "inside_conservative": true,
+ "rel": "0.0",
+ "tol": "0.00021",
+ "verdict": "PASS",
+ "tight": [
+  "0.0118334243040602",
+  "0.0118334248762988"
+ ],
+ "inside_tight": true,
+ "position_in_conservative": "0.999776",
+ "label": "passed under an amendment adopted after a documented control failure"
+}
