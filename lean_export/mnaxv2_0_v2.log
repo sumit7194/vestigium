@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/sumit/Github/quantum/qsim/lean_export.py", line 189, in <module>
+    run(sys.argv[1], int(sys.argv[2]), sys.argv[3])
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sumit/Github/quantum/qsim/lean_export.py", line 168, in run
+    g, h, ok, rec, new = regen_v2(S, sing, d)
+                         ~~~~~~~~^^^^^^^^^^^^
+  File "/Users/sumit/Github/quantum/qsim/lean_export.py", line 107, in regen_v2
+    rec = {k: d[k] for k in ("w_g_midrad", "w_h_midrad", "tr_comm_midrad")}
+              ~^^^
+KeyError: 'w_g_midrad'
