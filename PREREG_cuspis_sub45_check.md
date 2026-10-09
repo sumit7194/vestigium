@@ -666,3 +666,16 @@ on record under hypothesis R, and so is my full value 0.02366685. The new refere
 coefficients by the same kind of sum. So I can roughly anticipate the outcome. This amendment fixes the procedure,
 the transcription and the tolerance before the reference is computed, which is what limits that exposure to
 "known, not exploitable". The original FAILED verdict and the R rejection stand.
+
+**Refinements to C1-R, from Cuspis via the bridge. Filed before the reference is computed; they supersede the
+wording above where they conflict.**
+1. **The lower end is not "rigorous by positivity".** S₈ is a lower bound **given non-negative omitted
+   coefficients σ⁽ᵖ⁾, p ≥ 8.** That is observed at every published order and expected from reflection positivity,
+   but **not proven at n = 1**. It is labelled that way.
+2. **Two intervals, both reported.** Cuspis independently confirmed, from its own copy of the published table,
+   that r_p is monotone decreasing and above κ.
+   - Under that monotonicity, the κ-tail is a lower estimate of the remainder and the r₇-tail an upper one.
+   - **Tight:** [S₈ + T(κ), S₈ + T(r₇)].
+   - **Conservative:** [S₈, S₈ + T(r₇)].
+   - **The control-1 verdict uses the CONSERVATIVE interval.** The tight interval is reported alongside it.
+   - The rel and PASS rule are as stated above, applied to the conservative interval.
