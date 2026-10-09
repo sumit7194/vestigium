@@ -1,0 +1,7 @@
+gates: {'invariance': True, 'provenance_worst_rel': 8.14698946522738e-57, 'pass_': True}
+route A (2b'): {'r_xi2': 'INCONCLUSIVE', 'r_xi1': 'INCONCLUSIVE'}
+[1s] 8 located singular points
+[8s]   batch 1: 3 generators, 15 pairs, 750 steps, 6.8s
+[19s]   batch 2: 6 generators, 210 pairs, 1814 steps, 10.8s
+[26s]   batch 3: 8 generators, 630 pairs, 2411 steps, 7.6s
+[26s] v2 certificate found: False no certified pair in the registered candidate list
