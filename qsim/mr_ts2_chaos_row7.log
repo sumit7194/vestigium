@@ -1,0 +1,5 @@
+gates: {'invariance': True, 'provenance_worst_rel': 2.533131998863536e-55, 'pass_': True}
+route A (2b'): {'r_xi2': 'OBSTRUCTION', 'r_xi1': 'OBSTRUCTION'}
+[2s] 20 located singular points
+[24s] v2 certificate found: True 
+[71s] v1 replay N=100: True
