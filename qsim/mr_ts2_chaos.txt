@@ -3,3 +3,5 @@ gate green (75 assertions)
 1 row2 Dubeibe level p=3/5         => OBSTRUCTION (two routes) [guard ok, peak 137.0 MB, 64.5 s]
 gate green (75 assertions)
 2 row3 near-sep                    => OBSTRUCTION (two routes) [guard ok, peak 137.0 MB, 65.5 s]
+gate green (75 assertions)
+3 row4 near-sep                    => OBSTRUCTION (two routes) [guard ok, peak 138.0 MB, 69.1 s]
