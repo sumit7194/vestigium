@@ -9,3 +9,6 @@ gate green (75 assertions)
 4 row5 near-sep other sense        => OBSTRUCTION (two routes) [guard ok, peak 136.0 MB, 51.9 s]
 gate green (75 assertions)
 5 row6 near-sep                    => OBSTRUCTION (two routes) [guard ok, peak 136.0 MB, 101.6 s]
+gate green (75 assertions)
+  audit_sweep: 204 hits (UP from 188) — a claim may have been added, not just moved
+6 row7 near-sep                    => OBSTRUCTION (two routes) [guard ok, peak 137.0 MB, 137.3 s]
