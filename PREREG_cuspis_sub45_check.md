@@ -906,3 +906,33 @@ sets:
 truncation is the probable source, and a corrected NEW stage (an extended q range) would be registered separately. If
 the stable nodes decay fast and the omission is ≪ the gap, the gap is unexplained by my instrument, as far as these
 diagnostics reach. **The verdicts stand either way.**
+
+### D2a′ OUTCOME (2026-10-10): **the probable source of the disagreement is MY q truncation**
+
+`qsim/chl_sub45_D2ap.{py,txt}`, `chl_sub45_D2ap_nodes.jsonl`. This run was interrupted by the power loss at 19:29
+and resumed from its checkpoint: 31/40 nodes survived, and the remaining 9 were run after restart.
+- **Nodes failed:** 10 (set A, Newton, at q ≳ 16).
+- **Stable nodes** (A vs B ≤ 1e−6) reach q ≈ t + 9. The registered estimate uses ONLY those.
+
+| | integrand f at the cut (t = 0.3) | stable decay rate per unit q | omitted ∫ beyond cut, integrated over t | relative to a(θ) |
+|---|---|---|---|---|
+| 15° | +2.23e−3 | ≈ 0.51 (t = 0.3), 0.36 (t = 1.37) | ≈ +3.8e−3 | **≈ +2.7e−2** |
+| 40° | +3.0e−6 | ≈ 1.39, 1.31 | ≈ +1.9e−6 | ≈ +4e−5 |
+
+- **How the t-integration was estimated:** exponential interpolation between the two measured t values. It is an
+  order-of-magnitude estimate, as registered.
+- **The D1 gap at 15° is −2.5e−2** (mine below the published interval). The omitted tail has the **same sign** (adding
+  it raises my value) and essentially the **same size**, well within the registered factor 3.
+- At 40°, an omission of ≈ 4e−5 fits "inside the tight interval" in D1, and the sealed "AGREES WITH A DISCREPANCY
+  TO EXPLAIN".
+
+**Reading, per the registered rule: the probable source of the sub-45 DISAGREES is my instrument's q cut at
+t + 7.5,** which drops a real positive tail that grows as θ → 0. This was untested below 45°, and the
+coarse-vs-fine gate is blind to it. Cuspis's values are not implicated by anything here.
+- **The registered DISAGREES verdicts stand as the record of this check.** They were a correct finding: the
+  instrument was defective below 45°.
+- **A corrected stage would be a NEW registration:** an extended q range, method set B (or stronger) for
+  high-M stability, and a q-tail convergence gate in addition to the resolution gate. It would be decided with the
+  bridge and the user, not done silently.
+- **Lesson recorded:** a resolution gate certifies nothing about truncation. Every cut-off needs its own
+  convergence test, especially outside the range where the cut-offs were validated.
