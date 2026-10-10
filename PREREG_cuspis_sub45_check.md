@@ -970,3 +970,25 @@ D2a′'s set A failed Newton beyond q ≈ 16. So, first:
   Stage-2 nodes are reused, with D3 having shown the high-M ones negligible. The 50 highest-M in-range nodes are
   recomputed with set B as a check.
 - **Reporting:** to the bridge first; sealed comparison, same agreement table.
+
+### Stage 3a OUTCOME (2026-10-10): **a structural stability wall at M ≈ 14; the registered 1e−7 tail gate is not reachable at sharp angles**
+
+`qsim/chl_sub45_S3a.{py,txt}`, `chl_sub45_S3a_nodes.jsonl`: 48 jobs, 25 failed.
+- **B vs C agree to ≤ 1e−8 only up to q ≈ t + 13.5 (M ≈ 14).** The agreement is 1e−8 at t + 13.5, 2e0 at t + 16.5 and
+  1e8 at t + 19.5. Newton fails beyond about t + 22.
+- **Raising the method from B to C does not move the wall** (higher Taylor order, longer start series, half the
+  path step, +15 digits). The breakdown is structural in this solver, not a precision setting.
+- **The stable region decays cleanly and exponentially.** At 15°, t = 0.3, f = 2.23e−3, 4.82e−4, 1.03e−4 at
+  q = 7.8, 10.8, 13.8: ratios 0.216 and 0.214 per 3 units, i.e. ≈ 0.51 per unit q. At t = 1.37 it is ≈ 0.38 per unit;
+  at 40° ≈ 1.40.
+- Cost: B ≈ 125–170 s per node; C ≈ 305–345 s.
+
+**Consequence.** The Stage-3 design as registered (cuts out to Q₂ ≈ t + 40, tail correction ≤ 1e−7 of a) is not
+achievable with this solver at 15–26.565°. The two options are:
+- **(i)** a direct integral to q = t + 13.5 (stable region), plus a fitted exponential tail beyond it, with the tail
+  uncertainty taken from the fit spread over the stable points. The precision achievable is stated per angle, not
+  promised.
+- **(ii)** a new large-M method for the node solver, for example an asymptotic expansion in M or a re-ordered
+  integration. That would be a larger, separate development.
+
+**Option (i) needs a revised Stage-3 addendum, which goes to the bridge before any Stage-3 run.**
