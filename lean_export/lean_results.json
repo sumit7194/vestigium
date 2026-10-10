@@ -382,5 +382,173 @@
    "g[0.924929+1.678121j,r0.34407]*g[-0.000000+1.000000j,r0.17956]"
   ],
   "error": null
+ },
+ "mnaxv2_0_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 37.7,
+  "N": 100,
+  "words": [
+   "g[1.841450+0.000000j,r0.55244]*g[-0.463272+0.172144j,r0.07395]",
+   "g[1.841450+0.000000j,r0.55244]*g[-0.632982+0.350911j,r0.07395]"
+  ],
+  "error": null
+ },
+ "mnaxv2_0_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.1,
+  "N": 140,
+  "words": [
+   "g[1.841450+0.000000j,r0.55244]*g[-0.463272+0.172144j,r0.07395]",
+   "g[1.841450+0.000000j,r0.55244]*g[-0.632982+0.350911j,r0.07395]"
+  ],
+  "error": null
+ },
+ "mnaxv2_1_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 5.4,
+  "N": 100,
+  "words": [
+   "g[1.293271-0.000000j,r0.38798]*g[-0.451162+0.137024j,r0.08221]",
+   "g[1.293271-0.000000j,r0.38798]*g[-0.632982+0.350911j,r0.08422]"
+  ],
+  "error": null
+ },
+ "mnaxv2_1_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 5.1,
+  "N": 140,
+  "words": [
+   "g[1.293271-0.000000j,r0.38798]*g[-0.451162+0.137024j,r0.08221]",
+   "g[1.293271-0.000000j,r0.38798]*g[-0.632982+0.350911j,r0.08422]"
+  ],
+  "error": null
+ },
+ "mnaxv2_2_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 5.2,
+  "N": 100,
+  "words": [
+   "g[-1.038727-0.000000j,r0.16070]*g[-0.600862+0.308558j,r0.16070]",
+   "g[-0.418327-0.339404j,r0.16161]"
+  ],
+  "error": null
+ },
+ "mnaxv2_2_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 5.2,
+  "N": 140,
+  "words": [
+   "g[-1.038727-0.000000j,r0.16070]*g[-0.600862+0.308558j,r0.16070]",
+   "g[-0.418327-0.339404j,r0.16161]"
+  ],
+  "error": null
+ },
+ "mnaxv2_3_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 5.0,
+  "N": 100,
+  "words": [
+   "g[-1.018103+0.000000j,r0.15568]*g[-0.159761+0.573179j,r0.17851]",
+   "g[-1.018103+0.000000j,r0.15568]*g[-0.600862-0.308558j,r0.06453]"
+  ],
+  "error": null
+ },
+ "mnaxv2_3_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 4.9,
+  "N": 140,
+  "words": [
+   "g[-1.018103+0.000000j,r0.15568]*g[-0.159761+0.573179j,r0.17851]",
+   "g[-1.018103+0.000000j,r0.15568]*g[-0.600862-0.308558j,r0.06453]"
+  ],
+  "error": null
+ },
+ "mneq_0_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.4,
+  "N": 140,
+  "words": [
+   "g[0.185747+0.000000j,r0.10037]*g[-0.560195-0.000000j,r0.01331]",
+   "g[-0.148818+0.000000j,r0.10037]*g[-0.560195-0.000000j,r0.01331]"
+  ],
+  "error": null
+ },
+ "mneq_1_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 7.4,
+  "N": 140,
+  "words": [
+   "g[1.261448+0.321527j,r0.02573]*g[1.287403+0.239791j,r0.02573]",
+   "g[1.261448+0.321527j,r0.02573]*g[-0.160033-0.000000j,r0.12625]"
+  ],
+  "error": null
+ },
+ "mneq_2_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.9,
+  "N": 140,
+  "words": [
+   "g[1.040751+0.467712j,r0.03132]*g[1.008052+0.368562j,r0.03132]",
+   "g[1.040751+0.467712j,r0.03132]*g[0.197612+0.000000j,r0.11550]"
+  ],
+  "error": null
+ },
+ "mneq_3_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.8,
+  "N": 140,
+  "words": [
+   "g[0.307967+0.000000j,r0.20761]*g[-0.475137+0.228583j,r0.07700]",
+   "g[0.307967+0.000000j,r0.20761]*g[-0.770352+0.376565j,r0.01744]"
+  ],
+  "error": null
+ },
+ "mneq_4_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 6.7,
+  "N": 140,
+  "words": [
+   "g[1.463086+0.119077j,r0.07145]*g[0.844094+0.462285j,r0.03806]",
+   "g[0.844094+0.462285j,r0.03806]*g[0.423610-0.000000j,r0.15468]"
+  ],
+  "error": null
+ },
+ "mneq_5_v2": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 7.0,
+  "N": 140,
+  "words": [
+   "g[1.886392-0.000000j,r0.13088]*g[0.816639+0.360313j,r0.03445]",
+   "g[1.471429+0.134698j,r0.08082]*g[0.307780-0.000000j,r0.18705]"
+  ],
+  "error": null
  }
 }
