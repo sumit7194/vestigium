@@ -936,3 +936,37 @@ coarse-vs-fine gate is blind to it. Cuspis's values are not implicated by anythi
   bridge and the user, not done silently.
 - **Lesson recorded:** a resolution gate certifies nothing about truncation. Every cut-off needs its own
   convergence test, especially outside the range where the cut-offs were validated.
+
+---
+
+# STAGE 3 (2026-10-10): corrected sub-45 run, **NON-BLIND**. Registered before any Stage-3 computation.
+
+Approved by the bridge under the user's standing instruction. **Labelled NON-BLIND:** I know the direction and
+size of my Stage-2 defect (D1, D2a′) and the published-series interval. **The Stage-2 values and the sealed
+verdicts stay on the record unchanged.** Every Stage-3 value also carries the C1-R label.
+
+## Stage 3a: feasibility probe, run first and reported before the Stage-3 grid is fixed
+
+Extending the q range far enough means q ≈ t + 40 at 15° (decay ≈ 0.36–0.51 per unit q), so M ≈ 40 and dps ≈ 150.
+D2a′'s set A failed Newton beyond q ≈ 16. So, first:
+- **Nodes:** t ∈ {0.3, 1.37}, q = t + 7.5 + 3k (k = 0…11, up to t + 40.5), at 15° and 40°.
+- **Method sets:**
+  - **B:** taylor_N 60, N 54, eps0 0.05, dps 45 + 3M;
+  - **C:** taylor_N 80, N 72, eps0 0.035, dps 60 + 3M.
+- **Report:** per node, B vs C agreement, any failure, and the time taken.
+- **Then:** if B vs C agree to ≤ 1e−8 to the needed q, Stage 3 proceeds with the design below and the grid is fixed
+  in an addendum before the run. If not, the reachable precision per angle is stated, and Stage 3 is scoped to it
+  honestly, not stretched.
+
+## Stage 3 design (to be finalised in an addendum after 3a)
+
+- **q range:** an extended tail region beyond t + 7.5, for t up to the point where sech²(πt) makes the tail
+  negligible (≤ 1e−9 of a). It is integrated to a cut Q₁ and a larger Q₂, with an exponential tail correction
+  fitted on the last panel.
+- **q-tail convergence gate (new):** at every angle, the tail-corrected totals at Q₁ and Q₂ agree to ≤ 1e−7
+  relative, and the fitted tail correction at Q₂ is ≤ 1e−7 of a. The existing gates (coarse vs fine ≤ 1e−7;
+  90° consistency; a > 0, monotone, BWK16; dps + 15 sample) are all kept.
+- **High-M stability:** every new node uses set B, and a stated sample is re-run with set C (≤ 1e−8). The in-range
+  Stage-2 nodes are reused, with D3 having shown the high-M ones negligible. The 50 highest-M in-range nodes are
+  recomputed with set B as a check.
+- **Reporting:** to the bridge first; sealed comparison, same agreement table.
