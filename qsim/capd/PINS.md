@@ -32,3 +32,23 @@ config scripts tolerate a missing filib target. Four build files change; no libr
 3. A differential check of ≥ 10⁵ random MPFR-interval operations against our Arb core. A single non-containment
    disqualifies.
 4. ODE controls: an exact analytic solution enclosed; the Hénon–Heiles positive control; Kerr must not certify chaos.
+
+## SWITCH (2026-10-11, bridge-approved): **CAPD master, pinned at the UNRELEASED commit 2f06098**. This is the engine actually used.
+
+- Source: https://codeload.github.com/CAPDGroup/CAPD/tar.gz/2f06098 (CAPD-2f06098.tar.gz, 3 125 198 bytes)
+- sha256: 9998574057400c7a75f483ba3f3cdb14f8824b28fb62eceacdec5327eda7d909 (computed on download)
+- Full commit 2f060980d0685cc9bf88352e08c242197cd7d686 (2026-10-05). **This is an unreleased master commit, not a
+  release.**
+- **Why not the release (v6.0.0):**
+  - Master has OFFICIAL arm64 support without filib: PR #18 (CAPD_INTERVAL_TYPE = NATIVE | FILIB | CXSC) and PR #22
+    (host processor recognition). This replaces our local patch.
+  - Master has correctness fixes absent from v6.0.0: 03dc562 "corrected split function in intervals", f2e9ed4 "Bug in
+    L_∞ operator norm fixed", f0f9d7c BasicC2Curve::operator=, db91133 split dimension check.
+- Build: `-DCAPD_INTERVAL_TYPE=NATIVE -DCAPD_ENABLE_MULTIPRECISION=ON -DCAPD_BUILD_TESTS=ON -DCAPD_BUILD_EXAMPLES=ON`,
+  with no source patch, install prefix ~/opt/capd-2f06098-install. Script `build_capd.sh`.
+- **Fallback, archived:** patched v6.0.0 (`capd-6.0.0-arm64-nofilib.patch`, `build_capd_v6_patched_FALLBACK.sh`).
+- **Known upstream hazards, carried as our regression tests:**
+  - #27: IOdeSolver throws "minimal time step reached" from a THIN initial set at a nonzero equilibrium.
+  - #28: NATIVE double interval sin hangs for point arguments below about −5.8e19. The test runs under a timeout,
+    and a hang is recorded as a failure.
+- All trust rules above apply unchanged.
