@@ -992,3 +992,42 @@ achievable with this solver at 15–26.565°. The two options are:
   integration. That would be a larger, separate development.
 
 **Option (i) needs a revised Stage-3 addendum, which goes to the bridge before any Stage-3 run.**
+
+## STAGE 3 ADDENDUM (2026-10-10): option (i), as decided by the bridge. Filed BEFORE any Stage-3 grid run. NON-BLIND.
+
+**Precision stated up front** (estimated from the 3a numbers; achievable at best, not promised):
+
+| θ | tail beyond t + 13.5, relative to a | expected uncertainty (model + fit spread) |
+|---|---|---|
+| 15 | ≈ 1e−3 | **≈ 3e−5** |
+| 20 | ≈ 2e−4 | ≈ 5e−6 |
+| 26.565 | ≈ 5e−5 | ≈ 1e−6 |
+| 30 | ≈ 2e−5 | ≈ 5e−7 |
+| 40 | ≈ 1e−7 | ≤ 1e−8 |
+
+**At 15° and 20° the < 1e−6 AGREES level is NOT reachable** with this instrument. The results will be reported only as
+"agreement within the stated uncertainty" bands. The large-M solver (option ii) is on record as future work.
+
+**Grid.** Every Stage-2 node is reused from the checkpoint, so the instrument is unchanged there. Added per t node, on
+both t rules: two q extension panels, [t + 7.5, t + 10.5] and [t + 10.5, t + 13.5], each nested Clenshaw–Curtis with
+8 points (coarse) and 16 (fine). The extension nodes use **method set B**. The two panel endpoints are also run with
+**set C**, and a t node's extension counts only up to the last endpoint where B and C agree to ≤ 1e−8. Beyond the last
+stable endpoint, the model below takes over.
+
+**Tail MODEL (labelled as a model wherever it is quoted).** Per t, f(q) ≈ A·e^{−λq} beyond the last stable cut Q:
+- λ is fitted by least squares on log|f| over the fine nodes of the last stable panel;
+- the tail is f(Q)/λ;
+- **fit spread** = |tail(λ from the last panel) − tail(λ from the previous panel)|.
+
+The model requires f to keep one sign over the fitted panel. Any t where it doesn't is reported and the angle flagged.
+
+**Gates:**
+1. **Two-cut check (the new gate):** a(θ) tail-corrected from Q = t + 10.5 and from Q = t + 13.5 must agree within the
+   stated uncertainty. The reported uncertainty is max(two-cut difference, Σ fit spread) per angle.
+2. Coarse vs fine ≤ 1e−7, over the extended quadrature.
+3. 90° consistency (≤ 1e−9 against Stage 1); a > 0; monotone; BWK16.
+4. **D1 published interval (information, NON-BLIND):** where the corrected value sits, signed.
+
+**Reporting:** to the bridge first. Comparison bands use the stated uncertainty per angle. Stage-2 values and verdicts
+are unchanged on the record. Resources: 2 workers alongside the Lean replays; about 1000 B nodes plus about 90 C
+endpoint nodes, roughly 20–25 h.
