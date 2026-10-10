@@ -849,3 +849,30 @@ tested below 45°.
 **Reading rule.** If D1 shows my values below the published interval by an amount that grows as θ → 0, AND D2a shows
 a non-negligible omitted q-tail of the same sign and size, the probable source is my q truncation. That would be a
 defect in my instrument, recorded as such. The registered DISAGREES verdicts stand either way.
+
+### D2a OUTCOME (2026-10-10): **no usable tail measurement; it reveals a node-solver instability instead**
+
+`qsim/chl_sub45_D2a.{py,txt}`, `chl_sub45_D2a_nodes.jsonl`: 48 nodes, **40 failed**.
+- **The failure mode:** "order-0 algebraic Newton did not converge", at every node with M ≳ 12.
+- **The 8 that ran (M = 7.8–12.0) are not physical.** At 15°, trG GROWS with mass: 6.9e−5 (M 7.8), −3.3e−2 (9.3),
+  −99 (10.8); and −7.8e−4 (8.9), −11.8 (10.4), +4.8e3 (11.9). A convergent q-integral requires decay.
+- **So D2a cannot estimate the omitted q-tail.** The D2b trigger ("estimated omission > 1e−6") is not evaluable, and
+  D2b is NOT run. The q-truncation hypothesis is neither confirmed nor excluded.
+- **New candidate defect, more serious:** an instability in the node solver's x-integration at sharp angles and
+  high mass. Stage-2's grid reaches M ≈ 11.5 at large t. The timing probe's stiffest node already gave
+  trG(15°) = −5.8.
+- **The dps + 15 check could not catch this.** It tests working precision. An instability from method truncation
+  (Taylor stepping order, start-series length, path step) can be precision-stable.
+
+## DIAGNOSTIC D3 (pre-registered before running): method-parameter stability of the Stage-2 nodes at high mass
+
+For the 20 Stage-2 fine-grid nodes with the largest M, and the 10 with the largest |weight × trG(15°)| (overlaps
+allowed), recompute trG at all Stage-2 angles with the method parameters raised: taylor_N 30 → 45, start-series N
+26 → 40, path step eps0 0.15 → 0.075, and dps unchanged (30 + 3M).
+- **Report:** the per-node relative change at 15°, 20°, 26.565°, 30°, 40°; and the implied change in a(θ)
+  (Σ weight × Δ over these nodes), against the D1 gaps (−4e−4 … −2.5e−2).
+- **Reading:** if the implied Δa at 15° is comparable to the D1 gap, my Stage-2 sharp-angle values are
+  contaminated by the instability. That is **a defect in my instrument**, and the registered DISAGREES verdicts
+  would then point at me. If Δa is negligible, the instability is confined to M beyond the grid, and the D1 gap
+  needs another explanation.
+- **No result of D3 changes the registered verdicts.** Any corrected rerun would be a NEW registered stage.
