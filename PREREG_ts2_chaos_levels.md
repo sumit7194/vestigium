@@ -156,3 +156,11 @@ regular-looking sections were the basis of the "completely integrable" descripti
   - Ungraded: its values agree with these certificates to 6e−8 to 6e−6, and all are clearly ≠ 2.
 - The bridge is adding a pre-registered high-precision (mpmath, 30+ digit) transport for those five rows.
 - The verdicts above rest on the two certified routes, which are unaffected; the bridge check is corroboration.
+
+**Bridge V8-mono HP (pre-registered high-precision mpmath Taylor transport; dps 30 vs 40, convergence ≤ 1e−22):
+ALL 8 ROWS REPRODUCED**, including the five that were INCONCLUSIVE under complex128.
+- Agreement is at the ~1e−16 precision of the float targets the bridge holds.
+- Checked against the full 25-digit strings: R3 tr[g,h] = 0.6341438643859946198841734… and R6 =
+  1.2901346423911607098364738… agree to every digit sent.
+- The real-hyperbolic rows come out real to |Im| ~ 1e−30 to 1e−35.
+- **The obstruction at the bound-orbit levels, including Dubeibe's, is independently reproduced end to end.**
