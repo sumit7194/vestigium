@@ -799,3 +799,53 @@ The run covered 2136 nodes, 0 failed and 0 missing (`qsim/chl_sub45_run.{json,tx
 
 **Every value carries the C1-R label:** *"passed under an amendment adopted after a documented control failure."*
 The comparison with cuspis is done sealed by the bridge, using the registered agreement table.
+
+## VERDICTS — Stage 2, sealed comparison by the bridge (2026-10-10), as registered. No comparison values were relayed.
+
+| θ | verdict |
+|---|---|
+| 40 | **AGREES WITH A DISCREPANCY TO EXPLAIN** (1e−6 to 1e−3) |
+| 30 | **AGREES WITH A DISCREPANCY TO EXPLAIN** |
+| 26.565 | **DISAGREES** (> 1e−3) |
+| 20 | **DISAGREES** |
+| 15 | **DISAGREES** (the comparison value there is declared qualitative by its owner) |
+
+The discrepancy grows steeply toward sharp angles. **These verdicts stand as registered, whatever any diagnosis
+shows.** Under this registration the disagreement is a finding, and the source is not yet known; it could be mine,
+cuspis's, or both.
+
+**What my gates could not see, stated now.** The coarse-vs-fine gate tests quadrature RESOLUTION only. It is blind
+to TRUNCATION: the t cut-off T_MAX = 4 (with its recorded tail bound), the q range (core and tail panels up to
+t + 7.5), the x-integration start (series at x = π, then path integration), and the mass dependence. A systematic
+truncation error that grows as θ → 0 would pass every gate I registered.
+
+## DIAGNOSTICS D1, D2 (2026-10-10), pre-registered before running. They cannot change the verdicts above.
+
+**Already recorded, not a new run:** the t-tail bound beyond T_MAX = 4 is ~1e−8 relative at every angle, so the t
+cut-off is not a candidate.
+
+**D1: published-data interval at the compared angles.** This is the C1-R machinery, unchanged: HHCWM16 Table 3,
+α = 1, 8 terms; κ = 7.94e−2 ± ½ unit (CHL09); the r₇ upper tail. It is evaluated at θ = 90, 45, 40, 30, 26.565, 20
+and 15.
+- Report the conservative interval [S₈, S₈ + T(r₇)] and the tight one [S₈ + T(κ), S₈ + T(r₇)] (real scalar), and
+  where my Stage-2 value sits relative to both, signed.
+- As θ → 0 the tail dominates. The tight interval's width is then set by r₇ − κ (≈ 0.4% of the tail) and by κ's
+  3-digit precision, so it becomes a ~0.1–0.5% check at the sharpest angles. That is stated in advance.
+- **Prediction:** inside the tight interval at 90° (known) and at 40–45°. Below 35°, no prediction. That is what D1
+  measures.
+
+**D2: q-range (mass) truncation audit.** The q integral is cut at t + S_TAIL with S_TAIL = 7.5, and this was never
+tested below 45°.
+- **D2a (measurement):** for t ∈ {0.3, 1.37, 3.0}, evaluate the integrand q²·Re trG(x, √(¼+q²), ½ − it) at
+  q = t + 7.5 … t + 30 (step 1.5) at θ = 15° and 40°. Fit the decay, and estimate the omitted tail ∫ beyond
+  t + 7.5, relative to a(θ).
+- **D2b, only if D2a's estimated omission at 15° exceeds 1e−6 relative:** a rerun of the full quadrature with the
+  q tail panel extended (S_TAIL = 15 and 25, the same CC rules per panel). That rerun is a NEW diagnostic run, and
+  it does not replace the Stage-2 values.
+- **Exposure, declared:** cuspis's TODO.md, which I held, mentions a measured tail decay of "0.83 per unit M". If
+  D2a finds a similar slow decay, that is not independent confirmation of theirs. My measurement is still my own
+  method.
+
+**Reading rule.** If D1 shows my values below the published interval by an amount that grows as θ → 0, AND D2a shows
+a non-negligible omitted q-tail of the same sign and size, the probable source is my q truncation. That would be a
+defect in my instrument, recorded as such. The registered DISAGREES verdicts stand either way.
