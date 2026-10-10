@@ -876,3 +876,33 @@ allowed), recompute trG at all Stage-2 angles with the method parameters raised:
   would then point at me. If Δa is negligible, the instability is confined to M beyond the grid, and the D1 gap
   needs another explanation.
 - **No result of D3 changes the registered verdicts.** Any corrected rerun would be a NEW registered stage.
+
+### D3 OUTCOME (2026-10-10): the instability is real but carries negligible weight. **It does NOT explain the D1 gap.**
+
+`qsim/chl_sub45_D3.{py,json,txt}`: 30 nodes, 0 failed.
+- The highest-M grid nodes (M ≈ 11.3–11.5, t ≈ 3.9–4.0) change by **~100%** at 15° under the raised method
+  parameters, so their Stage-2 values were not converged.
+- They carry sech²(πt) ~ 1e−10. **The implied Δa:** 15° 5.3e−8, 20° 1.1e−8, 26.565° 2.3e−9, 30° 1.1e−9, 40° 1.3e−10
+  (relative). That is negligible against the D1 gaps (−4e−4 … −2.5e−2).
+- **The Stage-2 values are therefore stable to ≲ 1e−7 against this defect.** The defect is recorded: the node solver
+  is unreliable at M ≳ 11 at sharp angles, and invisible to the registered gates.
+- **The D1 gap remains unexplained by in-grid nodes.** The live candidate is again the **q cut at t + 7.5**, where at
+  small t the sech² weight is O(1). D2a's one stable point, t = 0.3 at q = 7.8 (M = 7.8), gives an integrand of
+  ≈ 2.4e−3 per unit q, which is not small.
+
+## DIAGNOSTIC D2a′ (pre-registered before running): q-tail beyond the cut, with stable method parameters
+
+This repeats D2a's grid at t ∈ {0.3, 1.37}, q = t + 7.5 … t + 21 (step 1.5), at 15° and 40°, under TWO parameter
+sets:
+- (A) the D3 set: taylor_N 45, N 40, eps0 0.075, dps 30 + 3M;
+- (B) taylor_N 60, N 54, eps0 0.05, dps 45 + 3M.
+
+**Per-node stability:** a node counts only if A and B agree to ≤ 1e−6 relative. From the stable nodes only:
+- fit the decay in q;
+- estimate the omitted ∫_{t+7.5}^∞ f dq, with the t-weight included;
+- scale it to a(θ) using the t-quadrature weights near those t, as an order-of-magnitude estimate.
+
+**Reading:** if the estimated omission at 15° is within a factor 3 of the D1 gap (2.5e−2), with the same sign, then q
+truncation is the probable source, and a corrected NEW stage (an extended q range) would be registered separately. If
+the stable nodes decay fast and the omission is ≪ the gap, the gap is unexplained by my instrument, as far as these
+diagnostics reach. **The verdicts stand either way.**
