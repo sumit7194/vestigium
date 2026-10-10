@@ -772,3 +772,30 @@ independent confirmation. My dps = 30 + 3M scaling was fixed in Stage 1, before 
 
 **First step: a timing probe.** Single nodes at 15° (a typical (t, q) and the stiffest corner of the grid), timed and
 reported to the bridge before the full run.
+
+## OUTCOME — Stage 2 (sub-45°), 2026-10-10 12:15 IST: **all registered gates and controls PASS; values sent to the bridge for the sealed comparison**
+
+The run covered 2136 nodes, 0 failed and 0 missing (`qsim/chl_sub45_run.{json,txt}`, checkpoint
+`chl_sub45_nodes.jsonl`). Evaluation is in `qsim/chl_sub45_eval.{py,json}`; the precision floor in
+`qsim/chl_sub45_dpscheck.{py,json}`.
+
+| θ | a(θ), real scalar (fine) | coarse | gate (≤ 1e−7) | a/C_T | BWK16 |
+|---|---|---|---|---|---|
+| 15 | 0.141997013743 | 0.141997010561 | 2.2e−8 ✓ | 14.94884642 | ✓ |
+| 20 | 0.106223257350 | 0.106223256651 | 6.6e−9 ✓ | 11.18273630 | ✓ |
+| 26.565 | 0.077782154314 | 0.077782154217 | 1.2e−9 ✓ | 8.18857699 | ✓ |
+| arctan(1/2) | 0.077781983578 | 0.077781983482 | 1.2e−9 ✓ | 8.18855901 | ✓ |
+| 30 | 0.067563458860 | 0.067563458829 | 4.6e−10 ✓ | 7.11279585 | ✓ |
+| 40 | 0.047385726446 | 0.047385726453 | 1.5e−10 ✓ | 4.98856933 | ✓ |
+| 45 | 0.040509921292 | 0.040509921303 | 2.6e−10 ✓ | 4.26471357 | ✓ |
+| 90 | 0.011833424847 | 0.011833424861 | 1.2e−9 ✓ | 1.24577303 | ✓ |
+
+- **90° consistency** with Stage 1: 1.5e−14 (≤ 1e−9 ✓).
+- **Shape:** a > 0 ✓; strictly decreasing ✓.
+- **Precision floor:** the 30 heaviest nodes at 15°, recomputed at dps + 15, agree to **4.0e−15** (≤ 1e−12 ✓).
+- **Anchor:** a(arctan 1/2) = 0.0777820 ≥ 0.07265 ✓, and within 1.0% of the lattice value 0.077 (≤ 2.5% ✓).
+  This is SHARED INPUT, a reality anchor only.
+- **Sharp-limit trend (information):** θ·a = 0.03718 (15°) and 0.03708 (20°), against κ_real = 0.0397.
+
+**Every value carries the C1-R label:** *"passed under an amendment adopted after a documented control failure."*
+The comparison with cuspis is done sealed by the bridge, using the registered agreement table.
