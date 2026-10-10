@@ -550,5 +550,17 @@
    "g[1.471429+0.134698j,r0.08082]*g[0.307780-0.000000j,r0.18705]"
   ],
   "error": null
+ },
+ "mneq_0_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 31.0,
+  "N": 100,
+  "words": [
+   "g[0.185747+0.000000j,r0.10037]*g[-0.560195-0.000000j,r0.01331]",
+   "g[-0.148818+0.000000j,r0.10037]*g[-0.560195-0.000000j,r0.01331]"
+  ],
+  "error": null
  }
 }
