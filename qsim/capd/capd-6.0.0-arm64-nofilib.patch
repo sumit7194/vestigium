@@ -1,0 +1,70 @@
+diff -ruN CAPD-6.0.0.orig/CMakeLists.txt CAPD-6.0.0/CMakeLists.txt
+--- CAPD-6.0.0.orig/CMakeLists.txt	2024-01-31 14:34:13
++++ CAPD-6.0.0/CMakeLists.txt	2026-10-11 04:44:49
+@@ -10,11 +10,21 @@
+ set(CMAKE_EXPORT_COMPILE_COMMANDS YES)
+ 
+ add_library(${PROJECT_NAME})
+-add_dependencies(${PROJECT_NAME} filib)
+-target_compile_options(${PROJECT_NAME} PUBLIC -D__USE_FILIB__)
++# quantum patch (2026-10-11): filib is x86_64-only (capdExt/filibsrc). Use it only there; elsewhere CAPD's own
++# DoubleRounding (which has an ARM64 FPCR path) is used. Proofs built on this patch use MPFR intervals ONLY.
++if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
++  set(CAPD_USE_FILIB ON)
++  add_dependencies(${PROJECT_NAME} filib)
++  target_compile_options(${PROJECT_NAME} PUBLIC -D__USE_FILIB__)
++else()
++  set(CAPD_USE_FILIB OFF)
++  message(STATUS "CAPD quantum patch: filib disabled on ${CMAKE_SYSTEM_PROCESSOR}; native DoubleRounding; MPFR intervals only for proofs")
++endif()
+ 
+ target_compile_options(${PROJECT_NAME} PUBLIC -O2 -frounding-math)
+-target_link_libraries(${PROJECT_NAME} PUBLIC filib)
++if(CAPD_USE_FILIB)
++  target_link_libraries(${PROJECT_NAME} PUBLIC filib)
++endif()
+ 
+ enable_testing()
+ 
+diff -ruN CAPD-6.0.0.orig/capdExt/CMakeLists.txt CAPD-6.0.0/capdExt/CMakeLists.txt
+--- CAPD-6.0.0.orig/capdExt/CMakeLists.txt	2024-01-31 14:34:13
++++ CAPD-6.0.0/capdExt/CMakeLists.txt	2026-10-11 04:44:49
+@@ -2,5 +2,7 @@
+ add_subdirectory(include)
+ 
+ add_subdirectory(src/capd/alglib)
+-add_subdirectory(filibsrc)
++if(CAPD_USE_FILIB)
++  add_subdirectory(filibsrc)
++endif()
+ 
+diff -ruN CAPD-6.0.0.orig/capdMake/bin/CMakeLists.txt CAPD-6.0.0/capdMake/bin/CMakeLists.txt
+--- CAPD-6.0.0.orig/capdMake/bin/CMakeLists.txt	2024-01-31 14:34:13
++++ CAPD-6.0.0/capdMake/bin/CMakeLists.txt	2026-10-11 04:44:49
+@@ -1,6 +1,10 @@
+ get_target_property(CAPD_CFLAGS ${PROJECT_NAME} COMPILE_OPTIONS)
+ get_target_property(CAPD_LIBS ${PROJECT_NAME} INTERFACE_LINK_LIBRARIES)
+-get_target_property(FILIB_CFLAGS filib COMPILE_OPTIONS)
++if(TARGET filib)
++  get_target_property(FILIB_CFLAGS filib COMPILE_OPTIONS)
++else()
++  set(FILIB_CFLAGS "")
++endif()
+ 
+ string(REPLACE ";" " " CAPD_CFLAGS "${CAPD_CFLAGS}")
+ string(REPLACE ";" " " FILIB_CFLAGS "${FILIB_CFLAGS}")
+diff -ruN CAPD-6.0.0.orig/capdMake/libcapd/CMakeLists.txt CAPD-6.0.0/capdMake/libcapd/CMakeLists.txt
+--- CAPD-6.0.0.orig/capdMake/libcapd/CMakeLists.txt	2024-01-31 14:34:13
++++ CAPD-6.0.0/capdMake/libcapd/CMakeLists.txt	2026-10-11 04:44:49
+@@ -1,6 +1,10 @@
+ get_target_property(CAPD_CFLAGS ${PROJECT_NAME} COMPILE_OPTIONS)
+ get_target_property(CAPD_LIBS ${PROJECT_NAME} INTERFACE_LINK_LIBRARIES)
+-get_target_property(FILIB_CFLAGS filib COMPILE_OPTIONS)
++if(TARGET filib)
++  get_target_property(FILIB_CFLAGS filib COMPILE_OPTIONS)
++else()
++  set(FILIB_CFLAGS "")
++endif()
+ 
+ string(REPLACE ";" " " CAPD_CFLAGS "${CAPD_CFLAGS}")
+ string(REPLACE ";" " " FILIB_CFLAGS "${FILIB_CFLAGS}")
