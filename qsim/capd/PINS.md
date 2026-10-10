@@ -6,8 +6,10 @@
 - Tag v6.0.0 → commit 693998cd6d73a0c4e1b141bfb79fcad1c40c3cbe. Licence GPL-3.0.
 - Location: ~/opt/CAPD-6.0.0 (source), ~/opt/CAPD-6.0.0/build, install prefix ~/opt/capd-6.0.0-install. User-local, no
   sudo.
-- Tools: cmake 4.4.4 and pkgconf 3.0.7 (brew), Apple clang 21, gmp/mpfr (brew). **No boost**, by the user's choice,
-  so CAPD's own Boost.Test suite is NOT built.
+- Tools: cmake 4.4.4 and pkgconf 3.0.7 (brew), Apple clang 21, gmp/mpfr (brew), **boost 1.92.0** (brew bottle
+  arm64_tahoe; 358.5 MB in the Cellar, 16 678 files). Added on 2026-10-11 by the user ("yes add boost, rigour first"),
+  so that CAPD's own Boost.Test suite runs (-DCAPD_BUILD_TESTS=ON).
 - Rigour plan on Apple silicon: native arm64, multiprecision (MPFR) intervals ONLY. The filib/double path is not
   used (CAPD's docs: filib needs Rosetta on Apple silicon; clang rounding untested by the authors). Validation is by
-  our own rounding sanity tests, the published Hénon–Heiles positive control, and the Kerr negative control.
+  CAPD's FULL test suite (any failure reported verbatim, none skipped), then our own MPFR rounding sanity tests, the
+  published Hénon–Heiles positive control, and the Kerr negative control.

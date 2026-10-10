@@ -9,8 +9,9 @@ gate() {
 until gate; do sleep 120; done
 echo "gate open $(date)"
 mkdir -p $SRC/build && cd $SRC/build
-cmake .. -DCAPD_ENABLE_MULTIPRECISION=ON -DCAPD_BUILD_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=$PREFIX 2>&1 | tail -25
+cmake .. -DCAPD_ENABLE_MULTIPRECISION=ON -DCAPD_BUILD_EXAMPLES=ON -DCAPD_BUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$PREFIX 2>&1 | tail -25
 /usr/bin/time -l make -j2 2>&1 | tail -40
 make install 2>&1 | tail -5
+cd $SRC/build && (ctest --output-on-failure -j2 2>&1 || make test 2>&1) | tail -80
 echo "BUILD EXIT $? $(date)"
 du -sh $SRC/build $PREFIX
