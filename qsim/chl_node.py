@@ -14,7 +14,7 @@ import time
 import mpmath as mpm
 
 
-def compute_node(t, q, xs, N=26, eps0="0.15", dps=None, taylor_N=30):
+def compute_node(t, q, xs, N=26, eps0="0.15", dps=None, taylor_N=30, stepper="v1"):
     import chl_mp as cm, chl_taylor as ct
     M = mpm.sqrt(mpm.mpf("0.25") + mpm.mpf(q)**2)
     dps = dps or int(30 + 3*float(M))
@@ -35,8 +35,8 @@ def compute_node(t, q, xs, N=26, eps0="0.15", dps=None, taylor_N=30):
     Zg = {k: st[k] for k in ["beta1", "beta2", "B1", "B2", "B12"]}
     t0 = time.time()
     xs_mp = [mpm.mpf(x) for x in xs]
-    out, steps = ct.integrate(Y0, Zg, mpm.pi - e0, xs_mp, a, M, N=taylor_N,
-                              B=ct.Backend("mp", dps=dps))
+    integ = ct.integrate if stepper == "v1" else ct.integrate_v2      # v2: plan-A step-control fix (opt-in)
+    out, steps = integ(Y0, Zg, mpm.pi - e0, xs_mp, a, M, N=taylor_N, B=ct.Backend("mp", dps=dps))
     t_taylor = time.time() - t0
     trG = {float(mpm.re(x)): K*out[x] for x in out}
     return dict(t=float(t), q=float(q), M=float(M), dps=dps,

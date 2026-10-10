@@ -267,3 +267,71 @@ def integrate(Y0, Z_guess, x_start, x_targets, a, M, N=30, B=None, safety=0.35, 
         if steps > 400:
             raise RuntimeError("too many Taylor steps")
     return out, steps
+
+
+def integrate_v2(Y0, Z_guess, x_start, x_targets, a, M, N=30, B=None, safety=0.35, tol=None, hmax_M=2.0,
+                 max_halvings=40, max_steps=4000, verbose=False):
+    """Stepper fix (sub-45 plan A, 2026-10-10). Same Taylor scheme as `integrate`, with corrected step control:
+      (1) the truncation check is a LOOP: halve h until the last Taylor term is within tol for EVERY tracked
+          component, including the integrated quantity I and H -- each measured against its OWN scale
+          (max(|value|, |first-order change over the step|)), not against max(|X1|, |b|);
+      (2) an M-aware cap |h| <= hmax_M / M (the solution varies on a scale ~ 1/(2M));
+      (3) if the order-0 Newton at the new point fails, the step is REJECTED and retried from the old point
+          with h/2.
+    The frozen `integrate` is unchanged (all recorded results reproduce with it)."""
+    B = B or Backend("double")
+    tol = tol if tol is not None else (1e-15 if B.kind == "double" else B.mp.mpf(10)**(-B.mp.dps + 3))
+    K = 8*B.pi*a*(1 - a)
+    targets = sorted([B.c(x) if B.kind != "double" else x for x in x_targets], key=lambda v: -abs(v))
+    x0, Y0, Zg = x_start, dict(Y0), dict(Z_guess)
+    out, steps = {}, 0
+    hcap = float(hmax_M)/float(abs(M))
+    T0 = trig_at(x0, 0, B)
+    Z0, A0 = solve_Z0(Y0, Zg, T0, a, M, K, B)
+    keys = ("H", "X1", "X2", "b", "c", "u", "I")
+    while targets:
+        Y, Z = taylor_expand(Y0, Z0, A0, x0, N, a, M, B)
+        est = []
+        for k in ("H", "X1", "b"):
+            cf = Y[k]
+            for n in range(N - 6, N + 1):
+                m = B.abs(cf[n])
+                if m > 0:
+                    est.append(float(m)**(-1.0/n))
+        r = min(est) if est else 1.0
+        hmag = min(safety*r, hcap)
+        tgt = targets[0]
+        h = -hmag if B.kind == "double" else B.c(-hmag)
+        if ((x0 + h).real < tgt.real) if B.kind != "double" else (x0 + h < tgt):
+            h = tgt - x0
+        accepted = False
+        for _ in range(max_halvings):
+            ok_err = True
+            for k in keys:
+                cf = Y[k]
+                last = float(B.abs(cf[N]*h**N))
+                scale = max(float(B.abs(cf[0])), float(B.abs(cf[1]*h)), 1e-300)
+                if last > float(tol)*scale*10:
+                    ok_err = False
+                    break
+            if ok_err:
+                Yn, Zn = evaluate(Y, h), evaluate(Z, h)
+                try:
+                    Tn = trig_at(x0 + h, 0, B)
+                    Z0n, A0n = solve_Z0(Yn, Zn, Tn, a, M, K, B)
+                    accepted = True
+                    break
+                except RuntimeError:
+                    pass
+            h = h/2
+        if not accepted:
+            raise RuntimeError(f"integrate_v2: step rejected {max_halvings} times at x = {complex(x0).real}")
+        x0, Y0, Z0, A0 = x0 + h, Yn, Z0n, A0n
+        steps += 1
+        if verbose:
+            print(f"   step {steps}: x = {complex(x0).real:.6f}  h = {complex(h).real:.5f}")
+        if abs(x0 - tgt) < 1e-12:
+            out[targets.pop(0)] = Y0["I"]
+        if steps > max_steps:
+            raise RuntimeError("integrate_v2: too many Taylor steps")
+    return out, steps

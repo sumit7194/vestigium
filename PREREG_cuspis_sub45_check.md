@@ -1031,3 +1031,53 @@ The model requires f to keep one sign over the fitted panel. Any t where it does
 **Reporting:** to the bridge first. Comparison bands use the stated uncertainty per angle. Stage-2 values and verdicts
 are unchanged on the record. Resources: 2 workers alongside the Lean replays; about 1000 B nodes plus about 90 C
 endpoint nodes, roughly 20–25 h.
+
+---
+
+# PLAN A (2026-10-10): stepper fix, and its validation gate. Registered before any validation run. **Supersedes Stage 3 as filed** (kept on record).
+
+Decided with the bridge; the user said "go ahead with the plan".
+
+**Diagnosis (exploratory, chl_taylor.integrate).** The step control has two defects:
+- (a) the truncation check halves h AT MOST ONCE;
+- (b) the error is measured against max(|X1|, |b|), not against I, H or trG, which are tiny at large M.
+
+An exploratory probe at t = 0.3, q = 16.8 showed sets B and C agreeing EXACTLY at 15 output angles, where the
+2-angle 3a run had them disagree. Output points cap the step. **The "M ≈ 14 wall" is most likely this defect, not a
+property of the equations.**
+
+**The fix: `chl_taylor.integrate_v2`, opt-in via `compute_node(..., stepper="v2")`.** The frozen `integrate` is
+unchanged, and every recorded result reproduces with it.
+1. The truncation check is a loop, over every tracked component including I and H, each against its own scale.
+2. A step cap |h| ≤ 2/M.
+3. A Newton failure rejects the step and retries it with h/2.
+
+**Validation gate. ALL must pass before plan B is registered:**
+- **V1, known answers with v2** (bridge addition 1). A full Stage-2-range quadrature (same grid, same q cut t + 7.5,
+  method as Stage 2), run with stepper v2:
+  - a(90°) must reproduce Stage 1 (0.0118334248474) to ≤ 1e−9;
+  - a(40°) and a(45°) must lie inside the tight D1 interval;
+  - σ (c₂ = 1/256, from the start series) must be reproduced as before. That is a sanity item: the stepper does not
+    touch it.
+- **V2, Stage-2 immunity** (bridge addition 2). For 30 Stage-2 nodes (the 10 heaviest at 15°, 10 at the
+  highest in-range M, 10 random by seed 7):
+  - the FROZEN v1 stepper with a dense output list (every 2° from 179° to 15°, plus the Stage-2 angles) against the
+    recorded sparse Stage-2 values: ≤ 1e−8 relative at every Stage-2 angle. If this fails, the in-grid part of
+    Stage 2 is re-audited before anything else;
+  - and v2 sparse against v2 dense: ≤ 1e−10.
+- **V3, recovery of the failed nodes** (bridge addition 3). The nodes that failed in 3a (t = 0.3: q = 22.8 and 31.8;
+  t = 1.37: q = 23.9 and 32.9), run with v2 on the SPARSE Stage-2 output list:
+  - sets B and C agree to ≤ 1e−8;
+  - the decay is smooth: the per-step ratio is within 10% of its neighbours.
+- **V4, flat-limit reserved** (bridge addition 4). The flat-limit asymptotic (M-integrand ≈ (Mx/2π)·K₁(2Mx), complex
+  normalisation; an inference from CH 2005, not a published result) is NOT used in plan A. In plan B it is used only
+  as an independent check of the tail. Any 1/M correction is calibrated on a mass window disjoint from the one it
+  is tested on.
+
+**Outcome rules.**
+- If V1–V3 pass, plan B (an extended direct q integration with v2) is registered next.
+- If V2 fails, Stage 2's in-grid values are re-audited first.
+- If V1 or V3 fails, it is reported, and plan C (the flat-limit tail with calibrated 1/M corrections) is considered.
+
+**Resources:** detached (nohup, ppid 1), with per-node checkpoints. V1 is about 2136 nodes, ≈ 9–10 h on 2 workers.
+V2 and V3 are about 70 nodes.
