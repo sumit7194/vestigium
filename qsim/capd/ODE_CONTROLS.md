@@ -76,3 +76,39 @@ inside the CAPD enclosure; for a matrix, every entry. A single failure **FAILS**
   the exact trace of the unperturbed equation. The shift is about 10⁻²⁰ against widths of about 10⁻⁶⁰.
 
 Outcome: to be appended below after the run, unchanged rules.
+
+## OUTCOME (2026-10-11; rules unchanged): **PASS**
+
+`tests/odectl` (built under the guard) → `tests/odectl.out`; checker `ode_controls.py` → `ode_controls_result.json`.
+
+- **All 272 exact values were certainly contained, with 0 undecided:**
+  - R1 (t = 1, 10, 100): 40 each;
+  - R2 (C0 + C1): 20;
+  - R3 Hopf: 40;
+  - R4 (C1): 4 + 4;
+  - M1_A, M1_B, M2 commutator = I, M3 double loop, M4 singularity-free loop, M5 Airy: 14 each (matrix entries,
+    tr, det, tr²/det).
+- **Monodromy enclosure widths** (max over the trace components):
+
+  | test | width |
+  |---|---|
+  | M1_A | 6.4e−73 |
+  | M1_B | 5.9e−73 |
+  | M2 commutator | 2.9e−71 |
+  | M3 double loop | 1.9e−72 |
+  | M4 singularity-free | 3.4e−73 |
+  | M5 Airy | 4.0e−65 |
+
+- **Fired control (i), collapse to the upper endpoint:** 272/272 rejected, and every test rejected at least once.
+- **Fired control (ii), wrong equation** (p + 10⁻²⁰): its trace certainly EXCLUDES the true trace. Its width was
+  6.4e−73.
+- **Run history, disclosed:**
+  - The first full run was stopped by the program's own 1800 s watchdog during M4: fail-closed, rc 124, and no
+    output was used. Its partial output is kept as `tests/odectl_run1_watchdog.out`.
+  - The watchdog was raised to 4 h, and the complete program was re-run from scratch. That second run is the one
+    reported here.
+- **Cost:** each complex loop (3 charts, 8 real dimensions, order 30, 256 bits) took about 10 min.
+- **Deferred:** the phase-2 chaos-proof controls (Hénon–Heiles, Kerr) are not part of this outcome.
+
+Environment: CAPD 2f06098, MPFR 4.2.2, GMP 6.3.0, Apple clang 21, Python 3.13.12 + python-flint 0.9.0 (checker
+only), macOS 26.5 arm64.

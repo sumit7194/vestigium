@@ -1,0 +1,99 @@
+{
+ "verdict": "PASS",
+ "values_checked": 272,
+ "failures": [],
+ "undecided": [],
+ "per_test": {
+  "R1_t1": {
+   "n": 40,
+   "ok": 40
+  },
+  "R1_t10": {
+   "n": 40,
+   "ok": 40
+  },
+  "R1_t100": {
+   "n": 40,
+   "ok": 40
+  },
+  "R2": {
+   "n": 20,
+   "ok": 20
+  },
+  "R3": {
+   "n": 40,
+   "ok": 40
+  },
+  "R4_t1": {
+   "n": 4,
+   "ok": 4
+  },
+  "R4_t10": {
+   "n": 4,
+   "ok": 4
+  },
+  "M1_A": {
+   "n": 14,
+   "ok": 14
+  },
+  "M1_B": {
+   "n": 14,
+   "ok": 14
+  },
+  "M2_comm": {
+   "n": 14,
+   "ok": 14
+  },
+  "M3_AA": {
+   "n": 14,
+   "ok": 14
+  },
+  "M4_noSing": {
+   "n": 14,
+   "ok": 14
+  },
+  "M5_airy": {
+   "n": 14,
+   "ok": 14
+  }
+ },
+ "collapse_control": {
+  "n": 272,
+  "rejected": 272,
+  "exact_upper": 0,
+  "fraction": 1.0,
+  "every_test_rejected": true,
+  "per_test": {
+   "R1_t1": 40,
+   "R1_t10": 40,
+   "R1_t100": 40,
+   "R2": 20,
+   "R3": 40,
+   "R4_t1": 4,
+   "R4_t10": 4,
+   "M1_A": 14,
+   "M1_B": 14,
+   "M2_comm": 14,
+   "M3_AA": 14,
+   "M4_noSing": 14,
+   "M5_airy": 14
+  }
+ },
+ "wrong_equation_control_excludes_true_trace": true,
+ "tests_present": [
+  "CTRL_wrong_p",
+  "M1_A",
+  "M1_B",
+  "M2_comm",
+  "M3_AA",
+  "M4_noSing",
+  "M5_airy",
+  "R1_t1",
+  "R1_t10",
+  "R1_t100",
+  "R2",
+  "R3",
+  "R4_t1",
+  "R4_t10"
+ ]
+}
