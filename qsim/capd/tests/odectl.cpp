@@ -131,7 +131,7 @@ static void out_m(const std::string& test, const M2& m) {
 }
 
 int main() {
-  capd_proof::watchdog(1800);
+  capd_proof::watchdog(4 * 3600);  // first run hit a 1800 s watchdog during M4 (fail closed, rc 124)
   R::setDefaultPrecision(256);
   std::cout << "# precision 256, order " << ORDER << "\n";
   const MpInterval eps = MpInterval(R("1e-20"));  // a box half-width (decimal rounded: any fixed value is fine)

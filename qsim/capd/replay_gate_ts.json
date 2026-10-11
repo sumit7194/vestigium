@@ -1,0 +1,146 @@
+{
+ "bridge_commit": "b2bdb792bb0a7894d1bd459f0d1c52d45ff08a9d",
+ "rows": [
+  {
+   "bridge_file": "ts2_row_0.json",
+   "mine": "ts2 row 0",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_1.json",
+   "mine": "ts2 row 1",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_2.json",
+   "mine": "ts2 row 2",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_3.json",
+   "mine": "ts2 row 3",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_4.json",
+   "mine": "ts2 row 4",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_5.json",
+   "mine": "ts2 row 5",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_C1.json",
+   "mine": "tschaos row 0",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_C2.json",
+   "mine": "tschaos row 1",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_C3.json",
+   "mine": "tschaos row 2",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_C4.json",
+   "mine": "tschaos row 3",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_C5.json",
+   "mine": "tschaos row 4",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_C6.json",
+   "mine": "tschaos row 5",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_C7.json",
+   "mine": "tschaos row 6",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "ts2_row_C8.json",
+   "mine": "tschaos row 7",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_empty": true,
+   "GATE": true
+  }
+ ],
+ "all_pass": true
+}
