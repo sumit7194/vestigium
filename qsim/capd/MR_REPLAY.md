@@ -101,4 +101,17 @@ Before the bridge's export existed, `mr_replay.py dev-mine ts2 0` ran the pipeli
 own** fields. Its purpose was to debug the generator and driver. Its output will be reported as dev, never as the
 replay. The registered runs use the bridge's fields only.
 
+## Amendment A1 (2026-10-11, before any registered row run): step tolerance
+
+- **The change:** set CAPD's absolute and relative step tolerance to **10⁻⁴⁰** (`TOL` in the driver input).
+- **Why:**
+  - CAPD's default tolerance is 10^(−digits−3), about 10⁻⁸⁰ at 256 bits.
+  - At order 30 that forces steps of about 0.003 × the radius of analyticity, so the M6 control took about 2 min
+    per segment.
+  - The tolerance only chooses step sizes. Every enclosure stays rigorous whatever its value.
+  - The certificate margins are O(1), so widths of about 10⁻³⁰ are ample.
+- **Unchanged:** precision (256) and order (30).
+- **History:** M6 had been started with the default tolerance. It was stopped (by PID, mine) after 2 of 18
+  segments, before producing any result, and it is re-run with A1, like every row.
+
 Outcome: to be appended below after the runs, unchanged rules.

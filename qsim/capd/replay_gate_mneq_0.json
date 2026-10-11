@@ -1,0 +1,22 @@
+{
+ "bridge_commit": "0142cdde61d4e20171a614028d1c646c6bdb1dc6",
+ "rows": [
+  {
+   "bridge_file": "mneq_row_0.json",
+   "mine": "mneq row 0",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_identical": true,
+   "n_terms": {
+    "p_num": 194,
+    "p_den": 170,
+    "q_num": 189,
+    "q_den": 201
+   },
+   "GATE": true
+  }
+ ],
+ "all_pass": true
+}

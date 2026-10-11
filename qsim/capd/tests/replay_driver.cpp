@@ -71,6 +71,7 @@ static M2 minv(const M2& x) {
 static M2 ident() { M2 m; CI o{MpInterval(1), MpInterval(0)}, z{MpInterval(0), MpInterval(0)}; m.a[0][0] = o; m.a[1][1] = o; m.a[0][1] = z; m.a[1][0] = z; return m; }
 
 static int ORDER = 30;
+static double TOL = 0;   // 0: CAPD default (10^-(digits+3), ~1e-80 at 256 bits); set by "TOL x"
 static std::vector<MpInterval> COEF;
 
 struct Vertex { CI t; std::vector<CI> E; };
@@ -81,6 +82,7 @@ static M2 segment(const Vertex& a, const Vertex& b) {
   map.setParameter(0, a.t.re); map.setParameter(1, a.t.im); map.setParameter(2, b.t.re); map.setParameter(3, b.t.im);
   for (int k = 0; k < NPAR_COEF; ++k) map.setParameter(4 + k, COEF[k]);
   capd::MpIOdeSolver solver(map, ORDER);
+  if (TOL > 0) { solver.setAbsoluteTolerance(TOL); solver.setRelativeTolerance(TOL); }  // step size only; rigour unaffected
   capd::MpITimeMap tm(solver);
   capd::MpIVector x(8 + 2 * NE);
   x[0] = 1; x[6] = 1;
@@ -108,6 +110,7 @@ int main() {
     std::istringstream in(line); in >> kw;
     if (kw == "PREC") { long p; in >> p; R::setDefaultPrecision(p); }
     else if (kw == "ORDER") { in >> ORDER; }
+    else if (kw == "TOL") { in >> TOL; }
     else if (kw == "PAR") { int i; std::string lo, hi; in >> i >> lo >> hi; if ((int)COEF.size() != i) throw std::runtime_error("PAR order"); COEF.push_back(ival(lo, hi)); }
     else if (kw == "LOOP") {
       if ((int)COEF.size() != NPAR_COEF) throw std::runtime_error("coefficient count mismatch");
@@ -126,7 +129,10 @@ int main() {
         vs.push_back(V);
       }
       M2 M = ident();
-      for (int v = 0; v + 1 < nv; ++v) M = mmul(segment(vs[v], vs[v + 1]), M);   // later segments act on the left
+      for (int v = 0; v + 1 < nv; ++v) {
+        M = mmul(segment(vs[v], vs[v + 1]), M);   // later segments act on the left
+        std::cerr << "  " << name << " segment " << v + 1 << "/" << nv - 1 << std::endl;
+      }
       loops[name] = M; order.push_back(name);
       std::cerr << "loop " << name << " done\n";
     }
@@ -149,6 +155,11 @@ int main() {
     return Y;
   };
   M2 g = elem(words.at("g")), h = elem(words.at("h"));
+  for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) {
+    std::string ij = std::to_string(i) + std::to_string(j);
+    out("G" + ij + "re", g.a[i][j].re); out("G" + ij + "im", g.a[i][j].im);
+    out("H" + ij + "re", h.a[i][j].re); out("H" + ij + "im", h.a[i][j].im);
+  }
   CI trg = mtr(g), trh = mtr(h), dg = mdet(g), dh = mdet(h);
   CI wg = cdiv(cmul(trg, trg), dg), wh = cdiv(cmul(trh, trh), dh);
   CI c = mtr(mmul(mmul(g, h), mmul(minv(g), minv(h))));

@@ -183,11 +183,11 @@ def loop_vertices(geo, ngon=16, radius_scale=1.0):
     z0 = complex(*geo["base"]); c = complex(*geo["center"]); r = geo["radius"] * radius_scale
     return IA.loop_points(z0, c, r, ngon=ngon)
 
-def build_input(coef, cert, ngon=16, radius_scale=1.0, order=30):
+def build_input(coef, cert, ngon=16, radius_scale=1.0, order=30, tol=1e-40):
     import ast   # the recorded geometry is a Python dict literal (str); literal_eval only, never eval
     geo = cert["geometry"] if isinstance(cert["geometry"], dict) else ast.literal_eval(cert["geometry"])
     names = sorted(set(cert["g"].split("*") + cert["h"].split("*")))
-    lines = ["PREC %d" % PREC, "ORDER %d" % order]
+    lines = ["PREC %d" % PREC, "ORDER %d" % order, "TOL %r" % tol]
     for i, c in enumerate(coef):
         lo, hi = enclose(c); lines.append("PAR %d %s %s" % (i, lo, hi))
     for n in names:
@@ -209,6 +209,145 @@ def compile_row(tag, header_src):
     ok = "BUILT" in r.stdout
     return ok, exe, (r.stdout + r.stderr)[-3000:]
 
+# ----------------------------------------------------------------------------- registered runs
+BRIDGE_TS = Path("/Users/sumit/Github/TheBridge/falsification/V8_ts2_obstruction_check/export_capd")
+
+def fields_bridge(path):
+    import ast
+    b = json.load(open(path))
+    def poly(m):
+        m = ast.literal_eval(m) if isinstance(m, str) else m
+        out = {}
+        for mon, c in m:
+            out[tuple(mon)] = out.get(tuple(mon), Fraction(0)) + Fraction(c)
+        return out
+    pp = ast.literal_eval(b["p"]) if isinstance(b["p"], str) else b["p"]
+    qq = ast.literal_eval(b["q"]) if isinstance(b["q"], str) else b["q"]
+    exps = [([Fraction(c) for c in e["num"]], [Fraction(c) for c in e["den"]]) for e in b["exps"]]
+    return dict(var=b["var"], exps=exps, p={"num": poly(pp["num"]), "den": poly(pp["den"])},
+                q={"num": poly(qq["num"]), "den": poly(qq["den"])}), b
+
+def cert_for(family, row):
+    if family == "ts2": return json.load(open(QSIM / f"mr_v2_ts2_row{row}.json"))
+    if family == "tschaos": return json.load(open(QSIM / f"mr_ts2_chaos_row{row}.json"))["route_b"]
+    raise ValueError(family)
+
+def ra_frac(s):
+    """exact %Ra -> Fraction (no Arb in the checker either)"""
+    t = s.strip().lower(); neg = t.startswith("-"); t = t.lstrip("-+")
+    assert t.startswith("0x") and "inf" not in t and "nan" not in t, s
+    mant, ex = t[2:].split("p"); ip, _, fp = mant.partition(".")
+    m = int((ip + fp) or "0", 16); e = int(ex) - 4 * len(fp)
+    v = Fraction(m) * (Fraction(2) ** e)
+    return -v if neg else v
+
+def midrad_box(s):
+    """'mid +/- rad' (v2/v1 records, mid printed to 25 significant digits, rad to 5) -> [lo, hi] Fractions,
+    widened generously for the decimal printing: rad x 1.0001 + |mid| x 1e-24."""
+    from decimal import Decimal
+    mid, rad = [x.strip() for x in s.split("+/-")]
+    M = Fraction(Decimal(mid)); Rr = Fraction(Decimal(rad)) * Fraction(10001, 10000) + abs(M) * Fraction(1, 10**24)
+    return (M - Rr, M + Rr)
+
+def overlaps(a, b): return a[0] <= b[1] and b[0] <= a[1]
+
+def run_row(family, row, bridge_json, ngon=16, radius_scale=1.0, order=30, prec=256, label="primary"):
+    global PREC
+    PREC = prec
+    F, b = fields_bridge(bridge_json)
+    cert = cert_for(family, row)
+    tag = f"{family}_{row}_{label}_o{order}_p{prec}"
+    src, coef = gen_header(F, tag)
+    ok, exe, log = compile_row(tag, src)
+    if not ok: return dict(tag=tag, verdict="BUILD-FAILED", log=log), {}
+    inp = build_input(coef, cert, ngon=ngon, radius_scale=radius_scale, order=order)
+    (GEN / (tag + ".in")).write_text(inp)
+    t0 = time.time()
+    with open(GEN / (tag + ".err"), "w") as ef:          # stderr streams live ("loop ... done")
+        r = subprocess.run([str(exe)], input=inp, stdout=subprocess.PIPE, stderr=ef, text=True)
+    r.stderr = (GEN / (tag + ".err")).read_text()
+    secs = time.time() - t0
+    (GEN / (tag + ".out")).write_text(r.stdout)
+    res = dict(tag=tag, family=family, row=row, label=label, ngon=ngon, radius_scale=radius_scale, order=order,
+               prec=prec, seconds=round(secs, 1), rc=r.returncode, bridge_file=str(bridge_json), bridge_provenance=b.get("provenance"))
+    vals = {}
+    for ln in r.stdout.splitlines():
+        parts = ln.split()
+        if parts and parts[0] == "VERDICT": res["verdict"] = parts[1]
+        elif parts and parts[0] in ("LOX_G", "LOX_H", "COMM_NE_2"): res[parts[0]] = parts[1] == "1"
+        elif len(parts) >= 3 and parts[0] != "LOOP":
+            vals[parts[0]] = (ra_frac(parts[1]), ra_frac(parts[2]))
+        elif parts and parts[0] == "LOOP":
+            vals[" ".join(parts[:3])] = (ra_frac(parts[3]), ra_frac(parts[4]))
+    if "verdict" not in res:
+        res["verdict"] = "FAILED-CLOSED"; res["stderr_tail"] = r.stderr[-1500:]; return res, vals
+    # cross-engine consistency: CAPD vs v2 (recorded w_g, w_h, tr_comm) and v1 (tr_g^2, tr_h^2 = w in SL(2); tr_comm)
+    cons = {}
+    for q_, key in (("w_g", "w_g"), ("w_h", "w_h"), ("tr_comm", "tr_comm")):
+        rec = cert.get(key + "_midrad")
+        if rec:
+            cons["v2_" + q_] = overlaps(vals[q_ + "_re"], midrad_box(rec["re"])) and overlaps(vals[q_ + "_im"], midrad_box(rec["im"]))
+    v1 = cert.get("v1_replay", {})
+    if v1.get("tr_comm_midrad"):
+        cons["v1_tr_comm"] = overlaps(vals["tr_comm_re"], midrad_box(v1["tr_comm_midrad"]["re"])) and \
+                             overlaps(vals["tr_comm_im"], midrad_box(v1["tr_comm_midrad"]["im"]))
+    # exact v2 G/H boxes from the Lean export (same gauge, base point and normalisation as CAPD)
+    le = QSIM.parent / "lean_export" / f"{family}_{row}_v2.json"
+    if le.exists() and label == "primary":
+        L = json.load(open(le)); okb = True
+        for M_, nm in ((L["G"], "G"), (L["H"], "H")):
+            for i in range(2):
+                for j in range(2):
+                    for part in ("re", "im"):
+                        lo, hi = (Fraction(x) for x in M_[i][j][part])
+                        okb &= overlaps(vals[f"{nm}{i}{j}{part}"], (lo, hi))
+        cons["v2_exact_GH_boxes"] = okb
+    res["consistency"] = cons
+    res["consistent"] = all(cons.values()) if cons else None
+    res["capd_w_g"] = [float(x) for x in vals["w_g_re"]] + [float(x) for x in vals["w_g_im"]]
+    res["capd_tr_comm"] = [float(x) for x in vals["tr_comm_re"]] + [float(x) for x in vals["tr_comm_im"]]
+    res["max_width_tr_comm"] = float(max(vals["tr_comm_re"][1] - vals["tr_comm_re"][0], vals["tr_comm_im"][1] - vals["tr_comm_im"][0]))
+    return res, vals
+
+def control_m6(perturb=False):
+    """M6 (MR_REPLAY.md): Euler equation y'' + (p/t) y' + (q/t^2) y = 0, p = 11/12 (+1e-20 if perturb), q = -1/12,
+    through THIS generator and driver, on a 16-gon lasso based at 3 around 0 (radius 1). Exact (algebraic):
+    tr = -1/2 + i(sqrt3/2 - 1), det = sqrt3/2 + i/2. Checked in exact rational arithmetic."""
+    pc = Fraction(11, 12) + (Fraction(1, 10**20) if perturb else 0)
+    F = dict(var="t", exps=[], p={"num": {(0,): pc}, "den": {(1,): Fraction(1)}},
+             q={"num": {(0,): Fraction(-1, 12)}, "den": {(2,): Fraction(1)}})
+    cert = dict(geometry={"A": {"center": [0.0, 0.0], "radius": 1.0, "base": [3.0, 0.0]}}, g="A", h="A")
+    tag = "control_m6" + ("_wrongp" if perturb else "")
+    src, coef = gen_header(F, tag)
+    ok, exe, log = compile_row(tag, src)
+    if not ok: return dict(tag=tag, verdict="BUILD-FAILED", log=log)
+    inp = build_input(coef, cert); (GEN / (tag + ".in")).write_text(inp)
+    with open(GEN / (tag + ".err"), "w") as ef:
+        r = subprocess.run([str(exe)], input=inp, stdout=subprocess.PIPE, stderr=ef, text=True)
+    (GEN / (tag + ".out")).write_text(r.stdout)
+    v = {}
+    for ln in r.stdout.splitlines():
+        parts = ln.split()
+        if len(parts) == 3 and parts[0] not in ("LOX_G", "LOX_H", "COMM_NE_2", "VERDICT"):
+            v[parts[0]] = (ra_frac(parts[1]), ra_frac(parts[2]))
+    if "tr_g_re" not in v: return dict(tag=tag, verdict="FAILED-CLOSED", rc=r.returncode)
+    def sqrt3_half_in(lo, hi):          # is sqrt(3)/2 in [lo, hi]?  (exact)
+        return (lo <= 0 or 4 * lo * lo <= 3) and hi > 0 and 4 * hi * hi >= 3
+    def sqrt3_half_out(lo, hi):         # certainly not in [lo, hi]
+        return (lo > 0 and 4 * lo * lo > 3) or (hi <= 0 or 4 * hi * hi < 3)
+    tr_re, tr_im, de_re, de_im = v["tr_g_re"], v["tr_g_im"], v["det_g_re"], v["det_g_im"]
+    half = Fraction(1, 2)
+    res = dict(tag=tag, rc=r.returncode,
+               tr_re_contains=tr_re[0] <= -half <= tr_re[1],
+               tr_im_contains=sqrt3_half_in(tr_im[0] + 1, tr_im[1] + 1),
+               det_re_contains=sqrt3_half_in(*de_re), det_im_contains=de_im[0] <= half <= de_im[1],
+               widths=[float(x[1] - x[0]) for x in (tr_re, tr_im, de_re, de_im)])
+    if perturb:   # the trace must certainly EXCLUDE the true one
+        res["excludes_true_trace"] = not (tr_re[0] <= -half <= tr_re[1]) or sqrt3_half_out(tr_im[0] + 1, tr_im[1] + 1)
+    else:
+        res["PASS"] = all(res[k] for k in ("tr_re_contains", "tr_im_contains", "det_re_contains", "det_im_contains"))
+    return res
+
 if __name__ == "__main__":
     mode = sys.argv[1]
     if mode == "dev-mine":
@@ -225,3 +364,18 @@ if __name__ == "__main__":
             r = subprocess.run([str(exe)], input=inp, capture_output=True, text=True)
             (GEN / (tag + ".out")).write_text(r.stdout); print(r.stderr[-2000:])
             print("rc", r.returncode, "%.0fs" % (time.time() - t0)); print("\n".join(r.stdout.splitlines()[-24:]))
+    elif mode == "control-m6":
+        out = HERE / "replay_results"; out.mkdir(exist_ok=True)
+        rs = [control_m6(False), control_m6(True)]
+        json.dump(rs, open(out / "control_m6.json", "w"), indent=1, default=str)
+        print(json.dumps(rs, indent=1, default=str))
+    elif mode == "run":
+        fam, row = sys.argv[2], int(sys.argv[3])
+        label = sys.argv[4] if len(sys.argv) > 4 else "primary"
+        bj = BRIDGE_TS / (f"ts2_row_{row}.json" if fam == "ts2" else f"ts2_row_C{row + 1}.json")
+        kw = dict(ngon=24, radius_scale=0.8) if label == "secondary" else {}
+        if label == "escalated": kw = dict(order=40, prec=512)
+        res, _ = run_row(fam, row, bj, label=label, **kw)
+        out = HERE / "replay_results"; out.mkdir(exist_ok=True)
+        json.dump(res, open(out / (res["tag"] + ".json"), "w"), indent=1, default=str)
+        print(json.dumps(res, indent=1, default=str))
