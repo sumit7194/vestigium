@@ -1,0 +1,32 @@
+[
+ {
+  "tag": "control_m6",
+  "rc": 0,
+  "tr_re_contains": true,
+  "tr_im_contains": true,
+  "det_re_contains": true,
+  "det_im_contains": true,
+  "widths": [
+   4.823115987843539e-37,
+   4.84502625336029e-37,
+   8.903209888486379e-37,
+   8.890897959241491e-37
+  ],
+  "PASS": true
+ },
+ {
+  "tag": "control_m6_wrongp",
+  "rc": 0,
+  "tr_re_contains": false,
+  "tr_im_contains": false,
+  "det_re_contains": false,
+  "det_im_contains": false,
+  "widths": [
+   4.823115987843539e-37,
+   4.84502625336029e-37,
+   8.903209888486379e-37,
+   8.890897959241491e-37
+  ],
+  "excludes_true_trace": true
+ }
+]
