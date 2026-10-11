@@ -454,3 +454,9 @@ Measured here: the out-of-family kernel's shift sits **inside** the in-family
 range at s=1 and **outside** it at s=2 — not because its deviation grows, but
 because the in-family kernels converge on each other faster than it converges on
 them (half-width ×0.28 per doubling against its distance ×0.35).
+
+## How to reproduce
+
+The pinned environment (Python lock, the native stack, the Lean and Mathlib commit, the CAPD pin), exact commands
+for rebuilding the Rust engine, re-checking every Lean proof and re-running every result, and which stack each
+independent implementation uses: see [`ENVIRONMENT/README.md`](ENVIRONMENT/README.md).

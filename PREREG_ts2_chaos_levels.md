@@ -164,3 +164,5 @@ ALL 8 ROWS REPRODUCED**, including the five that were INCONCLUSIVE under complex
   1.2901346423911607098364738… agree to every digit sent.
 - The real-hyperbolic rows come out real to |Im| ~ 1e−30 to 1e−35.
 - **The obstruction at the bound-orbit levels, including Dubeibe's, is independently reproduced end to end.**
+
+**Environment: Python 3.13.12 (sims/.venv; numpy 2.5.0, scipy 1.18.0, Accelerate BLAS/LAPACK; sympy 1.14.0; mpmath 1.3.0; python-flint 0.9.0 = FLINT/Arb 3.6.0), Rust 1.98.1 + Homebrew FLINT 3.6.0 / MPFR 4.2.2 / GMP 6.3.0, Lean v4.35.0-rc3 + Mathlib c55e6e78, macOS 26.5 arm64; full stamp ENVIRONMENT/quantum_env.json (stamped at b5b34ed).** Back-filled 2026-10-11; env assumed unchanged since the run. Known changes since: none recorded. The Rust engine (v2) exists only from 2026-10-03, so results before that use v1/2b′ only.
