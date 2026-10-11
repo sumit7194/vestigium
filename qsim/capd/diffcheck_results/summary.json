@@ -1,0 +1,1151 @@
+{
+ "verdict": "PASS",
+ "runs": [
+  {
+   "prec": 53,
+   "N": 100000,
+   "seed": 20261011,
+   "capd_seconds": 105.5,
+   "ops_sha256": "670071747a63bd1871e4939ca02ac07df96666af80bd743e97ac65c2d52e7e21",
+   "results_sha256": "e717c720e2a328a0758b18d7a3c3e7df980b6b1f3f7075e9d4f0e4c9b54b43f1",
+   "stats": {
+    "exp": {
+     "point": {
+      "n": 2216,
+      "ok_contained": 2216,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.22027502063296e-16
+     },
+     "wide": {
+      "n": 2234,
+      "ok_contained": 2234,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "huge-tiny": {
+      "n": 1658,
+      "ok_contained": 1658,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "narrow": {
+      "n": 2231,
+      "ok_contained": 2231,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.1401779091135112e-13
+     },
+     "near-tie": {
+      "n": 2812,
+      "ok_contained": 2812,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2204460492503128e-16
+     }
+    },
+    "mul": {
+     "wide": {
+      "n": 2232,
+      "ok_contained": 2232,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "narrow": {
+      "n": 2153,
+      "ok_contained": 2153,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 3.656025227360701e-15
+     },
+     "point": {
+      "n": 2236,
+      "ok_contained": 2236,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.219992751946856e-16
+     },
+     "huge-tiny": {
+      "n": 1693,
+      "ok_contained": 1693,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "near-tie": {
+      "n": 2785,
+      "ok_contained": 2785,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2204460492503118e-16
+     }
+    },
+    "add": {
+     "wide": {
+      "n": 2217,
+      "ok_contained": 2217,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "near-tie": {
+      "n": 2800,
+      "ok_contained": 2800,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2204460492503128e-16
+     },
+     "huge-tiny": {
+      "n": 1646,
+      "ok_contained": 1646,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "narrow": {
+      "n": 2304,
+      "ok_contained": 2304,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.227699541140182e-12
+     },
+     "point": {
+      "n": 2223,
+      "ok_contained": 2223,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2204351841345583e-16
+     }
+    },
+    "cos": {
+     "guard-control": {
+      "n": 216,
+      "ok_contained": 0,
+      "throw_domain": 0,
+      "throw_guard": 216,
+      "max_rel_width": 0.0
+     },
+     "narrow": {
+      "n": 2138,
+      "ok_contained": 2138,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.8533900225364164e-11
+     },
+     "near-tie": {
+      "n": 2851,
+      "ok_contained": 2851,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.1993046006838465e-16
+     },
+     "wide": {
+      "n": 2228,
+      "ok_contained": 2225,
+      "throw_domain": 0,
+      "throw_guard": 3,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 643
+     },
+     "huge-tiny": {
+      "n": 1687,
+      "ok_contained": 1686,
+      "throw_domain": 0,
+      "throw_guard": 1,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 291
+     },
+     "point": {
+      "n": 2148,
+      "ok_contained": 2148,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2175264332586794e-16
+     }
+    },
+    "sub": {
+     "narrow": {
+      "n": 2234,
+      "ok_contained": 2234,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.1805225827958295e-13
+     },
+     "point": {
+      "n": 2309,
+      "ok_contained": 2309,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2170081490787272e-16
+     },
+     "huge-tiny": {
+      "n": 1598,
+      "ok_contained": 1598,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "near-tie": {
+      "n": 2768,
+      "ok_contained": 2768,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2204460492503128e-16
+     },
+     "wide": {
+      "n": 2256,
+      "ok_contained": 2256,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     }
+    },
+    "div": {
+     "near-tie": {
+      "n": 2669,
+      "ok_contained": 2669,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2197562626209428e-16
+     },
+     "point": {
+      "n": 2214,
+      "ok_contained": 2214,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2203450158984627e-16
+     },
+     "wide": {
+      "n": 2233,
+      "ok_contained": 2008,
+      "throw_domain": 225,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "narrow": {
+      "n": 2213,
+      "ok_contained": 2213,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 3.507470455838345e-15
+     },
+     "huge-tiny": {
+      "n": 1584,
+      "ok_contained": 1546,
+      "throw_domain": 38,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     }
+    },
+    "log": {
+     "huge-tiny": {
+      "n": 1714,
+      "ok_contained": 1559,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "log_nan_domain": 155
+     },
+     "wide": {
+      "n": 2239,
+      "ok_contained": 1997,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "log_nan_domain": 242
+     },
+     "near-tie": {
+      "n": 2721,
+      "ok_contained": 2721,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2204460492503128e-16
+     },
+     "point": {
+      "n": 2187,
+      "ok_contained": 2014,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2203733730028595e-16,
+      "log_nan_domain": 173
+     },
+     "narrow": {
+      "n": 2287,
+      "ok_contained": 2123,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.155943033450696e-13,
+      "log_nan_domain": 164
+     }
+    },
+    "sin": {
+     "near-tie": {
+      "n": 2792,
+      "ok_contained": 2792,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.219606166105829e-16
+     },
+     "narrow": {
+      "n": 2133,
+      "ok_contained": 2133,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 6.690285168856587e-12
+     },
+     "point": {
+      "n": 2128,
+      "ok_contained": 2128,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2203628694190126e-16
+     },
+     "wide": {
+      "n": 2136,
+      "ok_contained": 2136,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 555
+     },
+     "huge-tiny": {
+      "n": 1591,
+      "ok_contained": 1591,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 35
+     },
+     "guard-control": {
+      "n": 241,
+      "ok_contained": 0,
+      "throw_domain": 0,
+      "throw_guard": 241,
+      "max_rel_width": 0.0
+     }
+    },
+    "sqrt": {
+     "narrow": {
+      "n": 2231,
+      "ok_contained": 2076,
+      "throw_domain": 155,
+      "throw_guard": 0,
+      "max_rel_width": 1.1089351899163353e-15
+     },
+     "near-tie": {
+      "n": 2867,
+      "ok_contained": 2867,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.2183115287098527e-16
+     },
+     "point": {
+      "n": 2187,
+      "ok_contained": 2016,
+      "throw_domain": 171,
+      "throw_guard": 0,
+      "max_rel_width": 2.219631135080325e-16
+     },
+     "huge-tiny": {
+      "n": 1634,
+      "ok_contained": 1496,
+      "throw_domain": 138,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "wide": {
+      "n": 2126,
+      "ok_contained": 1885,
+      "throw_domain": 241,
+      "throw_guard": 0,
+      "max_rel_width": 1.9538862673595372
+     }
+    },
+    "clog": {
+     "guard-control": {
+      "n": 300,
+      "ok_contained": 199,
+      "throw_domain": 0,
+      "throw_guard": 101,
+      "max_rel_width": 2.0
+     }
+    }
+   },
+   "failures": [],
+   "undecided": [],
+   "control": {
+    "n": 6000,
+    "detected": 6000,
+    "missed": []
+   },
+   "seconds": 109.1
+  },
+  {
+   "prec": 113,
+   "N": 100000,
+   "seed": 20261011,
+   "capd_seconds": 117.0,
+   "ops_sha256": "8e0e90c85ebe26abdbf7580f43f58ea2d737d3dc2bf9688f8024ab78b40a42cb",
+   "results_sha256": "1fdb95ed6913843d370e16da25b570b64d645cf80dd119d2d02c55d7b7785630",
+   "stats": {
+    "exp": {
+     "near-tie": {
+      "n": 2772,
+      "ok_contained": 2772,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.925929944387236e-34
+     },
+     "point": {
+      "n": 2257,
+      "ok_contained": 2257,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.9257284308808466e-34
+     },
+     "narrow": {
+      "n": 2261,
+      "ok_contained": 2261,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 9.886277971135092e-32
+     },
+     "huge-tiny": {
+      "n": 1721,
+      "ok_contained": 1721,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "wide": {
+      "n": 2220,
+      "ok_contained": 2220,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     }
+    },
+    "cos": {
+     "narrow": {
+      "n": 2169,
+      "ok_contained": 2169,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.3327326020288044e-29
+     },
+     "near-tie": {
+      "n": 2750,
+      "ok_contained": 2750,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.924167157830774e-34
+     },
+     "point": {
+      "n": 2101,
+      "ok_contained": 2101,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.925536709772096e-34
+     },
+     "huge-tiny": {
+      "n": 1663,
+      "ok_contained": 1663,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 289
+     },
+     "wide": {
+      "n": 2129,
+      "ok_contained": 2128,
+      "throw_domain": 0,
+      "throw_guard": 1,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 579
+     },
+     "guard-control": {
+      "n": 212,
+      "ok_contained": 0,
+      "throw_domain": 0,
+      "throw_guard": 212,
+      "max_rel_width": 0.0
+     }
+    },
+    "sin": {
+     "narrow": {
+      "n": 2108,
+      "ok_contained": 2108,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.8757247435537237e-29
+     },
+     "point": {
+      "n": 2185,
+      "ok_contained": 2185,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.9247064271555018e-34
+     },
+     "wide": {
+      "n": 2193,
+      "ok_contained": 2192,
+      "throw_domain": 0,
+      "throw_guard": 1,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 567
+     },
+     "near-tie": {
+      "n": 2764,
+      "ok_contained": 2764,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.9227163086408829e-34
+     },
+     "huge-tiny": {
+      "n": 1713,
+      "ok_contained": 1712,
+      "throw_domain": 0,
+      "throw_guard": 1,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 46
+     },
+     "guard-control": {
+      "n": 208,
+      "ok_contained": 0,
+      "throw_domain": 0,
+      "throw_guard": 208,
+      "max_rel_width": 0.0
+     }
+    },
+    "div": {
+     "huge-tiny": {
+      "n": 1677,
+      "ok_contained": 1612,
+      "throw_domain": 65,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "wide": {
+      "n": 2261,
+      "ok_contained": 2060,
+      "throw_domain": 201,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "point": {
+      "n": 2241,
+      "ok_contained": 2241,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.9258077706865531e-34
+     },
+     "narrow": {
+      "n": 2221,
+      "ok_contained": 2221,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.8704744864455124e-33
+     },
+     "near-tie": {
+      "n": 2754,
+      "ok_contained": 2754,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.9255674324777495e-34
+     }
+    },
+    "log": {
+     "wide": {
+      "n": 2233,
+      "ok_contained": 1987,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "log_nan_domain": 246
+     },
+     "near-tie": {
+      "n": 2788,
+      "ok_contained": 2788,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.925929944387236e-34
+     },
+     "huge-tiny": {
+      "n": 1578,
+      "ok_contained": 1413,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "log_nan_domain": 165
+     },
+     "point": {
+      "n": 2215,
+      "ok_contained": 2062,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.9255773532040332e-34,
+      "log_nan_domain": 153
+     },
+     "narrow": {
+      "n": 2212,
+      "ok_contained": 2032,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 4.402956431221815e-31,
+      "log_nan_domain": 180
+     }
+    },
+    "sub": {
+     "narrow": {
+      "n": 2265,
+      "ok_contained": 2265,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.2897812827613587e-31
+     },
+     "huge-tiny": {
+      "n": 1619,
+      "ok_contained": 1619,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "wide": {
+      "n": 2270,
+      "ok_contained": 2270,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "point": {
+      "n": 2308,
+      "ok_contained": 2308,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.925861746233864e-34
+     },
+     "near-tie": {
+      "n": 2899,
+      "ok_contained": 2899,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.925929944387236e-34
+     }
+    },
+    "mul": {
+     "huge-tiny": {
+      "n": 1558,
+      "ok_contained": 1558,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "wide": {
+      "n": 2150,
+      "ok_contained": 2150,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "point": {
+      "n": 2206,
+      "ok_contained": 2206,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.9254697866192004e-34
+     },
+     "near-tie": {
+      "n": 2769,
+      "ok_contained": 2769,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.925929944387236e-34
+     },
+     "narrow": {
+      "n": 2198,
+      "ok_contained": 2198,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 3.082934325669726e-33
+     }
+    },
+    "add": {
+     "point": {
+      "n": 2325,
+      "ok_contained": 2325,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.9254614591076347e-34
+     },
+     "near-tie": {
+      "n": 2802,
+      "ok_contained": 2802,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.925929944387236e-34
+     },
+     "huge-tiny": {
+      "n": 1583,
+      "ok_contained": 1583,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "wide": {
+      "n": 2239,
+      "ok_contained": 2239,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "narrow": {
+      "n": 2168,
+      "ok_contained": 2168,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 3.920689485457459e-31
+     }
+    },
+    "sqrt": {
+     "wide": {
+      "n": 2190,
+      "ok_contained": 1951,
+      "throw_domain": 239,
+      "throw_guard": 0,
+      "max_rel_width": 1.9533030728921372
+     },
+     "narrow": {
+      "n": 2303,
+      "ok_contained": 2127,
+      "throw_domain": 176,
+      "throw_guard": 0,
+      "max_rel_width": 9.623569098596419e-34
+     },
+     "point": {
+      "n": 2240,
+      "ok_contained": 2082,
+      "throw_domain": 158,
+      "throw_guard": 0,
+      "max_rel_width": 1.9250313762197373e-34
+     },
+     "huge-tiny": {
+      "n": 1638,
+      "ok_contained": 1502,
+      "throw_domain": 136,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "near-tie": {
+      "n": 2664,
+      "ok_contained": 2664,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.9256820056354096e-34
+     }
+    },
+    "clog": {
+     "guard-control": {
+      "n": 300,
+      "ok_contained": 196,
+      "throw_domain": 0,
+      "throw_guard": 104,
+      "max_rel_width": 2.0
+     }
+    }
+   },
+   "failures": [],
+   "undecided": [],
+   "control": {
+    "n": 6000,
+    "detected": 6000,
+    "missed": []
+   },
+   "seconds": 121.8
+  },
+  {
+   "prec": 256,
+   "N": 100000,
+   "seed": 20261011,
+   "capd_seconds": 155.8,
+   "ops_sha256": "836e229077d5538a4b0d960532bafbdf6b29c3ddf40065b354b689a3fbf6efd3",
+   "results_sha256": "3536199270f9a51f670cc76eabfaec1fcc1b756b055003072c0c3c90ad50dd3b",
+   "stats": {
+    "sqrt": {
+     "near-tie": {
+      "n": 2755,
+      "ok_contained": 2755,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7264691498338786e-77
+     },
+     "wide": {
+      "n": 2225,
+      "ok_contained": 1996,
+      "throw_domain": 229,
+      "throw_guard": 0,
+      "max_rel_width": 1.9527961555083126
+     },
+     "huge-tiny": {
+      "n": 1697,
+      "ok_contained": 1562,
+      "throw_domain": 135,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "point": {
+      "n": 2228,
+      "ok_contained": 2074,
+      "throw_domain": 154,
+      "throw_guard": 0,
+      "max_rel_width": 1.7271698606780377e-77
+     },
+     "narrow": {
+      "n": 2254,
+      "ok_contained": 2070,
+      "throw_domain": 184,
+      "throw_guard": 0,
+      "max_rel_width": 8.575511846445288e-77
+     }
+    },
+    "exp": {
+     "point": {
+      "n": 2177,
+      "ok_contained": 2177,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7268651478730143e-77
+     },
+     "wide": {
+      "n": 2290,
+      "ok_contained": 2290,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "narrow": {
+      "n": 2241,
+      "ok_contained": 2241,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 8.873930631450253e-75
+     },
+     "near-tie": {
+      "n": 2651,
+      "ok_contained": 2651,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.727233711018889e-77
+     },
+     "huge-tiny": {
+      "n": 1637,
+      "ok_contained": 1637,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     }
+    },
+    "log": {
+     "point": {
+      "n": 2222,
+      "ok_contained": 2065,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.727018227927288e-77,
+      "log_nan_domain": 157
+     },
+     "wide": {
+      "n": 2137,
+      "ok_contained": 1904,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "log_nan_domain": 233
+     },
+     "near-tie": {
+      "n": 2781,
+      "ok_contained": 2781,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.727233711018889e-77
+     },
+     "narrow": {
+      "n": 2236,
+      "ok_contained": 2074,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.174255952935458e-74,
+      "log_nan_domain": 162
+     },
+     "huge-tiny": {
+      "n": 1674,
+      "ok_contained": 1552,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "log_nan_domain": 122
+     }
+    },
+    "sin": {
+     "near-tie": {
+      "n": 2763,
+      "ok_contained": 2763,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7203413573509128e-77
+     },
+     "narrow": {
+      "n": 2218,
+      "ok_contained": 2218,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 6.814850271439526e-72
+     },
+     "wide": {
+      "n": 2127,
+      "ok_contained": 2125,
+      "throw_domain": 0,
+      "throw_guard": 2,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 535
+     },
+     "point": {
+      "n": 2228,
+      "ok_contained": 2228,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7252552766663893e-77
+     },
+     "huge-tiny": {
+      "n": 1692,
+      "ok_contained": 1691,
+      "throw_domain": 0,
+      "throw_guard": 1,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 37
+     },
+     "guard-control": {
+      "n": 246,
+      "ok_contained": 0,
+      "throw_domain": 0,
+      "throw_guard": 246,
+      "max_rel_width": 0.0
+     }
+    },
+    "div": {
+     "narrow": {
+      "n": 2189,
+      "ok_contained": 2189,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.6543186702242685e-76
+     },
+     "near-tie": {
+      "n": 2773,
+      "ok_contained": 2773,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7270092290967499e-77
+     },
+     "wide": {
+      "n": 2256,
+      "ok_contained": 2031,
+      "throw_domain": 225,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "point": {
+      "n": 2241,
+      "ok_contained": 2241,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7269686725693015e-77
+     },
+     "huge-tiny": {
+      "n": 1670,
+      "ok_contained": 1617,
+      "throw_domain": 53,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     }
+    },
+    "mul": {
+     "narrow": {
+      "n": 2257,
+      "ok_contained": 2257,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.6175181066619183e-76
+     },
+     "huge-tiny": {
+      "n": 1696,
+      "ok_contained": 1696,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "near-tie": {
+      "n": 2751,
+      "ok_contained": 2751,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.727233711018889e-77
+     },
+     "point": {
+      "n": 2241,
+      "ok_contained": 2241,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7267805028201476e-77
+     },
+     "wide": {
+      "n": 2232,
+      "ok_contained": 2232,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     }
+    },
+    "sub": {
+     "point": {
+      "n": 2223,
+      "ok_contained": 2223,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7267874894393692e-77
+     },
+     "wide": {
+      "n": 2153,
+      "ok_contained": 2153,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "near-tie": {
+      "n": 2771,
+      "ok_contained": 2771,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.727233711018889e-77
+     },
+     "narrow": {
+      "n": 2162,
+      "ok_contained": 2162,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 7.36041353814129e-74
+     },
+     "huge-tiny": {
+      "n": 1650,
+      "ok_contained": 1650,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     }
+    },
+    "cos": {
+     "narrow": {
+      "n": 2136,
+      "ok_contained": 2136,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 6.531563821094055e-73
+     },
+     "near-tie": {
+      "n": 2777,
+      "ok_contained": 2777,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7244862476859244e-77
+     },
+     "guard-control": {
+      "n": 242,
+      "ok_contained": 0,
+      "throw_domain": 0,
+      "throw_guard": 242,
+      "max_rel_width": 0.0
+     },
+     "huge-tiny": {
+      "n": 1727,
+      "ok_contained": 1727,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 262
+     },
+     "wide": {
+      "n": 2168,
+      "ok_contained": 2167,
+      "throw_domain": 0,
+      "throw_guard": 1,
+      "max_rel_width": 2.0,
+      "extremum_boxes": 602
+     },
+     "point": {
+      "n": 2236,
+      "ok_contained": 2236,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7251694120835332e-77
+     }
+    },
+    "add": {
+     "wide": {
+      "n": 2151,
+      "ok_contained": 2151,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "huge-tiny": {
+      "n": 1643,
+      "ok_contained": 1643,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 2.0
+     },
+     "narrow": {
+      "n": 2260,
+      "ok_contained": 2260,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 6.995819531777854e-74
+     },
+     "point": {
+      "n": 2252,
+      "ok_contained": 2252,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.7262143209900488e-77
+     },
+     "near-tie": {
+      "n": 2664,
+      "ok_contained": 2664,
+      "throw_domain": 0,
+      "throw_guard": 0,
+      "max_rel_width": 1.727233711018889e-77
+     }
+    },
+    "clog": {
+     "guard-control": {
+      "n": 300,
+      "ok_contained": 209,
+      "throw_domain": 0,
+      "throw_guard": 91,
+      "max_rel_width": 2.0
+     }
+    }
+   },
+   "failures": [],
+   "undecided": [],
+   "control": {
+    "n": 6000,
+    "detected": 6000,
+    "missed": []
+   },
+   "seconds": 161.0
+  }
+ ]
+}

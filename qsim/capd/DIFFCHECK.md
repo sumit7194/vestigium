@@ -83,4 +83,38 @@ ambiguity it refines to 4096 and then 16384 bits. CAPD's [L, R] must certainly c
 - `MpReal(mpfr_t, …)` is declared in `MpReal.h` but never defined (link error). The harness sets the value through
   the representation instead.
 
-Outcome: to be appended below after the run, unchanged rules.
+## OUTCOME (2026-10-11, run on registered commit a6d1f33; rules unchanged): **PASS**
+
+`python qsim/capd/diffcheck.py 100000 20261011` → `diffcheck_run.txt` and `diffcheck_results/summary.json` (per-op,
+per-category statistics).
+
+| prec | ops | contained | allowed domain THROW | guard THROW (trig + checked_log controls) | log NaN (registered defect) | **failures** | **undecided** | mutants detected |
+|---|---|---|---|---|---|---|---|---|
+| 53 | 100 300 | 98 036 | 968 | 562 | 734 | **0** | **0** | 6000 / 6000 |
+| 113 | 100 300 | 98 054 | 975 | 527 | 744 | **0** | **0** | 6000 / 6000 |
+| 256 | 100 300 | 98 063 | 980 | 583 | 674 | **0** | **0** | 6000 / 6000 |
+
+- **Coverage per precision:** about 25 000 near-tie, 15 000 huge/tiny, 20 000 each of point, narrow and wide, and
+  about 750 guard controls. 1524, 1481 and 1436 sin/cos boxes contained an interior extremum.
+- **No TIMEOUT occurred** (every call stayed under 10 s, including trig arguments up to 10¹²).
+- **Tightness (informational):** for point and near-tie inputs, every op's enclosure was at most 1 ulp wide
+  (max relative width / 2^(1−prec) = 1.000 at all three precisions). That is the optimum for directed rounding.
+- In the log-NaN cases the upper endpoint enclosed log(hi) wherever hi > 0, as checked.
+- **Hashes:**
+
+  | prec | ops sha256 | results sha256 |
+  |---|---|---|
+  | 53 | 670071747a63bd18… | e717c720e2a328a0… |
+  | 113 | 8e0e90c85ebe26ab… | 1fdb95ed6913843d… |
+  | 256 | 836e229077d5538a… | 3536199270f9a51f… |
+
+  Full hashes are in summary.json.
+- **Determinism:** the op stream is a pure function of the seed. Regenerating the prec-53 stream in a fresh
+  process reproduced its hash. The ops/results `.gz` files (22 MB) are not committed, because they regenerate
+  exactly.
+- **Ruling:** CAPD MpInterval at 2f06098 on MPFR 4.2.2 satisfies trust rule 3, together with the registered log
+  defect and its guard. Next come the ODE controls: an exact analytic solution, the Hénon–Heiles positive control
+  and the Kerr negative control.
+
+Environment: Python 3.13.12, python-flint 0.9.0 (Arb 3.6.0), CAPD 2f06098, MPFR 4.2.2, GMP 6.3.0, Apple clang 21,
+macOS 26.5 arm64 (see ENVIRONMENT/).

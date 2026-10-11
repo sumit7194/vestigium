@@ -1,0 +1,4 @@
+prec 53: 100300 ops, 0 failures, 0 undecided, 109s; control: 6000/6000 mutants detected
+prec 113: 100300 ops, 0 failures, 0 undecided, 122s; control: 6000/6000 mutants detected
+prec 256: 100300 ops, 0 failures, 0 undecided, 161s; control: 6000/6000 mutants detected
+VERDICT PASS failures 0 undecided 0
