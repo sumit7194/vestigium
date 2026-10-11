@@ -1083,3 +1083,33 @@ unchanged, and every recorded result reproduces with it.
 V2 and V3 are about 70 nodes.
 
 **Environment: Python 3.13.12 (sims/.venv; numpy 2.5.0, scipy 1.18.0, Accelerate BLAS/LAPACK; sympy 1.14.0; mpmath 1.3.0; python-flint 0.9.0 = FLINT/Arb 3.6.0), Rust 1.98.1 + Homebrew FLINT 3.6.0 / MPFR 4.2.2 / GMP 6.3.0, Lean v4.35.0-rc3 + Mathlib c55e6e78, macOS 26.5 arm64; full stamp ENVIRONMENT/quantum_env.json (stamped at b5b34ed).** Back-filled 2026-10-11; env assumed unchanged since the run. Known changes since: none recorded. The Rust engine (v2) exists only from 2026-10-03, so results before that use v1/2b′ only.
+
+## PLAN A: V2/V3 OUTCOME and the RE-AUDIT JUDGING RULE (2026-10-11), FIXED BEFORE ANY V1 a(θ) EXISTS
+
+**V2/V3 outcome:** see `qsim/chl_planA_V23_outcome.md`. In short:
+- V2b passes, 30/30.
+- **V2a fails, 19/30:** the high-M nodes, plus a heavy node whose recorded value is off by 5.5e−6.
+- **V3 fails, 0/4.**
+- Under the registered rules: Stage 2's in-grid values are re-audited first, and V1 (the full Stage-2 grid with
+  stepper v2, running) is that re-audit. Plan B stays unregistered. Plan C is decided after V1.
+- Bridge ruling: the C12 verdicts are **under re-audit (plan A V2 fail), pending V1**.
+
+**Judging rule (bridge ruling, 2026-10-11).** It is committed while V1 is running. At that point V1 nodes were being
+checkpointed, but **no V1 a(θ) had been assembled or looked at.**
+- The C12 verdicts rest on the gaps (cuspis − quantum)/quantum: +6.3e−5 (40°), +5.7e−4 (30°), +1.35e−3 (26.565°),
+  +7.1e−3 (20°) and +2.5e−2 (15°).
+- **A verdict STANDS at angle θ if |a_V1(θ) − a_rec(θ)| / a_rec(θ) < 0.1 × that gap.** The thresholds are:
+
+  | θ | threshold |
+  |---|---|
+  | 40° | 6.3e−6 |
+  | 30° | 5.7e−5 |
+  | 26.565° | 1.35e−4 |
+  | 20° | 7.1e−4 |
+  | 15° | 2.5e−3 |
+
+- If any angle exceeds its threshold, the C12 comparison at that angle is re-run with V1's values, and the verdict is
+  reissued as **post-audit**.
+- 40° is the tight one.
+- The high-M bound (ruling 3) is below every threshold by at least 4 orders of magnitude, conditionally on the true
+  node values lying within the computed span (see the outcome file).

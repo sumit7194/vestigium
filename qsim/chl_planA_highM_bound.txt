@@ -1,0 +1,9 @@
+High-M bound (bridge ruling 3): B(theta) = sum_10 w * max(|rec|,|v1-dense|,|v2-sparse|), relative to a_rec(theta)
+nodes: [(3.9754, 11.475, 11.49), (3.9754, 11.461, 11.47), (3.9754, 11.418, 11.43), (3.8727, 11.373, 11.38), (3.8727, 11.358, 11.37), (3.9754, 11.346, 11.36), (3.8727, 11.315, 11.33), (3.9754, 11.247, 11.26), (3.8727, 11.243, 11.25), (3.696, 11.196, 11.21)]
+theta=  40.000  a_rec=0.0473857264  B/a=1.043e-10  2B/a=2.085e-10  threshold=6.30e-06  BELOW (2x)
+theta=  30.000  a_rec=0.0675634589  B/a=9.499e-10  2B/a=1.900e-09  threshold=5.70e-05  BELOW (2x)
+theta=  26.565  a_rec=0.0777821543  B/a=1.994e-09  2B/a=3.988e-09  threshold=1.35e-04  BELOW (2x)
+theta=  20.000  a_rec=0.1062232573  B/a=1.039e-08  2B/a=2.078e-08  threshold=7.10e-04  BELOW (2x)
+theta=  15.000  a_rec=0.1419970137  B/a=5.821e-08  2B/a=1.164e-07  threshold=2.50e-03  BELOW (2x)
+ALL BELOW (2x conservative): True
+Caveat: this bounds the effect of these 10 nodes only if the true node value lies within the span of the three computed values (|true| <= max); no stepper is certified at these nodes.
