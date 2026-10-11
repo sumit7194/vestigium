@@ -1,0 +1,46 @@
+{
+ "bridge_commit": "c5f25aab74e574084a0daa5e5d7110e5191287bb",
+ "rows": [
+  {
+   "bridge_file": "mnaxial_p1_E1_mu24.json",
+   "mine": "mnaxv2 (VREPRO) row 0 = MN p1 axial (1,4)",
+   "var_match": true,
+   "my_var": "x",
+   "p_identical": true,
+   "q_identical": true,
+   "exp_identical": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "mnaxial_p1_E1_mu29.json",
+   "mine": "mnaxv2 (VREPRO) row 1 = MN p1 axial (1,9)",
+   "var_match": true,
+   "my_var": "x",
+   "p_identical": true,
+   "q_identical": true,
+   "exp_identical": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "mnaxial_p2_E1_mu24.json",
+   "mine": "mnaxv2 (VREPRO) row 2 = MN p2 axial (1,4)",
+   "var_match": true,
+   "my_var": "x",
+   "p_identical": true,
+   "q_identical": true,
+   "exp_identical": true,
+   "GATE": true
+  },
+  {
+   "bridge_file": "mnaxial_p2_E1_mu29.json",
+   "mine": "mnaxv2 (VREPRO) row 3 = MN p2 axial (1,9)",
+   "var_match": true,
+   "my_var": "x",
+   "p_identical": true,
+   "q_identical": true,
+   "exp_identical": true,
+   "GATE": true
+  }
+ ],
+ "all_pass": true
+}
