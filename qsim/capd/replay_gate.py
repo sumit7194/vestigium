@@ -112,8 +112,55 @@ def mn_eq(rows):
     json.dump(out, open(HERE / ("replay_gate_mneq_%s.json" % "_".join(map(str, rows))), "w"), indent=1)
     print("ALL PASS" if out["all_pass"] else "GATE FAILURES")
 
+def mn_axial(rows):
+    """MN axial (VREPRO rows 0-3 = bridge V9 rows 6-9): polynomials in (x, E1) with E1 = exp(2 beta/x^3) as an
+    independent symbol; the bridge's single exp must equal 2 beta/x^3 exactly."""
+    import ast, subprocess, sympy as sp
+    import mr_v2 as V, mr_v2_ladder as LD, mr_mn_axis as MA
+    MAP = {0: ("p1", 4), 1: ("p1", 9), 2: ("p2", 4), 3: ("p2", 9)}
+    res = []
+    for row in rows:
+        pt, mu2 = MAP[row]
+        f = BRIDGE_MN / f"mnaxial_{pt}_E1_mu2{mu2}.json"
+        if not f.exists(): print("missing", f); continue
+        b = json.load(open(f))
+        name, build, expect = LD.rows("VREPRO")[row]
+        assert name == f"MN {pt} axial (1,{mu2})", name
+        S = build()
+        mine = {}
+        for nm in ("p", "q"):
+            for part in ("P", "Q"):
+                poly = getattr(S[nm], part)
+                mine[nm + part] = {tuple(int(x) for x in mon): Fraction(int(c.p), int(c.q)) for mon, c in poly.terms()}
+        def bpoly(m):
+            m = ast.literal_eval(m) if isinstance(m, str) else m
+            out = {}
+            for mon, c in m: out[tuple(mon)] = out.get(tuple(mon), Fraction(0)) + Fraction(c)
+            return out
+        bp = ast.literal_eval(b["p"]) if isinstance(b["p"], str) else b["p"]
+        bq = ast.literal_eval(b["q"]) if isinstance(b["q"], str) else b["q"]
+        ok_p = identical(bpoly(bp["num"]), bpoly(bp["den"]), mine["pP"], mine["pQ"])
+        ok_q = identical(bpoly(bq["num"]), bpoly(bq["den"]), mine["qP"], mine["qQ"])
+        beta = MA.MN_POINTS[pt][1]; x = sp.Symbol("x")
+        ok_e = len(b["exps"]) == 1
+        if ok_e:
+            e = b["exps"][0]
+            numS = sum(sp.Rational(str(Fraction(c))) * x**i for i, c in enumerate(e["num"]))
+            denS = sum(sp.Rational(str(Fraction(c))) * x**i for i, c in enumerate(e["den"]))
+            ok_e = sp.cancel(numS / denS - 2 * beta / x**3) == 0
+        r = dict(bridge_file=f.name, mine=f"mnaxv2 (VREPRO) row {row} = {name}", var_match=(b["var"] == "x"),
+                 my_var=str(S["var"]), p_identical=ok_p, q_identical=ok_q, exp_identical=bool(ok_e))
+        r["GATE"] = all([r["var_match"], str(S["var"]) == "x", ok_p, ok_q, r["exp_identical"]])
+        print(r, flush=True); res.append(r)
+    commit = subprocess.run(["git", "-C", str(BRIDGE_MN), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    out = dict(bridge_commit=commit, rows=res, all_pass=bool(res) and all(r["GATE"] for r in res))
+    json.dump(out, open(HERE / "replay_gate_mnaxial.json", "w"), indent=1)
+    print("ALL PASS" if out["all_pass"] else "GATE FAILURES")
+
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "mneq":
+    if len(sys.argv) > 1 and sys.argv[1] == "mnaxial":
+        mn_axial([int(x) for x in sys.argv[2:]])
+    elif len(sys.argv) > 1 and sys.argv[1] == "mneq":
         mn_eq([int(x) for x in sys.argv[2:]])
     else:
         main()
