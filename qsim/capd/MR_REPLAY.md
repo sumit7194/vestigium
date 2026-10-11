@@ -124,4 +124,17 @@ replay. The registered runs use the bridge's fields only.
 - **History:** M6 had been started with the default tolerance. It was stopped (by PID, mine) after 2 of 18
   segments, before producing any result, and it is re-run with A1, like every row.
 
+## Amendment A2 (2026-10-11): watchdog 6 h → 24 h (resource only, still fail-closed)
+
+- **Trigger:** the first registered run of tschaos row 0 (C1, Dubeibe's level) was stopped by its own 6 h watchdog:
+  FAILED-CLOSED, rc 124, after 35 of 54 segments.
+- **Why:** the C1 loops are based far out (base ≈ 4.76 + 4.94i). Their approach segments are about 6 long and pass
+  0.087 from a singular point, so each one takes about 150 CAPD steps.
+- **What A2 changes:** only the wall-clock limit. Engine, settings, fields and loops are unchanged. That attempt is
+  recorded as FAILED-CLOSED, and C1 is re-run under A2.
+- **The C2 run:** it had started under the 6 h driver one minute earlier. It was stopped (by PID, mine) before
+  producing anything, and is re-run under A2.
+- **The other rows:** ts2 row 0 (REPLAYED, 4.3 h) needs no re-run. ts2 row 1 was already running under the 6 h
+  limit; if it trips, it is re-run under A2.
+
 Outcome: to be appended below after the runs, unchanged rules.

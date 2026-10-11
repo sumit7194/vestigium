@@ -110,7 +110,7 @@ static M2 segment(const Vertex& a, const Vertex& b) {
 }
 
 int main() {
-  capd_proof::watchdog(6 * 3600);
+  capd_proof::watchdog(24 * 3600);   // A2 (MR_REPLAY.md): 6 h -> 24 h after C1 hit the 6 h limit (fail-closed)
   std::string line, kw;
   std::map<std::string, M2> loops;
   std::map<std::string, std::string> words;

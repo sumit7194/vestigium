@@ -1,0 +1,16 @@
+{
+ "tag": "tschaos_0_primary_o30_p256",
+ "family": "tschaos",
+ "row": 0,
+ "label": "primary",
+ "ngon": 16,
+ "radius_scale": 1.0,
+ "order": 30,
+ "prec": 256,
+ "seconds": 21600.7,
+ "rc": 124,
+ "bridge_file": "/Users/sumit/Github/TheBridge/falsification/V8_ts2_obstruction_check/export_capd/ts2_row_C1.json",
+ "bridge_provenance": "TheBridge falsification/V8_ts2_obstruction_check/code/v8_export_capd.py via v8_hp.rational_parts, commit da94f2ca46df095b3df2b9155b62225384304032",
+ "verdict": "FAILED-CLOSED",
+ "stderr_tail": "619777j,r0.16354] segment 6/18\n  g[0.446596+0.619777j,r0.16354] segment 7/18\n  g[0.446596+0.619777j,r0.16354] segment 8/18\n  g[0.446596+0.619777j,r0.16354] segment 9/18\n  g[0.446596+0.619777j,r0.16354] segment 10/18\n  g[0.446596+0.619777j,r0.16354] segment 11/18\n  g[0.446596+0.619777j,r0.16354] segment 12/18\n  g[0.446596+0.619777j,r0.16354] segment 13/18\n  g[0.446596+0.619777j,r0.16354] segment 14/18\n  g[0.446596+0.619777j,r0.16354] segment 15/18\n  g[0.446596+0.619777j,r0.16354] segment 16/18\n  g[0.446596+0.619777j,r0.16354] segment 17/18\n  g[0.446596+0.619777j,r0.16354] segment 18/18\nloop g[0.446596+0.619777j,r0.16354] done\n  g[0.765281+1.062042j,r0.16354] segment 1/18\n  g[0.765281+1.062042j,r0.16354] segment 2/18\n  g[0.765281+1.062042j,r0.16354] segment 3/18\n  g[0.765281+1.062042j,r0.16354] segment 4/18\n  g[0.765281+1.062042j,r0.16354] segment 5/18\n  g[0.765281+1.062042j,r0.16354] segment 6/18\n  g[0.765281+1.062042j,r0.16354] segment 7/18\n  g[0.765281+1.062042j,r0.16354] segment 8/18\n  g[0.765281+1.062042j,r0.16354] segment 9/18\n  g[0.765281+1.062042j,r0.16354] segment 10/18\n  g[0.765281+1.062042j,r0.16354] segment 11/18\n  g[0.765281+1.062042j,r0.16354] segment 12/18\n  g[0.765281+1.062042j,r0.16354] segment 13/18\n  g[0.765281+1.062042j,r0.16354] segment 14/18\n  g[0.765281+1.062042j,r0.16354] segment 15/18\n  g[0.765281+1.062042j,r0.16354] segment 16/18\n  g[0.765281+1.062042j,r0.16354] segment 17/18\n\nWATCHDOG TIMEOUT: proof program exceeded its wall-clock limit (fail closed)\n"
+}
