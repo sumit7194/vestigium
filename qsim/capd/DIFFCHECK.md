@@ -118,3 +118,10 @@ per-category statistics).
 
 Environment: Python 3.13.12, python-flint 0.9.0 (Arb 3.6.0), CAPD 2f06098, MPFR 4.2.2, GMP 6.3.0, Apple clang 21,
 macOS 26.5 arm64 (see ENVIRONMENT/).
+
+### Re-check after the NaN-safeguard hardening of proof_guard.h (2026-10-11)
+
+checked_sin, checked_cos and checked_log now also require finite, ordered endpoints (NAN_SAFEGUARD.md). The full
+registered run was repeated with the rebuilt harness. Verdict: PASS, 0 failures, 0 undecided, 18 000/18 000 mutants
+detected. **The op and result sha256 were identical to the registered run at all three precisions.** The committed
+summary.json is the registered run's.

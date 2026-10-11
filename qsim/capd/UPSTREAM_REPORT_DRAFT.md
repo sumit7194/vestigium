@@ -28,7 +28,17 @@ unless `__MPI_TEST_NAN__` is defined, and that define is commented out in `MpInt
 **Why it matters.** A NaN endpoint can pass silently through comparisons written as `!(a < b)`. It does not create a
 wrong enclosure of a defined value, but a computer-assisted proof should fail loudly here.
 
-**Suggestion.** An explicit domain check in `log` (as `sqrt` has), or enabling `__MPI_TEST_NAN__` by default.
+**Related, found while trying to enable the check:**
+- `-D__MPI_TEST_NAN__` does not compile: `MpInterval_Fun.hpp:36` has an extra `)` in
+  `if(isNaN(x.leftBound()) || isNaN(x.rightBound())))`.
+- Even when enabled, `testNaN` is only called for sin/cos/tan arguments and log/exp results, never in + − × ÷.
+- The documented `__MPI_TEST_INF__` (in `MpIntervalSettings.h`) does nothing, because `MpInterval.cpp` tests
+  `_MPI_TEST_INF_` (lines 79, 238, 399).
+- Multiplication can turn a NaN endpoint next to a 0 endpoint into a finite result: `[0, NaN] * 2 = [0, 0]`.
+  (We found no way to create a NaN from finite inputs other than log: `tests/g_nanreach.cpp`.)
+
+**Suggestion.** An explicit domain check in `log` (as `sqrt` has); fix the parenthesis so `__MPI_TEST_NAN__` can be
+enabled; unify the INF macro name.
 
 Reproducer: `tests/diffcheck.cpp` (line `4 log -0x1p0 0x1p0` at precision 113).
 
