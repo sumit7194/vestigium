@@ -270,6 +270,9 @@ def run_row(family, row, bridge_json, ngon=16, radius_scale=1.0, order=30, prec=
     (GEN / (tag + ".out")).write_text(r.stdout)
     res = dict(tag=tag, family=family, row=row, label=label, ngon=ngon, radius_scale=radius_scale, order=order,
                prec=prec, seconds=round(secs, 1), rc=r.returncode, bridge_file=str(bridge_json), bridge_provenance=b.get("provenance"))
+    return finish_row(res, r, cert, family, row, label)
+
+def finish_row(res, r, cert, family, row, label):
     vals = {}
     for ln in r.stdout.splitlines():
         parts = ln.split()
@@ -308,6 +311,64 @@ def run_row(family, row, bridge_json, ngon=16, radius_scale=1.0, order=30, prec=
     res["capd_tr_comm"] = [float(x) for x in vals["tr_comm_re"]] + [float(x) for x in vals["tr_comm_im"]]
     res["max_width_tr_comm"] = float(max(vals["tr_comm_re"][1] - vals["tr_comm_re"][0], vals["tr_comm_im"][1] - vals["tr_comm_im"][0]))
     return res, vals
+
+def run_row_parallel(family, row, bridge_json, procs=3, ngon=16, radius_scale=1.0, order=30, prec=256, label="primary",
+                     steplog=False):
+    """Resource-only variant of run_row: each loop in its own process (ONLY name + NOCERT), then one combine run that
+    reads the loop matrices back as exact hex enclosures (MAT lines) and evaluates words + certificate with the same
+    CAPD code. The loop matrices are the same computation as in the single-process path, so the combine sees exactly
+    what the single process would have composed."""
+    from concurrent.futures import ThreadPoolExecutor
+    global PREC
+    PREC = prec
+    F, b = fields_bridge(bridge_json)
+    cert = cert_for(family, row)
+    tag = f"{family}_{row}_{label}_o{order}_p{prec}"
+    src, coef = gen_header(F, tag)
+    ok, exe, log = compile_row(tag, src)
+    if not ok: return dict(tag=tag, verdict="BUILD-FAILED", log=log), {}
+    base = build_input(coef, cert, ngon=ngon, radius_scale=radius_scale, order=order)
+    if steplog: base = base.replace("ORDER", "STEPLOG 1\nORDER", 1)
+    names = sorted(set(cert["g"].split("*") + cert["h"].split("*")))
+    def one(n):
+        inp = base.replace("END\n", "") + "ONLY %s\nNOCERT\nEND\n" % n
+        safe = n.replace("[", "_").replace("]", "_").replace(",", "_")
+        with open(GEN / f"{tag}.{safe}.err", "w") as ef:
+            r = subprocess.run([str(exe)], input=inp, stdout=subprocess.PIPE, stderr=ef, text=True)
+        (GEN / f"{tag}.{safe}.out").write_text(r.stdout)
+        return n, r
+    t0 = time.time()
+    with ThreadPoolExecutor(max_workers=procs) as ex:
+        outs = dict(ex.map(one, names))
+    mats = {}
+    for n, r in outs.items():
+        if r.returncode != 0 or "VERDICT LOOPS_ONLY" not in r.stdout:
+            return dict(tag=tag, verdict="FAILED-CLOSED", loop=n, rc=r.returncode), {}
+        ent = {}
+        for ln in r.stdout.splitlines():
+            parts = ln.split()
+            if parts and parts[0] == "LOOP" and parts[1] == n: ent[parts[2]] = (parts[3], parts[4])
+        mats[n] = ent
+    comb = [l for l in base.splitlines() if l.split()[:1] in (["PREC"], ["ORDER"], ["TOL"])]
+    for i, c in enumerate(coef):
+        lo, hi = enclose(c); comb.append("PAR %d %s %s" % (i, lo, hi))
+    for n in names:
+        e = mats[n]; vals = []
+        for i in range(2):
+            for j in range(2):
+                vals += [*e[f"M{i}{j}re"], *e[f"M{i}{j}im"]]
+        comb.append("MAT %s %s" % (n, " ".join(vals)))
+    comb += ["WORD g %s" % cert["g"], "WORD h %s" % cert["h"], "END"]
+    inp = "\n".join(comb) + "\n"
+    (GEN / (tag + ".combine.in")).write_text(inp)
+    with open(GEN / (tag + ".err"), "w") as ef:
+        r = subprocess.run([str(exe)], input=inp, stdout=subprocess.PIPE, stderr=ef, text=True)
+    r.stderr = (GEN / (tag + ".err")).read_text()
+    (GEN / (tag + ".out")).write_text(r.stdout)
+    return finish_row(dict(tag=tag, family=family, row=row, label=label, ngon=ngon, radius_scale=radius_scale,
+                           order=order, prec=prec, seconds=round(time.time() - t0, 1), rc=r.returncode,
+                           bridge_file=str(bridge_json), bridge_provenance=b.get("provenance"), layout="per-loop"),
+                      r, cert, family, row, label)
 
 def control_m6(perturb=False):
     """M6 (MR_REPLAY.md): Euler equation y'' + (p/t) y' + (q/t^2) y = 0, p = 11/12 (+1e-20 if perturb), q = -1/12,
@@ -375,7 +436,8 @@ if __name__ == "__main__":
         bj = BRIDGE_TS / (f"ts2_row_{row}.json" if fam == "ts2" else f"ts2_row_C{row + 1}.json")
         kw = dict(ngon=24, radius_scale=0.8) if label == "secondary" else {}
         if label == "escalated": kw = dict(order=40, prec=512)
-        res, _ = run_row(fam, row, bj, label=label, **kw)
+        res, _ = (run_row_parallel(fam, row, bj, label=label, steplog=("STEPLOG" in os.environ), **kw)
+                  if os.environ.get("REPLAY_PAR") else run_row(fam, row, bj, label=label, **kw))
         out = HERE / "replay_results"; out.mkdir(exist_ok=True)
         json.dump(res, open(out / (res["tag"] + ".json"), "w"), indent=1, default=str)
         print(json.dumps(res, indent=1, default=str))

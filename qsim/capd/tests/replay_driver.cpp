@@ -17,6 +17,7 @@
 #include <cstdio>
 #include <iostream>
 #include <map>
+#include <set>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -72,6 +73,7 @@ static M2 ident() { M2 m; CI o{MpInterval(1), MpInterval(0)}, z{MpInterval(0), M
 
 static int ORDER = 30;
 static double TOL = 0;   // 0: CAPD default (10^-(digits+3), ~1e-80 at 256 bits); set by "TOL x"
+static bool STEPLOG = false;   // "STEPLOG 1": count CAPD steps per segment (stopAfterStep loop; opt-in)
 static std::vector<MpInterval> COEF;
 
 struct Vertex { CI t; std::vector<CI> E; };
@@ -88,7 +90,14 @@ static M2 segment(const Vertex& a, const Vertex& b) {
   x[0] = 1; x[6] = 1;
   for (int k = 0; k < NE; ++k) { x[8 + 2 * k] = a.E[k].re; x[9 + 2 * k] = a.E[k].im; }
   capd::MpC0Rect2Set set(x, MpInterval(0));
-  capd::MpIVector y = tm(MpInterval(1), set);
+  capd::MpIVector y;
+  if (STEPLOG) {
+    tm.stopAfterStep(true); long steps = 0;
+    do { y = tm(MpInterval(1), set); ++steps; } while (!tm.completed());
+    std::cerr << "    steps " << steps << std::endl;
+  } else {
+    y = tm(MpInterval(1), set);
+  }
   capd_proof::require_finite_all(y, "segment transport");
   // consistency: the transported E must overlap the independently enclosed E at b (single-valued exp)
   for (int k = 0; k < NE; ++k) {
@@ -106,15 +115,30 @@ int main() {
   std::map<std::string, M2> loops;
   std::map<std::string, std::string> words;
   std::vector<std::string> order;
+  std::set<std::string> only; bool nocert = false;
   while (std::getline(std::cin, line)) {
     std::istringstream in(line); in >> kw;
     if (kw == "PREC") { long p; in >> p; R::setDefaultPrecision(p); }
     else if (kw == "ORDER") { in >> ORDER; }
     else if (kw == "TOL") { in >> TOL; }
+    else if (kw == "STEPLOG") { int v; in >> v; STEPLOG = v != 0; }
+    else if (kw == "ONLY") { std::string n; in >> n; only.insert(n); }
+    else if (kw == "NOCERT") { nocert = true; }
+    else if (kw == "MAT") {   // a loop matrix computed by a separate per-loop run: exact hex enclosures, 8 intervals
+      std::string name; in >> name; M2 m;
+      for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) {
+        std::string a, b, c, d; in >> a >> b >> c >> d; m.a[i][j] = {ival(a, b), ival(c, d)};
+      }
+      loops[name] = m; order.push_back(name);
+    }
     else if (kw == "PAR") { int i; std::string lo, hi; in >> i >> lo >> hi; if ((int)COEF.size() != i) throw std::runtime_error("PAR order"); COEF.push_back(ival(lo, hi)); }
     else if (kw == "LOOP") {
       if ((int)COEF.size() != NPAR_COEF) throw std::runtime_error("coefficient count mismatch");
       std::string name; int nv; in >> name >> nv;
+      if (!only.empty() && !only.count(name)) {          // per-loop mode: skip loops not assigned to this process
+        for (int v = 0; v < nv; ++v) std::getline(std::cin, line);
+        continue;
+      }
       std::vector<Vertex> vs;
       for (int v = 0; v < nv; ++v) {
         std::getline(std::cin, line); std::istringstream vi(line); std::string tag, re, im; vi >> tag >> re >> im;
@@ -146,6 +170,7 @@ int main() {
       out("LOOP " + n + " M" + std::to_string(i) + std::to_string(j) + "im", M.a[i][j].im);
     }
   }
+  if (nocert) { std::cout << "VERDICT LOOPS_ONLY\n"; return 0; }
   auto elem = [&](const std::string& expr) {          // "a*b*c" -> M_a M_b M_c (same convention as v1/v2)
     std::vector<std::string> parts; std::string cur;
     for (char ch : expr) { if (ch == '*') { parts.push_back(cur); cur.clear(); } else cur += ch; }
