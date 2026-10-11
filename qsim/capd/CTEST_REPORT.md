@@ -87,3 +87,12 @@ expected rightBound (the nearest double, 4.32432432399999999717…) would exclud
 - #27 reproduces on BOTH paths: the solver fails on a degenerate point set at an equilibrium and works one ulp
   wider. It throws (fails loudly), so it is not a silent error.
 - Our h-sets and boxes are never degenerate points. Recorded as a known limitation.
+
+## Parse-integrity check (bridge request after tabula's Python 3.12 tokenizer finding), 2026-10-11
+
+`qsim/parse_integrity_check.py`: 20 fresh processes, `PYTHONMALLOC=debug -X faulthandler`, Python 3.13.12. Each parses
+all 8 metric files our pipelines read (TS2 P1/P2 + Kerr; MN p1/p2 + Kerr) with the production loaders
+(`sympy.parse_expr`), and hashes srepr of every component.
+- **Result: 20/20 rc = 0, with identical output in every run.**
+- No fault output; per-file hashes in `qsim/parse_integrity_hashes.txt`.
+- Python 3.13 is not affected by the 3.12 tokenizer and heap issue on these files.
