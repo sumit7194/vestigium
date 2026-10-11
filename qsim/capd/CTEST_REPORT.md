@@ -58,3 +58,32 @@ type.
 
 So CAPD's parsed interval is the **tightest possible enclosure** of the decimal input, on both sides. The test's
 expected rightBound (the nearest double, 4.32432432399999999717…) would exclude the decimal.
+
+## Regression tests for open upstream issues (`tests/reg27.cpp`, `tests/reg28.cpp`), 2026-10-11
+
+**#28, interval sin on large point arguments** (5 s timeout each; a hang is recorded as a failure):
+
+| argument | double NATIVE | **MPFR (MpInterval, 256 bits)** |
+|---|---|---|
+| ±1e3 … 1e12 | — | **correct enclosures** (true sin from mpmath at 40 digits lies inside every printed interval) |
+| 1e13, 3e13, 1e14, 3e14, 1e15, 1e18, 1e20 | — | **NO RESULT (hang)** |
+| −5.7e19 | [-1,1] | **hang** |
+| −5.8e19, −1e20 | **hang** (reproduces #28) | **hang** |
+| +1e20 | [-1,1] | **hang** |
+
+- **New finding: on the MPFR path, which is the one we use, sin hangs for |x| ≳ 1e13**, including POSITIVE
+  arguments. That is worse than the double path in #28.
+- It is a liveness failure, not a wrong enclosure: every result returned was correct.
+- Our planned proofs use no trigonometry (TS δ=2 and Kerr are rational, Hénon–Heiles is polynomial). Any future
+  use of trig in proof code must keep arguments far below 1e12. To be added to the upstream report.
+
+**#27, thin initial set at an equilibrium** (x' = 10(1−x), x(0) = 1; t = 0.05):
+
+| set | double IOdeSolver | MPFR MpIOdeSolver |
+|---|---|---|
+| point [1, 1] | THROW "minimal time step reached" | **THROW "minimal time step reached"** |
+| [1 − ulp, 1] | x(0.05) ∈ [0.999999, 1.00001] | x(0.05) ∈ [0.999999, 1.00001] |
+
+- #27 reproduces on BOTH paths: the solver fails on a degenerate point set at an equilibrium and works one ulp
+  wider. It throws (fails loudly), so it is not a silent error.
+- Our h-sets and boxes are never degenerate points. Recorded as a known limitation.
