@@ -1,0 +1,86 @@
+{
+ "bridge_commit": "c5f25aab74e574084a0daa5e5d7110e5191287bb",
+ "rows": [
+  {
+   "bridge_file": "mneq_row_1.json",
+   "mine": "mneq row 1",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_identical": true,
+   "n_terms": {
+    "p_num": 194,
+    "p_den": 170,
+    "q_num": 189,
+    "q_den": 201
+   },
+   "GATE": true
+  },
+  {
+   "bridge_file": "mneq_row_2.json",
+   "mine": "mneq row 2",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_identical": true,
+   "n_terms": {
+    "p_num": 194,
+    "p_den": 170,
+    "q_num": 189,
+    "q_den": 201
+   },
+   "GATE": true
+  },
+  {
+   "bridge_file": "mneq_row_3.json",
+   "mine": "mneq row 3",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_identical": true,
+   "n_terms": {
+    "p_num": 193,
+    "p_den": 170,
+    "q_num": 187,
+    "q_den": 201
+   },
+   "GATE": true
+  },
+  {
+   "bridge_file": "mneq_row_4.json",
+   "mine": "mneq row 4",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_identical": true,
+   "n_terms": {
+    "p_num": 193,
+    "p_den": 170,
+    "q_num": 187,
+    "q_den": 201
+   },
+   "GATE": true
+  },
+  {
+   "bridge_file": "mneq_row_5.json",
+   "mine": "mneq row 5",
+   "params_match": true,
+   "var_match": true,
+   "p_identical": true,
+   "q_identical": true,
+   "exps_identical": true,
+   "n_terms": {
+    "p_num": 193,
+    "p_den": 170,
+    "q_num": 187,
+    "q_den": 201
+   },
+   "GATE": true
+  }
+ ],
+ "all_pass": true
+}

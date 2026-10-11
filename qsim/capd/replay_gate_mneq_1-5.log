@@ -1,0 +1,7 @@
+slot free Sun Oct 11 09:20:33 IST 2026: sims/.venv/bin/python qsim/capd/replay_gate.py mneq 1 2 3 4 5
+{'bridge_file': 'mneq_row_1.json', 'mine': 'mneq row 1', 'params_match': True, 'var_match': True, 'p_identical': True, 'q_identical': True, 'exps_identical': True, 'n_terms': {'p_num': 194, 'p_den': 170, 'q_num': 189, 'q_den': 201}, 'GATE': True}
+{'bridge_file': 'mneq_row_2.json', 'mine': 'mneq row 2', 'params_match': True, 'var_match': True, 'p_identical': True, 'q_identical': True, 'exps_identical': True, 'n_terms': {'p_num': 194, 'p_den': 170, 'q_num': 189, 'q_den': 201}, 'GATE': True}
+{'bridge_file': 'mneq_row_3.json', 'mine': 'mneq row 3', 'params_match': True, 'var_match': True, 'p_identical': True, 'q_identical': True, 'exps_identical': True, 'n_terms': {'p_num': 193, 'p_den': 170, 'q_num': 187, 'q_den': 201}, 'GATE': True}
+{'bridge_file': 'mneq_row_4.json', 'mine': 'mneq row 4', 'params_match': True, 'var_match': True, 'p_identical': True, 'q_identical': True, 'exps_identical': True, 'n_terms': {'p_num': 193, 'p_den': 170, 'q_num': 187, 'q_den': 201}, 'GATE': True}
+{'bridge_file': 'mneq_row_5.json', 'mine': 'mneq row 5', 'params_match': True, 'var_match': True, 'p_identical': True, 'q_identical': True, 'exps_identical': True, 'n_terms': {'p_num': 193, 'p_den': 170, 'q_num': 187, 'q_den': 201}, 'GATE': True}
+ALL PASS
