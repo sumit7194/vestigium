@@ -17,6 +17,16 @@ adopted.
   - the fields are **the bridge's independent derivation**;
   - a homotopic secondary loop covers the discretisation.
 
+## Remaining common modes (stated precisely)
+
+- **Metric component files:** the bridge's derivation starts from the SAME metric component files this repo uses.
+  TS row 0's export, for example, names `ts2_metric_components_t1o2.txt`. So "independent derivation" means
+  independent from the metric components onward: the NVE, the t-chart and the reduction to p, q. The metric files
+  themselves are a shared input. They are checked separately (the parse-integrity check and the sealed files).
+- **Loops:** the primary loop geometry is shared by construction, because the point is a direct trace comparison.
+  The secondary loops remove that.
+- **To be confirmed with the bridge:** which source the MN (V9) derivation starts from.
+
 ## Fields: bridge-derived, gated exactly
 
 - **Source:** the TS rows come from TheBridge `falsification/V8_ts2_obstruction_check/export_capd/`
