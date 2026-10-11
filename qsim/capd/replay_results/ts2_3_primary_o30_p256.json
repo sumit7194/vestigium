@@ -1,0 +1,39 @@
+{
+ "tag": "ts2_3_primary_o30_p256",
+ "family": "ts2",
+ "row": 3,
+ "label": "primary",
+ "ngon": 16,
+ "radius_scale": 1.0,
+ "order": 30,
+ "prec": 256,
+ "seconds": 16640.8,
+ "rc": 0,
+ "bridge_file": "/Users/sumit/Github/TheBridge/falsification/V8_ts2_obstruction_check/export_capd/ts2_row_3.json",
+ "bridge_provenance": "TheBridge falsification/V8_ts2_obstruction_check/code/v8_export_capd.py via v8_hp.rational_parts, commit da94f2ca46df095b3df2b9155b62225384304032",
+ "LOX_G": true,
+ "LOX_H": true,
+ "COMM_NE_2": true,
+ "verdict": "REPLAYED",
+ "consistency": {
+  "v2_w_g": true,
+  "v2_w_h": true,
+  "v2_tr_comm": true,
+  "v1_tr_comm": true,
+  "v2_exact_GH_boxes": true
+ },
+ "consistent": true,
+ "capd_w_g": [
+  -50.70794231593439,
+  -50.70794231593439,
+  109.09748003097748,
+  109.09748003097748
+ ],
+ "capd_tr_comm": [
+  -49.07593348970041,
+  -49.07593348970041,
+  101.82768659276655,
+  101.82768659276655
+ ],
+ "max_width_tr_comm": 1.636584184285732e-23
+}
