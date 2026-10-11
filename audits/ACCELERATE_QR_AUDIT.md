@@ -37,3 +37,12 @@ Method: `DYLD_INSERT_LIBRARIES=/usr/lib/libgmalloc.dylib`, run with `audits/acce
     covers this bug.
 
 Environment: Python 3.13.12, numpy 2.5.0, scipy 1.18.0 (Accelerate), macOS 26.5 arm64.
+
+**Correction (same day):** torch IS imported in 6 scripts: `qsim/stage3_entanglement_at_scale.py`,
+`qsim/stage3_symmetric.py` and `sims/nqs_{tfim,cnn,phase_transition,scaling}.py`, all old exploratory work, not
+verdict-relevant. My first note to the bridge said torch was not used, and that was wrong.
+- **None of them call any torch LAPACK routine:** no torch.linalg, qr, svd, lstsq, pinv, inverse, solve, eigh,
+  slogdet or cholesky.
+- torch is used only for network training (BLAS matmul, not dgeqrf).
+- Their only SVDs are the numpy ones above, which are clean under Guard Malloc.
+- **The verdict stays CLEAN.**
