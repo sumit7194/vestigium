@@ -42,3 +42,19 @@ extended precision the tolerance assumed. No interval or enclosure is involved.
 - Failure 1 is literally in an "interval test", but CAPD's output is provably the rigorous one.
 - The ruling is the bridge's. These findings are also candidates for an upstream report, which the user would
   send.
+
+## Bridge ruling (2026-10-11): build ACCEPTED
+
+The bridge independently verified #7. #43 and #44 are non-rigorous tolerance tests and don't count against the
+build. The bridge's condition: the compile-time guard must also exclude DMap, long-double and every non-interval
+type.
+
+**#7, both bounds checked exactly** (`tests/parse7.cpp`; CAPD's own parse, printed as hex floats):
+
+| decimal | CAPD bound | checked |
+|---|---|---|
+| 3.21312312 (left) | 0x1.9b479e4f35f32p+1 = 3.21312311999999966616… | ≤ decimal, and the next double up is ≥ decimal: the **largest double ≤ the decimal** |
+| 4.324324324 (right) | 0x1.14c1bacf3825ep+2 = 4.32432432400000088534… | ≥ decimal, and the next double down is ≤ decimal: the **smallest double ≥ the decimal** |
+
+So CAPD's parsed interval is the **tightest possible enclosure** of the decimal input, on both sides. The test's
+expected rightBound (the nearest double, 4.32432432399999999717…) would exclude the decimal.
