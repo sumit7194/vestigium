@@ -1,0 +1,7 @@
+# built binaries and guard objects
+*.o
+diffcheck
+reg27
+reg28
+parse7
+g_ok

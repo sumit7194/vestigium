@@ -20,3 +20,40 @@
 #pragma GCC poison C0Set C0Intv2Set C0Pped2Set C0Rect2Set C0TripletonSet C0PpedSet C0RectSet C0HORect2Set
 #pragma GCC poison C0HOTripletonSet C1Set C1RectSet C1PpedSet C1Rect2Set C1Pped2Set C11Rect2Set C1HORect2Set
 #pragma GCC poison C1HOPped2Set C2Set C2Rect2Set CnSet CnRect2Set
+
+// ---- Trig-argument range guard and watchdog (bridge 2026-10-11; CAPD MPFR interval sin hangs for |x| >~ 1e13,
+// CTEST_REPORT.md, regression #28). FAIL CLOSED: proof code calls capd_proof::checked_sin / checked_cos, which throw
+// unless the whole argument interval lies in [-1e12, 1e12] (a NaN endpoint also throws). The bare names are poisoned
+// below, so proof code cannot call the unguarded functions directly. check_proof_object.sh additionally refuses any
+// trig or log name inside a string literal (a CAPD Map formula), because arguments inside an ODE step cannot be
+// range-checked.
+#include <csignal>
+#include <cstdlib>
+#include <stdexcept>
+#include <unistd.h>
+namespace capd_proof {
+inline const capd::MpInterval& trig_checked(const capd::MpInterval& x) {
+  static const capd::MpFloat LIM(1e12);  // exact in double and in MPFR
+  if (!(x.leftBound() >= -LIM && x.rightBound() <= LIM))
+    throw std::runtime_error("capd_proof: trig argument outside [-1e12, 1e12] (fail closed; CAPD sin hang >~1e13)");
+  return x;
+}
+inline capd::MpInterval checked_sin(const capd::MpInterval& x) { return capd::intervals::sin(trig_checked(x)); }
+inline capd::MpInterval checked_cos(const capd::MpInterval& x) { return capd::intervals::cos(trig_checked(x)); }
+// CAPD's MpInterval log does NOT throw on a box reaching below 0: it returns a NaN endpoint (testNaN is compiled out,
+// __MPI_TEST_NAN__ is off in MpIntervalSettings.h; found by the trust-rule-3 differential check, DIFFCHECK.md).
+// checked_log fails closed unless the whole box is > 0, and also rejects a NaN result.
+inline capd::MpInterval checked_log(const capd::MpInterval& x) {
+  if (!(x.leftBound() > 0)) throw std::runtime_error("capd_proof: log argument not certainly > 0 (fail closed)");
+  capd::MpInterval r = capd::intervals::log(x);
+  if (!(r.leftBound() <= r.rightBound())) throw std::runtime_error("capd_proof: log returned NaN/inverted (fail closed)");
+  return r;
+}
+// Hard wall-clock watchdog: SIGALRM after `seconds` writes a message and exits 124 (no result is ever printed).
+extern "C" inline void watchdog_fire(int) {
+  const char m[] = "\nWATCHDOG TIMEOUT: proof program exceeded its wall-clock limit (fail closed)\n";
+  ssize_t r = ::write(2, m, sizeof(m) - 1); (void)r; std::_Exit(124);
+}
+inline void watchdog(unsigned seconds) { std::signal(SIGALRM, watchdog_fire); ::alarm(seconds); }
+}  // namespace capd_proof
+#pragma GCC poison sin cos tan asin acos atan sinh cosh tanh log
