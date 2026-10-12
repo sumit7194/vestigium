@@ -1,0 +1,48 @@
+{
+ "tag": "mnaxv2_3_primary_o30_p128_cg3",
+ "family": "mnaxv2",
+ "row": 3,
+ "label": "primary",
+ "ngon": 16,
+ "radius_scale": 1.0,
+ "order": 30,
+ "prec": 128,
+ "seconds": 1181.9,
+ "rc": 0,
+ "bridge_file": "/Users/sumit/Github/TheBridge/falsification/V9_mn_obstruction_check/export_capd/mnaxial_p2_E1_mu29.json",
+ "bridge_provenance": "TheBridge falsification/V9_mn_obstruction_check/code/v9_export_capd_axial.py via v9_nve.axial_r, commit cd4c497cdb7242684371357d0ae06addf8ddff45",
+ "layout": "per-loop",
+ "tol": 1e-25,
+ "codegen": 3,
+ "pruned_exps": [],
+ "subseg": 32,
+ "a5": {
+  "A5_HALVINGS": "0",
+  "A5_MAX_SHIFTED_COEF_WIDTH": "1.11476e-25"
+ },
+ "LOX_G": true,
+ "LOX_H": true,
+ "COMM_NE_2": true,
+ "verdict": "REPLAYED",
+ "consistency": {
+  "v2_w_g": true,
+  "v2_w_h": true,
+  "v2_tr_comm": true,
+  "v1_tr_comm": true,
+  "v2_exact_GH_boxes": true
+ },
+ "consistent": true,
+ "capd_w_g": [
+  372.51018734734214,
+  372.5101873474162,
+  543.7144330548404,
+  543.7144330549296
+ ],
+ "capd_tr_comm": [
+  128286.1748160661,
+  128286.17481663643,
+  -120547.54651177926,
+  -120547.54651124532
+ ],
+ "max_width_tr_comm": 5.703463461944499e-07
+}
