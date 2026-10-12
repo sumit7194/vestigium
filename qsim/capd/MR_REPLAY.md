@@ -329,3 +329,15 @@ cross-check.
 - The excess in-flight processes were reniced to +19, not stopped: PID 93980 (the C1 secondary's third loop) and PID
   95856 (the ladder's second process, on the C6 escalation).
 - Scheduling only.
+
+**Scheduling note (2026-10-13 ~01:25, bridge suggestion): MN eq 0 split.**
+- **Why it is possible:** under the old layout, each of MN eq 0's three processes was computing ALL loops, so one
+  process's output is a complete row.
+- **What was done:**
+  - All three processes were stopped (by PID, mine) at 34 of 54 segments each.
+  - Partial determinism check before stopping: the 34 checkpointed segments are bit-identical across the 3 copies.
+  - Process 1's EXACT input was re-run (`mn_eq0_resume.py`). Its sha256 reproduces the checkpoint name, verified.
+    It reloads those 34 segments and computes the rest for all loops.
+  - The combine then takes every loop from that single output, with the same CAPD combine and finish_row.
+- **Freed cores:** two, used for the MN queue (from the eq 0 secondary on), on the fixed layout at 2 processes.
+- Scheduling only; the computation is unchanged.
