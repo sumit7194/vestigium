@@ -180,4 +180,55 @@ replay. The registered runs use the bridge's fields only.
     256 bits through a stale Python default argument. That was fixed before any MN run.
 - **History:** the MN eq 0 run under the old settings was stopped (by PID, mine) before producing any result.
 
+## Amendment A5 (2026-10-12, before any MN replay output): local re-expansion (MN rows), with bridge additions 1–5
+
+**Diagnosis (measured):** under A4, the MN steps stayed at Δs ≈ 6e−5 whatever the tolerance (1e−25 or 1e−15), the
+order (30 or 15) or the E representation (state or direct).
+- CAPD's field value and Jacobian at the segment start are tight: max |Df| = 2.1, widths about 1e−34.
+- But the field's width over a time box grows like about 4.8e4·h. At h ≥ 1e−4 CAPD throws "Possible division by
+  zero": the p-denominator enclosure is [−2.7e30, 3.2e31], against a true value of about 3.7e14.
+- An interval interpreter run on the generated code shows **intra-group cancellation of about 1e5**: single E-group
+  polynomials in t have terms of about 1e15 that sum to about 1e10. That is the dependency problem.
+
+**A5, for the MN rows only:**
+- **Splitting:** each straight segment is split into SUBSEG = 32 equal sub-segments, at exact dyadic points. The path
+  is identical, so the homotopy class and the monodromy are unchanged.
+- **Local re-expansion (codegen 3):** on each sub-segment t = c + Dσ, σ ∈ [0, 1], every polynomial is evaluated as
+  P(c + Dσ) = Σ e_k σ^k. This covers each E-group of p and q (numerator and denominator) and each w_k numerator and
+  denominator.
+- **The coefficients:** the e_k are computed by the DRIVER, by Taylor shift (repeated synthetic division) followed by
+  scaling by D^k, in **MPFR complex interval arithmetic**, starting from the exact base coefficients.
+  - (Bridge 3) The e_k are enclosures, so CAPD integrates an interval-parameter family that contains the true
+    field. The maximum absolute coefficient width is recorded (`A5_MAX_SHIFTED_COEF_WIDTH`).
+  - (Bridge 5) The shift is done in MPFR, so the replay remains independent of FLINT/Arb.
+- **E factors:** E_k = exp(w_k) is computed in the field, with the guarded `capd_proof::node_exp/node_cos/node_sin`.
+  There is no E state. The watchdog covers the only failure mode of CAPD trig (slow reduction for huge arguments);
+  here |Im w| < 2.
+- **Settings:** as A4 (prec 128, tol 1e−25, order 30, 3 per-loop processes, checkpoints).
+
+**(Bridge 2) Shift consistency gate, at EVERY sub-segment and for every polynomial.** At σ = 0, 0.5 and 1, the shifted
+polynomial must overlap the direct interval evaluation of the original polynomial at c + Dσ. A failure throws a
+dedicated, never-caught error (fail closed).
+
+**(Bridge 4) Pre-registered response to a transport failure.**
+- If CAPD throws on a sub-segment (for example "possible division by zero"), the sub-segment is halved dyadically and
+  both halves are transported. This repeats up to 4 levels deep; beyond that, the row fails closed.
+- Shift-gate failures are never halved.
+- The number of halvings is reported (`A5_HALVINGS`).
+
+**(Bridge 1) Positive control on real NVE data.**
+- TS row 0 (already REPLAYED under the original settings) is re-run through the full A5 path (codegen 3, SUBSEG 32,
+  prec 128, tol 1e−25, per-loop).
+- It must give the same verdict (REPLAYED), with every cross-engine check true, including entry-wise overlap of g
+  and h with v2's exact boxes.
+- Its trace values must also overlap the original TS row-0 replay's.
+
+**Control M6** goes through the A5 path too: the exact trace and det must be contained, and the wrong-p control
+excluded.
+
+**Probe (engineering, MN eq 0, loop g[0.1857], first segment):**
+- about 30 s per sub-segment, so about 16 min per segment (against about a week before);
+- 0 halvings;
+- maximum shifted-coefficient width 9.5e−20 absolute (relative to coefficients of up to about 1e15).
+
 Outcome: to be appended below after the runs, unchanged rules.

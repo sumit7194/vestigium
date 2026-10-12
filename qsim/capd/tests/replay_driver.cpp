@@ -16,6 +16,7 @@
 #include "proof_guard.h"
 #include <cstdio>
 #include <iostream>
+#include <chrono>
 #include <fstream>
 #include <map>
 #include <set>
@@ -74,7 +75,11 @@ static M2 ident() { M2 m; CI o{MpInterval(1), MpInterval(0)}, z{MpInterval(0), M
 
 static int ORDER = 30;
 static double TOL = 0;   // 0: CAPD default (10^-(digits+3), ~1e-80 at 256 bits); set by "TOL x"
-static bool STEPLOG = false;   // "STEPLOG 1": count CAPD steps per segment (stopAfterStep loop; opt-in)
+static double FIXSTEP = 0;
+static int SUBSEG = 1;          // A5: sub-segments per straight segment (power of 2), used with codegen 3 (LOCAL_SHIFT)
+static const int MAXHALV = 4;    // A5 rule (pre-registered): a sub-segment whose CAPD transport throws is halved dyadically, at most 4 times, then fail closed
+static double MAXCOEFW = 0;      // A5: largest absolute width of any shifted coefficient (reported)   // diagnostic: "FIXSTEP h" turns CAPD step control off and uses a fixed step h
+static int STEPLOG = 0;   // "STEPLOG 1": count CAPD steps per segment; "STEPLOG 2": also print each step (probe)
 static std::vector<MpInterval> COEF;
 // Per-segment checkpoint ("CKPT path"): each finished segment matrix is appended as exact hex (8 intervals) and
 // reloaded on restart, so an interrupted row resumes with bit-identical values (no recomputation, no rounding).
@@ -90,6 +95,7 @@ static M2 segment(const Vertex& a, const Vertex& b) {
   for (int k = 0; k < NPAR_COEF; ++k) map.setParameter(4 + k, COEF[k]);
   capd::MpIOdeSolver solver(map, ORDER);
   if (TOL > 0) { solver.setAbsoluteTolerance(TOL); solver.setRelativeTolerance(TOL); }  // step size only; rigour unaffected
+  if (FIXSTEP > 0) { solver.turnOffStepControl(); solver.setStep(MpInterval(FIXSTEP)); }
   capd::MpITimeMap tm(solver);
   capd::MpIVector x(8 + 2 * NE);
   x[0] = 1; x[6] = 1;
@@ -98,7 +104,14 @@ static M2 segment(const Vertex& a, const Vertex& b) {
   capd::MpIVector y;
   if (STEPLOG) {
     tm.stopAfterStep(true); long steps = 0;
-    do { y = tm(MpInterval(1), set); ++steps; } while (!tm.completed());
+    auto w0 = std::chrono::steady_clock::now();
+    do {
+      y = tm(MpInterval(1), set); ++steps;
+      if (STEPLOG >= 2) {
+        double el = std::chrono::duration<double>(std::chrono::steady_clock::now() - w0).count();
+        std::cerr << "    step " << steps << " s=" << hexof(set.getCurrentTime().rightBound()) << " wall " << el << std::endl;
+      }
+    } while (!tm.completed());
     std::cerr << "    steps " << steps << std::endl;
   } else {
     y = tm(MpInterval(1), set);
@@ -114,6 +127,78 @@ static M2 segment(const Vertex& a, const Vertex& b) {
   return m;
 }
 
+#ifdef LOCAL_SHIFT
+// ---- A5: local re-expansion. For each polynomial P(t) = sum_j c_j t^j (exact base coefficients COEF), the field on a
+// sub-segment t = c + D sigma, sigma in [0, 1], uses P(c + D sigma) = sum_k e_k sigma^k with e_k = P^(k)(c)/k! * D^k,
+// computed here by Taylor shift (synthetic division) in MPFR complex INTERVAL arithmetic: each e_k is an enclosure, so
+// CAPD integrates an interval-parameter family that contains the true field.
+struct ShiftGateError : std::logic_error { using std::logic_error::logic_error; };   // never caught by the halving rule
+static CI ci(const MpInterval& r) { return {r, MpInterval(0)}; }
+static std::vector<CI> base_poly(int i) {
+  std::vector<CI> f(POLY_DEG[i] + 1);
+  for (int j = 0; j <= POLY_DEG[i]; ++j) { int b = POLY_BASE[POLY_BASE_START[i] + j]; f[j] = ci(b >= 0 ? COEF[b] : MpInterval(0)); }
+  return f;
+}
+static CI horner_c(const std::vector<CI>& f, const CI& z) {
+  CI acc = f.back();
+  for (int k = (int)f.size() - 2; k >= 0; --k) acc = cadd(cmul(acc, z), f[k]);
+  return acc;
+}
+static bool overlap(const CI& a, const CI& b) {
+  return !(capd_proof::certainly_disjoint(a.re, b.re) || capd_proof::certainly_disjoint(a.im, b.im));
+}
+static std::vector<CI> shifted(int i, const CI& c, const CI& D) {
+  std::vector<CI> f = base_poly(i);
+  const int d = POLY_DEG[i];
+  for (int k = 0; k < d; ++k)                                  // Taylor shift at c (repeated synthetic division)
+    for (int j = d - 1; j >= k; --j) f[j] = cadd(f[j], cmul(c, f[j + 1]));
+  CI Dk = ci(MpInterval(1));
+  for (int k = 0; k <= d; ++k) { f[k] = cmul(f[k], Dk); Dk = cmul(Dk, D); }
+  // A5 consistency gate (bridge addition 2): sigma = 0, 0.5, 1 against direct evaluation of the ORIGINAL polynomial
+  const std::vector<CI> orig = base_poly(i);
+  for (double sg : {0.0, 0.5, 1.0}) {
+    CI z = cadd(c, cmul(D, ci(MpInterval(sg))));
+    CI direct = horner_c(orig, z), viaShift = horner_c(f, ci(MpInterval(sg)));
+    if (!overlap(direct, viaShift)) throw ShiftGateError("A5 shift gate: shifted polynomial disagrees with direct evaluation (fail closed)");
+  }
+  for (auto& e : f) {
+    capd_proof::require_finite(e.re, "shifted coefficient"); capd_proof::require_finite(e.im, "shifted coefficient");
+    double w = std::max(toDouble(diam(e.re).rightBound()), toDouble(diam(e.im).rightBound()));
+    if (w > MAXCOEFW) MAXCOEFW = w;
+  }
+  return f;
+}
+static M2 transport_local(const CI& c, const CI& D) {
+  capd::MpIMap map(field, 8, 8, NPAR_MAP);
+  map.setParameter(0, D.re); map.setParameter(1, D.im);
+  for (int i = 0; i < NPOLY; ++i) {
+    std::vector<CI> e = shifted(i, c, D);
+    for (int k = 0; k <= POLY_DEG[i]; ++k) { map.setParameter(POLY_SLOT[i] + 2 * k, e[k].re); map.setParameter(POLY_SLOT[i] + 2 * k + 1, e[k].im); }
+  }
+  capd::MpIOdeSolver solver(map, ORDER);
+  if (TOL > 0) { solver.setAbsoluteTolerance(TOL); solver.setRelativeTolerance(TOL); }
+  capd::MpITimeMap tm(solver);
+  capd::MpIVector x(8); x[0] = 1; x[6] = 1;
+  capd::MpC0Rect2Set set(x, MpInterval(0));
+  capd::MpIVector y = tm(MpInterval(1), set);
+  capd_proof::require_finite_all(y, "sub-segment transport");
+  M2 m; m.a[0][0] = {y[0], y[1]}; m.a[0][1] = {y[2], y[3]}; m.a[1][0] = {y[4], y[5]}; m.a[1][1] = {y[6], y[7]};
+  return m;
+}
+static long HALVINGS = 0;
+static M2 sub_rule(const CI& c, const CI& D, int depth) {     // pre-registered dyadic halving rule (A5)
+  try { return transport_local(c, D); }
+  catch (ShiftGateError&) { throw; }
+  catch (std::exception& e) {
+    if (depth >= MAXHALV) throw;
+    ++HALVINGS;
+    CI h = cmul(D, ci(MpInterval(1) / 2));
+    M2 a = sub_rule(c, h, depth + 1), b = sub_rule(cadd(c, h), h, depth + 1);
+    return mmul(b, a);
+  }
+}
+#endif
+
 int main() {
   capd_proof::watchdog(24 * 3600);   // A2 (MR_REPLAY.md): 6 h -> 24 h after C1 hit the 6 h limit (fail-closed)
   std::string line, kw;
@@ -126,7 +211,9 @@ int main() {
     if (kw == "PREC") { long p; in >> p; R::setDefaultPrecision(p); }
     else if (kw == "ORDER") { in >> ORDER; }
     else if (kw == "TOL") { in >> TOL; }
-    else if (kw == "STEPLOG") { int v; in >> v; STEPLOG = v != 0; }
+    else if (kw == "STEPLOG") { in >> STEPLOG; }
+    else if (kw == "FIXSTEP") { in >> FIXSTEP; }
+    else if (kw == "SUBSEG") { in >> SUBSEG; if (SUBSEG < 1 || (SUBSEG & (SUBSEG - 1))) throw std::runtime_error("SUBSEG must be a power of 2"); }
     else if (kw == "CKPT") {
       in >> CKPT_PATH;
       std::ifstream cf(CKPT_PATH); std::string cl;
@@ -179,7 +266,20 @@ int main() {
           for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) { S.a[i][j] = {ival(h[q], h[q + 1]), ival(h[q + 2], h[q + 3])}; q += 4; }
           std::cerr << "  " << name << " segment " << v + 1 << "/" << nv - 1 << " (from checkpoint)" << std::endl;
         } else {
+#ifdef LOCAL_SHIFT
+          {
+            CI a = vs[v].t, b = vs[v + 1].t, ba = csub(b, a);
+            CI D = cmul(ba, ci(MpInterval(1) / SUBSEG));
+            S = ident();
+            for (int j = 0; j < SUBSEG; ++j) {
+              CI c = cadd(a, cmul(ba, ci(MpInterval(j) / SUBSEG)));
+              S = mmul(sub_rule(c, D, 0), S);
+              if (STEPLOG) std::cerr << "    sub " << j + 1 << "/" << SUBSEG << " halvings " << HALVINGS << " maxcoefw " << MAXCOEFW << std::endl;
+            }
+          }
+#else
           S = segment(vs[v], vs[v + 1]);
+#endif
           if (!CKPT_PATH.empty()) {
             FILE* f = std::fopen(CKPT_PATH.c_str(), "a");
             if (!f) throw std::runtime_error("cannot append checkpoint " + CKPT_PATH);
@@ -206,6 +306,9 @@ int main() {
       out("LOOP " + n + " M" + std::to_string(i) + std::to_string(j) + "im", M.a[i][j].im);
     }
   }
+#ifdef LOCAL_SHIFT
+  std::cout << "A5_HALVINGS " << HALVINGS << "\nA5_MAX_SHIFTED_COEF_WIDTH " << MAXCOEFW << "\n";
+#endif
   if (nocert) { std::cout << "VERDICT LOOPS_ONLY\n"; return 0; }
   auto elem = [&](const std::string& expr) {          // "a*b*c" -> M_a M_b M_c (same convention as v1/v2)
     std::vector<std::string> parts; std::string cur;

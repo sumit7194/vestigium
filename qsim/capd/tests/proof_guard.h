@@ -81,6 +81,14 @@ inline bool certainly_in_interior(const capd::MpInterval& x, const capd::MpInter
   require_finite(x); require_finite(y); return y.leftBound() < x.leftBound() && x.rightBound() < y.rightBound();
 }
 
+// Node-level exp/sin/cos for GENERATED replay fields only (exp factors E = exp(w(t)) computed in the field instead of
+// carried as ODE state). Inside an ODE step the argument enclosure cannot be range-checked a priori; CAPD's interval
+// sin/cos were validated for containment (DIFFCHECK.md) and their only failure mode for huge arguments is a slow
+// argument reduction (liveness), which the mandatory watchdog turns into a fail-closed exit.
+inline capd::autodiff::Node node_exp(const capd::autodiff::Node& x) { return exp(x); }
+inline capd::autodiff::Node node_sin(const capd::autodiff::Node& x) { return sin(x); }
+inline capd::autodiff::Node node_cos(const capd::autodiff::Node& x) { return cos(x); }
+
 // Hard wall-clock watchdog: SIGALRM after `seconds` writes a message and exits 124 (no result is ever printed).
 extern "C" inline void watchdog_fire(int) {
   const char m[] = "\nWATCHDOG TIMEOUT: proof program exceeded its wall-clock limit (fail closed)\n";
