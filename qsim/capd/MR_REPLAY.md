@@ -137,4 +137,19 @@ replay. The registered runs use the bridge's fields only.
 - **The other rows:** ts2 row 0 (REPLAYED, 4.3 h) needs no re-run. ts2 row 1 was already running under the 6 h
   limit; if it trips, it is re-run under A2.
 
+## Amendment A3 (2026-10-12): per-segment checkpointing (resource only)
+
+- **What it does:**
+  - Each finished segment matrix is appended, as exact hex enclosures, to `<tag>.<sha256(input)[:16]>.ckpt`.
+  - On restart, those segments are reloaded rather than recomputed. Because the file is keyed by the exact input, a
+    resume can only reuse identical work. A torn last line is ignored.
+- **Why:** so rows can be interrupted (e.g. to free cores) without losing their progress.
+- **Validation on the M6 control:**
+  1. An uninterrupted run without a checkpoint.
+  2. A checkpointed run, killed after 6 segments.
+  3. A resumed run, which reloaded those 6 and computed the rest.
+  - **The resumed output is byte-identical to the uninterrupted one** (`replay_results/ckpt_validation/`).
+- **Scope:** it applies to rows compiled after this commit. The three rows already running (TS 4, C2, MN eq 0) keep
+  the old in-memory driver; renice is safe for them, kill is not.
+
 Outcome: to be appended below after the runs, unchanged rules.

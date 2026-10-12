@@ -276,6 +276,9 @@ def run_row(family, row, bridge_json, ngon=16, radius_scale=1.0, order=30, prec=
     ok, exe, log = compile_row(tag, src)
     if not ok: return dict(tag=tag, verdict="BUILD-FAILED", log=log), {}
     inp = build_input(coef, cert, ngon=ngon, radius_scale=radius_scale, order=order)
+    import hashlib     # per-segment checkpoint keyed by the exact input, so a resume can only reuse identical work
+    ck = GEN / (tag + "." + hashlib.sha256(inp.encode()).hexdigest()[:16] + ".ckpt")
+    inp = inp.replace("\nTOL ", "\nCKPT %s\nTOL " % ck, 1)
     (GEN / (tag + ".in")).write_text(inp)
     t0 = time.time()
     with open(GEN / (tag + ".err"), "w") as ef:          # stderr streams live ("loop ... done")

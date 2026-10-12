@@ -16,6 +16,7 @@
 #include "proof_guard.h"
 #include <cstdio>
 #include <iostream>
+#include <fstream>
 #include <map>
 #include <set>
 #include <sstream>
@@ -75,6 +76,10 @@ static int ORDER = 30;
 static double TOL = 0;   // 0: CAPD default (10^-(digits+3), ~1e-80 at 256 bits); set by "TOL x"
 static bool STEPLOG = false;   // "STEPLOG 1": count CAPD steps per segment (stopAfterStep loop; opt-in)
 static std::vector<MpInterval> COEF;
+// Per-segment checkpoint ("CKPT path"): each finished segment matrix is appended as exact hex (8 intervals) and
+// reloaded on restart, so an interrupted row resumes with bit-identical values (no recomputation, no rounding).
+static std::string CKPT_PATH;
+static std::map<std::string, std::vector<std::string>> CKPT;   // "loop#idx" -> 16 hex endpoints
 
 struct Vertex { CI t; std::vector<CI> E; };
 
@@ -122,6 +127,18 @@ int main() {
     else if (kw == "ORDER") { in >> ORDER; }
     else if (kw == "TOL") { in >> TOL; }
     else if (kw == "STEPLOG") { int v; in >> v; STEPLOG = v != 0; }
+    else if (kw == "CKPT") {
+      in >> CKPT_PATH;
+      std::ifstream cf(CKPT_PATH); std::string cl;
+      while (std::getline(cf, cl)) {
+        std::istringstream ci(cl); std::string tag, key; ci >> tag >> key;
+        if (tag != "SEG") continue;
+        std::vector<std::string> h(16); bool full = true;
+        for (auto& x : h) if (!(ci >> x)) full = false;
+        if (full) CKPT[key] = h;            // a torn last line (interrupted write) is ignored and recomputed
+      }
+      std::cerr << "checkpoint " << CKPT_PATH << ": " << CKPT.size() << " segments loaded" << std::endl;
+    }
     else if (kw == "ONLY") { std::string n; in >> n; only.insert(n); }
     else if (kw == "NOCERT") { nocert = true; }
     else if (kw == "MAT") {   // a loop matrix computed by a separate per-loop run: exact hex enclosures, 8 intervals
@@ -154,8 +171,27 @@ int main() {
       }
       M2 M = ident();
       for (int v = 0; v + 1 < nv; ++v) {
-        M = mmul(segment(vs[v], vs[v + 1]), M);   // later segments act on the left
-        std::cerr << "  " << name << " segment " << v + 1 << "/" << nv - 1 << std::endl;
+        std::string key = name + "#" + std::to_string(v);
+        M2 S;
+        auto it = CKPT.find(key);
+        if (it != CKPT.end()) {
+          const auto& h = it->second; int q = 0;
+          for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) { S.a[i][j] = {ival(h[q], h[q + 1]), ival(h[q + 2], h[q + 3])}; q += 4; }
+          std::cerr << "  " << name << " segment " << v + 1 << "/" << nv - 1 << " (from checkpoint)" << std::endl;
+        } else {
+          S = segment(vs[v], vs[v + 1]);
+          if (!CKPT_PATH.empty()) {
+            FILE* f = std::fopen(CKPT_PATH.c_str(), "a");
+            if (!f) throw std::runtime_error("cannot append checkpoint " + CKPT_PATH);
+            std::string ln = "SEG " + key;
+            for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j)
+              ln += " " + hexof(S.a[i][j].re.leftBound()) + " " + hexof(S.a[i][j].re.rightBound()) + " " +
+                    hexof(S.a[i][j].im.leftBound()) + " " + hexof(S.a[i][j].im.rightBound());
+            std::fprintf(f, "%s\n", ln.c_str()); std::fflush(f); std::fclose(f);
+          }
+          std::cerr << "  " << name << " segment " << v + 1 << "/" << nv - 1 << std::endl;
+        }
+        M = mmul(S, M);   // later segments act on the left
       }
       loops[name] = M; order.push_back(name);
       std::cerr << "loop " << name << " done\n";
