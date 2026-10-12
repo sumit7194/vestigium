@@ -1,0 +1,48 @@
+{
+ "tag": "tschaos_3_primary_a5_o30_p128_cg3",
+ "family": "tschaos",
+ "row": 3,
+ "label": "primary_a5",
+ "ngon": 16,
+ "radius_scale": 1.0,
+ "order": 30,
+ "prec": 128,
+ "seconds": 1697.0,
+ "rc": 0,
+ "bridge_file": "/Users/sumit/Github/TheBridge/falsification/V8_ts2_obstruction_check/export_capd/ts2_row_C4.json",
+ "bridge_provenance": "TheBridge falsification/V8_ts2_obstruction_check/code/v8_export_capd.py via v8_hp.rational_parts, commit da94f2ca46df095b3df2b9155b62225384304032",
+ "layout": "per-loop",
+ "tol": 1e-25,
+ "codegen": 3,
+ "pruned_exps": [],
+ "subseg": 32,
+ "a5": {
+  "A5_HALVINGS": "0",
+  "A5_MAX_SHIFTED_COEF_WIDTH": "6.67555e-11"
+ },
+ "LOX_G": true,
+ "LOX_H": true,
+ "COMM_NE_2": true,
+ "verdict": "REPLAYED",
+ "consistency": {
+  "v2_w_g": true,
+  "v2_w_h": true,
+  "v2_tr_comm": true,
+  "v1_tr_comm": true,
+  "v2_exact_GH_boxes": true
+ },
+ "consistent": true,
+ "capd_w_g": [
+  -104.81962227561218,
+  -104.81962227557639,
+  -79.97603422939434,
+  -79.97603422936307
+ ],
+ "capd_tr_comm": [
+  0.51158325224761,
+  1.1257724134799656,
+  -0.3286105710136404,
+  0.32861057101363855
+ ],
+ "max_width_tr_comm": 0.6572211420272789
+}
