@@ -1,0 +1,50 @@
+{
+ "tag": "mneq_1_primary_o30_p128_cg3",
+ "family": "mneq",
+ "row": 1,
+ "label": "primary",
+ "ngon": 16,
+ "radius_scale": 1.0,
+ "order": 30,
+ "prec": 128,
+ "seconds": 5287.8,
+ "rc": 0,
+ "bridge_file": "/Users/sumit/Github/TheBridge/falsification/V9_mn_obstruction_check/export_capd/mneq_row_1.json",
+ "bridge_provenance": "TheBridge falsification/V9_mn_obstruction_check/code/v9_export_capd.py via eq_coeffs_t, commit 0142cdde61d4e20171a614028d1c646c6bdb1dc6",
+ "layout": "per-loop",
+ "tol": 1e-25,
+ "codegen": 3,
+ "pruned_exps": [
+  2
+ ],
+ "subseg": 32,
+ "a5": {
+  "A5_HALVINGS": "0",
+  "A5_MAX_SHIFTED_COEF_WIDTH": "2.40761e-17"
+ },
+ "LOX_G": true,
+ "LOX_H": true,
+ "COMM_NE_2": true,
+ "verdict": "REPLAYED",
+ "consistency": {
+  "v2_w_g": true,
+  "v2_w_h": true,
+  "v2_tr_comm": true,
+  "v1_tr_comm": true,
+  "v2_exact_GH_boxes": true
+ },
+ "consistent": true,
+ "capd_w_g": [
+  -2547896.3548697457,
+  -2547887.0625407067,
+  4172526.301984894,
+  4172538.1495662327
+ ],
+ "capd_tr_comm": [
+  47346958.30466457,
+  55057405.537753075,
+  26843775.080709554,
+  34934665.51895304
+ ],
+ "max_width_tr_comm": 8090890.438243489
+}
