@@ -264,3 +264,6 @@ as REPLAYED under A5 until it is resolved.**
 of the same CAPD/MPFR stack, and give the cross-path table.
 
 Outcome: to be appended below after the runs, unchanged rules.
+
+**Correction note (2026-10-12):** commit 5b555b9's message says "all six TS plunging rows (0-5) now REPLAYED". That
+is wrong. At that commit, TS rows 0, 1, 2, 3 and 5 were REPLAYED, and TS row 4 was still running on both paths.
