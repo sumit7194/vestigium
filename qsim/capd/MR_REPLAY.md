@@ -231,4 +231,36 @@ excluded.
 - 0 halvings;
 - maximum shifted-coefficient width 9.5e−20 absolute (relative to coefficients of up to about 1e15).
 
+## Amendment A6 (2026-10-12): TS rows with no output yet move to the A5 path (bridge-approved)
+
+**Why:** the A5 positive control on TS row 0 reproduced the original-path certificate (same verdict, every
+cross-engine check true, overlapping tr[g,h]) in 11 min instead of 4.3 h. The slow TS rows show the same dependency
+problem.
+
+**Exactly which rows run on which path:**
+
+| row | path | status at registration |
+|---|---|---|
+| TS 0, TS 2, TS 3, C1, C2 | original (A1+A2) | REPLAYED (unchanged) |
+| TS 4 | original | **running**: continues untouched, as a cross-check |
+| C3 | original | **running**: continues untouched, as a cross-check |
+| TS 1 | **A5** (`primary_a5`) | no output (its only attempt failed closed before A2) |
+| TS 5 | **A5** (`primary_a5`) | not started |
+| C4, C5, C6, C7, C8 | **A5** (`primary_a5`) | not started |
+| TS 4, C3 | **A5** as well (`primary_a5`) | no output yet; compared with the original-path runs when those finish |
+| TS-0 and C1 secondaries (24-gon, 0.8 r) | **A5** (`secondary_a5`) | not started |
+| cross-path re-runs: TS 2, TS 3, C1, C2 | **A5** (`xpath_a5`) | for the cross-path table (TS 0's is the A5 control) |
+| MN eq 0–5, MN axial 0–3 (+ secondaries) | A5 | queued (MN queue) |
+
+**Cross-path rule (bridge condition 3, fixed now):** for every row that has both an original-path and an A5 result,
+the verdicts must be equal and the enclosures of w_g, w_h and tr[g,h] must overlap. **A disagreement (non-overlap or
+a verdict change) is a FAIL to investigate. It is never averaged or resolved by picking one path, and no TS row counts
+as REPLAYED under A5 until it is resolved.**
+
+**Cores:** the A6 queue runs 3 per-loop processes alongside the MN queue (3) and the two original-path rows (2): 8 of
+10 cores, so the queues do not compete.
+
+**Reporting (bridge condition 4):** the paper and the ledger say plainly that there are two validated configurations
+of the same CAPD/MPFR stack, and give the cross-path table.
+
 Outcome: to be appended below after the runs, unchanged rules.

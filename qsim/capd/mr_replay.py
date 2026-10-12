@@ -480,7 +480,7 @@ def finish_row(res, r, cert, family, row, label):
                              overlaps(vals["tr_comm_im"], midrad_box(v1["tr_comm_midrad"]["im"]))
     # exact v2 G/H boxes from the Lean export (same gauge, base point and normalisation as CAPD)
     le = QSIM.parent / "lean_export" / f"{family}_{row}_v2.json"
-    if le.exists() and label in ("primary", "a5control"):
+    if le.exists() and label in ("primary", "a5control", "primary_a5", "xpath_a5"):
         L = json.load(open(le)); okb = True
         for M_, nm in ((L["G"], "G"), (L["H"], "H")):
             for i in range(2):
@@ -643,10 +643,11 @@ if __name__ == "__main__":
         bj = bridge_json_for(fam, row)
         kw = dict(ngon=24, radius_scale=0.8) if label == "secondary" else {}
         if label == "escalated": kw = dict(order=40, prec=512)
-        if fam in ("mneq", "mnaxv2") or label == "a5control":   # A4 + A5 (MR_REPLAY.md): MN rows (and the A5 TS control)
+        A5LABELS = ("a5control", "primary_a5", "secondary_a5", "xpath_a5")   # A6: TS rows on the A5 path
+        if fam in ("mneq", "mnaxv2") or label in A5LABELS:   # A4 + A5 (MR_REPLAY.md): MN rows; A6: listed TS rows
             kw4 = dict(prec=128, tol=1e-25, codegen=3, prune=True, procs=3, subseg=32)
             if label == "escalated": kw4.update(prec=256, tol=1e-40, order=40)
-            if label == "secondary": kw4.update(ngon=24, radius_scale=0.8)
+            if label in ("secondary", "secondary_a5"): kw4.update(ngon=24, radius_scale=0.8)
             res, _ = run_row_parallel(fam, row, bj, label=label, steplog=("STEPLOG" in os.environ), **kw4)
         else:
             res, _ = (run_row_parallel(fam, row, bj, label=label, steplog=("STEPLOG" in os.environ), **kw)
