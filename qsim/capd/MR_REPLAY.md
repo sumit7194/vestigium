@@ -315,3 +315,10 @@ is wrong. At that commit, TS rows 0, 1, 2, 3 and 5 were REPLAYED, and TS row 4 w
 **Cross-path table reporting rule (bridge, 2026-10-12):** a cross-path re-run that ends the ladder still undecided is
 listed as **"overlap only (A5 undecided)"**, not as a verdict agreement, so the table does not overstate the
 cross-check.
+
+**Scheduling note (2026-10-12 ~23:50, bridge core plan):**
+- The A6 queue is back to 3 per-loop processes from its next row.
+- The A7 ladder now runs in parallel at 2 processes (env `REPLAY_PROCS`). It handles C6 and C7 immediately, then any
+  later undecided rows after A6.
+- The MN queue keeps 3. The total of my processes is ≤ 9.
+- Scheduling only: no effect on results.
