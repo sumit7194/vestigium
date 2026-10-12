@@ -322,3 +322,10 @@ cross-check.
   later undecided rows after A6.
 - The MN queue keeps 3. The total of my processes is ≤ 9.
 - Scheduling only: no effect on results.
+
+**Scheduling note (2026-10-13 ~00:20, tabula's MEGNO rerun on 3 workers for about 2 days):**
+- My total is now ≤ 7 at normal priority. A6 drops to 2 processes from its next row, and the ladder to 1 from its
+  next step (override files).
+- The excess in-flight processes were reniced to +19, not stopped: PID 93980 (the C1 secondary's third loop) and PID
+  95856 (the ladder's second process, on the C6 escalation).
+- Scheduling only.
