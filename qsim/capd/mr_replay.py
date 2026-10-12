@@ -230,7 +230,22 @@ def fields_bridge(path):
 def cert_for(family, row):
     if family == "ts2": return json.load(open(QSIM / f"mr_v2_ts2_row{row}.json"))
     if family == "tschaos": return json.load(open(QSIM / f"mr_ts2_chaos_row{row}.json"))["route_b"]
+    if family == "mneq":       # the certificate the paper uses, exactly as lean_export.source selects it
+        f = f"mr_v2_mneq_row{row}.json" if row in (0, 3) else f"mr_v2_mneq_row{row}_a6.json"
+        return json.load(open(QSIM / f))
+    if family == "mnaxv2": return json.load(open(QSIM / f"mr_v2_VREPRO_row{row}.json"))
     raise ValueError(family)
+
+BRIDGE_MN = Path("/Users/sumit/Github/TheBridge/falsification/V9_mn_obstruction_check/export_capd")
+AXMAP = {0: ("p1", 4), 1: ("p1", 9), 2: ("p2", 4), 3: ("p2", 9)}
+
+def bridge_json_for(fam, row):
+    if fam == "ts2": return BRIDGE_TS / f"ts2_row_{row}.json"
+    if fam == "tschaos": return BRIDGE_TS / f"ts2_row_C{row + 1}.json"
+    if fam == "mneq": return BRIDGE_MN / f"mneq_row_{row}.json"
+    if fam == "mnaxv2":
+        pt, mu2 = AXMAP[row]; return BRIDGE_MN / f"mnaxial_{pt}_E1_mu2{mu2}.json"
+    raise ValueError(fam)
 
 def ra_frac(s):
     """exact %Ra -> Fraction (no Arb in the checker either)"""
@@ -433,7 +448,7 @@ if __name__ == "__main__":
     elif mode == "run":
         fam, row = sys.argv[2], int(sys.argv[3])
         label = sys.argv[4] if len(sys.argv) > 4 else "primary"
-        bj = BRIDGE_TS / (f"ts2_row_{row}.json" if fam == "ts2" else f"ts2_row_C{row + 1}.json")
+        bj = bridge_json_for(fam, row)
         kw = dict(ngon=24, radius_scale=0.8) if label == "secondary" else {}
         if label == "escalated": kw = dict(order=40, prec=512)
         res, _ = (run_row_parallel(fam, row, bj, label=label, steplog=("STEPLOG" in os.environ), **kw)
