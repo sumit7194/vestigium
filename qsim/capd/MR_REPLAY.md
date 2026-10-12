@@ -152,4 +152,32 @@ replay. The registered runs use the bridge's fields only.
 - **Scope:** it applies to rows compiled after this commit. The three rows already running (TS 4, C2, MN eq 0) keep
   the old in-memory driver; renice is safe for them, kill is not.
 
+## Amendment A4 (2026-10-12, before any MN result): settings and codegen for the MN rows only
+
+- **Trigger:** MN eq row 0 under the TS settings had not finished its first approach segment (about 100 steps) after
+  7.5 h, so a full row (about 1,100 steps) was heading for roughly 80 h.
+- **Why it is that slow:**
+  - The generated MN field had 1,146 complex multiplications, against TS's 96. The per-E-group Horner scheme
+    recomputed powers of t 44 times.
+  - It carried 14 state dimensions, against TS's 8.
+  - E₃ appears in no monomial of p or q.
+- **The A4 settings, for the MN rows only:**
+  - **(a) Codegen 2.** Powers of t are computed once and shared, real coefficients are applied as scalar products, and
+    E-monomials are shared. It is the same polynomial with fewer operations: 123 complex multiplications plus 731
+    scalar products.
+  - **(b) Pruning.** E factors that appear in no monomial are dropped (E₃ for MN eq, so 12 dimensions).
+  - **(c)** prec 128 and step tolerance 1e−25, at order 30. The certificate margins are O(1), so widths of about
+    1e−20 are ample.
+  - **(d)** Per-loop parallel layout (3 processes) with A3 checkpointing.
+- **Unchanged:**
+  - The fields, loops, words, certificate and every cross-engine consistency check, including entry-wise overlap with
+    v2's exact G/H boxes. That overlap check would expose any codegen error as a FAILURE.
+  - The TS rows keep codegen 1 at 256 bits. Their headers were verified byte-identical after the codegen change.
+- **Escalation for MN:** order 40 at prec 256 with tol 1e−40.
+- **Validation (`replay_results/control_m6_A4.json`):** M6 run through codegen 2 at prec 128 / tol 1e−25. The exact
+  trace and det are contained (widths about 7e−22), and the wrong-p control certainly excludes the true trace.
+  - The first attempt failed closed on the driver's exact-input check: a parameter enclosure had been rounded at
+    256 bits through a stale Python default argument. That was fixed before any MN run.
+- **History:** the MN eq 0 run under the old settings was stopped (by PID, mine) before producing any result.
+
 Outcome: to be appended below after the runs, unchanged rules.

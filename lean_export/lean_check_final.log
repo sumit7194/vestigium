@@ -1,0 +1,4 @@
+mneq_1_v1: LEAN-CHECKED [89.3 s] axioms=[propext, Classical.choice, Quot.sound]
+mneq_4_v1: LEAN-CHECKED [41.9 s] axioms=[propext, Classical.choice, Quot.sound]
+mneq_5_v1: LEAN-CHECKED [58.2 s] axioms=[propext, Classical.choice, Quot.sound]
+52 LEAN-CHECKED; index refreshed

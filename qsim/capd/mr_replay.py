@@ -19,8 +19,11 @@ GEN = HERE / "tests" / "gen"
 PREC = 256
 
 # ----------------------------------------------------------------------------- exact rational -> dyadic enclosure
-def enclose(fr, prec=PREC):
-    """(lo_hex, hi_hex): exact prec-bit dyadics with lo <= fr <= hi (lo == hi iff fr is such a dyadic)."""
+def enclose(fr, prec=None):
+    """(lo_hex, hi_hex): exact prec-bit dyadics with lo <= fr <= hi (lo == hi iff fr is such a dyadic).
+    prec defaults to the CURRENT global PREC (read at call time; a default bound at definition time was a bug that
+    the driver's exact-input check caught, failing closed)."""
+    prec = PREC if prec is None else prec
     fr = Fraction(fr)
     if fr == 0: return ("0x0p0", "0x0p0")
     neg = fr < 0; a = -fr if neg else fr
@@ -67,8 +70,10 @@ def fields_mine(family, row):
     return dict(var=str(var), exps=[], p={"num": out["pP"], "den": out["pQ"]}, q={"num": out["qP"], "den": out["qQ"]}), cert
 
 # ----------------------------------------------------------------------------- C++ generation
-def gen_header(F, tag):
-    """F: dict(exps=[(numcoeffs, dencoeffs)], p={'num': {mon: Fraction}, 'den': ...}, q=...). mon = (i, j1..jK)."""
+def gen_header(F, tag, codegen=1):
+    """codegen=1: per-group Horner (the registered TS codegen). codegen=2 (A4, MN rows): powers of t computed once and
+    shared, real coefficients applied as scalar products, E-monomials shared -- the same polynomial, fewer operations.
+    F: dict(exps=[(numcoeffs, dencoeffs)], p={'num': {mon: Fraction}, 'den': ...}, q=...). mon = (i, j1..jK)."""
     K = len(F["exps"])
     coef = []                                              # exact Fractions, in parameter order
     def P(fr):
@@ -112,7 +117,54 @@ def gen_header(F, tag):
                 body.append("  CN %s = mul(%s, t); %s.re = %s.re + %s;" % (nxt, acc, nxt, nxt, P(c)))
             acc = nxt
         return acc
+    tpow = {1: "t"}
+    def tp(i):
+        if i not in tpow:
+            prev = tp(i - 1); v = tmp(); body.append("  CN %s = mul(%s, t);" % (v, prev)); tpow[i] = v
+        return tpow[i]
+    emono = {}
+    def em(eexp):
+        if not any(eexp): return None
+        if eexp not in emono:
+            k = max(i for i, j in enumerate(eexp) if j > 0)
+            lower = tuple(j - 1 if i == k else j for i, j in enumerate(eexp))
+            base = em(lower)
+            v = tmp()
+            body.append("  CN %s = %s;" % (v, ("mul(%s, E%d)" % (base, k)) if base else ("E%d" % k)))
+            emono[eexp] = v
+        return emono[eexp]
+    def lincomb(coeffs):
+        """sum_i c_i t^i with shared powers and real scalar coefficients (codegen 2)"""
+        acc = None
+        for i in sorted(coeffs):
+            c = coeffs[i]
+            if c == 0: continue
+            pc = P(c)
+            if i == 0: term = "CN{zero + %s, zero}" % pc
+            else:
+                v = tp(i); term = "CN{%s.re * %s, %s.im * %s}" % (v, pc, v, pc)
+            nv = tmp()
+            body.append("  CN %s = %s;" % (nv, term if acc is None else "add(%s, %s)" % (acc, term)))
+            acc = nv
+        return acc
     def poly_tE(mons):
+        if codegen == 2:
+            groups = {}
+            for mon, c in mons.items():
+                if c == 0: continue
+                groups.setdefault(tuple(mon[1:]), {})[mon[0]] = Fraction(c)
+            total = None
+            for eexp, coeffs in sorted(groups.items()):
+                h = lincomb(coeffs)
+                e = em(eexp)
+                if e:
+                    nv = tmp(); body.append("  CN %s = mul(%s, %s);" % (nv, h, e)); h = nv
+                if total is None: total = h
+                else:
+                    nv = tmp(); body.append("  CN %s = add(%s, %s);" % (nv, total, h)); total = nv
+            if total is None:
+                total = tmp(); body.append("  CN %s = {zero, zero};" % total)
+            return total
         groups = {}
         for mon, c in mons.items():
             if c == 0: continue
@@ -211,6 +263,17 @@ def compile_row(tag, header_src):
 
 # ----------------------------------------------------------------------------- registered runs
 BRIDGE_TS = Path("/Users/sumit/Github/TheBridge/falsification/V8_ts2_obstruction_check/export_capd")
+
+def prune_exps(F):
+    """drop exp factors E_k that appear in no monomial of p or q (their state would be dead weight); exact"""
+    K = len(F["exps"])
+    used = [any(mon[1 + k] for part in ("p", "q") for side in ("num", "den") for mon in F[part][side]) for k in range(K)]
+    keep = [k for k in range(K) if used[k]]
+    def remap(m): return {(mon[0],) + tuple(mon[1 + k] for k in keep): c for mon, c in m.items()}
+    G = dict(F); G["exps"] = [F["exps"][k] for k in keep]
+    for part in ("p", "q"): G[part] = {side: remap(F[part][side]) for side in ("num", "den")}
+    G["pruned"] = [k for k in range(K) if not used[k]]
+    return G
 
 def fields_bridge(path):
     import ast
@@ -331,7 +394,7 @@ def finish_row(res, r, cert, family, row, label):
     return res, vals
 
 def run_row_parallel(family, row, bridge_json, procs=3, ngon=16, radius_scale=1.0, order=30, prec=256, label="primary",
-                     steplog=False):
+                     steplog=False, tol=1e-40, codegen=1, prune=False):
     """Resource-only variant of run_row: each loop in its own process (ONLY name + NOCERT), then one combine run that
     reads the loop matrices back as exact hex enclosures (MAT lines) and evaluates words + certificate with the same
     CAPD code. The loop matrices are the same computation as in the single-process path, so the combine sees exactly
@@ -340,17 +403,23 @@ def run_row_parallel(family, row, bridge_json, procs=3, ngon=16, radius_scale=1.
     global PREC
     PREC = prec
     F, b = fields_bridge(bridge_json)
+    pruned = []
+    if prune:
+        F = prune_exps(F); pruned = F.get("pruned", [])
     cert = cert_for(family, row)
-    tag = f"{family}_{row}_{label}_o{order}_p{prec}"
-    src, coef = gen_header(F, tag)
+    tag = f"{family}_{row}_{label}_o{order}_p{prec}" + (f"_cg{codegen}" if codegen != 1 else "")
+    src, coef = gen_header(F, tag, codegen)
     ok, exe, log = compile_row(tag, src)
     if not ok: return dict(tag=tag, verdict="BUILD-FAILED", log=log), {}
-    base = build_input(coef, cert, ngon=ngon, radius_scale=radius_scale, order=order)
+    base = build_input(coef, cert, ngon=ngon, radius_scale=radius_scale, order=order, tol=tol)
     if steplog: base = base.replace("ORDER", "STEPLOG 1\nORDER", 1)
     names = sorted(set(cert["g"].split("*") + cert["h"].split("*")))
+    import hashlib
     def one(n):
-        inp = base.replace("END\n", "") + "ONLY %s\nNOCERT\nEND\n" % n
         safe = n.replace("[", "_").replace("]", "_").replace(",", "_")
+        inp = base.replace("END\n", "") + "ONLY %s\nNOCERT\nEND\n" % n
+        ck = GEN / f"{tag}.{safe}.{hashlib.sha256(inp.encode()).hexdigest()[:16]}.ckpt"   # A3 checkpoint per loop
+        inp = inp.replace("\nTOL ", "\nCKPT %s\nTOL " % ck, 1)
         with open(GEN / f"{tag}.{safe}.err", "w") as ef:
             r = subprocess.run([str(exe)], input=inp, stdout=subprocess.PIPE, stderr=ef, text=True)
         (GEN / f"{tag}.{safe}.out").write_text(r.stdout)
@@ -385,10 +454,13 @@ def run_row_parallel(family, row, bridge_json, procs=3, ngon=16, radius_scale=1.
     (GEN / (tag + ".out")).write_text(r.stdout)
     return finish_row(dict(tag=tag, family=family, row=row, label=label, ngon=ngon, radius_scale=radius_scale,
                            order=order, prec=prec, seconds=round(time.time() - t0, 1), rc=r.returncode,
-                           bridge_file=str(bridge_json), bridge_provenance=b.get("provenance"), layout="per-loop"),
+                           bridge_file=str(bridge_json), bridge_provenance=b.get("provenance"), layout="per-loop",
+                           tol=tol, codegen=codegen, pruned_exps=pruned),
                       r, cert, family, row, label)
 
-def control_m6(perturb=False):
+def control_m6(perturb=False, codegen=1, prec=256, tol=1e-40):
+    global PREC
+    PREC = prec
     """M6 (MR_REPLAY.md): Euler equation y'' + (p/t) y' + (q/t^2) y = 0, p = 11/12 (+1e-20 if perturb), q = -1/12,
     through THIS generator and driver, on a 16-gon lasso based at 3 around 0 (radius 1). Exact (algebraic):
     tr = -1/2 + i(sqrt3/2 - 1), det = sqrt3/2 + i/2. Checked in exact rational arithmetic."""
@@ -396,11 +468,11 @@ def control_m6(perturb=False):
     F = dict(var="t", exps=[], p={"num": {(0,): pc}, "den": {(1,): Fraction(1)}},
              q={"num": {(0,): Fraction(-1, 12)}, "den": {(2,): Fraction(1)}})
     cert = dict(geometry={"A": {"center": [0.0, 0.0], "radius": 1.0, "base": [3.0, 0.0]}}, g="A", h="A")
-    tag = "control_m6" + ("_wrongp" if perturb else "")
-    src, coef = gen_header(F, tag)
+    tag = "control_m6" + ("_wrongp" if perturb else "") + ("" if (codegen, prec) == (1, 256) else f"_cg{codegen}_p{prec}")
+    src, coef = gen_header(F, tag, codegen)
     ok, exe, log = compile_row(tag, src)
     if not ok: return dict(tag=tag, verdict="BUILD-FAILED", log=log)
-    inp = build_input(coef, cert); (GEN / (tag + ".in")).write_text(inp)
+    inp = build_input(coef, cert, tol=tol); (GEN / (tag + ".in")).write_text(inp)
     with open(GEN / (tag + ".err"), "w") as ef:
         r = subprocess.run([str(exe)], input=inp, stdout=subprocess.PIPE, stderr=ef, text=True)
     (GEN / (tag + ".out")).write_text(r.stdout)
@@ -443,6 +515,11 @@ if __name__ == "__main__":
             r = subprocess.run([str(exe)], input=inp, capture_output=True, text=True)
             (GEN / (tag + ".out")).write_text(r.stdout); print(r.stderr[-2000:])
             print("rc", r.returncode, "%.0fs" % (time.time() - t0)); print("\n".join(r.stdout.splitlines()[-24:]))
+    elif mode == "control-m6-a4":
+        out = HERE / "replay_results"; out.mkdir(exist_ok=True)
+        rs = [control_m6(False, 2, 128, 1e-25), control_m6(True, 2, 128, 1e-25)]
+        json.dump(rs, open(out / "control_m6_A4.json", "w"), indent=1, default=str)
+        print(json.dumps(rs, indent=1, default=str))
     elif mode == "control-m6":
         out = HERE / "replay_results"; out.mkdir(exist_ok=True)
         rs = [control_m6(False), control_m6(True)]
@@ -454,8 +531,14 @@ if __name__ == "__main__":
         bj = bridge_json_for(fam, row)
         kw = dict(ngon=24, radius_scale=0.8) if label == "secondary" else {}
         if label == "escalated": kw = dict(order=40, prec=512)
-        res, _ = (run_row_parallel(fam, row, bj, label=label, steplog=("STEPLOG" in os.environ), **kw)
-                  if os.environ.get("REPLAY_PAR") else run_row(fam, row, bj, label=label, **kw))
+        if fam in ("mneq", "mnaxv2"):      # amendment A4 (MR_REPLAY.md): MN rows only
+            kw4 = dict(prec=128, tol=1e-25, codegen=2, prune=True, procs=3)
+            if label == "escalated": kw4.update(prec=256, tol=1e-40, order=40)
+            if label == "secondary": kw4.update(ngon=24, radius_scale=0.8)
+            res, _ = run_row_parallel(fam, row, bj, label=label, steplog=("STEPLOG" in os.environ), **kw4)
+        else:
+            res, _ = (run_row_parallel(fam, row, bj, label=label, steplog=("STEPLOG" in os.environ), **kw)
+                      if os.environ.get("REPLAY_PAR") else run_row(fam, row, bj, label=label, **kw))
         out = HERE / "replay_results"; out.mkdir(exist_ok=True)
         json.dump(res, open(out / (res["tag"] + ".json"), "w"), indent=1, default=str)
         print(json.dumps(res, indent=1, default=str))

@@ -586,5 +586,41 @@
    "g[0.307967+0.000000j,r0.20761]*g[-0.770352+0.376565j,r0.01744]"
   ],
   "error": null
+ },
+ "mneq_1_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 89.3,
+  "N": 140,
+  "words": [
+   "g[1.261448+0.321527j,r0.02573]*g[1.287403+0.239791j,r0.02573]",
+   "g[1.261448+0.321527j,r0.02573]*g[-0.160033-0.000000j,r0.12625]"
+  ],
+  "error": null
+ },
+ "mneq_4_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 41.9,
+  "N": 140,
+  "words": [
+   "g[1.463086+0.119077j,r0.07145]*g[0.844094+0.462285j,r0.03806]",
+   "g[0.844094+0.462285j,r0.03806]*g[0.423610-0.000000j,r0.15468]"
+  ],
+  "error": null
+ },
+ "mneq_5_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 58.2,
+  "N": 140,
+  "words": [
+   "g[1.886392-0.000000j,r0.13088]*g[0.816639+0.360313j,r0.03445]",
+   "g[1.471429+0.134698j,r0.08082]*g[0.307780-0.000000j,r0.18705]"
+  ],
+  "error": null
  }
 }
