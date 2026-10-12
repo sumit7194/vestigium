@@ -1,0 +1,42 @@
+{
+ "bridge_commit": "bfe76ebee220f0f33d814373f7a38bc9df82214c",
+ "rows": [
+  {
+   "row": 0,
+   "exps_identical": true,
+   "p_q_equal_at_20_random_rational_points": true,
+   "GATE": true
+  },
+  {
+   "row": 1,
+   "exps_identical": true,
+   "p_q_equal_at_20_random_rational_points": true,
+   "GATE": true
+  },
+  {
+   "row": 2,
+   "exps_identical": true,
+   "p_q_equal_at_20_random_rational_points": true,
+   "GATE": true
+  },
+  {
+   "row": 3,
+   "exps_identical": true,
+   "p_q_equal_at_20_random_rational_points": true,
+   "GATE": true
+  },
+  {
+   "row": 4,
+   "exps_identical": true,
+   "p_q_equal_at_20_random_rational_points": true,
+   "GATE": true
+  },
+  {
+   "row": 5,
+   "exps_identical": true,
+   "p_q_equal_at_20_random_rational_points": true,
+   "GATE": true
+  }
+ ],
+ "all_pass": true
+}
