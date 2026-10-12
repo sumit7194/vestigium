@@ -1113,3 +1113,39 @@ checkpointed, but **no V1 a(θ) had been assembled or looked at.**
 - 40° is the tight one.
 - The high-M bound (ruling 3) is below every threshold by at least 4 orders of magnitude, conditionally on the true
   node values lying within the computed span (see the outcome file).
+
+## PLAN A: V1 OUTCOME and the RE-AUDIT RESULT (2026-10-12), rules as fixed in 2abb00d and f901e46
+
+`qsim/chl_planA_V1.py` (stepper v2, full Stage-2 grid, both resolutions, 2136 nodes, **0 failed**) →
+`chl_planA_V1_run.json` → `chl_planA_V1_eval.{py,json}`.
+
+**V1 gates: PASS.**
+- a(90°) = 0.011833424847, which is 3.8e−12 relative from Stage 1 (gate 1e−9).
+- a(40°) and a(45°) are both inside the tight D1 interval.
+- No nodes are missing.
+- Coarse vs fine is ≤ 1.6e−9 at every angle.
+- a is positive and strictly increasing as θ decreases.
+- σ (c₂ = 1/256) comes from the start series, which the stepper does not touch, so it is unchanged.
+
+**Re-audit of Stage 2's in-grid values (the rule committed in f901e46 before any V1 a(θ) existed): EVERY C12 VERDICT
+STANDS.**
+
+| θ | a_V1 (v2 stepper) | a_rec (Stage 2) | (a_V1 − a_rec)/a_rec | threshold (0.1 × gap) | verdict |
+|---|---|---|---|---|---|
+| 40° | 0.047385783300 | 0.047385726446 | +1.20e−6 | 6.3e−6 | **STANDS** |
+| 30° | 0.067564508273 | 0.067563458860 | +1.55e−5 | 5.7e−5 | **STANDS** |
+| 26.565° | 0.077785020138 | 0.077782154314 | +3.68e−5 | 1.35e−4 | **STANDS** |
+| 20° | 0.106242949868 | 0.106223257350 | +1.85e−4 | 7.1e−4 | **STANDS** |
+| 15° | 0.142084301777 | 0.141997013743 | +6.15e−4 | 2.5e−3 | **STANDS** |
+
+- **What the shifts show:** all are positive and grow as θ → 0, so the Stage-2 stepper defect made the recorded values
+  slightly LOW.
+- **Size against the gaps:** each shift is about 2% of the C12 gap at its angle (1.9% at 40°, 2.5% at 15°), a factor
+  of 4–5 below threshold. The gaps themselves remain dominated by the q-truncation (D2a′), which V1 does not change,
+  because it uses the same q cut t + 7.5.
+- **No verdict is reissued.**
+- **Remaining Plan A items:** V3 failed (reported). Plan B stays unregistered, and plan C is to be decided with the
+  bridge.
+
+Environment: Python 3.13.12 (sims/.venv; numpy 2.5.0, scipy 1.18.0, mpmath 1.3.0, python-flint 0.9.0), macOS 26.5
+arm64 (ENVIRONMENT/). The run spanned a period of high machine load from another job, which affected wall time only.
