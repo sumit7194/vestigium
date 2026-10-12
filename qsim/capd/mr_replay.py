@@ -521,7 +521,10 @@ def run_row_parallel(family, row, bridge_json, procs=3, ngon=16, radius_scale=1.
     import hashlib
     def one(n):
         safe = n.replace("[", "_").replace("]", "_").replace(",", "_")
-        inp = base.replace("END\n", "") + "ONLY %s\nNOCERT\nEND\n" % n
+        # ONLY/NOCERT must come BEFORE the LOOP blocks (the driver reads input sequentially). Until 2026-10-12 22:35
+        # they were appended at the end, so every per-loop process computed ALL loops: results unaffected (each loop's
+        # matrix is taken from its own process's output), but 3x the CPU. Resource-only fix.
+        inp = base.replace("\nTOL ", "\nONLY %s\nNOCERT\nTOL " % n, 1)
         ck = GEN / f"{tag}.{safe}.{hashlib.sha256(inp.encode()).hexdigest()[:16]}.ckpt"   # A3 checkpoint per loop
         inp = inp.replace("\nTOL ", "\nCKPT %s\nTOL " % ck, 1)
         with open(GEN / f"{tag}.{safe}.err", "w") as ef:

@@ -1,0 +1,7 @@
+Determinism check (bridge): in each row run before the ONLY-placement fix, every loop was computed by all 3 per-loop processes from inputs differing only in the ONLY line and checkpoint path. All copies of each loop's 8 matrix entries (exact %Ra endpoints) must be bit-identical.
+ts2_0_a5control_o30_p128_cg3 (3 processes): g[0.000000-1.000000j,r0.14813]: 3 copies, IDENTICAL; g[0.482413-1.762450j,r0.27067]: 3 copies, IDENTICAL; g[1.677466+0.000000j,r0.20324]: 3 copies, IDENTICAL
+ts2_1_primary_a5_o30_p128_cg3 (3 processes): g[-0.000000+1.000000j,r0.13118]: 3 copies, IDENTICAL; g[0.396025+1.604447j,r0.21679]: 3 copies, IDENTICAL; g[1.677466-0.000000j,r0.20324]: 3 copies, IDENTICAL
+ts2_5_primary_a5_o30_p128_cg3 (3 processes): g[-0.000000+1.000000j,r0.12257]: 3 copies, IDENTICAL; g[0.372968+1.518838j,r0.19169]: 3 copies, IDENTICAL; g[1.401119+0.000000j,r0.12034]: 3 copies, IDENTICAL
+tschaos_3_primary_a5_o30_p128_cg3 (3 processes): g[0.445314+0.618036j,r0.16530]: 3 copies, IDENTICAL; g[0.767422+1.065078j,r0.16530]: 3 copies, IDENTICAL; g[1.401119+0.000000j,r0.12034]: 3 copies, IDENTICAL
+tschaos_4_primary_a5_o30_p128_cg3 (3 processes): g[-0.000000+1.000000j,r0.17052]: 3 copies, IDENTICAL; g[0.839389+1.498225j,r0.29283]: 3 copies, IDENTICAL; g[1.401119-0.000000j,r0.12034]: 3 copies, IDENTICAL
+ALL BIT-IDENTICAL
