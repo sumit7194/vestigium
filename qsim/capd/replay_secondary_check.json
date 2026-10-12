@@ -14,5 +14,13 @@
   "loops": 3,
   "all_overlap": true,
   "nonoverlap": []
+ },
+ {
+  "secondary": "tschaos_0_secondary_a5_o40_p256_cg3",
+  "primary": "tschaos_0_primary_o30_p256",
+  "entries_compared": 24,
+  "loops": 3,
+  "all_overlap": true,
+  "nonoverlap": []
  }
 ]
