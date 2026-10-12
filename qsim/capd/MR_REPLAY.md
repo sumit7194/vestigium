@@ -353,3 +353,12 @@ segments of loop 2. The tiny r = 0.045 loops near a singular point make the orig
 is resource only, and nothing is contradicted. TS row 4 is REPLAYED on the A5 path. No original-path cross-path pair
 exists for TS 4: the old run predates A3 checkpoints, so a re-run would take more than 30 h. Recorded as such; the
 cross-path table has 6 other rows.
+
+**TS 4 cross-path plan (bridge proposal, registered 2026-10-13 before either run; scheduling only):**
+- **(a)** A homotopic secondary for TS 4 on the A5 path (24-gon, 0.8 r, same base and ray), at 1 process. Requirement:
+  every loop-matrix entry overlaps the TS-4 A5 primary's.
+- **(b)** After the MN queues finish, TS 4 is re-run on the ORIGINAL path, now with A3 checkpoints, at nice +19.
+  - A 24 h watchdog trip is a liveness event only: the run is relaunched with its exact input, reloading its
+    checkpoints, until it ends in REPLAYED, NOT_REPLAYED or a non-watchdog failure.
+  - If it completes, it is TS 4's cross-path pair.
+  - If it never gets cores, the table says "TS 4: no original-path pair (24 h watchdog, resource)".
