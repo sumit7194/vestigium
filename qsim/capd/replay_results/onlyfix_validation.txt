@@ -1,0 +1,8 @@
+{"verdict": "REPLAYED", "consistent": true, "seconds": 666.6, "a5": {"A5_HALVINGS": "0", "A5_MAX_SHIFTED_COEF_WIDTH": "2.66009e-16"}}
+14813_ lines 8 identical
+  loops computed in new process: ['g[0.000000-1.000000j,r0.14813]']
+27067_ lines 8 identical
+  loops computed in new process: ['g[0.482413-1.762450j,r0.27067]']
+20324_ lines 8 identical
+  loops computed in new process: ['g[1.677466+0.000000j,r0.20324]']
+ALL LOOP MATRICES BIT-IDENTICAL
