@@ -1,0 +1,42 @@
+{
+ "tag": "mneq_0_primary_o30_p128_cg3",
+ "family": "mneq",
+ "row": 0,
+ "label": "primary",
+ "layout": "resume of process 1 (old layout, all loops)",
+ "seconds_resume": 6232.3,
+ "rc": 0,
+ "a5": {
+  "A5_HALVINGS": "0",
+  "A5_MAX_SHIFTED_COEF_WIDTH": "9.4603e-20"
+ },
+ "prec": 128,
+ "tol": 1e-25,
+ "codegen": 3,
+ "subseg": 32,
+ "LOX_G": true,
+ "LOX_H": true,
+ "COMM_NE_2": true,
+ "verdict": "REPLAYED",
+ "consistency": {
+  "v2_w_g": true,
+  "v2_w_h": true,
+  "v2_tr_comm": true,
+  "v1_tr_comm": true,
+  "v2_exact_GH_boxes": true
+ },
+ "consistent": true,
+ "capd_w_g": [
+  -313428.6325357592,
+  -313428.39475614333,
+  -106383.39675891443,
+  -106383.25305121425
+ ],
+ "capd_tr_comm": [
+  -424402.07193097717,
+  -156079.2493196786,
+  -219616.7295018608,
+  46188.43576462752
+ ],
+ "max_width_tr_comm": 268322.8226112985
+}

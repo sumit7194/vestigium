@@ -1,0 +1,1 @@
+{"verdict": "REPLAYED", "consistency": {"v2_w_g": true, "v2_w_h": true, "v2_tr_comm": true, "v1_tr_comm": true, "v2_exact_GH_boxes": true}, "a5": {"A5_HALVINGS": "0", "A5_MAX_SHIFTED_COEF_WIDTH": "9.4603e-20"}, "seconds_resume": 6232.3, "max_width_tr_comm": 268322.8226112985}
