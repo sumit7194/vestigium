@@ -646,13 +646,14 @@ if __name__ == "__main__":
         bj = bridge_json_for(fam, row)
         kw = dict(ngon=24, radius_scale=0.8) if label == "secondary" else {}
         if label == "escalated": kw = dict(order=40, prec=512)
-        A5LABELS = ("a5control", "primary_a5", "secondary_a5", "xpath_a5", "escalated_a5")   # A6: TS rows on the A5 path
+        A5LABELS = ("a5control", "primary_a5", "secondary_a5", "xpath_a5", "escalated_a5", "escalated2_a5")   # A6: TS rows on the A5 path
         if fam in ("mneq", "mnaxv2") or label in A5LABELS:   # A4 + A5 (MR_REPLAY.md): MN rows; A6: listed TS rows
             kw4 = dict(prec=128, tol=1e-25, codegen=3, prune=True, procs=3, subseg=32)
             # scheduling only (no effect on results): a per-queue override file read at row start
             ovr = HERE / ("procs_override_a6" if fam in ("ts2", "tschaos") else "procs_override_mn")
             if ovr.exists(): kw4["procs"] = max(1, int(ovr.read_text().strip()))
             if label in ("escalated", "escalated_a5"): kw4.update(prec=256, tol=1e-40, order=40)   # registered A4/A5 escalation
+            if label == "escalated2_a5": kw4.update(prec=256, tol=1e-40, order=40, subseg=128)    # A7 step 2 (final)
             if label in ("secondary", "secondary_a5"): kw4.update(ngon=24, radius_scale=0.8)
             res, _ = run_row_parallel(fam, row, bj, label=label, steplog=("STEPLOG" in os.environ), **kw4)
         else:

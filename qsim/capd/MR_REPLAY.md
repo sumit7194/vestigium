@@ -263,6 +263,24 @@ as REPLAYED under A5 until it is resolved.**
 **Reporting (bridge condition 4):** the paper and the ledger say plainly that there are two validated configurations
 of the same CAPD/MPFR stack, and give the cross-path table.
 
+## Amendment A7 (2026-10-12): the complete escalation ladder for an undecided (NOT_REPLAYED) row
+
+**Fixed BEFORE any escalated result exists.** The first case is C6 (tschaos 5), which is undecided at the A5 settings:
+tr[g,h] ≠ 2 could not be decided, while every cross-engine overlap is true. The ladder applies to every row that ends
+NOT_REPLAYED on the A5 path, TS or MN.
+
+| step | settings | label |
+|---|---|---|
+| 0 | the row's registered A5 settings (prec 128, tol 1e−25, order 30, SUBSEG 32) | primary_a5 / primary |
+| 1 | the registered escalation: **order 40, prec 256, tol 1e−40**, SUBSEG 32 | escalated_a5 / escalated |
+| 2 | **only if step 1 is still undecided:** step 1's settings with **SUBSEG 128**, applied to all loops, on the bridge's reading that the width growth is wrapping along the loop | escalated2_a5 |
+
+- **After step 2, stop.** If the row is still undecided, it is reported as **NOT_REPLAYED by CAPD (undecided;
+  enclosures contain the v1/v2 values)**. There is no further tuning, and the v1/v2 certificate stands as it is.
+- **Contradictions are a different case:** a non-overlap or verdict change is still a FAIL to investigate, never
+  something to escalate past.
+- Each step's settings, verdict and widths are recorded.
+
 Outcome: to be appended below after the runs, unchanged rules.
 
 **Correction note (2026-10-12):** commit 5b555b9's message says "all six TS plunging rows (0-5) now REPLAYED". That

@@ -5,3 +5,4 @@ ts2_5_primary_a5_o30_p128_cg3 (3 processes): g[-0.000000+1.000000j,r0.12257]: 3 
 tschaos_3_primary_a5_o30_p128_cg3 (3 processes): g[0.445314+0.618036j,r0.16530]: 3 copies, IDENTICAL; g[0.767422+1.065078j,r0.16530]: 3 copies, IDENTICAL; g[1.401119+0.000000j,r0.12034]: 3 copies, IDENTICAL
 tschaos_4_primary_a5_o30_p128_cg3 (3 processes): g[-0.000000+1.000000j,r0.17052]: 3 copies, IDENTICAL; g[0.839389+1.498225j,r0.29283]: 3 copies, IDENTICAL; g[1.401119-0.000000j,r0.12034]: 3 copies, IDENTICAL
 ALL BIT-IDENTICAL
+tschaos_5_primary_a5_o30_p128_cg3 (3 processes): g[0.498949+0.628874j,r0.13288]: 3 copies, IDENTICAL; g[0.774246+0.975857j,r0.13288]: 3 copies, IDENTICAL; g[1.677466+0.000000j,r0.20324]: 3 copies, IDENTICAL
