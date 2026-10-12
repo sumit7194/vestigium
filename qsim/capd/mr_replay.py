@@ -480,7 +480,7 @@ def finish_row(res, r, cert, family, row, label):
                              overlaps(vals["tr_comm_im"], midrad_box(v1["tr_comm_midrad"]["im"]))
     # exact v2 G/H boxes from the Lean export (same gauge, base point and normalisation as CAPD)
     le = QSIM.parent / "lean_export" / f"{family}_{row}_v2.json"
-    if le.exists() and label in ("primary", "a5control", "primary_a5", "xpath_a5"):
+    if le.exists() and label in ("primary", "a5control", "primary_a5", "xpath_a5", "escalated", "escalated_a5", "escalated2_a5"):
         L = json.load(open(le)); okb = True
         for M_, nm in ((L["G"], "G"), (L["H"], "H")):
             for i in range(2):
