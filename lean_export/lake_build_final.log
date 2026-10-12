@@ -1,0 +1,1458 @@
+⚠ [8959/9016] Replayed ZiglinCert.Certificate
+warning: ZiglinCert/Certificate.lean:18:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `open Matrix Complex`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certificate.lean:2:0: * `  ZiglinCert.Cer`:
+Copyright line should start with 'Copyright (c) YYYY'
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certificate.lean:2:77: * `romy obstruction route`:
+Copyright line should end with '. All rights reserved.'
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certificate.lean:4:0: * `  are only `propext`, `Classical.choice`, `Quot.sound` (see `Axioms.lean`).
+
+  The chain from "two certified monodromy matrices" to "the monodromy group is not virtually abelian":
+    * `L1_common_eigvec_comm_trace` : a common eigenvector forces `tr[g,h] = 2`        (contrapositive used)
+    * `lox_eigenbasis`              : loxodromic ⇒ eigenbasis, eigenvalues μ, μ⁻¹, ‖μ‖ ≠ 1  (old L2)
+    * `eig_in_basis`, `commute_eigvec`, `pow_ne_inv_pow`, `no_commuting_powers`
+    * `L6_not_virtually_abelian`    : SL(2) form, all powers `k ≥ 1`  (k = 2: lift to the phase curve; old L4b)
+    * `L5_gl2_restatement`          : `tr g / s ∉ [−2,2] ⇔ tr²/det ∉ [0,4]`
+    * `L6_gl2`                      : GL(2) form — the certificate the v2 core checks (scalars: old L4a)
+    * `L3_antidiag_trace_zero`, `L7_unipotent_one_eigenline` (TS route)
+  CITED, not formalised: the Ziglin / Morales–Ramis theorem (meromorphic integrability ⇒ G⁰ abelian) and that
+  G⁰ has finite index in G (so "G⁰ abelian" would give an abelian finite-index subgroup of the monodromy group).`:
+If an authors line spans multiple lines, each line but the last must end with a trailing comma
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certificate.lean:4:0: * `  are onl`:
+The authors line should begin with 'Authors: '
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certificate.lean:4:0: * `  `:
+Double spaces are not allowed.
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certificate.lean:14:100: * ` and `:
+Please, do not use 'and'; use ',' instead.
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certificate.lean:4:32: * `.`:
+Please, do not end the authors' line with a period.
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certificate.lean:3:0: * `  (PREREG_iahub_v2.md §5). Every theorem here is checked by Lean 4 + Mathlib, with no `sorry`; the axioms used`:
+Second copyright line should be "Released under Apache 2.0 license as described in the file LICENSE."
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certificate.lean:50:6: The `show` tactic should only be used to indicate intermediate goal states for readability.
+However, this tactic invocation changed the goal. Please use `change` instead for these purposes.
+
+Note: This linter can be disabled with `set_option linter.style.show false`
+warning: ZiglinCert/Certificate.lean:52:6: The `show` tactic should only be used to indicate intermediate goal states for readability.
+However, this tactic invocation changed the goal. Please use `change` instead for these purposes.
+
+Note: This linter can be disabled with `set_option linter.style.show false`
+warning: ZiglinCert/Certificate.lean:56:6: The `show` tactic should only be used to indicate intermediate goal states for readability.
+However, this tactic invocation changed the goal. Please use `change` instead for these purposes.
+
+Note: This linter can be disabled with `set_option linter.style.show false`
+warning: ZiglinCert/Certificate.lean:58:6: The `show` tactic should only be used to indicate intermediate goal states for readability.
+However, this tactic invocation changed the goal. Please use `change` instead for these purposes.
+
+Note: This linter can be disabled with `set_option linter.style.show false`
+warning: ZiglinCert/Certificate.lean:85:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:131:4: The `show` tactic should only be used to indicate intermediate goal states for readability.
+However, this tactic invocation changed the goal. Please use `change` instead for these purposes.
+
+Note: This linter can be disabled with `set_option linter.style.show false`
+warning: ZiglinCert/Certificate.lean:121:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:149:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:170:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:179:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:182:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:211:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:214:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:221:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:238:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:245:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:253:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:303:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:307:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:308:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:314:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:322:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:351:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:414:6: The `show` tactic should only be used to indicate intermediate goal states for readability.
+However, this tactic invocation changed the goal. Please use `change` instead for these purposes.
+
+Note: This linter can be disabled with `set_option linter.style.show false`
+warning: ZiglinCert/Certificate.lean:416:6: The `show` tactic should only be used to indicate intermediate goal states for readability.
+However, this tactic invocation changed the goal. Please use `change` instead for these purposes.
+
+Note: This linter can be disabled with `set_option linter.style.show false`
+warning: ZiglinCert/Certificate.lean:420:6: The `show` tactic should only be used to indicate intermediate goal states for readability.
+However, this tactic invocation changed the goal. Please use `change` instead for these purposes.
+
+Note: This linter can be disabled with `set_option linter.style.show false`
+warning: ZiglinCert/Certificate.lean:422:6: The `show` tactic should only be used to indicate intermediate goal states for readability.
+However, this tactic invocation changed the goal. Please use `change` instead for these purposes.
+
+Note: This linter can be disabled with `set_option linter.style.show false`
+warning: ZiglinCert/Certificate.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:6:100: This line exceeds the 100 character limit, please shorten it!
+You can use "string gaps" to format long strings: within a string quotation, using a '\' at the end of a line allows you to continue the string on the following line, removing all intervening whitespace.
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:7:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:12:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:14:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certificate.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+You can use "string gaps" to format long strings: within a string quotation, using a '\' at the end of a line allows you to continue the string on the following line, removing all intervening whitespace.
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8960/9016] Replayed ZiglinCert.Boxes
+warning: ZiglinCert/Boxes.lean:15:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `open Matrix Complex`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Boxes.lean:2:0: * `  ZiglinCert.Box`:
+Copyright line should start with 'Copyright (c) YYYY'
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Boxes.lean:2:85: * `ithmetic.md, 344400c).`:
+Copyright line should end with '. All rights reserved.'
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Boxes.lean:4:0: * `  Exact rational boxes for 2×2 complex matrices, interval operations with soundness proofs, and a Boolean
+  `check` deciding the division-free certificate criteria. `cert_sound`: if `check BG BH = true`, then EVERY pair
+  of matrices G ∈ BG, H ∈ BH is invertible and satisfies the conclusion of `L6_gl2`.
+
+  Criteria (bridge-endorsed, division-free):
+    (I)  for each of G, H, with w = tr²·conj(det):  w.im ≠ 0  ∨  w.re < 0  ∨  w.re > 4|det|²
+         (each disjunct forces det ≠ 0; together ⇔ tr²/det ∉ [0,4])                     — `crit1_math`
+    (II) tr(G·H·adj G·adj H) − 2·det G·det H ≠ 0   (⇔ tr[G,H] ≠ 2 when both dets ≠ 0)  — `crit2_math`
+  Decided by the kernel (`decide +kernel`); no `native_decide`, no `sorry`.`:
+If an authors line spans multiple lines, each line but the last must end with a trailing comma
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Boxes.lean:4:0: * `  Exact r`:
+The authors line should begin with 'Authors: '
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Boxes.lean:4:0: * `  `:
+Double spaces are not allowed.
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Boxes.lean:4:91: * ` and `:
+Please, do not use 'and'; use ',' instead.
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Boxes.lean:5:57: * `.`:
+Please, do not end the authors' line with a period.
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Boxes.lean:13:2: * ``:
+Second copyright line should be "Released under Apache 2.0 license as described in the file LICENSE."
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Boxes.lean:110:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:226:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:257:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:264:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:267:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:271:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:273:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:282:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:283:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:285:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:288:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:4:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:5:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Boxes.lean:11:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8961/9016] Built ZiglinCert.Certs.kerrctl_8_v2 (153s)
+warning: ZiglinCert/Certs/kerrctl_8_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/kerrctl_8_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/kerrctl_8_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/kerrctl_8_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/kerrctl_8_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8962/9016] Built ZiglinCert.Certs.kerrctl_9_v2 (154s)
+warning: ZiglinCert/Certs/kerrctl_9_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/kerrctl_9_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/kerrctl_9_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/kerrctl_9_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/kerrctl_9_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8963/9016] Built ZiglinCert.Certs.tschaos_6_v1 (154s)
+warning: ZiglinCert/Certs/tschaos_6_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_6_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_6_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_6_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_6_v1.lean:17:0: 'Certs.tschaos_6_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_6_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_6_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8964/9016] Built ZiglinCert.Certs.tschaos_7_v1 (155s)
+warning: ZiglinCert/Certs/tschaos_7_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_7_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_7_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_7_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_7_v1.lean:17:0: 'Certs.tschaos_7_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_7_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_7_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8965/9016] Built ZiglinCert.Certs.tschaos_5_v1 (155s)
+warning: ZiglinCert/Certs/tschaos_5_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_5_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_5_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_5_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_5_v1.lean:17:0: 'Certs.tschaos_5_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_5_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_5_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8966/9016] Built ZiglinCert.Certs.tschaos_7_v2 (155s)
+warning: ZiglinCert/Certs/tschaos_7_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_7_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_7_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_7_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_7_v2.lean:17:0: 'Certs.tschaos_7_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_7_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_7_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8967/9016] Built ZiglinCert.Certs.tschaos_5_v2 (155s)
+warning: ZiglinCert/Certs/tschaos_5_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_5_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_5_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_5_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_5_v2.lean:17:0: 'Certs.tschaos_5_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_5_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_5_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8968/9016] Built ZiglinCert.Certs.tschaos_6_v2 (155s)
+warning: ZiglinCert/Certs/tschaos_6_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_6_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_6_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_6_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_6_v2.lean:17:0: 'Certs.tschaos_6_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_6_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_6_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8969/9016] Built ZiglinCert.Certs.tschaos_4_v2 (155s)
+warning: ZiglinCert/Certs/tschaos_4_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_4_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_4_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_4_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_4_v2.lean:17:0: 'Certs.tschaos_4_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_4_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_4_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8970/9016] Built ZiglinCert.Certs.Controls (156s)
+warning: ZiglinCert/Certs/Controls.lean:5:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs.Controls`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/Controls.lean:7:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/Controls.lean:9:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/Controls.lean:12:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/Controls.lean:1:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8971/9016] Built ZiglinCert.Certs.ts2_5_v2 (112s)
+warning: ZiglinCert/Certs/ts2_5_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_5_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_5_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_5_v2.lean:17:0: 'Certs.ts2_5_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_5_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_5_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8972/9016] Built ZiglinCert.Certs.tschaos_1_v1 (113s)
+warning: ZiglinCert/Certs/tschaos_1_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_1_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_1_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_1_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_1_v1.lean:17:0: 'Certs.tschaos_1_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_1_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_1_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8973/9016] Built ZiglinCert.Certs.tschaos_2_v1 (113s)
+warning: ZiglinCert/Certs/tschaos_2_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_2_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_2_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_2_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_2_v1.lean:17:0: 'Certs.tschaos_2_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_2_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_2_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8974/9016] Built ZiglinCert.Certs.tschaos_2_v2 (113s)
+warning: ZiglinCert/Certs/tschaos_2_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_2_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_2_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_2_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_2_v2.lean:17:0: 'Certs.tschaos_2_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_2_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_2_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8975/9016] Built ZiglinCert.Certs.tschaos_4_v1 (114s)
+warning: ZiglinCert/Certs/tschaos_4_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_4_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_4_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_4_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_4_v1.lean:17:0: 'Certs.tschaos_4_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_4_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_4_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8976/9016] Built ZiglinCert.Certs.tschaos_0_v2 (113s)
+warning: ZiglinCert/Certs/tschaos_0_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_0_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_0_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_0_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_0_v2.lean:17:0: 'Certs.tschaos_0_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_0_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_0_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8977/9016] Built ZiglinCert.Certs.tschaos_1_v2 (113s)
+warning: ZiglinCert/Certs/tschaos_1_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_1_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_1_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_1_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_1_v2.lean:17:0: 'Certs.tschaos_1_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_1_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_1_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8978/9016] Built ZiglinCert.Certs.tschaos_3_v1 (113s)
+warning: ZiglinCert/Certs/tschaos_3_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_3_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_3_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_3_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_3_v1.lean:17:0: 'Certs.tschaos_3_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_3_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_3_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8979/9016] Built ZiglinCert.Certs.tschaos_3_v2 (114s)
+warning: ZiglinCert/Certs/tschaos_3_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_3_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_3_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_3_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_3_v2.lean:17:0: 'Certs.tschaos_3_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_3_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_3_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8980/9016] Built ZiglinCert.Certs.tschaos_0_v1 (113s)
+warning: ZiglinCert/Certs/tschaos_0_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/tschaos_0_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_0_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_0_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/tschaos_0_v1.lean:17:0: 'Certs.tschaos_0_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/tschaos_0_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/tschaos_0_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8981/9016] Built ZiglinCert.Certs.ts2_2_v2 (111s)
+warning: ZiglinCert/Certs/ts2_2_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_2_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_2_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_2_v2.lean:17:0: 'Certs.ts2_2_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_2_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_2_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8982/9016] Built ZiglinCert.Certs.ts2_3_v2 (112s)
+warning: ZiglinCert/Certs/ts2_3_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_3_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_3_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_3_v2.lean:17:0: 'Certs.ts2_3_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_3_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_3_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8983/9016] Built ZiglinCert.Certs.ts2_0_v2 (111s)
+warning: ZiglinCert/Certs/ts2_0_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_0_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_0_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_0_v2.lean:17:0: 'Certs.ts2_0_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_0_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_0_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8984/9016] Built ZiglinCert.Certs.ts2_4_v1 (112s)
+warning: ZiglinCert/Certs/ts2_4_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_4_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_4_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_4_v1.lean:17:0: 'Certs.ts2_4_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_4_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_4_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8985/9016] Built ZiglinCert.Certs.ts2_4_v2 (112s)
+warning: ZiglinCert/Certs/ts2_4_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_4_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_4_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_4_v2.lean:17:0: 'Certs.ts2_4_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_4_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_4_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8986/9016] Built ZiglinCert.Certs.ts2_1_v1 (112s)
+warning: ZiglinCert/Certs/ts2_1_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_1_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_1_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_1_v1.lean:17:0: 'Certs.ts2_1_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_1_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_1_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8987/9016] Built ZiglinCert.Certs.ts2_1_v2 (112s)
+warning: ZiglinCert/Certs/ts2_1_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_1_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_1_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_1_v2.lean:17:0: 'Certs.ts2_1_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_1_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_1_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8988/9016] Built ZiglinCert.Certs.ts2_2_v1 (112s)
+warning: ZiglinCert/Certs/ts2_2_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_2_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_2_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_2_v1.lean:17:0: 'Certs.ts2_2_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_2_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_2_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8989/9016] Built ZiglinCert.Certs.ts2_3_v1 (112s)
+warning: ZiglinCert/Certs/ts2_3_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_3_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_3_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_3_v1.lean:17:0: 'Certs.ts2_3_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_3_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_3_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8990/9016] Built ZiglinCert.Certs.ts2_5_v1 (112s)
+warning: ZiglinCert/Certs/ts2_5_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_5_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_5_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_5_v1.lean:17:0: 'Certs.ts2_5_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_5_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_5_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8991/9016] Built ZiglinCert.Certs.mneq_2_v2 (93s)
+warning: ZiglinCert/Certs/mneq_2_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_2_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_2_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_2_v2.lean:17:0: 'Certs.mneq_2_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_2_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_2_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8992/9016] Built ZiglinCert.Certs.mneq_3_v2 (93s)
+warning: ZiglinCert/Certs/mneq_3_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_3_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_3_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_3_v2.lean:17:0: 'Certs.mneq_3_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_3_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_3_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8993/9016] Built ZiglinCert.Certs.mneq_4_v2 (93s)
+warning: ZiglinCert/Certs/mneq_4_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_4_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_4_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_4_v2.lean:17:0: 'Certs.mneq_4_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_4_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_4_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8994/9016] Built ZiglinCert.Certs.mneq_2_v1 (93s)
+warning: ZiglinCert/Certs/mneq_2_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_2_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_2_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_2_v1.lean:17:0: 'Certs.mneq_2_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_2_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_2_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8995/9016] Built ZiglinCert.Certs.mneq_5_v2 (94s)
+warning: ZiglinCert/Certs/mneq_5_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_5_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_5_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_5_v2.lean:17:0: 'Certs.mneq_5_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_5_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_5_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8996/9016] Built ZiglinCert.Certs.mneq_1_v2 (93s)
+warning: ZiglinCert/Certs/mneq_1_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_1_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_1_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_1_v2.lean:17:0: 'Certs.mneq_1_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_1_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_1_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8997/9016] Built ZiglinCert.Certs.mneq_4_v1 (94s)
+warning: ZiglinCert/Certs/mneq_4_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_4_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_4_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_4_v1.lean:17:0: 'Certs.mneq_4_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_4_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_4_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8998/9016] Built ZiglinCert.Certs.mneq_5_v1 (94s)
+warning: ZiglinCert/Certs/mneq_5_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_5_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_5_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_5_v1.lean:17:0: 'Certs.mneq_5_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_5_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_5_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [8999/9016] Built ZiglinCert.Certs.mneq_3_v1 (94s)
+warning: ZiglinCert/Certs/mneq_3_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_3_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_3_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_3_v1.lean:17:0: 'Certs.mneq_3_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_3_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_3_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9000/9016] Built ZiglinCert.Certs.ts2_0_v1 (94s)
+warning: ZiglinCert/Certs/ts2_0_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/ts2_0_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_0_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/ts2_0_v1.lean:17:0: 'Certs.ts2_0_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/ts2_0_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/ts2_0_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9001/9016] Built ZiglinCert.Certs.mnaxv2_0_v2 (101s)
+warning: ZiglinCert/Certs/mnaxv2_0_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv2_0_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_0_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_0_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv2_0_v2.lean:17:0: 'Certs.mnaxv2_0_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv2_0_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_0_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9002/9016] Built ZiglinCert.Certs.mnaxv2_1_v1 (101s)
+warning: ZiglinCert/Certs/mnaxv2_1_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv2_1_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_1_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_1_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv2_1_v1.lean:17:0: 'Certs.mnaxv2_1_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv2_1_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_1_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9003/9016] Built ZiglinCert.Certs.mnaxv2_1_v2 (101s)
+warning: ZiglinCert/Certs/mnaxv2_1_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv2_1_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_1_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_1_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv2_1_v2.lean:17:0: 'Certs.mnaxv2_1_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv2_1_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_1_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9004/9016] Built ZiglinCert.Certs.mnaxv2_3_v1 (101s)
+warning: ZiglinCert/Certs/mnaxv2_3_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv2_3_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_3_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_3_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv2_3_v1.lean:17:0: 'Certs.mnaxv2_3_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv2_3_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_3_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9005/9016] Built ZiglinCert.Certs.mnaxv2_3_v2 (101s)
+warning: ZiglinCert/Certs/mnaxv2_3_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv2_3_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_3_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_3_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv2_3_v2.lean:17:0: 'Certs.mnaxv2_3_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv2_3_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_3_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9006/9016] Built ZiglinCert.Certs.mneq_1_v1 (101s)
+warning: ZiglinCert/Certs/mneq_1_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_1_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_1_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_1_v1.lean:17:0: 'Certs.mneq_1_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_1_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_1_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9007/9016] Built ZiglinCert.Certs.mneq_0_v1 (101s)
+warning: ZiglinCert/Certs/mneq_0_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_0_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_0_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_0_v1.lean:17:0: 'Certs.mneq_0_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_0_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_0_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9008/9016] Built ZiglinCert.Certs.mnaxv2_2_v1 (101s)
+warning: ZiglinCert/Certs/mnaxv2_2_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv2_2_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_2_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_2_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv2_2_v1.lean:17:0: 'Certs.mnaxv2_2_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv2_2_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_2_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9009/9016] Built ZiglinCert.Certs.mneq_0_v2 (101s)
+warning: ZiglinCert/Certs/mneq_0_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mneq_0_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_0_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mneq_0_v2.lean:17:0: 'Certs.mneq_0_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mneq_0_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mneq_0_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9010/9016] Built ZiglinCert.Certs.mnaxv2_2_v2 (101s)
+warning: ZiglinCert/Certs/mnaxv2_2_v2.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv2_2_v2.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_2_v2.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_2_v2.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv2_2_v2.lean:17:0: 'Certs.mnaxv2_2_v2' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv2_2_v2.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_2_v2.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9011/9016] Built ZiglinCert.Certs.mnaxv2_0_v1 (27s)
+warning: ZiglinCert/Certs/mnaxv2_0_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv2_0_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_0_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_0_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv2_0_v1.lean:17:0: 'Certs.mnaxv2_0_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv2_0_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv2_0_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9012/9016] Built ZiglinCert.Certs.mnaxv1_0_v1 (27s)
+warning: ZiglinCert/Certs/mnaxv1_0_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv1_0_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_0_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_0_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv1_0_v1.lean:17:0: 'Certs.mnaxv1_0_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv1_0_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_0_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9013/9016] Built ZiglinCert.Certs.mnaxv1_1_v1 (27s)
+warning: ZiglinCert/Certs/mnaxv1_1_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv1_1_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_1_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_1_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv1_1_v1.lean:17:0: 'Certs.mnaxv1_1_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv1_1_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_1_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9014/9016] Built ZiglinCert.Certs.mnaxv1_2_v1 (27s)
+warning: ZiglinCert/Certs/mnaxv1_2_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv1_2_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_2_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_2_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv1_2_v1.lean:17:0: 'Certs.mnaxv1_2_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv1_2_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_2_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9015/9016] Built ZiglinCert.Certs.mnaxv1_3_v1 (27s)
+warning: ZiglinCert/Certs/mnaxv1_3_v1.lean:6:0: The module doc-string for a file should be the first command after the imports.
+Please, add a module doc-string (`/-! ... -/`) before `namespace Certs`.
+
+Hint: Type `m(odule docstring) + [tab]` to insert a template via snippet.
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: ZiglinCert/Certs/mnaxv1_3_v1.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_3_v1.lean:10:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_3_v1.lean:15:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+info: ZiglinCert/Certs/mnaxv1_3_v1.lean:17:0: 'Certs.mnaxv1_3_v1' depends on axioms: [propext, Classical.choice, Quot.sound]
+warning: ZiglinCert/Certs/mnaxv1_3_v1.lean:2:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: ZiglinCert/Certs/mnaxv1_3_v1.lean:3:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+✔ [9016/9016] Built ZiglinCert.Certs.All (10s)
+Build completed successfully (9016 jobs).
+lake rc=0

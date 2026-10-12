@@ -1,0 +1,10 @@
+'L6_gl2' depends on axioms: [propext, Classical.choice, Quot.sound]
+'L6_not_virtually_abelian' depends on axioms: [propext, Classical.choice, Quot.sound]
+'L5_gl2_restatement' depends on axioms: [propext, Classical.choice, Quot.sound]
+'L7_unipotent_one_eigenline' depends on axioms: [propext, Classical.choice, Quot.sound]
+'L1_common_eigvec_comm_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'cert_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'cert_of_check' depends on axioms: [propext, Classical.choice, Quot.sound]
+'crit1_math' depends on axioms: [propext, Classical.choice, Quot.sound]
+'crit2_math' depends on axioms: [propext, Classical.choice, Quot.sound]
+axioms rc=0
