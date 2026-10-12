@@ -22,5 +22,13 @@
   "loops": 3,
   "all_overlap": true,
   "nonoverlap": []
+ },
+ {
+  "secondary": "ts2_4_secondary_a5_o30_p128_cg3",
+  "primary": "ts2_4_primary_a5_o30_p128_cg3",
+  "entries_compared": 24,
+  "loops": 3,
+  "all_overlap": true,
+  "nonoverlap": []
  }
 ]
