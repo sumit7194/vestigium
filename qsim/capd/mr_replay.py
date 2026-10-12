@@ -652,7 +652,10 @@ if __name__ == "__main__":
             # scheduling only (no effect on results): a per-queue override file read at row start
             ovr = HERE / ("procs_override_a6" if fam in ("ts2", "tschaos") else "procs_override_mn")
             if ovr.exists(): kw4["procs"] = max(1, int(ovr.read_text().strip()))
-            if os.environ.get("REPLAY_PROCS"): kw4["procs"] = max(1, int(os.environ["REPLAY_PROCS"]))   # per-queue (env) override
+            if os.environ.get("REPLAY_PROCS"):                       # per-queue (env) override, e.g. the A7 ladder
+                kw4["procs"] = max(1, int(os.environ["REPLAY_PROCS"]))
+                lad = HERE / "procs_override_ladder"                 # ...adjustable live via this file (scheduling only)
+                if lad.exists(): kw4["procs"] = max(1, int(lad.read_text().strip()))
             if label in ("escalated", "escalated_a5"): kw4.update(prec=256, tol=1e-40, order=40)   # registered A4/A5 escalation
             if label == "escalated2_a5": kw4.update(prec=256, tol=1e-40, order=40, subseg=128)    # A7 step 2 (final)
             # A8 (scheduling): C rows not yet started on the A5 path begin directly at A7 step-1 settings
