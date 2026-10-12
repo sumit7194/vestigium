@@ -432,6 +432,23 @@ def midrad_box(s):
 
 def overlaps(a, b): return a[0] <= b[1] and b[0] <= a[1]
 
+def arbstr_box(s):
+    """Older records store Arb's printed complex ball, '[mid +/- rad] + [mid +/- rad]j' (or '[+/- rad]'). Arb's string
+    conversion is rigorous (the printed interval contains the ball), so this gives exact [lo, hi] boxes for re and im."""
+    import re as _re
+    from decimal import Decimal
+    parts = _re.findall(r"\[([^\]]*)\]", s)
+    def one(t):
+        t = t.strip()
+        if t.startswith("+/-"):
+            r = Fraction(Decimal(t[3:].strip())); return (-r, r)
+        if "+/-" in t:
+            m, r = [x.strip() for x in t.split("+/-")]; M, Rr = Fraction(Decimal(m)), Fraction(Decimal(r)); return (M - Rr, M + Rr)
+        M = Fraction(Decimal(t)); return (M, M)
+    re_ = one(parts[0]) if parts else None
+    im_ = one(parts[1]) if len(parts) > 1 else (Fraction(0), Fraction(0))
+    return re_, im_
+
 def run_row(family, row, bridge_json, ngon=16, radius_scale=1.0, order=30, prec=256, label="primary"):
     global PREC
     PREC = prec
@@ -474,10 +491,16 @@ def finish_row(res, r, cert, family, row, label):
         rec = cert.get(key + "_midrad")
         if rec:
             cons["v2_" + q_] = overlaps(vals[q_ + "_re"], midrad_box(rec["re"])) and overlaps(vals[q_ + "_im"], midrad_box(rec["im"]))
+        elif isinstance(cert.get(key), str) and "[" in cert[key]:          # older records: Arb ball strings
+            br, bi = arbstr_box(cert[key])
+            cons["v2_" + q_] = overlaps(vals[q_ + "_re"], br) and overlaps(vals[q_ + "_im"], bi)
     v1 = cert.get("v1_replay", {})
     if v1.get("tr_comm_midrad"):
         cons["v1_tr_comm"] = overlaps(vals["tr_comm_re"], midrad_box(v1["tr_comm_midrad"]["re"])) and \
                              overlaps(vals["tr_comm_im"], midrad_box(v1["tr_comm_midrad"]["im"]))
+    elif isinstance(v1.get("tr_comm"), str) and "[" in v1["tr_comm"]:
+        br, bi = arbstr_box(v1["tr_comm"])
+        cons["v1_tr_comm"] = overlaps(vals["tr_comm_re"], br) and overlaps(vals["tr_comm_im"], bi)
     # exact v2 G/H boxes from the Lean export (same gauge, base point and normalisation as CAPD)
     le = QSIM.parent / "lean_export" / f"{family}_{row}_v2.json"
     if le.exists() and label in ("primary", "a5control", "primary_a5", "xpath_a5", "escalated", "escalated_a5", "escalated2_a5"):

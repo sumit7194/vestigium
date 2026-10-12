@@ -347,3 +347,9 @@ cross-check.
   secondary.
 - The MN eq-0 secondary keeps running (2), and its old queue shell was stopped so it would not start further rows.
 - Total: 2 + 2 + 2 for MN, plus 1 for the original-path TS 4, which is 7. Scheduling only.
+
+**TS row 4, original path (2026-10-13):** FAILED-CLOSED at the A2 24 h watchdog, after loop 1 of 3 and 12 of 18
+segments of loop 2. The tiny r = 0.045 loops near a singular point make the original path take more than 24 h. This
+is resource only, and nothing is contradicted. TS row 4 is REPLAYED on the A5 path. No original-path cross-path pair
+exists for TS 4: the old run predates A3 checkpoints, so a re-run would take more than 30 h. Recorded as such; the
+cross-path table has 6 other rows.
