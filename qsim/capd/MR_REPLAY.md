@@ -281,6 +281,20 @@ NOT_REPLAYED on the A5 path, TS or MN.
   something to escalate past.
 - Each step's settings, verdict and widths are recorded.
 
+### A7 clarification (2026-10-12, before any cross-path xpath_a5 result exists): undecided is not a disagreement
+
+The A6 cross-path rule says "a verdict change is a FAIL". It is made precise as follows.
+
+- A **cross-path FAIL** is either of:
+  - (i) non-overlapping enclosures of w_g, w_h or tr[g,h];
+  - (ii) opposite **certain** decisions on any certificate condition, e.g. a condition certainly true on one path and
+    certainly false on the other.
+- A run that is **undecided** (NOT_REPLAYED because a condition is neither certainly true nor certainly false) is
+  **not** a disagreement. That run goes through the A7 ladder, and its overlaps are still required at every step.
+- Expected case: the C rows on the A5 path at prec 128 (C6 and C7 are already undecided there). C1 and C2's A5
+  re-runs may also be undecided. That would not contradict their original-path REPLAYED results, provided the
+  enclosures overlap.
+
 Outcome: to be appended below after the runs, unchanged rules.
 
 **Correction note (2026-10-12):** commit 5b555b9's message says "all six TS plunging rows (0-5) now REPLAYED". That
