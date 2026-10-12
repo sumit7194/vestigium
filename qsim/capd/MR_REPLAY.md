@@ -341,3 +341,9 @@ cross-check.
   - The combine then takes every loop from that single output, with the same CAPD combine and finish_row.
 - **Freed cores:** two, used for the MN queue (from the eq 0 secondary on), on the fixed layout at 2 processes.
 - Scheduling only; the computation is unchanged.
+
+**Scheduling note (2026-10-13 ~03:15, bridge budget of 7 cores):**
+- The MN queue is split into two parallel queues at 2 processes each: equatorial 1–5, and axial 0–3 plus the axial-0
+  secondary.
+- The MN eq-0 secondary keeps running (2), and its old queue shell was stopped so it would not start further rows.
+- Total: 2 + 2 + 2 for MN, plus 1 for the original-path TS 4, which is 7. Scheduling only.
