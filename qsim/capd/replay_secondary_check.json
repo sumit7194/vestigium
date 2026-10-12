@@ -1,0 +1,18 @@
+[
+ {
+  "secondary": "ts2_0_secondary_a5_o30_p128_cg3",
+  "primary": "ts2_0_primary_o30_p256",
+  "entries_compared": 24,
+  "loops": 3,
+  "all_overlap": true,
+  "nonoverlap": []
+ },
+ {
+  "secondary": "ts2_0_secondary_a5_o30_p128_cg3",
+  "primary": "ts2_0_a5control_o30_p128_cg3",
+  "entries_compared": 24,
+  "loops": 3,
+  "all_overlap": true,
+  "nonoverlap": []
+ }
+]
