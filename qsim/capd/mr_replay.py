@@ -654,6 +654,9 @@ if __name__ == "__main__":
             if ovr.exists(): kw4["procs"] = max(1, int(ovr.read_text().strip()))
             if label in ("escalated", "escalated_a5"): kw4.update(prec=256, tol=1e-40, order=40)   # registered A4/A5 escalation
             if label == "escalated2_a5": kw4.update(prec=256, tol=1e-40, order=40, subseg=128)    # A7 step 2 (final)
+            # A8 (scheduling): C rows not yet started on the A5 path begin directly at A7 step-1 settings
+            if fam == "tschaos" and label in ("primary_a5", "xpath_a5", "secondary_a5") and (HERE / "c_rows_start_step1").exists():
+                kw4.update(prec=256, tol=1e-40, order=40)
             if label in ("secondary", "secondary_a5"): kw4.update(ngon=24, radius_scale=0.8)
             res, _ = run_row_parallel(fam, row, bj, label=label, steplog=("STEPLOG" in os.environ), **kw4)
         else:

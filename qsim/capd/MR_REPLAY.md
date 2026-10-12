@@ -295,6 +295,18 @@ The A6 cross-path rule says "a verdict change is a FAIL". It is made precise as 
   re-runs may also be undecided. That would not contradict their original-path REPLAYED results, provided the
   enclosures overlap.
 
+## Amendment A8 (2026-10-12, scheduling only; bridge-suggested): the remaining C rows start at A7 step 1
+
+The pattern is diagnosed: the far-out C bases exhaust 128 bits. So the C rows **not yet started** on the A5 path begin
+directly at the A7 step-1 settings (prec 256, order 40, tol 1e−40):
+- C3 primary_a5;
+- the C1 secondary;
+- the C1 and C2 cross-path re-runs.
+
+This is strictly more precise and changes no decision rule. If such a row is undecided, it goes straight to A7 step 2.
+C8 had already started at prec 128 when A8 was filed, so it runs the normal ladder. Implemented by a flag file
+(`c_rows_start_step1`) that the runner reads at row start.
+
 Outcome: to be appended below after the runs, unchanged rules.
 
 **Correction note (2026-10-12):** commit 5b555b9's message says "all six TS plunging rows (0-5) now REPLAYED". That
