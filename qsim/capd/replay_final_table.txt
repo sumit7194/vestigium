@@ -1,0 +1,26 @@
+| row | path (settings) | verdict | cross-engine checks | wall time |
+|---|---|---|---|---|
+| TS 0 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 258 min |
+| TS 1 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 13 min |
+| TS 2 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 236 min |
+| TS 3 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 277 min |
+| TS 4 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 8 min |
+| TS 5 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 23 min |
+| C1 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 736 min |
+| C2 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 655 min |
+| C3 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 612 min |
+| C4 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 28 min |
+| C5 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 26 min |
+| C6 | A5 (order 40, prec 256, ladder step 1) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 26 min |
+| C7 | A5 (order 40, prec 256, ladder step 1) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 45 min |
+| C8 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 9 min |
+| MN eq 0 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 104 min |
+| MN eq 1 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 88 min |
+| MN eq 2 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 83 min |
+| MN eq 3 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 88 min |
+| MN eq 4 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 91 min |
+| MN eq 5 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 89 min |
+| MN axial 0 (VREPRO 0) | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 33 min |
+| MN axial 1 (VREPRO 1) | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 34 min |
+| MN axial 2 (VREPRO 2) | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 23 min |
+| MN axial 3 (VREPRO 3) | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 20 min |

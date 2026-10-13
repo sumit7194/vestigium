@@ -1,0 +1,8 @@
+| row | original path | A5 run | status |
+|---|---|---|---|
+| ts2 0 | REPLAYED | ts2_0_a5control_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| ts2 2 | REPLAYED | ts2_2_xpath_a5_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| ts2 3 | REPLAYED | ts2_3_xpath_a5_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| tschaos 0 | REPLAYED | tschaos_0_xpath_a5_o40_p256_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| tschaos 1 | REPLAYED | tschaos_1_xpath_a5_o40_p256_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| tschaos 2 | REPLAYED | tschaos_2_primary_a5_o40_p256_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |

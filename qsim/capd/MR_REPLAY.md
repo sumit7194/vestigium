@@ -307,7 +307,7 @@ This is strictly more precise and changes no decision rule. If such a row is und
 C8 had already started at prec 128 when A8 was filed, so it runs the normal ladder. Implemented by a flag file
 (`c_rows_start_step1`) that the runner reads at row start.
 
-Outcome: to be appended below after the runs, unchanged rules.
+Outcome: see OUTCOME below.
 
 **Correction note (2026-10-12):** commit 5b555b9's message says "all six TS plunging rows (0-5) now REPLAYED". That
 is wrong. At that commit, TS rows 0, 1, 2, 3 and 5 were REPLAYED, and TS row 4 was still running on both paths.
@@ -369,3 +369,106 @@ cross-path table has 6 other rows.
   at 2 processes each, for 6 in total.
 - A coordinator writes the "MN EQ QUEUE DONE" marker that the TS-4 original-path chain waits for.
 - Scheduling only.
+
+
+## OUTCOME (2026-10-13): **ALL 24 CERTIFICATES REPLAYED by the Arb-free CAPD/MPFR third replay, with 0 contradictions**
+
+Every primary row is REPLAYED: all three certificate conditions are certainly true, namely w_g ∉ [0, 4], w_h ∉ [0, 4]
+and tr[g, h] ≠ 2. Every row's enclosures overlap:
+- v2's recorded w_g, w_h and tr[g,h];
+- v1's tr[g,h] (reduced form, SL(2));
+- **entry by entry, v2's exact rational G/H boxes from the Lean export** (same gauge and base point).
+
+The fields are the bridge's independently derived V8/V9 fields, gated EXACTLY against this repo's (polynomial
+identity for TS and MN; a second factored-form gate for MN eq). The arithmetic is MPFR only: no FLINT/Arb on the CAPD
+side, including the Taylor shift.
+
+| row | path (settings) | verdict | cross-engine checks | wall time |
+|---|---|---|---|---|
+| TS 0 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 258 min |
+| TS 1 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 13 min |
+| TS 2 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 236 min |
+| TS 3 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 277 min |
+| TS 4 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 8 min |
+| TS 5 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 23 min |
+| C1 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 736 min |
+| C2 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 655 min |
+| C3 | original (order 30, prec 256) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 612 min |
+| C4 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 28 min |
+| C5 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 26 min |
+| C6 | A5 (order 40, prec 256, ladder step 1) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 26 min |
+| C7 | A5 (order 40, prec 256, ladder step 1) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 45 min |
+| C8 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 9 min |
+| MN eq 0 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 104 min |
+| MN eq 1 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 88 min |
+| MN eq 2 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 83 min |
+| MN eq 3 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 88 min |
+| MN eq 4 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 91 min |
+| MN eq 5 | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 89 min |
+| MN axial 0 (VREPRO 0) | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 33 min |
+| MN axial 1 (VREPRO 1) | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 34 min |
+| MN axial 2 (VREPRO 2) | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 23 min |
+| MN axial 3 (VREPRO 3) | A5 (order 30, prec 128) | REPLAYED | all true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2 exact G/H boxes) | 20 min |
+
+
+**Notes on the table:**
+- **Paths:** "original" means A1+A2 (codegen 1, 256 bits). "A5" means local re-expansion (A5/A6), at the settings
+  shown.
+- **C6 and C7:** undecided at A5's prec 128, then REPLAYED at A7 ladder step 1. Step 2 was never needed.
+- **C3:** REPLAYED on both paths; the original-path entry is listed.
+- **Checks applied post hoc** (re-evaluation of the saved outputs with the corrected checker, noted in each result
+  file):
+  - for C6 and C7, the exact-box check (escalated labels were initially excluded from it);
+  - for MN axial 0 and 1, the w/tr overlaps (VREPRO records use Arb ball strings; the parser was added mid-run).
+- **Wide but decisive enclosures:** some MN rows have very wide tr[g,h] enclosures, from large monodromy and the
+  commutator's cancellation. Each was checked to be certainly ≠ 2 through a component bounded away from 2 (or the
+  imaginary part away from 0), and each contains v2's value. On MN eq 4, CAPD's enclosure is tighter than v2's own
+  ball.
+
+**Cross-path table** (A6: rows with both an original-path and an A5 result; FAIL = non-overlap or opposite certain
+decisions):
+
+| row | original path | A5 run | status |
+|---|---|---|---|
+| ts2 0 | REPLAYED | ts2_0_a5control_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| ts2 2 | REPLAYED | ts2_2_xpath_a5_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| ts2 3 | REPLAYED | ts2_3_xpath_a5_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| tschaos 0 | REPLAYED | tschaos_0_xpath_a5_o40_p256_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| tschaos 1 | REPLAYED | tschaos_1_xpath_a5_o40_p256_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| tschaos 2 | REPLAYED | tschaos_2_primary_a5_o40_p256_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+
+
+- No FAIL.
+- **TS 4:** its original-path run FAILED-CLOSED at the 24 h watchdog (resource only). Under plan (b) it is being
+  re-run with checkpoints at nice +19, as a liveness-only run. Until that completes, the table entry is "TS 4: no
+  original-path pair yet".
+
+**Homotopic secondaries** (24-gon, 0.8 r, same base and ray; every loop-matrix entry must overlap the primary's):
+- TS 0 (against both primaries), TS 4, C1, MN eq 0 and MN axial 0: **all PASS, 24/24 entries each**
+  (`replay_secondary_check.json`).
+
+**Determinism:** in rows run under the old per-loop layout, each loop was computed by 3 processes. All copies are
+bit-identical: 6 rows × 3 loops, plus 34/34 checkpointed MN-eq-0 segments (`replay_results/determinism_check.txt`).
+
+**Controls:**
+- M6 (Euler, exact monodromy) PASS on the original, A4 and A5 paths, and the wrong-p control is excluded each time.
+- The A5 positive control (TS 0) PASS.
+- The layout-fix validation is bit-identical.
+
+**Amendments, each registered before the outputs it governs:**
+
+| amendment | what it changed |
+|---|---|
+| A1 | step tolerance |
+| A2 | watchdog 24 h |
+| A3 | per-segment checkpoints |
+| A4 | MN codegen 2, prec 128 |
+| A5 | local re-expansion: MPFR Taylor shift, shift gate, halving rule |
+| A6 | unstarted TS rows onto A5; cross-path rule |
+| A7 | escalation ladder, and "undecided is not a disagreement" |
+| A8 | C rows start at step 1 |
+
+Each amendment's trigger and history are recorded above. Scheduling changes are recorded as notes.
+
+Environment: CAPD 2f06098, MPFR 4.2.2, GMP 6.3.0, Apple clang 21; Python 3.13.12 (generator and checker only,
+exact Fractions); macOS 26.5 arm64 (ENVIRONMENT/).
