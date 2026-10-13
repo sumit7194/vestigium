@@ -362,3 +362,10 @@ cross-path table has 6 other rows.
     checkpoints, until it ends in REPLAYED, NOT_REPLAYED or a non-watchdog failure.
   - If it completes, it is TS 4's cross-path pair.
   - If it never gets cores, the table says "TS 4: no original-path pair (24 h watchdog, resource)".
+
+**Scheduling note (2026-10-13 ~05:35):**
+- The MN axial queue is done.
+- The eq queue shell was stopped (eq 2 still running at 2 processes), and eq 3 and eq 4 run in parallel, then eq 5,
+  at 2 processes each, for 6 in total.
+- A coordinator writes the "MN EQ QUEUE DONE" marker that the TS-4 original-path chain waits for.
+- Scheduling only.
