@@ -433,6 +433,7 @@ decisions):
 | ts2 0 | REPLAYED | ts2_0_a5control_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
 | ts2 2 | REPLAYED | ts2_2_xpath_a5_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
 | ts2 3 | REPLAYED | ts2_3_xpath_a5_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
+| ts2 4 | REPLAYED | ts2_4_primary_a5_o30_p128_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
 | tschaos 0 | REPLAYED | tschaos_0_xpath_a5_o40_p256_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
 | tschaos 1 | REPLAYED | tschaos_1_xpath_a5_o40_p256_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
 | tschaos 2 | REPLAYED | tschaos_2_primary_a5_o40_p256_cg3 (REPLAYED) | AGREE (both REPLAYED, enclosures overlap) |
@@ -442,6 +443,13 @@ decisions):
 - **TS 4:** its original-path run FAILED-CLOSED at the 24 h watchdog (resource only). Under plan (b) it is being
   re-run with checkpoints at nice +19, as a liveness-only run. Until that completes, the table entry is "TS 4: no
   original-path pair yet".
+  - **Update 2026-10-14:** the checkpointed re-run finished on its first attempt (no watchdog trip; 71,845 s
+    wall-clock, rc 0). Verdict REPLAYED, with every consistency check true (v2 w_g, w_h, tr[g,h]; v1 tr[g,h]; v2
+    exact G/H boxes). `replay_crosspath.py` gives AGREE, with enclosures overlapping. The row is added to the table
+    above, so every TS row with both paths now agrees. This adds nothing to the certificate tally (TS 4 was already
+    REPLAYED on A5). Result: `replay_results/ts2_4_primary_o30_p256.json`. The post-run steps were first done by a
+    Gemini session, which updated only the JSON. The Bridge re-ran the script (JSON byte-identical) and added this
+    row.
 
 **Homotopic secondaries** (24-gon, 0.8 r, same base and ray; every loop-matrix entry must overlap the primary's):
 - TS 0 (against both primaries), TS 4, C1, MN eq 0 and MN axial 0: **all PASS, 24/24 entries each**

@@ -24,6 +24,14 @@
   "status": "AGREE (both REPLAYED, enclosures overlap)"
  },
  {
+  "row": "ts2 4",
+  "orig": "REPLAYED",
+  "a5_run": "ts2_4_primary_a5_o30_p128_cg3",
+  "a5": "REPLAYED",
+  "overlap": true,
+  "status": "AGREE (both REPLAYED, enclosures overlap)"
+ },
+ {
   "row": "tschaos 0",
   "orig": "REPLAYED",
   "a5_run": "tschaos_0_xpath_a5_o40_p256_cg3",

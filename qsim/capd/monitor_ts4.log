@@ -1,0 +1,32 @@
+[2026-10-14 01:35:01] [Gemini Monitor] Starting monitor for TS-4 Original-Path job...
+[2026-10-14 01:35:01] [Gemini Monitor] PID 52149 active: True | Progress: g[0.146429+1.070289j,r0.04637] segment 13/18 | g[0.146429+1.070289j,r0.04637] segment 14/18
+[2026-10-14 02:06:02] [Gemini Monitor] PID 52149 active: True | Progress: g[0.146429+1.070289j,r0.04637] segment 14/18 | g[0.146429+1.070289j,r0.04637] segment 15/18
+[2026-10-14 02:19:02] [Gemini Monitor] PID 52149 active: True | Progress: g[0.146429+1.070289j,r0.04637] segment 15/18 | g[0.146429+1.070289j,r0.04637] segment 16/18
+[2026-10-14 02:28:02] [Gemini Monitor] PID 52149 active: True | Progress: g[0.146429+1.070289j,r0.04637] segment 16/18 | g[0.146429+1.070289j,r0.04637] segment 17/18
+[2026-10-14 03:37:03] [Gemini Monitor] PID 52149 active: True | Progress: g[0.146429+1.070289j,r0.04637] segment 18/18 | loop g[0.146429+1.070289j,r0.04637] done
+[2026-10-14 04:03:33] [Gemini Monitor] PID 52149 active: True | Progress: g[1.401119+0.000000j,r0.12034] segment 1/18 | g[1.401119+0.000000j,r0.12034] segment 2/18
+[2026-10-14 04:04:03] [Gemini Monitor] PID 52149 active: True | Progress: g[1.401119+0.000000j,r0.12034] segment 3/18 | g[1.401119+0.000000j,r0.12034] segment 4/18
+[2026-10-14 04:04:33] [Gemini Monitor] PID 52149 active: True | Progress: g[1.401119+0.000000j,r0.12034] segment 6/18 | g[1.401119+0.000000j,r0.12034] segment 7/18
+[2026-10-14 04:05:03] [Gemini Monitor] PID 52149 active: True | Progress: g[1.401119+0.000000j,r0.12034] segment 7/18 | g[1.401119+0.000000j,r0.12034] segment 8/18
+[2026-10-14 04:05:33] [Gemini Monitor] PID 52149 active: True | Progress: g[1.401119+0.000000j,r0.12034] segment 9/18 | g[1.401119+0.000000j,r0.12034] segment 10/18
+[2026-10-14 04:06:03] [Gemini Monitor] PID 52149 active: True | Progress: g[1.401119+0.000000j,r0.12034] segment 11/18 | g[1.401119+0.000000j,r0.12034] segment 12/18
+[2026-10-14 04:06:33] [Gemini Monitor] PID 52149 active: True | Progress: g[1.401119+0.000000j,r0.12034] segment 14/18 | g[1.401119+0.000000j,r0.12034] segment 15/18
+[2026-10-14 04:07:03] [Gemini Monitor] PID 52149 active: True | Progress: g[1.401119+0.000000j,r0.12034] segment 16/18 | g[1.401119+0.000000j,r0.12034] segment 17/18
+[2026-10-14 04:33:04] [Gemini Monitor] PID 52149 active: False | Progress: g[1.401119+0.000000j,r0.12034] segment 18/18 | loop g[1.401119+0.000000j,r0.12034] done
+[2026-10-14 04:33:04] [Gemini Monitor] Both target PIDs (52149 and 69951) have terminated.
+[2026-10-14 04:33:09] [Gemini Monitor] Processing post-completion steps...
+[2026-10-14 04:33:09] [Gemini Monitor] Job result verdict: REPLAYED
+[2026-10-14 04:33:09] [Gemini Monitor] Executing cross-path update: /Users/sumit/Github/quantum/sims/.venv/bin/python /Users/sumit/Github/quantum/qsim/capd/replay_crosspath.py
+[2026-10-14 04:33:09] [Gemini Monitor] replay_crosspath.py stdout:
+{'row': 'ts2 0', 'orig': 'REPLAYED', 'a5_run': 'ts2_0_a5control_o30_p128_cg3', 'a5': 'REPLAYED', 'overlap': True, 'status': 'AGREE (both REPLAYED, enclosures overlap)'}
+{'row': 'ts2 2', 'orig': 'REPLAYED', 'a5_run': 'ts2_2_xpath_a5_o30_p128_cg3', 'a5': 'REPLAYED', 'overlap': True, 'status': 'AGREE (both REPLAYED, enclosures overlap)'}
+{'row': 'ts2 3', 'orig': 'REPLAYED', 'a5_run': 'ts2_3_xpath_a5_o30_p128_cg3', 'a5': 'REPLAYED', 'overlap': True, 'status': 'AGREE (both REPLAYED, enclosures overlap)'}
+{'row': 'ts2 4', 'orig': 'REPLAYED', 'a5_run': 'ts2_4_primary_a5_o30_p128_cg3', 'a5': 'REPLAYED', 'overlap': True, 'status': 'AGREE (both REPLAYED, enclosures overlap)'}
+{'row': 'tschaos 0', 'orig': 'REPLAYED', 'a5_run': 'tschaos_0_xpath_a5_o40_p256_cg3', 'a5': 'REPLAYED', 'overlap': True, 'status': 'AGREE (both REPLAYED, enclosures overlap)'}
+{'row': 'tschaos 1', 'orig': 'REPLAYED', 'a5_run': 'tschaos_1_xpath_a5_o40_p256_cg3', 'a5': 'REPLAYED', 'overlap': True, 'status': 'AGREE (both REPLAYED, enclosures overlap)'}
+{'row': 'tschaos 2', 'orig': 'REPLAYED', 'a5_run': 'tschaos_2_primary_a5_o40_p256_cg3', 'a5': 'REPLAYED', 'overlap': True, 'status': 'AGREE (both REPLAYED, enclosures overlap)'}
+ANY FAIL: False
+[2026-10-14 04:33:09] [Gemini Monitor] Updated /Users/sumit/Github/.claude-coordination/quantum.status
+[2026-10-14 04:33:09] [Gemini Monitor] Notified Bridge via inbox: /Users/sumit/Github/.claude-coordination/inbox/bridge/2026-10-14_quantum_ts4_orig_done.md
+[2026-10-14 04:33:09] [Gemini Monitor] Created handoff file: /Users/sumit/Github/quantum/HANDOFF_2026-10-14.md
+[2026-10-14 04:33:09] [Gemini Monitor] Post-completion routine complete.
