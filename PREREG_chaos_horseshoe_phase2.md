@@ -98,11 +98,27 @@ failing check is reported with its numbers.
   read-only. Coordinates are (t, x, y, φ), prolate spheroidal.
 - **Parameter points.** Primary: the two points already certified non-integrable by the MR tool,
   p1 (M, a, β) = (5, 3, 1/5) and p2 = (13, 5, −1/3).
-- **Fallback point.** If K20 finds no usable chaotic sea at p1 or p2 (failure mode F5), the target may move. One
-  candidate is near the literature's point, χ = 0.9, q = 0.95 (Lukes-Gerakopoulos et al. 2010), with rational
-  k and α. Such a move needs an amendment committed before any run there. It also leaves a gap: a horseshoe at the
-  new point would no longer sit on a Morales–Ramis certificate. The write-up must say so, or the MR tool must be run
-  at the new point first.
+- **Fallback point (registered 2026-10-16, B6, before any K20 output).** This applies if p1 and p2 BOTH fail K20's
+  usability criteria (F5). Tabula's full-text read finds that all published MN chaos sits at χ = 0.9, q = +0.95, and
+  that islands have near-zero width for q ≲ 0.4. The fallback is the published point, in this exact form:
+  - **F5-R (primary fallback): (M, a, q) = (89, 80, 19/20).**
+    - Here χ = 80/89 = 0.89888…, which is the nearest Pythagorean point to 0.9 (k = √(89² − 80²) = 39 exactly).
+      It gives α = −5/8 and β = qM³/k³ = 13394411/1186380 ≈ 11.29, all rational.
+    - The MR tool's exact machinery runs over Q plus symbolic exponentials, so it applies unchanged.
+    - |Δχ| = 1.1e−3 from the published 0.9. K20 screens THIS point, not only χ = 0.9, and its usability verdict at F5-R
+      is the one that counts.
+  - **F5-X (only if F5-R fails K20 but χ = 9/10 exactly passes):** the exact published point, χ = 9/10, q = 19/20.
+    - Here k = M√19/10, and α is irrational. CAPD encloses √19 rigorously, so the horseshoe is unaffected.
+    - The MR certificates would need Q(√19) arithmetic. Until they exist, the "shares a metric point" gap is stated.
+  - **q convention:** q is as in `MN_METRIC.md`, β = qM³/k³, which is Gair–Li–Mandel 2008's. Tabula confirms this
+    is the convention of the papers it read, before the screen counts.
+  - **Morales–Ramis at the fallback point (quantum, conditional).** If the target moves, I add MR certificates there
+    with the same machinery as the original ones: v2 certification, a v1 replay where it applies, the CAPD MPFR
+    replay, and an exact field gate against the Bridge. The horseshoe and the obstruction then share a metric point.
+    That gets its own registration, appended to `qsim/capd/MR_REPLAY.md` or a successor file, before it is run.
+  - **F3 risk is higher here:** β ≈ 11.3 against 0.2 and −1/3, so the exponentials are much stiffer near R → 0. The
+    F3 profile is redone at the new point.
+  - The move itself is made by amendment A-K20, committed before any run there.
 
 ### 3.2 Hamiltonian and reduction
 
@@ -129,8 +145,15 @@ failing check is reported with its numbers.
 Each condition below is certified on every step enclosure:
 - (a) x − 1 ≥ δ_x, where δ_x = 0.10 at p1 and 0.15 at p2. This lies beyond the measured CTC regions: x < 1.075 at
   p1 and x < 1.122 at p2.
+  - **General rule (B6):** δ_x = (x_CTC − 1) + 0.025, rounded UP to the next multiple of 0.05. Here x_CTC is the
+    measured outer extent in x of the region where g_φφ < 0, over all |y| < 1. This rule reproduces both values
+    above.
+  - The x-margin keeps orbits clear of the CTC boundary. It is not the safety condition. The safety condition is (b),
+    certified directly on every enclosure.
 - (b) g_φφ > 0: no closed timelike curves.
 - (c) R² = x² + y² − 1 ≥ 0.25, which is well outside the measured singular neighbourhood (R ≈ 0.22).
+  - **General rule (B6):** R ≥ R_min = max(0.5, 2R_s), where R_s is the measured radius of the neighbourhood of
+    R = 0 in which f is non-finite or |f| > 1e12.
 - (d) 1 − y² ≥ δ_y > 0. For L_z ≠ 0 this should hold automatically, because of the centrifugal barrier; it is
   certified, not assumed.
 - (e) Every metric function is finite and B > 0 (`require_finite`, `certainly_positive`).
@@ -348,3 +371,8 @@ The Bridge's second engine must reproduce these rejections (§4).
 - **S6:** TaylorModels.jl, owned by the Bridge, qualified on the controls first, with CAPD in Weyl coordinates as
   the fallback.
 - **Correction:** the Rössler example has five covering-gating checks, not six as the first draft said.
+
+**B6 (Bridge relay of tabula's K20 literature read, 2026-10-16), committed before any K20 output.**
+- The fallback point is F5-R = (89, 80, 19/20), with F5-X = exact χ = 9/10 as a second fallback (§3.1).
+- Morales–Ramis certificates will be added at the fallback point if the target moves.
+- The general margin rules for D(a) and D(c) are stated (§3.4).
