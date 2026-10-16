@@ -60,6 +60,33 @@ failing check is reported with its numbers.
 
 ---
 
+## 2a. Setup correspondence: the condition this runs at, and whether it matches the claim
+
+- **MN claim.**
+  - Every check runs at the claim's own condition: the same exact rational (M, a, β), E and L_z, the same μ = 1,
+    and the same section Σ and iterate n.
+  - Nothing is certified at a neighbouring point and then transferred.
+  - The claim names exactly the condition that was certified.
+- **Relation to the Morales–Ramis certificates (a mismatch, stated now).**
+  - The MR certificates at p1/p2 hold on the levels (E, L, μ²) = (1, 0, 4), (1, 0, 9) and (1, 1, 4). In the μ = 1
+    normalisation these are E = 1/2 or 1/3, with L_z = 0 or 1/2. They rule out an additional meromorphic first
+    integral there.
+  - The horseshoe will run at whatever (E, L_z) K20 supplies, which is in general a different level.
+  - So the write-up may say "same metric and parameter point as the non-integrability certificates". It may NOT say
+    that the horseshoe and the MR result are statements about the same orbits or the same level, unless amendment
+    A-K20 actually places the run on one of those levels.
+- **HH.**
+  - This runs at exactly E = 1/6, the condition the published abstract states for its symbolic-dynamics result.
+  - The section, h-sets and alphabet are mine, because theirs are unread.
+  - So the correspondence is "same system, same energy", and nothing finer. That is why the wording is restricted
+    to "consistent with" (§6.2).
+- **Kerr.** It runs at the same (M, a), E, L_z, section, domain and constructor as the MN run, with only q set to 0.
+  That is what makes it a matched negative control. If the MN condition changes by amendment, Kerr is re-run at the
+  new condition.
+- **Rössler.** It runs at exactly the published example's parameters, sets, section, order and subdivisions (§6.1).
+  The one deliberate difference is MPFR intervals in place of double intervals. It is recorded and does not weaken
+  the correspondence, because the decisions are being reproduced, not timings.
+
 ## 3. Fixed set-up
 
 ### 3.1 Metric
