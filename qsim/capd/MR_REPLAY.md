@@ -480,3 +480,11 @@ Each amendment's trigger and history are recorded above. Scheduling changes are 
 
 Environment: CAPD 2f06098, MPFR 4.2.2, GMP 6.3.0, Apple clang 21; Python 3.13.12 (generator and checker only,
 exact Fractions); macOS 26.5 arm64 (ENVIRONMENT/).
+
+**Addendum (2026-10-16): TS 4's cross-path pair is complete.**
+- TS 4's original-path re-run (plan b: checkpointed, nice +19) finished on 2026-10-14 at 04:32.
+- Result: REPLAYED in 20.0 h on attempt 1, with no watchdog trip. All cross-engine checks are true, including v2's
+  exact G/H boxes.
+- Cross-path: TS 4's original-path and A5 results AGREE (both REPLAYED, enclosures overlap).
+- **The cross-path table now has 7 rows (TS 0, 2, 3, 4, C1, C2, C3), all AGREE, with no FAIL.** The earlier entry
+  "TS 4: no original-path pair yet" is superseded.
