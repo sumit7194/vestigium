@@ -517,3 +517,16 @@ run. It amends §3.2 "Expression form".**
   exponentials as symbols), that the regularised V, g_φφ and the full reduced Hamiltonian equal the original
   expressions identically. The S5 gate against the Bridge's field then applies to the regularised field. B9(a) and
   every S4 test use the regularised g_φφ.
+
+**Disclosure on HH-PRIMARY ordering (2026-10-16), committed before the adaptive run starts.**
+- **The registered run is the first pass** (`hh1_*`). The first pass used fixed subdivisions: 16×16 support boxes and
+  64 pieces per edge. That is the first rung of the §3.6 subdivision ladder, launched from 0c5df05.
+- **The order of events.** I read partial first-pass results first: four coverings had finished, with (b) passing and
+  (a) failing on coarse boxes. Only after that did I write the adaptive-bisection checker (921ee47) and designate the
+  adaptive run (`hh1a_*`) as "counted". So the adaptive scheme was chosen post hoc.
+- **What the record will say:**
+  - The first pass is reported as the registered run, with its outcome.
+  - The adaptive run is reported as a **disclosed escalation within the registered §3.6 ladder**: the caps of 2¹⁶
+    leaves for (a) and 2¹² per edge are unchanged. The bisection rule itself (split u first, with the u-depth at most
+    the s-depth + 3) was fixed after seeing first-pass data.
+  - Both passes' outcomes are reported.
