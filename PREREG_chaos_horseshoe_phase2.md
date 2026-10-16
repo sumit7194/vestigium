@@ -49,13 +49,13 @@ Literature basis: `TheBridge/outreach/paper_ts_mn/LIT_SWEEP_chaos_proof.md` (202
 | # | Check | Certified how |
 |---|---|---|
 | S1 | **Section and return.** 𝒫ⁿ is defined and continuous on every N_i: each orbit from N_i reaches Σ transversally (ẏ ≠ 0 as an interval, of the registered sign) after the registered number of crossings, with a finite, enclosed return time. | CAPD `PoincareMap` on MPFR intervals; transversality from the enclosure of ẏ at the crossing |
-| S2 | **Covering inequalities** for every A_ij = 1, in each h-set's local coordinates (u, s) ∈ [−1,1]² (u unstable, s stable): (a) \|s(𝒫ⁿ(N_i))\| < 1 within N_j's frame; (b) 𝒫ⁿ(N_i^{l}) ⊂ {u_j < −1} and 𝒫ⁿ(N_i^{r}) ⊂ {u_j > 1}, or the reverse (degree ±1), for the left and right edges. This is the form of CAPD's Rössler example. (a) as written is STRONGER than Definition 2(a) of Arioli–Zgliczyński and Zgliczyński–Gidea, which only forbids the image from meeting {\|u\| ≤ 1, \|s\| ≥ 1}. T0 may relax S2(a) to the exact form of the theorem by amendment before R1. The stronger form is always recorded as data. | every inequality decided by interval comparison, no tolerance |
+| S2 | **Covering inequalities** for every A_ij = 1, in each h-set's local coordinates (u, s) ∈ [−1,1]² (u unstable, s stable): (a) [B8: Def. 2(a) form] every image-enclosure box of a piece of N_i is certified disjoint from F_j = {\|u_j\| ≤ 1, \|s_j\| ≥ 1} (for M3-type sets, F_j = ℝ² ∖ (N_jˡ ∪ \|N_j\| ∪ N_jʳ)), certified on the whole support by subdivision. The originally written form, \|s(𝒫ⁿ(N_i))\| < 1, is recorded as data; (b) 𝒫ⁿ(N_i^{l}) ⊂ {u_j < −1} and 𝒫ⁿ(N_i^{r}) ⊂ {u_j > 1}, or the reverse (degree ±1), for the left and right edges. This is the form of CAPD's Rössler example. (a) as written is STRONGER than Definition 2(a) of Arioli–Zgliczyński and Zgliczyński–Gidea, which only forbids the image from meeting {\|u\| ≤ 1, \|s\| ≥ 1}. T0 may relax S2(a) to the exact form of the theorem by amendment before R1. The stronger form is always recorded as data. | every inequality decided by interval comparison, no tolerance |
 | S3 | **ρ(A) > 1.** | exact integer arithmetic: an exhibited n with trace(Aⁿ) ≥ 2 and a cycle structure that gives ρ > 1; ρ also computed exactly as an algebraic number |
 | S4 | **Physical domain:** every CAPD step enclosure of every orbit segment used lies in D (§3.4). | interval evaluation on every step enclosure (not on a grid), fail-closed |
 | S5 | **Exact field gate:** my Hamilton's equations equal the Bridge's independently derived ones, exactly (in the differential field with R and the exponentials as symbols, as in `replay_gate.py` mn_eq). | exact rational polynomial identity |
 | S6 | **Second implementation** (§4) certifies every covering inequality in S2 and every S4 check, with overlapping enclosures and no opposite certain decisions. This is the MR cross-path rule. | separate run, separate code path |
 | S7 | **Controls passed first:** Rössler PASS, Hénon–Heiles registered outcome recorded, Kerr shows no ρ(A) > 1 (§6), and the wrong-configuration controls (§6.4) REJECTED. A Kerr certification, or any accepted wrong configuration, stops everything. | §6 |
-| S8 | **Disjointness (B1).** The h-sets N_1,…,N_k are pairwise disjoint. Where T0's reading of the theorem requires it for the coding, their images under 𝒫ⁿ are also disjoint from each other. T0 fixes the exact form, by amendment before R1. | certified separation in section coordinates: the interval hulls of the parallelograms are disjoint, or a separating line is certified |
+| S8 | **Disjointness (B1; exact form fixed by T0/B8).** The SUPPORTS \|N_1\|,…,\|N_k\| are pairwise disjoint, as AZ Def. 6 requires. Disjoint images are not required (AZ Theorem 2). | exact rational arithmetic: a separating line between the convex parallelograms, or an exact polygon intersection for M3-type sets |
 | S9 | **Energy surface and branch (B2).** The flow is integrated in the full 4-D phase space (x, y, p_x, p_y). The eliminated momentum is obtained ONLY when a point is placed on Σ: p_y = +√(ρ(x, p_x)), where ρ is the constraint's radicand, and the radicand enclosure is certified > 0, so the root is a genuine enclosure on the positive branch. Gated, fail-closed: (a) every step enclosure and every return enclosure satisfies H_red(enclosure) ∋ −½, as a consistency check, since the true orbit has H = −½ exactly and an enclosure without it means a bug; (b) at each return, the crossing enclosure has p_y certified > 0 (the chosen branch and direction). For HH the same rule applies, with p_x and the level E = 1/6. Rössler is not Hamiltonian, so S9 does not apply to it. | interval evaluation of H on every enclosure; sign certified at each return |
 
 If S1–S9 all hold, the claim in §1 is made exactly as worded. If any one fails, no horseshoe claim is made, and the
@@ -143,27 +143,34 @@ failing check is reported with its numbers.
   transversally, another section may be registered by amendment before use. Equatorial reflection symmetry is not
   assumed anywhere.
 
-### 3.4 Physical domain D (Han 2008's exterior check, adapted to vacuum MN)
+### 3.4 Physical domain D (Han 2008's exterior check, adapted to vacuum MN; amended B9, before any orbit)
 
-Each condition below is certified on every step enclosure:
-- (a) x − 1 ≥ δ_x, where δ_x = 0.10 at p1 and 0.15 at p2. This lies beyond the measured CTC regions: x < 1.075 at
-  p1 and x < 1.122 at p2.
-  - **General rule (B6):** δ_x = (x_CTC − 1) + 0.025, rounded UP to the next multiple of 0.05. Here x_CTC is the
-    measured outer extent in x of the region where g_φφ < 0, over all |y| < 1. This rule reproduces both values
-    above.
-  - The x-margin keeps orbits clear of the CTC boundary. It is not the safety condition. The safety condition is (b),
-    certified directly on every enclosure.
-- (b) g_φφ > 0: no closed timelike curves.
-- (c) R² = x² + y² − 1 ≥ 0.25, which is well outside the measured singular neighbourhood (R ≈ 0.22).
-  - **General rule (B6):** R ≥ R_min = max(0.5, 2R_s), where R_s is the measured radius of the neighbourhood of
-    R = 0 in which f is non-finite or |f| > 1e12.
-- (d) 1 − y² ≥ δ_y > 0. For L_z ≠ 0 this should hold automatically, because of the centrifugal barrier; it is
-  certified, not assumed.
-- (e) Every metric function is finite and B > 0 (`require_finite`, `certainly_positive`).
-- (f) The Lorentzian signature holds: det g < 0 is certified.
+Each condition below is certified on every step enclosure B. The enclosures come from the `TimeMap` replay of
+T0/B8.
 
-The ergoregion (f < 0) is allowed, because it is physical. Orbits that leave D are treated as plunging, and an
-h-set whose image leaves D is rejected; covering relations only need 𝒫 on N_i.
+- **(a) CTC margin, pointwise and certified (B9).** g_φφ > 0 is certified on the inflated box
+  B⁺ = B + [−0.025, 0.025] × [−0.025, 0.025], in (x, y). So every point within coordinate distance 0.025 of the
+  orbit, in x and in y, is causal.
+  - It also implies (b).
+  - It uses NO measured quantity, so it has no knife-edge (see the B9 note).
+  - It replaces the global δ_x rule of B6, which is withdrawn.
+  - The minimum certified distance from the CTC region along the h-set orbits is reported in the result, and stated
+    in the write-up.
+- **(a′) Away from the degenerate boundary:** x − 1 ≥ 0.05, fixed.
+- **(b) No closed timelike curves:** g_φφ > 0 on B itself, implied by (a).
+- **(c) Away from the singular core:** R² = x² + y² − 1 ≥ 0.25, i.e. R ≥ 0.5, fixed.
+  - The B6 rule R ≥ max(0.5, 2R_s) is withdrawn for the same reason as (a): R_s is a measured quantity.
+  - The actual safety condition is (e), finiteness on every enclosure, which fails closed wherever the exponentials
+    blow up.
+- **(d) Off the axis:** 1 − y² > 0 is certified. For L_z ≠ 0 the centrifugal barrier should keep orbits off the axis
+  anyway. The coordinate singularity there also shows up as non-finiteness in (e).
+- **(e) Finite metric:** every metric function and every vector-field component is finite, and B > 0
+  (`require_finite`, `certainly_positive`).
+- **(f) Lorentzian signature:** det g < 0 is certified.
+
+The ergoregion (f < 0) is allowed, because it is physical. Orbits that leave D are treated as plunging, and an h-set
+whose image leaves D is rejected; covering relations only need 𝒫 on N_i. The screens (K20) report the fraction f_D
+of the candidate sea inside D under both the B6 rule and the B9 rule, as data.
 
 ### 3.5 Engine and trust (unchanged from the third replay)
 
@@ -448,3 +455,30 @@ The Bridge's second engine must reproduce these rejections (§4).
 - My own h-set run becomes HH-SECONDARY.
 - W-AZ1 (rotated M2) and W-AZ2 (shrunk M2) must be rejected.
 - S2(a) is noted as stronger than Definition 2(a); T0 may relax it by amendment before R1.
+
+**B8 (T0 outcome, 2026-10-16; `qsim/capd/horseshoe/T0_HYPOTHESES.md`), committed before R1.**
+- **Theorem as used:** AZ 2001 Defs 1–6, Theorems 1–2 (from Zgliczyński 1997) and Lemma 6, in the planar
+  one-unstable-direction case. Every target here is in that case.
+- **Hypotheses mapped:** every hypothesis maps to a certified check, H1–H9.
+- **S2(a)** is relaxed to the exact Def. 2(a) form, with the stronger form kept as data.
+- **S8** is pairwise-disjoint supports only.
+- **Claim wording** becomes h_top(𝒫ⁿ|Inv(N, 𝒫ⁿ)) ≥ ln ρ(A).
+- **S1** relies on CAPD `PoincareMap`'s `checkTransversability`, which runs on every step enclosure touching the
+  section; it throws, and the sub-box FAILS. That is AZ's (2.1)–(2.2).
+- **S4/S9 in-flow checks** come from a `TimeMap` replay of every set to T_hi, with every step's `getLastEnclosure()`
+  checked.
+
+**B9 (decision on the domain rule, 2026-10-16), committed before any orbit.**
+- **What prompted it.** The Bridge's V13 geometry (TheBridge a554dc6; no orbits computed) shows that the published MN
+  sea at F5-R begins just outside the CTC region: the equatorial CTC edge is at x ≈ 1.885, and the inner bound region
+  at (E, L_z) = (0.95, 3) is x ∈ [1.922, 5.03]. Off the equator the CTC region reaches x ≈ 2.42.
+- **What the old rule would do.** B6's global rule gives δ_x = 1.45, i.e. x ≥ 2.45, which would discard most of that
+  sea.
+- **A reproducibility flaw in the old rule.** B6 depended on a measured x_CTC. At p1 the Bridge measures
+  x_CTC = 1.07592, which puts δ_x at 0.15, not 0.10. My 0.10 came from the supplier's grid scan
+  (`MN_METRIC.md`: "x from 1 to 1.075"), so the rule was not reproducible.
+- **Decision.** Both measured-quantity rules (δ_x and R_s) are withdrawn. They are replaced by the certified,
+  measurement-free rules (a) (inflated box with g_φφ > 0) and (c) (R ≥ 0.5 fixed), plus (a′) x − 1 ≥ 0.05.
+  The safety intent is unchanged: causality is certified on every enclosure, now with a 0.025 neighbourhood.
+- **Disclosed.** This change was made after seeing the V13 geometry and before any orbit. The write-up reports the
+  orbits' minimum certified distance to the CTC region.
