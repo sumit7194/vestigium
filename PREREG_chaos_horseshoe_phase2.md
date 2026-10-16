@@ -530,3 +530,14 @@ run. It amends §3.2 "Expression form".**
     leaves for (a) and 2¹² per edge are unchanged. The bisection rule itself (split u first, with the u-depth at most
     the s-depth + 3) was fixed after seeing first-pass data.
   - Both passes' outcomes are reported.
+
+**B11 (decision on the p2 level after the Bridge's V13 A5 move, 2026-10-16), committed before any MN run.**
+- **Why the level moved.** At the MR level (1,0,4), L_z = 0, so orbits reach the symmetry axis. There the prolate
+  chart is singular, and D(d) requires 1 − y² > 0. K20's shared p2 level is therefore (E, ℓ) = (9/10, 13/10).
+- **Primary p2 target: K20's level (9/10, 13/10).** This is off the MR levels, so the §2a gap applies and is stated:
+  "same metric point, not same level".
+- **Optional secondary: a p2 horseshoe ON the MR level (1,0,4).** It is pursued only after the primary, and it needs
+  a polar-crossing chart: θ with y = cos θ, so the meridional orbit passes θ = 0 smoothly, and D(d) is replaced by
+  regularity of the metric functions in θ.
+  - Its chart, its S5 field gate in the new chart, and its domain rule each get their own amendment before any run.
+  - Nothing about the primary depends on it.
