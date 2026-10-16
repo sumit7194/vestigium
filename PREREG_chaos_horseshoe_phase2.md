@@ -541,3 +541,13 @@ run. It amends §3.2 "Expression form".**
   regularity of the metric functions in θ.
   - Its chart, its S5 field gate in the new chart, and its domain rule each get their own amendment before any run.
   - Nothing about the primary depends on it.
+
+**Resource note (2026-10-16, during hh1a): the adaptive W-AZ re-runs were stopped.**
+- **Why.** The adaptive checker bisects every failing (a)-box. For a genuinely wrong configuration those boxes never
+  resolve, so the run would bisect to the 2¹⁶-leaf cap: about 90 core-hours per covering, well over the 48 core-hour
+  HH budget.
+- **Where the W-AZ verdicts come from.** The registered first pass (`hh1_W_AZ*`) already settles W-AZ1 and W-AZ2.
+- **What was stopped.** The two `hh1a_W_AZ*` processes, my own PIDs 59714 and 72782, killed by explicit PID. They
+  added no information. Their JSONs record the kill.
+- **Change for future adaptive runs of wrong configurations:** stop at the first CERTIFIED failing check, or use the
+  `caps` command with small caps.
