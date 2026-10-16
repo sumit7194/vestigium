@@ -30,6 +30,13 @@
   Compare both against the shipped JSONs, then report the outcome and the diff to the Bridge.
 - **The TS metric inputs** are now shipped at `snapshots/ts2-mn-integrability/ansatz_inputs/` (the user approved).
   `rerun_v2_row.py` reads them from `../ansatz_inputs/`; no symlink is needed.
+- **Snapshot test, part 1, the v2 run: PASS (2026-10-17).** The run was a fresh copy (`cargo build` inside it) of
+  `rerun_v2_row.py ts2 4`. 67/67 fields are identical to the shipped `qsim/mr_v2_ts2_row4.json`, apart from
+  `seconds`.
+- **Snapshot test, part 2, the CAPD replay:** pending until HH frees cores, because the wrapper uses 3 processes.
+- **NOT YET SENT to the Bridge** (its session was down). When it is back, send it the part-1 PASS. HH status to the
+  Bridge stays at core-hours only.
+
 
 ## Phase-2 state (all committed and pushed)
 
