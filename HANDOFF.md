@@ -34,8 +34,9 @@
   `rerun_v2_row.py ts2 4`. 67/67 fields are identical to the shipped `qsim/mr_v2_ts2_row4.json`, apart from
   `seconds`.
 - **Snapshot test, part 2, the CAPD replay:** pending until HH frees cores, because the wrapper uses 3 processes.
-- **NOT YET SENT to the Bridge** (its session was down). When it is back, send it the part-1 PASS. HH status to the
-  Bridge stays at core-hours only.
+- **The part-1 PASS has been sent to the Bridge.** HH status to the Bridge stays at core-hours only.
+- **Four fable_briefs prompts were drafted for the user's separate sessions** (not run here):
+  `/Users/sumit/Github/fable_briefs/quantum/PROMPT_{1..4}_*.md`, with read-only inputs under `inputs/`.
 
 
 ## Phase-2 state (all committed and pushed)
