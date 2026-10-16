@@ -28,8 +28,8 @@
   - `snapshot_tools/rerun_v2_row.py ts2 4`;
   - `snapshot_tools/rerun_one_row.py ts2 4`.
   Compare both against the shipped JSONs, then report the outcome and the diff to the Bridge.
-- **The TS metric inputs** (ansatz's `conjecture_machine/data/sealed/TS2_for_quantum`) are not in the snapshot.
-  Whether to ship them is the user's decision. For the local test only, symlink them into the copy's `inputs/`.
+- **The TS metric inputs** are now shipped at `snapshots/ts2-mn-integrability/ansatz_inputs/` (the user approved).
+  `rerun_v2_row.py` reads them from `../ansatz_inputs/`; no symlink is needed.
 
 ## Phase-2 state (all committed and pushed)
 
