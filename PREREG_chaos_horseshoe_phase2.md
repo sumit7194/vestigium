@@ -482,3 +482,12 @@ The Bridge's second engine must reproduce these rejections (§4).
   The safety intent is unchanged: causality is certified on every enclosure, now with a 0.025 neighbourhood.
 - **Disclosed.** This change was made after seeing the V13 geometry and before any orbit. The write-up reports the
   orbits' minimum certified distance to the CTC region.
+
+**Correction to the B9 note (Bridge, 2026-10-16; no rule changes).**
+- The equatorial CTC edge at F5-R is **1.92192**, not 1.885: the 1.885 was a coarse-grid value.
+- **At C0 the edge is 1.92983**, and the inner allowed region's lower edge coincides with it, because the allowed
+  region is bounded where g_φφ → 0 (L_z²/g_φφ → ∞). So the inner region ABUTS the CTC boundary; it does not start
+  0.04 beyond it.
+- **Consequence under B9(a):** orbits that come within 0.025 of that edge fail closed. The usable sea is therefore
+  the inner region minus a thin strip along it.
+- **Counted rule:** tabula reports f_D under B9's exact form.
