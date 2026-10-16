@@ -11,7 +11,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE.parent / "horseshoe_results"
-BIN = HERE / "hs_cover"
+import os
+BIN = Path(os.environ.get("HS_BIN", HERE / "hs_cover"))
 CORES = 4                                    # core budget (bridge, 2026-10-16)
 
 
@@ -35,11 +36,12 @@ def run(tag, lines, timeout=48 * 3600):
     sha = hashlib.sha256(spec.encode()).hexdigest()
     sp = OUT / f"{tag}.spec"
     sp.write_text(spec)
+    bsha = hashlib.sha256(BIN.read_bytes()).hexdigest()          # hashed BEFORE the run
     t0 = time.time()
     p = subprocess.run(["nice", "-n", "19", str(BIN), str(sp)], capture_output=True, text=True, timeout=timeout)
     dt = time.time() - t0
     out = p.stdout.splitlines()
-    res = dict(tag=tag, spec=sp.name, spec_sha256=sha, binary_sha256=hashlib.sha256(BIN.read_bytes()).hexdigest(),
+    res = dict(tag=tag, spec=sp.name, spec_sha256=sha, binary=BIN.name, binary_sha256=bsha,
                returncode=p.returncode, seconds=round(dt, 2), stderr_tail=p.stderr.splitlines()[-5:],
                ex=[l for l in out if l.startswith("EX ")], covers=[l for l in out if l.startswith("COVER ")],
                failpieces=[l for l in out if l.startswith("FAILPIECE")][:200],
@@ -183,21 +185,21 @@ def az_tsets(fr, override=None):
     return out
 
 
-def hh1(nu=16, ns=16, ne=64):
+def hh1(nu=16, ns=16, ne=64, prefix="hh1"):
     """HH-PRIMARY (prereg 6.2, B7): AZ 2001 Lemma 5 (5.1) on the published M0-M4, Def. 2 literal, P1; plus the
     wrong configurations W-AZ1 (M2's line pairs exchanged) and W-AZ2 (M2's first pair shrunk to 1e-3)."""
     fr, chk = az_checks()
     (OUT / "hh1_exact_checks.json").write_text(json.dumps(chk, indent=1))
     assert chk["S8_all"] and chk["M3_left_edge_standard"] and chk["M3_right_edge_standard"], chk
     T = az_tsets(fr)
-    J = {f"hh1_{a}{b}": HH_HEAD + T + [f"cover {a} {b} {nu} {ns} {ne}"] for a, b in AZ_COVERS}
+    J = {f"{prefix}_{a}{b}": HH_HEAD + T + [f"cover {a} {b} {nu} {ns} {ne}"] for a, b in AZ_COVERS}
     c, U, S = fr["M2"]
     for tag, ov in (("W_AZ1_swap", (c, S, U)), ("W_AZ2_shrink", (c, (U[0] / 1000, U[1] / 1000), S))):
         TW = az_tsets(fr, override={"M2": ov})
-        J[f"hh1_{tag}"] = HH_HEAD + TW + [f"cover M1 M2 {nu} {ns} {ne}", f"cover M2 M3 {nu} {ns} {ne}"]
+        J[f"{prefix}_{tag}"] = HH_HEAD + TW + [f"cover M1 M2 {nu} {ns} {ne}", f"cover M2 M3 {nu} {ns} {ne}"]
     return batch(J)
 
 
 if __name__ == "__main__":
-    {"r1": r1, "hh1": hh1}[sys.argv[1]]()
+    {"r1": r1, "hh1": hh1, "hh1a": lambda: hh1(prefix="hh1a")}[sys.argv[1]]()
 
