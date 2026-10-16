@@ -49,7 +49,7 @@ Literature basis: `TheBridge/outreach/paper_ts_mn/LIT_SWEEP_chaos_proof.md` (202
 | # | Check | Certified how |
 |---|---|---|
 | S1 | **Section and return.** 𝒫ⁿ is defined and continuous on every N_i: each orbit from N_i reaches Σ transversally (ẏ ≠ 0 as an interval, of the registered sign) after the registered number of crossings, with a finite, enclosed return time. | CAPD `PoincareMap` on MPFR intervals; transversality from the enclosure of ẏ at the crossing |
-| S2 | **Covering inequalities** for every A_ij = 1, in each h-set's local coordinates (u, s) ∈ [−1,1]² (u unstable, s stable): (a) \|s(𝒫ⁿ(N_i))\| < 1 within N_j's frame; (b) 𝒫ⁿ(N_i^{l}) ⊂ {u_j < −1} and 𝒫ⁿ(N_i^{r}) ⊂ {u_j > 1}, or the reverse (degree ±1), for the left and right edges. This is the form of CAPD's Rössler example. | every inequality decided by interval comparison, no tolerance |
+| S2 | **Covering inequalities** for every A_ij = 1, in each h-set's local coordinates (u, s) ∈ [−1,1]² (u unstable, s stable): (a) \|s(𝒫ⁿ(N_i))\| < 1 within N_j's frame; (b) 𝒫ⁿ(N_i^{l}) ⊂ {u_j < −1} and 𝒫ⁿ(N_i^{r}) ⊂ {u_j > 1}, or the reverse (degree ±1), for the left and right edges. This is the form of CAPD's Rössler example. (a) as written is STRONGER than Definition 2(a) of Arioli–Zgliczyński and Zgliczyński–Gidea, which only forbids the image from meeting {\|u\| ≤ 1, \|s\| ≥ 1}. T0 may relax S2(a) to the exact form of the theorem by amendment before R1. The stronger form is always recorded as data. | every inequality decided by interval comparison, no tolerance |
 | S3 | **ρ(A) > 1.** | exact integer arithmetic: an exhibited n with trace(Aⁿ) ≥ 2 and a cycle structure that gives ρ > 1; ρ also computed exactly as an algebraic number |
 | S4 | **Physical domain:** every CAPD step enclosure of every orbit segment used lies in D (§3.4). | interval evaluation on every step enclosure (not on a grid), fail-closed |
 | S5 | **Exact field gate:** my Hamilton's equations equal the Bridge's independently derived ones, exactly (in the differential field with R and the exponentials as symbols, as in `replay_gate.py` mn_eq). | exact rational polynomial identity |
@@ -78,11 +78,14 @@ failing check is reported with its numbers.
   - So the write-up may say "same metric and parameter point as the non-integrability certificates". It may NOT say
     that the horseshoe and the MR result are statements about the same orbits or the same level, unless amendment
     A-K20 actually places the run on one of those levels. A-K20 prefers those levels when a usable sea exists there (B4).
-- **HH.**
-  - This runs at exactly E = 1/6, the condition the published abstract states for its symbolic-dynamics result.
-  - The section, h-sets and alphabet are mine, because theirs are unread.
-  - So the correspondence is "same system, same energy", and nothing finer. That is why the wording is restricted
-    to "consistent with" (§6.2).
+- **HH (amended B7).**
+  - **PRIMARY runs at exactly the condition the published result runs at:** AZ 2001's H, h = 1/6, section Θ₁, map
+    P₁, and their published t-sets M0–M4, with their Definition 2 applied literally.
+  - The p_x formula is derived from H rather than copied: the printed form is a slip that the reproduction does not
+    share.
+  - The one deliberate difference is that (a) is certified on the whole support instead of via their Lemmas 3–4.
+    That makes the result stronger, not a different quantity.
+  - **SECONDARY** uses my own h-sets, so it is "same system, same energy" only, worded as "consistent with" (§6.2).
 - **Kerr.** It runs at the same (M, a), E, L_z, section, domain and constructor as the MN run, with only q set to 0.
   That is what makes it a matched negative control. If the MN condition changes by amendment, Kerr is re-run at the
   new condition.
@@ -265,29 +268,90 @@ the covering inequalities gate R1. The time taken is recorded and is not a crite
 **Second check.** The same sets are checked through MY generic h-set and covering code (§3.7 steps 2–3, frames given
 rather than constructed). This must reproduce the same five decisions. It is a test of my code, not of CAPD.
 
-### 6.2 Hénon–Heiles at E = 1/6 (open-system positive control, on its own terms)
+### 6.2 Hénon–Heiles at E = 1/6 (positive control; amended B7, 2026-10-16, before any HH run)
 
-**Set-up.**
-- H = ½(p_x² + p_y² + x² + y²) + x²y − y³/3, with E = 1/6 exact. At this energy the escape saddles lie exactly on
-  the level.
-- Section x = 0, p_x > 0, with coordinates (y, p_y) and p_x recovered from the constraint by the positive root.
-- The h-sets come from the frozen constructor (§3.7) applied to HH. They are certified to lie in the bounded
-  component inside the triangle, with every step enclosure kept at least 0.05 from each of the three saddle points.
+**Source.** The user obtained the full text of Arioli & Zgliczyński 2001 (AZ, JDE 171, 173–202); the 2003 paper is
+still paywalled. I read the PDF myself and checked it against the Bridge's extract
+(`TheBridge/outreach/chaos_proof/AZ2001_setup_extract.md`). These are the facts used here:
+- H = (p_x² + p_y²)/2 + (x² + y²)/2 + x²y − y³/3, at energy h = 1/6 (their eq. 1.1).
+- Θ₁ = {H = 1/6, x = 0, ẋ > 0}, in coordinates (y, p_y).
+- P₁ is the first return to Θ₁. Crossings of x = 0 with ẋ < 0 do not count (their (2.1)–(2.2)).
+- The t-sets are defined by line pairs p_y = a·y + b (§4.2).
+- The covering is their Definition 2:
+  - (a) f(|N₁|) ⊂ int(N₂ˡ ∪ |N₂| ∪ N₂ʳ);
+  - (b) the two edges map into the interiors of the two opposite sides, in either orientation.
+- Lemma 5 (5.1): M0 ⟹ M0 ⟹ M1 ⟹ M2 ⟹ M3 ⟹ M4 ⟹ {M0, M1}.
+- Their Corollary 5 proof states that P₁ is the map on the |M_i| (the modified map 𝒫 differs from P₁ only away from
+  the M chain). So (5.1) is read as a set of **P₁-coverings**.
 
-**PASS** means S1–S4 hold for HH: some A with ρ(A) > 1 is certified, with the same resource ladder and at most
-48 core-hours.
+**Two slips in the paper, registered now. Neither one affects the reproduction.**
+1. **The p_x formula.** Their Lemma 1 prints p_x = √(2h − p_y² − y² + y³/3). Derived from H at x = 0 it is
+   **p_x = √(2h − p_y² − y² + 2y³/3)**, and their own (3.2) is consistent with the 2y³/3 form. I use the derived form.
+2. **The entropy bound.**
+   - The (5.1) transition matrix on (M0…M4) has 1s exactly for M0→M0, M0→M1, M1→M2, M2→M3, M3→M4, M4→M0 and M4→M1.
+   - Its characteristic polynomial is x(x⁴ − x³ − 1), which I checked exactly. λ_max is the real root of x⁴ − x³ − 1,
+     1.3802775691…
+   - Their Lemma 6 gives h_top(P₁) ≥ ln λ_max = **0.3222846…**
+   - Their Corollary 6 prints "h_t(P₁) > 1.38027", which is the λ value, not its logarithm. **The registered
+     comparison value is ln λ_max ≈ 0.32228.** 1.38 is never quoted as an entropy.
 
-**Literature line (fixed now, per the Bridge on 2026-10-16).** The full texts of Arioli–Zgliczyński are paywalled and
-will not be fetched. The write-up cites only what the abstracts state:
-- 2001: symbolic dynamics at E = 1/6, computer-assisted;
-- 2003: homo- and heteroclinic and hyperbolic periodic orbits in an interval containing 1/6, computer-assisted.
+**HH-PRIMARY: reproduce Lemma 5 (5.1) on THEIR published t-sets.**
+- **The sets.** M0–M4 exactly as printed in §4.2: each (a, b) is an exact decimal rational, so the sets are defined
+  exactly and nothing needs enclosing.
+  - Left side = above the first line of the first pair; right side = below its second line; support = the
+    parallelogram cut out by both pairs.
+  - **M3** uses its special sides, taken literally:
+    - left side Mˡ₃ = {p_y ≥ −0.726y + 0.511} ∪ {p_y ≥ 0.300};
+    - right side Mʳ₃ = {p_y ≤ −0.726y + 0.474} ∩ {p_y ≤ 0.290};
+    - M3's edges are Mˡ₃ ∩ |M3| and Mʳ₃ ∩ |M3|, computed as exact polygons. They may be 2-D pieces, and their whole
+      images are enclosed.
+  - I checked the M3 inequality signs on the PDF page image, because the text extraction drops them.
+- **The checks.** Each of the **seven** coverings is checked with their Definition 2, literally:
+  - **(a)** every image-enclosure box B of a piece of |M_i| is certified disjoint from the closed forbidden set
+    F_j = ℝ² ∖ (M_jˡ ∪ |M_j| ∪ M_jʳ). I certify (a) on the WHOLE support by subdivision, and do not use their
+    boundary reduction (Lemma 4 plus Lemma 3's analytic well-definedness). That is stronger, and independent of
+    their §3. The boundary-only result (a′) is recorded too.
+  - **(b)** both edge images are certified inside the interiors of the opposite sides, in either orientation.
+  - Bridge's message said "all six"; the count is seven.
+- **P₁ on the CAPD side.** Section x = 0, crossing MinusPlus (ẋ = p_x > 0). Starting points are lifted by
+  p_x = +√(1/3 − p_y² − y² + 2y³/3), with the radicand certified > 0. S9 applies: every enclosure contains H = 1/6,
+  and p_x > 0 is certified at each return. The return time is enclosed (they report 6–10).
+- **S8.** The five supports M0–M4 are certified pairwise disjoint (their (4.1)). This is what makes the
+  semi-conjugacy defined. The N sets are not used: N0 ∩ M0 ≠ ∅ and N1 ∩ M1 ≠ ∅ (their (4.1)), so they give no
+  semi-conjugacy.
+- **Resources.** The §3.6 ladder, with at most 48 core-hours shared by PRIMARY and SECONDARY. Their run (Lohner,
+  3rd-order Taylor, h = 0.05, 100–300 segments per edge, 2 h 40 min in 2000) is noted for scale only.
+- **PASS** means all 7 coverings (a) and (b) are certified, plus S8 and S9.
+  - The wording then becomes: "an independent implementation (CAPD/MPFR) **reproduces the covering relations (5.1)
+    of Arioli–Zgliczyński 2001, Lemma 5**, on their published t-sets, with condition (a) certified on the whole
+    support. With their Theorem 2 and Lemma 6, this gives h_top(P₁) ≥ ln λ_max ≈ 0.32228."
+  - It is NOT "reproduces their proof", because their (5.2)–(5.4), the 24-set system and their Lemma 3 are not
+    re-done.
+- **PARTIAL** means k of 7 are certified. The number k is recorded, with the margins of the failures (B5), and none
+  of the wording above is used.
 
-The write-up may say "consistent with the published existence result". It never says "reproduces their proof" or
-"matches". If the papers or a preprint turn up later, the comparison gets its own amendment.
+**HH-SECONDARY: my own h-sets, on the same section.**
+- The h-sets come from the frozen constructor (§3.7) applied to HH. They are certified to lie in the bounded component
+  inside the triangle, with every step enclosure at least 0.05 from each of the three saddle points.
+- **PASS** means S1–S4, S8 and S9 hold: some A with ρ(A) > 1 is certified.
+- Its result is reported as "consistent with the published existence result". It is a test of the constructor that
+  MN will use, not a reproduction.
 
-**FAIL** (budget exhausted, or no certified ρ > 1) does not refute anything, because chaos at E = 1/6 is published.
-It means my constructor or my resources are inadequate for a 2-DOF Hamiltonian at an escape threshold. In that case
-R5 does not start until the cause is diagnosed and any fix registered. A fix to the constructor re-runs R3 as well.
+**HH wrong-configuration controls (B3).** Each must be REJECTED, with the rejecting check recorded:
+- **W-AZ1, M2 rotated:** M2's two line pairs are exchanged, so the second pair now defines its left and right sides.
+- **W-AZ2, M2 shrunk:** the first-pair lines are moved toward their midline, to 10⁻³ of their separation.
+- Rejection means at least one of M1 ⟹ M2 and M2 ⟹ M3 certifiably fails, or cannot be certified at the full ladder.
+- Exchanging left and right alone is NOT a wrong configuration, because Definition 2(b) accepts either orientation.
+- Plus W1–W3 (§6.4) on my own HH sets.
+
+**A HH-PRIMARY FAIL refutes nothing.** It means my implementation or resources are inadequate, and R5 does not start
+until the cause is diagnosed and any fix registered. The same holds for a SECONDARY fail. A fix to the constructor
+re-runs R3 as well.
+
+**Literature line.**
+- **AZ 2001:** cited from the full text, as above.
+- **AZ 2003:** cited from its abstract only: homo- and heteroclinic and hyperbolic periodic orbits in an interval
+  containing 1/6, computer-assisted. Nothing from it is matched.
 
 ### 6.3 Kerr at matched (E, L_z) (negative control)
 
@@ -376,3 +440,11 @@ The Bridge's second engine must reproduce these rejections (§4).
 - The fallback point is F5-R = (89, 80, 19/20), with F5-X = exact χ = 9/10 as a second fallback (§3.1).
 - Morales–Ramis certificates will be added at the fallback point if the target moves.
 - The general margin rules for D(a) and D(c) are stated (§3.4).
+
+**B7 (Bridge, 2026-10-16: the AZ 2001 full text obtained by the user), committed before any HH run.**
+- HH-PRIMARY reproduces Lemma 5 (5.1) on the published M0–M4 with Definition 2 applied literally: SEVEN coverings,
+  under P₁ (per their Corollary 5 proof).
+- The p_x slip and the entropy slip are registered; the comparison value is ln λ_max = 0.3222846…
+- My own h-set run becomes HH-SECONDARY.
+- W-AZ1 (rotated M2) and W-AZ2 (shrunk M2) must be rejected.
+- S2(a) is noted as stronger than Definition 2(a); T0 may relax it by amendment before R1.
