@@ -499,3 +499,21 @@ The Bridge's second engine must reproduce these rejections (§4).
 - **R1 Rössler (2026-10-16): PASS.** The example port gives 5/5 covering checks plus the 2 cone conditions. The
   generic Def. 2 code gives 4/4 coverings. W1–W3 are all rejected by certified failures. Details and numbers are in
   `qsim/capd/horseshoe/R1_ROSSLER.md`.
+
+**B10 (tabula's numerics finding, relayed and confirmed by the Bridge on 2026-10-16), committed before any MN or Kerr
+run. It amends §3.2 "Expression form".**
+- **Problem.** About 94% of the inner region at C0/F5-R is ergoregion, so orbits cross f = 0, i.e. A = 0.
+  Evaluating f and ω through A puts canceling 1/A poles into V and into g_φφ. Interval enclosures of those blow up
+  near A = 0, and B9(a)'s g_φφ > 0 test would straddle zero spuriously.
+- **Fix.** The MN (and Kerr) field is evaluated ONLY in the A-free regularised form. It rests on the exact identity
+  (x² − 1)(1 − y²)·B² − 4C² = A·Q, where Q is a polynomial in (x, y, a, b) and a, b are the two exponential factors.
+  - **Independent check (quantum, 2026-10-16):** `sympy.div` of the expanded left side by A, as polynomials in
+    (x, y, a, b) with a and b as independent symbols, leaves remainder exactly 0. Q has 46 terms, which matches the
+    Bridge's count.
+  - The regularised forms, with L′ = L_z + ω₀E (ω₀ = 4kα/(1 − α²)), are:
+    - V = ½[e^{2ψ} A L′² − 4kC E L′ − e^{−2ψ} k² E² Q] / (ρ² B);
+    - g_φφ = [e^{−2ψ} k² Q + 4kω₀C − e^{2ψ} ω₀² A] / B.
+- **Gate before any MN or Kerr covering run.** I verify, in exact arithmetic in the differential field (R and the
+  exponentials as symbols), that the regularised V, g_φφ and the full reduced Hamiltonian equal the original
+  expressions identically. The S5 gate against the Bridge's field then applies to the regularised field. B9(a) and
+  every S4 test use the regularised g_φφ.
