@@ -77,10 +77,10 @@ static bool in_right(const TSet& t, const MpInterval& u, const MpInterval& w1) {
 }
 // Def. 2(a): box misses F = R^2 minus (left u |N| u right)
 static bool miss_F(const TSet& t, const MpInterval& u, const MpInterval& s, const MpInterval& w1) {
-  bool sin = s.leftBound() > -1 && s.rightBound() < 1;
-  if (!t.special) return u.rightBound() < -1 || u.leftBound() > 1 || sin;
-  return (sin && u.rightBound() < 1) || in_left(t, u, w1) || in_right(t, u, w1) ||
-         (sin && w1.rightBound() < t.capR.leftBound());
+  bool s_in = s.leftBound() > -1 && s.rightBound() < 1;
+  if (!t.special) return u.rightBound() < -1 || u.leftBound() > 1 || s_in;
+  return (s_in && u.rightBound() < 1) || in_left(t, u, w1) || in_right(t, u, w1) ||
+         (s_in && w1.rightBound() < t.capR.leftBound());
 }
 struct Sys {
   std::string name; int dim = 0, wi[2] = {0, 0};
