@@ -103,5 +103,101 @@ def r1():
     return batch(J)
 
 
+
+
+# ---------------------------------------------------------------- Henon-Heiles, AZ 2001 sec. 4.2 (exact decimals)
+# each t-set: first pair (a1,b1),(a1,b1') gives left (above line 1) / right (below line 2); second pair the strip
+AZ = {
+    "M0": (("1.819", "0.486"), ("1.819", "0.424"), ("-0.550", "-0.206"), ("-0.550", "-0.069")),
+    "M1": (("0.325", "0.223"), ("0.325", "0.143"), ("-3.078", "-0.833"), ("-3.078", "-0.639")),
+    "M2": (("0.635", "0.33"), ("0.635", "0.24"), ("-1.576", "0.584"), ("-1.576", "0.659")),
+    "M3": (("-0.726", "0.511"), ("-0.726", "0.474"), ("1.376", "-0.129"), ("1.376", "-0.231")),
+    "M4": (("1.209", "0.32"), ("1.209", "0.226"), ("-0.827", "0.068"), ("-0.827", "0.03")),
+}
+AZ_M3_SIDES = (F("0.300"), F("0.290"))          # left adds {p_y >= 0.300}; right is cut to {p_y <= 0.290}
+AZ_COVERS = [("M0", "M0"), ("M0", "M1"), ("M1", "M2"), ("M2", "M3"), ("M3", "M4"), ("M4", "M0"), ("M4", "M1")]
+
+
+def az_frame(lines):
+    """(c, U, S) with u = -1 on line 1 (left = above it), u = +1 on line 2, |s| = 1 on the second pair; w = (y, p_y)"""
+    (a1, b1), (a1b, b1p), (a2, b2), (a2b, b2p) = [(F(a), F(b)) for a, b in lines]
+    assert a1 == a1b and a2 == a2b and a1 != a2 and b1 > b1p and b2 != b2p
+    # u = (b1 + b1' - 2 g1)/(b1 - b1'),  s = (2 g2 - b2 - b2')/(b2' - b2),  g_i = p_y - a_i y
+    A = ((2 * a1 / (b1 - b1p), -2 / (b1 - b1p)), (-2 * a2 / (b2p - b2), 2 / (b2p - b2)))
+    off = ((b1 + b1p) / (b1 - b1p), -(b2 + b2p) / (b2p - b2))       # (u, s) = A w + off
+    det = A[0][0] * A[1][1] - A[0][1] * A[1][0]
+    Ai = ((A[1][1] / det, -A[0][1] / det), (-A[1][0] / det, A[0][0] / det))
+    c = tuple(-(Ai[r][0] * off[0] + Ai[r][1] * off[1]) for r in range(2))
+    U, S = (Ai[0][0], Ai[1][0]), (Ai[0][1], Ai[1][1])
+    return c, U, S
+
+
+def corners(c, U, S):
+    return [tuple(c[k] + su * U[k] + ss * S[k] for k in range(2)) for su, ss in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+
+
+def convex_disjoint(P, Q):
+    """exact separating-axis test for two convex polygons (vertex lists, Fractions)"""
+    for poly in (P, Q):
+        for i in range(len(poly)):
+            (x1, y1), (x2, y2) = poly[i], poly[(i + 1) % len(poly)]
+            n = (y2 - y1, x1 - x2)
+            pa = [n[0] * x + n[1] * y for x, y in P]; pb = [n[0] * x + n[1] * y for x, y in Q]
+            if max(pa) < min(pb) or max(pb) < min(pa):
+                return True
+    return False
+
+
+def az_checks():
+    """exact pre-run checks: frames reproduce the printed lines; S8 (pairwise-disjoint supports, AZ (4.1));
+    M3's special sides do not change its edges (so only its TARGET role is special)"""
+    fr = {k: az_frame(v) for k, v in AZ.items()}
+    for k, (c, U, S) in fr.items():                                  # each corner lies on the printed lines
+        (a1, b1), (_, b1p), (a2, b2), (_, b2p) = [(F(a), F(b)) for a, b in AZ[k]]
+        for (y, p), (su, ss) in zip(corners(c, U, S), ((-1, -1), (1, -1), (1, 1), (-1, 1))):
+            assert p - a1 * y == (b1 if su == -1 else b1p), k
+            assert p - a2 * y in (b2, b2p), k
+    names = sorted(fr)
+    s8 = {f"{a}|{b}": convex_disjoint(corners(*fr[a]), corners(*fr[b])) for i, a in enumerate(names) for b in names[i + 1:]}
+    cm = corners(*fr["M3"])
+    left_edge_extra_empty = max(p for _, p in cm) < AZ_M3_SIDES[0]     # {p_y >= 0.300} misses |M3|
+    right_edge = [pt for pt, (su, _) in zip(cm, ((-1, -1), (1, -1), (1, 1), (-1, 1))) if su == 1]
+    right_edge_inside = all(p <= AZ_M3_SIDES[1] for _, p in right_edge)  # u=+1 edge lies in {p_y <= 0.290}
+    return fr, dict(S8=s8, S8_all=all(s8.values()), M3_left_edge_standard=left_edge_extra_empty,
+                    M3_right_edge_standard=right_edge_inside,
+                    M3_max_py=str(max(p for _, p in cm)))
+
+
+HH_HEAD = ["system hh", "prec 128", "order 20", "iter 1", "param level 1/6"]
+
+
+def az_tsets(fr, override=None):
+    out = []
+    for k, (c, U, S) in fr.items():
+        if override and k in override:
+            c, U, S = override[k]
+        line = tset(k, c, U, S)
+        if k == "M3":
+            line += f" special {q(AZ_M3_SIDES[0])} {q(AZ_M3_SIDES[1])}"
+        out.append(line)
+    return out
+
+
+def hh1(nu=16, ns=16, ne=64):
+    """HH-PRIMARY (prereg 6.2, B7): AZ 2001 Lemma 5 (5.1) on the published M0-M4, Def. 2 literal, P1; plus the
+    wrong configurations W-AZ1 (M2's line pairs exchanged) and W-AZ2 (M2's first pair shrunk to 1e-3)."""
+    fr, chk = az_checks()
+    (OUT / "hh1_exact_checks.json").write_text(json.dumps(chk, indent=1))
+    assert chk["S8_all"] and chk["M3_left_edge_standard"] and chk["M3_right_edge_standard"], chk
+    T = az_tsets(fr)
+    J = {f"hh1_{a}{b}": HH_HEAD + T + [f"cover {a} {b} {nu} {ns} {ne}"] for a, b in AZ_COVERS}
+    c, U, S = fr["M2"]
+    for tag, ov in (("W_AZ1_swap", (c, S, U)), ("W_AZ2_shrink", (c, (U[0] / 1000, U[1] / 1000), S))):
+        TW = az_tsets(fr, override={"M2": ov})
+        J[f"hh1_{tag}"] = HH_HEAD + TW + [f"cover M1 M2 {nu} {ns} {ne}", f"cover M2 M3 {nu} {ns} {ne}"]
+    return batch(J)
+
+
 if __name__ == "__main__":
-    {"r1": r1}[sys.argv[1]]()
+    {"r1": r1, "hh1": hh1}[sys.argv[1]]()
+
