@@ -1,2 +1,3 @@
 hs_cover
-hs_cover_guard.o
+hs_cover_next
+*_guard.o

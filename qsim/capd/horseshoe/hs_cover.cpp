@@ -20,13 +20,15 @@
 // Commands in the spec (one per line, '#' comments):
 //   system rossler|hh     prec <bits>     order <n>     iter <n>     param <name> <p/q>
 //   tset <name> cy cw Uy Uw Sy Sw A11 A12 A21 A22 [special capL capR]   (all p/q; special = AZ M3 sides)
-//   cover <src> <tgt> <nu> <ns> <ne>                         generic Def. 2 check
+//   cover <src> <tgt> <nu> <ns> <ne>                         generic Def. 2 check, adaptive bisection within caps
+//   caps <maxleaf_a> <maxleaf_edge>                          (default 65536, 4096 = the prereg 3.6 ladder)
 //   ex_trap <l> <r> <bot> <top> <pieces>                     Rossler example: P(W) inside int W  (iteration 1)
 //   ex_edge <name> <y> <bot> <top> <less|greater> <bound>    Rossler example: pi_y P^iter({y} x Z) vs bound
 //   ex_cone <l> <r> <bot> <top> <pieces> <qz>                Rossler example: cone condition, Q = diag(1, qz)
 #include "capd/mpcapdlib.h"
 #include "proof_guard.h"
 #include <gmp.h>
+#include <algorithm>
 #include <cstdio>
 #include <fstream>
 #include <iostream>
@@ -160,44 +162,84 @@ static void image(Engine& E, const Piece& p, MpInterval w[2], MpInterval& rt, lo
 static bool lt(const MpInterval& a, double b) { return a.rightBound() < b; }
 static bool gt(const MpInterval& a, double b) { return a.leftBound() > b; }
 
+// Adaptive version (prereg 3.6 ladder): a failing (or throwing) piece is bisected -- along the source's unstable
+// direction u first (u-depth may lead s-depth by at most 3), then along s -- until it passes, or the per-covering
+// caps are hit: <= MAXLEAF_A leaves for (a) (ladder: 2^16) and <= MAXLEAF_E leaves per edge for (b) (ladder: 2^12).
+// A leaf that still fails at the caps is a FINAL failure; the covering is then "not certified within budget"
+// unless some leaf failed CERTIFIABLY (recorded separately: certified_fail_a / certified_fail_b).
+struct CovStat {
+  long leaves = 0, fail = 0, strong_fail = 0, cert_fail = 0, nsteps = 0, maxdepth = 0; bool first = true; MpInterval rt;
+  void hull(const MpInterval& r) { if (first) { rt = r; first = false; } else rt = intervalHull(rt, r); }
+};
+static long MAXLEAF_A = 65536, MAXLEAF_E = 4096;
+
+// (a) on [u] x [s]; returns true if certified
+static bool cover_a(Engine& E, const TSet& Ni, const TSet& Nj, const std::string& tag, MpInterval u, MpInterval s,
+                    int du, int ds, CovStat& st) {
+  bool ok = false, strong = false, threw = false; std::string why;
+  try {
+    MpInterval w[2], rt, uj, sj; image(E, lift(Ni, u, s), w, rt, st.nsteps); chart(Nj, w, uj, sj);
+    strong = gt(sj, -1.0) && lt(sj, 1.0);
+    ok = miss_F(Nj, uj, sj, w[1]);
+    st.hull(rt);
+    if (!ok) why = "u=" + iv(uj) + " s=" + iv(sj);
+  } catch (std::exception& e) { why = e.what(); threw = true; }
+  if (ok) { ++st.leaves; if (!strong) ++st.strong_fail; st.maxdepth = std::max<long>(st.maxdepth, du + ds); return true; }
+  if (st.leaves + 2 <= MAXLEAF_A) {                       // bisect (each split adds one leaf to the eventual count)
+    bool along_u = (du <= ds + 3);
+    MpInterval a = along_u ? u : s, m = MpInterval(a.mid().leftBound());
+    MpInterval lo(a.leftBound(), m.rightBound()), hi(m.leftBound(), a.rightBound());
+    bool r1 = along_u ? cover_a(E, Ni, Nj, tag, lo, s, du + 1, ds, st) : cover_a(E, Ni, Nj, tag, u, lo, du, ds + 1, st);
+    bool r2 = along_u ? cover_a(E, Ni, Nj, tag, hi, s, du + 1, ds, st) : cover_a(E, Ni, Nj, tag, u, hi, du, ds + 1, st);
+    return r1 && r2;
+  }
+  ++st.leaves; ++st.fail; ++st.strong_fail; (void)threw;
+  std::cout << "FAILPIECE " << tag << " a u=" << iv(u) << " s=" << iv(s) << " " << why << "\n";
+  return false;
+}
+// (b) one edge piece; land: 0 = left side, 1 = right side, -1 = undecided/failed; counts landings into L/R
+static void cover_b(Engine& E, const TSet& Ni, const TSet& Nj, const std::string& tag, int side, MpInterval s, int d,
+                    long cnt[2], CovStat& st) {
+  std::string why; int land = -1; bool certfail = false;
+  try {
+    MpInterval w[2], rt, uj, sj; image(E, lift(Ni, MpInterval(side == 0 ? -1 : 1), s), w, rt, st.nsteps); chart(Nj, w, uj, sj);
+    if (in_left(Nj, uj, w[1])) land = 0; else if (in_right(Nj, uj, w[1])) land = 1;
+    else { why = "u=" + iv(uj) + " w1=" + iv(w[1]); certfail = (gt(uj, -1.0) && lt(uj, 1.0)); }   // certainly in neither side
+    st.hull(rt);
+  } catch (std::exception& e) { why = e.what(); }
+  if (land >= 0) { ++st.leaves; ++cnt[land]; return; }
+  if (!certfail && st.leaves + 2 <= 2 * MAXLEAF_E) {
+    MpInterval m = MpInterval(s.mid().leftBound()), lo(s.leftBound(), m.rightBound()), hi(m.leftBound(), s.rightBound());
+    cover_b(E, Ni, Nj, tag, side, lo, d + 1, cnt, st); cover_b(E, Ni, Nj, tag, side, hi, d + 1, cnt, st);
+    return;
+  }
+  ++st.leaves; ++st.fail; if (certfail) ++st.cert_fail;
+  std::cout << "FAILPIECE " << tag << " b edge=" << (side ? "R" : "L") << " s=" << iv(s) << (certfail ? " CERTIFIED " : " ") << why << "\n";
+}
+
 static void do_cover(Engine& E, const std::string& a, const std::string& b, int nu, int ns, int ne) {
-  const TSet &Ni = TS.at(a), &Nj = TS.at(b);
-  long fa = 0, fa_strong = 0, nsteps = 0; MpInterval rtall; bool first = true;
-  MpInterval smax(0);
-  // (a) whole support, nu x ns pieces
+  const TSet &Ni = TS.at(a), &Nj = TS.at(b); std::string tag = a + ">" + b;
+  CovStat A, Bs; bool oka = true;
   for (int i = 0; i < nu; ++i) for (int k = 0; k < ns; ++k) {
     MpInterval u = -1 + MpInterval(2 * i, 2 * i + 2) / nu, s = -1 + MpInterval(2 * k, 2 * k + 2) / ns;
-    bool ok = false, strong = false; std::string why;
-    try {
-      MpInterval w[2], rt, uj, sj; image(E, lift(Ni, u, s), w, rt, nsteps); chart(Nj, w, uj, sj);
-      strong = gt(sj, -1.0) && lt(sj, 1.0);
-      ok = miss_F(Nj, uj, sj, w[1]);
-      if (first) { rtall = rt; first = false; } else rtall = intervalHull(rtall, rt);
-      if (!ok) why = "u=" + iv(uj) + " s=" + iv(sj);
-    } catch (std::exception& e) { why = e.what(); }
-    if (!ok) { ++fa; std::cout << "FAILPIECE " << a << ">" << b << " a i=" << i << " k=" << k << " " << why << "\n"; }
-    if (!strong) ++fa_strong;
+    oka = cover_a(E, Ni, Nj, tag, u, s, 0, 0, A) && oka;
   }
-  // (b) edges
-  int Lto[2] = {0, 0}, Rto[2] = {0, 0}; long fb = 0;   // counts of pieces landing in (left, right) for left/right edges
-  for (int side = 0; side < 2; ++side) for (int i = 0; i < ne; ++i) {
-    MpInterval u(side == 0 ? -1 : 1), s = -1 + MpInterval(2 * i, 2 * i + 2) / ne;
-    std::string why; int land = -1;
-    try {
-      MpInterval w[2], rt, uj, sj; image(E, lift(Ni, u, s), w, rt, nsteps); chart(Nj, w, uj, sj);
-      if (in_left(Nj, uj, w[1])) land = 0; else if (in_right(Nj, uj, w[1])) land = 1; else why = "u=" + iv(uj) + " w1=" + iv(w[1]);
-      if (first) { rtall = rt; first = false; } else rtall = intervalHull(rtall, rt);
-    } catch (std::exception& e) { why = e.what(); }
-    if (land < 0) { ++fb; std::cout << "FAILPIECE " << a << ">" << b << " b edge=" << (side ? "R" : "L") << " i=" << i << " " << why << "\n"; }
-    else (side == 0 ? Lto : Rto)[land]++;
-  }
-  bool orient1 = (Lto[0] == ne && Rto[1] == ne), orient2 = (Lto[1] == ne && Rto[0] == ne);
-  bool okb = (fb == 0) && (orient1 || orient2);
-  bool oka = (fa == 0);
-  std::cout << "COVER " << a << " " << b << " a=" << oka << " b=" << okb << " strong_a=" << (fa_strong == 0)
-            << " orient=" << (orient1 ? "LR" : orient2 ? "RL" : "none") << " fail_a=" << fa << " fail_b=" << fb
-            << " pieces_a=" << nu * ns << " pieces_b=" << 2 * ne << " replay_steps=" << nsteps
-            << " return_time=" << (first ? std::string("none") : iv(rtall)) << " COVERS=" << (oka && okb) << "\n";
+  long Lto[2] = {0, 0}, Rto[2] = {0, 0};
+  for (int i = 0; i < ne; ++i) cover_b(E, Ni, Nj, tag, 0, -1 + MpInterval(2 * i, 2 * i + 2) / ne, 0, Lto, Bs);
+  for (int i = 0; i < ne; ++i) cover_b(E, Ni, Nj, tag, 1, -1 + MpInterval(2 * i, 2 * i + 2) / ne, 0, Rto, Bs);
+  // orientation: all left-edge leaves in one side, all right-edge leaves in the other
+  bool orient1 = Bs.fail == 0 && Lto[1] == 0 && Rto[0] == 0, orient2 = Bs.fail == 0 && Lto[0] == 0 && Rto[1] == 0;
+  bool orient_certfail = (Lto[0] > 0 && Lto[1] > 0) || (Rto[0] > 0 && Rto[1] > 0) ||
+                         (Lto[0] > 0 && Rto[0] > 0) || (Lto[1] > 0 && Rto[1] > 0);   // certified landings contradict
+  bool okb = orient1 || orient2;
+  CovStat T = A; T.hull(Bs.first ? A.rt : Bs.rt);
+  std::cout << "COVER " << a << " " << b << " a=" << oka << " b=" << okb << " strong_a=" << (A.strong_fail == 0)
+            << " orient=" << (orient1 ? "LR" : orient2 ? "RL" : "none") << " fail_a=" << A.fail << " fail_b=" << Bs.fail
+            << " certified_fail_b=" << Bs.cert_fail << " orient_certified_fail=" << orient_certfail
+            << " leaves_a=" << A.leaves << " leaves_b=" << Bs.leaves << " maxdepth_a=" << A.maxdepth
+            << " replay_steps=" << A.nsteps + Bs.nsteps
+            << " return_time=" << (A.first && Bs.first ? std::string("none") : iv(A.first ? Bs.rt : (Bs.first ? A.rt : intervalHull(A.rt, Bs.rt))))
+            << " COVERS=" << (oka && okb) << "\n";
 }
 
 // ---- Rossler example checks (exact port of RosslerChaoticDynamics.cpp, MPFR)
@@ -288,6 +330,7 @@ int main(int argc, char** argv) {
           s.special = true; s.capL = Q(t[k + 1]); s.capR = Q(t[k + 2]); }
         TS[t[1]] = s;
       }
+      else if (c == "caps") { MAXLEAF_A = std::stol(t[1]); MAXLEAF_E = std::stol(t[2]); }
       else if (c == "cover") do_cover(engine(), t[1], t[2], std::stoi(t[3]), std::stoi(t[4]), std::stoi(t[5]));
       else if (c == "ex_trap") ex_trap(engine(), Q(t[1]), Q(t[2]), Q(t[3]), Q(t[4]), std::stoi(t[5]));
       else if (c == "ex_edge") ex_edge(engine(), t[1], Q(t[2]), Q(t[3]), Q(t[4]), t[5], Q(t[6]));
