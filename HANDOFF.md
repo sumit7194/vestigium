@@ -19,6 +19,18 @@
    it commits its HH decisions before reading ours.
 3. Then write the HH outcome: the first pass (the registered run) and the adaptive pass, both reported.
 
+## Pending side task: the TS public snapshot (the Bridge asked for it; local only, nothing pushed)
+
+- **Location:** `/Users/sumit/Github/snapshots/ts2-mn-integrability/quantum/` (295 files, MANIFEST.md). The Bridge
+  agreed the scan and gave its rulings: keep files byte-identical, and keep the absolute paths.
+- **REQUIRED before anything goes public:** once HH frees the cores, copy the snapshot to a fresh scratch directory.
+  In that copy, run `cargo build --release` in native/iahub, then run:
+  - `snapshot_tools/rerun_v2_row.py ts2 4`;
+  - `snapshot_tools/rerun_one_row.py ts2 4`.
+  Compare both against the shipped JSONs, then report the outcome and the diff to the Bridge.
+- **The TS metric inputs** (ansatz's `conjecture_machine/data/sealed/TS2_for_quantum`) are not in the snapshot.
+  Whether to ship them is the user's decision. For the local test only, symlink them into the copy's `inputs/`.
+
 ## Phase-2 state (all committed and pushed)
 
 - **Pre-registration:** `PREREG_chaos_horseshoe_phase2.md`, AGREED with amendments B1–B10. The OUTCOME log is at
