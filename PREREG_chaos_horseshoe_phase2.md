@@ -1,6 +1,7 @@
 # Pre-registration: chaos-proof phase 2 (B-5), a computer-assisted horseshoe for Manko–Novikov geodesics
 
-*Quantum, 2026-10-16. DRAFT for the Bridge's agreement. Written BEFORE any phase-2 output: no control and no target
+*Quantum, 2026-10-16. **AGREED by the Bridge on 2026-10-16, with amendments B1–B5 and the S6 engine choice folded in
+(§9).** First version 42eb8aa/4dbb671; this version was committed before T0. Originally a DRAFT for the Bridge's agreement. Written BEFORE any phase-2 output: no control and no target
 run has been made. Until the Bridge agrees, I write and compile code only; nothing registered below is run.*
 
 **Decision (the user's, relayed by the Bridge on 2026-10-16).** Target B-5 (`TheBridge/fleet/MOONSHOT_REVIEW_2026-10-16.md` §1).
@@ -53,9 +54,11 @@ Literature basis: `TheBridge/outreach/paper_ts_mn/LIT_SWEEP_chaos_proof.md` (202
 | S4 | **Physical domain:** every CAPD step enclosure of every orbit segment used lies in D (§3.4). | interval evaluation on every step enclosure (not on a grid), fail-closed |
 | S5 | **Exact field gate:** my Hamilton's equations equal the Bridge's independently derived ones, exactly (in the differential field with R and the exponentials as symbols, as in `replay_gate.py` mn_eq). | exact rational polynomial identity |
 | S6 | **Second implementation** (§4) certifies every covering inequality in S2 and every S4 check, with overlapping enclosures and no opposite certain decisions. This is the MR cross-path rule. | separate run, separate code path |
-| S7 | **Controls passed first:** Rössler PASS, Hénon–Heiles registered outcome recorded, Kerr shows no ρ(A) > 1 (§6). A Kerr certification stops everything. | §6 |
+| S7 | **Controls passed first:** Rössler PASS, Hénon–Heiles registered outcome recorded, Kerr shows no ρ(A) > 1 (§6), and the wrong-configuration controls (§6.4) REJECTED. A Kerr certification, or any accepted wrong configuration, stops everything. | §6 |
+| S8 | **Disjointness (B1).** The h-sets N_1,…,N_k are pairwise disjoint. Where T0's reading of the theorem requires it for the coding, their images under 𝒫ⁿ are also disjoint from each other. T0 fixes the exact form, by amendment before R1. | certified separation in section coordinates: the interval hulls of the parallelograms are disjoint, or a separating line is certified |
+| S9 | **Energy surface and branch (B2).** The flow is integrated in the full 4-D phase space (x, y, p_x, p_y). The eliminated momentum is obtained ONLY when a point is placed on Σ: p_y = +√(ρ(x, p_x)), where ρ is the constraint's radicand, and the radicand enclosure is certified > 0, so the root is a genuine enclosure on the positive branch. Gated, fail-closed: (a) every step enclosure and every return enclosure satisfies H_red(enclosure) ∋ −½, as a consistency check, since the true orbit has H = −½ exactly and an enclosure without it means a bug; (b) at each return, the crossing enclosure has p_y certified > 0 (the chosen branch and direction). For HH the same rule applies, with p_x and the level E = 1/6. Rössler is not Hamiltonian, so S9 does not apply to it. | interval evaluation of H on every enclosure; sign certified at each return |
 
-If S1–S7 all hold, the claim in §1 is made exactly as worded. If any one fails, no horseshoe claim is made, and the
+If S1–S9 all hold, the claim in §1 is made exactly as worded. If any one fails, no horseshoe claim is made, and the
 failing check is reported with its numbers.
 
 ---
@@ -74,7 +77,7 @@ failing check is reported with its numbers.
   - The horseshoe will run at whatever (E, L_z) K20 supplies, which is in general a different level.
   - So the write-up may say "same metric and parameter point as the non-integrability certificates". It may NOT say
     that the horseshoe and the MR result are statements about the same orbits or the same level, unless amendment
-    A-K20 actually places the run on one of those levels.
+    A-K20 actually places the run on one of those levels. A-K20 prefers those levels when a usable sea exists there (B4).
 - **HH.**
   - This runs at exactly E = 1/6, the condition the published abstract states for its symbolic-dynamics result.
   - The section, h-sets and alphabet are mine, because theirs are unread.
@@ -116,7 +119,7 @@ failing check is reported with its numbers.
 ### 3.3 Section
 
 - **Section.** Σ = {y = 0, p_y > 0} ∩ {H_red = −½}, with coordinates (x, p_x). p_y is recovered from the constraint
-  by the positive square root, whose radicand is certified > 0.
+  by the positive square root, whose radicand is certified > 0 (rule and gates: S9).
 - **If K20 finds the equatorial section unsuitable,** for example because the sea's orbits do not cross it
   transversally, another section may be registered by amendment before use. Equatorial reflection symmetry is not
   assumed anywhere.
@@ -156,7 +159,10 @@ h-set whose image leaves D is rejected; covering relations only need 𝒫 on N_i
 
 - **Compute budget:** at most 4 cores at nice +19, and at most 14 days of wall time for the first MN attempt at
   one point.
-- **An exhausted budget is reported as "not certified within budget"** (F1–F3). It is NEVER a statement about the
+- **The best partial result is always recorded as data (B5):** which covering relations, disjointness checks and
+  domain checks held, with their margins, and the largest certified sub-graph of A.
+- **An exhausted budget is reported as "not certified within budget"** (F1–F3). It is a statement about the method,
+  and NEVER a statement about the
   dynamics.
 
 ### 3.7 h-set construction (one automated procedure, the same for HH, Kerr and MN)
@@ -183,9 +189,16 @@ As in V8/V9, the Bridge independently replays every covering relation and domain
 - an integration that differs from mine in at least one of: coordinates (Weyl (ρ, z) instead of prolate), section
   parametrisation, or interval engine.
 
-The concrete second engine is fixed by amendment before the MN runs, not before the controls. Candidates are CAPD in
-Weyl coordinates, or a Taylor-model integrator on the Arb core. Disagreement follows the MR cross-path rule: FAIL means
-non-overlapping enclosures, or opposite certain decisions on any inequality.
+**Second engine (fixed 2026-10-16 by the Bridge, who owns S6).** TaylorModels.jl (Julia), doing validated
+Taylor-model integration through IntervalArithmetic.jl in Float64-interval mode. It is library-independent of CAPD
+and of MPFR, which carried the third replay. Julia is installed by the Bridge and recorded under the reproducibility
+policy.
+- **Qualification first:** the Bridge's engine must reproduce my Rössler and HH decisions, including the
+  wrong-configuration rejections of §6.4, before it replays any MN covering.
+- **Fallback:** if it cannot handle the cost of the MN field, the fallback is CAPD in Weyl (ρ, z) coordinates. That
+  fallback is written up as representation-independent but NOT library-independent.
+- **Disagreement** follows the MR cross-path rule: FAIL means non-overlapping enclosures, or opposite certain
+  decisions on any inequality.
 
 The combinatorial layer is optional and is not a success criterion: a Lean check of A (ρ(A) > 1) and of the S2
 inequalities, given the exported rational boxes.
@@ -196,12 +209,12 @@ inequalities, given the exported rational boxes.
 
 | Step | What | Gate to the next step |
 |---|---|---|
-| T0 | Read the covering-relation theorem in full text (arXiv:2010.07097 and Zgliczyński–Gidea 2004 if accessible). Record the exact hypotheses. Map each one to S1–S4. | every hypothesis maps to a certified check; otherwise amend before any proof claim |
+| T0 | Read the covering-relation theorem in full text (arXiv:2010.07097 and Zgliczyński–Gidea 2004 if accessible). Record the exact hypotheses. Map each one to S1–S4, S8 and S9; fix the exact disjointness form for S8. | every hypothesis maps to a certified check; otherwise amend before any proof claim |
 | R1 | Rössler control (§6.1) | PASS, or a pipeline bug is fixed and R1 is re-run in full |
 | R2 | Hénon–Heiles control (§6.2) | the outcome is recorded either way (§6.2 says what a fail implies) |
 | R3 | Kerr negative control (§6.3), after the constructor is frozen | no ρ(A) > 1 certified; the failing check is recorded |
-| A-K20 | An amendment fixing the MN point, E, L_z, section, λ, the seeds and the second engine, using K20's output | committed before rung 5 |
-| R5 | MN horseshoe (§2) | S1–S7 |
+| A-K20 | An amendment fixing the MN point, E, L_z, section, λ and the seeds, using K20's output. Level preference (B4): the Bridge screens the MR levels (E, L, μ²) = (1,0,4), (1,0,9), (1,1,4) first, and a usable sea on one of them is preferred, so that the horseshoe and the MR certificate share a level; otherwise the gap is stated (§2a) | committed before rung 5 |
+| R5 | MN horseshoe (§2) | S1–S9 |
 
 I do not wait for K20 during T0 and R1–R3.
 
@@ -221,12 +234,13 @@ pinned 2f06098 source, to MPFR under `proof_guard.h`. The rest of the problem is
 - the example's subdivisions: 200 pieces for the trapping region and 1 per edge;
 - P², the four edge inequalities and the trapping check.
 
-**PASS** means the example's six inequalities all come out true, giving the covering relations M⟹M, M⟹N, N⟹M,
-N⟹N, plus the two cone conditions (80 and 40 boxes, Q = diag(1, −100)). The cone conditions are recorded, but only
+**PASS** means the example's five covering-gating checks all come out true (the trapping check, which also gives
+the stable-band condition, and the four edge inequalities), plus S8 (M and N disjoint). Together they give the
+covering relations M⟹M, M⟹N, N⟹M, N⟹N. The two cone conditions (80 and 40 boxes, Q = diag(1, −100)). The cone conditions are recorded, but only
 the covering inequalities gate R1. The time taken is recorded and is not a criterion.
 
 **Second check.** The same sets are checked through MY generic h-set and covering code (§3.7 steps 2–3, frames given
-rather than constructed). This must reproduce the same six decisions. It is a test of my code, not of CAPD.
+rather than constructed). This must reproduce the same five decisions. It is a test of my code, not of CAPD.
 
 ### 6.2 Hénon–Heiles at E = 1/6 (open-system positive control, on its own terms)
 
@@ -278,6 +292,19 @@ STOPS, and the Bridge and the user are told before anything else is done. This c
 "a broken pipeline also fails to find a horseshoe", which is why WHICH check fails is the recorded output, not
 just "no horseshoe".
 
+### 6.4 Wrong-configuration controls on the covering code (B3; the analogue of the MR wrong-p control)
+
+Each of these must be REJECTED (at least one registered check certifiably fails, or cannot be certified at the full
+ladder). Each is run on BOTH Rössler and HH, through the same code as the real runs:
+- **W1, swapped frame:** u and s exchanged in every h-set frame.
+- **W2, rotated frame:** each frame rotated by 90° (for Rössler, the box's y and z roles exchanged in the covering
+  test).
+- **W3, shrunk set:** one h-set's unstable half-width shrunk by a factor of 10⁻³ about its seed, so that the edge
+  images cannot leave the target's u-range.
+
+**What is recorded:** which check rejects each, and its margin. An accepted wrong configuration means the covering code is unsound: STOP (F11).
+The Bridge's second engine must reproduce these rejections (§4).
+
 ---
 
 ## 7. Failure modes named in advance
@@ -294,6 +321,8 @@ just "no horseshoe".
 | F8 | **Rössler fails** | — | pipeline bug; fix, then re-run R1 in full |
 | F9 | **The two implementations disagree** | cross-path table | FAIL under the MR rule; no claim; diagnose |
 | F10 | **Theorem hypotheses not matched** (T0) | — | no claim until amended |
+| F11 | **A wrong configuration is accepted** (§6.4) | — | covering code unsound: STOP; fix; re-run all controls |
+| F12 | **Energy or branch gate fails** (S9): an enclosure misses H = −½, or p_y has the wrong or uncertain sign at a return | — | an enclosure missing H is a bug: stop and diagnose; an uncertain sign means that sub-box is rejected and subdivided |
 
 ---
 
@@ -305,3 +334,17 @@ just "no horseshoe".
   numbers.
 - **Every amendment** is committed before the outputs it governs, and its commit hash is quoted in the result.
 - **Each step is committed and pushed as it lands.** The Bridge is told at each gate in §5.
+
+---
+
+## 9. Amendment log
+
+**B1–B5 and S6 engine (Bridge review, 2026-10-16), committed before T0.**
+- **B1:** gate S8 (disjointness); T0 confirms the exact form.
+- **B2:** gate S9 (rigorous energy-surface reduction and branch).
+- **B3:** §6.4 wrong-configuration controls, plus F11.
+- **B4:** A-K20 prefers the MR levels.
+- **B5:** best partial result recorded as data; the budget exit is about the method.
+- **S6:** TaylorModels.jl, owned by the Bridge, qualified on the controls first, with CAPD in Weyl coordinates as
+  the fallback.
+- **Correction:** the Rössler example has five covering-gating checks, not six as the first draft said.
