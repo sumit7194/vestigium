@@ -61,8 +61,8 @@ zc, zr = (Zb + Zt) / 2, (Zt - Zb) / 2
 
 
 def rossler_sets(M=None, N=None):
-    M = M or ((lM + rM) / 2, zc), ((rM - lM) / 2, 0), (0, zr)
-    N = N or ((lN + rN) / 2, zc), ((rN - lN) / 2, 0), (0, zr)
+    M = M or (((lM + rM) / 2, zc), ((rM - lM) / 2, 0), (0, zr))
+    N = N or (((lN + rN) / 2, zc), ((rN - lN) / 2, 0), (0, zr))
     return [tset("M", *M), tset("N", *N)]
 
 
