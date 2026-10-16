@@ -491,3 +491,11 @@ The Bridge's second engine must reproduce these rejections (§4).
 - **Consequence under B9(a):** orbits that come within 0.025 of that edge fail closed. The usable sea is therefore
   the inner region minus a thin strip along it.
 - **Counted rule:** tabula reports f_D under B9's exact form.
+
+---
+
+## OUTCOME log
+
+- **R1 Rössler (2026-10-16): PASS.** The example port gives 5/5 covering checks plus the 2 cone conditions. The
+  generic Def. 2 code gives 4/4 coverings. W1–W3 are all rejected by certified failures. Details and numbers are in
+  `qsim/capd/horseshoe/R1_ROSSLER.md`.

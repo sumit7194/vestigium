@@ -1,0 +1,20 @@
+{
+ "tag": "r1_ex_edges",
+ "spec": "r1_ex_edges.spec",
+ "spec_sha256": "b5972622ac9e1b1a1f35d935e3db0212e296753802c36b0e342b82875d99c4e6",
+ "binary_sha256": "a4581d0153de0ec10dc6806e08f6b01337ced94c03ac43c5f7526d68e9f2522f",
+ "returncode": 0,
+ "seconds": 9.66,
+ "stderr_tail": [],
+ "ex": [
+  "EX edge leftM 1 image_y=[-8.512163877420e+00,-8.482375464383e+00]",
+  "EX edge rightM 1 image_y=[-4.392810341194e+00,-4.373537862440e+00]",
+  "EX edge leftN 1 image_y=[-4.541719165613e+00,-4.539138624817e+00]",
+  "EX edge rightN 1 image_y=[-8.651720718340e+00,-8.651034691287e+00]"
+ ],
+ "covers": [],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}

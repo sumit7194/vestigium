@@ -1,0 +1,17 @@
+{
+ "tag": "r1_generic_MN",
+ "spec": "r1_generic_MN.spec",
+ "spec_sha256": "008731a8fb8ad172520d8bb9c0179496f26181e436800fc2c1f10ce0401dd64b",
+ "binary_sha256": "a4581d0153de0ec10dc6806e08f6b01337ced94c03ac43c5f7526d68e9f2522f",
+ "returncode": 0,
+ "seconds": 231.9,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [
+  "COVER M N a=1 b=1 strong_a=1 orient=LR fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.132664575850e+01,1.177356145100e+01] COVERS=1"
+ ],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}

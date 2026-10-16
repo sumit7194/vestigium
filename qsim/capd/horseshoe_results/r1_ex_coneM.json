@@ -1,0 +1,17 @@
+{
+ "tag": "r1_ex_coneM",
+ "spec": "r1_ex_coneM.spec",
+ "spec_sha256": "c68752b68ad19662827b630f0e31742e292d1ee0c951096c485346f859497fd6",
+ "binary_sha256": "a4581d0153de0ec10dc6806e08f6b01337ced94c03ac43c5f7526d68e9f2522f",
+ "returncode": 0,
+ "seconds": 604.43,
+ "stderr_tail": [],
+ "ex": [
+  "EX cone [-8.400000000000e+00,-8.400000000000e+00] 1"
+ ],
+ "covers": [],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}

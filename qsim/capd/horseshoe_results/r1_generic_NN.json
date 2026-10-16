@@ -1,0 +1,17 @@
+{
+ "tag": "r1_generic_NN",
+ "spec": "r1_generic_NN.spec",
+ "spec_sha256": "3309ee46f664ba5b114379e7002a3beb6b476c1dcaadb9d6c5f3b40ed858e3a7",
+ "binary_sha256": "a4581d0153de0ec10dc6806e08f6b01337ced94c03ac43c5f7526d68e9f2522f",
+ "returncode": 0,
+ "seconds": 214.9,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [
+  "COVER N N a=1 b=1 strong_a=1 orient=RL fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.157069950453e+01,1.221894445244e+01] COVERS=1"
+ ],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}

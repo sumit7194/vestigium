@@ -1,0 +1,17 @@
+{
+ "tag": "r1_ex_trap",
+ "spec": "r1_ex_trap.spec",
+ "spec_sha256": "2dfe9cb60a16e72d95850b06c518191807dbc713a1a1384f4befb659ad81078a",
+ "binary_sha256": "a4581d0153de0ec10dc6806e08f6b01337ced94c03ac43c5f7526d68e9f2522f",
+ "returncode": 0,
+ "seconds": 325.43,
+ "stderr_tail": [],
+ "ex": [
+  "EX trap 1"
+ ],
+ "covers": [],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}

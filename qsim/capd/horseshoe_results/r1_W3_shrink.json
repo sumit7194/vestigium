@@ -1,0 +1,20 @@
+{
+ "tag": "r1_W3_shrink",
+ "spec": "r1_W3_shrink.spec",
+ "spec_sha256": "33d5bb07ad37b51bc3fe24b70b2760af441082bd089dac11d5098c3dd5f32e7f",
+ "binary_sha256": "a4581d0153de0ec10dc6806e08f6b01337ced94c03ac43c5f7526d68e9f2522f",
+ "returncode": 0,
+ "seconds": 694.31,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [
+  "COVER M M a=1 b=0 strong_a=1 orient=none fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.157406143443e+01,1.157845881409e+01] COVERS=0",
+  "COVER M N a=1 b=0 strong_a=1 orient=none fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.157406143443e+01,1.157845881409e+01] COVERS=0",
+  "COVER N M a=1 b=1 strong_a=1 orient=RL fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.157069950453e+01,1.221894445244e+01] COVERS=1",
+  "COVER N N a=1 b=1 strong_a=1 orient=RL fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.157069950453e+01,1.221894445244e+01] COVERS=1"
+ ],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}
