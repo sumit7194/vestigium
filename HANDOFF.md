@@ -1,37 +1,41 @@
-# Handoff: 2026-10-13 (the app closes until about Friday)
+# Handoff: 2026-10-16 (chaos-proof phase 2 in progress)
 
-## What is still running (detached; it survives the app closing)
+## Running now (detached with nohup; it survives the app closing)
 
-**One job: TS row 4 on the CAPD ORIGINAL path, for the cross-path pair only.** TS 4 is already REPLAYED on the A5
-path. This run adds nothing to the certificate tally.
+**HH-PRIMARY, adaptive escalation `hh1a`.** This is the disclosed post-hoc escalation within the §3.6 ladder of
+`PREREG_chaos_horseshoe_phase2.md`.
 
-- **Processes:**
+- **Command:** `HS_BIN=qsim/capd/horseshoe/hs_cover_next python hs_run.py hh1a` (binary built from 921ee47)
+- **Settings:** 4 cores, nice 19
+- **Log:** `qsim/capd/horseshoe_results/hh1a_run.out`
+- **Results:** one JSON per run, in `qsim/capd/horseshoe_results/hh1a_*.json`
+- **Budget.** HH is capped at 48 core-hours shared by PRIMARY and SECONDARY. The first pass used about 3.4
+  core-hours. If the hh1a CPU total passes about 40 core-hours, stop my own hs_cover_next PIDs, and report each
+  unfinished covering as "not certified within budget", with its partial leaves recorded.
 
-  | process | PID | parent |
-  |---|---|---|
-  | chain script `qsim/capd/replay_ts4_orig_resume.sh` | 69951 | 1 (detached) |
-  | Python runner | 52069 | 69951 |
-  | CAPD binary `tests/gen/replay_ts2_4_primary_o30_p256` | 52149 | 52069 |
+**When it lands:**
+1. Commit the JSONs.
+2. Send the Bridge ONLY the commit hash and the sha256 of every hh1_* and hh1a_* JSON. The Bridge's S6 Q2 is blind:
+   it commits its HH decisions before reading ours.
+3. Then write the HH outcome: the first pass (the registered run) and the adaptive pass, both reported.
 
-- **Settings:** nice +19, 1 core, with A3 per-segment checkpoints.
-- **Watchdog:** a 24 h watchdog trip just relaunches the run with the same input, and it resumes from its checkpoint.
-  There are up to 8 attempts.
-- **Expected time:** more than 30 h of CPU, because the loops are tiny (r = 0.045). At handoff it was on loop 1,
-  segment 4 of 18, after 4.3 h.
-- **Where the result lands:**
-  - verdict and checks: `qsim/capd/replay_results/ts2_4_primary_o30_p256.json`
-  - progress: `qsim/capd/tests/gen/ts2_4_primary_o30_p256.err`
-  - per-attempt log: `qsim/capd/replay_ts4_orig_resume.out`
-- **When it lands:**
-  1. Run `sims/.venv/bin/python qsim/capd/replay_crosspath.py` to add TS 4 to the cross-path table.
-  2. Append the result to the OUTCOME section in `qsim/capd/MR_REPLAY.md`.
-  3. Commit, and tell the bridge.
-  - If it never finishes, the table entry stays "TS 4: no original-path pair (24 h watchdog, resource)".
-- **Checking on it:**
-  - `tail -3 qsim/capd/tests/gen/ts2_4_primary_o30_p256.err`
-  - `cat qsim/capd/replay_ts4_orig_resume.out`
+## Phase-2 state (all committed and pushed)
 
-Nothing else of quantum's is running.
+- **Pre-registration:** `PREREG_chaos_horseshoe_phase2.md`, AGREED with amendments B1–B10. The OUTCOME log is at
+  the end of that file.
+- **T0:** done; see `qsim/capd/horseshoe/T0_HYPOTHESES.md`.
+- **R1, the Rössler control:** PASS; see `qsim/capd/horseshoe/R1_ROSSLER.md`.
+- **HH first pass (the registered run):** (b) holds for 7/7 coverings. (a) is not certified at the first rung (16×16
+  boxes). W-AZ1 and W-AZ2 are already rejected by certified failures.
+- **Next steps:**
+  1. HH-SECONDARY: my own h-sets, through the frozen constructor, which is not yet written.
+  2. Kerr (R3). It needs the B10 regularised field, its exact-equality gate, and a per-piece time cap.
+  3. A-K20, from the Bridge and tabula: which point, (E, L_z) and seeds.
+- **K20 context.** At χ≈0.9, q=0.95 (F5-R) there is a naked singular B=0 ring that bounds the published inner sea.
+  B9 excludes it from D. A horseshoe there would describe the regular causal exterior only. p2 on the MR level
+  (1,0,4) is the clean target.
+
+## Earlier handoff (2026-10-13; its TS 4 item is resolved: REPLAYED, cross-path AGREE)
 
 ## What is done (all committed and pushed)
 
