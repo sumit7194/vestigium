@@ -551,3 +551,14 @@ run. It amends §3.2 "Expression form".**
   added no information. Their JSONs record the kill.
 - **Change for future adaptive runs of wrong configurations:** stop at the first CERTIFIED failing check, or use the
   `caps` command with small caps.
+
+**B12 (supersedes B11's p2 primary level, 2026-10-17), committed before any p2 orbit or MN run.**
+- **Why.** The level (9/10, 13/10) is plunge-connected in 2-D: its allowed component reaches x → 1 and |y| → 1, and
+  43% of it lies outside D_B9. Tabula found this and the Bridge confirmed it, from geometry only, with no orbit
+  computed.
+- **New p2 primary level:** the Bridge's V13 A8 level (326d21f), (E, ℓ) = (37/40, 3), equatorial x ∈ [3.3886, 5.7411],
+  under the 2-D bound-inside-D criterion.
+- **Unchanged from B11:**
+  - it is off the MR levels, so "same metric point, not same level" applies;
+  - the MR-level (1,0,4) run remains optional, needs a polar-crossing chart, and is registered separately before any
+    run.
