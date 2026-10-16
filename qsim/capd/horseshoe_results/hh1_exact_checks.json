@@ -1,0 +1,18 @@
+{
+ "S8": {
+  "M0|M1": true,
+  "M0|M2": true,
+  "M0|M3": true,
+  "M0|M4": true,
+  "M1|M2": true,
+  "M1|M3": true,
+  "M1|M4": true,
+  "M2|M3": true,
+  "M2|M4": true,
+  "M3|M4": true
+ },
+ "S8_all": true,
+ "M3_left_edge_standard": true,
+ "M3_right_edge_standard": true,
+ "M3_max_py": "304741/1051000"
+}
