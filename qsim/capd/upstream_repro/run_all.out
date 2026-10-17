@@ -1,0 +1,32 @@
+=== A_log_nan
+log([-1,1])  = [NaN ,0 ]
+log([-2,-1]) = [NaN ,NaN ]
+sqrt([-2,-1]) = sqrt([-2,-1]) throws: Interval error: MpInterval Function sqrt(x) - domain error
+   left=-2.00000   right=-1.00000 
+[0,NaN]*2   = [0 ,0 ]
+(rc 0)
+=== B_sin_large
+sin(1e+09): 2.26479 ms, width 8.63617e-78 
+sin(1e+10): 17.9627 ms, width 4.31809e-78 
+sin(1e+11): 183.523 ms, width 8.63617e-78 
+sin(1e+12): 2003.14 ms, width 8.63617e-78 
+(rc 0)
+=== C_reg27_mpfr
+D  x(0) in [1, 1]: THROW High Order Enclosure Error: minimal time step reached. Cannot integrate.
+D  x(0) in [1, 1]: x(0.05) = {[0.999999,1.00001]}
+Mp x(0) in [1, 1]: THROW High Order Enclosure Error: minimal time step reached. Cannot integrate.
+Mp x(0) in [1, 1]: x(0.05) = {[9.99999e-1 ,1.00001 ]}
+(rc 0)
+=== D_parse7
+left  3.2131231199999997  0x1.9b479e4f35f32p+1
+right 4.3243243240000009  0x1.14c1bacf3825ep+2
+(rc 0)
+=== F_mpreal_ctors
+BUILD FAILED:
+Undefined symbols for architecture arm64:
+ld: symbol(s) not found for architecture arm64
+clang++: error: linker command failed with exit code 1 (use -v to see invocation)
+=== G_ho_mpfr
+BUILD FAILED:
+/Users/sumit/opt/capd-2f06098-install/include/capd/dynset/HOData.h:56:43: error: conversion from 'unsigned long long' to 'const capd::multiPrec::MpReal' is ambiguous
+1 error generated.
