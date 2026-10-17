@@ -34,6 +34,7 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <unistd.h>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -172,6 +173,19 @@ struct CovStat {
   void hull(const MpInterval& r) { if (first) { rt = r; first = false; } else rt = intervalHull(rt, r); }
 };
 static long MAXLEAF_A = 65536, MAXLEAF_E = 4096;
+// Depth limits (B13 fix): the leaf caps above count FINISHED leaves only, so without a depth bound a persistently
+// failing box descended without limit. A box is bisected at most MAXDEPTH_A times (u- plus s-splits) below its
+// top-level piece, an edge piece at most MAXDEPTH_E times; beyond that it is a final (counted) failure.
+static int MAXDEPTH_A = 16, MAXDEPTH_E = 12;
+// Optional checkpoint/restart and chunking (B13; opt-in, absent = original behaviour):
+//   checkpoint <path>  every finished TOP-LEVEL (a)-piece is appended (with its FAILPIECE lines) and fsync'ed;
+//                      a restart with the same spec reloads finished pieces instead of recomputing them.
+//   arange <lo> <hi>   (a) only for top-level u-index i in [lo, hi)   (chunking; the caps apply per process)
+//   noedges            skip (b) in this process (another chunk does the edges)
+static std::string CKPT; static int A_LO = 0, A_HI = -1; static bool DO_EDGES = true; static std::string PIECE_FAILS;
+static void failline(const std::string& l) { std::cout << l; PIECE_FAILS += l; }
+static std::string hexr(const R& r) { char* c = nullptr; mpfr_asprintf(&c, "%Ra", r.*RepAccess::rep); std::string o(c); mpfr_free_str(c); return o; }
+static R fromhex(const std::string& h) { R x; if (mpfr_set_str(x.*RepAccess::rep, h.c_str(), 0, MPFR_RNDN) != 0) throw std::runtime_error("ckpt: bad hex " + h); return x; }
 
 // (a) on [u] x [s]; returns true if certified
 static bool cover_a(Engine& E, const TSet& Ni, const TSet& Nj, const std::string& tag, MpInterval u, MpInterval s,
@@ -185,7 +199,7 @@ static bool cover_a(Engine& E, const TSet& Ni, const TSet& Nj, const std::string
     if (!ok) why = "u=" + iv(uj) + " s=" + iv(sj);
   } catch (std::exception& e) { why = e.what(); threw = true; }
   if (ok) { ++st.leaves; if (!strong) ++st.strong_fail; st.maxdepth = std::max<long>(st.maxdepth, du + ds); return true; }
-  if (st.leaves + 2 <= MAXLEAF_A) {                       // bisect (each split adds one leaf to the eventual count)
+  if (du + ds < MAXDEPTH_A && st.leaves + 2 <= MAXLEAF_A) {   // bisect within the depth and leaf caps
     bool along_u = (du <= ds + 3);
     MpInterval a = along_u ? u : s, m = MpInterval(a.mid().leftBound());
     MpInterval lo(a.leftBound(), m.rightBound()), hi(m.leftBound(), a.rightBound());
@@ -194,7 +208,7 @@ static bool cover_a(Engine& E, const TSet& Ni, const TSet& Nj, const std::string
     return r1 && r2;
   }
   ++st.leaves; ++st.fail; ++st.strong_fail; (void)threw;
-  std::cout << "FAILPIECE " << tag << " a u=" << iv(u) << " s=" << iv(s) << " " << why << "\n";
+  failline("FAILPIECE " + tag + " a depth=" + std::to_string(du + ds) + (du + ds >= MAXDEPTH_A ? "(depth cap)" : "(leaf cap)") + " u=" + iv(u) + " s=" + iv(s) + " " + why + "\n");
   return false;
 }
 // (b) one edge piece; land: 0 = left side, 1 = right side, -1 = undecided/failed; counts landings into L/R
@@ -208,38 +222,77 @@ static void cover_b(Engine& E, const TSet& Ni, const TSet& Nj, const std::string
     st.hull(rt);
   } catch (std::exception& e) { why = e.what(); }
   if (land >= 0) { ++st.leaves; ++cnt[land]; return; }
-  if (!certfail && st.leaves + 2 <= 2 * MAXLEAF_E) {
+  if (!certfail && d < MAXDEPTH_E && st.leaves + 2 <= 2 * MAXLEAF_E) {
     MpInterval m = MpInterval(s.mid().leftBound()), lo(s.leftBound(), m.rightBound()), hi(m.leftBound(), s.rightBound());
     cover_b(E, Ni, Nj, tag, side, lo, d + 1, cnt, st); cover_b(E, Ni, Nj, tag, side, hi, d + 1, cnt, st);
     return;
   }
   ++st.leaves; ++st.fail; if (certfail) ++st.cert_fail;
-  std::cout << "FAILPIECE " << tag << " b edge=" << (side ? "R" : "L") << " s=" << iv(s) << (certfail ? " CERTIFIED " : " ") << why << "\n";
+  failline("FAILPIECE " + tag + " b edge=" + (side ? "R" : "L") + " s=" + iv(s) + (certfail ? " CERTIFIED " : " ") + why + "\n");
 }
 
 static void do_cover(Engine& E, const std::string& a, const std::string& b, int nu, int ns, int ne) {
   const TSet &Ni = TS.at(a), &Nj = TS.at(b); std::string tag = a + ">" + b;
   CovStat A, Bs; bool oka = true;
-  for (int i = 0; i < nu; ++i) for (int k = 0; k < ns; ++k) {
+  std::map<std::string, std::string> done; std::map<std::string, std::string> donefails;
+  if (!CKPT.empty()) {                                   // reload finished pieces of THIS spec (the path is keyed by it)
+    std::ifstream ci(CKPT); std::string l;
+    while (std::getline(ci, l)) {
+      if (l.rfind("F ", 0) == 0) { auto sp = l.find(' ', 2); donefails[l.substr(2, sp - 2)] += l.substr(sp + 1) + "\n"; }
+      else if (l.rfind("P ", 0) == 0) { auto sp = l.find(' ', 2); done[l.substr(2, sp - 2)] = l.substr(sp + 1); }
+    }
+  }
+  int ilo = A_LO, ihi = (A_HI < 0 ? nu : std::min(A_HI, nu)); long reloaded = 0;
+  for (int i = ilo; i < ihi; ++i) for (int k = 0; k < ns; ++k) {
+    std::string key = tag + "/" + std::to_string(i) + "/" + std::to_string(k);
+    auto it = done.find(key);
+    if (it != done.end()) {                              // P <key> ok leaves fail strong_fail maxdepth nsteps rtflag [lo hi]
+      std::istringstream ps(it->second); int ok, rtf; long lv, fl, sf, md, ns_;
+      ps >> ok >> lv >> fl >> sf >> md >> ns_ >> rtf;
+      A.leaves += lv; A.fail += fl; A.strong_fail += sf; A.maxdepth = std::max(A.maxdepth, md); A.nsteps += ns_;
+      if (rtf) { std::string lo, hi; ps >> lo >> hi; A.hull(MpInterval(fromhex(lo), fromhex(hi))); }
+      std::cout << donefails[key];
+      oka = oka && ok; ++reloaded; continue;
+    }
     MpInterval u = -1 + MpInterval(2 * i, 2 * i + 2) / nu, s = -1 + MpInterval(2 * k, 2 * k + 2) / ns;
-    oka = cover_a(E, Ni, Nj, tag, u, s, 0, 0, A) && oka;
+    CovStat P; P.leaves = A.leaves; const long before = A.leaves;   // piece-local stats; cap accounting continues from A
+    PIECE_FAILS.clear();
+    bool ok = cover_a(E, Ni, Nj, tag, u, s, 0, 0, P);
+    A.leaves = P.leaves; A.fail += P.fail; A.strong_fail += P.strong_fail; A.maxdepth = std::max(A.maxdepth, P.maxdepth);
+    A.nsteps += P.nsteps; if (!P.first) A.hull(P.rt);
+    oka = ok && oka;
+    if (!CKPT.empty()) {
+      std::ostringstream o; std::istringstream fs(PIECE_FAILS); std::string fl;
+      while (std::getline(fs, fl)) o << "F " << key << " " << fl << "\n";
+      o << "P " << key << " " << ok << " " << (P.leaves - before) << " " << P.fail << " "
+        << P.strong_fail << " " << P.maxdepth << " " << P.nsteps << " " << (P.first ? 0 : 1);
+      if (!P.first) o << " " << hexr(P.rt.leftBound()) << " " << hexr(P.rt.rightBound());
+      o << "\n";
+      FILE* f = std::fopen(CKPT.c_str(), "a"); std::fputs(o.str().c_str(), f); std::fflush(f); ::fsync(fileno(f)); std::fclose(f);
+    }
   }
   long Lto[2] = {0, 0}, Rto[2] = {0, 0};
-  for (int i = 0; i < ne; ++i) cover_b(E, Ni, Nj, tag, 0, -1 + MpInterval(2 * i, 2 * i + 2) / ne, 0, Lto, Bs);
-  for (int i = 0; i < ne; ++i) cover_b(E, Ni, Nj, tag, 1, -1 + MpInterval(2 * i, 2 * i + 2) / ne, 0, Rto, Bs);
+  if (DO_EDGES) {
+    for (int i = 0; i < ne; ++i) cover_b(E, Ni, Nj, tag, 0, -1 + MpInterval(2 * i, 2 * i + 2) / ne, 0, Lto, Bs);
+    for (int i = 0; i < ne; ++i) cover_b(E, Ni, Nj, tag, 1, -1 + MpInterval(2 * i, 2 * i + 2) / ne, 0, Rto, Bs);
+  }
   // orientation: all left-edge leaves in one side, all right-edge leaves in the other
   bool orient1 = Bs.fail == 0 && Lto[1] == 0 && Rto[0] == 0, orient2 = Bs.fail == 0 && Lto[0] == 0 && Rto[1] == 0;
   bool orient_certfail = (Lto[0] > 0 && Lto[1] > 0) || (Rto[0] > 0 && Rto[1] > 0) ||
                          (Lto[0] > 0 && Rto[0] > 0) || (Lto[1] > 0 && Rto[1] > 0);   // certified landings contradict
-  bool okb = orient1 || orient2;
+  bool okb = DO_EDGES && (orient1 || orient2);         // no edges checked in this process => (b) not certified here
   CovStat T = A; T.hull(Bs.first ? A.rt : Bs.rt);
-  std::cout << "COVER " << a << " " << b << " a=" << oka << " b=" << okb << " strong_a=" << (A.strong_fail == 0)
-            << " orient=" << (orient1 ? "LR" : orient2 ? "RL" : "none") << " fail_a=" << A.fail << " fail_b=" << Bs.fail
+  std::cout << "COVER " << a << " " << b << " a=" << oka << " b=" << (DO_EDGES ? std::to_string(okb) : std::string("skip"))
+            << " strong_a=" << (A.strong_fail == 0)
+            << " orient=" << (!DO_EDGES ? "skip" : orient1 ? "LR" : orient2 ? "RL" : "none") << " fail_a=" << A.fail << " fail_b=" << Bs.fail
             << " certified_fail_b=" << Bs.cert_fail << " orient_certified_fail=" << orient_certfail
             << " leaves_a=" << A.leaves << " leaves_b=" << Bs.leaves << " maxdepth_a=" << A.maxdepth
             << " replay_steps=" << A.nsteps + Bs.nsteps
             << " return_time=" << (A.first && Bs.first ? std::string("none") : iv(A.first ? Bs.rt : (Bs.first ? A.rt : intervalHull(A.rt, Bs.rt))))
-            << " COVERS=" << (oka && okb) << "\n";
+            << " COVERS=" << (DO_EDGES ? std::to_string(oka && okb) : std::string("chunk-a-only"));
+  if (!CKPT.empty() || A_HI >= 0 || !DO_EDGES)
+    std::cout << " chunk_a=[" << ilo << "," << ihi << ") edges=" << (DO_EDGES ? "yes" : "no") << " reloaded_pieces=" << reloaded;
+  std::cout << "\n";
 }
 
 // ---- Rossler example checks (exact port of RosslerChaoticDynamics.cpp, MPFR)
@@ -330,6 +383,10 @@ int main(int argc, char** argv) {
           s.special = true; s.capL = Q(t[k + 1]); s.capR = Q(t[k + 2]); }
         TS[t[1]] = s;
       }
+      else if (c == "checkpoint") CKPT = t[1];
+      else if (c == "arange") { A_LO = std::stoi(t[1]); A_HI = std::stoi(t[2]); }
+      else if (c == "noedges") DO_EDGES = false;
+      else if (c == "depth") { MAXDEPTH_A = std::stoi(t[1]); MAXDEPTH_E = std::stoi(t[2]); }
       else if (c == "caps") { MAXLEAF_A = std::stol(t[1]); MAXLEAF_E = std::stol(t[2]); }
       else if (c == "cover") do_cover(engine(), t[1], t[2], std::stoi(t[3]), std::stoi(t[4]), std::stoi(t[5]));
       else if (c == "ex_trap") ex_trap(engine(), Q(t[1]), Q(t[2]), Q(t[3]), Q(t[4]), std::stoi(t[5]));

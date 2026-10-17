@@ -562,3 +562,37 @@ run. It amends §3.2 "Expression form".**
   - it is off the MR levels, so "same metric point, not same level" applies;
   - the MR-level (1,0,4) run remains optional, needs a polar-crossing chart, and is registered separately before any
     run.
+
+**B13 (2026-10-17): HH-PRIMARY M1⟹M2 and M3⟹M4 re-run after the reboot, with a depth-cap fix, checkpoints and
+chunking. Committed before the re-run. This amendment is post hoc, and is disclosed as such.**
+- **What happened.** A machine reboot (around 13:20 on 2026-10-17) killed the two adaptive coverings M1⟹M2 and
+  M3⟹M4 after about 13 CPU-hours each. They had no checkpoints and left no results. The other five adaptive coverings
+  had finished and are sealed (914e99f).
+- **A bug found, now fixed.** The §3.6 caps (2¹⁶ leaves for (a), 2¹² per edge) counted only FINISHED leaves, so a
+  persistently failing box was bisected depth-first without bound. This likely explains why those two coverings ran
+  13+ h, against 20–95 min for the other five.
+  - The fix adds depth limits: at most 16 halvings below a top-level (a)-piece, and 12 for an edge piece. A box that
+    still fails at that depth is a final, counted failure.
+  - This only enforces the registered caps. It is not a new rule.
+  - The five finished coverings never went deeper than 5 halvings, so they are unaffected.
+- **Checkpoint and restart.** Every finished top-level (a)-piece, together with its failure lines, is appended to a
+  checkpoint file keyed by the spec, and fsync'ed. A restart reloads finished pieces.
+- **Chunking.** Each covering runs as 2 processes:
+  - u-pieces [0, 8) without the edges;
+  - u-pieces [8, 16) with the edges.
+  - The leaf cap is split 2¹⁵ + 2¹⁵, so the per-covering total stays 2¹⁶.
+  - The covering is certified only if both chunks certify (a) and the edge chunk certifies (b). The per-leaf decision
+    logic is unchanged.
+- **Validation** of the new binary (built from this commit), on the Rössler M⟹N covering:
+  - without the new commands, it is identical to the old binary;
+  - two chunks merge to the unchunked result;
+  - a run killed after 5 pieces and resumed gives an identical result;
+  - with failing pieces (rotated M, depth 3), the reload reproduces the result line and all 34 failure lines.
+- **The HH budget, post hoc.** The registered 48 core-hours would be exceeded by this re-run: about 34 are already
+  used, including about 26 lost to the reboot.
+  - On the user's instructions ("we want proper results", "don't worry about time", and on 2026-10-17 "please run
+    again"), the re-run continues until each covering finishes WITHIN THE REGISTERED LEAF AND DEPTH CAPS, which bound
+    the work. There is no core-hour cap.
+  - **Both outcomes will be reported:**
+    - under the original 48 core-hour budget, M1⟹M2 and M3⟹M4 are "not certified within budget";
+    - under B13, they are whatever the re-run gives.

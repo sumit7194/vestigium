@@ -4,7 +4,7 @@ inside hs_cover on MPFR intervals; this script only collects the booleans it pri
 
   hs_run.py r1        Rossler control R1: example port, generic re-check, wrong configurations W1-W3
 """
-import hashlib, json, subprocess, sys, time
+import hashlib, json, re, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
 from fractions import Fraction as F
 from pathlib import Path
@@ -200,6 +200,33 @@ def hh1(nu=16, ns=16, ne=64, prefix="hh1"):
     return batch(J)
 
 
+def hh1b():
+    """B13 re-run of M1=>M2 and M3=>M4 after the reboot: depth-capped bisection, checkpoints, 2 chunks per covering
+    (u-pieces [0,8) without edges; [8,16) with edges), leaf cap 2^15 per chunk (2^16 per covering)."""
+    fr, chk = az_checks()
+    assert chk["S8_all"] and chk["M3_left_edge_standard"] and chk["M3_right_edge_standard"], chk
+    T = az_tsets(fr); ck = OUT / "ckpt"; ck.mkdir(exist_ok=True)
+    J = {}
+    for a, b in (("M1", "M2"), ("M3", "M4")):
+        for c, (lo, hi, edges) in enumerate(((0, 8, False), (8, 16, True))):
+            body = HH_HEAD + T + ["caps 32768 4096", "depth 16 12", f"arange {lo} {hi}"] + ([] if edges else ["noedges"])
+            key = hashlib.sha256(("\n".join(body + [f"cover {a} {b} 16 16 64"]) + "\n").encode()).hexdigest()[:16]
+            J[f"hh1b_{a}{b}_c{c}"] = body + [f"checkpoint {ck / f'hh1b_{a}{b}_c{c}_{key}.ckpt'}", f"cover {a} {b} 16 16 64"]
+    res = batch(J)
+    for a, b in (("M1", "M2"), ("M3", "M4")):
+        c0, c1 = res[f"hh1b_{a}{b}_c0"], res[f"hh1b_{a}{b}_c1"]
+        get = lambda r, k: re.search(k + r"=(\S+)", r["covers"][0]).group(1) if r["covers"] else None
+        merged = dict(covering=f"{a}=>{b}", chunks=[c0["tag"], c1["tag"]],
+                      a=(get(c0, "a") == "1" and get(c1, "a") == "1"), b=(get(c1, "b") == "1"),
+                      leaves_a=sum(int(get(r, "leaves_a") or 0) for r in (c0, c1)),
+                      fail_a=sum(int(get(r, "fail_a") or 0) for r in (c0, c1)), fail_b=int(get(c1, "fail_b") or 0),
+                      both_done=c0["done"] and c1["done"])
+        merged["COVERS"] = merged["a"] and merged["b"] and merged["both_done"]
+        (OUT / f"hh1b_{a}{b}.json").write_text(json.dumps(merged, indent=1))
+        print("MERGED", merged)
+    return res
+
+
 if __name__ == "__main__":
-    {"r1": r1, "hh1": hh1, "hh1a": lambda: hh1(prefix="hh1a")}[sys.argv[1]]()
+    {"r1": r1, "hh1": hh1, "hh1a": lambda: hh1(prefix="hh1a"), "hh1b": hh1b}[sys.argv[1]]()
 
