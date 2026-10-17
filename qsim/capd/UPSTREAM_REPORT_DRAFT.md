@@ -38,7 +38,9 @@ wrong enclosure of a defined value, but a computer-assisted proof should fail lo
 - The documented `__MPI_TEST_INF__` (in `MpIntervalSettings.h`) does nothing, because `MpInterval.cpp` tests
   `_MPI_TEST_INF_` (lines 79, 238, 399).
 - Multiplication can turn a NaN endpoint next to a 0 endpoint into a finite result: `[0, NaN] * 2 = [0, 0]`.
-  (We found no way to create a NaN from finite inputs other than log: `tests/g_nanreach.cpp`.)
+  We found no way to create a NaN from finite inputs other than log. The search was exhaustive over a grid of
+  reachable endpoints (±inf, ±MAX, ±1e9, ±1, ±tiny, ±0, 3) at 53 and 256 bits: + − × ÷ on every pair of boxes, and
+  sqrt, exp, sin and cos (|x| ≤ 1e12) on every box, 85,902 cases in all. None gave a NaN endpoint.
 
 **Suggestion.** An explicit domain check in `log` (as `sqrt` has); fix the parenthesis so `__MPI_TEST_NAN__` can be
 enabled; unify the INF macro name.
@@ -61,7 +63,7 @@ int main() {
 
 ---
 
-## Issue B — `MpInterval` `sin`/`cos`: argument reduction is linear in |x| (effectively hangs for |x| ≳ 1e13)
+## Issue B — `MpInterval` `sin`/`cos`: argument-reduction cost is linear in |x| (≈20 s at 1e13, ≈200 s at 1e14)
 
 **What happens.** The cost of `sin(MpInterval(x))` for a point x grows linearly in |x|. Measured on 2026-10-17 at
 256 bits on an Apple M-series machine:
@@ -81,8 +83,10 @@ arguments, but on the MPFR path it affects positive arguments too.
 
 **Why.** `modulo4()` in `MpInterval.cpp` reduces the quadrant number with
 `while (x > 32000) x = x - MpReal(64000);`, i.e. about |x|/(π/2)/64000 MPFR subtractions. In addition, once the
-quadrant number exceeds 2^precision these subtractions are inexact, so for very large arguments the loop may not
-terminate and the computed quadrant may be wrong.
+quadrant number's ulp exceeds the step, these subtractions are inexact. At that point the loop could stop making
+progress, or compute a wrong quadrant. This happens near |x| ~ 1e81 at 256 bits, and near ~6e20 at 53-bit MpFloat
+precision. *(Not tested. It follows from reading the code, and it may be the same mechanism as #28's double-path
+hang.)*
 
 **Suggestion.** Compute the quadrant modulo 4 directly, e.g. `mpfr_fmod(q, 4)` or via `mpz` from the (exact)
 `floor` that `quadrant()` already produces.
@@ -125,7 +129,7 @@ void run(const char* tag, double lo, double hi) {
     Map map("var:x;fun:10*(1-x);"); Solver solver(map, 12);
     solver.setAbsoluteTolerance(1e-10); solver.setRelativeTolerance(1e-10);
     TM tm(solver); Vec u0(1); u0[0] = Itv(lo, hi); Set set(u0);
-    std::cout << tag << " " << tm(Itv(0.05), set) << "\n";
+    Vec r = tm(Itv(0.05), set); std::cout << tag << " " << r << "\n";
   } catch (const std::exception& e) { std::cout << tag << " THROW " << std::string(e.what()).substr(0, 60) << "\n"; }
 }
 int main() {
