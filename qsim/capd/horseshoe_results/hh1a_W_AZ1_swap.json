@@ -1,0 +1,16 @@
+{
+ "tag": "hh1a_W_AZ1_swap",
+ "spec": "hh1a_W_AZ1_swap.spec",
+ "spec_sha256": "ad06f21043fd722a7ca52eaf55348b7ec4b027deafd955ac6c325367bc4657d8",
+ "binary": "hs_cover_next",
+ "binary_sha256": "1524ca9fdd7f341fd27dc2a776b66b10f16665ee8b2fbc53d876cfac44c4d6ec",
+ "returncode": -15,
+ "seconds": 1398.39,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": false
+}

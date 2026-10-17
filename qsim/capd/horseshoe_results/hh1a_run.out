@@ -1,0 +1,12 @@
+hh1a_M0M0 rc 0 1485.8s done True
+   COVER M0 M0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=305 leaves_b=128 maxdepth_a=4 replay_steps=153219 return_time=[6.848351948520e+00,7.504462861430e+00] COVERS=1
+hh1a_M2M3 rc 0 5087.9s done True
+   COVER M2 M3 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=899 leaves_b=128 maxdepth_a=5 replay_steps=546230 return_time=[6.143601641228e+00,7.929623611673e+00] COVERS=1
+hh1a_M0M1 rc 0 5722.0s done True
+   COVER M0 M1 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=1010 leaves_b=128 maxdepth_a=5 replay_steps=604688 return_time=[6.848351948520e+00,7.504462861430e+00] COVERS=1
+hh1a_M4M0 rc 0 1298.2s done True
+   COVER M4 M0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=285 leaves_b=128 maxdepth_a=2 replay_steps=136877 return_time=[6.622352057853e+00,7.581440202796e+00] COVERS=1
+hh1a_M4M1 rc 0 1551.6s done True
+   COVER M4 M1 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=318 leaves_b=128 maxdepth_a=2 replay_steps=157773 return_time=[6.622352057853e+00,7.581440202796e+00] COVERS=1
+hh1a_W_AZ2_shrink rc -15 510.8s done False
+hh1a_W_AZ1_swap rc -15 1398.4s done False

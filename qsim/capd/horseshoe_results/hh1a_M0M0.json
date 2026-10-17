@@ -1,0 +1,18 @@
+{
+ "tag": "hh1a_M0M0",
+ "spec": "hh1a_M0M0.spec",
+ "spec_sha256": "7159e3da424053d872b3d33c63a6721942b172be57008e5915575b3ff16887d6",
+ "binary": "hs_cover_next",
+ "binary_sha256": "1524ca9fdd7f341fd27dc2a776b66b10f16665ee8b2fbc53d876cfac44c4d6ec",
+ "returncode": 0,
+ "seconds": 1485.8,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [
+  "COVER M0 M0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=305 leaves_b=128 maxdepth_a=4 replay_steps=153219 return_time=[6.848351948520e+00,7.504462861430e+00] COVERS=1"
+ ],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}

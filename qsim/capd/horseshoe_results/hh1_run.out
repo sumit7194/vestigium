@@ -1,0 +1,20 @@
+hh1_M0M1 rc 0 1139.6s done True
+   COVER M0 M1 a=0 b=1 strong_a=0 orient=LR fail_a=124 fail_b=0 pieces_a=256 pieces_b=128 replay_steps=121954 return_time=[6.848351948520e+00,7.504462861430e+00] COVERS=0
+hh1_M0M0 rc 0 1150.0s done True
+   COVER M0 M0 a=0 b=1 strong_a=0 orient=LR fail_a=35 fail_b=0 pieces_a=256 pieces_b=128 replay_steps=121954 return_time=[6.848351948520e+00,7.504462861430e+00] COVERS=0
+hh1_M2M3 rc 0 1171.6s done True
+   COVER M2 M3 a=0 b=1 strong_a=0 orient=LR fail_a=99 fail_b=0 pieces_a=256 pieces_b=128 replay_steps=125840 return_time=[6.143601641228e+00,7.929623611673e+00] COVERS=0
+hh1_M1M2 rc 0 1204.6s done True
+   COVER M1 M2 a=0 b=1 strong_a=0 orient=RL fail_a=192 fail_b=0 pieces_a=256 pieces_b=128 replay_steps=109741 return_time=[7.243538300204e+00,9.408998440034e+00] COVERS=0
+hh1_M4M0 rc 0 1046.8s done True
+   COVER M4 M0 a=0 b=1 strong_a=0 orient=LR fail_a=21 fail_b=0 pieces_a=256 pieces_b=128 replay_steps=119136 return_time=[6.622352057853e+00,7.581440202796e+00] COVERS=0
+hh1_M4M1 rc 0 1047.0s done True
+   COVER M4 M1 a=0 b=1 strong_a=0 orient=LR fail_a=41 fail_b=0 pieces_a=256 pieces_b=128 replay_steps=119136 return_time=[6.622352057853e+00,7.581440202796e+00] COVERS=0
+hh1_M3M4 rc 0 1160.6s done True
+   COVER M3 M4 a=0 b=1 strong_a=0 orient=RL fail_a=234 fail_b=0 pieces_a=256 pieces_b=128 replay_steps=132736 return_time=[7.499198740814e+00,8.187838459604e+00] COVERS=0
+hh1_W_AZ1_swap rc 0 2138.1s done True
+   COVER M1 M2 a=0 b=0 strong_a=0 orient=none fail_a=204 fail_b=0 pieces_a=256 pieces_b=128 replay_steps=109741 return_time=[7.243538300204e+00,9.408998440034e+00] COVERS=0
+   COVER M2 M3 a=0 b=0 strong_a=0 orient=none fail_a=99 fail_b=12 pieces_a=256 pieces_b=128 replay_steps=126453 return_time=[6.143601641228e+00,7.929623611673e+00] COVERS=0
+hh1_W_AZ2_shrink rc 0 2002.0s done True
+   COVER M1 M2 a=0 b=1 strong_a=0 orient=RL fail_a=180 fail_b=0 pieces_a=256 pieces_b=128 replay_steps=109741 return_time=[7.243538300204e+00,9.408998440034e+00] COVERS=0
+   COVER M2 M3 a=1 b=0 strong_a=0 orient=none fail_a=0 fail_b=20 pieces_a=256 pieces_b=128 replay_steps=123557 return_time=[7.074805470127e+00,7.465312783617e+00] COVERS=0

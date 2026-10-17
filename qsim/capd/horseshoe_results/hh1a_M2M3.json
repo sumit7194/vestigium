@@ -1,0 +1,18 @@
+{
+ "tag": "hh1a_M2M3",
+ "spec": "hh1a_M2M3.spec",
+ "spec_sha256": "1d9aafdcd1c3ab09fcaf81a6259977a14366e902e6b04ba7a4adb3bda85613d7",
+ "binary": "hs_cover_next",
+ "binary_sha256": "1524ca9fdd7f341fd27dc2a776b66b10f16665ee8b2fbc53d876cfac44c4d6ec",
+ "returncode": 0,
+ "seconds": 5087.89,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [
+  "COVER M2 M3 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=899 leaves_b=128 maxdepth_a=5 replay_steps=546230 return_time=[6.143601641228e+00,7.929623611673e+00] COVERS=1"
+ ],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}

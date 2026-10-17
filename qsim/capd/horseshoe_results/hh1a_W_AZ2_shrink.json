@@ -1,0 +1,16 @@
+{
+ "tag": "hh1a_W_AZ2_shrink",
+ "spec": "hh1a_W_AZ2_shrink.spec",
+ "spec_sha256": "0b85b6c5e4a1af760ff64937ae09909253d76652f557d32e44cf41b0a724364c",
+ "binary": "hs_cover_next",
+ "binary_sha256": "1524ca9fdd7f341fd27dc2a776b66b10f16665ee8b2fbc53d876cfac44c4d6ec",
+ "returncode": -15,
+ "seconds": 510.81,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": false
+}

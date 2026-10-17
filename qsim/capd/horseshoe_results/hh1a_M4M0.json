@@ -1,0 +1,18 @@
+{
+ "tag": "hh1a_M4M0",
+ "spec": "hh1a_M4M0.spec",
+ "spec_sha256": "e302365124dc791a72e7d13cf16b05bb6b4d1753033bee83eb8d6783ab7b7882",
+ "binary": "hs_cover_next",
+ "binary_sha256": "1524ca9fdd7f341fd27dc2a776b66b10f16665ee8b2fbc53d876cfac44c4d6ec",
+ "returncode": 0,
+ "seconds": 1298.15,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [
+  "COVER M4 M0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=285 leaves_b=128 maxdepth_a=2 replay_steps=136877 return_time=[6.622352057853e+00,7.581440202796e+00] COVERS=1"
+ ],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}
