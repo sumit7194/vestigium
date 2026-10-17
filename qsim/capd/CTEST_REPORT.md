@@ -96,3 +96,17 @@ all 8 metric files our pipelines read (TS2 P1/P2 + Kerr; MN p1/p2 + Kerr) with t
 - **Result: 20/20 rc = 0, with identical output in every run.**
 - No fault output; per-file hashes in `qsim/parse_integrity_hashes.txt`.
 - Python 3.13 is not affected by the 3.12 tokenizer and heap issue on these files.
+
+## Correction (2026-10-17): the MPFR sin cost at large |x|
+
+The text above and the comment in `tests/proof_guard.h` say the MPFR interval sin "hangs" for |x| ≳ 1e13. Re-measured
+at 256 bits (`qsim/capd/upstream_repro/B*_sin_*.cpp`), the cost is linear in |x| and the call does return:
+
+| \|x\| | time |
+|---|---|
+| 1e12 | 2.0 s |
+| 1e13 | 19.6 s |
+| 1e14 | 197 s |
+
+That extrapolates to hours by about 1e16. So "hangs" overstated it for 1e13: the call is slow there, and impractical
+beyond. The guard's fail-closed range limit, |x| ≤ 1e12, is unaffected.
