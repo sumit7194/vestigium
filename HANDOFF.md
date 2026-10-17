@@ -45,6 +45,11 @@
   `/Users/sumit/Github/fable_briefs/quantum/PROMPT_{1..4}_*.md`, with read-only inputs under `inputs/`.
 
 
+## CAPD upstream posts: FROZEN (Bridge-approved at ed91fee, 2026-10-17)
+
+`qsim/capd/upstream_posts/` is 1 comment and 4 issues, for the user to post. Do NOT edit these files. If anything
+needs to change, tell the Bridge first.
+
 ## Phase-2 state (all committed and pushed)
 
 - **Pre-registration:** `PREREG_chaos_horseshoe_phase2.md`, AGREED with amendments B1–B10. The OUTCOME log is at
