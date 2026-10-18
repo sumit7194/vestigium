@@ -1,22 +1,13 @@
 # Handoff: 2026-10-16 (chaos-proof phase 2 in progress)
 
-## Running now: HH-SECONDARY `hh2` (B14), launched 2026-10-18 about 21:30
+## HH-SECONDARY COMPLETE (2026-10-19): PASS, sealed at 5a21dde. Nothing is running.
 
-- **Command:** `HS_BIN=qsim/capd/horseshoe/hs_cover_v4 python qsim/capd/horseshoe/hs_run.py hh2`, runner PID 70795.
-  It runs 7 coverings, 4 at a time, each with a checkpoint under `horseshoe_results/ckpt/hh2_*`. The constructor is
-  frozen at 1da283c.
-- **After a reboot:** rerun the same command, and the checkpoints resume.
-- **When it lands:** commit the results. The summary goes in `hh2_summary.json`.
-  - PASS means all 6 required coverings certified (B14), giving ρ ≈ 1.3247 and h ≥ 0.2812.
-  - Report it as "consistent with" (§6.2).
-  - The HH embargo to the Bridge covers these results too: send the hashes only until V14 Q2.
-- **Also done tonight:**
-  - the B10 gate PASS (7016286);
-  - the S5 gate PASS against the Bridge's V13 field (4b747c5);
-  - the per-piece cap (e1f728a).
+- **Outcome:** `qsim/capd/horseshoe/HH_SECONDARY_OUTCOME.md`. All 6 required coverings are certified, and
+  h ≥ 0.28120 (ρ is the plastic number).
+- **Seal:** sent to the Bridge as hashes only. The embargo is ON until V14 Q2.
 - **Next:**
-  1. R3 Kerr, which needs the A-K20 matched (E, L_z) after the user's review in the morning.
-  2. The MN chain from A-K20 seeds, using the same constructor.
+  1. R3 Kerr and the MN chain. These wait on the user's review of A-K20, which the Bridge drafted (89bea2b).
+  2. The constructor is frozen at 1da283c and is reused unchanged.
 
 ## HH-PRIMARY COMPLETE (2026-10-18)
 
