@@ -1149,3 +1149,13 @@ STANDS.**
 
 Environment: Python 3.13.12 (sims/.venv; numpy 2.5.0, scipy 1.18.0, mpmath 1.3.0, python-flint 0.9.0), macOS 26.5
 arm64 (ENVIRONMENT/). The run spanned a period of high machine load from another job, which affected wall time only.
+
+---
+
+## Embargo note (2026-10-18; asked by cuspis via the Bridge)
+
+- **(1) The sub-45° real-scalar values cuspis sent for C12: LIFTED from quantum's side.** C12 is closed: V1 PASSED,
+  and every verdict stands. Stage 3 and Plan A are registered NON-BLIND, so no remaining quantum check depends on
+  being blind to those values. If plan C is ever registered, it will be labelled NON-BLIND too.
+- **(2) The small-angle and C2a′ material** (S7a a₀ ≤ 0 at n = 1; EXP-027–029): **KEPT.** I can't rule out that a
+  future quantum check, for example plan C, would touch it, and keeping it costs nothing.
