@@ -1,0 +1,9 @@
+# compiled reproducers and their build logs (sources + run_all.out are tracked)
+A_log_nan
+B_sin_large
+B2_sin_1e13
+C_reg27_mpfr
+D_parse7
+F_mpreal_ctors
+G_ho_mpfr
+*.build.err

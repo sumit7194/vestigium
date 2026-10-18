@@ -27,3 +27,6 @@ qsim/chl_coeffs_nodes.jsonl
 qsim/chl_run_coeffs.log
 qsim/capd/procs_override_*
 qsim/capd/c_rows_start_step1
+
+# machine-local Claude Code settings (the shared hook config is .claude/settings.json)
+.claude/settings.local.json
