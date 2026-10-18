@@ -629,3 +629,12 @@ chunking. Committed before the re-run. This amendment is post hoc, and is disclo
     components at 6 random points each), with relative difference exactly 0 at 60 digits.
   - **Mutation controls:** a sign flip of ω₀ and f scaled by 1.001 are both detected.
   - **Still to do before any MN or Kerr run:** the S5 gate against the Bridge's field.
+- **S5 field gate (2026-10-18): PASS** (`qsim/capd/horseshoe/mn_s5_gate.py`, `mn_s5_gate.json`), against the
+  Bridge's independent V13 field (`TheBridge/.../V13_mn_chaotic_sea/code/v13_field.py`, imported read-only).
+  - **How S5 is carried out:** the polynomial layer (A, B, C, Q) is compared EXACTLY. The transcendental layer is
+    written differently on the two sides, so the full H_red is compared NUMERICALLY at 70 digits rather than as a
+    symbolic identity.
+  - **Result:** the worst relative difference is 4.1e−70 over 12 random phase-space points per case. The cases are
+    p1, p2, F5-R and C0 at (E, L) = (19/20, 3), plus their Kerr limits, which differ by exactly 0.
+  - **Mutation control:** L → 1.001 L is detected at 5e−6 to 6e−5 in every case.
+  - **Note:** this C0 uses (M, a) = (10, 9) and β = 0.95·M³/k³. The gate only needs the same inputs on both sides.
