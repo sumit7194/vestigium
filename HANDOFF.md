@@ -1,6 +1,24 @@
 # Handoff: 2026-10-16 (chaos-proof phase 2 in progress)
 
-## HH-PRIMARY COMPLETE (2026-10-18): nothing is running
+## Running now: HH-SECONDARY `hh2` (B14), launched 2026-10-18 about 21:30
+
+- **Command:** `HS_BIN=qsim/capd/horseshoe/hs_cover_v4 python qsim/capd/horseshoe/hs_run.py hh2`, runner PID 70795.
+  It runs 7 coverings, 4 at a time, each with a checkpoint under `horseshoe_results/ckpt/hh2_*`. The constructor is
+  frozen at 1da283c.
+- **After a reboot:** rerun the same command, and the checkpoints resume.
+- **When it lands:** commit the results. The summary goes in `hh2_summary.json`.
+  - PASS means all 6 required coverings certified (B14), giving ρ ≈ 1.3247 and h ≥ 0.2812.
+  - Report it as "consistent with" (§6.2).
+  - The HH embargo to the Bridge covers these results too: send the hashes only until V14 Q2.
+- **Also done tonight:**
+  - the B10 gate PASS (7016286);
+  - the S5 gate PASS against the Bridge's V13 field (4b747c5);
+  - the per-piece cap (e1f728a).
+- **Next:**
+  1. R3 Kerr, which needs the A-K20 matched (E, L_z) after the user's review in the morning.
+  2. The MN chain from A-K20 seeds, using the same constructor.
+
+## HH-PRIMARY COMPLETE (2026-10-18)
 
 - **Sealed at ca819cf.** The outcome is in `qsim/capd/horseshoe/HH_PRIMARY_OUTCOME.md`.
 - **The seal went to the Bridge as hashes only.** My embargo `HH-outcomes-for-V14` (tools/EMBARGOES.json) stays ON
