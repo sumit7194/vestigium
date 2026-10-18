@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "SendMessage",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/sumit/Github/quantum/tools/blind_hook.sh",
+            "timeout": 20,
+            "statusMessage": "Blinding guard: checking outgoing message"
+          }
+        ]
+      }
+    ]
+  }
+}
