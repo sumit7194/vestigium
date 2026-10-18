@@ -1,0 +1,83 @@
+{
+ "part1": {
+  "identity_remainder_zero": true,
+  "Q_terms": 46,
+  "g_phiphi_identical": true,
+  "V_identical": true,
+  "tphi_block_det_is_minus_rho2": true,
+  "H_red_identical": true
+ },
+ "part2": {
+  "p1": {
+   "found": [
+    "g_phiphi",
+    "g_tphi",
+    "g_tt",
+    "g_xx",
+    "g_yy"
+   ],
+   "worst_rel": {
+    "g_tt": 0.0,
+    "g_tphi": 0.0,
+    "g_phiphi": 0.0,
+    "g_xx": 0.0,
+    "g_yy": 0.0
+   }
+  },
+  "p2": {
+   "found": [
+    "g_phiphi",
+    "g_tphi",
+    "g_tt",
+    "g_xx",
+    "g_yy"
+   ],
+   "worst_rel": {
+    "g_tt": 0.0,
+    "g_tphi": 0.0,
+    "g_phiphi": 0.0,
+    "g_xx": 0.0,
+    "g_yy": 0.0
+   }
+  },
+  "KERR_p1": {
+   "found": [
+    "g_phiphi",
+    "g_tphi",
+    "g_tt",
+    "g_xx",
+    "g_yy"
+   ],
+   "worst_rel": {
+    "g_tt": 0.0,
+    "g_tphi": 0.0,
+    "g_phiphi": 0.0,
+    "g_xx": 0.0,
+    "g_yy": 0.0
+   }
+  },
+  "KERR_p2": {
+   "found": [
+    "g_phiphi",
+    "g_tphi",
+    "g_tt",
+    "g_xx",
+    "g_yy"
+   ],
+   "worst_rel": {
+    "g_tt": 0.0,
+    "g_tphi": 0.0,
+    "g_phiphi": 0.0,
+    "g_xx": 0.0,
+    "g_yy": 0.0
+   }
+  }
+ },
+ "Q": "-a**2*b**2*x**4*y**2 + a**2*b**2*x**4 + 4*a**2*b**2*x**3*y**2 - 4*a**2*b**2*x**3 - 6*a**2*b**2*x**2*y**2 + 6*a**2*b**2*x**2 + 4*a**2*b**2*x*y**2 - 4*a**2*b**2*x - a**2*b**2*y**2 + a**2*b**2 - a**2*x**2*y**4 - 4*a**2*x**2*y**3 - 6*a**2*x**2*y**2 - 4*a**2*x**2*y - a**2*x**2 + a**2*y**4 + 4*a**2*y**3 + 6*a**2*y**2 + 4*a**2*y + a**2 - 2*a*b*x**4*y**2 + 2*a*b*x**4 + 2*a*b*x**2*y**4 - 2*a*b*x**2 - 2*a*b*y**4 + 2*a*b*y**2 - b**2*x**2*y**4 + 4*b**2*x**2*y**3 - 6*b**2*x**2*y**2 + 4*b**2*x**2*y - b**2*x**2 + b**2*y**4 - 4*b**2*y**3 + 6*b**2*y**2 - 4*b**2*y + b**2 - x**4*y**2 + x**4 - 4*x**3*y**2 + 4*x**3 - 6*x**2*y**2 + 6*x**2 - 4*x*y**2 + 4*x - y**2 + 1",
+ "GATE": true,
+ "mutation_controls": {
+  "sign_of_w0_flipped": "detected: g_tphi rel 4.38, g_phiphi 0.70 (p1); Kerr p1 7.48, 0.60; g_tt/g_xx/g_yy unaffected as expected",
+  "f_scaled_1.001": "detected: rel 1.0e-3 (g_tt, g_tphi), 1.08e-3 (g_phiphi), 9.99e-4 (g_xx, g_yy) at p2; same at Kerr p2"
+ },
+ "mutation_note": "part-2 agreement is exactly 0.0 at 60 digits for all 20 component/point checks; the two mutation controls show the comparison has teeth"
+}

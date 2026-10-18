@@ -621,3 +621,11 @@ chunking. Committed before the re-run. This amendment is post hoc, and is disclo
     - original 48 core-hours: PARTIAL, 5/7;
     - B13: 7/7.
   - **Correction:** B13's "persistently failing box" speculation was wrong. No box reached the depth cap.
+- **B10 gate (2026-10-18): PASS** (`qsim/capd/horseshoe/mn_field_gate.py`, `mn_field_gate.json`).
+  - **Exact, for general k, α, E and L:** (x² − 1)(1 − y²)B² − 4C² = A·Q with remainder 0 (Q has 46 terms). The
+    regularised g_φφ, the regularised V, and the full H_red built from the inverse metric are identical to the
+    originals. det of the (t, φ) block is −ρ².
+  - **Conventions:** my metric construction matches the supplied components (p1, p2 and both Kerr limits; all 5
+    components at 6 random points each), with relative difference exactly 0 at 60 digits.
+  - **Mutation controls:** a sign flip of ω₀ and f scaled by 1.001 are both detected.
+  - **Still to do before any MN or Kerr run:** the S5 gate against the Bridge's field.
