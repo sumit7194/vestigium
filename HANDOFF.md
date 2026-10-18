@@ -13,7 +13,7 @@
 - **IF THE MACHINE REBOOTS:** rerun the SAME command. The checkpoints reload the finished pieces.
 - **Update, 2026-10-18 12:30.** Three hh1b chunks had finished and are sealed (691d5d8). The slow M3⟹M4 chunk c1
   was re-split (B13 addendum) and now runs as
-  `HS_BIN=qsim/capd/horseshoe/hs_cover_ck python qsim/capd/horseshoe/hs_run.py hh1b2`, runner PID 85312, with 3
+  `HS_BIN=qsim/capd/horseshoe/hs_cover_ck python qsim/capd/horseshoe/hs_run.py hh1b2`, runner PID 2889 (resumed after the 2026-10-18 restart; was 85312), with 3
   processes. Its log is `hh1b2_run.out`. After a reboot, rerun **hh1b2** (not hh1b): the seeded checkpoints are
   reused. It writes the merged `hh1b_M1M2.json` and `hh1b_M3M4.json` at the end.
 - **When it lands:**
