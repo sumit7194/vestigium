@@ -638,3 +638,59 @@ chunking. Committed before the re-run. This amendment is post hoc, and is disclo
     p1, p2, F5-R and C0 at (E, L) = (19/20, 3), plus their Kerr limits, which differ by exactly 0.
   - **Mutation control:** L → 1.001 L is detected at 5e−6 to 6e−5 in every case.
   - **Note:** this C0 uses (M, a) = (10, 9) and β = 0.95·M³/k³. The gate only needs the same inputs on both sides.
+
+**B14 (2026-10-18): the h-set constructor (replaces §3.7 steps 1–3). Written AFTER non-rigorous exploration on HH
+(disclosed below) and BEFORE any rigorous HH-SECONDARY run. It is applied unchanged to Kerr (R3) and MN (R5).**
+
+**Why §3.7 needed replacing.** As written, §3.7 put sets only at periodic points, with frames from their eigenvectors.
+That cannot produce a horseshoe: the sets must follow a homoclinic or heteroclinic excursion, as AZ's M0→…→M4 chain
+does.
+
+**The constructor** (`qsim/capd/horseshoe/hs_construct.py`, non-rigorous double precision; only hs_cover's MPFR run
+counts):
+1. **Saddles.** Hyperbolic fixed points of P (period 1 first), found by Newton on P(w) − w. P comes from DOP853,
+   rtol 1e−12, with DP from the variational equations.
+   - For HH: from seeds in the registered region, keeping real-eigenvalue saddles.
+   - For Kerr and MN: from K20's UPO list in A-K20.
+2. **Connections.** Arcs of W^u(p) and W^s(q) are traced from a fundamental segment of length 10⁻⁴ through 5 forward
+   and backward iterates, refined to 0.01 spacing. Transverse crossings must have angle ≥ 0.01 rad.
+   - The chosen connection minimises |k_u| + |k_s|, with ties broken by the largest angle.
+   - It is refined by Newton on the two manifold parameters, to a residual below 1e−10.
+3. **The chain.** The orbit x₀ … x_m of the connection, with x₀ on W^u(p) and x_m on W^s(q).
+   - N0 sits at p, with frame (a0·e_u, b0·e_s).
+   - Chain sets sit at x_j, with frames (a·U_j, b·S_j). U_j is the W^u tangent, propagated forward with DP. S_j is the
+     W^s tangent, pulled back with DP⁻¹.
+   - The chain uses the contiguous run j₁ … j₂ of orbit points whose sets are disjoint from N0 and from each other.
+4. **The ladder,** in this fixed order, accepting the FIRST passing entry:
+   - a0 ∈ (0.03, 0.02, 0.015, 0.01);
+   - a ∈ (0.01, 0.005, 0.0025);
+   - b0/a0 ∈ (0.5, 0.25, 0.1);
+   - b/a ∈ (0.5, 0.25, 0.1).
+   - **Acceptance:** every REQUIRED covering passes the sampled check (12 points per edge and an 8×8 interior grid,
+     using the true map). The required coverings are N0⇒N0, N0⇒N_{j₁}, N_j⇒N_{j+1}, and N_{j₂}⇒N0.
+   - The extra edge N_{j₂}⇒N_{j₁} is attempted rigorously too, but it is NOT required. The required graph has cycles of
+     lengths 1 and L through N0, so ρ > 1 by itself.
+5. **Freezing.** The constructor is frozen at the commit that registers this amendment's outputs (hh2 specs). Any
+   change re-runs every control (§3.7, unchanged).
+
+**Disclosure (exploration on HH, non-rigorous):**
+- **The saddle finder reproduces AZ's Π₄ = (−0.24979, 0) and Π₅, Π₆ = (0.37677, ±0.30672)**, all with λ_u = 7.2625.
+  The Jacobian is FD-checked, with det = 1.
+- **The connection:** the Π₄ homoclinic with k_u + k_s = 8 and angle 0.98.
+- **The rule was arrived at in two steps.**
+  1. A first scan, with small sets near Π₄, passed all sampled coverings but violated S8.
+  2. The disjointness requirement and the larger a0 ladder were then added.
+- **What the second scan found.** Its FIRST entry (a0 = 0.03, a = 0.01, b0/a0 = b/a = 0.5) gives the chain x₃ … x₆.
+  Every REQUIRED covering passes there; only the optional N6⇒N3 fails.
+- **What was fixed after seeing exploration output:** the ladder values and the required/optional split.
+- **No rigorous HH-SECONDARY computation has been run.**
+
+**HH-SECONDARY rigorous run (registered now):**
+- **Sets:** the accepted sets, converted to exact rationals (centres and frames rounded to 1e−10). The sets are then
+  defined exactly by those rationals.
+- **Gate:** S8 must hold exactly before the run.
+- **Run:** hs_cover with the B13 settings (adaptive bisection, depth caps 16 and 12, leaf caps 2¹⁶ and 2¹² per
+  covering, checkpoints), MPFR 128 bits, order 20, S9 on.
+- **PASS:** all 6 required coverings certified ⇒ ρ(A) > 1, with ρ the root of λ⁵ = λ⁴ + 1 (≈ 1.3247), so
+  h_top ≥ ln ρ ≈ 0.2812.
+- **Wording:** "consistent with the published existence result" (§6.2), and a test of the constructor.

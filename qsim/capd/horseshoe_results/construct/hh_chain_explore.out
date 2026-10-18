@@ -1,0 +1,28 @@
+homoclinic t=2.478e-04 tau=6.681e-04  m=8 steps; x_m - (p+tau es) = 2.7e-07
+  x_0 = [-2.499e-01  2.200e-04]  |x-p| = 2.478e-04  sin(angle u,s) = 0.812
+  x_1 = [-0.2506   0.00161]  |x-p| = 1.802e-03  sin(angle u,s) = 0.810
+  x_2 = [-0.25555  0.01186]  |x-p| = 1.319e-02  sin(angle u,s) = 0.794
+  x_3 = [-0.28071  0.09635]  |x-p| = 1.012e-01  sin(angle u,s) = 0.734
+  x_4 = [0.16923 0.32519]  |x-p| = 5.304e-01  sin(angle u,s) = 0.977
+  x_5 = [-0.0832   0.14449]  |x-p| = 2.205e-01  sin(angle u,s) = 0.844
+  x_6 = [-0.23234  0.02966]  |x-p| = 3.441e-02  sin(angle u,s) = 0.868
+  x_7 = [-0.24755  0.00428]  |x-p| = 4.835e-03  sin(angle u,s) = 0.819
+  x_8 = [-0.24948  0.00059]  |x-p| = 6.683e-04  sin(angle u,s) = 0.812
+a0=2e-03 a=4e-03 bfac=0.25: 10/10 sampled coverings ok; failing: []
+a0=2e-03 a=4e-03 bfac=0.10: 9/10 sampled coverings ok; failing: ['7>1']
+a0=2e-03 a=2e-03 bfac=0.25: 9/10 sampled coverings ok; failing: ['7>1']
+a0=2e-03 a=2e-03 bfac=0.10: 9/10 sampled coverings ok; failing: ['7>1']
+a0=2e-03 a=1e-03 bfac=0.25: 8/10 sampled coverings ok; failing: ['7>0', '7>1']
+a0=2e-03 a=1e-03 bfac=0.10: 8/10 sampled coverings ok; failing: ['7>0', '7>1']
+a0=1e-03 a=4e-03 bfac=0.25: 10/10 sampled coverings ok; failing: []
+a0=1e-03 a=4e-03 bfac=0.10: 9/10 sampled coverings ok; failing: ['7>1']
+a0=1e-03 a=2e-03 bfac=0.25: 9/10 sampled coverings ok; failing: ['7>1']
+a0=1e-03 a=2e-03 bfac=0.10: 9/10 sampled coverings ok; failing: ['7>1']
+a0=1e-03 a=1e-03 bfac=0.25: 9/10 sampled coverings ok; failing: ['7>1']
+a0=1e-03 a=1e-03 bfac=0.10: 9/10 sampled coverings ok; failing: ['7>1']
+a0=5e-04 a=4e-03 bfac=0.25: 9/10 sampled coverings ok; failing: ['0>1']
+a0=5e-04 a=4e-03 bfac=0.10: 8/10 sampled coverings ok; failing: ['0>1', '7>1']
+a0=5e-04 a=2e-03 bfac=0.25: 8/10 sampled coverings ok; failing: ['0>1', '7>1']
+a0=5e-04 a=2e-03 bfac=0.10: 8/10 sampled coverings ok; failing: ['0>1', '7>1']
+a0=5e-04 a=1e-03 bfac=0.25: 9/10 sampled coverings ok; failing: ['7>1']
+a0=5e-04 a=1e-03 bfac=0.10: 9/10 sampled coverings ok; failing: ['7>1']
