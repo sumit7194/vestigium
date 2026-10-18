@@ -1,0 +1,17 @@
+{
+ "covering": "M3M4",
+ "chunks": [
+  "hh1b_M3M4_c0",
+  "hh1b_M3M4_c1a",
+  "hh1b_M3M4_c1b",
+  "hh1b_M3M4_c1c"
+ ],
+ "a": true,
+ "b": true,
+ "leaves_a": 20166,
+ "fail_a": 0,
+ "fail_b": 0,
+ "all_done": true,
+ "note": "M3M4 c1 re-split per B13 addendum (seeded checkpoints)",
+ "COVERS": true
+}

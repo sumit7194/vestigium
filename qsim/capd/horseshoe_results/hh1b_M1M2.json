@@ -1,0 +1,15 @@
+{
+ "covering": "M1M2",
+ "chunks": [
+  "hh1b_M1M2_c0",
+  "hh1b_M1M2_c1"
+ ],
+ "a": true,
+ "b": true,
+ "leaves_a": 11866,
+ "fail_a": 0,
+ "fail_b": 0,
+ "all_done": true,
+ "note": "",
+ "COVERS": true
+}

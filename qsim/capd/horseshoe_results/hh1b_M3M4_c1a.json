@@ -1,0 +1,18 @@
+{
+ "tag": "hh1b_M3M4_c1a",
+ "spec": "hh1b_M3M4_c1a.spec",
+ "spec_sha256": "937078ef4ea8a36414a687e4983502ed56f56b24f594b4bdcd6a311786f48c2e",
+ "binary": "hs_cover_ck",
+ "binary_sha256": "04437ae5967413c59b4a9f44846a6de715c6b0ca1ebad849a48b6b6f34c52101",
+ "returncode": 0,
+ "seconds": 1702.98,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [
+  "COVER M3 M4 a=1 b=skip strong_a=0 orient=skip fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=10664 leaves_b=0 maxdepth_a=11 replay_steps=7146371 return_time=[7.680474768628e+00,8.013491025356e+00] COVERS=chunk-a-only chunk_a=[8,12) edges=no reloaded_pieces=57"
+ ],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}

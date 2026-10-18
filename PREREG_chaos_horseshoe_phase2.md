@@ -612,3 +612,12 @@ chunking. Committed before the re-run. This amendment is post hoc, and is disclo
 - **Unchanged:** the per-leaf decision logic and the depth caps.
 - **Merge.** Both coverings are merged from their chunk JSONs: (a) must hold in every chunk, and (b) in the edge
   chunk.
+
+- **HH-PRIMARY (2026-10-18), full record in `qsim/capd/horseshoe/HH_PRIMARY_OUTCOME.md`:**
+  - **The registered first pass:** (b) holds 7/7; (a) is not certified at 16×16; W-AZ1 and W-AZ2 are rejected.
+  - **After the disclosed post-hoc escalation** (adaptive bisection, then the B13 re-run): **all 7 coverings of AZ
+    2001 (5.1) are certified.** S8 and S9 hold, and h_top(P₁|Inv) ≥ ln λ_max = 0.3222846.
+  - **Both budget readings:**
+    - original 48 core-hours: PARTIAL, 5/7;
+    - B13: 7/7.
+  - **Correction:** B13's "persistently failing box" speculation was wrong. No box reached the depth cap.
