@@ -694,3 +694,7 @@ counts):
 - **PASS:** all 6 required coverings certified ⇒ ρ(A) > 1, with ρ the root of λ⁵ = λ⁴ + 1 (≈ 1.3247), so
   h_top ≥ ln ρ ≈ 0.2812.
 - **Wording:** "consistent with the published existence result" (§6.2), and a test of the constructor.
+- **HH-SECONDARY (2026-10-19): PASS** (`qsim/capd/horseshoe/HH_SECONDARY_OUTCOME.md`).
+  - All 6 required coverings are certified on the B14 constructor's sets. The optional N6⟹N3 is a certified
+    orientation failure.
+  - ρ is the plastic number 1.3247, so h_top ≥ 0.28120. This is "consistent with" AZ 2001.

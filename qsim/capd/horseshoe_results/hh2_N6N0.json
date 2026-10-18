@@ -1,0 +1,18 @@
+{
+ "tag": "hh2_N6N0",
+ "spec": "hh2_N6N0.spec",
+ "spec_sha256": "e8c44f7f72848399aae8c62f29774a01f13b4c4908527deb4e82f3d86ce62126",
+ "binary": "hs_cover_v4",
+ "binary_sha256": "8a386bf3eb3b15376a0bd214ed071451a7169b6ec15491b68ea4cdf901decbfc",
+ "returncode": 0,
+ "seconds": 1029.45,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [
+  "COVER N6 N0 a=1 b=1 strong_a=0 orient=RL fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=256 leaves_b=128 maxdepth_a=0 replay_steps=117427 return_time=[6.914823255981e+00,7.110912619906e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0"
+ ],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}

@@ -1,0 +1,31 @@
+{
+ "hh2_N0N0": {
+  "COVERS": "1",
+  "done": true
+ },
+ "hh2_N0N3": {
+  "COVERS": "1",
+  "done": true
+ },
+ "hh2_N3N4": {
+  "COVERS": "1",
+  "done": true
+ },
+ "hh2_N4N5": {
+  "COVERS": "1",
+  "done": true
+ },
+ "hh2_N5N6": {
+  "COVERS": "1",
+  "done": true
+ },
+ "hh2_N6N0": {
+  "COVERS": "1",
+  "done": true
+ },
+ "hh2_N6N3": {
+  "COVERS": "0",
+  "done": true
+ },
+ "required_all": true
+}

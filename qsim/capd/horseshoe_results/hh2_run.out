@@ -1,0 +1,15 @@
+hh2_N0N0 rc 0 1556.2s done True
+   COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0
+hh2_N0N3 rc 0 2568.8s done True
+   COVER N0 N3 a=1 b=1 strong_a=0 orient=RL fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=515 leaves_b=128 maxdepth_a=5 replay_steps=282902 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0
+hh2_N5N6 rc 0 1112.9s done True
+   COVER N5 N6 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=276 leaves_b=128 maxdepth_a=1 replay_steps=127162 return_time=[6.749719232216e+00,6.956214017082e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0
+hh2_N6N0 rc 0 1029.5s done True
+   COVER N6 N0 a=1 b=1 strong_a=0 orient=RL fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=256 leaves_b=128 maxdepth_a=0 replay_steps=117427 return_time=[6.914823255981e+00,7.110912619906e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0
+hh2_N6N3 rc 0 1020.1s done True
+   COVER N6 N3 a=1 b=0 strong_a=0 orient=none fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=1 leaves_a=256 leaves_b=128 maxdepth_a=0 replay_steps=117427 return_time=[6.914823255981e+00,7.110912619906e+00] COVERS=0 chunk_a=[0,16) edges=yes reloaded_pieces=0
+hh2_N4N5 rc 0 3783.1s done True
+   COVER N4 N5 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=684 leaves_b=128 maxdepth_a=5 replay_steps=424549 return_time=[7.822340708207e+00,8.353497379390e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0
+hh2_N3N4 rc 0 4691.9s done True
+   COVER N3 N4 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=808 leaves_b=128 maxdepth_a=4 replay_steps=552882 return_time=[8.641417420514e+00,8.911824837970e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0
+SUMMARY {'hh2_N0N0': {'COVERS': '1', 'done': True}, 'hh2_N0N3': {'COVERS': '1', 'done': True}, 'hh2_N3N4': {'COVERS': '1', 'done': True}, 'hh2_N4N5': {'COVERS': '1', 'done': True}, 'hh2_N5N6': {'COVERS': '1', 'done': True}, 'hh2_N6N0': {'COVERS': '1', 'done': True}, 'hh2_N6N3': {'COVERS': '0', 'done': True}, 'required_all': True}

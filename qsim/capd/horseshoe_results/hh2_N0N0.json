@@ -1,0 +1,18 @@
+{
+ "tag": "hh2_N0N0",
+ "spec": "hh2_N0N0.spec",
+ "spec_sha256": "e05ab2fae2e405787f9587964bd158d689ba9830550996efe71426121721abee",
+ "binary": "hs_cover_v4",
+ "binary_sha256": "8a386bf3eb3b15376a0bd214ed071451a7169b6ec15491b68ea4cdf901decbfc",
+ "returncode": 0,
+ "seconds": 1556.21,
+ "stderr_tail": [],
+ "ex": [],
+ "covers": [
+  "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0"
+ ],
+ "failpieces": [],
+ "n_failpieces": 0,
+ "fatal": [],
+ "done": true
+}
