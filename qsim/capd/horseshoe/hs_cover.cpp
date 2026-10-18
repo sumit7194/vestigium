@@ -34,6 +34,7 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <chrono>
 #include <unistd.h>
 #include <sstream>
 #include <string>
@@ -131,7 +132,12 @@ struct Engine {
 };
 
 // S9 in-flow replay (hamiltonian systems): every step enclosure up to T_hi must contain the energy level
+// Per-piece cap (opt-in, "piececap <max_replay_steps> <max_seconds>"; 0 = off): a piece whose in-flow replay needs
+// more steps or wall time than this THROWS, so the piece fails closed and is bisected or counted as a failure. The
+// Poincare-map call itself is bounded by CAPD's own "minimal time step reached" exception on step collapse.
+static long PIECE_MAXSTEPS = 0; static double PIECE_MAXSEC = 0;
 static void replay(Engine& E, const Piece& p, const MpInterval& rt, long& nsteps) {
+  const auto t0 = std::chrono::steady_clock::now(); long mysteps = 0;
   capd::MpC0TripletonSet s(p.x0, p.C, p.r0);
   capd::MpITimeMap tm(E.rsolver);                       // fresh time map per replay (no carried dense-output state)
   tm.stopAfterStep(true);
@@ -142,7 +148,10 @@ static void replay(Engine& E, const Piece& p, const MpInterval& rt, long& nsteps
     capd_proof::require_finite_all(b, "replay enclosure");
     MpInterval h = hh_H(b);
     if (!(h.contains(SYS.level))) throw std::runtime_error("S9: step enclosure misses the energy level (BUG)");
-    ++nsteps;
+    ++nsteps; ++mysteps;
+    if (PIECE_MAXSTEPS > 0 && mysteps > PIECE_MAXSTEPS) throw std::runtime_error("piece cap: replay steps exceeded");
+    if (PIECE_MAXSEC > 0 && std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count() > PIECE_MAXSEC)
+      throw std::runtime_error("piece cap: replay wall time exceeded");
   } while (!tm.completed());
 }
 
@@ -386,6 +395,7 @@ int main(int argc, char** argv) {
       else if (c == "checkpoint") CKPT = t[1];
       else if (c == "arange") { A_LO = std::stoi(t[1]); A_HI = std::stoi(t[2]); }
       else if (c == "noedges") DO_EDGES = false;
+      else if (c == "piececap") { PIECE_MAXSTEPS = std::stol(t[1]); PIECE_MAXSEC = std::stod(t[2]); }
       else if (c == "depth") { MAXDEPTH_A = std::stoi(t[1]); MAXDEPTH_E = std::stoi(t[2]); }
       else if (c == "caps") { MAXLEAF_A = std::stol(t[1]); MAXLEAF_E = std::stol(t[2]); }
       else if (c == "cover") do_cover(engine(), t[1], t[2], std::stoi(t[3]), std::stoi(t[4]), std::stoi(t[5]));
