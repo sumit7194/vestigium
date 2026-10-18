@@ -227,6 +227,45 @@ def hh1b():
     return res
 
 
+def _hh1b_spec(T, a, b, lo, hi, edges, cap):
+    body = HH_HEAD + T + [f"caps {cap} 4096", "depth 16 12", f"arange {lo} {hi}"] + ([] if edges else ["noedges"])
+    key = hashlib.sha256(("\n".join(body + [f"cover {a} {b} 16 16 64"]) + "\n").encode()).hexdigest()[:16]
+    return body, key
+
+
+def hh1b2():
+    """B13 addendum (scheduling only): the M3=>M4 chunk c1 (u-pieces [8,16), edges) was stopped after 52 finished
+    pieces and re-split into c1a [8,12) / c1b [12,14) / c1c [14,16)+edges, with leaf caps 16384 + 8192 + 8192 = c1's
+    32768. Each new checkpoint is SEEDED with c1's finished pieces in its range (same keys M3>M4/i/k), so nothing
+    finished is recomputed. Then both coverings are merged from their chunk results."""
+    fr, chk = az_checks()
+    assert chk["S8_all"] and chk["M3_left_edge_standard"] and chk["M3_right_edge_standard"], chk
+    T = az_tsets(fr); ck = OUT / "ckpt"
+    old = list(ck.glob("hh1b_M3M4_c1_*.ckpt")); assert len(old) == 1, old
+    lines = old[0].read_text().splitlines()
+    J = {}
+    for tag, (lo, hi, edges, cap) in {"c1a": (8, 12, False, 16384), "c1b": (12, 14, False, 8192), "c1c": (14, 16, True, 8192)}.items():
+        body, key = _hh1b_spec(T, "M3", "M4", lo, hi, edges, cap)
+        path = ck / f"hh1b_M3M4_{tag}_{key}.ckpt"
+        if not path.exists():                                 # seed once from c1 (P and F lines of pieces in [lo,hi))
+            keep = [l for l in lines if l[:2] in ("P ", "F ") and lo <= int(l.split()[1].split("/")[1]) < hi]
+            path.write_text("".join(l + "\n" for l in keep))
+        J[f"hh1b_M3M4_{tag}"] = body + [f"checkpoint {path}", "cover M3 M4 16 16 64"]
+    res = batch(J)
+    get = lambda r, k: re.search(k + r"=(\S+)", r["covers"][0]).group(1) if r["covers"] else None
+    load = lambda t: json.loads((OUT / f"{t}.json").read_text())
+    for cov, parts, edge in (("M1M2", ["hh1b_M1M2_c0", "hh1b_M1M2_c1"], "hh1b_M1M2_c1"),
+                             ("M3M4", ["hh1b_M3M4_c0", "hh1b_M3M4_c1a", "hh1b_M3M4_c1b", "hh1b_M3M4_c1c"], "hh1b_M3M4_c1c")):
+        rs = [load(t) for t in parts]; e = load(edge)
+        m = dict(covering=cov, chunks=parts, a=all(get(r, "a") == "1" for r in rs), b=(get(e, "b") == "1"),
+                 leaves_a=sum(int(get(r, "leaves_a") or 0) for r in rs), fail_a=sum(int(get(r, "fail_a") or 0) for r in rs),
+                 fail_b=int(get(e, "fail_b") or 0), all_done=all(r["done"] for r in rs),
+                 note="M3M4 c1 re-split per B13 addendum (seeded checkpoints)" if cov == "M3M4" else "")
+        m["COVERS"] = m["a"] and m["b"] and m["all_done"]
+        (OUT / f"hh1b_{cov}.json").write_text(json.dumps(m, indent=1)); print("MERGED", m)
+    return res
+
+
 if __name__ == "__main__":
-    {"r1": r1, "hh1": hh1, "hh1a": lambda: hh1(prefix="hh1a"), "hh1b": hh1b}[sys.argv[1]]()
+    {"r1": r1, "hh1": hh1, "hh1a": lambda: hh1(prefix="hh1a"), "hh1b": hh1b, "hh1b2": hh1b2}[sys.argv[1]]()
 

@@ -1,0 +1,6 @@
+hh1b_M1M2_c1 rc 0 27919.9s done True
+   COVER M1 M2 a=1 b=1 strong_a=0 orient=RL fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=3870 leaves_b=128 maxdepth_a=9 replay_steps=2869796 return_time=[7.243538300204e+00,9.390021741960e+00] COVERS=1 chunk_a=[8,16) edges=yes reloaded_pieces=0
+hh1b_M3M4_c0 rc 0 39677.1s done True
+   COVER M3 M4 a=1 b=skip strong_a=0 orient=skip fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=6276 leaves_b=0 maxdepth_a=7 replay_steps=4151083 return_time=[7.499198740814e+00,7.871219522614e+00] COVERS=chunk-a-only chunk_a=[0,8) edges=no reloaded_pieces=0
+hh1b_M1M2_c0 rc 0 54992.0s done True
+   COVER M1 M2 a=1 b=skip strong_a=0 orient=skip fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=7996 leaves_b=0 maxdepth_a=9 replay_steps=5949273 return_time=[8.056181783491e+00,9.408998440034e+00] COVERS=chunk-a-only chunk_a=[0,8) edges=no reloaded_pieces=0

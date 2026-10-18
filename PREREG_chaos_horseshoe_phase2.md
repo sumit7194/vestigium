@@ -596,3 +596,19 @@ chunking. Committed before the re-run. This amendment is post hoc, and is disclo
   - **Both outcomes will be reported:**
     - under the original 48 core-hour budget, M1⟹M2 and M3⟹M4 are "not certified within budget";
     - under B13, they are whatever the re-run gives.
+
+**B13 addendum (2026-10-18, scheduling only), committed before the re-split runs.**
+- **Status.** Three hh1b chunks had finished. M3⟹M4's chunk c1 (u-pieces [8, 16), with the edges) had finished 52
+  of its 128 (a)-pieces after about 16 CPU-hours, running alone on one core.
+- **What was done.** It was stopped by PID, after its runner, so no partial merge was written. Its fsync'ed
+  checkpoint was intact.
+- **The re-split.** It is now three processes:
+  - c1a: u-pieces [8, 12), leaf cap 16 384;
+  - c1b: [12, 14), cap 8 192;
+  - c1c: [14, 16) plus the edges, cap 8 192.
+  - The caps sum to c1's 32 768, so the per-covering 2¹⁶ is unchanged.
+- **Seeding.** Each new checkpoint is seeded with c1's finished pieces in its range. The piece keys are unchanged
+  (M3>M4/i/k), so nothing finished is recomputed.
+- **Unchanged:** the per-leaf decision logic and the depth caps.
+- **Merge.** Both coverings are merged from their chunk JSONs: (a) must hold in every chunk, and (b) in the edge
+  chunk.
