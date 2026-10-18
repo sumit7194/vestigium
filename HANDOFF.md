@@ -1,27 +1,15 @@
 # Handoff: 2026-10-16 (chaos-proof phase 2 in progress)
 
-## Running now (detached with nohup): HH re-run `hh1b` (B13), started 2026-10-17 about 19:55
+## HH-PRIMARY COMPLETE (2026-10-18): nothing is running
 
-- **What it is:** a re-run of M1⟹M2 and M3⟹M4. The reboot around 13:20 killed the hh1a runs of these two after about
-  13 CPU-hours each, with no results.
-- **The runner:** `HS_BIN=qsim/capd/horseshoe/hs_cover_ck python qsim/capd/horseshoe/hs_run.py hh1b`, PID 72462.
-  Code at 816fdfb. It runs 4 chunk processes at nice 19, using 4 cores and very little memory.
-- **Log:** `qsim/capd/horseshoe_results/hh1b_run.out`.
-- **Progress:** count the `^P ` lines in `qsim/capd/horseshoe_results/ckpt/*.ckpt`. Each chunk has 128 top-level
-  pieces.
-- **Merged results land in** `hh1b_M1M2.json` and `hh1b_M3M4.json`, with the per-chunk JSONs beside them.
-- **IF THE MACHINE REBOOTS:** rerun the SAME command. The checkpoints reload the finished pieces.
-- **Update, 2026-10-18 12:30.** Three hh1b chunks had finished and are sealed (691d5d8). The slow M3⟹M4 chunk c1
-  was re-split (B13 addendum) and now runs as
-  `HS_BIN=qsim/capd/horseshoe/hs_cover_ck python qsim/capd/horseshoe/hs_run.py hh1b2`, runner PID 2889 (resumed after the 2026-10-18 restart; was 85312), with 3
-  processes. Its log is `hh1b2_run.out`. After a reboot, rerun **hh1b2** (not hh1b): the seeded checkpoints are
-  reused. It writes the merged `hh1b_M1M2.json` and `hh1b_M3M4.json` at the end.
-- **When it lands:**
-  1. Commit the results.
-  2. Send the Bridge ONLY the commit hash and the sha256 of the JSONs. The HH blind is still in force.
-  3. Write the HH outcome both ways: under the original 48 core-hour budget, and under B13.
-- **Process slip:** on 2026-10-17 I used a pattern-based `pkill`, matching my own scratch path only, on a test
-  process. The rule is explicit PIDs only. No other process was affected.
+- **Sealed at ca819cf.** The outcome is in `qsim/capd/horseshoe/HH_PRIMARY_OUTCOME.md`.
+- **The seal went to the Bridge as hashes only.** My embargo `HH-outcomes-for-V14` (tools/EMBARGOES.json) stays ON
+  until the Bridge reports that V14's Q2 decisions are committed. Then lift it, recording the commit, and send the
+  numbers.
+- **Next phase-2 items:**
+  1. HH-SECONDARY: write the frozen h-set constructor.
+  2. The R3 Kerr control: needs the exact gate for the B10 field and a per-piece time cap.
+  3. A-K20 from the Bridge and tabula.
 
 ## Pending side task: the TS public snapshot (the Bridge asked for it; local only, nothing pushed)
 
