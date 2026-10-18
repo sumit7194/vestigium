@@ -1,0 +1,17 @@
+Pi4 [-2.49786798e-01  8.47811141e-15] 7.262493003551788
+Pi5 [0.37677362 0.30671605] 7.262493003539247
+Pi6 [ 0.37677362 -0.30671605] 7.262493003545353
+Pi4 arcs: 3712 3712 pts, 308s
+Pi5 arcs: 3470 3156 pts, 560s
+Pi6 arcs: 3156 3470 pts, 811s
+arcs saved 811s
+Pi4 -> Pi4 87 transverse crossings; smallest k_u+k_s: [(8, np.float64(0.347)), (8, np.float64(0.347)), (8, np.float64(0.733))]
+Pi4 -> Pi5 55 transverse crossings; smallest k_u+k_s: [(7, np.float64(0.325)), (7, np.float64(0.64)), (7, np.float64(0.729))]
+Pi4 -> Pi6 62 transverse crossings; smallest k_u+k_s: [(7, np.float64(0.639)), (7, np.float64(0.828)), (7, np.float64(0.861))]
+Pi5 -> Pi4 62 transverse crossings; smallest k_u+k_s: [(7, np.float64(0.639)), (7, np.float64(0.828)), (7, np.float64(0.861))]
+Pi5 -> Pi5 53 transverse crossings; smallest k_u+k_s: [(8, np.float64(0.573)), (8, np.float64(0.606)), (8, np.float64(0.666))]
+Pi5 -> Pi6 49 transverse crossings; smallest k_u+k_s: [(7, np.float64(0.192)), (7, np.float64(0.192)), (7, np.float64(0.2))]
+Pi6 -> Pi4 55 transverse crossings; smallest k_u+k_s: [(7, np.float64(0.325)), (7, np.float64(0.64)), (7, np.float64(0.729))]
+Pi6 -> Pi5 40 transverse crossings; smallest k_u+k_s: [(7, np.float64(0.744)), (7, np.float64(0.744)), (7, np.float64(0.995))]
+Pi6 -> Pi6 53 transverse crossings; smallest k_u+k_s: [(8, np.float64(0.573)), (8, np.float64(0.606)), (8, np.float64(0.666))]
+done 814s
