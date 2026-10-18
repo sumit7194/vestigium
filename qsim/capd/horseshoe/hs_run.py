@@ -266,6 +266,38 @@ def hh1b2():
     return res
 
 
+def hh2():
+    """HH-SECONDARY (B14): the constructor's accepted Pi4 homoclinic chain, as exact rationals; S8 exact; hs_cover
+    with B13 settings and checkpoints; 6 required coverings + 1 optional (N6 => N3)."""
+    C = OUT / "construct"
+    ex = json.loads((C / "hh_explore.json").read_text()); ch = json.loads((C / "hh_chain_explore.json").read_text())
+    s = ex["saddles"]["Pi4"]
+    a0, a, bf0, bf, chain = 0.03, 0.01, 0.5, 0.5, [3, 4, 5, 6]          # B14 ladder: first accepted entry
+    R = lambda v: F(round(float(v) * 10**10), 10**10)                   # exact rational, rounded to 1e-10
+    sets = {"N0": ([R(v) for v in s["z"]], [R(a0 * v) for v in s["e_u"]], [R(bf0 * a0 * v) for v in s["e_s"]])}
+    for j in chain:
+        sets[f"N{j}"] = ([R(v) for v in ch["X"][j]], [R(a * v) for v in ch["U"][j]], [R(bf * a * v) for v in ch["S"][j]])
+    names = sorted(sets)
+    s8 = {f"{x}|{y}": convex_disjoint(corners(*sets[x]), corners(*sets[y])) for i, x in enumerate(names) for y in names[i + 1:]}
+    (OUT / "hh2_exact_checks.json").write_text(json.dumps(dict(S8=s8, S8_all=all(s8.values()),
+        sets={k: [[str(x) for x in t] for t in v] for k, v in sets.items()}), indent=1))
+    assert all(s8.values()), s8
+    T = [tset(k, *v) for k, v in sets.items()]
+    required = [("N0", "N0"), ("N0", "N3"), ("N3", "N4"), ("N4", "N5"), ("N5", "N6"), ("N6", "N0")]
+    optional = [("N6", "N3")]
+    ck = OUT / "ckpt"; ck.mkdir(exist_ok=True); J = {}
+    for x, y in required + optional:
+        body = HH_HEAD + T + ["caps 65536 4096", "depth 16 12"]
+        key = hashlib.sha256(("\n".join(body + [f"cover {x} {y} 16 16 64"]) + "\n").encode()).hexdigest()[:16]
+        J[f"hh2_{x}{y}"] = body + [f"checkpoint {ck / f'hh2_{x}{y}_{key}.ckpt'}", f"cover {x} {y} 16 16 64"]
+    res = batch(J)
+    get = lambda r, k: re.search(k + r"=(\S+)", r["covers"][0]).group(1) if r["covers"] else None
+    summ = {t: dict(COVERS=get(r, "COVERS"), done=r["done"]) for t, r in res.items()}
+    summ["required_all"] = all(summ[f"hh2_{x}{y}"]["COVERS"] == "1" for x, y in required)
+    (OUT / "hh2_summary.json").write_text(json.dumps(summ, indent=1)); print("SUMMARY", summ)
+    return res
+
+
 if __name__ == "__main__":
-    {"r1": r1, "hh1": hh1, "hh1a": lambda: hh1(prefix="hh1a"), "hh1b": hh1b, "hh1b2": hh1b2}[sys.argv[1]]()
+    {"r1": r1, "hh1": hh1, "hh1a": lambda: hh1(prefix="hh1a"), "hh1b": hh1b, "hh1b2": hh1b2, "hh2": hh2}[sys.argv[1]]()
 
