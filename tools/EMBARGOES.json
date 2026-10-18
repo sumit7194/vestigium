@@ -1,0 +1,24 @@
+{
+ "_doc": "quantum's active blinding embargoes (pattern set adapted from TheBridge/tools, 2026-10-18). tools/blind_check.py runs on every outgoing SendMessage via the PreToolUse hook. Lift an embargo only when its seal condition holds; record the commit.",
+ "embargoes": [
+  {
+   "id": "HH-outcomes-for-V14",
+   "recipient": "*",
+   "until": "the Bridge's V14 Q2 HH decisions are committed (then the full HH seal + results may be sent)",
+   "opened": "2026-10-16",
+   "patterns": [
+    "(HH|H[ée]non)[^.\\n]{0,80}(certif|UNDECIDED|fail|pass|margin|covering result|reject|depth|leaves|subdivi|bisect)",
+    "\\bM[0-4]\\s*(⟹|⇒|=>|->|>)\\s*M[0-4]\\b[^.\\n]{0,60}(certif|cover(s|ed)|fail|pass|leaves|reject|undecided|=1|=0)",
+    "(certif|cover(s|ed)|fail|pass|reject)[^.\\n]{0,40}\\bM[0-4]\\s*(⟹|⇒|=>|->|>)\\s*M[0-4]\\b",
+    "\\b[0-7]\\s*(/|of)\\s*7\\b[^.\\n]{0,40}(cover|certif)",
+    "COVERS\\s*=\\s*[01]",
+    "\\b(a|b)\\s*=\\s*[01]\\b[^.\\n]{0,30}(strong|orient|fail_)",
+    "(fail_a|fail_b|leaves_a|maxdepth|failed pieces?)\\s*[=:]?\\s*\\d",
+    "\\((a|b)\\)[^.\\n]{0,40}(pass|fail|certif|hold|resolv)",
+    "(pass|fail|certif|hold)[^.\\n]{0,25}\\((a|b)\\)",
+    "failing (box|piece|region)",
+    "(chunk|covering)s?[^.\\n]{0,40}(certif|fail|pass|reject|undecided)"
+   ]
+  }
+ ]
+}
