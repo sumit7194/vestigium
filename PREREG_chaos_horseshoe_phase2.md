@@ -743,3 +743,20 @@ run (agreed with the Bridge).**
 - **Resources:** the constructor stage is one Python process (about 0.2 GB RAM) at nice 10, for an estimated 1–4 h.
   A rigorous stage, if one is reached, would need the CAPD MN/Kerr field, which is not built yet. Its launch plan
   would be sent to the Bridge first.
+- **MN/Kerr CAPD field: codegen gate (2026-10-20): PASS** (`mn_codegen_gate.py`, `mn_codegen_gate.json`).
+  - **The field** (gen/mn_field.h) is generated from ONE sympy source after CSE. Every function is a template on S:
+    CAPD Node for the integrator, MPFR intervals for the S4 and S9 checks.
+  - **A printer bug was caught first,** by a smoke test, before any run used the field: integer powers were printed
+    unparenthesised, so a/b³ became a/b·b·b. It is fixed.
+  - **Gate:** each function (field, H, g_φφ, B, g^xx, g^yy, V) is evaluated by C++ at 160 bits at 8 random exact
+    points, for F5-R, F5-R's Kerr limit, and Kerr at the B15 level. Each enclosure must contain the 80-digit mpmath
+    value of the same sympy expression. All are enclosed, with relative widths ≤ 3.5e−42.
+  - **Mutation control:** L × 1.001 lies outside the enclosure in all 32 of 32 L-dependent outputs per case.
+  - **Correction disclosed:** the first draft of the criterion wrongly expected ẋ and ẏ to depend on L.
+- **hs_cover gains system `mn`.**
+  - Section y = 0 (MinusPlus), coordinates (x, p_x); p_y > 0 is lifted from H = −½ on the piece hull, with the
+    radicand certified > 0.
+  - S9: H ∋ −½ on every step enclosure and at the return, and p_y > 0 certified at the return.
+  - S4 on every step: g_φφ > 0 on the ±0.025 box, x − 1 ≥ 0.05, R² ≥ 0.25, 1 − y² > 0, B > 0 (which certifies
+    det g < 0), and finiteness.
+  - It is identical to the previous binary on Rössler and HH.

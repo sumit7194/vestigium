@@ -1,0 +1,21 @@
+{
+ "F5R": {
+  "all_enclosed": true,
+  "worst_rel_width": 3.5361614879941764e-42,
+  "mutation_outside": "32/32",
+  "PASS": true
+ },
+ "F5R_KERR": {
+  "all_enclosed": true,
+  "worst_rel_width": 2.3917933589621874e-45,
+  "mutation_outside": "32/32",
+  "PASS": true
+ },
+ "B15_KERR": {
+  "all_enclosed": true,
+  "worst_rel_width": 2.009593493023147e-43,
+  "mutation_outside": "32/32",
+  "PASS": true
+ },
+ "GATE": true
+}

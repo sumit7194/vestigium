@@ -2,4 +2,7 @@ hs_cover
 hs_cover_next
 hs_cover_ck
 hs_cover_v4
+hs_cover_v5
+hs_cover_v6
 *_guard.o
+tests/cg_eval

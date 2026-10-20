@@ -52,7 +52,7 @@ class NodePrinter(CXX17CodePrinter):
             n = int(ex)
             if n == 0: return "S(1)"
             body = "*".join(["(" + self._print(b) + ")"] * abs(n))
-            return body if n > 0 else "(S(1)/(" + body + "))"
+            return "(" + body + ")" if n > 0 else "(S(1)/(" + body + "))"   # parenthesised: a/b**3 must not become a/b*b*b
         if ex.is_Rational and ex.q == 2:                       # b^(p/2) = sqrt(b)^p
             return self._print(sp.Pow(sp.Function("SQRT")(b), ex.p, evaluate=False))
         raise ValueError("unsupported power " + str(e))
