@@ -1,0 +1,1 @@
+{'mn_field': {'cse_temps': 230, 'ops': 1310}, 'mn_H': {'cse_temps': 55, 'ops': 239}, 'mn_gpp': {'cse_temps': 49, 'ops': 199}, 'mn_B': {'cse_temps': 15, 'ops': 55}, 'mn_lift': {'cse_temps': 56, 'ops': 236}}

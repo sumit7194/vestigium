@@ -710,3 +710,36 @@ counts):
   (`qsim/capd/horseshoe/R3_KERR_OUTCOME.md`).
   - This is consistent with the prediction, but it is the weak form of the control.
   - A stronger Kerr control, at a level with a bound unstable spherical orbit, is to be proposed as B15.
+
+**B15 (2026-10-20): the strong Kerr negative control. Registered before any B15 run, and run BEFORE the MN covering
+run (agreed with the Bridge).**
+- **Why.** R3 at A-K20's level never reached constructor steps 2–4. This control does: it puts the FROZEN B14
+  constructor on an integrable system that HAS a bound hyperbolic orbit with a non-transversal homoclinic separatrix
+  (Levin & Perez-Giz 2009).
+- **System.** Kerr, (M, a) = (89, 80), q = 0. The field is my B10/S5-gated one, with β = 0.
+- **The level, from the exact radial double root** (in units M = 1). R(r) = [E(r² + a²) − aL]² − Δ[r² + (L − aE)² + Q]
+  with R = R′ = 0:
+  - At L_z = 3M (A-K20's), every unstable spherical orbit has E > 1 (1.12 to 1.38 for Q from 0 to 12): none is bound.
+  - The nearest round value with a bound one is **L_z = 5M/2 (= 445/2), with E = 49/50**.
+  - The double root is at **r_s = 1.806812911814262M** with **Q_s = 0.740762452760964M²** (physical
+    Q = 5867.58). R″(r_s) = 6.08 > 0, so the orbit is unstable. The other real roots are 0.0989M and 46.79M, so the
+    homoclinic is bound and turns at 46.79M.
+  - **Section fixed point:** x_s = (r_s − M)/k = 1.8411884397812655, p_x = 0, on Σ = {y = 0, p_y > 0}. It is inside D:
+    x − 1 = 0.84, R = 1.53, and Kerr has no CTCs outside r < 0.
+- **Procedure:** B14 unchanged, with the same thresholds as MN.
+  1. **Saddle:** Newton from (x_s, 0). Record λ_u.
+  2. **Manifolds:** arcs with eps = 1e−4, K = 5, dmax = 0.01, and crossings with min angle 0.01.
+     - **Recorded as DATA:** every crossing found, with its angle and its local discretisation floor
+       θ_floor = κ̂·(ℓ_u + ℓ_s). Here κ̂ is the polyline turning angle per unit length at the crossing, and ℓ_u, ℓ_s
+       are the two crossing segments' lengths.
+     - **Expected noise level:** two polylines through the same smooth curve cross at angles up to about θ_floor.
+     - **Red flag:** a crossing with angle > 10·θ_floor.
+  3–4. Steps 3–4 run ONLY if step 2 returns an accepted connection.
+- **Registered prediction:** step 2 finds no transverse crossing above the red-flag level, so the constructor builds no
+  sets. Which check fails is recorded either way.
+- **If sets are built anyway,** they go to rigorous hs_cover with the same B13 settings. The prediction is that the
+  rigorous coverings do not give ρ > 1.
+- **STOP rule (F7):** any rigorous ρ > 1 on Kerr STOPS the MN claim.
+- **Resources:** the constructor stage is one Python process (about 0.2 GB RAM) at nice 10, for an estimated 1–4 h.
+  A rigorous stage, if one is reached, would need the CAPD MN/Kerr field, which is not built yet. Its launch plan
+  would be sent to the Bridge first.
