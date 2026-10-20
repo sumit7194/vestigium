@@ -1,0 +1,13 @@
+system mn
+prec 128
+order 20
+iter 1
+param k 39/1
+param alpha -5/8
+param beta 13394411/1186380
+param E 19/20
+param L 267/1
+param level -1/2
+tset N 36419361737/10000000000 60360992808/10000000000 1/1000000 0/1 0/1 1/1000000 1000000/1 0/1 0/1 1000000/1
+depth 0 0
+cover N N 1 1 1

@@ -1,5 +1,24 @@
 # Handoff: 2026-10-16 (chaos-proof phase 2 in progress)
 
+## Running now (both detached with parent PID 1, so they survive a Claude restart), 2026-10-20 evening
+
+1. **B15, the strong Kerr control** (constructor stage).
+   - `qsim/capd/horseshoe/b15_kerr.py`, PID 24176, log `qsim/capd/horseshoe_results/kerr/b15_kerr.out`.
+   - Step 1 is done: the saddle has λ_u = 62.62. Step 2 (manifold arcs, then crossings) is running, and may take hours.
+   - Result: `horseshoe_results/kerr/b15_kerr.json`.
+   - Not checkpointed. After a reboot, rerun the script; step 1 costs about 9 min.
+2. **The MN CAPD smoke test.** One tiny box at F5-R UPO 2, with `hs_cover_v6` (built from 4c6b8b9's source).
+   - PID 41078 under /usr/bin/time (PID 41075). Spec, output and timing are in
+     `qsim/capd/horseshoe_results/mn_smoke/`.
+   - This is the first F3 data point; an earlier attached copy ran for more than 63 CPU-min without finishing.
+   - It is used ONLY to estimate time (B16: no check is changed for time).
+
+**Next after these:**
+- the B15 outcome, sent to the Bridge;
+- the F3 profile (MN vs Kerr), for planning only;
+- the MN F5-R constructor run (frozen B14), seeded from the A-K20 UPOs 2 and 4;
+- the rigorous MN coverings under B16: no time cap, ≤ 4 cores on weekdays, daily progress records.
+
 ## HH-SECONDARY COMPLETE (2026-10-19): PASS, sealed at 5a21dde. Nothing is running.
 
 - **Outcome:** `qsim/capd/horseshoe/HH_SECONDARY_OUTCOME.md`. All 6 required coverings are certified, and
