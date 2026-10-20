@@ -703,3 +703,5 @@ counts):
 - **S5 re-run at A-K20's exact FINAL parameters (2026-10-20): PASS** (`mn_s5_gate_ak20.py` and `.json`). The cases
   are F5-R (89, 80, 13394411/1186380) and C0 (1, 9/10, (19/20)/(19/100)^{3/2}), at E = 19/20 and L_z = 3M, plus their
   Kerr limits. The worst relative difference in H_red is 2.0e−69; the Kerr limits differ by exactly 0.
+- **Citation correction:** A-K20's FINAL text is TheBridge **a713523**. Commit 0e42f37 is only the rename, with the
+  old DRAFT labels; the physics content is identical.

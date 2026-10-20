@@ -1,4 +1,4 @@
-"""S5 re-run at A-K20's exact (FINAL, TheBridge 0e42f37) parameters: F5-R (89, 80, 13394411/1186380) and
+"""S5 re-run at A-K20 exact (FINAL text: TheBridge a713523; rename commit 0e42f37) parameters: F5-R (89, 80, 13394411/1186380) and
 C0 (1, 9/10, (19/20)/(19/100)^(3/2)), both at E = 19/20, L_z = 3M; plus the Kerr limits. Same method as mn_s5_gate."""
 import json, random, sys
 import sympy as sp, mpmath as mp
