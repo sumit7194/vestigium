@@ -1,0 +1,127 @@
+{
+ "system": "Kerr (89,80,q=0)",
+ "E": "19/20",
+ "L": "267",
+ "results": [
+  {
+   "mn_upo": "2",
+   "seed": [
+    3.6419361737,
+    6.0360992808
+   ],
+   "period": 1,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "4",
+   "seed": [
+    3.6419361737,
+    -6.0360992808
+   ],
+   "period": 1,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "8",
+   "seed": [
+    3.6027445056,
+    0.0
+   ],
+   "period": 1,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "3",
+   "seed": [
+    2.835134596,
+    42.700861062
+   ],
+   "period": 3,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "3",
+   "seed": [
+    2.6086564716,
+    -44.4884516459
+   ],
+   "period": 3,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "3",
+   "seed": [
+    2.010459439,
+    23.8102634036
+   ],
+   "period": 3,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "6",
+   "seed": [
+    2.835134596,
+    -42.7008610621
+   ],
+   "period": 3,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "6",
+   "seed": [
+    2.010459439,
+    -23.8102634043
+   ],
+   "period": 3,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "6",
+   "seed": [
+    2.6086564716,
+    44.4884516462
+   ],
+   "period": 3,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "7",
+   "seed": [
+    3.3482091281,
+    0.0
+   ],
+   "period": 3,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "7",
+   "seed": [
+    2.8958122167,
+    -62.6170252389
+   ],
+   "period": 3,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  },
+  {
+   "mn_upo": "7",
+   "seed": [
+    2.8958122167,
+    62.6170252388
+   ],
+   "period": 3,
+   "kerr_py_lift": null,
+   "newton": "seed not in the Kerr allowed region at this level"
+  }
+ ]
+}

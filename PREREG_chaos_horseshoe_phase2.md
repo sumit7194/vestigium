@@ -705,3 +705,8 @@ counts):
   Kerr limits. The worst relative difference in H_red is 2.0e−69; the Kerr limits differ by exactly 0.
 - **Citation correction:** A-K20's FINAL text is TheBridge **a713523**. Commit 0e42f37 is only the rename, with the
   old DRAFT labels; the physics content is identical.
+- **R3 Kerr at matched (E, L_z) (2026-10-20):** no hyperbolic seed in Kerr's allowed region in either registered
+  branch, so the failing check is constructor step 1 and no covering was attempted
+  (`qsim/capd/horseshoe/R3_KERR_OUTCOME.md`).
+  - This is consistent with the prediction, but it is the weak form of the control.
+  - A stronger Kerr control, at a level with a bound unstable spherical orbit, is to be proposed as B15.
