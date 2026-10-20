@@ -22,7 +22,7 @@ def save():
 
 
 # step 1: saddle
-r = H.find_periodic(np.array(log["seed"]), 1, iters=30)
+r = H.find_periodic(np.array(log["seed"]), 1, iters=10, tol=1e-10)   # call-site tol: this system's integration noise is ~1e-12
 if r is None:
     log["step1"] = "no convergence"; save(); raise SystemExit("B15 step 1: Newton did not converge")
 z, D = r; si = H.saddle_info(D)
