@@ -760,3 +760,23 @@ run (agreed with the Bridge).**
   - S4 on every step: g_φφ > 0 on the ±0.025 box, x − 1 ≥ 0.05, R² ≥ 0.25, 1 − y² > 0, B > 0 (which certifies
     det g < 0), and finiteness.
   - It is identical to the previous binary on Rössler and HH.
+
+**B16 (2026-10-20): no wall-time cap. Committed BEFORE any MN or B15-rigorous run; it supersedes the time parts of
+§3.6.**
+- **Basis:** the user's standing instruction (2026-10-20): "we never cut down the tests because of time … science and
+  rigour and our methods and completeness are the better criteria". This matches the Bridge's recorded user notes of
+  2026-10-03, 10-10, 10-11 and 10-12.
+- **(a) Verdicts.** The only verdicts are CERTIFIED, REJECTED (a certified failing check), and UNDECIDED at the
+  RESOLUTION caps (depth and leaf caps; the MPFR precision and Taylor-order ladder). Wall time and core-hours never
+  produce a verdict. The 14-day cap on the first MN attempt, and any core-hour cap, are removed.
+- **(b) Interruptions.** A reboot, a resource hold or any other interruption is a PAUSE. The run resumes from
+  checkpoint, and the pause is logged with its time and cause.
+- **(c) Resources.** On weekdays (the user's office machine): ≤ 4 cores, nice 19, checkpointed, with memory and disk
+  checked before a launch. A weekend scale-up is announced to the Bridge first.
+- **(d) Progress.** For any run longer than a day, a daily progress record of leaves finished and queued per covering,
+  plus CPU time, goes in the run's log. A stuck run is visible as data, never a reason to stop.
+- **(e) Methods.** No check, test or verification step is weakened, merged or skipped to save time. A method change is
+  considered only if it improves rigour or completeness, or is rigour-neutral and needed for a run to be possible at
+  all. Every method change is registered before use.
+- **The HH runs are unchanged.** HH-PRIMARY keeps its two disclosed budget readings (B13): this amendment is not
+  retroactive.
