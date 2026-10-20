@@ -700,3 +700,6 @@ counts):
   - ρ is the plastic number 1.3247, so h_top ≥ 0.28120. This is "consistent with" AZ 2001.
 - **HH embargo lifted (2026-10-20).** The Bridge's V14 Q2 HH decisions are committed (TheBridge 8e73970). The
   Bridge may now open the sealed HH files (ca819cf and 5a21dde) for the S6 cross-path comparison.
+- **S5 re-run at A-K20's exact FINAL parameters (2026-10-20): PASS** (`mn_s5_gate_ak20.py` and `.json`). The cases
+  are F5-R (89, 80, 13394411/1186380) and C0 (1, 9/10, (19/20)/(19/100)^{3/2}), at E = 19/20 and L_z = 3M, plus their
+  Kerr limits. The worst relative difference in H_red is 2.0e−69; the Kerr limits differ by exactly 0.

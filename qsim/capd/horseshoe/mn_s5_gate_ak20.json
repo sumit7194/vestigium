@@ -1,0 +1,23 @@
+{
+ "F5R": {
+  "L": "267",
+  "worst_rel_H": 4.1684947908533315e-70,
+  "PASS": true
+ },
+ "C0": {
+  "L": "3",
+  "worst_rel_H": 2.022916361147724e-69,
+  "PASS": true
+ },
+ "F5R_KERR": {
+  "L": "267",
+  "worst_rel_H": 0.0,
+  "PASS": true
+ },
+ "C0_KERR": {
+  "L": "3",
+  "worst_rel_H": 0.0,
+  "PASS": true
+ },
+ "GATE": true
+}
