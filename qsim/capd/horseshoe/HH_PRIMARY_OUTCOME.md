@@ -79,3 +79,17 @@ It is NOT "reproduces their proof": (5.2)–(5.4) and their Lemma 3 are not re-d
 - **HH-SECONDARY** (my own h-sets, through the frozen constructor): not started. The constructor is not yet written.
 - **The Bridge's S6 replay (V14 Q2)** runs on these results blind. It receives only the commit hash and sha256s until
   its decisions are committed.
+
+## Second implementation, S6 (2026-10-20): **AGREE**
+
+The Bridge's V14 replay (TaylorModels.jl, Float64 intervals; TheBridge 89259b8) was blind until its Q2 decisions were
+committed (8e73970). It then checked my 35 sealed files' sha256s and compared.
+- **Decisions agree 9/9:** 7 coverings certified, and W-AZ1 and W-AZ2 rejected by (b) failures.
+- **Orientations agree 7/7.**
+- **Return-time hulls intersect pairwise.** For M1⟹M2, for example, the two give [7.223, 9.214] and [7.244, 9.409].
+- **Both pipelines needed the same escalation.** At their registered settings, both left exactly M1⟹M2 and M3⟹M4
+  undecided, and both certified those two only after a disclosed post-hoc escalation.
+- **Both fail the strong form** |s| < 1, on all 7 coverings.
+- **Caveat:** V14's validated_integ3 results carry the Bridge's flag "subject to the open upstream defects in sibling
+  routines" (TaylorModels.jl #207).
+- **HH-SECONDARY was not replayed** by V14.
