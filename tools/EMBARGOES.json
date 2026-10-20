@@ -1,6 +1,7 @@
 {
  "_doc": "quantum's active blinding embargoes (pattern set adapted from TheBridge/tools, 2026-10-18). tools/blind_check.py runs on every outgoing SendMessage via the PreToolUse hook. Lift an embargo only when its seal condition holds; record the commit.",
- "embargoes": [
+ "embargoes": [],
+ "lifted_embargoes": [
   {
    "id": "HH-outcomes-for-V14",
    "recipient": "*",
@@ -18,7 +19,8 @@
     "(pass|fail|certif|hold)[^.\\n]{0,25}\\((a|b)\\)",
     "failing (box|piece|region)",
     "(chunk|covering)s?[^.\\n]{0,40}(certif|fail|pass|reject|undecided)"
-   ]
+   ],
+   "lifted": "2026-10-20: V14 Q2 HH decisions committed (TheBridge 8e73970; bridge-side embargo lifted 9e55928)"
   }
  ]
 }

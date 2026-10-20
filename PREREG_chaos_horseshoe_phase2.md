@@ -698,3 +698,5 @@ counts):
   - All 6 required coverings are certified on the B14 constructor's sets. The optional N6⟹N3 is a certified
     orientation failure.
   - ρ is the plastic number 1.3247, so h_top ≥ 0.28120. This is "consistent with" AZ 2001.
+- **HH embargo lifted (2026-10-20).** The Bridge's V14 Q2 HH decisions are committed (TheBridge 8e73970). The
+  Bridge may now open the sealed HH files (ca819cf and 5a21dde) for the S6 cross-path comparison.
