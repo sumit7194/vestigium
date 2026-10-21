@@ -6,7 +6,7 @@
 //   centre mid q(c); frame column of x gets q_x(c) (an interval); own radius = (q(c) - mid) + (q_x(hull) - q_x(c)) [-h, h].
 // Consistency (every step): the tracked (a, b, E2, eG) hull must intersect mn8_aux(x, y) evaluated on the (x, y) hull;
 // the widths of both are logged every `every` steps.
-// Usage: mn_diag8 <prec> <order> <halfwidth p/q> <T> [every] [decomp_from_t] [tripleton|cn<deg>]
+// Usage: mn_diag8 <prec> <order> <halfwidth p/q> <T> [every] [decomp_from_t] [tripleton|cn<deg>] [corrpy]
 #include "capd/mpcapdlib.h"
 #include "proof_guard.h"
 #include <gmp.h>
@@ -93,6 +93,19 @@ int main(int argc, char** argv) {
   IV x0(8), r0(8); IM C(8, 8);
   x0[0] = cx; x0[2] = cp; x0[3] = pm; C[0][0] = 1; C[2][1] = 1; C[3][2] = 1; C[1][3] = 1;
   r0[0] = r; r0[1] = r; r0[2] = pyv - pm; r0[3] = 0;
+  if (argc > 8 && std::string(argv[8]) == "corrpy") {   // p_y tied to (dx, dp_x) to first order (mean-value form, on shell)
+    capd::MpIMap fr(rad_vf, 3, 1, 5); for (int i = 0; i < 5; ++i) fr.setParameter(i, MNC[i]);
+    IV c3(3), h3(3); c3[0] = cx; c3[2] = cp; h3[0] = wh0; h3[2] = wh1;
+    IM Dh(1, 3), Dc(1, 3); fr(h3, Dh); IV rc = fr(c3, Dc);
+    MpInterval pc = sqrt(rc[0]);                         // p_y(c)
+    MpInterval sx_c = Dc[0][0] / (2 * pc), sp_c = Dc[0][2] / (2 * pc);       // grad p_y at c
+    MpInterval sx_h = Dh[0][0] / (2 * pyv), sp_h = Dh[0][2] / (2 * pyv);     // grad p_y on the hull (p_y in pyv there)
+    MpInterval pmid = pc.mid();
+    x0[3] = pmid; C[3][0] = sx_c; C[3][1] = sp_c;        // frame: p_y follows x and p_x
+    r0[2] = (pc - pmid) + (sx_h - sx_c) * r + (sp_h - sp_c) * r;      // own radius: centre width + mean-value remainder
+    std::printf("# corrpy: slopes dpy/dx %.6e dpy/dpx %.6e ; own p_y radius width %.3e (was %.3e)\n",
+                d(sx_c.mid().leftBound()), d(sp_c.mid().leftBound()), w(r0[2]), w(pyv));
+  }
   std::printf("# prec %s order %d halfwidth %s T %s ; py width %.3e\n", argv[1], order, argv[3], argv[4], w(pyv));
   const char* nm[4] = {"a", "b", "E2", "eG"};
   for (int i = 0; i < 4; ++i) {

@@ -20,6 +20,20 @@
 - Tools: `tests/mn_diag.cpp`, `tests/mn_fieldwidth.cpp`, `tests/cse_attrib.py`, `tests/fieldwidth.py`.
   Results: `horseshoe_results/mn_smoke/`.
 
+**Update 2026-10-21 late: MN swing diagnosis (with the Bridge; commits up to this one; all diagnostic, nothing adopted)**
+- 8-D augmented field (mn_codegen8.py, gen/mn_field8.h, tests/mn_diag8.cpp): exact on the manifold, 549 ops, ~6x faster,
+  but it ALSO dies at the swing (t = 290.35). Sets stay ~2x the TRUE width until t ~ 285 (tests/width_ratio.py); the
+  true image is affine and contracts after the swing (tests/nonlin_hull.py). The excess grows in C*r0 through the swing
+  (diag8_decomp); the absolute-product amplifier is only ~20x (tests/abs_product.py), so the per-step seed rad(J) over
+  ~1600 tiny steps carries it. Order 30 = order 20 (truncation excluded). Correlated p_y lift (corrpy): dies at 290.21.
+- W-scaling runs (diag_W7/W10/W12, ppid 1, end at t = 300): were alive past 290.4-291.2 when last checked; read them.
+- Next candidates: C^r jet set (cn2) on the 8-D field (~25 s/step, ~19 h to the swing; needs checkpoints + a tested
+  kill-9/resume before ANY unattended run, and the user's OK), and/or fewer larger steps (time reparametrisation).
+- b15_kerr_ck.py + pcache.py: checkpointed B15 copy (journal of every finished P/Pinv call; frozen constructor untouched).
+  NOT YET VALIDATED: the step-1 test made only one call. Redo the kill-9/resume test on step 2 before relaunching B15.
+  The Bridge coordinates the user's restart question (my recommendation: let diagnostics end, restart, relaunch B15 as
+  the checkpointed copy once validated).
+
 **Next, when the user is back:**
 1. Rewrite the field for interval evaluation in `mn_codegen.py`: simplify the exponent arguments symbolically,
    combine the exponentials, use log-sum-exp, then a centred form.
