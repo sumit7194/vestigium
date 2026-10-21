@@ -6,7 +6,7 @@ point on a box of half-width h in all four coordinates (x, y, p_x, p_y):
         b_x = 2 beta b eb_x, E2_x = 2 E2 psi_x, eG_x = eG G_x; the augmented states enter as TIGHT enclosures (their
         true range over the box), which is optimistic (flaw 1 in the 2026-10-21 note to the Bridge).
 ratio = interval width / true linear range (sum_j |d f_i / d z_j| 2h, from the exact 4-D field).
-Usage: field_aug.py x y px py [h] [8|9]   (9: Q also a state)"""
+Usage: field_aug.py x y px py [h] [8|9|8s|4s]   (9: Q also a state; 8s/4s: structured Q in 8-D / 4-D)"""
 import sys, mpmath as mp, sympy as sp
 sys.path.insert(0, "/Users/sumit/Github/quantum/qsim/capd/horseshoe")
 sys.path.insert(0, "/Users/sumit/Github/quantum/qsim/capd/horseshoe/tests")
@@ -64,7 +64,10 @@ Qp, r = sp.div(sp.Poly(sp.expand((Qg.x**2 - 1)*(1 - Qg.y**2)*Qg.B**2 - 4*Qg.C**2
 sub = {Qg.x: x, Qg.y: y, Qg.a: a, Qg.b: b}
 A_, B_, C_, Q_ = Qg.A.subs(sub), Qg.B.subs(sub), Qg.C.subs(sub), Qp.as_expr().subs(sub)
 w0 = 4*k*al/(1 - al**2); Lp = L + w0*E; rho2 = k**2*(x**2 - 1)*(1 - y**2)
-QS = sp.Symbol("Qs"); NINE = len(sys.argv) > 6 and sys.argv[6] == "9"
+QS = sp.Symbol("Qs"); MODE = sys.argv[6] if len(sys.argv) > 6 else "8"; NINE = MODE == "9"
+if MODE in ("8s", "4s"):                           # the Bridge's structured Q (verified: expands to the division Q)
+    Xs = (x + 1)**2 + a*b*(x - 1)**2; Ys = a*(1 + y)**2 + b*(1 - y)**2
+    Q_ = (1 - y**2)*Xs**2 - (x**2 - 1)*Ys**2 + 4*a*b*(x**2 - 1)*(1 - y**2)**2
 Qfull = Q_
 if NINE: Q_ = QS                                   # 9-D: Q itself is a state; its total x/y derivative is chained
 V = (E2*A_*Lp**2 - 4*k*C_*E*Lp - k**2*E**2*Q_/E2)/(2*rho2*B_)
@@ -88,7 +91,11 @@ env8[a] = tight(-al*sp.exp(-2*beta*ea)); env8[b] = tight(al*sp.exp(2*beta*eb))
 env8[E2] = tight(sp.exp(2*psi)); env8[eG] = tight(sp.exp(G))
 if NINE: env8[QS] = tight(Qfull.subs({a: -al*sp.exp(-2*beta*ea), b: al*sp.exp(2*beta*eb)}))
 w8 = ev_cse(F8, env8)
+if MODE == "4s":                                   # 4-D with structured Q: a, b, E2, eG recomputed from (x, y) on the box
+    back = {a: -al*sp.exp(-2*beta*ea), b: al*sp.exp(2*beta*eb), E2: sp.exp(2*psi), eG: sp.exp(G)}
+    H4 = H.subs(back); F4s = [sp.diff(H4, PX), sp.diff(H4, PY), -sp.diff(H4, x), -sp.diff(H4, y)]
+    w8 = ev_cse(F4s, box)
 print("point", [mp.nstr(c, 10) for c in z0], " h", mp.nstr(h, 3))
 for i, nm in enumerate(("xdot", "ydot", "pxdot", "pydot")):
     W4 = float(w4[i].b) - float(w4[i].a); W8 = float(w8[i].b) - float(w8[i].a)
-    print("%-6s true range %.2e   4-D ratio %.2e   8-D ratio %.2e" % (nm, float(lin[i]), W4 / float(lin[i]), W8 / float(lin[i])))
+    print(("%-6s true range %.2e   4-D ratio %.2e   mode-" + MODE + " ratio %.2e") % (nm, float(lin[i]), W4 / float(lin[i]), W8 / float(lin[i])))

@@ -1,7 +1,7 @@
 // mn_diag.cpp -- DIAGNOSTIC ONLY (no verdicts): step-by-step enclosure growth of one MN piece, to locate where the
 // 2026-10-20 smoke test (horseshoe_results/mn_smoke/mn1.*) lost its enclosure. Same field, lift, set type and
 // solver construction as hs_cover (system mn); the time map runs to T with stopAfterStep and logs every step.
-// Usage: mn_diag <prec> <order> <halfwidth p/q> <T> [every] [naive|mv] [tripleton|rect2|pped2] [pscale p/q]
+// Usage: mn_diag <prec> <order> <halfwidth p/q> <T> [every] [naive|mv] [tripleton|rect2|pped2|c1rect2|cn<deg>] [pscale p/q]
 //   pscale c: integrate in P = c p (exact constant linear change of variables; the field is (xdot, ydot, c pdot));
 //   widths and midpoints are printed back in the original p units.
 //   halfwidth 0 = a point start at the box centre (pure integrator error, no initial width).
@@ -79,6 +79,27 @@ static void run(capd::MpIOdeSolver& solver, const IV& x0, const IM& C, const IV&
   }
 }
 
+// higher-order sets (C1 doubleton, Cn jets): set widths only
+template <class SetT, class TM, class Solver>
+static void run_hi(Solver& solver, SetT& s, const MpInterval& T, const char* setname) {
+  TM tm(solver); tm.stopAfterStep(true);
+  std::printf("# set %s\n# step t h  -  -  -  -  W_x W_px  mid_x mid_y\n", setname);
+  long n = 0;
+  try {
+    do {
+      tm(T, s); IV v = IV(s); ++n;
+      std::printf("%ld %.6f %.3e  0 0 0 0  %.3e %.3e  %.6f %.6f\n", n, d(tm.getCurrentTime().leftBound()),
+                  d(solver.getStep().leftBound()), w(v[0]), w(v[2] / PSC), d(v[0].mid().leftBound()), d(v[1].mid().leftBound()));
+      std::fflush(stdout);
+    } while (!tm.completed());
+    std::printf("COMPLETED steps=%ld\n", n);
+  } catch (std::exception& e) {
+    IV v = IV(s);
+    std::printf("THREW at step %ld t=%.6f: %s\n  last set widths x %.3e y %.3e px %.3e py %.3e\n", n,
+                d(tm.getCurrentTime().leftBound()), e.what(), w(v[0]), w(v[1]), w(v[2] / PSC), w(v[3] / PSC));
+  }
+}
+
 int main(int argc, char** argv) {
   if (argc < 5) { std::cerr << "usage: mn_diag prec order halfwidth T [every]\n"; return 2; }
   R::setDefaultPrecision(std::stoi(argv[1]));
@@ -115,6 +136,13 @@ int main(int argc, char** argv) {
   if (set == "tripleton") run<capd::MpC0TripletonSet>(solver, x0, C, r0, T, every, argv[1], order, argv[3], argv[4], mode, "tripleton", pyv);
   else if (set == "rect2") run<capd::MpC0Rect2Set>(solver, x0, C, r0, T, every, argv[1], order, argv[3], argv[4], mode, "rect2", pyv);
   else if (set == "pped2") run<capd::MpC0Pped2Set>(solver, x0, C, r0, T, every, argv[1], order, argv[3], argv[4], mode, "pped2", pyv);
+  else if (set == "c1rect2") { capd::MpC1Rect2Set c1(x0, C, r0); run_hi<capd::MpC1Rect2Set, capd::MpITimeMap>(solver, c1, T, "c1rect2"); }
+  else if (set.rfind("cn", 0) == 0) {                     // cn<degree>: Cn jet set of that degree
+    int deg = std::stoi(set.substr(2));
+    capd::MpIMap fn(mn_vf_s, 4, 4, 6, deg); for (int i = 0; i < 5; ++i) fn.setParameter(i, MNC[i]); fn.setParameter(5, PSC);
+    capd::MpICnOdeSolver cs(fn, order);
+    capd::MpCnRect2Set cn(x0, C, r0, deg); run_hi<capd::MpCnRect2Set, capd::MpICnTimeMap>(cs, cn, T, set.c_str());
+  }
   else { std::cerr << "unknown set\n"; return 2; }
   return 0;
 }
