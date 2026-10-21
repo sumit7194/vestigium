@@ -6,3 +6,6 @@ hs_cover_v5
 hs_cover_v6
 *_guard.o
 tests/cg_eval
+tests/mn_diag
+tests/mn_diag_mv
+tests/mn_diag2

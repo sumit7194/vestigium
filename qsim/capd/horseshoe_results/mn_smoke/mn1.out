@@ -1,0 +1,9 @@
+PREC 128
+FAILPIECE N>N a depth=0(depth cap) u=[-1.000000000000e+00,1.000000000000e+00] s=[-1.000000000000e+00,1.000000000000e+00] Interval error: Interval Error *** Possible division by zero.
+   left=-2.05745e-1   right=1.39318e1 
+FAILPIECE N>N b edge=L s=[-1.000000000000e+00,1.000000000000e+00] Interval error: Interval Error *** Possible division by zero.
+   left=-1.92980e-1   right=1.10390e1 
+FAILPIECE N>N b edge=R s=[-1.000000000000e+00,1.000000000000e+00] Interval error: Interval Error *** Possible division by zero.
+   left=-1.48263e-1   right=1.09695e1 
+COVER N N a=0 b=0 strong_a=0 orient=none fail_a=1 fail_b=2 certified_fail_b=0 orient_certified_fail=0 leaves_a=1 leaves_b=2 maxdepth_a=0 replay_steps=0 return_time=none COVERS=0
+DONE
