@@ -1,0 +1,1 @@
+{'mn8_field': {'cse_temps': 171, 'ops': 549}, 'mn8_aux': {'cse_temps': 13, 'ops': 67}}
