@@ -1,0 +1,16 @@
+out[0] value 2.5799e-02 width 2.932e-05 lin 2.190e-06 ratio 1.34e+01
+out[1] value -3.1740e-03 width 3.601e-06 lin 2.809e-07 ratio 1.28e+01
+out[2] value 8.0846e+01 width 3.647e+00 lin 4.069e-03 ratio 8.96e+02
+out[3] value -2.6412e+01 width 6.491e+00 lin 4.516e-03 ratio 1.44e+03
+--- temps whose over-widening ratio jumps >= 3x over their inputs (top 25 by jump)
+t158   jump 1.1e+01 ratio 1.1e+02 value 9.794e-02  :: -6*t132*t24*t5 + t136*t71
+t22    jump 9.3e+00 ratio 1.0e+01 value 7.273e-02  :: t10*t21 - t17*t21 - t21*t7 + 1
+t18    jump 8.7e+00 ratio 9.6e+00 value -7.539e-03  :: t10*t4 + t17*t4 + t4*t7 - 1
+t160   jump 6.0e+00 ratio 6.4e+02 value 1.151e+05  :: t159*(4*t0*t133*t144*t24 + 4*t0*t133*t24*y - t0*t146 + 2*t0*t20*t23*t24 + 4*t130*t132*t133*t141*t5 + 4*t130 + 4*t132*t133*t141*t5*x + t132*t133*t141*t
+t12    jump 5.7e+00 ratio 5.7e+00 value 1.355e+00  :: t0*t11
+t36    jump 5.7e+00 ratio 5.7e+00 value 4.656e+00  :: t35*t7
+t216   jump 4.5e+00 ratio 9.7e+00 value 1.221e+00  :: -t103 - t210
+t191   jump 4.5e+00 ratio 4.3e+01 value 3.525e-02  :: t136*t142
+t94    jump 4.4e+00 ratio 1.0e+01 value -5.810e-01  :: t81 - t83 - t86 - t93
+t127   jump 3.9e+00 ratio 8.9e+01 value 5.202e+00  :: t110 + t126*x
+t211   jump 3.2e+00 ratio 8.6e+00 value -4.541e-01  :: t102 + t11*t181 + t167 + t208 - t209 + t210 - t85
