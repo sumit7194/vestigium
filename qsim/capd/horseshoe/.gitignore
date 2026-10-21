@@ -9,3 +9,5 @@ tests/cg_eval
 tests/mn_diag
 tests/mn_diag_mv
 tests/mn_diag2
+tests/mn_fieldwidth
+tests/mn_diag3

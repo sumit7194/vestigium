@@ -1,7 +1,9 @@
 // mn_diag.cpp -- DIAGNOSTIC ONLY (no verdicts): step-by-step enclosure growth of one MN piece, to locate where the
 // 2026-10-20 smoke test (horseshoe_results/mn_smoke/mn1.*) lost its enclosure. Same field, lift, set type and
 // solver construction as hs_cover (system mn); the time map runs to T with stopAfterStep and logs every step.
-// Usage: mn_diag <prec> <order> <halfwidth p/q> <T> [every] [naive|mv] [tripleton|rect2|pped2]
+// Usage: mn_diag <prec> <order> <halfwidth p/q> <T> [every] [naive|mv] [tripleton|rect2|pped2] [pscale p/q]
+//   pscale c: integrate in P = c p (exact constant linear change of variables; the field is (xdot, ydot, c pdot));
+//   widths and midpoints are printed back in the original p units.
 //   halfwidth 0 = a point start at the box centre (pure integrator error, no initial width).
 //   lift naive (default) = hs_cover's lift: the p_y radicand evaluated once on the hull.
 //   lift mv = that enclosure intersected with the mean-value form rad(c) + D rad(hull) (hull - c); both are rigorous.
@@ -36,6 +38,12 @@ inline MpInterval mn_exp(const MpInterval& a) { return exp(a); }
 #include "../gen/mn_field.h"
 static MpInterval MNC[5];
 void mn_vf(Node, Node in[], int, Node o[], int, Node par[], int) { Node c[5] = {par[0], par[1], par[2], par[3], par[4]}; mn_field<Node>(in, o, c); }
+static MpInterval PSC(1);
+void mn_vf_s(Node, Node in[], int, Node o[], int, Node par[], int) {   // par[5] = c
+  Node c[5] = {par[0], par[1], par[2], par[3], par[4]}, z[4] = {in[0], in[1], in[2] / par[5], in[3] / par[5]}, g[4];
+  mn_field<Node>(z, g, c);
+  o[0] = g[0]; o[1] = g[1]; o[2] = par[5] * g[2]; o[3] = par[5] * g[3];
+}
 // p_y radicand on the section as a map (x, y, p_x) -> rad, for its derivative (y is evaluated at exactly 0)
 void rad_vf(Node, Node in[], int, Node o[], int, Node par[], int) {
   Node c[5] = {par[0], par[1], par[2], par[3], par[4]}, xy[2] = {in[0], in[1]}, g[3];
@@ -59,7 +67,7 @@ static void run(capd::MpIOdeSolver& solver, const IV& x0, const IM& C, const IV&
       ++n;
       if (n % every == 0)
         std::printf("%ld %.6f %.3e  %.3e %.3e %.3e %.3e  %.3e %.3e  %.6f %.6f\n", n, d(tm.getCurrentTime().leftBound()),
-                    d(solver.getStep().leftBound()), w(b[0]), w(b[1]), w(b[2]), w(b[3]), w(v[0]), w(v[2]),
+                    d(solver.getStep().leftBound()), w(b[0]), w(b[1]), w(b[2] / PSC), w(b[3] / PSC), w(v[0]), w(v[2] / PSC),
                     d(v[0].mid().leftBound()), d(v[1].mid().leftBound()));
       std::fflush(stdout);
     } while (!tm.completed());
@@ -67,7 +75,7 @@ static void run(capd::MpIOdeSolver& solver, const IV& x0, const IM& C, const IV&
   } catch (std::exception& e) {
     IV v = IV(s);
     std::printf("THREW at step %ld t=%.6f: %s\n  last set widths x %.3e y %.3e px %.3e py %.3e\n", n,
-                d(tm.getCurrentTime().leftBound()), e.what(), w(v[0]), w(v[1]), w(v[2]), w(v[3]));
+                d(tm.getCurrentTime().leftBound()), e.what(), w(v[0]), w(v[1]), w(v[2] / PSC), w(v[3] / PSC));
   }
 }
 
@@ -99,7 +107,9 @@ int main(int argc, char** argv) {
   IV x0(4), r0(4); IM C(4, 4);
   x0[0] = cx; x0[2] = cp; x0[3] = pm; C[0][0] = 1; C[2][1] = 1; C[3][2] = 1; C[1][3] = 1;
   r0[0] = r; r0[1] = r; r0[2] = pyv - pm; r0[3] = 0;
-  capd::MpIMap f(mn_vf, 4, 4, 5); for (int i = 0; i < 5; ++i) f.setParameter(i, MNC[i]);
+  if (argc > 8) PSC = Q(argv[8]);
+  for (int i = 2; i < 4; ++i) { x0[i] = x0[i] * PSC; for (int j = 0; j < 4; ++j) C[i][j] = C[i][j] * PSC; }
+  capd::MpIMap f(mn_vf_s, 4, 4, 6); for (int i = 0; i < 5; ++i) f.setParameter(i, MNC[i]); f.setParameter(5, PSC);
   capd::MpIOdeSolver solver(f, order);
   std::string set = argc > 7 ? argv[7] : "tripleton";
   if (set == "tripleton") run<capd::MpC0TripletonSet>(solver, x0, C, r0, T, every, argv[1], order, argv[3], argv[4], mode, "tripleton", pyv);
