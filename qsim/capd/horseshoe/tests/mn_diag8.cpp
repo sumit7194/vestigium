@@ -6,10 +6,12 @@
 //   centre mid q(c); frame column of x gets q_x(c) (an interval); own radius = (q(c) - mid) + (q_x(hull) - q_x(c)) [-h, h].
 // Consistency (every step): the tracked (a, b, E2, eG) hull must intersect mn8_aux(x, y) evaluated on the (x, y) hull;
 // the widths of both are logged every `every` steps.
-// Usage: mn_diag8 <prec> <order> <halfwidth p/q> <T> [every]
+// Usage: mn_diag8 <prec> <order> <halfwidth p/q> <T> [every] [decomp_from_t] [tripleton|cn<deg>]
 #include "capd/mpcapdlib.h"
 #include "proof_guard.h"
 #include <gmp.h>
+#include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <iostream>
 #include <string>
@@ -48,6 +50,19 @@ void rad_vf(Node, Node in[], int, Node o[], int, Node par[], int) {   // (x, y, 
   mn_lift<Node>(xy, g, c);
   o[0] = (Node(-1) - g[0] * in[2] * in[2] - Node(2) * g[2]) / g[1];
 }
+
+// read-only view of the tripleton's parts: X = x + C r0 + (B r  intersected with  Q q)
+struct Peek : capd::MpC0TripletonSet {
+  using capd::MpC0TripletonSet::MpC0TripletonSet;
+  IV Cr0() const { return m_C * m_r0; } IV Br() const { return m_B * m_r; } IV Qq() const { return m_Q * m_q; }
+  double radC_over_midC() const {                       // max entry radius / max |entry midpoint|
+    double rmax = 0, mmax = 0;
+    for (int i = 0; i < (int)m_C.numberOfRows(); ++i) for (int j = 0; j < (int)m_C.numberOfColumns(); ++j) {
+      rmax = std::max(rmax, w(m_C[i][j]) / 2); mmax = std::max(mmax, std::fabs(d(m_C[i][j].mid().leftBound())));
+    }
+    return rmax / mmax;
+  }
+};
 
 int main(int argc, char** argv) {
   if (argc < 5) { std::cerr << "usage: mn_diag8 prec order halfwidth T [every]\n"; return 2; }
@@ -90,7 +105,35 @@ int main(int argc, char** argv) {
   }
   capd::MpIMap f(mn8_vf, 8, 8, 5); for (int i = 0; i < 5; ++i) f.setParameter(i, MNC[i]);
   capd::MpIOdeSolver solver(f, order);
-  capd::MpC0TripletonSet s(x0, C, r0);
+  double decomp_from = argc > 6 ? std::stod(argv[6]) : 1e300;          // print the set decomposition every step from t
+  std::string settype = argc > 7 ? argv[7] : "tripleton";
+  if (settype.rfind("cn", 0) == 0) {                    // C^r jet set of degree r on the same 8-D field and lift
+    int deg = std::stoi(settype.substr(2));
+    capd::MpIMap fn(mn8_vf, 8, 8, 5, deg); for (int i = 0; i < 5; ++i) fn.setParameter(i, MNC[i]);
+    capd::MpICnOdeSolver cs(fn, order);
+    capd::MpCnRect2Set sc(x0, C, r0, deg);
+    capd::MpICnTimeMap tc(cs); tc.stopAfterStep(true);
+    std::printf("# set cn%d\n", deg);
+    long m = 0;
+    try {
+      do {
+        tc(T, sc); IV v = IV(sc); ++m;
+        IV xy(2); xy[0] = v[0]; xy[1] = v[1]; IV fr = fa(xy);
+        for (int i = 0; i < 4; ++i) { MpInterval tmp; if (!intersection(v[4 + i], fr[i], tmp)) throw std::runtime_error(std::string("consistency: tracked ") + nm[i] + " misses fresh enclosure (BUG)"); }
+        double tnow = d(tc.getCurrentTime().leftBound());
+        if (m % every == 0 || tnow >= decomp_from)
+          std::printf("%ld %.6f %.3e  %.3e %.3e %.3e %.3e  %.3e %.3e  %.6f %.6f\n", m, tnow, d(cs.getStep().leftBound()),
+                      w(v[0]), w(v[2]), w(v[4]), w(v[5]), w(fr[0]), w(fr[1]), d(v[0].mid().leftBound()), d(v[1].mid().leftBound()));
+        std::fflush(stdout);
+      } while (!tc.completed());
+      std::printf("COMPLETED steps=%ld\n", m);
+    } catch (std::exception& e) {
+      IV v = IV(sc);
+      std::printf("THREW at step %ld t=%.6f: %s\n  last set widths x %.3e px %.3e\n", m, d(tc.getCurrentTime().leftBound()), e.what(), w(v[0]), w(v[2]));
+    }
+    return 0;
+  }
+  Peek s(x0, C, r0);
   capd::MpITimeMap tm(solver); tm.stopAfterStep(true);
   std::printf("# step t h  W_x W_px W_a W_b (set)  Wfresh_a Wfresh_b (aux on the set's (x,y) hull)  mid_x mid_y\n");
   long n = 0;
@@ -99,6 +142,12 @@ int main(int argc, char** argv) {
       tm(T, s); IV v = IV(s); ++n;
       IV xy(2); xy[0] = v[0]; xy[1] = v[1]; IV fr = fa(xy);
       for (int i = 0; i < 4; ++i) { MpInterval tmp; if (!intersection(v[4 + i], fr[i], tmp)) throw std::runtime_error(std::string("consistency: tracked ") + nm[i] + " misses fresh enclosure (BUG)"); }
+      double tnow = d(tm.getCurrentTime().leftBound());
+      if (tnow >= decomp_from) {
+        IV a1 = s.Cr0(), a2 = s.Br(), a3 = s.Qq();
+        std::printf("DECOMP %ld %.6f h %.3e  Cr0 x %.3e px %.3e | Br x %.3e px %.3e | Qq x %.3e px %.3e | set x %.3e px %.3e | radC/midC %.2e\n", n, tnow,
+                    d(solver.getStep().leftBound()), w(a1[0]), w(a1[2]), w(a2[0]), w(a2[2]), w(a3[0]), w(a3[2]), w(v[0]), w(v[2]), s.radC_over_midC());
+      }
       if (n % every == 0)
         std::printf("%ld %.6f %.3e  %.3e %.3e %.3e %.3e  %.3e %.3e  %.6f %.6f\n", n, d(tm.getCurrentTime().leftBound()),
                     d(solver.getStep().leftBound()), w(v[0]), w(v[2]), w(v[4]), w(v[5]), w(fr[0]), w(fr[1]),
