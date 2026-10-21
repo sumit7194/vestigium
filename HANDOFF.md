@@ -1,23 +1,34 @@
 # Handoff: 2026-10-16 (chaos-proof phase 2 in progress)
 
-## Running now (both detached with parent PID 1, so they survive a Claude restart), 2026-10-20 evening
+## State on 2026-10-21 evening (the user is away Fri–Mon; the app will be closed)
 
-1. **B15, the strong Kerr control** (constructor stage).
-   - `qsim/capd/horseshoe/b15_kerr.py`, PID 24176, log `qsim/capd/horseshoe_results/kerr/b15_kerr.out`.
-   - Step 1 is done: the saddle has λ_u = 62.62. Step 2 (manifold arcs, then crossings) is running, and may take hours.
-   - Result: `horseshoe_results/kerr/b15_kerr.json`.
-   - Not checkpointed. After a reboot, rerun the script; step 1 costs about 9 min.
-2. **The MN CAPD smoke test.** One tiny box at F5-R UPO 2, with `hs_cover_v6` (built from 4c6b8b9's source).
-   - PID 41078 under /usr/bin/time (PID 41075). Spec, output and timing are in
-     `qsim/capd/horseshoe_results/mn_smoke/`.
-   - This is the first F3 data point; an earlier attached copy ran for more than 63 CPU-min without finishing.
-   - It is used ONLY to estimate time (B16: no check is changed for time).
+**Running:** only B15 (Kerr control, constructor stage). `qsim/capd/horseshoe/b15_kerr.py`, PID 24176, detached
+(ppid 1), 1 core.
+- Step 1 is done (saddle λ_u = 62.62). Step 2 (W^u arcs) prints nothing until the arc pass ends, so there is no ETA.
+- The user said to let it run, with no restart.
+- Result: `horseshoe_results/kerr/b15_kerr.json`. Not checkpointed.
+- Cores agreed with the Bridge: it takes about 6 for a V14 chain; quantum keeps only B15's 1 while the app is closed.
 
-**Next after these:**
-- the B15 outcome, sent to the Bridge;
-- the F3 profile (MN vs Kerr), for planning only;
-- the MN F5-R constructor run (frozen B14), seeded from the A-K20 UPOs 2 and 4;
-- the rigorous MN coverings under B16: no time cap, ≤ 4 cores on weekdays, daily progress records.
+**The MN smoke test FAILED (planning-only, single box).** Diagnosed with no verdicts; commits de5802a, 23e4869, 0e0d1ce.
+- Cause 1, the p_y lift: the radicand evaluated once on the hull inflates p_y about 500×. The fix is a mean-value form
+  intersected with it (`tests/mn_diag.cpp`, lift mv). It needs a registered amendment.
+- Cause 2, the field's interval form: the interval evaluation over-widens 10–1.7e3× along the orbit, from the β terms
+  (Kerr at the same points: 1–50×). The inner swing (x ≈ 1.94, |J| ≈ 2.5e3) amplifies it, so every set blows up at
+  t ≈ 290 of the 1019 return.
+  - Not fixed by: box size, set type, Taylor order, or momentum rescaling.
+  - A point start completes the return.
+- Tools: `tests/mn_diag.cpp`, `tests/mn_fieldwidth.cpp`, `tests/cse_attrib.py`, `tests/fieldwidth.py`.
+  Results: `horseshoe_results/mn_smoke/`.
+
+**Next, when the user is back:**
+1. Rewrite the field for interval evaluation in `mn_codegen.py`: simplify the exponent arguments symbolically,
+   combine the exponentials, use log-sum-exp, then a centred form.
+   - Gates: the codegen enclosure gate; the width ratio along the orbit; mn_diag through t ≈ 290.
+   - The Bridge is doing an independent regrouping from v13_field.py as a cross-check.
+2. Register the amendments (lift, field form) before any run that counts. Then a new smoke test.
+3. Write the launch plan, and get the user's OK, BEFORE any MN covering run.
+4. Cores: the user asked on 2026-10-21 for ≥ 3 cores at normal priority (jobs launched from Claude's shell inherit
+   nice 5).
 
 ## HH-SECONDARY COMPLETE (2026-10-19): PASS, sealed at 5a21dde. Nothing is running.
 
