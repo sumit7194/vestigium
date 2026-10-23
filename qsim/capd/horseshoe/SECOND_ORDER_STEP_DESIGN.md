@@ -66,59 +66,65 @@ implicit function.
   original formulas). Each must lie in x₀ + C₀r + ½H₀(r, r) + E₀. Plus a negative control: with E₀'s cubic part
   removed, the test must FAIL at a large h.
 
-## 3. One step (the flow formulation: no separate Rem)
+## 3. One step: the composed-map formulation (P1–P3; replaces the full 8-D jet version)
 
-With δ(r, e) = C·r + ½H(r, r) + e and φ_h the exact time-h flow, Taylor's theorem with integral remainder on K (the
-convex hull of the WHOLE X_n, E included) gives
+**Cost that motivated the change** (planning information only, B16): CAPD's CnOdeSolver jets are taken in all 8
+states. One MN step measured 9.6 s at degree 2 and 59 s at degree 3. At ~5,700 steps per return, the degree-3 call alone
+is ~94 h per piece per return. Only derivatives in the 2 parameters r are needed.
 
-  φ_h(x_n + δ) ∈ [φ_h(x_n)] + [Dφ_h(x_n)]·δ + ½·[D²φ_h(x_n)][δ, δ] + (1/6)·[D³φ_h(K)][δ, δ, δ].
+**The statement** (the Bridge's composed-map form). Let x(r) = x_n + C·r + ½H(r, r) and Ψ(r) = φ_h(x(r)). Then
 
-- The remainder is R₃ = ∫₀¹ (1−s)²/2 · D³φ_h(x_n + sδ)[δ]³ ds.
-- Its enclosure is valid componentwise: the weights are positive and integrate to 1/6, and every segment x_n + sδ
-  lies in K because x_n ∈ X_n and K is convex.
-- The four bracketed enclosures are CAPD's validated enclosures of the FLOW and its derivatives. Each already includes
-  CAPD's time-truncation remainder, so NO separate Rem term is added.
-- Degrees 0–2 are taken over the thin initial set {x_n}; degree 3 over K. As a result, nothing first-order in L enters
-  through a remainder evaluated over the whole set.
+  Ψ(r) = Ψ(0) + DΨ(0)·r + ∫₀¹ (1−s)·D²Ψ(s·r)[r, r] ds  ∈  Ψ(0) + DΨ(0)·r + ½·[D²Ψ(R₀)][r, r].
 
-Expanding δ and collecting powers of r gives the updates.
+- This holds componentwise: the weight (1−s) ≥ 0 integrates to ½, and R₀ is convex and contains s·r.
+- The term splits as ½[D²Ψ(R₀)] = ½D²Ψ(0) + ½([D²Ψ(R₀)] − D²Ψ(0)). The first part updates H; the second is boxed
+  into E.
+- The derivatives are DΨ = Dφ(x(r))·Dx(r) and D²Ψ = D²φ(x(r))[Dx(r), Dx(r)] + Dφ(x(r))·D²x(r), with Dx(r) = C + H(r, ·)
+  and D²x(r) = H.
 
-| Order in r | Update | Where the radius goes |
-|---|---|---|
-| 0 | x_{n+1} = mid[φ_h(x_n)] | the radius (rounding plus remainder, both tiny for a thin x_n) goes into E |
-| 1 | C_{n+1} = mid([Dφ_h(x_n)]·C_n) | radius into E (as rad(·)·\|R₀\|) |
-| 2 | H_{n+1} = mid([Dφ_h(x_n)]·H_n + [D²φ_h(x_n)][C_n ·, C_n ·]) | radius into E |
-| ≥ 3 | boxed into E | — |
+**P1 (thin, orders 0–2).** The second-order variational system along the two directions is integrated as an EXTENDED
+ODE by CAPD's ordinary C⁰ solver, with 8 + 16 + 24 = 48 states:
 
-The order ≥ 3 terms are:
-- [D²φ_h(x_n)][C r, H(r, r)];
-- ¼·[D²φ_h(x_n)][H(r, r), H(r, r)];
-- R₃;
-- the error cross terms [Dφ_h(x_n)]·e (propagated in the Lohner QR frame, no reorganisation),
-  [D²φ_h(x_n)][C r + ½H(r, r), e] and ½·[D²φ_h(x_n)][e, e].
+  ẋ = f(x);  Ẋ_i = Df(x)·X_i (i = 1, 2);  Ẋ_ij = Df(x)·X_ij + D²f(x)[X_i, X_j] (ij = 11, 12, 22).
 
-**Logged per step** (data, not criteria): max|E|, the true thin width at that time, and their ratio. If |E| stops being
-≪ the thin width, the cross terms are the first thing to look at. Possible bonus, not to be claimed until measured:
-C·r is now exact, so the first-order wrapping only acts on E, and the ~8× floor may shrink.
+- It starts from the thin data (x_n, X_i = C_i, X_ij = H_ij), which is correct because Dx(0) = C.
+- After the step h it gives Ψ(0), DΨ(0) and D²Ψ(0) as validated enclosures:
+  x_{n+1} = mid Ψ(0), C_{n+1} = mid DΨ(0), H_{n+1} = mid D²Ψ(0).
+- Their radii go into E.
 
-## 4. Where the enclosures come from (CAPD, MPFR)
+**P2 (hull, the order-2 Lagrange remainder in r).** The same extended system, with the SAME step h, starts from the hull
+data:
 
-CAPD's CnOdeSolver::encloseCnMap(t, x, xx, phi, rem, enc) returns:
-- the Taylor jets phi, computed with initial condition xx (the hull) for the derivatives, and with the value at the
-  centre x;
-- the remainder jets rem.
+  x(0) ∈ hull{x(r) : r ∈ R₀},  X_i(0) ∈ [C_i + H(R₀, e_i)],  X_ij(0) = H_ij.
 
-CnRect2Set adds them ("Phi += Rem"). The enclosure of the flow's derivatives over the initial set is therefore
-phi + rem. Two calls are used:
-- **Degrees 0–2:** x = xx = {x_n} (thin), degree-2 jets. Take phi + rem.
-- **Degree 3:** x = x_n, xx = K, degree-3 jets. Take the degree-3 coefficients of phi + rem.
+- **The X_i must include the H(r, ·) spread.** With X_i = C_i only, R₃ would be under-enclosed whenever H ≠ 0, i.e.
+  from the second step on (negative control, Test 1).
+- Running x and X_i uncorrelated over the hull gives a superset, which is still rigorous.
+- Then ½([X_ij](hull) − X_ij(thin))[r, r] evaluated over R₀ is boxed into E.
 
-**Empirical check before use:** for a thin x inside a hull K, the thin call's degree-1 and degree-2 enclosures must lie
-inside the hull call's. They must also contain finite-difference values of the high-precision flow (mpmath) at the
-centre.
+**P3 (the error part e).** φ(x(r) + e) − φ(x(r)) ∈ [Dφ(K)]·e, by the mean value theorem on segments in K: K is convex
+and contains x(r) and x(r) + e, with K = the hull of the whole X_n. [Dφ(K)] comes from an 8-D C1 enclosure.
+- Dφ(x_n)·e (from P1's thin variational part) is propagated in the Lohner QR frame, with no reorganisation.
+- ([Dφ(K)] − Dφ(x_n))·e is boxed into E.
 
-**Confirmation from the source** (to be quoted in the code review): that phi + rem is the documented enclosure of
-Dᵏφ_h over xx, and that the value part uses x.
+**Total:** X_{n+1} = { x_{n+1} + C_{n+1}r + ½H_{n+1}(r, r) + e' }, with e' ∈ (the QR-framed Dφ(x_n)·e) + (all the boxes).
+
+**Step size:** chosen by CAPD's step control on the P2 (hull) run, then FIXED for P1 and P3. All three use the same h.
+
+**Measured, not assumed** (logged per step):
+- the hull-run width ([X_ij](hull) − X_ij(thin)) against (the thin width / L²);
+- max|E| against the true thin width.
+The 48-D hull run has its own wrapping, and this ratio decides whether the method beats first order.
+
+## 4. Tests specific to the composed-map version
+
+1. **Toy C with a CURVED initial set:** ẋ = −x + y⁴, ẏ = −y, with x₀(r) = r₁ + 0.3·r₂², y₀ = r₂ (so H₀ ≠ 0).
+   - The enclosure of D²Ψ over R₀ must contain the exact D²Ψ at the CORNERS of R₀.
+   - Negative control: a deliberate hull run with X_i(0) = C_i only must FAIL the corner check.
+2. **The D²f gate:** the sympy-generated D²f[u, v] (and Df·v) for the 8-D field is compared against 50-digit finite
+   differences of the existing 8-D field at ~100 random points in the MN domain, plus symmetry D²f[u, v] = D²f[v, u].
+3. **Cost:** the 48-D extended step's wall time per step, measured against the 59 s of 8-D degree-3 jets.
+
 ## 5. What stays the same
 
 - The 8-D augmented field.
@@ -144,7 +150,10 @@ toy control and B17 runs decide.
    x(t) = e^{−t}(x₀ + λy₀t + y₀³(1 − e^{−2t})/2), y(t) = y₀e^{−t}. It tests R₃.
    In both, the second-order set must contain the exact image and be tight to ~1 (the first-order tripleton shows the
    W-proportional excess).
-4. **Negative control** on Toy B at large W: drop R₃, or scale it by 0.5, and show the containment test FAILS.
+4. **Negative control** on Toy B at large W: drop the P2 remainder box, or scale it by 0.5, and show the containment
+   test FAILS.
+4a. **Toy C** (non-constant D³: ẋ = −x + y⁴, ẏ = −y, with exact x = e^{−t}x₀ + y₀⁴(e^{−t} − e^{−4t})/3): the
+   curved-set corner test of §4, with its negative control.
 5. A code review.
 6. The containment test (high-precision point images inside every step's enclosure) on MN.
 7. B17 at 1e-12, 1e-9, 1e-7 and 1e-6.
