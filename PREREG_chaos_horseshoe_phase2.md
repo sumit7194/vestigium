@@ -780,3 +780,57 @@ run (agreed with the Bridge).**
   all. Every method change is registered before use.
 - **The HH runs are unchanged.** HH-PRIMARY keeps its two disclosed budget readings (B13): this amendment is not
   retroactive.
+
+**B17 (2026-10-23): MN swing-fix diagnostic success criterion.** Drafted by quantum and reviewed by the Bridge
+(gain-weighting, the peak-stretch checkpoint and the k_c sanity rule are the Bridge's). Registered BEFORE any
+set-propagation fix result is read against it.
+
+- **Scope.** The diagnostics that evaluate changes to set propagation for the MN reduced flow at F5-R: reorganisation
+  policy, needle-frame Q re-seed, moving integration frame, or a custom second-order C⁰ step. These produce no covering
+  verdict. Any change that reaches `hs_cover` needs its own amendment (see the last item).
+- **Test object.**
+  - The smoke box: centre at F5-R UPO 2, (x, p_x) = (36419361737/10¹⁰, 60360992808/10¹⁰); y = 0; p_y > 0 on H = −½.
+  - Half-widths W₀ ∈ {1e-6, 1e-7}, plus every piece size later proposed for coverings. All W₀ tested are reported; none
+    is selected.
+  - The 8-D augmented field (`mn_codegen8.py`), with the correlated p_y and a/b/E2/eG lifts.
+  - CAPD 2f06098, MPFR 128 bits, Taylor order 20. The set type and policy are stated per run.
+- **Metrics,** in the NEEDLE frame of the centre orbit at each checkpoint:
+  - u₁ and u₂ (SVD of Φ(t, 0)·D_in), n_H (the unit ∇H), and the a/b/E2/eG off-manifold directions.
+  - The set's projected widths along these directions.
+  - The true u₁ and u₂ widths come from the hull of at least 16 boundary-point images, integrated with DOP853 at 1e-13.
+    The true off-shell and off-manifold widths are 0.
+  - The gains g_d are measured from the centre variational: the 4-D one for u₁, u₂ and n_H, and the 8-D augmented one
+    for the off-manifold directions. Each g_d runs from the checkpoint to the next checkpoint, and after the last swing
+    to the Σ return.
+- **Checkpoints.** The times t_p1 and t_p2 are the first and second periapsis times of the centre orbit, and t*_1 and
+  t*_2 are the times of peak true stretch in each swing: the argmax of ‖Φ(t, t_p − 7)·M‖, with M the set's true span.
+  All four are computed and logged before any fix run.
+  - **Swing 1:** t_p1 − 7, t*_1, t_p1 + 1, t_p1 + 5.
+  - **Between the swings:** the first y = 0 crossing with ẏ < 0, as a section enclosure.
+  - **Swing 2:** t_p2 − 7, t*_2, t_p2 + 1, t_p2 + 5.
+  - **The return:** to Σ = {y = 0, ẏ > 0}, the first crossing after t = 1, as a section enclosure (the P image).
+- **Threshold:** provisional k = 5.
+  - **Real directions:** at every checkpoint, set / true ≤ k along u₁ and along u₂.
+  - **Fake directions** (zero true width), gain-weighted: Σ_d width_d·g_d ≤ k·(true u₂ width)·g_u₂, summed over n_H and
+    the four off-manifold directions.
+  - **Before any covering run,** k is replaced, in its own amendment, by k_c = (stable margin of the target h-set) /
+    (true stable-direction image width × s), with safety factor s = 2.
+  - **Sanity rule:** if k_c < 1, the h-set is wrong. That is a constructor issue, and is reported as such; it is never
+    "fixed" by loosening k or anything else.
+- **Pass rule.** A fix passes for a given W₀ if and only if:
+  - the integration completes to the Σ return;
+  - S4, S9 and the augmented-state consistency check hold on every step;
+  - every checkpoint meets the threshold.
+  - Any throw, or any failed check, is a FAIL. A pass licenses THAT W₀ only; any other piece size needs its own pass.
+- **Data recorded (not criteria):** wall time, CPU time and step count per run. Compute is not a criterion (B16).
+  Piece counts implied by k are planning information. If they are large, the budget is amended, not k.
+- **Runs started before B17** are INFORMATIONAL and are not read against B17. These are the QRESEED = 1 and 10 probes
+  (2026-10-23 09:00), the 8-D 1e-7 and 1e-8 pairs, and diag8_noreorg. A fix found during them is re-run under B17 from
+  scratch.
+- **Before any fix is used for coverings:**
+  - a soundness note for the changed set algorithm;
+  - for a second-order step, the toy positive control first;
+  - the Bridge's independent check: a review of the derivation and code, and a containment test in which
+    high-precision point images of random boxes along the orbit lie inside every step's enclosure;
+  - its own registered amendment;
+  - the user's OK on the launch plan.
