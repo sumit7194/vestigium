@@ -1,5 +1,26 @@
 # Handoff: 2026-10-16 (chaos-proof phase 2 in progress)
 
+## State on 2026-10-23 (MN swing work with the Bridge; prereg B17, B17a, B18, B18a registered)
+
+**Running (all detached, ppid 1):**
+- B15, PID 24176.
+- The B17 positive control at 1e-12: `tests/b17_check`, PID 37351, writing `mn_smoke/b17_control_pos_1e-12_v3.out`.
+- The 4 corner containment reference runs: `b17_check_pt` with W0 = 0 and CENTRE_OFFSET; `mn_smoke/b17_contain_{mm,mp,pm,pp}.out`.
+- `mn_smoke/launch_midpoints.sh`, which starts the 4 edge-midpoint runs (`b17_contain_{zm,zp,mz,pz}.out`) once 2 corner
+  runs are done.
+
+**When they finish:**
+- Run `python3 qsim/capd/horseshoe/tests/b17_containment.py mn_smoke/b17_control_pos_1e-12_v3.out
+  mn_smoke/b17_contain_*.out`. All 8 points must be contained at all 10 checkpoints.
+- Harness validation also needs v3 to pass B17 from 0 to checkpoint 1 (t = 283.885).
+- Only then is any fix (QRESEED needle-frame re-seed, moving integration frame) read against B17.
+
+**Findings so far** (pushed, latest 1ff1bc7):
+- The 8-D augmented field passes 1e-8 through swing 1 but is ~100–500× fat after it.
+- CAPD's default reorganisation hulls the needle. The default policy fails B17 over the full return even at 1e-12
+  (u2 362× at Σ).
+- The S4 g_φφ check needed B18/B18a. The CTC region reaches x ≈ 1.921, and the UPO's periapsis is at 1.9423.
+
 ## State on 2026-10-21 evening (the user is away Fri–Mon; the app will be closed)
 
 **Running:** only B15 (Kerr control, constructor stage). `qsim/capd/horseshoe/b15_kerr.py`, PID 24176, detached

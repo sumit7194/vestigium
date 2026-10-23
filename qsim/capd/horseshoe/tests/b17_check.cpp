@@ -121,6 +121,9 @@ struct Peek : capd::MpC0TripletonSet {
   IM Cm() const { return m_C; } IV R0() const { return m_r0; } IM Bm() const { return m_B; } IV Rr() const { return m_r; }
   IM Qm() const { return m_Q; } IV Qv() const { return m_q; } IV X() const { return m_x; }
   // the set's width along covector n: n.(C r0) + (n.(B r)  meet  n.(Q q))
+  MpInterval proj(const IV& n) const {                     // n.x (interval) + along(n): the projected set
+    MpInterval c(0); for (int j = 0; j < (int)n.dimension(); ++j) c += n[j] * m_x[j]; return c + along(n);
+  }
   MpInterval along(const IV& n) const {
     MpInterval a1(0), a2(0), a3(0);
     IV nC = transpose(m_C) * n, nB = transpose(m_B) * n, nQ = transpose(m_Q) * n;
@@ -175,6 +178,10 @@ int main(int argc, char** argv) {
   const char* cs[5] = {"39/1", "-5/8", "13394411/1186380", "19/20", "267/1"};
   for (int i = 0; i < 5; ++i) MNC[i] = Q(cs[i]);
   MpInterval cx = Q("36419361737/10000000000"), cp = Q("60360992808/10000000000");
+  if (const char* off = std::getenv("CENTRE_OFFSET")) {   // containment reference runs: W0 = 0 at a shifted point
+    std::istringstream is(off); std::string du, dp; is >> du >> dp; cx = cx + Q(du); cp = cp + Q(dp);
+    std::printf("# centre offset %s %s\n", du.c_str(), dp.c_str());
+  }
   MpInterval r(-hw.rightBound(), hw.rightBound()), wh0 = cx + r, wh1 = cp + r;
   // p_y: naive hull meet mean-value form, then the correlated (corrpy) lift
   MpInterval in2[2] = {wh0, MpInterval(0)}, out[3];
@@ -238,6 +245,10 @@ int main(int argc, char** argv) {
         double Wf[5] = {w(s.along(c.nH)), 0, 0, 0, 0};
         for (int q = 0; q < 4; ++q) Wf[1 + q] = w(s.along(offman(xy, q)));
         verdict(c, w(s.along(c.u1)), w(s.along(c.u2)), Wf);
+        { IV dirs[3] = {c.u1, c.u2, c.nH}; const char* dn[3] = {"u1", "u2", "nH"};
+          for (int k = 0; k < 3; ++k) { MpInterval pj = s.proj(dirs[k]); char *a = nullptr, *b = nullptr;
+            mpfr_asprintf(&a, "%.30Re", pj.leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.30Re", pj.rightBound().*RepAccess::rep);
+            std::printf("PROJ %s t=%.10f %s [%s, %s]\n", c.kind.c_str(), c.t, dn[k], a, b); mpfr_free_str(a); mpfr_free_str(b); } }
       } else {                                                 // section checkpoint: map a COPY of the set to y = 0
         Peek sc = s;
         capd::MpICoordinateSection sec(8, 1);
@@ -248,6 +259,10 @@ int main(int argc, char** argv) {
         rows[7][1] = 1;
         for (int i = 0; i < 8; ++i) for (int j = 0; j < 8; ++j) A[i][j] = rows[i][j];
         MpInterval rt; IV img = pm(sc, xc, A, rt);
+        { const char* dn[3] = {"u1", "u2", "nH"};
+          for (int k = 0; k < 3; ++k) { char *a = nullptr, *b = nullptr;
+            mpfr_asprintf(&a, "%.30Re", img[k].leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.30Re", img[k].rightBound().*RepAccess::rep);
+            std::printf("PROJREL %s t=%.10f %s [%s, %s]\n", c.kind.c_str(), c.t, dn[k], a, b); mpfr_free_str(a); mpfr_free_str(b); } }
         double Wf[5] = {w(img[2]), w(img[3]), w(img[4]), w(img[5]), w(img[6])};
         verdict(c, w(img[0]), w(img[1]), Wf);
         std::printf("# section return-time enclosure [%.6f, %.6f]\n", d(rt.leftBound()), d(rt.rightBound()));
