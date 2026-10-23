@@ -62,6 +62,32 @@ struct Peek : capd::MpC0TripletonSet {
   IV Cr0() const { return m_C * m_r0; } IV Br() const { return m_B * m_r; } IV Qq() const { return m_Q * m_q; }
   IV X() const { return m_x; } IM Cm() const { return m_C; } IV R0() const { return m_r0; }
   IM Bm() const { return m_B; } IV Rr() const { return m_r; } IM Qm() const { return m_Q; } IV Qv() const { return m_q; }
+  // re-seed the second error branch in the NEEDLE frame (the Bridge's r-only policy, 2026-10-23): Q := orthonormalised
+  // mid(C) (columns weighted by rad r0, largest first, completed by unit vectors), q := Q^-1 (B r)  meet  Q^-1 (Q_old q_old).
+  // C, r0, B, r are untouched; the error set B r  meet  Q q is re-enclosed, so the set stays a valid enclosure.
+  void reseedQ() {
+    int n = (int)m_x.dimension();
+    std::vector<std::pair<double, std::vector<double>>> cols;
+    for (int j = 0; j < n; ++j) {
+      std::vector<double> c(n); double nn = 0; double rj = w(m_r0[j]) / 2;
+      for (int i = 0; i < n; ++i) { c[i] = d(m_C[i][j].mid().leftBound()) * rj; nn += c[i] * c[i]; }
+      if (nn > 0) cols.push_back({std::sqrt(nn), c});
+    }
+    std::sort(cols.begin(), cols.end(), [](const auto& a, const auto& b) { return a.first > b.first; });
+    std::vector<std::vector<double>> P;
+    auto add = [&](std::vector<double> v) {
+      for (auto& p : P) { double dd = 0; for (int i = 0; i < n; ++i) dd += v[i] * p[i]; for (int i = 0; i < n; ++i) v[i] -= dd * p[i]; }
+      double nn = 0; for (int i = 0; i < n; ++i) nn += v[i] * v[i]; nn = std::sqrt(nn);
+      if (nn < 1e-12 || (int)P.size() == n) return; for (int i = 0; i < n; ++i) v[i] /= nn; P.push_back(v);
+    };
+    for (auto& c : cols) add(c.second);
+    for (int i = 0; i < n; ++i) { std::vector<double> e(n, 0.0); e[i] = 1; add(e); }
+    IM Qn(n, n); for (int j = 0; j < n; ++j) for (int i = 0; i < n; ++i) Qn[i][j] = MpInterval(P[j][i]);
+    IM iQn = capd::matrixAlgorithms::krawczykInverse(Qn);
+    IV q1 = (iQn * m_B) * m_r, q2 = (iQn * m_Q) * m_q, qn(n);
+    if (!intersection(q1, q2, qn)) throw std::runtime_error("reseedQ: empty intersection (BUG)");
+    m_Q = Qn; m_invQ = iQn; m_q = qn;
+  }
   double radC_over_midC() const {                       // max entry radius / max |entry midpoint|
     double rmax = 0, mmax = 0;
     for (int i = 0; i < (int)m_C.numberOfRows(); ++i) for (int j = 0; j < (int)m_C.numberOfColumns(); ++j) {
@@ -172,6 +198,8 @@ int main(int argc, char** argv) {
   const char* stT = std::getenv("STRIP_T");
   MpInterval Tend = T; if (stT) T = Q(stT);              // integrate to the cut first
   Peek s0(x0, C, r0);
+  long reseedN = std::getenv("QRESEED") ? std::stol(std::getenv("QRESEED")) : 0;   // diagnostic: needle-frame Q re-seed every N steps
+  if (reseedN > 0) std::printf("# Q re-seed every %ld steps\n", reseedN);
   if (const char* rf = std::getenv("REORG_FACTOR")) {      // diagnostic: CAPD's reorganisation (fold r into C, r0)
     if (std::string(rf) == "off") s0.onoffReorganization(false); else s0.setFactor(std::stod(rf));
     std::printf("# reorganisation: %s\n", rf);
@@ -186,6 +214,7 @@ int main(int argc, char** argv) {
     if (phase == 1) { T = Tend; }
     do {
       tm(T, s); IV v = IV(s); ++n;
+      if (reseedN > 0 && n % reseedN == 0) s.reseedQ();
       IV xy(2); xy[0] = v[0]; xy[1] = v[1]; IV fr = fa(xy);
       for (int i = 0; i < 4; ++i) { MpInterval tmp; if (!intersection(v[4 + i], fr[i], tmp)) throw std::runtime_error(std::string("consistency: tracked ") + nm[i] + " misses fresh enclosure (BUG)"); }
       double tnow = d(tm.getCurrentTime().leftBound());
