@@ -1,4 +1,22 @@
 # B17 check: W0 1/1000000000000, k 5, reorganisation default, Q re-seed every 0 steps, 10 checkpoints
-THREW at step 1 t=0.656250: Interval error: Interval Error *** Possible division by zero.
-   left=-2.78055   right=2.05943e1 
-B17 FAIL  W0 1/1000000000000  reorganisation default  QRESEED 0  steps 1  wall 1 s
+# progress t=65.7188 steps 100 S4 leaves 495 wall 68 s
+# progress t=121.2812 steps 200 S4 leaves 995 wall 135 s
+# progress t=164.9844 steps 300 S4 leaves 1495 wall 206 s
+# progress t=198.7500 steps 400 S4 leaves 1995 wall 275 s
+# progress t=225.0703 steps 500 S4 leaves 2804 wall 342 s
+# progress t=244.8203 steps 600 S4 leaves 3704 wall 400 s
+# progress t=259.2148 steps 700 S4 leaves 4604 wall 460 s
+# progress t=269.5430 steps 800 S4 leaves 5777 wall 518 s
+# progress t=276.6895 steps 900 S4 leaves 7477 wall 577 s
+# progress t=281.5234 steps 1000 S4 leaves 9177 wall 636 s
+CHECKPOINT t          t=  283.8852  u1 2.205e-09/2.199e-09=1.00  u2 2.832e-12/1.486e-11=0.19  fake 1.931e-15 vs 3.902e-09  nH 3.04e-19 a 1.58e-19 b 3.71e-19 E2 1.23e-19 eG 1.39e-19  PASS
+# progress t=284.6635 steps 1100 S4 leaves 11515 wall 697 s
+# progress t=286.6996 steps 1200 S4 leaves 14815 wall 763 s
+# progress t=287.9985 steps 1300 S4 leaves 19951 wall 826 s
+# progress t=288.8300 steps 1400 S4 leaves 26630 wall 890 s
+# progress t=289.3801 steps 1500 S4 leaves 37647 wall 956 s
+# progress t=289.7642 steps 1600 S4 leaves 56072 wall 1021 s
+# progress t=290.0538 steps 1700 S4 leaves 88480 wall 1088 s
+# progress t=290.2941 steps 1800 S4 leaves 155072 wall 1154 s
+THREW at step 1860 t=290.434016: S4: g_phiphi > 0 on the inflated box not certified at the depth cap
+B17 FAIL  W0 1/1000000000000  reorganisation default  QRESEED 0  steps 1860  wall 1198 s  S4 certified leaves 230276
