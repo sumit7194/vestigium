@@ -1,0 +1,10 @@
+# corrpy: slopes dpy/dx -9.612878e+01 dpy/dpx -7.899799e-01 ; own p_y radius width 2.829e-33 (was 0.000e+00)
+# prec 128 order 20 halfwidth 0/1 T 283885239312644330/1000000000000000 ; py width 0.000e+00
+# lift a = 6.602306209534e-01  slope -4.2458e-02  own radius width 5.348e-37  (naive hull width 0.000e+00, linear 0.000e+00)
+# lift b = -6.602306209534e-01  slope 4.2458e-02  own radius width 5.348e-37  (naive hull width 0.000e+00, linear 0.000e+00)
+# lift E2 = 7.688294845089e-01  slope 1.8007e-01  own radius width 1.469e-38  (naive hull width 0.000e+00, linear 0.000e+00)
+# lift eG = 8.508606481629e-01  slope 1.8802e-01  own radius width 1.584e-36  (naive hull width 0.000e+00, linear 0.000e+00)
+# step t h  W_x W_px W_a W_b (set)  Wfresh_a Wfresh_b (aux on the set's (x,y) hull)  mid_x mid_y
+1000 281.523438 3.906e-02  0.000e+00 0.000e+00 0.000e+00 0.000e+00  0.000e+00 0.000e+00  2.412684 0.139867
+COMPLETED steps=1071
+FINAL t=2.83885239312644330e+02 2.35015563173269237783582863322752459e+00 1.30847197841882882441412633850810809e-01 -1.09956640726627057079893702843502960e+02 -7.12956966199067678842427039552681990e+01  widths 0.00e+00 0.00e+00 0.00e+00 0.00e+00

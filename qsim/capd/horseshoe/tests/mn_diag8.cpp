@@ -121,6 +121,9 @@ int main(int argc, char** argv) {
   const char* cs[5] = {"39/1", "-5/8", "13394411/1186380", "19/20", "267/1"};
   for (int i = 0; i < 5; ++i) MNC[i] = Q(cs[i]);
   MpInterval cx = Q("36419361737/10000000000"), cp = Q("60360992808/10000000000");
+  if (const char* off = std::getenv("CENTRE_OFFSET")) {   // B17a spot check: shift the centre by (du, dp) (exact p/q)
+    std::istringstream is(off); std::string du, dp; is >> du >> dp; cx = cx + Q(du); cp = cp + Q(dp);
+  }
   MpInterval r(-hw.rightBound(), hw.rightBound()), wh0 = cx + r, wh1 = cp + r;
   // p_y: naive on the hull intersected with the mean-value form (identical to mn_diag mode mv)
   MpInterval in2[2] = {wh0, MpInterval(0)}, out[3];
@@ -285,6 +288,9 @@ int main(int argc, char** argv) {
     }
    }
     std::printf("COMPLETED steps=%ld\n", n);
+    { IV v = IV(*sp); std::printf("FINAL t=%.17e", d(sp->getCurrentTime().leftBound()));
+      for (int i = 0; i < 4; ++i) { char* c = nullptr; mpfr_asprintf(&c, " %.35Re", v[i].mid().leftBound().*RepAccess::rep); std::printf("%s", c); mpfr_free_str(c); }
+      std::printf("  widths"); for (int i = 0; i < 4; ++i) std::printf(" %.2e", w(v[i])); std::printf("\n"); }
   } catch (std::exception& e) {
     IV v = IV(*sp);
     std::printf("THREW at step %ld t=%.6f: %s\n  last set widths x %.3e y %.3e px %.3e py %.3e a %.3e b %.3e\n", n,

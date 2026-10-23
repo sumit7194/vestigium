@@ -1,0 +1,25 @@
+# B17 check: W0 1/1000000, k 5, reorganisation default, Q re-seed every 0 steps, 10 checkpoints
+# progress t=65.6875 steps 100 S4 leaves 495 g_phiphi lower bound 1.659e+04 wall 62 s
+# progress t=121.2500 steps 200 S4 leaves 995 g_phiphi lower bound 1.207e+04 wall 132 s
+# progress t=164.9531 steps 300 S4 leaves 1495 g_phiphi lower bound 6.360e+03 wall 203 s
+# progress t=198.7188 steps 400 S4 leaves 1995 g_phiphi lower bound 5.173e+02 wall 273 s
+# progress t=225.0391 steps 500 S4 leaves 2803 g_phiphi lower bound 3.055e+00 wall 344 s
+# progress t=244.7891 steps 600 S4 leaves 3703 g_phiphi lower bound 3.055e+00 wall 415 s
+# progress t=259.1836 steps 700 S4 leaves 4603 g_phiphi lower bound 3.055e+00 wall 488 s
+# progress t=269.5117 steps 800 S4 leaves 5774 g_phiphi lower bound 3.055e+00 wall 561 s
+# progress t=276.6543 steps 900 S4 leaves 7474 g_phiphi lower bound 3.055e+00 wall 639 s
+# progress t=281.4883 steps 1000 S4 leaves 9174 g_phiphi lower bound 3.055e+00 wall 721 s
+CHECKPOINT t          t=  283.8852  u1 5.593e-03/2.205e-03=2.54  u2 1.339e-03/2.836e-06=472.25  fake 1.133e-02 vs 7.444e-04  nH 2.07e-06 a 3.59e-07 b 1.24e-06 E2 4.86e-07 eG 4.49e-07  FAIL
+# g_phiphi certified lower bound so far: 2.8355e+00
+# progress t=284.6340 steps 1100 S4 leaves 11499 g_phiphi lower bound 2.835e+00 wall 791 s
+# progress t=286.6682 steps 1200 S4 leaves 14799 g_phiphi lower bound 2.835e+00 wall 852 s
+# progress t=287.9602 steps 1300 S4 leaves 19866 g_phiphi lower bound 2.110e+00 wall 915 s
+# progress t=288.7761 steps 1400 S4 leaves 26468 g_phiphi lower bound 2.110e+00 wall 981 s
+# progress t=289.2981 steps 1500 S4 leaves 36978 g_phiphi lower bound 2.110e+00 wall 1049 s
+# progress t=289.6403 steps 1600 S4 leaves 53178 g_phiphi lower bound 2.110e+00 wall 1120 s
+# progress t=289.8669 steps 1700 S4 leaves 77504 g_phiphi lower bound 1.798e+00 wall 1196 s
+# progress t=290.0191 steps 1800 S4 leaves 108097 g_phiphi lower bound 1.798e+00 wall 1276 s
+# progress t=290.1179 steps 1900 S4 leaves 146323 g_phiphi lower bound 7.470e-01 wall 1361 s
+THREW at step 1908 t=290.123901: [S9] Interval error: Interval Error *** Possible division by zero.
+   left=-3.26423e1   right=1.49101e4 
+B17 FAIL  W0 1/1000000  reorganisation default  QRESEED 0  steps 1908  wall 1369 s  S4 certified leaves 150237
