@@ -107,3 +107,16 @@ PROJ t t=801.2346306025 nH [-1.658981511566452751827248994491e+00, -1.6589814810
 # progress t=803.7431 steps 5700 S4 leaves 531049 g_phiphi lower bound 1.545e-01 wall 4190 s
 CHECKPOINT t          t=  805.2346  u1 2.821e-03/5.080e-06=555.39  u2 2.209e-04/1.190e-09=185526.66  fake 5.563e-03 vs 2.996e-09  nH 2.33e-07 a 2.15e-06 b 5.81e-07 E2 9.79e-07 eG 5.11e-07  FAIL
 # g_phiphi certified lower bound so far: 1.5453e-01
+PROJ t t=805.2346306025 u1 [-8.731183925121727629225835825928e+01, -8.730901776434505430320498933646e+01]
+PROJ t t=805.2346306025 u2 [1.813099222897016849693681160120e+01, 1.813121307930528179882266935024e+01]
+PROJ t t=805.2346306025 nH [-1.894722938515269564402828359681e+00, -1.894722705935122630780478909291e+00]
+# projrows residue row 0 |n'.f(xbar)| <= 2.350e-37
+# projrows residue row 1 |n'.f(xbar)| <= 2.673e-37
+# projrows residue row 2 |n'.f(xbar)| <= 3.511e-39
+# projrows residue row 3 |n'.f(xbar)| <= 2.411e-40
+# projrows residue row 4 |n'.f(xbar)| <= 2.956e-40
+# projrows residue row 5 |n'.f(xbar)| <= 2.368e-41
+# projrows residue row 6 |n'.f(xbar)| <= 2.798e-40
+THREW at step 5749 t=805.234631: Interval error: Interval Error *** Possible division by zero.
+   left=-1.64947e16   right=1.64948e16 
+B17 FAIL  W0 1/10000000000  reorganisation off  QRESEED 0  steps 5749  wall 5718 s  S4 certified leaves 537903  order 20  reorganisation events 0
