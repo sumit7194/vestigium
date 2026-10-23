@@ -173,7 +173,7 @@ static std::vector<Checkpoint> read_cps(const char* path) {
 int main(int argc, char** argv) {
   if (argc < 3) { std::cerr << "usage: b17_check W0 checkpoints.txt\n"; return 2; }
   R::setDefaultPrecision(128);
-  const int order = 20; const double K = 5.0;
+  const int order = std::getenv("ORDER") ? std::stoi(std::getenv("ORDER")) : 20; const double K = 5.0;
   MpInterval hw = Q(argv[1]); auto cps = read_cps(argv[2]);
   const char* cs[5] = {"39/1", "-5/8", "13394411/1186380", "19/20", "267/1"};
   for (int i = 0; i < 5; ++i) MNC[i] = Q(cs[i]);
@@ -208,10 +208,10 @@ int main(int argc, char** argv) {
   std::string reorg = std::getenv("REORG_FACTOR") ? std::getenv("REORG_FACTOR") : "default";
   if (reorg == "off") s.onoffReorganization(false); else if (reorg != "default") s.setFactor(std::stod(reorg));
   long reseedN = std::getenv("QRESEED") ? std::stol(std::getenv("QRESEED")) : 0;
-  std::printf("# B17 check: W0 %s, k %.0f, reorganisation %s, Q re-seed every %ld steps, %zu checkpoints\n", argv[1], K, reorg.c_str(), reseedN, cps.size()); std::fflush(stdout);
+  std::printf("# B17 check: order %d, W0 %s, k %.0f, reorganisation %s, Q re-seed every %ld steps, %zu checkpoints\n", order, argv[1], K, reorg.c_str(), reseedN, cps.size()); std::fflush(stdout);
   const char* nm[4] = {"a", "b", "E2", "eG"};
   capd::MpITimeMap tm(solver); tm.stopAfterStep(true);
-  auto t0 = std::chrono::steady_clock::now(); long steps = 0; bool pass = true, harness_error = false;
+  auto t0 = std::chrono::steady_clock::now(); long steps = 0, reorgs = 0; bool pass = true, harness_error = false;
   auto offman = [&](const IV& xy, int q) { IM Da(4, 2); IV xm(2); xm[0] = xy[0].mid(); xm[1] = xy[1].mid(); fa(xm, Da);
                                            IV n(8); n[4 + q] = 1; n[0] = -Da[q][0].mid(); n[1] = -Da[q][1].mid(); return n; };
   auto verdict = [&](const Checkpoint& c, double W1, double W2, const double Wf[5]) {
@@ -231,6 +231,10 @@ int main(int argc, char** argv) {
         MpInterval T = MpInterval(c.t);
         do {
           tm(T, s); ++steps;
+          { IM Bm = s.Bm(); bool id = true;                      // a CAPD reorganisation leaves B = Id exactly
+            for (int i = 0; i < 8 && id; ++i) for (int j = 0; j < 8 && id; ++j) { const MpInterval& e = Bm[i][j];
+              id = (e.leftBound() == e.rightBound()) && (d(e.leftBound()) == (i == j ? 1.0 : 0.0)); }
+            if (id && steps > 1) ++reorgs; }
           if (steps % 100 == 0) { std::printf("# progress t=%.4f steps %ld S4 leaves %ld g_phiphi lower bound %.3e wall %.0f s\n", d(s.getCurrentTime().leftBound()), steps, S4_LEAVES, S4_GMIN,
                                               std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count()); std::fflush(stdout); }
           if (reseedN > 0 && steps % reseedN == 0) s.reseedQ();
@@ -288,6 +292,6 @@ int main(int argc, char** argv) {
   }
   double sec = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
   if (harness_error) std::printf("B17 HARNESS ERROR (a set narrower than its reference): not a pass or a fail\n");
-  std::printf("B17 %s  W0 %s  reorganisation %s  QRESEED %ld  steps %ld  wall %.0f s  S4 certified leaves %ld\n", pass ? "PASS" : "FAIL", argv[1], reorg.c_str(), reseedN, steps, sec, S4_LEAVES);
+  std::printf("B17 %s  W0 %s  reorganisation %s  QRESEED %ld  steps %ld  wall %.0f s  S4 certified leaves %ld  order %d  reorganisation events %ld\n", pass ? "PASS" : "FAIL", argv[1], reorg.c_str(), reseedN, steps, sec, S4_LEAVES, order, reorgs);
   return 0;
 }
