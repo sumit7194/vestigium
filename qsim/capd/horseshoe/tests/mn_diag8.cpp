@@ -18,6 +18,7 @@
 #include <vector>
 #include <memory>
 #include <sstream>
+#include <fstream>
 #include <cstdlib>
 
 using capd::MpInterval;
@@ -171,6 +172,10 @@ int main(int argc, char** argv) {
   const char* stT = std::getenv("STRIP_T");
   MpInterval Tend = T; if (stT) T = Q(stT);              // integrate to the cut first
   Peek s0(x0, C, r0);
+  if (const char* rf = std::getenv("REORG_FACTOR")) {      // diagnostic: CAPD's reorganisation (fold r into C, r0)
+    if (std::string(rf) == "off") s0.onoffReorganization(false); else s0.setFactor(std::stod(rf));
+    std::printf("# reorganisation: %s\n", rf);
+  }
   Peek* sp = &s0; std::unique_ptr<Peek> s2;
   capd::MpITimeMap tm(solver); tm.stopAfterStep(true);
   std::printf("# step t h  W_x W_px W_a W_b (set)  Wfresh_a Wfresh_b (aux on the set's (x,y) hull)  mid_x mid_y\n");
@@ -210,6 +215,26 @@ int main(int argc, char** argv) {
       std::vector<std::vector<double>> cand = {v1};
       for (auto& c : cols) cand.push_back(c.second);
       for (int i = 0; i < 8; ++i) { std::vector<double> e(8, 0.0); e[i] = 1; cand.push_back(e); }
+      if (const char* pf = std::getenv("PROBE_FILE")) {     // widths of the set projected on given covectors
+        std::ifstream in(pf); std::string line; int k = 0;
+        while (std::getline(in, line)) {
+          std::istringstream is(line); IV nv(8); for (int i = 0; i < 8; ++i) { double c; is >> c; nv[i] = MpInterval(c); }
+          MpInterval a1 = MpInterval(0), a2 = MpInterval(0), a3 = MpInterval(0);
+          IV nC = transpose(Cm) * nv, nB = transpose(Bm) * nv, nQ = transpose(Qm) * nv;
+          for (int j = 0; j < 8; ++j) { a1 += nC[j] * r0v[j]; a2 += nB[j] * rv[j]; a3 += nQ[j] * qv[j]; }
+          MpInterval wB = a1 + a2, wQ = a1 + a3, wt; if (!intersection(wB, wQ, wt)) wt = wB;
+          std::printf("# PROBE %d: width n.(C r0) %.3e  n.(B r) %.3e  n.(Q q) %.3e  -> set %.3e\n", k++, w(a1), w(a2), w(a3), w(wt));
+        }
+        // off-manifold: tracked a, b, E2, eG minus their first-order values from (x, y)
+        IV xy2(2); xy2[0] = x[0].mid(); xy2[1] = x[1].mid(); IM Da2(4, 2); fa(xy2, Da2);
+        for (int q = 0; q < 4; ++q) {
+          IV nv(8); nv[4 + q] = 1; nv[0] = -Da2[q][0].mid(); nv[1] = -Da2[q][1].mid();
+          MpInterval a1 = MpInterval(0), a2 = MpInterval(0);
+          IV nC = transpose(Cm) * nv, nB = transpose(Bm) * nv;
+          for (int j = 0; j < 8; ++j) { a1 += nC[j] * r0v[j]; a2 += nB[j] * rv[j]; }
+          std::printf("# PROBE off-manifold %s: width %.3e (C r0 %.3e, B r %.3e) vs on-manifold extent %.3e\n", nm[q], w(a1 + a2), w(a1), w(a2), w(s.Cr0()[4 + q] + s.Br()[4 + q]));
+        }
+      }
       auto Pv = gram_schmidt(cand, 8);
       double cosv = 0, n1 = 0, n2 = 0; for (int i = 0; i < 8; ++i) { cosv += v1[i] * cols[0].second[i]; n1 += v1[i] * v1[i]; n2 += cols[0].second[i] * cols[0].second[i]; }
       IM P(8, 8); for (int j = 0; j < 8; ++j) for (int i = 0; i < 8; ++i) P[i][j] = MpInterval(Pv[j][i]);
@@ -226,6 +251,7 @@ int main(int argc, char** argv) {
         std::printf("# STRIP axis %d half-width %s ; strips needed to tile z_%d: %.3e\n", k, Wsp.c_str(), k, w(s.R0()[0]) >= 0 ? (double)(w(Zq[k]) / (2 * d(Wq.rightBound()))) : 0.0);
       }
       s2.reset(new Peek(x, P, Z, s.getCurrentTime()));
+      if (const char* rf = std::getenv("REORG_FACTOR")) { if (std::string(rf) == "off") s2->onoffReorganization(false); else s2->setFactor(std::stod(rf)); }
       sp = s2.get();
     }
    }

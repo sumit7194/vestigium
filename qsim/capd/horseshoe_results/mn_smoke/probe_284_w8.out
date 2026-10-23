@@ -1,0 +1,17 @@
+# corrpy: slopes dpy/dx -9.612878e+01 dpy/dpx -7.899799e-01 ; own p_y radius width 3.916e-11 (was 1.938e-06)
+# prec 128 order 20 halfwidth 1/100000000 T 2841/10 ; py width 1.938e-06
+# lift a = 6.602306209533e-01  slope -4.2458e-02  own radius width 2.710e-15  (naive hull width 1.920e-07, linear 8.492e-10)
+# lift b = -6.602306209533e-01  slope 4.2458e-02  own radius width 2.710e-15  (naive hull width 1.920e-07, linear 8.492e-10)
+# lift E2 = 7.688294845091e-01  slope 1.8007e-01  own radius width 1.360e-16  (naive hull width 3.601e-09, linear 3.601e-09)
+# lift eG = 8.508606481631e-01  slope 1.8802e-01  own radius width 7.843e-15  (naive hull width 4.963e-07, linear 3.760e-09)
+# step t h  W_x W_px W_a W_b (set)  Wfresh_a Wfresh_b (aux on the set's (x,y) hull)  mid_x mid_y
+1000 281.523438 3.906e-02  1.583e-07 1.495e-05 2.416e-08 2.017e-07  2.868e-06 7.259e-06  2.412684 0.139867
+# PROBE 0: width n.(C r0) 2.249e-05  n.(B r) 3.076e-08  n.(Q q) 1.170e-06  -> set 2.252e-05
+# PROBE 1: width n.(C r0) 2.698e-08  n.(B r) 1.378e-08  n.(Q q) 6.372e-08  -> set 4.076e-08
+# PROBE 2: width n.(C r0) 2.727e-14  n.(B r) 3.072e-11  n.(Q q) 2.430e-10  -> set 3.075e-11
+# PROBE off-manifold a: width 1.632e-11 (C r0 2.320e-15, B r 1.632e-11) vs on-manifold extent 4.251e-08
+# PROBE off-manifold b: width 3.887e-11 (C r0 5.641e-15, B r 3.886e-11) vs on-manifold extent 2.958e-07
+# PROBE off-manifold E2: width 1.259e-11 (C r0 5.891e-17, B r 1.259e-11) vs on-manifold extent 1.165e-07
+# PROBE off-manifold eG: width 1.421e-11 (C r0 2.238e-15, B r 1.421e-11) vs on-manifold extent 1.954e-07
+# STRIP at t=284.000000: abs cosine of v1 vs longest set axis 0.0029 ; Z widths: 6.566e-08 2.253e-05 3.996e-08 1.973e-10 1.154e-11 6.641e-12 5.585e-12 4.125e-12
+COMPLETED steps=1079
