@@ -1,0 +1,83 @@
+== toy A
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.05288 over 441 r: PASS
+component 0: pointwise set width (max over r) 0.000e+00 ; exact image spread 4.372e-01
+component 1: pointwise set width (max over r) 1.688e-37 ; exact image spread 6.979e-02
+TOY A ALL PASS
+== toy B
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.00383 over 441 r: PASS
+component 0: pointwise set width (max over r) 3.577e-03 ; exact image spread 4.415e-01
+component 1: pointwise set width (max over r) 9.225e-04 ; exact image spread 7.329e-02
+TOY B ALL PASS
+== toy C
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02162 over 441 r: PASS
+component 0: pointwise set width (max over r) 1.638e-04 ; exact image spread 8.281e-02
+component 1: pointwise set width (max over r) 2.181e-38 ; exact image spread 7.200e-02
+TOY C ALL PASS
+== toy D
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02927 over 441 r: PASS
+component 0: pointwise set width (max over r) 5.289e-03 ; exact image spread 1.189e-01
+component 1: pointwise set width (max over r) 4.811e-03 ; exact image spread 7.145e-02
+TOY D ALL PASS
+== toy E
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.01813 over 441 r: PASS
+component 0: pointwise set width (max over r) 7.295e-04 ; exact image spread 7.229e-02
+component 1: pointwise set width (max over r) 3.765e-38 ; exact image spread 8.309e-02
+TOY E ALL PASS
+== negative nospread_C
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02162 over 441 r: PASS
+TOY C ALL PASS
+resteps 0
+== negative nospread_D
+corner test (step 20, h 0.00183105): FAIL (12)
+pointwise containment at T=1.03459 over 441 r: PASS
+TOY D SOME FAIL
+resteps 0
+== negative nospread_E
+corner test (step 20, h 0.00183105): FAIL (10)
+pointwise containment at T=1.01813 over 441 r: PASS
+TOY E SOME FAIL
+resteps 0
+== negative offdiag_D
+corner test (step 20, h 0.00183105): FAIL (8)
+pointwise containment at T=1.03459 over 441 r: FAIL (6 not contained)
+TOY D SOME FAIL
+resteps 0
+== negative offdiag2_D
+corner test (step 20, h 0.00183105): FAIL (4)
+pointwise containment at T=1.02395 over 441 r: PASS
+TOY D SOME FAIL
+resteps 0
+== negative rem_B
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.00383 over 441 r: FAIL (420 not contained)
+TOY B SOME FAIL
+resteps 0
+== negative rem_C
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02162 over 441 r: FAIL (420 not contained)
+TOY C SOME FAIL
+resteps 0
+== negative rem_D
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.03725 over 441 r: FAIL (420 not contained)
+TOY D SOME FAIL
+resteps 0
+== negative tcap_D
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.00555 over 441 r: PASS
+TOY D ALL PASS
+resteps 76
+== lift h 1_1000000
+lift containment (h = 1/1000000): 8032 point-components checked, 0 not contained -> PASS
+widths: E3 0.0 0.0 0.0 2.6228655197767677e-17 4.205305356646059e-20 4.205305356646059e-20 6.410974882021131e-20 1.6203462348840043e-19
+== lift h 1_1000
+lift containment (h = 1/1000): 8032 point-components checked, 0 not contained -> PASS
+widths: E3 0.0 0.0 0.0 351.81863620734754 6.847804618216437e-11 6.847804618216437e-11 6.823536160342448e-11 2.610060141428524e-10
+== lift negative (no cubic, h 1e-3)
+lift containment (h = 1/1000): 8032 point-components checked, 5020 not contained -> FAIL

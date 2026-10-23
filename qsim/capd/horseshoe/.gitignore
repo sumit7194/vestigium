@@ -17,3 +17,9 @@ tests/b17_check
 tests/domain_gate
 tests/b17_check_pt
 tests/cost48
+tests/d2f_gate
+tests/toys_so
+tests/mn_lift_so
+tests/jetparam_test
+tests/jetparam_test2
+tests/jetparam_test3
