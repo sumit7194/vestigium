@@ -1,0 +1,113 @@
+# centre offset 1/1000000000000 1/1000000000000
+# B17 check: W0 0/1, k 5, reorganisation default, Q re-seed every 0 steps, 10 checkpoints
+# progress t=65.7188 steps 100 S4 leaves 495 g_phiphi lower bound 1.659e+04 wall 64 s
+# progress t=121.2812 steps 200 S4 leaves 995 g_phiphi lower bound 1.207e+04 wall 127 s
+# progress t=164.9844 steps 300 S4 leaves 1495 g_phiphi lower bound 6.358e+03 wall 190 s
+# progress t=198.7500 steps 400 S4 leaves 1995 g_phiphi lower bound 5.146e+02 wall 253 s
+# progress t=225.0703 steps 500 S4 leaves 2804 g_phiphi lower bound 9.829e+00 wall 319 s
+# progress t=244.8203 steps 600 S4 leaves 3704 g_phiphi lower bound 9.829e+00 wall 386 s
+# progress t=259.2148 steps 700 S4 leaves 4604 g_phiphi lower bound 9.829e+00 wall 453 s
+# progress t=269.5430 steps 800 S4 leaves 5777 g_phiphi lower bound 7.581e+00 wall 528 s
+# progress t=276.6895 steps 900 S4 leaves 7477 g_phiphi lower bound 7.581e+00 wall 602 s
+# progress t=281.5234 steps 1000 S4 leaves 9177 g_phiphi lower bound 7.581e+00 wall 678 s
+CHECKPOINT t          t=  283.8852  u1 6.885e-22/2.205e-09=0.00  u2 2.205e-22/2.832e-12=0.00  fake 4.735e-21 vs 7.434e-10  nH 7.32e-25 a 6.84e-25 b 1.06e-24 E2 2.28e-25 eG 1.73e-25  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 7.5811e+00
+PROJ t t=283.8852393126 u1 [9.903290112350534399422972674877e+00, 9.903290112350534399423661129903e+00]
+PROJ t t=283.8852393126 u2 [1.306160398935804657148699885643e+02, 1.306160398935804657148702090591e+02]
+PROJ t t=283.8852393126 nH [2.262789832489096454165408862402e+00, 2.262789832489096454165409594190e+00]
+# progress t=284.6635 steps 1100 S4 leaves 11515 g_phiphi lower bound 6.189e-01 wall 752 s
+# progress t=286.6996 steps 1200 S4 leaves 14815 g_phiphi lower bound 6.189e-01 wall 833 s
+# progress t=287.9985 steps 1300 S4 leaves 19951 g_phiphi lower bound 6.189e-01 wall 915 s
+# progress t=288.8300 steps 1400 S4 leaves 26630 g_phiphi lower bound 6.189e-01 wall 985 s
+# progress t=289.3801 steps 1500 S4 leaves 37647 g_phiphi lower bound 6.189e-01 wall 1055 s
+# progress t=289.7642 steps 1600 S4 leaves 56072 g_phiphi lower bound 6.189e-01 wall 1129 s
+# progress t=290.0538 steps 1700 S4 leaves 83649 g_phiphi lower bound 6.189e-01 wall 1206 s
+# progress t=290.2941 steps 1800 S4 leaves 118795 g_phiphi lower bound 6.189e-01 wall 1289 s
+# progress t=290.5324 steps 1900 S4 leaves 161362 g_phiphi lower bound 6.189e-01 wall 1374 s
+# progress t=290.8201 steps 2000 S4 leaves 213202 g_phiphi lower bound 1.591e-01 wall 1468 s
+CHECKPOINT t          t=  290.8497  u1 1.634e-19/5.011e-08=0.00  u2 3.688e-19/6.136e-12=0.00  fake 8.655e-19 vs 7.625e-11  nH 2.80e-22 a 2.96e-22 b 9.72e-22 E2 9.44e-23 eG 3.06e-23  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 1.5913e-01
+PROJ t t=290.8497393126 u1 [-3.037035675294868402241073376585e+00, -3.037035675294868402077702591081e+00]
+PROJ t t=290.8497393126 u2 [-1.654920136586477182566595392143e-02, -1.654920136586477145682302593791e-02]
+PROJ t t=290.8497393126 nH [-1.797380256662909218803260951774e+00, -1.797380256662909218802980803229e+00]
+# progress t=291.1399 steps 2100 S4 leaves 267914 g_phiphi lower bound 1.591e-01 wall 1563 s
+# progress t=291.3902 steps 2200 S4 leaves 313944 g_phiphi lower bound 1.591e-01 wall 1649 s
+# progress t=291.6240 steps 2300 S4 leaves 352012 g_phiphi lower bound 1.591e-01 wall 1731 s
+CHECKPOINT t          t=  291.8852  u1 3.493e-19/3.435e-08=0.00  u2 7.112e-19/1.846e-12=0.00  fake 2.533e-18 vs 4.473e-11  nH 1.72e-22 a 2.86e-22 b 7.05e-22 E2 1.36e-22 eG 1.16e-22  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 1.5913e-01
+PROJ t t=291.8852393126 u1 [-6.485676254524436619000528479477e+01, -6.485676254524436618965598964713e+01]
+PROJ t t=291.8852393126 u2 [3.603945066521294763757143697075e+01, 3.603945066521294763828265579174e+01]
+PROJ t t=291.8852393126 nH [-1.628704792760016039290600776319e+00, -1.628704792760016039290428906674e+00]
+# progress t=291.8855 steps 2400 S4 leaves 382372 g_phiphi lower bound 1.591e-01 wall 1808 s
+# progress t=292.2204 steps 2500 S4 leaves 405170 g_phiphi lower bound 1.591e-01 wall 1882 s
+# progress t=292.6872 steps 2600 S4 leaves 418762 g_phiphi lower bound 1.591e-01 wall 1951 s
+# progress t=293.3820 steps 2700 S4 leaves 426704 g_phiphi lower bound 1.591e-01 wall 2016 s
+# progress t=294.4503 steps 2800 S4 leaves 432916 g_phiphi lower bound 1.591e-01 wall 2081 s
+CHECKPOINT t          t=  295.8852  u1 4.194e-18/3.439e-09=0.00  u2 1.311e-18/3.294e-12=0.00  fake 1.815e-16 vs 7.934e-11  nH 1.19e-20 a 2.04e-20 b 2.18e-20 E2 4.82e-21 eG 1.24e-20  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 1.5913e-01
+PROJ t t=295.8852393126 u1 [-5.221860991398398861452247213842e+01, -5.221860991398398861032859624322e+01]
+PROJ t t=295.8852393126 u2 [-1.184609939588345906270639526639e+02, -1.184609939588345906257524927866e+02]
+PROJ t t=295.8852393126 nH [1.033803168653742080913157500338e+00, 1.033803168653742080925013503538e+00]
+PROJREL sec_down t=581.7704786137 u1 [-3.817020623697956437188270429451e-10, -3.817020620810986961585110414598e-10]
+PROJREL sec_down t=581.7704786137 u2 [-6.449689721045657367569814927171e-11, -6.449689694545640302357761197361e-11]
+PROJREL sec_down t=581.7704786137 nH [1.400267823531919213310674654592e-12, 1.400267831271800030186757375359e-12]
+CHECKPOINT sec_down   t=  581.7705  u1 2.887e-19/7.577e-10=0.00  u2 2.650e-19/5.593e-13=0.00  fake 2.758e-17 vs 1.743e-10  nH 7.74e-21 a 2.22e-21 b 2.21e-21 E2 1.43e-21 eG 1.67e-21  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 1.5913e-01
+# section return-time enclosure [581.770479, 581.770479]
+# progress t=296.1006 steps 2900 S4 leaves 436555 g_phiphi lower bound 1.591e-01 wall 2903 s
+# progress t=298.7070 steps 3000 S4 leaves 439593 g_phiphi lower bound 1.591e-01 wall 2969 s
+# progress t=302.7051 steps 3100 S4 leaves 441325 g_phiphi lower bound 1.591e-01 wall 3038 s
+# progress t=308.6992 steps 3200 S4 leaves 443025 g_phiphi lower bound 1.591e-01 wall 3108 s
+# progress t=317.4336 steps 3300 S4 leaves 444575 g_phiphi lower bound 1.591e-01 wall 3179 s
+# progress t=329.7891 steps 3400 S4 leaves 445475 g_phiphi lower bound 1.591e-01 wall 3249 s
+# progress t=346.8125 steps 3500 S4 leaves 446375 g_phiphi lower bound 1.591e-01 wall 3321 s
+# progress t=369.8203 steps 3600 S4 leaves 447275 g_phiphi lower bound 1.591e-01 wall 3388 s
+# progress t=399.8984 steps 3700 S4 leaves 447879 g_phiphi lower bound 1.591e-01 wall 3453 s
+# progress t=438.3516 steps 3800 S4 leaves 448379 g_phiphi lower bound 1.591e-01 wall 3522 s
+# progress t=487.6172 steps 3900 S4 leaves 448879 g_phiphi lower bound 1.591e-01 wall 3590 s
+# progress t=550.9297 steps 4000 S4 leaves 449379 g_phiphi lower bound 1.591e-01 wall 3652 s
+# progress t=610.2422 steps 4100 S4 leaves 449879 g_phiphi lower bound 1.591e-01 wall 3717 s
+# progress t=654.1953 steps 4200 S4 leaves 450379 g_phiphi lower bound 1.591e-01 wall 3784 s
+# progress t=687.4766 steps 4300 S4 leaves 450879 g_phiphi lower bound 1.591e-01 wall 3855 s
+# progress t=713.2031 steps 4400 S4 leaves 451519 g_phiphi lower bound 1.591e-01 wall 3927 s
+# progress t=733.4063 steps 4500 S4 leaves 452419 g_phiphi lower bound 1.591e-01 wall 3997 s
+# progress t=749.2031 steps 4600 S4 leaves 453319 g_phiphi lower bound 1.591e-01 wall 4068 s
+# progress t=761.2969 steps 4700 S4 leaves 454502 g_phiphi lower bound 1.591e-01 wall 4130 s
+# progress t=770.2930 steps 4800 S4 leaves 456202 g_phiphi lower bound 1.591e-01 wall 4193 s
+# progress t=776.9063 steps 4900 S4 leaves 457902 g_phiphi lower bound 1.591e-01 wall 4262 s
+# progress t=781.8301 steps 5000 S4 leaves 460468 g_phiphi lower bound 1.591e-01 wall 4336 s
+# progress t=785.5313 steps 5100 S4 leaves 463832 g_phiphi lower bound 1.591e-01 wall 4406 s
+# progress t=788.5059 steps 5200 S4 leaves 469628 g_phiphi lower bound 1.591e-01 wall 4475 s
+# progress t=791.0313 steps 5300 S4 leaves 476995 g_phiphi lower bound 1.591e-01 wall 4545 s
+CHECKPOINT t          t=  793.2346  u1 6.798e-15/4.072e-08=0.00  u2 2.072e-16/1.427e-12=0.00  fake 6.178e-17 vs 5.432e-11  nH 2.97e-20 a 1.11e-19 b 5.52e-21 E2 3.08e-21 eG 8.43e-21  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 1.5913e-01
+PROJ t t=793.2346306025 u1 [-9.215650675074947294254955805732e+01, -9.215650675074946614447080887932e+01]
+PROJ t t=793.2346306025 u2 [-6.277017157173281201070631817045e+01, -6.277017157173281180353151373436e+01]
+PROJ t t=793.2346306025 nH [-1.836322421378385908391748837738e+00, -1.836322421378385908362033464915e+00]
+# progress t=793.4564 steps 5400 S4 leaves 488920 g_phiphi lower bound 1.591e-01 wall 4619 s
+# progress t=796.2758 steps 5500 S4 leaves 502168 g_phiphi lower bound 1.591e-01 wall 4703 s
+# progress t=800.0121 steps 5600 S4 leaves 516544 g_phiphi lower bound 1.591e-01 wall 4784 s
+CHECKPOINT t          t=  800.0941  u1 1.222e-14/7.518e-08=0.00  u2 1.615e-16/8.335e-12=0.00  fake 8.168e-18 vs 4.481e-11  nH 1.91e-20 a 1.37e-19 b 5.04e-21 E2 2.65e-21 eG 7.14e-21  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 1.5913e-01
+PROJ t t=800.0941306025 u1 [-2.828753760084761479676735147916e+00, -2.828753760084749259141487689656e+00]
+PROJ t t=800.0941306025 u2 [7.895532935102967507414056298189e-02, 7.895532935102983655254946184310e-02]
+PROJ t t=800.0941306025 nH [-1.647750951444959303883391041266e+00, -1.647750951444959303864331783466e+00]
+CHECKPOINT t          t=  801.2346  u1 1.197e-14/7.376e-08=0.00  u2 1.548e-16/8.767e-12=0.00  fake 2.533e-17 vs 6.600e-11  nH 1.93e-20 a 1.37e-19 b 5.05e-21 E2 2.65e-21 eG 7.15e-21  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 1.5913e-01
+PROJ t t=801.2346306025 u1 [-2.004064026262526702093366691983e+01, -2.004064026262525505222341505052e+01]
+PROJ t t=801.2346306025 u2 [-4.344982861697102349006501360272e-01, -4.344982861697100801282408390667e-01]
+PROJ t t=801.2346306025 nH [-1.658981496331941660847984991811e+00, -1.658981496331941660828706753058e+00]
+# progress t=803.7803 steps 5700 S4 leaves 531040 g_phiphi lower bound 1.591e-01 wall 4863 s
+CHECKPOINT t          t=  805.2346  u1 8.214e-15/5.080e-08=0.00  u2 1.152e-16/1.190e-11=0.00  fake 1.488e-16 vs 2.996e-11  nH 2.52e-20 a 1.23e-19 b 5.30e-21 E2 2.85e-21 eG 7.63e-21  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 1.5913e-01
+PROJ t t=805.2346306025 u1 [-8.731042848238031455901939570334e+01, -8.731042848238030634496094218349e+01]
+PROJ t t=805.2346306025 u2 [1.813110265413231131030177326478e+01, 1.813110265413231142552229772238e+01]
+PROJ t t=805.2346306025 nH [-1.894722822225196097616442824129e+00, -1.894722822225196097591222940736e+00]
+PROJREL sec_return t=1018.6987826030 u1 [9.141598345584694018378765475871e-10, 9.141600181493113677814904389888e-10]
+PROJREL sec_return t=1018.6987826030 u2 [-1.436857719252927773283950098947e-11, -1.436827067820048805078769886968e-11]
+PROJREL sec_return t=1018.6987826030 nH [1.621214588198338506363437189299e-12, 1.621215519676642377847069633887e-12]
+CHECKPOINT sec_return t= 1018.6988  u1 1.836e-16/1.429e-09=0.00  u2 3.065e-16/2.970e-13=0.00  fake 1.036e-18 vs 1.485e-12  nH 9.31e-19 a 2.29e-20 b 9.76e-21 E2 1.26e-20 eG 5.92e-20  HARNESS-ERROR
+# g_phiphi certified lower bound so far: 1.5913e-01
+# section return-time enclosure [1018.698783, 1018.698783]
+B17 HARNESS ERROR (a set narrower than its reference): not a pass or a fail
+B17 PASS  W0 0/1  reorganisation default  QRESEED 0  steps 5748  wall 5841 s  S4 certified leaves 537753

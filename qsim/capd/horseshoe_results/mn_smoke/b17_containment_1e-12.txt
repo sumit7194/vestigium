@@ -1,0 +1,2 @@
+containment: 240 point-projections checked, 0 not contained; reference runs with missing checkpoints: none
+CONTAINMENT PASS
