@@ -1,0 +1,4 @@
+# B17 check: W0 1/1000000, k 5, reorganisation default, Q re-seed every 0 steps, 10 checkpoints
+THREW at step 1 t=0.656250: Interval error: Interval Error *** Possible division by zero.
+   left=-2.78126   right=2.05944e1 
+B17 FAIL  W0 1/1000000  reorganisation default  QRESEED 0  steps 1  wall 1 s
