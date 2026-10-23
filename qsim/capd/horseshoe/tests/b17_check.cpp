@@ -257,8 +257,22 @@ int main(int argc, char** argv) {
         IV cxy(2); cxy[0] = xc[0]; cxy[1] = xc[1]; IV ac = fa(cxy); for (int q = 0; q < 4; ++q) xc[4 + q] = ac[q].mid();
         IM A(8, 8); IV rows[8] = {c.u1, c.u2, c.nH, offman(cxy, 0), offman(cxy, 1), offman(cxy, 2), offman(cxy, 3), IV(8)};
         rows[7][1] = 1;
+        const bool projrows = std::getenv("PROJ_ROWS") != nullptr;   // flow-annihilating section rows (agreed with the Bridge)
+        IV fx = f(xc); IM Dfx(8, 8); f(xc, Dfx);
+        if (projrows) {
+          for (int k = 0; k < 7; ++k) {                         // n' = n - (n.f / f_y) e_y ; e_y row kept as is
+            MpInterval nf(0); for (int i = 0; i < 8; ++i) nf += rows[k][i] * fx[i];
+            rows[k][1] = rows[k][1] - (nf / fx[1]).mid();
+          }
+          for (int k = 0; k < 7; ++k) { MpInterval nf(0); for (int i = 0; i < 8; ++i) nf += rows[k][i] * fx[i];
+            std::printf("# projrows residue row %d |n'.f(xbar)| <= %.3e\n", k, std::max(std::fabs(d(nf.leftBound())), std::fabs(d(nf.rightBound())))); }
+        }
         for (int i = 0; i < 8; ++i) for (int j = 0; j < 8; ++j) A[i][j] = rows[i][j];
         MpInterval rt; IV img = pm(sc, xc, A, rt);
+        { IM ADf = A * Dfx; double nrm = 0; for (int i = 0; i < 8; ++i) { double rr = 0; for (int j = 0; j < 8; ++j) rr += std::fabs(d(ADf[i][j].mid().leftBound())); nrm = std::max(nrm, rr); }
+          IV hull = IV(sc); double wdx = 0; for (int i = 0; i < 8; ++i) wdx = std::max(wdx, w(hull[i]));
+          std::printf("# section: w(rt) %.3e ; |A Df| %.3e ; rough 2nd-order term |A Df| w(dx) w(dt) ~ %.3e ; image-mid offsets u1 %.3e u2 %.3e\n",
+                      w(rt), nrm, nrm * wdx * w(rt), d(img[0].mid().leftBound()), d(img[1].mid().leftBound())); }
         { const char* dn[3] = {"u1", "u2", "nH"};
           for (int k = 0; k < 3; ++k) { char *a = nullptr, *b = nullptr;
             mpfr_asprintf(&a, "%.30Re", img[k].leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.30Re", img[k].rightBound().*RepAccess::rep);
