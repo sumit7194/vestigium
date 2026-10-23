@@ -1,0 +1,1 @@
+D2f gate: 15360 entries checked at 30 points, 0 not enclosed; sympy asymmetry count 0 -> PASS
