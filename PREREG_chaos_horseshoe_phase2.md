@@ -856,3 +856,26 @@ Agreed with the Bridge. Registered BEFORE any run uses it, and applied to `hs_co
   (outward-rounded enclosure bounds against exact rational tile edges), certification of each tile by the same
   predicate, and a regression cross-check against per-step bisection on random steps.
 - **Unchanged:** the predicate, the ±0.025 inflation, the other S4 conditions, and S9.
+
+**B17a and B18a (2026-10-23): harness corrections found by the B17 controls.** Agreed with the Bridge and registered
+before the controls are re-run. The negative control (1e-6, default policy) FAILED as expected, at t = 283.9: u2 was
+472× true. The positive control (1e-12) exposed two procedure defects.
+
+- **B17a (true widths).**
+  - **The defect:** at W₀ = 1e-12 the set came out narrower than its "true" width (0.19×). That is impossible for a
+    rigorous enclosure. The double-precision DOP853 hull (error ~1e-11) is inadequate for W₀ ≲ 1e-8.
+  - **The fix:** for W₀ ≤ 1e-8 the true u₁/u₂ widths are the variational (linearised) widths, which equal the hull to
+    O(W₀²); hull/linear = 1.00 was verified at 1e-6 and 1e-8 through the swing. A hull spot check with ≥ 30-digit point
+    images is done at one checkpoint.
+  - **Sanity rule:** if set / true < 0.98 at any checkpoint (the tolerance comes from the reference's own error), the
+    run is flagged HARNESS ERROR. That is neither a pass nor a fail.
+- **B18a (S4 near the CTC boundary).**
+  - **The defect:** at t = 290.43, g_φφ > 0 on the ±0.025 box was not certified at depth 12. Sampling says the predicate
+    is TRUE but tight. The g_φφ ≤ 0 region at F5-R reaches x ≈ 1.921 for |y| ≤ 0.37, and the UPO's periapsis is at
+    x = 1.9423. The sampled minimum of g_φφ on the box is 1.4e4 at periapsis.
+  - **The fix:** on each sub-box, the mean-value form g(c) + ∇g(box)·(box − c), with ∇g by CAPD AD of the same
+    structured function, is intersected with the plain enclosure. The predicate, the ±0.025 box and the depth cap of 12
+    are unchanged. A box uncertified at the cap is still an S4 FAIL.
+  - **Logged as data:** the certified lower bound of g_φφ along the orbit.
+- **Physics note.** The B9 margin of 0.025 is nearly saturated at the UPO's periapsis. A piece that genuinely fails S4
+  is a domain result and is reported as such. The margin is never shrunk to rescue a piece.

@@ -67,15 +67,33 @@ void rad_vf(Node, Node in[], int, Node o[], int, Node par[], int) {
 // bisected (longer side first) down to S4_DEPTH levels; any box still uncertified at the cap is an S4 FAIL.
 static const int S4_DEPTH = 12;
 static long S4_LEAVES = 0;
+static double S4_GMIN = 1e300;                                   // smallest certified lower bound of g_phiphi (data)
+void dom_vf(Node, Node in[], int, Node o[], int, Node par[], int) {   // (x, y) -> (B, g_phiphi), structured form
+  Node c[5] = {par[0], par[1], par[2], par[3], par[4]}, z[8] = {in[0], in[1], in[0], in[0], in[0], in[0], in[0], in[0]};
+  mn8_domain<Node>(z, o, c);                                       // reads in[0], in[1] only
+}
+static std::unique_ptr<capd::MpIMap> DOM;
 static bool certify(const MpInterval& x, const MpInterval& y, int which, int depth) {   // which: 0 = B > 0, 1 = g_phiphi > 0
   bool ok = false;
+  MpInterval lowg;
   try {
     MpInterval z(0), in[8] = {x, y, z, z, z, z, z, z}, out[2];
     mn8_domain<MpInterval>(in, out, MNC);
+    // B18a: mean-value form on the (convex) sub-box, intersected with the plain enclosure
+    IV box(2), c(2); box[0] = x; box[1] = y; c[0] = x.mid(); c[1] = y.mid();
+    IM D(2, 2); (*DOM)(box, D); IV vc = (*DOM)(c);
+    for (int i = 0; i < 2; ++i) {
+      MpInterval mv = vc[i] + D[i][0] * (x - c[0]) + D[i][1] * (y - c[1]);
+      if (!intersection(out[i], mv, out[i])) throw std::runtime_error("S4: empty intersection of two enclosures (BUG)");
+    }
     capd_proof::require_finite(out[which], "S4 domain function");
     ok = out[which].leftBound() > 0 && (which == 0 || out[0].leftBound() > 0);
-  } catch (std::exception&) { ok = false; }
-  if (ok) { ++S4_LEAVES; return true; }
+    lowg = out[1];
+  } catch (std::exception& e) {
+    if (std::string(e.what()).find("BUG") != std::string::npos) throw;
+    ok = false;
+  }
+  if (ok) { ++S4_LEAVES; if (which == 1) S4_GMIN = std::min(S4_GMIN, d(lowg.leftBound())); return true; }
   if (depth >= S4_DEPTH) return false;
   bool splitx = w(x) >= w(y);
   MpInterval a = splitx ? x : y, m = MpInterval(a.mid().leftBound()), lo(a.leftBound(), m.rightBound()), hi(m.leftBound(), a.rightBound());
@@ -176,6 +194,7 @@ int main(int argc, char** argv) {
   x0[0] = cx; x0[2] = cp; x0[3] = pmid; C[0][0] = 1; C[2][1] = 1; C[3][0] = sx_c; C[3][1] = sp_c; C[3][2] = 1; C[1][3] = 1;
   r0[0] = r; r0[1] = r; r0[2] = (pc - pmid) + (sx_h - sx_c) * r + (sp_h - sp_c) * r; r0[3] = 0;
   for (int i = 0; i < 4; ++i) { MpInterval m = qc[i].mid(); x0[4 + i] = m; C[4 + i][0] = Dc[i][0]; C[4 + i][4 + i] = 1; r0[4 + i] = (qc[i] - m) + (Dh[i][0] - Dc[i][0]) * r; }
+  DOM.reset(new capd::MpIMap(dom_vf, 2, 2, 5)); for (int i = 0; i < 5; ++i) DOM->setParameter(i, MNC[i]);
   capd::MpIMap f(mn8_vf, 8, 8, 5); for (int i = 0; i < 5; ++i) f.setParameter(i, MNC[i]);
   capd::MpIOdeSolver solver(f, order);
   Peek s(x0, C, r0);
@@ -185,14 +204,18 @@ int main(int argc, char** argv) {
   std::printf("# B17 check: W0 %s, k %.0f, reorganisation %s, Q re-seed every %ld steps, %zu checkpoints\n", argv[1], K, reorg.c_str(), reseedN, cps.size()); std::fflush(stdout);
   const char* nm[4] = {"a", "b", "E2", "eG"};
   capd::MpITimeMap tm(solver); tm.stopAfterStep(true);
-  auto t0 = std::chrono::steady_clock::now(); long steps = 0; bool pass = true;
+  auto t0 = std::chrono::steady_clock::now(); long steps = 0; bool pass = true, harness_error = false;
   auto offman = [&](const IV& xy, int q) { IM Da(4, 2); IV xm(2); xm[0] = xy[0].mid(); xm[1] = xy[1].mid(); fa(xm, Da);
                                            IV n(8); n[4 + q] = 1; n[0] = -Da[q][0].mid(); n[1] = -Da[q][1].mid(); return n; };
   auto verdict = [&](const Checkpoint& c, double W1, double W2, const double Wf[5]) {
     double fake = 0; for (int q = 0; q < 5; ++q) fake += Wf[q] * c.g[2 + q];
     bool ok = (W1 / c.tu1 <= K) && (W2 / c.tu2 <= K) && (fake <= K * c.tu2 * c.g[1]);
+    const double TOL = 0.02;                                  // B17a: the reference's own error (hull ~ linear to <1%)
+    if (W1 / c.tu1 < 1 - TOL || W2 / c.tu2 < 1 - TOL) { harness_error = true; }
     std::printf("CHECKPOINT %-10s t=%10.4f  u1 %.3e/%.3e=%.2f  u2 %.3e/%.3e=%.2f  fake %.3e vs %.3e  nH %.2e a %.2e b %.2e E2 %.2e eG %.2e  %s\n",
-                c.kind.c_str(), c.t, W1, c.tu1, W1 / c.tu1, W2, c.tu2, W2 / c.tu2, fake, K * c.tu2 * c.g[1], Wf[0], Wf[1], Wf[2], Wf[3], Wf[4], ok ? "PASS" : "FAIL");
+                c.kind.c_str(), c.t, W1, c.tu1, W1 / c.tu1, W2, c.tu2, W2 / c.tu2, fake, K * c.tu2 * c.g[1], Wf[0], Wf[1], Wf[2], Wf[3], Wf[4],
+                (W1 / c.tu1 < 0.98 || W2 / c.tu2 < 0.98) ? "HARNESS-ERROR" : (ok ? "PASS" : "FAIL"));
+    std::printf("# g_phiphi certified lower bound so far: %.4e\n", S4_GMIN);
     std::fflush(stdout); if (!ok) pass = false;
   };
   try {
@@ -201,7 +224,7 @@ int main(int argc, char** argv) {
         MpInterval T = MpInterval(c.t);
         do {
           tm(T, s); ++steps;
-          if (steps % 100 == 0) { std::printf("# progress t=%.4f steps %ld S4 leaves %ld wall %.0f s\n", d(s.getCurrentTime().leftBound()), steps, S4_LEAVES,
+          if (steps % 100 == 0) { std::printf("# progress t=%.4f steps %ld S4 leaves %ld g_phiphi lower bound %.3e wall %.0f s\n", d(s.getCurrentTime().leftBound()), steps, S4_LEAVES, S4_GMIN,
                                               std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count()); std::fflush(stdout); }
           if (reseedN > 0 && steps % reseedN == 0) s.reseedQ();
           IV v = IV(s), e = s.getLastEnclosure();
@@ -235,6 +258,7 @@ int main(int argc, char** argv) {
     pass = false;
   }
   double sec = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+  if (harness_error) std::printf("B17 HARNESS ERROR (a set narrower than its reference): not a pass or a fail\n");
   std::printf("B17 %s  W0 %s  reorganisation %s  QRESEED %ld  steps %ld  wall %.0f s  S4 certified leaves %ld\n", pass ? "PASS" : "FAIL", argv[1], reorg.c_str(), reseedN, steps, sec, S4_LEAVES);
   return 0;
 }

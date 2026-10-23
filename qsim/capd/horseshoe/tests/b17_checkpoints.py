@@ -8,6 +8,9 @@ For the SECTION checkpoints (first y = 0 crossing with ydot < 0; the return to y
 are written at the centre's crossing time; the set side measures the section enclosure (diagnostic code).
 Interpretation logged here (not a change to B17): at the final Sigma return there is no further propagation within the
 return, so the fake-direction rule there uses g = 1.
+B17a (2026-10-23): for W0 <= 1e-8 the true u1/u2 widths are the VARIATIONAL widths (equal to the hull to O(W0^2);
+hull/linear = 1.00 verified at 1e-6 and 1e-8), because double-precision DOP853 error (~1e-11) swamps such boxes; a
+>= 30-digit hull spot check at one checkpoint is done separately.
 Usage: b17_checkpoints.py W0 out.json [n_boundary_per_edge]"""
 import sys, json, numpy as np, sympy as sp
 sys.path.insert(0, "/Users/sumit/Github/quantum/qsim/capd/horseshoe")
@@ -67,6 +70,8 @@ for j, (kind, tc) in enumerate(cps):
         U, S, Vt = np.linalg.svd(P @ D_in, full_matrices=False)
         dirs4 = {"u1": U[:, 0], "u2": U[:, 1], "nH": nH}
         true = {k: float(np.ptp(traj[:, :, j] @ dirs4[k])) for k in ("u1", "u2")}
+        if W0 <= 1e-8:                                       # B17a: variational width (= hull to O(W0^2)); DOP853 too coarse here
+            true = {k: float(np.abs(dirs4[k] @ (P @ D_in)).sum() * 2 * W0) for k in ("u1", "u2")}
     else:                                                    # section: derivative of the crossing state, flow-corrected
         dirn = -1.0 if kind == "sec_down" else 1.0
         V = P @ D_in; V = V - np.outer(fc, V[1] / fc[1])     # slide along the flow back to y = 0
@@ -74,6 +79,8 @@ for j, (kind, tc) in enumerate(cps):
         dirs4 = {"u1": U[:, 0], "u2": U[:, 1], "nH": nH}
         cz = np.array([crossing([x0 + u * W0, 0, px0 + s * W0, f.py_of(x0 + u * W0, px0 + s * W0)], dirn, 1.0, tc) for u, s in pts])
         true = {k: float(np.ptp(cz @ dirs4[k])) for k in ("u1", "u2")}
+        if W0 <= 1e-8:
+            true = {k: float(np.abs(dirs4[k] @ V).sum() * 2 * W0) for k in ("u1", "u2")}
     if j + 1 < len(cps):
         tn = cps[j + 1][1]; Pn = sv.sol(tn)[4:].reshape(4, 4); Pjn = Pn @ np.linalg.inv(P)
         g4 = {k: float(np.linalg.norm(Pjn @ v)) for k, v in dirs4.items()}
