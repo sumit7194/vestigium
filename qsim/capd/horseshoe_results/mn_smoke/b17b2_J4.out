@@ -1,0 +1,49 @@
+# B17 check: order 20, W0 1/10000000, k 5, reorganisation off, Q re-seed every 0 steps, 10 checkpoints
+# progress t=65.7188 steps 100 S4 leaves 495 g_phiphi lower bound 1.659e+04 wall 68 s
+# progress t=121.2812 steps 200 S4 leaves 995 g_phiphi lower bound 1.207e+04 wall 135 s
+# progress t=164.9844 steps 300 S4 leaves 1495 g_phiphi lower bound 6.358e+03 wall 201 s
+# progress t=198.7500 steps 400 S4 leaves 1995 g_phiphi lower bound 5.142e+02 wall 267 s
+# progress t=225.0703 steps 500 S4 leaves 2804 g_phiphi lower bound 9.400e+00 wall 333 s
+# progress t=244.8203 steps 600 S4 leaves 3704 g_phiphi lower bound 9.400e+00 wall 399 s
+# progress t=259.2148 steps 700 S4 leaves 4604 g_phiphi lower bound 9.400e+00 wall 464 s
+# progress t=269.5430 steps 800 S4 leaves 5777 g_phiphi lower bound 6.945e+00 wall 531 s
+# progress t=276.6895 steps 900 S4 leaves 7477 g_phiphi lower bound 6.945e+00 wall 596 s
+# progress t=281.5234 steps 1000 S4 leaves 9177 g_phiphi lower bound 6.945e+00 wall 663 s
+CHECKPOINT t          t=  283.8852  u1 2.235e-04/2.205e-04=1.01  u2 1.688e-06/2.832e-07=5.96  fake 1.962e-05 vs 7.434e-05  nH 3.08e-09 a 1.60e-09 b 3.81e-09 E2 1.25e-09 eG 1.43e-09  FAIL
+# g_phiphi certified lower bound so far: 5.7494e+00
+PROJ t t=283.8852393126 u1 [9.903178366730984142355426598648e+00, 9.903401860174756928276637821754e+00]
+PROJ t t=283.8852393126 u2 [1.306160390496954199399604959383e+02, 1.306160407374628562759553821567e+02]
+PROJ t t=283.8852393126 nH [2.262789830947725651762204249470e+00, 2.262789834030467256569057530816e+00]
+# progress t=284.6635 steps 1100 S4 leaves 11516 g_phiphi lower bound 5.749e+00 wall 729 s
+# progress t=286.6996 steps 1200 S4 leaves 14816 g_phiphi lower bound 5.749e+00 wall 797 s
+# progress t=287.9980 steps 1300 S4 leaves 19952 g_phiphi lower bound 3.496e+00 wall 866 s
+# progress t=288.8290 steps 1400 S4 leaves 26631 g_phiphi lower bound 3.496e+00 wall 936 s
+# progress t=289.3788 steps 1500 S4 leaves 37636 g_phiphi lower bound 3.239e+00 wall 1008 s
+# progress t=289.7623 steps 1600 S4 leaves 56016 g_phiphi lower bound 2.337e-01 wall 1086 s
+# progress t=290.0513 steps 1700 S4 leaves 83534 g_phiphi lower bound 2.337e-01 wall 1169 s
+# progress t=290.2911 steps 1800 S4 leaves 118600 g_phiphi lower bound 2.337e-01 wall 1257 s
+# progress t=290.5280 steps 1900 S4 leaves 161049 g_phiphi lower bound 2.337e-01 wall 1349 s
+# progress t=290.8123 steps 2000 S4 leaves 212726 g_phiphi lower bound 2.337e-01 wall 1445 s
+CHECKPOINT t          t=  290.8497  u1 8.856e-03/5.011e-03=1.77  u2 2.575e-03/6.136e-07=4196.45  fake 7.548e-03 vs 7.625e-06  nH 2.02e-06 a 2.13e-06 b 1.12e-05 E2 1.21e-06 eG 3.16e-07  FAIL
+# g_phiphi certified lower bound so far: 2.3365e-01
+PROJ t t=290.8497393126 u1 [-3.041463535869101619795284205323e+00, -3.032607764614425968802428656189e+00]
+PROJ t t=290.8497393126 u2 [-1.783661211241672600663032412253e-02, -1.526179062510019944910754877633e-02]
+PROJ t t=290.8497393126 nH [-1.797381266667984924043309667511e+00, -1.797379246657833513544016674541e+00]
+# progress t=291.1295 steps 2100 S4 leaves 267616 g_phiphi lower bound 2.337e-01 wall 1543 s
+# progress t=291.3781 steps 2200 S4 leaves 314084 g_phiphi lower bound 2.337e-01 wall 1632 s
+# progress t=291.6101 steps 2300 S4 leaves 352551 g_phiphi lower bound 2.337e-01 wall 1718 s
+# progress t=291.8611 steps 2400 S4 leaves 383523 g_phiphi lower bound 2.337e-01 wall 1802 s
+CHECKPOINT t          t=  291.8852  u1 4.880e-02/3.435e-03=14.20  u2 3.864e-02/1.963e-07=196818.36  fake 4.944e-01 vs 4.758e-06  nH 2.21e-05 a 2.76e-05 b 2.60e-04 E2 3.35e-05 eG 2.25e-05  FAIL
+# g_phiphi certified lower bound so far: 2.3365e-01
+PROJ t t=291.8852393126 u1 [-6.488116170088055750770685186383e+01, -6.483236342396241446717071296713e+01]
+PROJ t t=291.8852393126 u2 [3.602012928333239815032806010273e+01, 3.605877204709175447980229825148e+01]
+PROJ t t=291.8852393126 nH [-1.628715829952880723010412256215e+00, -1.628693755567151355562370916657e+00]
+# progress t=292.1597 steps 2500 S4 leaves 407515 g_phiphi lower bound 2.337e-01 wall 1882 s
+# progress t=292.5472 steps 2600 S4 leaves 422628 g_phiphi lower bound 2.330e-01 wall 1958 s
+# progress t=293.0364 steps 2700 S4 leaves 432721 g_phiphi lower bound 2.330e-01 wall 2032 s
+# progress t=293.6316 steps 2800 S4 leaves 439407 g_phiphi lower bound 2.330e-01 wall 2105 s
+# progress t=294.3013 steps 2900 S4 leaves 445907 g_phiphi lower bound 2.330e-01 wall 2180 s
+# progress t=294.9700 steps 3000 S4 leaves 452188 g_phiphi lower bound 2.330e-01 wall 2255 s
+THREW at step 3062 t=295.340143: [S9] Interval error: Interval Error *** Possible division by zero.
+   left=-3.21503   right=1.61473e4 
+B17 FAIL  W0 1/10000000  reorganisation off  QRESEED 0  steps 3062  wall 2302 s  S4 certified leaves 456103  order 20  reorganisation events 0
