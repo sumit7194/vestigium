@@ -74,18 +74,22 @@ inline MpInterval d2(const JetT& J, int i, int j, int k) {
   return a == b ? c * SO_DIAG_FACTOR : c * SO_OFFDIAG_FACTOR;
 }
 
-// Gram-Schmidt (with largest-column-first order) of mid(A), as a point matrix: the Lohner frame
-inline IM qr_frame(const IM& A) {
-  int n = (int)A.numberOfRows(); std::vector<std::vector<double>> cols, P;
-  for (int j = 0; j < n; ++j) { std::vector<double> c(n); for (int i = 0; i < n; ++i) c[i] = md(A[i][j]); cols.push_back(c); }
-  std::sort(cols.begin(), cols.end(), [](const auto& u, const auto& v) { double a = 0, b = 0; for (double x : u) a += x * x; for (double x : v) b += x * x; return a > b; });
+// Gram-Schmidt of mid(A) as a point matrix: the Lohner frame. Columns are ordered by |A_col j| * rad(re_j) (Lohner's
+// pivot; the Bridge's review), and a column is dropped only if it is negligible RELATIVE to the largest column norm.
+inline IM qr_frame(const IM& A, const IV& re) {
+  int n = (int)A.numberOfRows(); std::vector<std::pair<double, std::vector<double>>> cols; std::vector<std::vector<double>> P;
+  double nmax = 0;
+  for (int j = 0; j < n; ++j) { std::vector<double> c(n); double nn = 0; for (int i = 0; i < n; ++i) { c[i] = md(A[i][j]); nn += c[i] * c[i]; }
+    nmax = std::max(nmax, std::sqrt(nn)); cols.push_back({std::sqrt(nn) * (hi(re[j]) - lo(re[j])) / 2, c}); }
+  std::stable_sort(cols.begin(), cols.end(), [](const auto& u, const auto& v) { return u.first > v.first; });
+  const double tol = 1e-12 * (nmax > 0 ? nmax : 1.0);
   auto add = [&](std::vector<double> v) {
     for (auto& p : P) { double d = 0; for (int i = 0; i < n; ++i) d += v[i] * p[i]; for (int i = 0; i < n; ++i) v[i] -= d * p[i]; }
-    double nn = 0; for (double x : v) nn += x * x; nn = std::sqrt(nn); if (nn < 1e-14 || (int)P.size() == n) return;
+    double nn = 0; for (double x : v) nn += x * x; nn = std::sqrt(nn); if (nn < tol || (int)P.size() == n) return;
     for (double& x : v) x /= nn; P.push_back(v);
   };
-  for (auto& c : cols) add(c);
-  for (int i = 0; i < n; ++i) { std::vector<double> e(n, 0.0); e[i] = 1; add(e); }
+  for (auto& c : cols) add(c.second);
+  for (int i = 0; i < n; ++i) { std::vector<double> e(n, 0.0); e[i] = nmax > 0 ? nmax : 1.0; add(e); }
   IM Q(n, n); for (int j = 0; j < n; ++j) for (int i = 0; i < n; ++i) Q[i][j] = MpInterval(P[j][i]);
   return Q;
 }
@@ -119,7 +123,14 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
     }
   }
   lg.h = hfix;
-  // enclosures of the flow and its derivatives: phi + rem (CnRect2Set convention)
+  // enclosures of the flow and its derivatives: phi + rem (CnRect2Set convention).
+  // CAPD source (dynsys/CnOdeSolver_templateMembers.h, encloseCnMap): the RETURN value is the Taylor polynomial summed at
+  //   the centre, WITHOUT the remainder:
+  //     "VectorType v = this->getCoefficientsAtCenter()[this->getOrder()]; for(r = order-1..0) v = v*step + coeffAtCenter[r];
+  //      ... return v;"   while the remainder is computed separately: "computeAndApproveRemainder(*this,t,xx,rem,enc);"
+  //   and CnRect2Set::move adds them: "y += VectorType(result.rem());" and "Phi += Rem". So val = y + rem(i) (no double
+  //   count). phi's order-0 coefficient is the same Taylor sum but with initial condition xx; for the thin call x = xx, so
+  //   phiT(i) and yT coincide (checked in the toys: identical to print precision).
   IV val(n); IM D1c(n, n), D1K(n, n);
   for (int i = 0; i < n; ++i) {
     val[i] = yT[i] + remT(i);
@@ -140,26 +151,29 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
   std::vector<IM> Hn(n, IM(2, 2));
   double wmax = 0;
   for (int i = 0; i < n; ++i) {
+    MpInterval hc[2][2], hK[2][2];
+    for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) {
+      hc[a][b] = MpInterval(0); hK[a][b] = MpInterval(0);
+      for (int j = 0; j < n; ++j) { hc[a][b] += D1c[i][j] * X.H[j][a][b]; hK[a][b] += D1K[i][j] * X.H[j][a][b];
+        for (int k = 0; k < n; ++k) { hc[a][b] += D2c(i, j, k) * X.C[j][a] * X.C[k][b]; hK[a][b] += D2K(i, j, k) * DxR[j][a] * DxR[k][b]; } }
+    }
+    // symmetrise the stored H' FIRST (the Bridge's review fix), then take every remainder delta against exactly it
+    MpInterval m01 = ((hc[0][1] + hc[1][0]) / 2).mid();
+    Hn[i][0][0] = hc[0][0].mid(); Hn[i][1][1] = hc[1][1].mid(); Hn[i][0][1] = m01; Hn[i][1][0] = m01;
     MpInterval q(0);
     for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) {
-      MpInterval hc(0), hK(0);
-      for (int j = 0; j < n; ++j) { hc += D1c[i][j] * X.H[j][a][b]; hK += D1K[i][j] * X.H[j][a][b];
-        for (int k = 0; k < n; ++k) { hc += D2c(i, j, k) * X.C[j][a] * X.C[k][b]; hK += D2K(i, j, k) * DxR[j][a] * DxR[k][b]; } }
-      Hn[i][a][b] = hc.mid();
-      MpInterval delta = hK - Hn[i][a][b];                    // [D2Psi(R0)] - H'
+      MpInterval delta = hK[a][b] - Hn[i][a][b];               // [D2Psi(R0)](a, b) - H'(a, b), H' as stored
       q += delta * Set::rr(a, b);
-      wmax = std::max(wmax, hi(delta) - lo(delta)); lg.hK.push_back(hK);
+      wmax = std::max(wmax, hi(delta) - lo(delta)); lg.hK.push_back(hK[a][b]);
     }
     s[i] += q / 2 * SO_REMAINDER_SCALE;
   }
   lg.w_D2K_contrib = wmax;
-  // symmetrise H' (point)
-  for (int i = 0; i < n; ++i) { MpInterval m = ((Hn[i][0][1] + Hn[i][1][0]) / 2).mid(); Hn[i][0][1] = m; Hn[i][1][0] = m; }
   // error part: D1c (B re) in the Lohner frame, ([Dphi(K)] - D1c) e boxed
   IV e = X.B * X.re;
   IM dD = D1K - D1c; s += dD * e;
   IM AB = D1c * X.B;
-  IM Bn = qr_frame(AB);
+  IM Bn = qr_frame(AB, X.re);
   IM iBn = capd::matrixAlgorithms::krawczykInverse(Bn);
   IV ren = (iBn * AB) * X.re + iBn * s;
   X.x = xn; X.C = Cn; X.H = Hn; X.B = Bn; X.re = ren; X.t = X.t + solK.getStep();
