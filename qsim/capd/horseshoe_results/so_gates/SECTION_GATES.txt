@@ -1,0 +1,7 @@
+w 0.1: corner test of [D2Psi(R0)]: PASS section image containment over 441 r: PASS ; max width (x) 8.685e-02 
+w 0.01: corner test of [D2Psi(R0)]: PASS section image containment over 441 r: PASS ; max width (x) 5.063e-04 
+H~w^2 w 0.1: corner test of [D2Psi(R0)]: PASS section image containment over 441 r: PASS ; max width (x) 1.457e-02 
+H~w^2 w 0.01: corner test of [D2Psi(R0)]: PASS section image containment over 441 r: PASS ; max width (x) 1.141e-05 
+H~w^2 w 0.001: corner test of [D2Psi(R0)]: PASS section image containment over 441 r: PASS ; max width (x) 1.132e-08 
+NEG SEC_NO_DP: corner test of [D2Psi(R0)]: FAIL (17) section image containment over 441 r: FAIL (714 not contained) ; max width (x) 2.093e-02 
+NEG SEC_HULL_AT_CENTRE: corner test of [D2Psi(R0)]: FAIL (9) section image containment over 441 r: PASS ; max width (x) 1.148e-02 

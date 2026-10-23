@@ -24,3 +24,4 @@ tests/jetparam_test
 tests/jetparam_test2
 tests/jetparam_test3
 tests/mn_so
+tests/toy_sec
