@@ -15,6 +15,10 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
+#include <vector>
+#include <memory>
+#include <sstream>
+#include <cstdlib>
 
 using capd::MpInterval;
 using capd::autodiff::Node;
@@ -55,6 +59,8 @@ void rad_vf(Node, Node in[], int, Node o[], int, Node par[], int) {   // (x, y, 
 struct Peek : capd::MpC0TripletonSet {
   using capd::MpC0TripletonSet::MpC0TripletonSet;
   IV Cr0() const { return m_C * m_r0; } IV Br() const { return m_B * m_r; } IV Qq() const { return m_Q * m_q; }
+  IV X() const { return m_x; } IM Cm() const { return m_C; } IV R0() const { return m_r0; }
+  IM Bm() const { return m_B; } IV Rr() const { return m_r; } IM Qm() const { return m_Q; } IV Qv() const { return m_q; }
   double radC_over_midC() const {                       // max entry radius / max |entry midpoint|
     double rmax = 0, mmax = 0;
     for (int i = 0; i < (int)m_C.numberOfRows(); ++i) for (int j = 0; j < (int)m_C.numberOfColumns(); ++j) {
@@ -64,6 +70,22 @@ struct Peek : capd::MpC0TripletonSet {
   }
 };
 
+
+// ---- strip re-framing (diagnostic; env STRIP_T, STRIP_V "vx vy vpx vpy", STRIP_W p/q or "full", STRIP_AXIS v1|other)
+// At t = STRIP_T the set X = x + C r0 + (B r  meet  Q q) is re-framed in an orthonormal POINT frame P (Gram-Schmidt from
+// v1 extended to the aux states, then the set's own columns by size, then unit vectors), Z = P^-1 (X - x) as an interval
+// vector (a sound superset), and the strip keeps z_k in [-W, W] (k = 0 for v1, 1 for the next axis); the rest of Z is kept.
+static std::vector<std::vector<double>> gram_schmidt(std::vector<std::vector<double>> cand, int n) {
+  std::vector<std::vector<double>> P;
+  for (auto& v : cand) {
+    for (auto& p : P) { double dd = 0; for (int i = 0; i < n; ++i) dd += v[i] * p[i]; for (int i = 0; i < n; ++i) v[i] -= dd * p[i]; }
+    double nn = 0; for (int i = 0; i < n; ++i) nn += v[i] * v[i]; nn = std::sqrt(nn);
+    if (nn < 1e-12) continue;
+    for (int i = 0; i < n; ++i) v[i] /= nn;
+    P.push_back(v); if ((int)P.size() == n) break;
+  }
+  return P;
+}
 int main(int argc, char** argv) {
   if (argc < 5) { std::cerr << "usage: mn_diag8 prec order halfwidth T [every]\n"; return 2; }
   R::setDefaultPrecision(std::stoi(argv[1]));
@@ -146,11 +168,17 @@ int main(int argc, char** argv) {
     }
     return 0;
   }
-  Peek s(x0, C, r0);
+  const char* stT = std::getenv("STRIP_T");
+  MpInterval Tend = T; if (stT) T = Q(stT);              // integrate to the cut first
+  Peek s0(x0, C, r0);
+  Peek* sp = &s0; std::unique_ptr<Peek> s2;
   capd::MpITimeMap tm(solver); tm.stopAfterStep(true);
   std::printf("# step t h  W_x W_px W_a W_b (set)  Wfresh_a Wfresh_b (aux on the set's (x,y) hull)  mid_x mid_y\n");
   long n = 0;
   try {
+   for (int phase = 0; phase < (stT ? 2 : 1); ++phase) {
+    Peek& s = *sp;
+    if (phase == 1) { T = Tend; }
     do {
       tm(T, s); IV v = IV(s); ++n;
       IV xy(2); xy[0] = v[0]; xy[1] = v[1]; IV fr = fa(xy);
@@ -167,9 +195,43 @@ int main(int argc, char** argv) {
                     d(v[0].mid().leftBound()), d(v[1].mid().leftBound()));
       std::fflush(stdout);
     } while (!tm.completed());
+    if (phase == 0 && stT) {                               // build the strip
+      IV x = s.X(); IM Cm = s.Cm(), Bm = s.Bm(), Qm = s.Qm(); IV r0v = s.R0(), rv = s.Rr(), qv = s.Qv();
+      std::vector<double> v1(8, 0.0); { std::istringstream is(std::getenv("STRIP_V")); for (int i = 0; i < 4; ++i) is >> v1[i]; }
+      IV xy(2); xy[0] = x[0].mid(); xy[1] = x[1].mid(); IM Da(4, 2); fa(xy, Da);
+      for (int i = 0; i < 4; ++i) v1[4 + i] = d(Da[i][0].mid().leftBound()) * v1[0] + d(Da[i][1].mid().leftBound()) * v1[1];
+      std::vector<std::pair<double, std::vector<double>>> cols;
+      for (int j = 0; j < 8; ++j) for (int which = 0; which < 2; ++which) {
+        std::vector<double> c(8); double nn = 0;
+        for (int i = 0; i < 8; ++i) { c[i] = d((which ? Bm[i][j] : Cm[i][j]).mid().leftBound()) * w(which ? rv[j] : r0v[j]) / 2; nn += c[i] * c[i]; }
+        if (nn > 0) cols.push_back({std::sqrt(nn), c});
+      }
+      std::sort(cols.begin(), cols.end(), [](const auto& a, const auto& b) { return a.first > b.first; });
+      std::vector<std::vector<double>> cand = {v1};
+      for (auto& c : cols) cand.push_back(c.second);
+      for (int i = 0; i < 8; ++i) { std::vector<double> e(8, 0.0); e[i] = 1; cand.push_back(e); }
+      auto Pv = gram_schmidt(cand, 8);
+      double cosv = 0, n1 = 0, n2 = 0; for (int i = 0; i < 8; ++i) { cosv += v1[i] * cols[0].second[i]; n1 += v1[i] * v1[i]; n2 += cols[0].second[i] * cols[0].second[i]; }
+      IM P(8, 8); for (int j = 0; j < 8; ++j) for (int i = 0; i < 8; ++i) P[i][j] = MpInterval(Pv[j][i]);
+      IM Pinv = capd::matrixAlgorithms::gaussInverseMatrix(P);
+      IV Z = (Pinv * Cm) * r0v + (Pinv * Bm) * rv, Zq = (Pinv * Cm) * r0v + (Pinv * Qm) * qv;
+      if (!intersection(Z, Zq, Z)) throw std::runtime_error("strip: empty Z intersection (BUG)");
+      std::printf("# STRIP at t=%.6f: abs cosine of v1 vs longest set axis %.4f ; Z widths:", d(s.getCurrentTime().leftBound()), std::fabs(cosv) / std::sqrt(n1 * n2));
+      for (int i = 0; i < 8; ++i) std::printf(" %.3e", w(Z[i])); std::printf("\n");
+      std::string Wsp = std::getenv("STRIP_W") ? std::getenv("STRIP_W") : "full";
+      int k = (std::getenv("STRIP_AXIS") && std::string(std::getenv("STRIP_AXIS")) == "other") ? 1 : 0;
+      if (Wsp != "full") {
+        MpInterval Wq = Q(Wsp), cut(-Wq.rightBound(), Wq.rightBound());
+        if (!intersection(Z[k], cut, Z[k])) throw std::runtime_error("strip: cut misses Z (BUG)");
+        std::printf("# STRIP axis %d half-width %s ; strips needed to tile z_%d: %.3e\n", k, Wsp.c_str(), k, w(s.R0()[0]) >= 0 ? (double)(w(Zq[k]) / (2 * d(Wq.rightBound()))) : 0.0);
+      }
+      s2.reset(new Peek(x, P, Z, s.getCurrentTime()));
+      sp = s2.get();
+    }
+   }
     std::printf("COMPLETED steps=%ld\n", n);
   } catch (std::exception& e) {
-    IV v = IV(s);
+    IV v = IV(*sp);
     std::printf("THREW at step %ld t=%.6f: %s\n  last set widths x %.3e y %.3e px %.3e py %.3e a %.3e b %.3e\n", n,
                 d(tm.getCurrentTime().leftBound()), e.what(), w(v[0]), w(v[1]), w(v[2]), w(v[3]), w(v[4]), w(v[5]));
   }
