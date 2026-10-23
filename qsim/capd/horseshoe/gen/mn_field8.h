@@ -203,3 +203,38 @@ template <class S> inline void mn8_aux(const S* in, S* out, const S* c) {
   out[2] = mn_exp(c[2]*t9);
   out[3] = mn_exp(c[2]*(-(S(3)/S(4))*c[2]*(-t7*sqr(S(5)*t7 + S(-3)) + sqr(t8))/((t3)*(t3)*(t3)) - S(4)*t2*t5*in[0] + S(4)*t4*in[0] + S(2)*t5*t8*in[0] + S(-4)));
 }
+
+template <class S> inline void mn8_domain(const S* in, S* out, const S* c) {
+  S t0 = in[0] + S(-1);
+  S t1 = sqr(c[1]);
+  S t2 = in[0] - in[1];
+  S t3 = sqr(in[0]);
+  S t4 = sqr(in[1]);
+  S t5 = t4 + S(-1);
+  S t6 = t3 + t5;
+  S t7 = (S(1)/((sqrt(t6))));
+  S t8 = (S(1)/((sqrt(t6))*(sqrt(t6))*(sqrt(t6))));
+  S t9 = t8*in[0]*in[1];
+  S t10 = t8*(S(3)*t3*t4/t6 + S(-1));
+  S t11 = ((S(1)/S(2)))*t10;
+  S t12 = S(2)*c[2];
+  S t13 = mn_exp(-t12*(t11*t2 + t2*t7 + t2*t9 + S(-1)));
+  S t14 = in[0] + in[1];
+  S t15 = mn_exp(t12*(-t11*t14 - t14*t7 + t14*t9 + S(1)));
+  S t16 = t13*t15;
+  S t17 = t1*t16;
+  S t18 = in[0] + S(1);
+  S t19 = in[1] + S(-1);
+  S t20 = in[1] + S(1);
+  S t21 = t1*sqr(t13*t20 + t15*t19) + sqr(-t0*t17 + t18);
+  S t22 = t1 + S(-1);
+  S t23 = -t5;
+  S t24 = t13 + t15;
+  S t25 = t3 + S(-1);
+  S t26 = t17 + S(-1);
+  S t27 = c[2]*t10;
+  S t28 = S(16)*t1;
+  S t29 = t1*t25;
+  out[0] = t21;
+  out[1] = -sqr(c[0])*((S(4)*t16*sqr(t23)*t29 - t23*sqr(-sqr(t0)*t17 + sqr(t18)) + t29*sqr(-t13*sqr(t20) + t15*sqr(t19)))*mn_exp(-t27) - t28*(t24*t5*(-t17 + in[0]*(t17 + S(1)) + S(1)) + t25*t26*(t24 - in[1]*(-t13 + t15)))/t22 - t28*(t1*t23*sqr(t24) - t25*sqr(t26))*mn_exp(t27)/sqr(t22))/t21;
+}

@@ -834,3 +834,25 @@ set-propagation fix result is read against it.
     high-precision point images of random boxes along the orbit lie inside every step's enclosure;
   - its own registered amendment;
   - the user's OK on the launch plan.
+
+**B18 (2026-10-23): S4 implementation amendment.** The predicate is unchanged; only the enclosure method changes.
+Agreed with the Bridge. Registered BEFORE any run uses it, and applied to `hs_cover` too before its next MN run.
+
+- **The finding.** The registered S4 check (B9: g_φφ > 0 on the ±0.025 inflated box, plus B > 0 on the enclosure and
+  the other domain conditions) could not be evaluated on MN as implemented. The 4-D generated g_φφ (division-form Q),
+  evaluated naively on the 0.05 × 0.05 inflated box, hits an interval division by zero at the first step. This surfaced
+  in the B17 harness's positive control. `hs_cover`'s smoke test never reached the replay where S4 runs, so S4 had never
+  been exercised on MN.
+- **What changes.**
+  - B and g_φφ are evaluated in the structured, A-free form: the Bridge's structured Q, v13's grouped A, B and C, and
+    sqr for squares. This is `gen/mn_field8.h` mn8_domain, as functions of (x, y). B is the only denominator.
+  - Gate: at 40 random exact rational points in the orbit tube, the 160-bit C++ enclosures contain the 60-digit mpmath
+    values of the ORIGINAL expressions (`tests/domain_gate.py`: 40/40 PASS). A symbolic point check shows equality to
+    40 digits.
+  - A box that does not certify is bisected along its longer side, down to a depth cap of 12. The cap is a resolution
+    cap (B16). A box uncertified at the cap is an S4 FAIL, never a skip. A sub-box whose evaluation throws counts as
+    uncertified.
+- **Tile cache** (optional, for efficiency only): not implemented. If it is ever added, it requires rigorous coverage
+  (outward-rounded enclosure bounds against exact rational tile edges), certification of each tile by the same
+  predicate, and a regression cross-check against per-step bisection on random steps.
+- **Unchanged:** the predicate, the ±0.025 inflation, the other S4 conditions, and S9.

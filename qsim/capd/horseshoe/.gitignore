@@ -14,3 +14,4 @@ tests/mn_diag3
 tests/mn_diag4
 tests/mn_diag8
 tests/b17_check
+tests/domain_gate

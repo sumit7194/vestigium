@@ -3,7 +3,7 @@
 // (gen/mn_field8.h), with the correlated p_y and a/b/E2/eG lifts; C0 tripleton; options by environment:
 //   REORG_FACTOR=off|<factor>   CAPD reorganisation policy (default: CAPD's factor 20)
 //   QRESEED=<N>                 re-seed the tripleton's Q branch in the needle frame every N steps (0 = never)
-// On EVERY step: S4 domain (as hs_cover mn_domain), S9 (H of the 4-D part contains -1/2), augmented-state consistency
+// On EVERY step: S4 domain (B9 predicate; B18 structured evaluation + bisection, depth cap 12), S9 (H of the 4-D part contains -1/2), augmented-state consistency
 // (tracked a, b, E2, eG meet their fresh enclosures from (x, y)); any failure throws = B17 FAIL.
 // Checkpoints (file from tests/b17_checkpoints.py): TIME checkpoints measure the set's widths projected on the
 // checkpoint's u1, u2, n_H and the four off-manifold covectors; SECTION checkpoints measure A (P(set) - x0) from CAPD's
@@ -61,21 +61,36 @@ void rad_vf(Node, Node in[], int, Node o[], int, Node par[], int) {
   o[0] = (Node(-1) - g[0] * in[2] * in[2] - Node(2) * g[2]) / g[1];
 }
 
-// S4 (as hs_cover mn_domain) on the (x, y) part of an enclosure
+// S4 (B9 predicate, B18 implementation): on the (x, y) part of an enclosure: x - 1 >= 0.05, R^2 >= 0.25, 1 - y^2 > 0,
+// B > 0 on the enclosure, and g_phiphi > 0 on the +-0.025 inflated box. B and g_phiphi are evaluated in the structured
+// A-free form (gen/mn_field8.h mn8_domain, gated against the original expressions); a box that does not certify is
+// bisected (longer side first) down to S4_DEPTH levels; any box still uncertified at the cap is an S4 FAIL.
+static const int S4_DEPTH = 12;
+static long S4_LEAVES = 0;
+static bool certify(const MpInterval& x, const MpInterval& y, int which, int depth) {   // which: 0 = B > 0, 1 = g_phiphi > 0
+  bool ok = false;
+  try {
+    MpInterval z(0), in[8] = {x, y, z, z, z, z, z, z}, out[2];
+    mn8_domain<MpInterval>(in, out, MNC);
+    capd_proof::require_finite(out[which], "S4 domain function");
+    ok = out[which].leftBound() > 0 && (which == 0 || out[0].leftBound() > 0);
+  } catch (std::exception&) { ok = false; }
+  if (ok) { ++S4_LEAVES; return true; }
+  if (depth >= S4_DEPTH) return false;
+  bool splitx = w(x) >= w(y);
+  MpInterval a = splitx ? x : y, m = MpInterval(a.mid().leftBound()), lo(a.leftBound(), m.rightBound()), hi(m.leftBound(), a.rightBound());
+  return splitx ? (certify(lo, y, which, depth + 1) && certify(hi, y, which, depth + 1))
+                : (certify(x, lo, which, depth + 1) && certify(x, hi, which, depth + 1));
+}
 static void mn_domain(const IV& b) {
   capd_proof::require_finite_all(b, "S4 enclosure");
   const MpInterval &x = b[0], &y = b[1];
   if (!((x - 1).leftBound() >= MpInterval(1) / 20)) throw std::runtime_error("S4: x - 1 < 0.05 possible");
   if (!((x * x + y * y - 1).leftBound() >= MpInterval(1) / 4)) throw std::runtime_error("S4: R^2 < 0.25 possible");
   if (!((1 - y * y).leftBound() > 0)) throw std::runtime_error("S4: 1 - y^2 > 0 not certified");
-  MpInterval in[2] = {x, y}, out[1];
-  try { mn_B<MpInterval>(in, out, MNC); } catch (std::exception& ex) { throw std::runtime_error(std::string("B: ") + ex.what()); }
-  capd_proof::require_finite(out[0], "S4 B");
-  if (!(out[0].leftBound() > 0)) throw std::runtime_error("S4: B > 0 (det g < 0) not certified");
-  MpInterval dd = MpInterval(1) / 40, xi[2] = {x + MpInterval(-dd.rightBound(), dd.rightBound()), y + MpInterval(-dd.rightBound(), dd.rightBound())};
-  try { mn_gpp<MpInterval>(xi, out, MNC); } catch (std::exception& ex) { throw std::runtime_error(std::string("g_phiphi on the inflated box: ") + ex.what()); }
-  capd_proof::require_finite(out[0], "S4 g_phiphi");
-  if (!(out[0].leftBound() > 0)) throw std::runtime_error("S4: g_phiphi > 0 on the inflated box not certified");
+  if (!certify(x, y, 0, 0)) throw std::runtime_error("S4: B > 0 (det g < 0) not certified at the depth cap");
+  MpInterval dd = MpInterval(1) / 40, ir(-dd.rightBound(), dd.rightBound());
+  if (!certify(x + ir, y + ir, 1, 0)) throw std::runtime_error("S4: g_phiphi > 0 on the inflated box not certified at the depth cap");
 }
 static void s9(const IV& b) {
   MpInterval in[4] = {b[0], b[1], b[2], b[3]}, out[1];
@@ -167,7 +182,7 @@ int main(int argc, char** argv) {
   std::string reorg = std::getenv("REORG_FACTOR") ? std::getenv("REORG_FACTOR") : "default";
   if (reorg == "off") s.onoffReorganization(false); else if (reorg != "default") s.setFactor(std::stod(reorg));
   long reseedN = std::getenv("QRESEED") ? std::stol(std::getenv("QRESEED")) : 0;
-  std::printf("# B17 check: W0 %s, k %.0f, reorganisation %s, Q re-seed every %ld steps, %zu checkpoints\n", argv[1], K, reorg.c_str(), reseedN, cps.size());
+  std::printf("# B17 check: W0 %s, k %.0f, reorganisation %s, Q re-seed every %ld steps, %zu checkpoints\n", argv[1], K, reorg.c_str(), reseedN, cps.size()); std::fflush(stdout);
   const char* nm[4] = {"a", "b", "E2", "eG"};
   capd::MpITimeMap tm(solver); tm.stopAfterStep(true);
   auto t0 = std::chrono::steady_clock::now(); long steps = 0; bool pass = true;
@@ -186,9 +201,11 @@ int main(int argc, char** argv) {
         MpInterval T = MpInterval(c.t);
         do {
           tm(T, s); ++steps;
+          if (steps % 100 == 0) { std::printf("# progress t=%.4f steps %ld S4 leaves %ld wall %.0f s\n", d(s.getCurrentTime().leftBound()), steps, S4_LEAVES,
+                                              std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count()); std::fflush(stdout); }
           if (reseedN > 0 && steps % reseedN == 0) s.reseedQ();
           IV v = IV(s), e = s.getLastEnclosure();
-          try { mn_domain(e); } catch (std::exception& ex) { throw std::runtime_error(std::string("[S4] ") + ex.what()); }
+          mn_domain(e);
           try { s9(e); } catch (std::exception& ex) { throw std::runtime_error(std::string("[S9] ") + ex.what()); }
           IV xy(2); xy[0] = v[0]; xy[1] = v[1]; IV fr2(4);
           try { fr2 = fa(xy); } catch (std::exception& ex) { throw std::runtime_error(std::string("[aux] ") + ex.what()); }
@@ -218,6 +235,6 @@ int main(int argc, char** argv) {
     pass = false;
   }
   double sec = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
-  std::printf("B17 %s  W0 %s  reorganisation %s  QRESEED %ld  steps %ld  wall %.0f s\n", pass ? "PASS" : "FAIL", argv[1], reorg.c_str(), reseedN, steps, sec);
+  std::printf("B17 %s  W0 %s  reorganisation %s  QRESEED %ld  steps %ld  wall %.0f s  S4 certified leaves %ld\n", pass ? "PASS" : "FAIL", argv[1], reorg.c_str(), reseedN, steps, sec, S4_LEAVES);
   return 0;
 }
