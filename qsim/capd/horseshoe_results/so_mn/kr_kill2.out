@@ -1,0 +1,4 @@
+# RESUMED from /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/kr_kill at t=0.0011230707 steps 16 next checkpoint 0
+# mn_so: W0 1/1000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 0.9
+# step 20 t=0.005548 h=1.831e-03 maxE 2.706e-17 hullDelta 7.855e-19 resteps 0 S4leaves 40 gphiphi_lb 3.855e+04 wall 70 s
+MN-SO PASS (time checkpoints only; informational) W0 1/1000000 steps 33 resteps 0 wall 307 s

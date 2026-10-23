@@ -38,7 +38,7 @@ void lift_vf(Node, Node in[], int, Node o[], int, Node par[], int) {
   o[0] = x; o[1] = zero; o[2] = px; o[3] = sqrt(rad); for (int i = 0; i < 4; ++i) o[4 + i] = aux[i];
 }
 static void pr(const MpInterval& v) { char *a = nullptr, *b = nullptr;
-  mpfr_asprintf(&a, "%.40Re", v.leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.40Re", v.rightBound().*RepAccess::rep);
+  mpfr_asprintf(&a, "%.60RDe", v.leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.60RUe", v.rightBound().*RepAccess::rep);
   std::printf(" %s %s", a, b); mpfr_free_str(a); mpfr_free_str(b); }
 int main(int argc, char** argv) {
   R::setDefaultPrecision(128);

@@ -1,0 +1,3 @@
+# RESUMED from /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/rs_split at t=0.4000000000 steps 31 next checkpoint 0
+# mn_so: W0 1/1000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 0.9
+MN-SO PASS (time checkpoints only; informational) W0 1/1000000 steps 34 resteps 0 wall 59 s

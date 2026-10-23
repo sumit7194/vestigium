@@ -94,7 +94,7 @@ inline IM qr_frame(const IM& A, const IV& re) {
   return Q;
 }
 
-struct StepLog { double h = 0, w_D2K_contrib = 0, maxE = 0; std::vector<MpInterval> hK; };   // hK: [D2Psi(R0)] (i, a, b) row-major
+struct StepLog { double h = 0, w_D2K_contrib = 0, maxE = 0; std::vector<MpInterval> hK; IV enc; };   // enc: C0 enclosure over the step from K   // hK: [D2Psi(R0)] (i, a, b) row-major
 static double SO_REMAINDER_SCALE = 1.0;      // NEGATIVE-CONTROL hook only: scales the P2' remainder box (1 = correct)
 
 // one step of the second-order set; solK and solT are two Cn (degree 2) solvers on the same vector field
@@ -123,6 +123,7 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
     }
   }
   lg.h = hfix;
+  lg.enc = IV(n); for (int i = 0; i < n; ++i) lg.enc[i] = encK(i);       // trajectories from the hull K over [t, t+h] (for S4/S9)
   // enclosures of the flow and its derivatives: phi + rem (CnRect2Set convention).
   // CAPD source (dynsys/CnOdeSolver_templateMembers.h, encloseCnMap): the RETURN value is the Taylor polynomial summed at
   //   the centre, WITHOUT the remainder:

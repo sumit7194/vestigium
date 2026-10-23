@@ -251,7 +251,7 @@ int main(int argc, char** argv) {
         verdict(c, w(s.along(c.u1)), w(s.along(c.u2)), Wf);
         { IV dirs[3] = {c.u1, c.u2, c.nH}; const char* dn[3] = {"u1", "u2", "nH"};
           for (int k = 0; k < 3; ++k) { MpInterval pj = s.proj(dirs[k]); char *a = nullptr, *b = nullptr;
-            mpfr_asprintf(&a, "%.30Re", pj.leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.30Re", pj.rightBound().*RepAccess::rep);
+            mpfr_asprintf(&a, "%.60RDe", pj.leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.60RUe", pj.rightBound().*RepAccess::rep);
             std::printf("PROJ %s t=%.10f %s [%s, %s]\n", c.kind.c_str(), c.t, dn[k], a, b); mpfr_free_str(a); mpfr_free_str(b); } }
       } else {                                                 // section checkpoint: map a COPY of the set to y = 0
         Peek sc = s;
@@ -279,7 +279,7 @@ int main(int argc, char** argv) {
                       w(rt), nrm, nrm * wdx * w(rt), d(img[0].mid().leftBound()), d(img[1].mid().leftBound())); }
         { const char* dn[3] = {"u1", "u2", "nH"};
           for (int k = 0; k < 3; ++k) { char *a = nullptr, *b = nullptr;
-            mpfr_asprintf(&a, "%.30Re", img[k].leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.30Re", img[k].rightBound().*RepAccess::rep);
+            mpfr_asprintf(&a, "%.60RDe", img[k].leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.60RUe", img[k].rightBound().*RepAccess::rep);
             std::printf("PROJREL %s t=%.10f %s [%s, %s]\n", c.kind.c_str(), c.t, dn[k], a, b); mpfr_free_str(a); mpfr_free_str(b); } }
         double Wf[5] = {w(img[2]), w(img[3]), w(img[4]), w(img[5]), w(img[6])};
         verdict(c, w(img[0]), w(img[1]), Wf);

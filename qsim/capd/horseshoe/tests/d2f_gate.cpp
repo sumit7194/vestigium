@@ -1,5 +1,5 @@
 // d2f_gate.cpp -- the D2f gate (SECOND_ORDER_STEP_DESIGN.md §4): CAPD degree-2 jets of the 8-D MN field (mn8_field) at
-// points read from stdin (8 numbers per line, exact decimal strings); prints value, first and FULL second derivatives
+// points read from stdin (8 EXACT rationals p/q per line, enclosed outward); prints value, first and FULL second derivatives
 // for d2f_gate.py (comparison with sympy's exact derivatives at 50 digits, and symmetry).
 #include "capd/mpcapdlib.h"
 #include "proof_guard.h"
@@ -13,7 +13,7 @@ inline MpInterval mn_exp(const MpInterval& a) { return exp(a); }
 #include "../gen/mn_field8.h"
 void vf(Node, Node in[], int, Node o[], int, Node par[], int) { Node c[5] = {par[0], par[1], par[2], par[3], par[4]}; mn8_field<Node>(in, o, c); }
 static void pr(const MpInterval& v) { char *a = nullptr, *b = nullptr;
-  mpfr_asprintf(&a, "%.40Re", v.leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.40Re", v.rightBound().*RepAccess::rep);
+  mpfr_asprintf(&a, "%.60RDe", v.leftBound().*RepAccess::rep); mpfr_asprintf(&b, "%.60RUe", v.rightBound().*RepAccess::rep);
   std::printf(" %s %s", a, b); mpfr_free_str(a); mpfr_free_str(b); }
 int main() {
   capd::MpFloat::setDefaultPrecision(160);
@@ -26,7 +26,9 @@ int main() {
   std::string tok;
   while (true) {
     IV z(8); bool ok = true;
-    for (int i = 0; i < 8; ++i) { if (!(std::cin >> tok)) { ok = false; break; } capd::MpFloat v; mpfr_set_str(v.*RepAccess::rep, tok.c_str(), 10, MPFR_RNDN); z[i] = MpInterval(v); }
+    for (int i = 0; i < 8; ++i) { if (!(std::cin >> tok)) { ok = false; break; }      // exact rational p/q, enclosed outward
+      mpq_t qq; mpq_init(qq); if (mpq_set_str(qq, tok.c_str(), 10) != 0) throw std::runtime_error("bad rational " + tok); mpq_canonicalize(qq);
+      capd::MpFloat lo, hi; mpfr_set_q(lo.*RepAccess::rep, qq, MPFR_RNDD); mpfr_set_q(hi.*RepAccess::rep, qq, MPFR_RNDU); mpq_clear(qq); z[i] = MpInterval(lo, hi); }
     if (!ok) break;
     capd::diffAlgebra::Jet<IM, 0> J(8, 8, 2); f(z, J);
     std::printf("P");
