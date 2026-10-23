@@ -1,5 +1,26 @@
 # Handoff: 2026-10-16 (chaos-proof phase 2 in progress)
 
+## State on 2026-10-24 night (the Mac is fully ours overnight)
+
+**Running (all detached, ppid 1):**
+- The second-order MN runs `tests/mn_so` at 1e-7 and 1e-6 (`horseshoe_results/so_mn/run_1e-{7,6}.out`, state files
+  `.state`, saved every 30 min; kill-9 resume is bit-identical). Full return ~27 h. Section checkpoints are saved as
+  `.state.pre_sec_*` for `tests/mn_sec`.
+- 16 containment reference runs (`so_mn/contain/launch_refs.sh`: 8 points × 2 box sizes, 8 at a time, nice 10).
+- B15, kept running by the user's decision.
+
+**Gates GREEN:** toys A–E plus negatives; MN lift; section toy plus negatives; D²f gate (15,360/15,360); restart.
+
+**Next:**
+1. Read the swing-1 checkpoints (t ≈ 284–296) of both SO runs.
+2. Containment (`tests/b17_containment.py` with the SO run outputs and `so_mn/contain/ref_*`).
+3. The sec_down sections (`tests/mn_sec`) for both runs, sent to the Bridge together with the precondition lines.
+
+**B15 plan (agreed with the user, 2026-10-24):** let it run. Build and gate a compiled Kerr P/Pinv alongside it (C++ from
+the same generated field; same frozen constructor through the adapter; gate: agreement ≤ 1e-10 against the Python P at
+sample points including long returns; a registered amendment). Then decide with the user whether to relaunch B15 with
+it plus the validated pcache checkpointing.
+
 ## State on 2026-10-23 (MN swing work with the Bridge; prereg B17, B17a, B18, B18a registered)
 
 **Running (all detached, ppid 1):**
