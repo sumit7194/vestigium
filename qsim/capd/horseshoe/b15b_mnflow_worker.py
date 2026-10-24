@@ -4,7 +4,8 @@ Usage: b15b_mnflow_worker.py <worker index> <number of workers>      (original m
 Scheduling mode takes only the tasks grind_prediction.json marks as non-grinding (fast) or grinding (grind), in task
 order, k of n. The compiled map is used ONLY to ORDER the tasks; it never supplies or alters a reference value, and a
 misclassified task just runs where it lands, under the same memory cap. Results go to mnflow_<mode><k>.jsonl, and ids
-finished in ANY mnflow_*.jsonl are skipped.
+finished in ANY mnflow_*.jsonl are skipped. B15B_SKIP_MOD=n:k leaves out the tasks with position i % n == k (an original-mode
+worker still running its share), so no task runs twice.
 Takes every task of tasks.json whose position i satisfies i % n == index, in order, skipping task ids already in its
 results file (resume after a kill or a reboot). Each result is one JSON line, flushed and fsync'ed:
   id, ok, value (P: [x, px, T, DP 2x2] / Pinv: [x, px]) or None, route (for a None: 'tmax', 'status -1', 'other'),
@@ -20,7 +21,9 @@ ALL = json.loads((OUT / "tasks.json").read_text())
 if sys.argv[1] in ("fast", "grind"):
     mode, idx, nw = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
     grinds = {r["id"]: r["grinds"] for r in json.loads((OUT / "grind_prediction.json").read_text())}
-    sel = [t for t in ALL if grinds[t["id"]] == (mode == "grind")]
+    skip = os.environ.get("B15B_SKIP_MOD")             # "i%n==k": leave that original-mode worker's share alone
+    sk = tuple(int(v) for v in skip.split(":")) if skip else None
+    sel = [t for j, t in enumerate(ALL) if grinds[t["id"]] == (mode == "grind") and not (sk and j % sk[0] == sk[1])]
     tasks = [t for i, t in enumerate(sel) if i % nw == idx]; res_path = OUT / ("mnflow_%s%d.jsonl" % (mode, idx))
 else:
     idx, nw = int(sys.argv[1]), int(sys.argv[2])
