@@ -1,6 +1,7 @@
 # B15b-2 DRAFT (2026-10-24): crossings on chords across dropped arc points
 
-**Status: DRAFT. Not registered.** Found while designing G6 (B15B_G6_DESIGN.md), and agreed in substance with the
+**Status: REGISTERED as B15b-2 in PREREG_chaos_horseshoe_phase2.md (2026-10-24, the user's OK). This file is
+the drafting history; the prereg text governs.** Previously: Found while designing G6 (B15B_G6_DESIGN.md), and agreed in substance with the
 Bridge. It goes to the user for registration before any counted B15 run.
 
 ## The finding
