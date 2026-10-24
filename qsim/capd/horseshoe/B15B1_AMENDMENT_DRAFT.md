@@ -66,8 +66,12 @@ gives up. The certificate then justifies "no return" for that orbit, or the call
     - **What is compared:** the two states' r = M + k·x and y.
     - **Why not compare the collapse states directly:** the two tolerances stall at different points along the orbit,
       so their collapse states are not at the same time.
-    - **Requirement:** δ ≥ 10 × max(|Δr|/k, |Δy|). Otherwise the plunge is −1 (raise), not certified. A failure of the
-      1e-14 recompute is also −1.
+    - **Two common times, not one (the Bridge's addition):** the difference is taken at t* = 0.99 and at
+      t* = 0.999 × the smaller collapse time. If it grows by more than 10× between the two, the plunge is −1: the error
+      is growing steeply in the last 0.1%, where p_x blows up, so the difference cannot be extrapolated to the
+      collapse.
+    - **Requirement:** δ ≥ 10 × the larger of the two values of max(|Δr|/k, |Δy|). Otherwise the plunge is −1 (raise),
+      not certified. A failure of the 1e-14 recompute is also −1.
   - A fixed 0.01 margin was considered and rejected. In (ii) it would fail every plunge with |y_c| < 0.01, which is roughly
     1% of them if y_c is spread evenly (an estimate, not measured), each as a run-stopping HARNESS-ERROR, for an error that is really around 1e-10.
 - **(i) No turning point.** R(r) > 0 on [r₊, r₁], where
