@@ -222,6 +222,8 @@ int kerr_state_at(double x, double px, double tstar, double sign, double* out) {
     }
   } catch (...) { return -1; }
 }
+// B15b G0: the double field at one state (x, y, px, py) -> 4 doubles, exactly as the integrator evaluates it
+void kerr_field(const double* in, double* out) { field(in, out); }
 // TEST HOOK, negative control only: set E2's bar (registered value 1e-11; a negative bar makes every crossing fail)
 void kerr_test_e2_bar(double bar) { E2_BAR = bar; }
 // E3 diagnostics of the last kerr_P / kerr_Pinv call -> 6 doubles (as kerr_rs's kerr_stats)

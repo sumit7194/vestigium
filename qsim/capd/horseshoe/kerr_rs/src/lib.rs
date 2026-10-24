@@ -242,6 +242,14 @@ pub unsafe extern "C" fn kerr_state_at(x: f64, px: f64, tstar: f64, sign: f64, o
     }
 }
 
+/// B15b G0: the double field at one state (x, y, px, py) -> 4 doubles, exactly as the integrator evaluates it.
+/// # Safety: inp must point to 4 readable doubles and out to 4 writable doubles.
+#[no_mangle]
+pub unsafe extern "C" fn kerr_field(inp: *const f64, out: *mut f64) {
+    let z = std::slice::from_raw_parts(inp, 4); let mut f = [0.0; 4]; field(&CFG.read().unwrap().c, z, &mut f);
+    std::slice::from_raw_parts_mut(out, 4).copy_from_slice(&f);
+}
+
 /// TEST HOOK, negative control only: set E2's bar (registered value 1e-11; a negative bar makes every crossing fail)
 #[no_mangle]
 pub extern "C" fn kerr_test_e2_bar(bar: f64) { *E2_BAR.write().unwrap() = bar; }
