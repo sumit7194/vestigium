@@ -11,3 +11,4 @@
     Otherwise it stays serial.
   - The 3 workers in flight (w0, w1, w2) each finish their current (grinding) task first; then the supervisor hands
     their slots over.
+- 2026-10-24 ~19:45: **the user removed the memory cap** (not using the Mac). No worker is stopped for memory; footprints are logged in rss_peaks.log. The 8 GB stop-and-gate-question rule no longer applies. 2 grinders stay in parallel, in the 5-core budget.
