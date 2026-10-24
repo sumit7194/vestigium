@@ -195,3 +195,17 @@ Bridge before drafting any response; the user answers.
 - **Parked research threads:** MN/TS outreach, A8, the corner systematic, H3 (see the memory note on open threads).
 
 (The previous handoff note, from 2026-09-05, is in git history at commit 01cd193.)
+
+## 2026-10-24 ~13:35 IST: macOS 27.0.1 restart (the user's update). After the restart:
+- Python B15 (PID 24176) is NOT relaunched (the user's decision; B15 moves to the compiled map, B15b/B15b-1 registered).
+- SO runs: resume both (they continue from their .state saves; append to the .out files):
+  cd qsim/capd/horseshoe/tests; R=../../horseshoe_results
+  nohup ./mn_so 1/10000000 $R/mn_smoke/b17_cp_1e-7.txt $R/so_mn/run_1e-7.state 1018.2 >> $R/so_mn/run_1e-7.out 2>&1 &
+  nohup ./mn_so 1/1000000  $R/mn_smoke/b17_cp_1e-6.txt $R/so_mn/run_1e-6.state 1018.2 >> $R/so_mn/run_1e-6.out 2>&1 &
+- B15b MNFlow reference workers: resume all 4 (they skip finished task ids):
+  cd qsim/capd/horseshoe; L=../horseshoe_results/kerr/b15b_gates
+  for i in 0 1 2 3; do nohup /Users/sumit/Github/quantum/sims/.venv/bin/python -u b15b_mnflow_worker.py $i 4 >> $L/mnflow_w$i.log 2>&1 & done
+- Re-arm the watchers (SO checkpoints; the workers' completion -> b15b_gates_eval.py).
+- Next code: the G6 toys and wrapper (design B15B_G6_DESIGN.md + the Bridge's points: the D4 angle factor, vertex/end/gap scans,
+  a replica of the arc bookkeeping that must reproduce the arcs bit-for-bit), B15_MAP=rust wiring with provenance in the journal.
+- Hold the Command Line Tools update until the SO runs and the B15b gates are done (any rebuild would need its checks redone).
