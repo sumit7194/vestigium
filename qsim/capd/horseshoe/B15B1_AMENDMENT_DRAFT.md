@@ -56,8 +56,8 @@ gives up. The certificate then justifies "no return" for that orbit, or the call
   - r_c = M + k·x_c, and the margin is r₁ = M + k·(x_c + δ), where M + k = r₊ = 128 exactly, since k = 39.
   - δ = max(1e-6, 100 × the largest G4-measured state error) covers the integration error of the non-rigorous
     map. It is derived from G4, not chosen, and fixed before the run.
-  - A fixed 0.01 margin was considered and rejected. In (ii) it would fail every plunge with |y_c| < 0.01, which is
-    about 1% of them, each as a run-stopping HARNESS-ERROR, for an error that is really around 1e-10.
+  - A fixed 0.01 margin was considered and rejected. In (ii) it would fail every plunge with |y_c| < 0.01, which is roughly
+    1% of them if y_c is spread evenly (an estimate, not measured), each as a run-stopping HARNESS-ERROR, for an error that is really around 1e-10.
 - **(i) No turning point.** R(r) > 0 on [r₊, r₁], where
   R(r) = [E(r² + a²) − aL]² − Δ[μ²r² + (L − aE)² + Q].
   - It is certified twice, independently, and both must certify:
