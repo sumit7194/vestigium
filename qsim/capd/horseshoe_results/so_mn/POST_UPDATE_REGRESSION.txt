@@ -3,7 +3,7 @@ macOS 27.0.1 (26A434), before resuming the SO runs. The run files contain a PRE-
 a POST-update segment (from the resume marked in run_1e-*.out).
 (A) same binary across the update: a copy of run_1e-7.state (13:21, step 614) continued to step 620:
     post: # step 620 t=244.524213 h=1.746e-01 maxE 2.664e-13 hullDelta 5.941e-17 resteps 0 S4leaves 108 gphiphi_lb 1.057
-    pre:  
+    pre:  # step 620 t=244.524213 h=1.746e-01 maxE 2.664e-13 hullDelta 5.941e-17 resteps 0 S4leaves 7501 gphiphi_lb 5.73
     identical in every state-derived field; S4leaves and gphiphi_lb differ because they are per-process accumulators
     (static in mn_so.cpp), not part of the saved state, and restart at each resume.
 (B) kr_ref (t = 0 to 0.9, W0 1/1000000) recomputed: the final MPFR state file is BIT-IDENTICAL to so_mn/kr_ref
