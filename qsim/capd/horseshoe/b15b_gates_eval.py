@@ -21,7 +21,7 @@ OUT = Path(__file__).resolve().parent.parent / "horseshoe_results" / "kerr" / "b
 PARTIAL = "--partial" in sys.argv
 tasks = json.loads((OUT / "tasks.json").read_text())
 ref = {}
-for p in glob.glob(str(OUT / "mnflow_w*.jsonl")):
+for p in glob.glob(str(OUT / "mnflow_*.jsonl")):
     for line in Path(p).read_text().splitlines():
         try: r = json.loads(line); ref[r["id"]] = r
         except Exception: pass
