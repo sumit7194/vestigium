@@ -1,0 +1,11 @@
+NOTICE
+
+This repository is under the MIT License (LICENSE), with the following exceptions.
+
+- qsim/capd/capd-6.0.0-arm64-nofilib.patch is a derivative of CAPD (Computer Assisted Proofs in Dynamics,
+  https://capd.ii.uj.edu.pl), and is under CAPD's GNU General Public License.
+- The historical test binaries qsim/capd/tests/g_ok and qsim/capd/tests/parse7 (in the history between commits 0e56186
+  and 1a32dd3, untracked since) were linked with CAPD and are under CAPD's GPL. Their corresponding source is upstream
+  CAPD 6.0.0 plus this repository's sources and the patch above.
+
+CAPD itself is not vendored here; it is built from upstream.
