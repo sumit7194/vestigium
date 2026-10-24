@@ -10,6 +10,9 @@
 //   - logs every N steps: t, h, max|E|, the hull-run delta width, resteps (the Bridge's requested quantities);
 //   - checkpoint/restart: the set is written (MPFR hex) every CKPT_SEC seconds and at every B17 checkpoint; a restart
 //     with the same arguments resumes from it.
+//   - DIAGNOSTIC options (2026-10-25, the swing-1 diagnosis; off by default, the computation is identical either way):
+//     SO_DIAG_FROM=t   one DIAG line per step for t >= that time (so.h decomposition hook, logged BEFORE the S4 checks);
+//     SAVE_FROM=t SAVE_DT=dt   a permanent extra copy of the set, <state>.t<time>, at every dt-grid point from t on.
 // Usage: mn_so <W0 p/q> <checkpoints.txt> <state file> [T_end]
 #include "capd/mpcapdlib.h"
 #include "proof_guard.h"
@@ -154,6 +157,9 @@ int main(int argc, char** argv) {
   auto t0 = std::chrono::steady_clock::now(); auto lastck = t0; bool pass = true;
   auto offman = [&](const IV& xy, int q) { IM Da(4, 2); IV xm(2); xm[0] = xy[0].mid(); xm[1] = xy[1].mid(); fa(xm, Da);
                                            IV n(8); n[4 + q] = 1; n[0] = -Da[q][0].mid(); n[1] = -Da[q][1].mid(); return n; };
+  static so::StepDiag DG; const double DIAG_FROM = std::getenv("SO_DIAG_FROM") ? std::atof(std::getenv("SO_DIAG_FROM")) : 1e300;
+  const double SAVE_FROM = std::getenv("SAVE_FROM") ? std::atof(std::getenv("SAVE_FROM")) : 1e300, SAVE_DT = std::getenv("SAVE_DT") ? std::atof(std::getenv("SAVE_DT")) : 0.25;
+  long save_k = -1;
   try {
     while (so::md(X.t) < Tend) {
       // section checkpoints: integrate to t_sec - PRE, save the set to <state>.pre_<kind> for the (separately gated) section
@@ -162,7 +168,14 @@ int main(int argc, char** argv) {
       double tnext = std::min(next_cp < cps.size() ? (cps[next_cp].kind == "t" ? cps[next_cp].t : cps[next_cp].t - PRE) : Tend, Tend);
       double rem = tnext - so::md(X.t);
       solK.setMaxStep(MpInterval(rem > 0 ? rem : 1e-300));
+      so::SO_DIAG = so::md(X.t) >= DIAG_FROM ? &DG : nullptr;
       so::StepLog lg = so::step(solK, solT, X, true); ++steps; LAST_H = solK.getStep();
+      if (so::SO_DIAG) { IV hl = X.hull(); double hx = w(hl[0]), hy = w(hl[1]), ex = w(lg.enc[0]), ey = w(lg.enc[1]);
+        std::printf("DIAG step %ld t=%.6f h=%.3e maxE %.3e lohner %.3e box0 %.3e box1 %.3e box2 %.3e dDe %.3e remT0 %.3e remT1 %.3e encK %.3e Kw %.3e condB %.3e hull_xy %.3e %.3e enc_xy %.3e %.3e\n",
+                    steps, so::md(X.t), lg.h, lg.maxE, DG.lohner, DG.box0, DG.box1, DG.box2, DG.dDe, DG.remT0, DG.remT1, DG.encK, DG.Kw, DG.condB, hx, hy, ex, ey); std::fflush(stdout); }
+      if (so::md(X.t) >= SAVE_FROM) { long k = (long)std::floor((so::md(X.t) - SAVE_FROM) / SAVE_DT);
+        if (k > save_k) { save_k = k; char nmb[64]; std::snprintf(nmb, sizeof nmb, ".t%.4f", so::md(X.t)); std::string sp = std::string(argv[3]) + nmb;
+          save(sp.c_str(), X, steps, next_cp); std::printf("SAVED %s\n", sp.c_str()); std::fflush(stdout); } }
       mn_domain(lg.enc); s9(lg.enc);                               // S4 and S9 on the step enclosure from the hull
       IV hull = X.hull(); mn_domain(hull); s9(hull);
       IV xy(2); xy[0] = hull[0]; xy[1] = hull[1]; IV fr = fa(xy);

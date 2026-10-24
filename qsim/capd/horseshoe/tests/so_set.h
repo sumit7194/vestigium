@@ -96,6 +96,12 @@ inline IM qr_frame(const IM& A, const IV& re) {
 
 struct StepLog { double h = 0, w_D2K_contrib = 0, maxE = 0; std::vector<MpInterval> hK; IV enc; };   // enc: C0 enclosure over the step from K   // hK: [D2Psi(R0)] (i, a, b) row-major
 static double SO_REMAINDER_SCALE = 1.0;      // NEGATIVE-CONTROL hook only: scales the P2' remainder box (1 = correct)
+// LOG-ONLY decomposition hook (the swing-1 diagnosis, the Bridge's points 1/ii; 2026-10-25). When SO_DIAG is non-null,
+// step() also records the width of each contribution to the new error part in the NEW frame's coordinates (iBn * part),
+// i.e. in the units of maxE, and the conditioning of the frame. It computes extra copies only; the propagated set and
+// every interval operation that builds it are unchanged (bit-identical with the hook on or off).
+struct StepDiag { double lohner = 0, box0 = 0, box1 = 0, box2 = 0, dDe = 0, remT0 = 0, remT1 = 0, encK = 0, Kw = 0, condB = 0; };
+static StepDiag* SO_DIAG = nullptr;
 
 // one step of the second-order set; solK and solT are two Cn (degree 2) solvers on the same vector field
 inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_spread = true) {
@@ -177,6 +183,21 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
   IM Bn = qr_frame(AB, X.re);
   IM iBn = capd::matrixAlgorithms::krawczykInverse(Bn);
   IV ren = (iBn * AB) * X.re + iBn * s;
+  if (SO_DIAG) {                                               // log-only: the same parts, recomputed separately
+    StepDiag& d = *SO_DIAG; d = StepDiag();
+    IV p0(n), p1(n), p2(n);
+    for (int i = 0; i < n; ++i) { p0[i] = val[i] - xn[i]; for (int a = 0; a < 2; ++a) p1[i] += (Cc[i][a] - Cn[i][a]) * sym(1); }
+    for (int i = 0; i < n; ++i) { MpInterval q(0); int k = 0;
+      for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) { q += (lg.hK[4 * i + k] - Hn[i][a][b]) * Set::rr(a, b); ++k; }
+      p2[i] = q / 2 * SO_REMAINDER_SCALE; }
+    auto wmax = [&](const IV& v) { double m = 0; for (int i = 0; i < n; ++i) m = std::max(m, hi(v[i]) - lo(v[i])); return m; };
+    d.lohner = wmax((iBn * AB) * X.re); d.box0 = wmax(iBn * p0); d.box1 = wmax(iBn * p1); d.box2 = wmax(iBn * p2); d.dDe = wmax(iBn * (dD * e));
+    for (int i = 0; i < n; ++i) { d.remT0 = std::max(d.remT0, hi(remT(i)) - lo(remT(i))); d.encK = std::max(d.encK, hi(encK(i)) - lo(encK(i)));
+      d.Kw = std::max(d.Kw, hi(K[i]) - lo(K[i])); for (int j = 0; j < n; ++j) d.remT1 = std::max(d.remT1, hi(remT(i, j)) - lo(remT(i, j))); }
+    double nB = 0, nI = 0;                                     // condition estimate in the infinity norm
+    for (int i = 0; i < n; ++i) { double rb = 0, ri = 0; for (int j = 0; j < n; ++j) { rb += std::fabs(md(Bn[i][j])); ri += std::max(std::fabs(lo(iBn[i][j])), std::fabs(hi(iBn[i][j]))); } nB = std::max(nB, rb); nI = std::max(nI, ri); }
+    d.condB = nB * nI;
+  }
   X.x = xn; X.C = Cn; X.H = Hn; X.B = Bn; X.re = ren; X.t = X.t + solK.getStep();
   for (int i = 0; i < n; ++i) lg.maxE = std::max(lg.maxE, hi(ren[i]) - lo(ren[i]));
   return lg;
