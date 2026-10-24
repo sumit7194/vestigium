@@ -1,0 +1,25 @@
+SO runs (diagnostic, informational): both THREW in swing 1, 2026-10-25, before periapsis t*1 = 290.85
+1e-7: THREW at step 1465 t=289.048576: S4: x - 1 < 0.05 possible
+      MN-SO FAIL (time checkpoints only; informational) W0 1/10000000 steps 1465 resteps 0 wall 52050 s
+1e-6: THREW at step 1449 t=288.932535: S4: x - 1 < 0.05 possible
+      MN-SO FAIL (time checkpoints only; informational) W0 1/1000000 steps 1449 resteps 0 wall 51510 s
+
+maxE growth (1e-7 run), step / t / maxE / hullDelta:
+   1200 t=286.280543 2.162e-11 5.675e-14
+   1220 t=286.619925 3.501e-11 7.379e-14
+   1240 t=286.930119 6.875e-11 9.734e-14
+   1260 t=287.213512 1.221e-10 1.274e-13
+   1280 t=287.472694 1.873e-10 1.644e-13
+   1300 t=287.710767 2.648e-10 2.232e-13
+   1320 t=287.928139 3.591e-10 4.098e-12
+   1340 t=288.127684 7.709e-10 3.797e-13
+   1360 t=288.309974 8.938e-09 9.971e-13
+   1380 t=288.477671 2.925e-07 1.600e-11
+   1400 t=288.632103 1.290e-05 2.904e-10
+   1420 t=288.773799 9.896e-05 2.612e-09
+   1440 t=288.904413 6.843e-04 1.302e-08
+   1460 t=289.023502 2.572e-02 5.358e-06
+
+Reading: the remainder E grows exponentially from t ~ 288 (factors 3-40 per 20 steps) until the hull can no longer certify
+x - 1 >= 0.05 (S4/B9). The 16 W0 = 0 reference point runs passed this periapsis to the full return, so this is an
+enclosure (method) failure, not a domain result. The first checkpoint (t = 283.885) had PASSED in both (set/true 1.00).
