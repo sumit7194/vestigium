@@ -12,4 +12,6 @@ tail -9  0.00s user 0.00s system 0% cpu 4:44:36.69 total
 [exited with code 0]
 
 # NOT a B15b gate: kerr_p.dylib as loaded BEFORE the slide-back fix (ce3a599), against MNFlow, 6 points.
-# It confirms the DP bug independently of kerr_rs (worst 3.0e-3, in DP). MNFlow cost: ~47 min per point with jac.
+# It confirms the DP bug independently of kerr_rs (worst 3.0e-3, in DP). Its wall time (17045 s for 6 points) is
+# UNEXPLAINED: the same MNFlow calls in b15b_mnflow_worker.py take 0-17 s each. An earlier note here ("~47 min per point")
+# generalised from this one run and was wrong.
