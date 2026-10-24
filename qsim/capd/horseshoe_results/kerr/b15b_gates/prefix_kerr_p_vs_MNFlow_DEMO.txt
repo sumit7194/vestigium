@@ -1,0 +1,15 @@
+w=(1.8410605440, -0.0000797555) T=697.8005  max rel diff 1.96e-03
+w=(1.8411880323, 0.0000010631) T=698.1258  max rel diff 5.94e-06
+w=(1.8409897726, -0.0000328951) T=697.6234  max rel diff 3.03e-03
+w=(1.8411861424, -0.0000473628) T=698.1192  max rel diff 4.60e-05
+w=(1.8411702668, 0.0000292302) T=698.0819  max rel diff 2.69e-04
+w=(1.8412176777, -0.0000137803) T=698.2002  max rel diff 4.41e-04
+GATE: 6 points, 0 return mismatches, worst relative difference 3.030e-03 -> FAIL
+wall: compiled 0.024 s total, Python 17044.7 s total (speed-up ~716337x)
+/Users/sumit/Github/quantum/sims/.venv/bin/python kerr_p_gate.py 6 2000 2>&1  16985.76s user 48.37s system 99% cpu 4:44:36.69 total
+tail -9  0.00s user 0.00s system 0% cpu 4:44:36.69 total
+
+[exited with code 0]
+
+# NOT a B15b gate: kerr_p.dylib as loaded BEFORE the slide-back fix (ce3a599), against MNFlow, 6 points.
+# It confirms the DP bug independently of kerr_rs (worst 3.0e-3, in DP). MNFlow cost: ~47 min per point with jac.
