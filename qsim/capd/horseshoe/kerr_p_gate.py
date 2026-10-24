@@ -3,14 +3,16 @@ at N sample points around the B15 saddle z* = (1.8411884397812655, 0) (perturbat
 constructor's manifold arcs live), compare py_of, P (image, return time, and the 2x2 section derivative with jac),
 and Pinv. Criterion (proposed for the registered amendment): max relative difference <= 1e-10 in every compared
 quantity at every point where both return within tmax; any point where exactly one of them returns is a FAIL.
-Also reports wall time per call for both.  Usage: kerr_p_gate.py [N] [tmax]"""
+Also reports wall time per call for both. The library defaults to kerr_p.dylib; pass kerr_rs/target/release/libkerr_rs.dylib
+(same C ABI) to gate the Rust candidate.  Usage: kerr_p_gate.py [N] [tmax] [library]"""
 import sys, time, ctypes, random, numpy as np, sympy as sp
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import mn_numerics as MNN
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 12; TMAX = float(sys.argv[2]) if len(sys.argv) > 2 else 2000.0
-lib = ctypes.CDLL(str(HERE / "kerr_p.dylib"))
+LIB = Path(sys.argv[3]) if len(sys.argv) > 3 else HERE / "kerr_p.dylib"
+lib = ctypes.CDLL(str(LIB if LIB.is_absolute() else HERE / LIB)); print("library:", LIB, flush=True)
 lib.kerr_set.argtypes = [ctypes.c_double] * 7
 lib.kerr_py.restype = ctypes.c_double; lib.kerr_py.argtypes = [ctypes.c_double, ctypes.c_double]
 lib.kerr_P.argtypes = [ctypes.c_double, ctypes.c_double, ctypes.c_int, ctypes.c_int, ctypes.c_double, ctypes.POINTER(ctypes.c_double)]

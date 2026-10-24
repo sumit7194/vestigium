@@ -99,7 +99,10 @@ int kerr_P(double x, double px, int n, int jac, double tmax, double* out) {
   double V[4][2];
   for (int i = 0; i < 4; ++i) for (int j = 0; j < 2; ++j) { double a = 0; for (int k = 0; k < 4; ++k) a += s[4 + 4 * i + k] * Din[k][j]; V[i][j] = a; }
   double f[4]; field(s.data(), f);
-  for (int i = 0; i < 4; ++i) for (int j = 0; j < 2; ++j) V[i][j] -= f[i] * (V[1][j] / f[1]);   // slide back to y = 0
+  // slide back to y = 0, with the y row copied first: the in-place loop zeroed V[1] at i = 1, so the p_x and p_y rows
+  // went uncorrected (found by the kerr_rs cross-check, 2026-10-24: det DP 0.57 instead of 1; the x row was unaffected)
+  const double V1[2] = {V[1][0], V[1][1]};
+  for (int i = 0; i < 4; ++i) for (int j = 0; j < 2; ++j) V[i][j] -= f[i] * (V1[j] / f[1]);
   out[3] = V[0][0]; out[4] = V[0][1]; out[5] = V[2][0]; out[6] = V[2][1];
   return 1;
 }

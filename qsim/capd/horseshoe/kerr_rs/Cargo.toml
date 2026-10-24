@@ -1,0 +1,14 @@
+[package]
+name = "kerr_rs"
+version = "0.1.0"
+edition = "2021"
+description = "NON-RIGOROUS compiled map (P, Pinv, p_y) for the B15 Kerr constructor stage; field generated from the gated symbolic source"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+lto = true
+strip = false
