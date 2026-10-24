@@ -1,6 +1,7 @@
 # B15b DRAFT, revision 3 (2026-10-24): a compiled map for the B15 constructor stage
 
-**Status: DRAFT. Not registered.** Revision 2 took in the Bridge's review of revision 1; revision 3 takes in its
+**Status: REGISTERED as B15b in PREREG_chaos_horseshoe_phase2.md (2026-10-24, the user's OK). This file is the
+drafting history; the prereg text governs.** Previously: Revision 2 took in the Bridge's review of revision 1; revision 3 takes in its
 review of revision 2. Corrections to a review are marked "Correction".
 
 - **Before anything is used:** no counted B15 run uses a compiled map until this text, as finally reviewed, is in
