@@ -1,6 +1,7 @@
 # B15b-1 DRAFT, revision 3 (2026-10-24): plunging orbits and step-size collapse in the compiled B15 maps
 
-**Status: DRAFT. Not registered.** Revision 2 took in the Bridge's review of revision 1, which proposed certifying
+**Status: REGISTERED as B15b-1 in PREREG_chaos_horseshoe_phase2.md (2026-10-24, the user's OK). This file is
+the drafting history; the prereg text governs.** Previously: Revision 2 took in the Bridge's review of revision 1, which proposed certifying
 plunges with Kerr's radial quartic. Revision 3 takes in its review of revision 2, which approved it on one condition:
 δ is measured at the plunge. A correction to a review is marked "Correction". The draft goes to the user
 for an OK. No B15b gate except G2 has run; G2 is unaffected, because all its points return.
