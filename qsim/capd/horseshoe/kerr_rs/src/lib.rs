@@ -42,7 +42,8 @@ static STATS: Mutex<Stats> = Mutex::new(STATS0);
 
 const NSAMP: usize = 9;          // E5: the step's endpoints and 8 interior points, theta = j / 9
 const MAX_RETRY: u32 = 10;
-const E2_BAR: f64 = 1e-11;
+/// E2's registered bar is 1e-11; kerr_test_e2_bar exists ONLY for the -1 negative control (never in a counted run)
+static E2_BAR: RwLock<f64> = RwLock::new(1e-11);
 
 /// E2's block-relative difference: state block (0..4) and variational block (4..N) separately
 fn block_diff<const N: usize>(a: &[f64; N], b: &[f64; N]) -> f64 {
@@ -73,21 +74,24 @@ fn to_event<const N: usize>(s: &mut [f64; N], cfg: &Cfg, sign: f64, dir: f64, tm
     // dir < 0: ya > 0 && yb <= 0), so the wanted event is a change from false to true for either direction
     let side = move |v: f64| if dir > 0.0 { v >= 0.0 } else { v <= 0.0 };
     let mut ig = Dopri::new(rhs, *s, 1e-6, cfg.rtol, cfg.atol);
-    let mut retries = 0u32;
+    // retry caps: E5 counts consecutive failures of the SAME step start (reset once a step passes E5); E2 counts every
+    // failure for this crossing, never reset (a non-event step after a halving must not restart the count)
+    let (mut e5_run, mut e2_count) = (0u32, 0u32);
     loop {
-        let st = ig.step();
+        let st = match ig.step() { Some(st) => st, None => return Err(()) };   // step-size underflow -> -1
         let (t0, h) = (st.t0, st.h);
         if t0 > tmax { return Ok(None); }
         // E5: at most one side change per step (a detection heuristic: a root pair between samples can be missed)
         let sm: Vec<bool> = (0..=NSAMP).map(|j| side(st.at_theta(j as f64 / NSAMP as f64)[1])).collect();
         let changes: Vec<usize> = (0..NSAMP).filter(|&j| sm[j] != sm[j + 1]).collect();
         if changes.len() > 1 {
-            retries += 1; stats.e5_retries += 1.0;
-            if retries > MAX_RETRY { return Err(()); }
+            e5_run += 1; stats.e5_retries += 1.0;
+            if e5_run > MAX_RETRY { return Err(()); }
             ig.reset_to(&st, 0.5 * h); continue;
         }
+        e5_run = 0;
         let wanted = changes.len() == 1 && !sm[changes[0]] && sm[changes[0] + 1];
-        if !(wanted && t0 + h > 1e-6) { retries = 0; continue; }
+        if !(wanted && t0 + h > 1e-6) { continue; }
         // E1: bisection in the step-local theta, inside the sample bracket
         let j = changes[0];
         let (mut lo, mut hi) = ((j as f64 / NSAMP as f64).max((1e-6 - t0) / h).max(0.0), (j + 1) as f64 / NSAMP as f64);
@@ -102,7 +106,7 @@ fn to_event<const N: usize>(s: &mut [f64; N], cfg: &Cfg, sign: f64, dir: f64, tm
         let stepped = ig.integrate_exact(&st.r[0], hi * h);
         let d = stepped.map(|y| block_diff(&y, &interp));
         match (stepped, d) {
-            (Some(y), Some(d)) if d <= E2_BAR => {
+            (Some(y), Some(d)) if d <= *E2_BAR.read().unwrap() => {
                 let mut f = [0.0; N]; (ig.f)(&y, &mut f);
                 stats.crossings += 1.0;
                 stats.max_restep_diff = stats.max_restep_diff.max(d);
@@ -112,8 +116,8 @@ fn to_event<const N: usize>(s: &mut [f64; N], cfg: &Cfg, sign: f64, dir: f64, tm
                 return Ok(Some((t0, hi * h)));
             }
             _ => {
-                retries += 1; stats.e2_retries += 1.0;
-                if retries > MAX_RETRY { return Err(()); }
+                e2_count += 1; stats.e2_retries += 1.0;
+                if e2_count > MAX_RETRY { return Err(()); }
                 ig.reset_to(&st, 0.5 * h);
             }
         }
@@ -189,6 +193,10 @@ pub unsafe extern "C" fn kerr_Pinv(x: f64, px: f64, tmax: f64, out: *mut f64) ->
         Err(()) => -1,
     }
 }
+
+/// TEST HOOK, negative control only: set E2's bar (registered value 1e-11; a negative bar makes every crossing fail)
+#[no_mangle]
+pub extern "C" fn kerr_test_e2_bar(bar: f64) { *E2_BAR.write().unwrap() = bar; }
 
 /// E3 diagnostics of the last kerr_P / kerr_Pinv call: crossings, max |ydot| h dtheta, max E2 difference,
 /// min |ydot| at a crossing, E2 retries, E5 retries -> 6 doubles.  # Safety: out must point to 6 writable doubles.

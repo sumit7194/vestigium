@@ -1,0 +1,8 @@
+CROSS (n=1): 200 points, 0 mismatches; worst rel diff: py 2.97e-15, P 2.16e-11, T 3.47e-14, DP 7.92e-13, Pinv 1.31e-11
+wall: rust 1.045 s, c++ 1.117 s (P with jac, per call: 5.22 ms vs 5.58 ms)
+f97b002
+72ddbae5b5121cc4  src/dopri5.rs
+ee34632391e930f9  src/lib.rs
+7ae5ec20f8da42e0  src/mn_field.rs
+c87412b6e6e4f61f  src/scalar.rs
+1403121d720a054e  kerr_p.cpp

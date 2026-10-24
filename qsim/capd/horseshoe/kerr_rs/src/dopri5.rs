@@ -53,8 +53,9 @@ impl<const N: usize, F: Fn(&[f64; N], &mut [f64; N])> Dopri<N, F> {
     pub fn new(f: F, y0: [f64; N], h0: f64, rtol: f64, atol: f64) -> Self {
         let mut k1 = [0.0; N]; f(&y0, &mut k1); Dopri { f, rtol, atol, t: 0.0, y: y0, h: h0, k1 }
     }
-    /// one ACCEPTED step; returns the dense-output record of it
-    pub fn step(&mut self) -> Step<N> {
+    /// one ACCEPTED step; returns the dense-output record of it, or None on step-size underflow (no panic: a panic
+    /// cannot cross the C ABI)
+    pub fn step(&mut self) -> Option<Step<N>> {
         loop {
             let h = self.h;
             let (y1, k7, err, r) = attempt(&self.f, &self.y, &self.k1, h, self.rtol, self.atol);
@@ -62,10 +63,10 @@ impl<const N: usize, F: Fn(&[f64; N], &mut [f64; N])> Dopri<N, F> {
             if err <= 1.0 && err.is_finite() {
                 let s = Step { t0: self.t, h, r };
                 self.t += h; self.y = y1; self.k1 = k7; self.h = h * fac;
-                return s;
+                return Some(s);
             }
             if !err.is_finite() { self.h = h * 0.2; } else { self.h = h * fac.min(1.0); }
-            if self.h.abs() < 1e-300 { panic!("dopri5: step size underflow"); }
+            if !(self.h.abs() >= 1e-300) { return None; }
         }
     }
     /// undo: restart from the start of a previously accepted step s, with step length h

@@ -58,3 +58,7 @@ class CompiledFlow:
         at a crossing, E2 retries, E5 retries"""
         o = (ctypes.c_double * 6)(); self.lib.kerr_stats(o)
         return dict(zip(("crossings", "event_bound", "restep_diff", "min_ydot", "e2_retries", "e5_retries"), o[:]))
+
+    def _test_e2_bar(self, bar):
+        """TEST HOOK for the -1 negative control only (registered E2 bar: 1e-11); never used in a counted run"""
+        self.lib.kerr_test_e2_bar.argtypes = [ctypes.c_double]; self.lib.kerr_test_e2_bar(float(bar))
