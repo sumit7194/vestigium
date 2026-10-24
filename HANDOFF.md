@@ -16,7 +16,13 @@
 2. Containment (`tests/b17_containment.py` with the SO run outputs and `so_mn/contain/ref_*`).
 3. The sec_down sections (`tests/mn_sec`) for both runs, sent to the Bridge together with the precondition lines.
 
-**B15 plan (agreed with the user, 2026-10-24):** let it run. Build and gate a compiled Kerr P/Pinv alongside it (C++ from
+**B15 decision (user, 2026-10-24 midday):** B15 ends with the macOS-update restart and is NOT relaunched as is. Before
+the next run it is to be PORTED TO RUST and optimised. Same rules as everything else: the frozen constructor's logic is
+unchanged; the Rust map is gated against the Python map (MNFlow), and also against kerr_p.dylib (the compiled C++
+candidate built 2026-10-24, >10^4x faster than Python) as a second implementation; a registered amendment comes
+before any counted run. kerr_p_gate.py was running when the restart came, and is to be rerun.
+
+**Earlier B15 plan (2026-10-24 night, superseded by the Rust decision):** let it run. Build and gate a compiled Kerr P/Pinv alongside it (C++ from
 the same generated field; same frozen constructor through the adapter; gate: agreement ≤ 1e-10 against the Python P at
 sample points including long returns; a registered amendment). Then decide with the user whether to relaunch B15 with
 it plus the validated pcache checkpointing.

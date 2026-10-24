@@ -26,3 +26,4 @@ tests/jetparam_test3
 tests/mn_so
 tests/toy_sec
 tests/mn_sec
+kerr_p.dylib
