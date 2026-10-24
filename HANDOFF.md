@@ -209,3 +209,8 @@ Bridge before drafting any response; the user answers.
 - Next code: the G6 toys and wrapper (design B15B_G6_DESIGN.md + the Bridge's points: the D4 angle factor, vertex/end/gap scans,
   a replica of the arc bookkeeping that must reproduce the arcs bit-for-bit), B15_MAP=rust wiring with provenance in the journal.
 - Hold the Command Line Tools update until the SO runs and the B15b gates are done (any rebuild would need its checks redone).
+- UPDATE (the user's decision, 2026-10-24): installing the Command Line Tools update together with macOS. After the restart:
+  rebuild both Kerr maps with kerr_build.sh (new provenance = toolchain change, recorded); re-run G0, G2, kerr_negctl.py and the
+  Bridge's determinism check (G2 set twice, bit-identical) on the new binaries BEFORE they are used; the gate evaluation
+  (G1/G3/G4) recomputes the compiled side anyway. CAPD binaries (mn_so, mn_sec, toys) are NOT rebuilt unless needed; if they
+  are, redo the toy/section gates and the kill-9 restart bit-identity test first. The SO runs resume on their existing binaries.
