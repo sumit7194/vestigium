@@ -1,7 +1,7 @@
-# B15b DRAFT, revision 2 (2026-10-24): a compiled map for the B15 constructor stage
+# B15b DRAFT, revision 3 (2026-10-24): a compiled map for the B15 constructor stage
 
-**Status: DRAFT. Not registered.** Revision 2 takes in the Bridge's review of revision 1. Corrections to that review
-are marked "Correction".
+**Status: DRAFT. Not registered.** Revision 2 took in the Bridge's review of revision 1; revision 3 takes in its
+review of revision 2. Corrections to a review are marked "Correction".
 
 - **Before anything is used:** no counted B15 run uses a compiled map until this text, as finally reviewed, is in
   PREREG_chaos_horseshoe_phase2.md with the user's OK, and gates G0–G5 have passed. G6 runs alongside the counted run.
@@ -46,6 +46,26 @@ implementation gets them through its own code.
   - the event time.
 - **E4. The return time** is accumulated as Σ(t0 + θ*·h) in compensated (Kahan) summation, so the ulp of t does not
   enter the state. Only T itself carries it.
+- **E2-check. The re-step is a check, not only a log.**
+  - Criterion: the interpolated and stepped states agree to ≤ 1e-11 relative (max-norm, relative to max(1, ‖state‖∞)).
+  - If exceeded: the event step is redone from its start with the step halved, up to 10 times, and each retry is
+    counted. If it still fails, the call FAILS.
+- **E5. One crossing per step, checked on every step.**
+  - On every accepted step, not only the event step, the section function y is sampled at the step's endpoints and
+    at 8 interior points of the dense output.
+  - Criterion: at most one sign change, and on the event step exactly one, in the registered direction.
+  - Anything else (two changes, or a change the endpoints do not show) means the step is redone with h halved, up to
+    10 times. If it still fails, the call FAILS.
+  - The transversality margin |ẏ| at each accepted crossing is logged.
+  - The event-step check catches a near-tangent double root. The every-step check also catches a crossing pair
+    hidden inside one step, which the endpoints never show; that would silently skip a return.
+- **A FAILED call is not "no return".** The C ABI gets a distinct return code (−1: integration check failed), next to
+  0 (no return within tmax) and 1 (success). The adapter raises an exception on −1, so the constructor can never read
+  a numerical failure as the geometric fact "no return", which it acts on. pcache does not journal a raised call. A
+  run that hits one stops with a HARNESS-ERROR, and that is reported.
+- **Common mode, noted:** the two compiled implementations share the event DESIGN (E1–E5), coded separately.
+  MNFlow (brentq on DOP853's dense output, no re-step) is the one reference with a different event design, so it
+  stays the reference in G1 and G4.
 
 MNFlow locates events with brentq (xtol = rtol = 4·EPS in t) on DOP853's dense output, which is 7th order. Its event
 state is therefore an interpolant, and its t-resolution is ~1e-16·t. This is recorded as a property of the
@@ -105,12 +125,35 @@ Criteria are fixed here, before any gate output is read.
   x = (r − M)/k ≈ 104.5, not r ≈ 4.7e7. The concern still stands at x ~ 100, with high-degree polynomials in x,
   just less extreme.
 
-**G0b. Kerr integrals, independent of the sympy source.**
+**G0b. Kerr integrals, independent of the sympy source.** Split into two parts, as the Bridge proposed.
 
-- Along the same orbits, check H = −½ and Carter's constant Q. Q comes from the textbook Kerr expression in
-  Boyer–Lindquist coordinates, mapped by r = M + k x and cos θ = y, with the momenta transformed accordingly.
-- Criterion: relative drift ≤ 1e-10 per return, for each compiled map.
-- This is the only check here that can see a source-level field error.
+- **G0b-field, the source check: EXACT.**
+  - At β = 0 every exp in the source is a constant, and Rr enters only through β-terms, so the Kerr field is
+    rational in (x, y, p_x, p_y).
+  - Test: evaluate the Poisson bracket {Q, H} exactly, in rational arithmetic, at 20 random rational points of the
+    domain (Schwartz–Zippel). Q is Carter's constant from the textbook Boyer–Lindquist expression; H is the source's
+    Hamiltonian at the B15 parameters.
+  - Criterion: exactly 0 at all 20 points. A sympy `cancel` of the full bracket is attempted as well, and reported.
+  - **Correction to the review (two points):**
+    - A 1e-12 bar is a double-precision bar. At 50 digits a correct source gives ~1e-45, so 1e-12 would hide a
+      genuine error between 1e-45 and 1e-12. Exact rational arithmetic removes the question.
+    - The H half is vacuous as a source check. mn_codegen builds the field as the Hamiltonian vector field of H, so
+      ∇H·f ≡ 0 for ANY H. Only {Q, H} = 0 tests whether H is Kerr's.
+  - **Convention mapping, fixed before the test runs:**
+    - x = (r − M)/k and y = cos θ, so p_x = k·p_r and p_θ = −sin θ·p_y;
+    - μ² = −2H as a phase-space function, so Q is a phase-space function, not only an on-shell one;
+    - the relation of the source's (E, L) to Kerr's (E, L_z, a), including the shift L' = L + w0·E in V and the sign
+      of a.
+    This derivation is written down and committed BEFORE the first evaluation. If the bracket is nonzero, the
+    result is reported as a FAIL first. Any later "convention error" diagnosis is a disclosed correction with its
+    own commit, never a silent fix.
+- **G0b-drift (diagnostic, no bar):**
+  - Logged at every G4 point: the drift of H and of Q per return, for each map.
+  - Compared with the convergence study: drift that does not shrink with rtol points to the field, which G0b-field
+    should already have caught.
+- **For the later MN work (not B15):** TheBridge's independently transcribed MN build (V15, whose vacuum residual is
+  ≤ 7e-160 at the ring points) can serve as an independent SOURCE check of the MN sympy expressions: g_tt, g_tφ,
+  g_φφ and e^{2γ} at about 20 shared points. This goes on the open-threads list.
 
 **G1. Against MNFlow.**
 
@@ -142,9 +185,14 @@ Criteria are fixed here, before any gate output is read.
   - each iterated with kerr_rs until it comes back within 0.01 of z*, or until 200 returns;
   - from each of the 4 orbits, the first iterate past x = 2, 5, 10, 20, 50, 100, plus the iterate with the largest T.
     That gives ≤ 28 points. Ties go by iterate index.
+  - **Pinv mirror:** seeds z* + s·e_s, s ∈ {1e-4, 1e-3}, on both branches, iterated with kerr_rs's Pinv, with the
+    same x-thresholds and the same largest-T pick. These points are compared through Pinv.
+  - **Near-saddle returns:** on each of the 8 orbits, the 2 iterates closest to z* after the first iterate past x = 5
+    (ties by index). These have the largest gain and the longest near-saddle T.
+  - That gives ≤ 72 points in all.
   - These are not constructor outputs. **Correction:** no journal of the main run exists, and the kill-test journal
     only reaches x ≤ 2.24 and T ≤ 730.
-- **Compared:** one return by kerr_rs, kerr_p and MNFlow (tmax 1e6).
+- **Compared:** one return (P, or Pinv for the mirror points) by kerr_rs, kerr_p and MNFlow (tmax 1e6).
 - **Criterion:** ≤ 1e-10 relative in P, T and DP, unscaled.
 - **Reference accuracy:** MNFlow self-convergence (rtol = atol = 1e-11, 1e-12, 1e-13) at the 3 points with the
   largest T. The reference is accepted only if its 1e-12 value is within 1e-11 relative of its 1e-13 value. A
@@ -176,8 +224,15 @@ Criteria are fixed here, before any gate output is read.
   - The map error is the measured G4 self-convergence error at the matching T.
   - The local gain is ‖DP‖ composed over the returns from the arc's initial segment to the decision point, taken
     from the map's own Jacobians; near the saddle that is about 62 per return.
-- **A thin margin** is flagged. The calls feeding it are recomputed at rtol = atol = 1e-14, and the decision must be
-  unchanged. Any decision that changes is reported as a result, not silently replaced.
+- **A thin margin** is flagged. The calls feeding it are recomputed at rtol = atol = 1e-14.
+- **Rule when the decision changes, fixed now:**
+  - the 1e-14 decision is used;
+  - both decisions are reported;
+  - the step's result carries a flag;
+  - every flag goes into the findings that the user sees.
+- **If the 1e-14 margin is also thin** (below 10 × its own measured error × gain), the decision is UNRESOLVED. It is
+  reported as such, and the step outcome is UNRESOLVED, not decided either way. This addition is mine: without it,
+  a margin at the double-precision floor would be decided by noise.
 
 **On any failure:** fix the implementation or tighten the tolerances, and rerun all of G0–G5. A criterion is never
 relaxed (B16 and the rigour rule). A criterion change is a new registered amendment, with its reason.
