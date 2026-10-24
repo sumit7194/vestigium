@@ -1,0 +1,7 @@
+SO runs, first B17 checkpoint (time checkpoint t = 283.8852), 2026-10-24, post-update segment (macOS 27.0.1)
+1e-7: CHECKPOINT t t=  283.8852 u1 2.205e-04/2.205e-04=1.00 u2 2.833e-07/2.832e-07=1.00 fake 1.225e-08 vs 7.434e-05 nH 2.28e-12  PASS
+1e-7: containment: 24 point-projections checked, 0 not contained; reference runs with missing checkpoints: none
+1e-7: CONTAINMENT PASS
+1e-6: CHECKPOINT t t=  283.8852 u1 2.205e-03/2.205e-03=1.00 u2 2.851e-06/2.836e-06=1.01 fake 1.306e-06 vs 7.444e-04 nH 2.40e-10  PASS
+1e-6: containment: 24 point-projections checked, 0 not contained; reference runs with missing checkpoints: none
+1e-6: CONTAINMENT PASS
