@@ -1,12 +1,15 @@
 {
- "date": "2026-10-24T07:55:57Z",
- "git_head": "bf76d81068afa9b72e774d4bc7e06d526f64cae4",
+ "date": "2026-10-24T08:39:52Z",
+ "git_head": "bf9590c81292c50bf3f151118d50bc22809f43f7",
  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
  "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
  "rust_target": "aarch64-apple-darwin",
  "rust_profile": "release: opt-level 3, codegen-units 1, lto true, strip false (Cargo.toml); RUSTFLAGS empty",
- "cxx": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+ "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
  "cxx_flags": "-std=c++17 -O2 -shared -fPIC",
+ "macos": "27.0.1 (26A434)",
+ "sdk": "27.0 (26A425)",
+ "clt": "27.0.0.0.1788430756",
  "cxx_fp_contract": "clang default (-ffp-contract=on: FMA within an expression permitted); not fast-math",
  "fast_math_check": "passed (flags, pragmas, intrinsics, Cargo.toml, .cargo/config)",
  "sha256": {
@@ -14,6 +17,6 @@
   "kerr_rs/src/scalar.rs": "c87412b6e6e4f61fdc8d0e5a19d9a0b7dd0955ae72e4a61b13c73bffc7871828", "kerr_rs/src/mn_field.rs": "7ae5ec20f8da42e0eb0af1b43d1f98513fff2347281e89f98acca7d38dd895e4",
   "kerr_rs/Cargo.toml": "38b9d0667f3ab5370ef466813e38a561ae0ea3948363a1643b9161db91f55f59", "kerr_rs/Cargo.lock": "4c7ca0ab92ea22ee3db13d0b8616b913c54008f0d2a06d14bb7f79814b2a6e9e",
   "kerr_p.cpp": "f81d8b2d25faaccbe4712d0258dfd1f8fa2518979190c5eea674bde3df07c7f7", "gen/mn_field.h": "4c1c7b57bcbead23c31f3a18afee8fa8e2ba32bbd13be184e40708ab978a507b",
-  "libkerr_rs.dylib": "ab95f76c001938be846b67658838f958d4c52ee7e499daabb3a399ea3a023d3f", "kerr_p.dylib": "f86f5f2da6399028a2fb75867a651ad2b0573d037b84394c141e547ff1383aa0"
+  "libkerr_rs.dylib": "42ea6c3cb33c6d75f068525750fbddd3718d06b080fbce191075abf2ec8759c2", "kerr_p.dylib": "648507e3e6510804ef69124cd0a2fc5b093fdeba1a8c5ed6a418798bc3e01d2b"
  }
 }

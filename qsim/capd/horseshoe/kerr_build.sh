@@ -30,6 +30,9 @@ cat > kerr_build_provenance.json <<EOF
  "rust_profile": "release: opt-level 3, codegen-units 1, lto true, strip false (Cargo.toml); RUSTFLAGS empty",
  "cxx": "$(c++ --version | head -1)",
  "cxx_flags": "$CXXFLAGS",
+ "macos": "$(sw_vers -productVersion) ($(sw_vers -buildVersion))",
+ "sdk": "$(xcrun --show-sdk-version) ($(xcrun --show-sdk-build-version))",
+ "clt": "$(pkgutil --pkg-info=com.apple.pkg.CLTools_Executables 2>/dev/null | sed -n 's/^version: //p')",
  "cxx_fp_contract": "clang default (-ffp-contract=on: FMA within an expression permitted); not fast-math",
  "fast_math_check": "passed (flags, pragmas, intrinsics, Cargo.toml, .cargo/config)",
  "sha256": {
