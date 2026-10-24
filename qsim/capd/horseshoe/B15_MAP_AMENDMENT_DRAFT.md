@@ -47,7 +47,9 @@ implementation gets them through its own code.
 - **E4. The return time** is accumulated as Σ(t0 + θ*·h) in compensated (Kahan) summation, so the ulp of t does not
   enter the state. Only T itself carries it.
 - **E2-check. The re-step is a check, not only a log.**
-  - Criterion: the interpolated and stepped states agree to ≤ 1e-11 relative (max-norm, relative to max(1, ‖state‖∞)).
+  - Criterion: the interpolated and stepped states agree to ≤ 1e-11 relative, block by block: the 4 state components
+    relative to max(1, ‖state‖∞), and the 16 variational components relative to max(1, ‖Φ‖∞). Block by block is
+    stricter than one norm over all 20, which Φ ~ 1e3 would dominate.
   - If exceeded: the event step is redone from its start with the step halved, up to 10 times, and each retry is
     counted. If it still fails, the call FAILS.
 - **E5. One crossing per step, checked on every step.**
@@ -57,6 +59,8 @@ implementation gets them through its own code.
   - Anything else (two changes, or a change the endpoints do not show) means the step is redone with h halved, up to
     10 times. If it still fails, the call FAILS.
   - The transversality margin |ẏ| at each accepted crossing is logged.
+  - **This is a detection heuristic, not a guarantee:** 10 samples can miss a root pair that falls between samples.
+    That is acceptable for a numerical constructor stage, and it is not claimed as more.
   - The event-step check catches a near-tangent double root. The every-step check also catches a crossing pair
     hidden inside one step, which the endpoints never show; that would silently skip a return.
 - **A FAILED call is not "no return".** The C ABI gets a distinct return code (−1: integration check failed), next to
@@ -131,7 +135,8 @@ Criteria are fixed here, before any gate output is read.
   - At β = 0 every exp in the source is a constant, and Rr enters only through β-terms, so the Kerr field is
     rational in (x, y, p_x, p_y).
   - Test: evaluate the Poisson bracket {Q, H} exactly, in rational arithmetic, at 20 random rational points of the
-    domain (Schwartz–Zippel). Q is Carter's constant from the textbook Boyer–Lindquist expression; H is the source's
+    domain (Schwartz–Zippel). Every coordinate has a numerator and denominator of ≥ 64 bits, drawn inside the domain
+    (x > 1, |y| < 1), with the seed recorded, so the sample set is large relative to the degree. Q is Carter's constant from the textbook Boyer–Lindquist expression; H is the source's
     Hamiltonian at the B15 parameters.
   - Criterion: exactly 0 at all 20 points. A sympy `cancel` of the full bracket is attempted as well, and reported.
   - **Correction to the review (two points):**
