@@ -9,6 +9,10 @@ for w in 7 6; do
   den=$( [ $w = 7 ] && echo 10000000 || echo 1000000 ); pid=$(pgrep -f "^./mn_so 1/$den " | head -1)
   printf "   1e-%s: %s | checkpoints %s | THREW %s | %s\n" $w "$st" $cp $th "$( [ -n "$pid" ] && echo "running PID $pid" || echo NOT RUNNING)"
 done
+echo "== diagnostic reruns (DIAG + grid saves from t 285)"
+for w in 7 6; do f=$R/so_mn/rerun_diag/run2_1e-$w.out; [ -f $f ] || continue
+  st=$(grep '^# step' $f | tail -1 | awk '{print $3, $4, $6, $7}'); dg=$(grep -c '^DIAG' $f); th=$(grep -c THREW $f)
+  printf "   1e-%s: %s | DIAG lines %s | THREW %s\n" $w "$st" $dg $th; done
 echo "== B15b MNFlow reference tasks"
 /Users/sumit/Github/quantum/sims/.venv/bin/python - <<PY
 import json, glob, collections

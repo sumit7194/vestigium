@@ -1,0 +1,5 @@
+Validation of mn_so_diag before the diagnostic reruns (2026-10-25, macOS 27.0.1, clang-2100.3.34.2):
+hook off: final state BIT-IDENTICAL to kr_ref
+hook on: final state BIT-IDENTICAL to kr_ref
+step lines identical (wall excluded)
+(kr_ref: t 0 -> 0.9, W0 1/1000000, the pre-update kill-test reference; hook on = SO_DIAG_FROM=0 with grid saves)
