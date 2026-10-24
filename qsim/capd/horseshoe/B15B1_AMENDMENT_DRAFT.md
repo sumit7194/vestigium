@@ -1,7 +1,8 @@
-# B15b-1 DRAFT, revision 2 (2026-10-24): plunging orbits and step-size collapse in the compiled B15 maps
+# B15b-1 DRAFT, revision 3 (2026-10-24): plunging orbits and step-size collapse in the compiled B15 maps
 
-**Status: DRAFT. Not registered.** Revision 2 takes in the Bridge's review of revision 1, which proposed certifying
-plunges with Kerr's radial quartic. A correction to that review is marked "Correction". The draft goes to the user
+**Status: DRAFT. Not registered.** Revision 2 took in the Bridge's review of revision 1, which proposed certifying
+plunges with Kerr's radial quartic. Revision 3 takes in its review of revision 2, which approved it on one condition:
+δ is measured at the plunge. A correction to a review is marked "Correction". The draft goes to the user
 for an OK. No B15b gate except G2 has run; G2 is unaffected, because all its points return.
 
 ## What was found
@@ -55,7 +56,18 @@ gives up. The certificate then justifies "no return" for that orbit, or the call
 - **The orbit's position from the collapse state.**
   - r_c = M + k·x_c, and the margin is r₁ = M + k·(x_c + δ), where M + k = r₊ = 128 exactly, since k = 39.
   - δ = max(1e-6, 100 × the largest G4-measured state error) covers the integration error of the non-rigorous
-    map. It is derived from G4, not chosen, and fixed before the run.
+    map. It is derived from G4, not chosen, and fixed before the run. The R > 0 interval's upper end is pushed OUT by
+    δ, so the interval is conservative (the review's condition 1).
+  - **δ measured AT the plunge (the review's condition 2).** The G4 error comes from regular returns, and the collapse
+    state sits in the chart's singular regime (p_x ~ 1e10). So on EVERY −2, in the gates and in the counted run, the
+    same call is recomputed at rtol = atol = 1e-14.
+    - **Where the difference is taken:** at a COMMON time t* = 0.999 × the smaller of the two collapse times, using a
+      plain integration to t* with no events (a new library entry, kerr_state_at).
+    - **What is compared:** the two states' r = M + k·x and y.
+    - **Why not compare the collapse states directly:** the two tolerances stall at different points along the orbit,
+      so their collapse states are not at the same time.
+    - **Requirement:** δ ≥ 10 × max(|Δr|/k, |Δy|). Otherwise the plunge is −1 (raise), not certified. A failure of the
+      1e-14 recompute is also −1.
   - A fixed 0.01 margin was considered and rejected. In (ii) it would fail every plunge with |y_c| < 0.01, which is roughly
     1% of them if y_c is spread evenly (an estimate, not measured), each as a run-stopping HARNESS-ERROR, for an error that is really around 1e-10.
 - **(i) No turning point.** R(r) > 0 on [r₊, r₁], where
