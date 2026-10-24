@@ -40,6 +40,14 @@ struct Stats { crossings: f64, max_event_bound: f64, max_restep_diff: f64, min_t
 const STATS0: Stats = Stats { crossings: 0.0, max_event_bound: 0.0, max_restep_diff: 0.0, min_transversality: f64::INFINITY, e2_retries: 0.0, e5_retries: 0.0 };
 static STATS: Mutex<Stats> = Mutex::new(STATS0);
 
+/// failure kinds (B15b / B15b-1): Check = an E2 or E5 check failed (or the step underflowed): -1;
+/// Collapse = an accepted step with h < 1e-14 max(1, |t|) (B15b-1 P1): -2, with the state kept for the certifier
+#[derive(Clone, Copy, Debug)]
+enum Fail { Check, Collapse }
+/// the collapse state of the last -2: x, y, px, py, t (time since the start of the call)
+static COLLAPSE: Mutex<[f64; 5]> = Mutex::new([f64::NAN; 5]);
+const COLLAPSE_REL: f64 = 1e-14;
+
 const NSAMP: usize = 9;          // E5: the step's endpoints and 8 interior points, theta = j / 9
 const MAX_RETRY: u32 = 10;
 /// E2's registered bar is 1e-11; kerr_test_e2_bar exists ONLY for the -1 negative control (never in a counted run)
@@ -58,9 +66,10 @@ fn block_diff<const N: usize>(a: &[f64; N], b: &[f64; N]) -> f64 {
 
 /// integrate from s until the first event (y crosses 0 with direction dir) at t > 1e-6.
 /// Ok(Some((t0, dt))): the event at t0 + dt (returned split, for compensated summation), s = the state there by a real
-/// step (E2); Ok(None): the step start passed tmax; Err(()): an E2 or E5 check failed after MAX_RETRY halvings.
+/// step (E2); Ok(None): the step start passed tmax; Err(Fail::Check): an E2 or E5 check failed after MAX_RETRY
+/// halvings; Err(Fail::Collapse): step-size collapse, with COLLAPSE set (its t relative to this to_event's start).
 /// N = 4 (state) or 20 (state + row-major 4x4 variational matrix). sign = -1 integrates the reversed field.
-fn to_event<const N: usize>(s: &mut [f64; N], cfg: &Cfg, sign: f64, dir: f64, tmax: f64, stats: &mut Stats) -> Result<Option<(f64, f64)>, ()> {
+fn to_event<const N: usize>(s: &mut [f64; N], cfg: &Cfg, sign: f64, dir: f64, tmax: f64, stats: &mut Stats) -> Result<Option<(f64, f64)>, Fail> {
     let c = cfg.c;
     let rhs = move |z: &[f64; N], dz: &mut [f64; N]| {
         let mut f = [0.0; 4];
@@ -78,15 +87,18 @@ fn to_event<const N: usize>(s: &mut [f64; N], cfg: &Cfg, sign: f64, dir: f64, tm
     // failure for this crossing, never reset (a non-event step after a halving must not restart the count)
     let (mut e5_run, mut e2_count) = (0u32, 0u32);
     loop {
-        let st = match ig.step() { Some(st) => st, None => return Err(()) };   // step-size underflow -> -1
+        let st = match ig.step() { Some(st) => st, None => return Err(Fail::Check) };   // step-size underflow -> -1
         let (t0, h) = (st.t0, st.h);
         if t0 > tmax { return Ok(None); }
+        if h < COLLAPSE_REL * f64::max(1.0, t0.abs()) {                      // B15b-1 P1
+            let y = &ig.y; *COLLAPSE.lock().unwrap() = [y[0], y[1], y[2], y[3], ig.t]; return Err(Fail::Collapse);
+        }
         // E5: at most one side change per step (a detection heuristic: a root pair between samples can be missed)
         let sm: Vec<bool> = (0..=NSAMP).map(|j| side(st.at_theta(j as f64 / NSAMP as f64)[1])).collect();
         let changes: Vec<usize> = (0..NSAMP).filter(|&j| sm[j] != sm[j + 1]).collect();
         if changes.len() > 1 {
             e5_run += 1; stats.e5_retries += 1.0;
-            if e5_run > MAX_RETRY { return Err(()); }
+            if e5_run > MAX_RETRY { return Err(Fail::Check); }
             ig.reset_to(&st, 0.5 * h); continue;
         }
         e5_run = 0;
@@ -117,7 +129,7 @@ fn to_event<const N: usize>(s: &mut [f64; N], cfg: &Cfg, sign: f64, dir: f64, tm
             }
             _ => {
                 e2_count += 1; stats.e2_retries += 1.0;
-                if e2_count > MAX_RETRY { return Err(()); }
+                if e2_count > MAX_RETRY { return Err(Fail::Check); }
                 ig.reset_to(&st, 0.5 * h);
             }
         }
@@ -145,7 +157,8 @@ fn py_of(c: &[f64; 5], x: f64, px: f64) -> f64 {
 pub extern "C" fn kerr_py(x: f64, px: f64) -> f64 { py_of(&CFG.read().unwrap().c, x, px) }
 
 /// out: x, px, T, and if jac: DP (2x2 row-major) -> 7 doubles. Returns 1 on success, 0 if no return within tmax,
-/// -1 if an integration check (E2 / E5) failed: a numerical failure, never to be read as "no return".
+/// -1 if an integration check (E2 / E5) failed: a numerical failure, never to be read as "no return"; -2 if the step
+/// size collapsed (B15b-1): kerr_collapse gives the state, for the adapter's plunge certificate.
 /// # Safety: out must point to 3 (jac = 0) or 7 (jac != 0) writable doubles.
 #[no_mangle]
 pub unsafe extern "C" fn kerr_P(x: f64, px: f64, n: i32, jac: i32, tmax: f64, out: *mut f64) -> i32 {
@@ -155,20 +168,27 @@ pub unsafe extern "C" fn kerr_P(x: f64, px: f64, n: i32, jac: i32, tmax: f64, ou
     match r {
         Ok(Some(v)) => { let k = if jac != 0 { 7 } else { 3 }; std::slice::from_raw_parts_mut(out, k).copy_from_slice(&v[..k]); 1 }
         Ok(None) => 0,
-        Err(()) => -1,
+        Err(Fail::Check) => -1,
+        Err(Fail::Collapse) => -2,
     }
 }
 
-fn p_impl(cfg: &Cfg, x: f64, px: f64, n: i32, jac: bool, tmax: f64, st: &mut Stats) -> Result<Option<[f64; 7]>, ()> {
+/// a collapse in the k-th return: make COLLAPSE's t relative to the start of the call
+fn shift<T>(r: Result<T, Fail>, t_before: f64) -> Result<T, Fail> {
+    if let Err(Fail::Collapse) = r { COLLAPSE.lock().unwrap()[4] += t_before; }
+    r
+}
+
+fn p_impl(cfg: &Cfg, x: f64, px: f64, n: i32, jac: bool, tmax: f64, st: &mut Stats) -> Result<Option<[f64; 7]>, Fail> {
     let py = py_of(&cfg.c, x, px); if py.is_nan() { return Ok(None); }
     let mut t = Kahan { s: 0.0, c: 0.0 };
     if !jac {
         let mut s = [x, 0.0, px, py];
-        for _ in 0..n { match to_event(&mut s, cfg, 1.0, 1.0, tmax, st)? { Some((a, b)) => { s[1] = 0.0; t.add(a); t.add(b); } None => return Ok(None) } }
+        for _ in 0..n { match shift(to_event(&mut s, cfg, 1.0, 1.0, tmax, st), t.s)? { Some((a, b)) => { s[1] = 0.0; t.add(a); t.add(b); } None => return Ok(None) } }
         return Ok(Some([s[0], s[2], t.s, 0.0, 0.0, 0.0, 0.0]));
     }
     let mut s = [0.0; 20]; s[0] = x; s[2] = px; s[3] = py; for i in 0..4 { s[4 + 5 * i] = 1.0; }
-    for _ in 0..n { match to_event(&mut s, cfg, 1.0, 1.0, tmax, st)? { Some((a, b)) => { s[1] = 0.0; t.add(a); t.add(b); } None => return Ok(None) } }
+    for _ in 0..n { match shift(to_event(&mut s, cfg, 1.0, 1.0, tmax, st), t.s)? { Some((a, b)) => { s[1] = 0.0; t.add(a); t.add(b); } None => return Ok(None) } }
     let mut f0 = [0.0; 4]; field(&cfg.c, &[x, 0.0, px, py], &mut f0);
     let (hx, hpx, hpy) = (-f0[2], f0[0], f0[1]);
     let din = [[1.0, 0.0], [0.0, 0.0], [0.0, 1.0], [-hx / hpy, -hpx / hpy]];
@@ -180,7 +200,7 @@ fn p_impl(cfg: &Cfg, x: f64, px: f64, n: i32, jac: bool, tmax: f64, st: &mut Sta
     Ok(Some([s[0], s[2], t.s, v[0][0], v[0][1], v[2][0], v[2][1]]))
 }
 
-/// Returns 1 / 0 / -1 as kerr_P. # Safety: out must point to 2 writable doubles.
+/// Returns 1 / 0 / -1 / -2 as kerr_P. # Safety: out must point to 2 writable doubles.
 #[no_mangle]
 pub unsafe extern "C" fn kerr_Pinv(x: f64, px: f64, tmax: f64, out: *mut f64) -> i32 {
     let cfg = CFG.read().unwrap(); let mut st = STATS0;
@@ -190,7 +210,35 @@ pub unsafe extern "C" fn kerr_Pinv(x: f64, px: f64, tmax: f64, out: *mut f64) ->
     match r {
         Ok(Some(s)) => { let o = std::slice::from_raw_parts_mut(out, 2); o[0] = s[0]; o[1] = s[2]; 1 }
         Ok(None) => 0,
-        Err(()) => -1,
+        Err(Fail::Check) => -1,
+        Err(Fail::Collapse) => -2,
+    }
+}
+
+/// the state of the last -2: x, y, px, py, t (since the start of the call) -> 5 doubles.
+/// # Safety: out must point to 5 writable doubles.
+#[no_mangle]
+pub unsafe extern "C" fn kerr_collapse(out: *mut f64) { std::slice::from_raw_parts_mut(out, 5).copy_from_slice(&*COLLAPSE.lock().unwrap()); }
+
+/// B15b-1: the state at time tstar from (x, 0, px, py(x, px)), forward (sign +1) or reversed (-1), by a plain integration
+/// (no events; the last piece a real integration to tstar). out: x, y, px, py. Returns 1, or -1 / -2 as kerr_P.
+/// # Safety: out must point to 4 writable doubles.
+#[no_mangle]
+pub unsafe extern "C" fn kerr_state_at(x: f64, px: f64, tstar: f64, sign: f64, out: *mut f64) -> i32 {
+    let cfg = CFG.read().unwrap();
+    let py = py_of(&cfg.c, x, px); if py.is_nan() { return 0; }
+    let c = cfg.c;
+    let rhs = move |z: &[f64; 4], dz: &mut [f64; 4]| { let mut f = [0.0; 4]; field(&c, z, &mut f); for i in 0..4 { dz[i] = sign * f[i]; } };
+    let mut ig = Dopri::new(rhs, [x, 0.0, px, py], 1e-6, cfg.rtol, cfg.atol);
+    loop {
+        let st = match ig.step() { Some(st) => st, None => return -1 };
+        if st.h < COLLAPSE_REL * f64::max(1.0, st.t0.abs()) { let y = &ig.y; *COLLAPSE.lock().unwrap() = [y[0], y[1], y[2], y[3], ig.t]; return -2; }
+        if st.t0 + st.h >= tstar {
+            return match ig.integrate_exact(&st.r[0], tstar - st.t0) {
+                Some(y) => { std::slice::from_raw_parts_mut(out, 4).copy_from_slice(&y); 1 }
+                None => -1,
+            };
+        }
     }
 }
 

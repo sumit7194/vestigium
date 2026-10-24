@@ -59,6 +59,10 @@ struct Rhs {
 };
 // per-call diagnostics (E3): crossings, max |ydot| h dtheta, max E2 difference, min |ydot| at a crossing, E2 / E5 retries
 static double STATS[6];
+// B15b-1 P1: an accepted step with h < 1e-14 max(1, |t|) is a collapse: -2, with the state kept for the certifier
+// (x, y, px, py, t since the start of the call)
+static const double COLLAPSE_REL = 1e-14;
+static double COLLAPSE[5] = {NAN, NAN, NAN, NAN, NAN};
 // E2's registered bar is 1e-11; kerr_test_e2_bar exists ONLY for the -1 negative control (never in a counted run)
 static double E2_BAR = 1e-11;
 static void stats_reset() { STATS[0] = STATS[1] = STATS[2] = STATS[4] = STATS[5] = 0; STATS[3] = INFINITY; }
@@ -89,7 +93,8 @@ static bool integrate_exact(const Rhs& rhs, const St& x0, double t0, double len,
 }
 // integrate from s until the first event (y crosses 0 with direction dir) at t > 1e-6.
 // returns 1 with s = the state at the event (by a real step) and the event at t0ev + dtev; 0 if a step start passes
-// tmax; -1 if an E2 or E5 check failed after 10 halvings
+// tmax; -1 if an E2 or E5 check failed after 10 halvings; -2 on a step-size collapse (COLLAPSE set, t relative to
+// this call of to_event)
 static int to_event_(St& s, double& t0ev, double& dtev, bool var, double sign, double dir, double tmax) {
   using namespace boost::numeric::odeint;
   auto stepper = make_dense_output(ATOL, RTOL, runge_kutta_dopri5<St>());
@@ -105,6 +110,9 @@ static int to_event_(St& s, double& t0ev, double& dtev, bool var, double sign, d
     auto iv = stepper.do_step(rhs);
     const double t0 = iv.first, h = iv.second - iv.first;
     if (t0 > tmax) return 0;
+    if (h < COLLAPSE_REL * std::max(1.0, std::fabs(t0))) {             // B15b-1 P1
+      const St& c = stepper.current_state(); for (int i = 0; i < 4; ++i) COLLAPSE[i] = c[i]; COLLAPSE[4] = iv.second; return -2;
+    }
     bool sm[10]; int nch = 0, jch = -1;
     for (int j = 0; j < 10; ++j) {
       if (j == 0) m = start; else if (j == 9) m = stepper.current_state(); else stepper.calc_state(t0 + h * (j / 9.0), m);
@@ -151,7 +159,8 @@ double kerr_py(double x, double px) {
   return r > 0 ? std::sqrt(r) : NAN;
 }
 // out: x, px, T, and if jac: DP (2x2 row-major) -> 7 doubles. Returns 1 on success, 0 if no return within tmax,
-// -1 if an integration check (E2 / E5) failed: a numerical failure, never to be read as "no return".
+// -1 if an integration check (E2 / E5) failed: a numerical failure, never to be read as "no return"; -2 if the step
+// size collapsed (B15b-1): kerr_collapse gives the state, for the adapter's plunge certificate.
 int kerr_P(double x, double px, int n, int jac, double tmax, double* out) {
   stats_reset();
   double py = kerr_py(x, px); if (!(py == py)) return 0;
@@ -159,7 +168,9 @@ int kerr_P(double x, double px, int n, int jac, double tmax, double* out) {
   if (jac) for (int i = 0; i < 4; ++i) s[4 + 5 * i] = 1;
   Kahan T;
   for (int k = 0; k < n; ++k) {
-    double a, b; const int r = to_event(s, a, b, jac, 1.0, 1.0, tmax); if (r != 1) return r;
+    double a, b; const int r = to_event(s, a, b, jac, 1.0, 1.0, tmax);
+    if (r == -2) COLLAPSE[4] += T.s;                                  // make the collapse time relative to the call
+    if (r != 1) return r;
     s[1] = 0; T.add(a); T.add(b);
   }
   out[0] = s[0]; out[1] = s[2]; out[2] = T.s;
@@ -177,13 +188,39 @@ int kerr_P(double x, double px, int n, int jac, double tmax, double* out) {
   out[3] = V[0][0]; out[4] = V[0][1]; out[5] = V[2][0]; out[6] = V[2][1];
   return 1;
 }
-// Returns 1 / 0 / -1 as kerr_P.
+// Returns 1 / 0 / -1 / -2 as kerr_P.
 int kerr_Pinv(double x, double px, double tmax, double* out) {
   stats_reset();
   double py = kerr_py(x, px); if (!(py == py)) return 0;
   St s{}; s[0] = x; s[1] = 0; s[2] = px; s[3] = py; double a, b;
   const int r = to_event(s, a, b, false, -1.0, -1.0, tmax); if (r != 1) return r;
   out[0] = s[0]; out[1] = s[2]; return 1;
+}
+// the state of the last -2: x, y, px, py, t (since the start of the call) -> 5 doubles
+void kerr_collapse(double* out) { for (int i = 0; i < 5; ++i) out[i] = COLLAPSE[i]; }
+// B15b-1: the state at time tstar from (x, 0, px, py(x, px)), forward (sign +1) or reversed (-1), by a plain integration
+// (no events; the last piece a real integration to tstar). out: x, y, px, py. Returns 1, or -1 / -2 as kerr_P.
+int kerr_state_at(double x, double px, double tstar, double sign, double* out) {
+  double py = kerr_py(x, px); if (!(py == py)) return 0;
+  try {
+    using namespace boost::numeric::odeint;
+    auto stepper = make_dense_output(ATOL, RTOL, runge_kutta_dopri5<St>());
+    Rhs rhs{false, sign}; St s{}; s[0] = x; s[2] = px; s[3] = py;
+    stepper.initialize(s, 0.0, 1e-6);
+    while (true) {
+      const St start = stepper.current_state();
+      auto iv = stepper.do_step(rhs);
+      const double t0 = iv.first, h = iv.second - iv.first;
+      if (h < COLLAPSE_REL * std::max(1.0, std::fabs(t0))) {
+        const St& c = stepper.current_state(); for (int i = 0; i < 4; ++i) COLLAPSE[i] = c[i]; COLLAPSE[4] = iv.second; return -2;
+      }
+      if (iv.second >= tstar) {
+        St y; if (!integrate_exact(rhs, start, t0, tstar - t0, y)) return -1;
+        for (int i = 0; i < 4; ++i) out[i] = y[i];
+        return 1;
+      }
+    }
+  } catch (...) { return -1; }
 }
 // TEST HOOK, negative control only: set E2's bar (registered value 1e-11; a negative bar makes every crossing fail)
 void kerr_test_e2_bar(double bar) { E2_BAR = bar; }
