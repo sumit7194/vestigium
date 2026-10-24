@@ -23,5 +23,5 @@ for gate in ("G1", "G4", "G4c", "G3"):
     print("   %-4s %3d / %3d done  (grinders %d / %d)" % (gate, len(d), len(ts), sum(g[x["id"]] for x in d), sum(g[x["id"]] for x in ts)))
 print("   total %d / %d" % (len(done), len(t)))
 PY
-echo "== workers (RSS)"; for p in $(pgrep -f "python -u b15b_mnflow_worker"); do printf "   PID %s  %s  %5.0f MB  up %s\n" $p "$(ps -o command= -p $p | grep -o 'worker.py.*')" $(( $(ps -o rss= -p $p) / 1024 )) "$(ps -o etime= -p $p | tr -d ' ')"; done
+echo "== workers (RSS)"; for p in $(pgrep -f "[Pp]ython -u b15b_mnflow_worker"); do printf "   PID %s  %s  %5.0f MB  up %s\n" $p "$(ps -o command= -p $p | grep -o 'worker.py.*')" $(( $(ps -o rss= -p $p) / 1024 )) "$(ps -o etime= -p $p | tr -d ' ')"; done
 echo "== scheduler"; tail -3 $G/sched.log 2>/dev/null | sed 's/^/   /'
