@@ -1,0 +1,7 @@
+# (the first attempt propagated the centre with the Cn solver and ran 12.7 CPU-h without reaching t = 241; stopped, replaced by C0 propagation)
+# so_thin_probe: W0 = 0 centre orbit; thin Cn calls at the SO run's h. columns per variant: val_w D1_rad D2_rad enc_w
+        t         h | single (order 20)                         | 2 x h/2                                   | 4 x h/4                                   | single (order 25)                        
+ 240.9764 1.855e-01 |  7.11e-15  1.11e-16  2.22e-16  2.34e-01 |  7.11e-15  1.11e-16  2.22e-16  1.14e-01 |  7.11e-15  1.11e-16  2.22e-16  5.59e-02 |  7.11e-15  1.11e-16  2.22e-16  2.34e-01 |  (centre enclosure width 7.1e-15)
+ 281.4341 3.955e-02 |  1.42e-14  1.11e-16  8.88e-16  1.03e-01 |  1.42e-14  1.11e-16  8.88e-16  4.79e-02 |  1.42e-14  1.11e-16  8.88e-16  2.30e-02 |  1.42e-14  1.11e-16  8.88e-16  1.03e-01 |  (centre enclosure width 1.4e-14)
+ 286.2805 1.773e-02 |  1.42e-14  2.22e-16  1.78e-15  1.32e-01 |  1.42e-14  2.22e-16  1.78e-15  6.16e-02 |  1.42e-14  2.22e-16  1.78e-15  2.97e-02 |  1.42e-14  2.22e-16  1.78e-15  1.32e-01 |  (centre enclosure width 1.4e-14)
+libc++abi: terminating due to uncaught exception of type std::runtime_error: probe: step changed

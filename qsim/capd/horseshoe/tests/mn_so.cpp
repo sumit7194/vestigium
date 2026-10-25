@@ -13,6 +13,9 @@
 //   - DIAGNOSTIC options (2026-10-25, the swing-1 diagnosis; off by default, the computation is identical either way):
 //     SO_DIAG_FROM=t   one DIAG line per step for t >= that time (so.h decomposition hook, logged BEFORE the S4 checks);
 //     SAVE_FROM=t SAVE_DT=dt   a permanent extra copy of the set, <state>.t<time>, at every dt-grid point from t on.
+//     GUARD_RATIO=r   FAIL-FAST (the Bridge, 2026-10-26; opt-in, so regressions stay bit-identical): if for any component
+//       width(e_i) > r * width(polynomial part_i), stop with "GUARD", save the state to <state>.guard and print the last
+//       20 DIAG lines (the decomposition is then computed on every step, into a ring buffer).
 // Usage: mn_so <W0 p/q> <checkpoints.txt> <state file> [T_end]
 #include "capd/mpcapdlib.h"
 #include "proof_guard.h"
@@ -160,6 +163,7 @@ int main(int argc, char** argv) {
   static so::StepDiag DG; const double DIAG_FROM = std::getenv("SO_DIAG_FROM") ? std::atof(std::getenv("SO_DIAG_FROM")) : 1e300;
   const double SAVE_FROM = std::getenv("SAVE_FROM") ? std::atof(std::getenv("SAVE_FROM")) : 1e300, SAVE_DT = std::getenv("SAVE_DT") ? std::atof(std::getenv("SAVE_DT")) : 0.25;
   long save_k = -1;
+  const double GUARD = std::getenv("GUARD_RATIO") ? std::atof(std::getenv("GUARD_RATIO")) : 0; std::vector<std::string> ring;
   try {
     while (so::md(X.t) < Tend) {
       // section checkpoints: integrate to t_sec - PRE, save the set to <state>.pre_<kind> for the (separately gated) section
@@ -168,11 +172,22 @@ int main(int argc, char** argv) {
       double tnext = std::min(next_cp < cps.size() ? (cps[next_cp].kind == "t" ? cps[next_cp].t : cps[next_cp].t - PRE) : Tend, Tend);
       double rem = tnext - so::md(X.t);
       solK.setMaxStep(MpInterval(rem > 0 ? rem : 1e-300));
-      so::SO_DIAG = so::md(X.t) >= DIAG_FROM ? &DG : nullptr;
+      so::SO_DIAG = (so::md(X.t) >= DIAG_FROM || GUARD > 0) ? &DG : nullptr;
       so::StepLog lg = so::step(solK, solT, X, true); ++steps; LAST_H = solK.getStep();
+      double gratio = 0;
+      if (GUARD > 0) { IV R(2); R[0] = so::sym(1); R[1] = so::sym(1); IV poly = X.C * R + X.quad(), ev = X.B * X.re;
+        for (int i = 0; i < 8; ++i) { double wp = w(poly[i]); if (wp > 0) gratio = std::max(gratio, w(ev[i]) / wp); } }
       if (so::SO_DIAG) { IV hl = X.hull(); double hx = w(hl[0]), hy = w(hl[1]), ex = w(lg.enc[0]), ey = w(lg.enc[1]);
-        std::printf("DIAG step %ld t=%.6f h=%.3e maxE %.3e lohner %.3e box0 %.3e box1 %.3e box2 %.3e dDe %.3e remT0 %.3e remT1 %.3e encK %.3e Kw %.3e condB %.3e hull_xy %.3e %.3e enc_xy %.3e %.3e\n",
-                    steps, so::md(X.t), lg.h, lg.maxE, DG.lohner, DG.box0, DG.box1, DG.box2, DG.dDe, DG.remT0, DG.remT1, DG.encK, DG.Kw, DG.condB, hx, hy, ex, ey); std::fflush(stdout); }
+        char diagline[640]; std::snprintf(diagline, sizeof diagline, "DIAG step %ld t=%.6f h=%.3e maxE %.3e lohner %.3e box0 %.3e box1 %.3e box2 %.3e dDe %.3e remT0 %.3e remT1 %.3e encK %.3e Kw %.3e condB %.3e hull_xy %.3e %.3e enc_xy %.3e %.3e",
+                    steps, so::md(X.t), lg.h, lg.maxE, DG.lohner, DG.box0, DG.box1, DG.box2, DG.dDe, DG.remT0, DG.remT1, DG.encK, DG.Kw, DG.condB, hx, hy, ex, ey);
+        std::string dl = std::string(diagline) + (GUARD > 0 ? " eratio " + std::to_string(gratio) : "");
+        if (so::md(X.t) >= DIAG_FROM) { std::printf("%s\n", dl.c_str()); std::fflush(stdout); }
+        if (GUARD > 0) { ring.push_back(dl); if (ring.size() > 20) ring.erase(ring.begin()); } }
+      if (GUARD > 0 && gratio > GUARD) {
+        std::printf("GUARD at step %ld t=%.6f: width(e)/width(poly) = %.3e > %.1e; state -> %s.guard; last %zu DIAG lines:\n", steps, so::md(X.t), gratio, GUARD, argv[3], ring.size());
+        for (auto& l : ring) std::printf("  %s\n", l.c_str());
+        std::string gp = std::string(argv[3]) + ".guard"; save(gp.c_str(), X, steps, next_cp); pass = false; std::fflush(stdout); break;
+      }
       if (so::md(X.t) >= SAVE_FROM) { long k = (long)std::floor((so::md(X.t) - SAVE_FROM) / SAVE_DT);
         if (k > save_k) { save_k = k; char nmb[64]; std::snprintf(nmb, sizeof nmb, ".t%.4f", so::md(X.t)); std::string sp = std::string(argv[3]) + nmb;
           save(sp.c_str(), X, steps, next_cp); std::printf("SAVED %s\n", sp.c_str()); std::fflush(stdout); } }
