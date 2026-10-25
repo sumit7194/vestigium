@@ -44,7 +44,7 @@ void lift_vf(Node, Node in[], int, Node o[], int, Node par[], int) {     // iden
   Node z8[8] = {x, zero, x, x, x, x, x, x}, aux[4]; mn8_aux<Node>(z8, aux, c);
   o[0] = x; o[1] = zero; o[2] = px; o[3] = sqrt(rad); for (int i = 0; i < 4; ++i) o[4 + i] = aux[i];
 }
-struct Res { double val = 0, d1 = 0, d2 = 0, enc = 0; bool nv = false; };   // nv: CAPD did not validate the fixed step
+struct Res { double val = 0, d1 = 0, d2 = 0, enc = 0; bool nv = false; IM A; std::vector<IM> H; };   // nv: CAPD did not validate the fixed step
 static IV midv(const IV& v) { IV m(v.dimension()); for (int i = 0; i < v.dimension(); ++i) m[i] = v[i].mid(); return m; }
 // one Cn call at fixed step h over the box xx (x = mid of xx); returns value enclosure over xx (mean value), D1, D2 over xx
 static void call(so::Solver& s, const IV& xx, double h, IV& val, IM& D1, std::vector<IM>& D2, double& encw) {
@@ -73,6 +73,7 @@ static Res probe(so::Solver& s, const IV& p, double h, int m) {
       Hn[i][j][k] = acc; }
     A = D1 * A; H = Hn; v = val;
   }
+  r.A = A; r.H = H;
   for (int i = 0; i < n; ++i) { r.val = std::max(r.val, w(v[i]));
     for (int j = 0; j < n; ++j) { r.d1 = std::max(r.d1, w(A[i][j]) / 2); for (int k = 0; k < n; ++k) r.d2 = std::max(r.d2, w(H[i][j][k]) / 2); } }
   return r;
@@ -114,8 +115,33 @@ int main(int argc, char** argv) {
     IV x = X.x;
     Res r[4] = {probe(solT, x, h, 1), probe(solT, x, h, 2), probe(solT, x, h, 4), probe(s25, x, h, 1)};
     const char* nm[4] = {"single (order 20)", "2 x h/2", "4 x h/4", "single (order 25)"};
+    std::printf("  THIN call from X.x:\n");
     for (int k = 0; k < 4; ++k) { if (r[k].nv) std::printf("  %-18s step NOT VALIDATED by CAPD\n", nm[k]);
       else std::printf("  %-18s val_w %.3e  rad D1 %.3e  rad D2 %.3e  enc_w %.3e\n", nm[k], r[k].val, r[k].d1, r[k].d2, r[k].enc); }
+    // the Bridge's discriminator: the HULL call over K at h, 2 x h/2, 4 x h/4 (composed over the value boxes), and the
+    // resulting box2 (1/2 (hK - mid)[r, r], hK = D2K[DxR, DxR] + D1K H) and dD.e ((D1K - D1c) e) per unit time
+    so::Solver solK2(fK, 20); if (so::md(lh) > 0) solK2.adjustTimeStep(lh);
+    IM DxR(8, 2); for (int j = 0; j < 8; ++j) for (int a = 0; a < 2; ++a) DxR[j][a] = X.C[j][a] + X.H[j][a][0] * so::sym(1) + X.H[j][a][1] * so::sym(1);
+    IV e = X.B * X.re;
+    std::printf("  HULL call over K:\n");
+    for (int m : {1, 2, 4}) {
+      Res q = probe(solK2, K, h, m); if (q.nv) { std::printf("  %d x h/%d: step NOT VALIDATED\n", m, m); continue; }
+      Res tc = probe(solT, x, h, m);
+      double b2 = 0, dde = 0;
+      for (int i = 0; i < 8; ++i) {
+        MpInterval qq(0);
+        for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) { MpInterval hk(0);
+          for (int j = 0; j < 8; ++j) { hk += q.A[i][j] * X.H[j][a][b]; for (int k = 0; k < 8; ++k) hk += q.H[i][j][k] * DxR[j][a] * DxR[k][b]; }
+          qq += (hk - hk.mid()) * so::Set::rr(a, b); }
+        b2 = std::max(b2, w(qq / 2));
+        if (!tc.nv) { MpInterval de(0); for (int j = 0; j < 8; ++j) de += (q.A[i][j] - tc.A[i][j]) * e[j]; dde = std::max(dde, w(de)); }
+      }
+      std::printf("  %d x h/%d: encK %.3e  rad D1K %.3e  rad D2K %.3e | box2 %.3e (%.3e per unit t)  dD.e %.3e (%.3e per unit t)\n", m, m, q.enc, q.d1, q.d2, b2, b2 / h, dde, dde / h);
+    }
+    // how far h sits below the largest fixed step the hull call validates (coarse: factors 1.25, 1.5, 2, 3)
+    double kmax = 1; for (double f : {1.25, 1.5, 2.0, 3.0}) { so::Solver sv(fK, 20); so::JetT a1(8, 2), a2(8, 2), a3(8, 2);
+      try { sv.turnOffStepControl(); sv.setStep(MpInterval(h * f)); sv.encloseCnMap(X.t, K, K, a1, a2, a3); if (so::md(sv.getStep()) == h * f) kmax = f; else break; } catch (std::exception&) { break; } }
+    std::printf("  largest validated fixed step tested: %.2f x h  (h / h_max_tested >= %.2f)\n", kmax, 1 / kmax);
     return 0;
   }
   capd::MpIMap L(lift_vf, 2, 8, 8, 3); for (int i = 0; i < 5; ++i) L.setParameter(i, MNC[i]);
