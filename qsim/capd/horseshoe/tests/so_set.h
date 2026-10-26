@@ -100,8 +100,23 @@ static double SO_REMAINDER_SCALE = 1.0;      // NEGATIVE-CONTROL hook only: scal
 // step() also records the width of each contribution to the new error part in the NEW frame's coordinates (iBn * part),
 // i.e. in the units of maxE, and the conditioning of the frame. It computes extra copies only; the propagated set and
 // every interval operation that builds it are unchanged (bit-identical with the hook on or off).
-struct StepDiag { double lohner = 0, box0 = 0, box1 = 0, box2 = 0, dDe = 0, remT0 = 0, remT1 = 0, encK = 0, Kw = 0, condB = 0; };
+struct StepDiag { double lohner = 0, box0 = 0, box1 = 0, box2 = 0, dDe = 0, remT0 = 0, remT1 = 0, encK = 0, Kw = 0, condB = 0;
+                  double hpred = 0, box2_ctrl = 0; int shrunk = 0, taylor_mismatch = 0; };
 static StepDiag* SO_DIAG = nullptr;
+// CANDIDATE REMEDY (the swing-1 diagnosis, 2026-10-26; OFF by default, so every regression stays bit-identical): after
+// CAPD's controller has chosen h, the hull AND thin calls are redone by FRESH solvers with step control OFF at exactly that
+// h, so no enclosure from a rejected (larger) trial step survives into the degree-2 remainder (approveRemainder accepts on
+// the degree-0 width only). The Taylor parts of the redo must equal the controlled calls' bit for bit (the step used is
+// the same); a mismatch throws (BUG). Not yet registered: a test candidate.
+static bool SO_FIXED_REDO = false;
+static long SO_TAYLOR_MISMATCH = 0;
+inline bool same_iv(const MpInterval& u, const MpInterval& v) { return lo(u) == lo(v) && hi(u) == hi(v) && mpfr_equal_p(u.leftBound().*RepA::rep, v.leftBound().*RepA::rep) && mpfr_equal_p(u.rightBound().*RepA::rep, v.rightBound().*RepA::rep); }
+inline int taylor_diff(const JetT& a, const JetT& b, int n) {       // degree 0, 1 and 2 coefficients of the Taylor part
+  int d = 0;
+  for (int i = 0; i < n; ++i) { if (!same_iv(a(i), b(i))) ++d;
+    for (int j = 0; j < n; ++j) { if (!same_iv(a(i, j), b(i, j))) ++d; for (int k = j; k < n; ++k) if (!same_iv(a(i, j, k), b(i, j, k))) ++d; } }
+  return d;
+}
 
 // one step of the second-order set; solK and solT are two Cn (degree 2) solvers on the same vector field
 inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_spread = true) {
@@ -109,7 +124,7 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
   IV K = X.hull();
   JetT phiK(n, 2), remK(n, 2), encK(n, 2), phiT(n, 2), remT(n, 2), encT(n, 2);
   IV yT(n);
-  double hfix = -1;
+  double hfix = -1; const double hpred = md(solK.getStep());
   for (int attempt = 0; ; ++attempt) {
     if (attempt > 40) throw std::runtime_error("so::step: could not validate both calls (step halved 40 times)");
     try {
@@ -129,6 +144,20 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
     }
   }
   lg.h = hfix;
+  JetT phiKc(n, 2), remKc(n, 2); bool redo = SO_FIXED_REDO;
+  if (redo) {                                                  // the candidate remedy: fresh fixed-h redo of both calls
+    phiKc = phiK; remKc = remK;
+    Solver fK(solK.getVectorField(), solK.getOrder()); fK.turnOffStepControl(); fK.setStep(solK.getStep());
+    JetT p2(n, 2), r2(n, 2), e2(n, 2); fK.encloseCnMap(X.t, K, K, p2, r2, e2);
+    if (md(fK.getStep()) != hfix) throw std::runtime_error("so::step: fixed-h hull redo changed the step (BUG)");
+    int dK = taylor_diff(phiK, p2, n);
+    Solver fT(solT.getVectorField(), solT.getOrder()); fT.turnOffStepControl(); fT.setStep(solK.getStep());
+    JetT p3(n, 2), r3(n, 2), e3(n, 2); IV y3 = fT.encloseCnMap(X.t, X.x, X.x, p3, r3, e3);
+    if (md(fT.getStep()) != hfix) throw std::runtime_error("so::step: fixed-h thin redo changed the step (BUG)");
+    int dT = taylor_diff(phiT, p3, n); for (int i = 0; i < n; ++i) if (!same_iv(yT[i], y3[i])) ++dT;
+    if (dK + dT > 0) { SO_TAYLOR_MISMATCH += dK + dT; throw std::runtime_error("so::step: the fixed-h redo's Taylor part differs from the controlled call's (BUG)"); }
+    phiK = p2; remK = r2; encK = e2; phiT = p3; remT = r3; encT = e3; yT = y3;
+  }
   lg.enc = IV(n); for (int i = 0; i < n; ++i) lg.enc[i] = encK(i);       // trajectories from the hull K over [t, t+h] (for S4/S9)
   // enclosures of the flow and its derivatives: phi + rem (CnRect2Set convention).
   // CAPD source (dynsys/CnOdeSolver_templateMembers.h, encloseCnMap): the RETURN value is the Taylor polynomial summed at
@@ -197,6 +226,17 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
     double nB = 0, nI = 0;                                     // condition estimate in the infinity norm
     for (int i = 0; i < n; ++i) { double rb = 0, ri = 0; for (int j = 0; j < n; ++j) { rb += std::fabs(md(Bn[i][j])); ri += std::max(std::fabs(lo(iBn[i][j])), std::fabs(hi(iBn[i][j]))); } nB = std::max(nB, rb); nI = std::max(nI, ri); }
     d.condB = nB * nI;
+    d.hpred = hpred; d.shrunk = hpred > hfix; d.taylor_mismatch = (int)SO_TAYLOR_MISMATCH;
+    if (redo) {                                                // box2 the CONTROLLED hull call would have given (same frame)
+      IV pc(n);
+      for (int i = 0; i < n; ++i) { MpInterval q(0);
+        for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) { MpInterval hk(0);
+          for (int j = 0; j < n; ++j) { hk += (phiKc(i, j) + remKc(i, j)) * X.H[j][a][b];
+            for (int k = 0; k < n; ++k) hk += (d2(phiKc, i, j, k) + d2(remKc, i, j, k)) * DxR[j][a] * DxR[k][b]; }
+          q += (hk - Hn[i][a][b]) * Set::rr(a, b); }
+        pc[i] = q / 2 * SO_REMAINDER_SCALE; }
+      d.box2_ctrl = wmax(iBn * pc);
+    }
   }
   X.x = xn; X.C = Cn; X.H = Hn; X.B = Bn; X.re = ren; X.t = X.t + solK.getStep();
   for (int i = 0; i < n; ++i) lg.maxE = std::max(lg.maxE, hi(ren[i]) - lo(ren[i]));

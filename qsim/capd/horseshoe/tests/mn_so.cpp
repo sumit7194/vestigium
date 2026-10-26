@@ -13,6 +13,7 @@
 //   - DIAGNOSTIC options (2026-10-25, the swing-1 diagnosis; off by default, the computation is identical either way):
 //     SO_DIAG_FROM=t   one DIAG line per step for t >= that time (so.h decomposition hook, logged BEFORE the S4 checks);
 //     SAVE_FROM=t SAVE_DT=dt   a permanent extra copy of the set, <state>.t<time>, at every dt-grid point from t on.
+//     SO_FIXED_REDO=1   the CANDIDATE remedy in so_set.h (fresh fixed-h redo of both calls after the controller picks h).
 //     GUARD_RATIO=r   FAIL-FAST (the Bridge, 2026-10-26; opt-in, so regressions stay bit-identical): if for any component
 //       width(e_i) > r * width(polynomial part_i), stop with "GUARD", save the state to <state>.guard and print the last
 //       20 DIAG lines (the decomposition is then computed on every step, into a ring buffer).
@@ -164,6 +165,7 @@ int main(int argc, char** argv) {
   static so::StepDiag DG; const double DIAG_FROM = std::getenv("SO_DIAG_FROM") ? std::atof(std::getenv("SO_DIAG_FROM")) : 1e300;
   const double SAVE_FROM = std::getenv("SAVE_FROM") ? std::atof(std::getenv("SAVE_FROM")) : 1e300, SAVE_DT = std::getenv("SAVE_DT") ? std::atof(std::getenv("SAVE_DT")) : 0.25;
   long save_k = -1;
+  so::SO_FIXED_REDO = std::getenv("SO_FIXED_REDO") != nullptr;   // candidate remedy (so_set.h), OFF by default
   const double GUARD = std::getenv("GUARD_RATIO") ? std::atof(std::getenv("GUARD_RATIO")) : 0; std::vector<std::string> ring;
   try {
     while (so::md(X.t) < Tend) {
@@ -179,8 +181,8 @@ int main(int argc, char** argv) {
       if (GUARD > 0) { IV R(2); R[0] = so::sym(1); R[1] = so::sym(1); IV poly = X.C * R + X.quad(), ev = X.B * X.re;
         for (int i = 0; i < 8; ++i) { double wp = w(poly[i]); if (wp > 0) gratio = std::max(gratio, w(ev[i]) / wp); } }
       if (so::SO_DIAG) { IV hl = X.hull(); double hx = w(hl[0]), hy = w(hl[1]), ex = w(lg.enc[0]), ey = w(lg.enc[1]);
-        char diagline[640]; std::snprintf(diagline, sizeof diagline, "DIAG step %ld t=%.6f h=%.3e maxE %.3e lohner %.3e box0 %.3e box1 %.3e box2 %.3e dDe %.3e remT0 %.3e remT1 %.3e encK %.3e Kw %.3e condB %.3e hull_xy %.3e %.3e enc_xy %.3e %.3e",
-                    steps, so::md(X.t), lg.h, lg.maxE, DG.lohner, DG.box0, DG.box1, DG.box2, DG.dDe, DG.remT0, DG.remT1, DG.encK, DG.Kw, DG.condB, hx, hy, ex, ey);
+        char diagline[640]; std::snprintf(diagline, sizeof diagline, "DIAG step %ld t=%.6f h=%.3e maxE %.3e lohner %.3e box0 %.3e box1 %.3e box2 %.3e dDe %.3e remT0 %.3e remT1 %.3e encK %.3e Kw %.3e condB %.3e hull_xy %.3e %.3e enc_xy %.3e %.3e hpred %.4e shrunk %d box2_ctrl %.3e taylor_mismatch %d",
+                    steps, so::md(X.t), lg.h, lg.maxE, DG.lohner, DG.box0, DG.box1, DG.box2, DG.dDe, DG.remT0, DG.remT1, DG.encK, DG.Kw, DG.condB, hx, hy, ex, ey, DG.hpred, DG.shrunk, DG.box2_ctrl, DG.taylor_mismatch);
         std::string dl = std::string(diagline) + (GUARD > 0 ? " eratio " + std::to_string(gratio) : "");
         if (so::md(X.t) >= DIAG_FROM) { std::printf("%s\n", dl.c_str()); std::fflush(stdout); }
         if (GUARD > 0) { ring.push_back(dl); if (ring.size() > 20) ring.erase(ring.begin()); } }
