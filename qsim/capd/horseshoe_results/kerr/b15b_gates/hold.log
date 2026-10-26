@@ -12,3 +12,6 @@
 2026-10-26 14:00:51 VERIFIED PID 8882 owner=sumit cwd=/Users/sumit/Github/quantum/qsim/capd/horseshoe cmd=[/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -u b15b_mnflow_worker.py grind 0 1] -> SIGTERM
 2026-10-26 14:01:18 guard bug: it read swap total 0 after the boot as exhaustion and stopped PID 8882 within seconds; fixed (needs swap total >= 1 GB); relaunching
 2026-10-26 14:01:21 critical guard armed for PID 9248 (grind 0 1)
+2026-10-26 16:50:39 the user: pause the reference worker (run later); stopping PID 9248 by verified PID, in-progress task lost
+2026-10-26 16:50:39 VERIFIED PID 9248 owner=sumit cwd=/Users/sumit/Github/quantum/qsim/capd/horseshoe cmd=[/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -u b15b_mnflow_worker.py grind 0 1] -> SIGTERM
+2026-10-26 16:51:27 PID 9248 exited; critical guard done

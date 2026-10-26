@@ -14,8 +14,8 @@
 //     SO_DIAG_FROM=t   one DIAG line per step for t >= that time (so.h decomposition hook, logged BEFORE the S4 checks);
 //     SAVE_FROM=t SAVE_DT=dt   a permanent extra copy of the set, <state>.t<time>, at every dt-grid point from t on.
 //     SO_FIXED_REDO=1   the CANDIDATE remedy in so_set.h (fresh fixed-h redo of both calls after the controller picks h).
-//     GUARD_RATIO=r   FAIL-FAST (the Bridge, 2026-10-26; opt-in, so regressions stay bit-identical): if for any component
-//       width(e_i) > r * width(polynomial part_i), stop with "GUARD", save the state to <state>.guard and print the last
+//     GUARD_RATIO=r   FAIL-FAST (the Bridge, 2026-10-26; opt-in, so regressions stay bit-identical): if
+//       max_i width(e_i) > r * max_i width(polynomial part_i) (max-norm; the first, per-component form tripped spuriously), stop with "GUARD", save the state to <state>.guard and print the last
 //       20 DIAG lines (the decomposition is then computed on every step, into a ring buffer).
 // Usage: mn_so <W0 p/q> <checkpoints.txt> <state file> [T_end]
 #include "capd/mpcapdlib.h"
@@ -179,7 +179,10 @@ int main(int argc, char** argv) {
       so::StepLog lg = so::step(solK, solT, X, true); ++steps; LAST_H = solK.getStep();
       double gratio = 0;
       if (GUARD > 0) { IV R(2); R[0] = so::sym(1); R[1] = so::sym(1); IV poly = X.C * R + X.quad(), ev = X.B * X.re;
-        for (int i = 0; i < 8; ++i) { double wp = w(poly[i]); if (wp > 0) gratio = std::max(gratio, w(ev[i]) / wp); } }
+        double we = 0, wp = 0; for (int i = 0; i < 8; ++i) { we = std::max(we, w(ev[i])); wp = std::max(wp, w(poly[i])); }
+        if (wp > 0) gratio = we / wp; }   // the set's error against its OWN size (max-norm), not per component: a component whose
+                                          // polynomial width passes near 0 (the needle's orientation near periapsis) tripped the
+                                          // first, per-component version spuriously at t 289.66 / 289.90 (2026-10-26)
       if (so::SO_DIAG) { IV hl = X.hull(); double hx = w(hl[0]), hy = w(hl[1]), ex = w(lg.enc[0]), ey = w(lg.enc[1]);
         char diagline[640]; std::snprintf(diagline, sizeof diagline, "DIAG step %ld t=%.6f h=%.3e maxE %.3e lohner %.3e box0 %.3e box1 %.3e box2 %.3e dDe %.3e remT0 %.3e remT1 %.3e encK %.3e Kw %.3e condB %.3e hull_xy %.3e %.3e enc_xy %.3e %.3e hpred %.4e shrunk %d box2_ctrl %.3e taylor_mismatch %d",
                     steps, so::md(X.t), lg.h, lg.maxE, DG.lohner, DG.box0, DG.box1, DG.box2, DG.dDe, DG.remT0, DG.remT1, DG.encK, DG.Kw, DG.condB, hx, hy, ex, ey, DG.hpred, DG.shrunk, DG.box2_ctrl, DG.taylor_mismatch);

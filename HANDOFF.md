@@ -232,3 +232,4 @@ Bridge before drafting any response; the user answers.
   GUARD_RATIO=1e-3, DIAG and 0.25-grid saves; one MNFlow grinder (PID 9248) under b15b_critical_guard.sh (PID 9296).
   - A guard bug was found on relaunch: after a boot macOS swap total = 0 read as "free < 300 MB", and the guard stopped
     the grinder within seconds. Fixed: CRITICAL now needs swap total >= 1 GB.
+- 2026-10-26 16:50: the reference worker (MNFlow grinder) PAUSED on the user's word (it reached a ~16 GB footprint on one plunge task; its in-progress task is lost). G3 stands at 171/200 + whatever has finished; resume later: b15b_mnflow_worker.py grind 0 1 via tools/detach.sh, plus b15b_critical_guard.sh. The SO fix runs continue (mn_so_fix2, max-norm guard 0.02).
