@@ -1,7 +1,9 @@
 #!/bin/bash
 # b15b_hold.sh -- the Bridge's hold (2026-10-26, disk/swap pressure): stop each MNFlow grinder BETWEEN tasks, i.e. right
 # after its current task's result line is written, by verified PID (b15b_verify_kill.sh); nothing in progress is lost.
-# Leaves them stopped (resume later from the JSONL). Also logs CRITICAL when swap free < 300 MB or disk free < 2 GB.
+# Leaves them stopped (resume later from the JSONL). Also logs CRITICAL when swap free < 300 MB or disk free < 2 GB, and
+# then (the Bridge, 2026-10-26: a disk-full stall is the greater evil) stops worker 2 (11976) at once by verified PID,
+# losing its in-progress task; at a CRITICAL in a later minute, the grinder (61777) too.
 G=/Users/sumit/Github/quantum/qsim/capd/horseshoe_results/kerr/b15b_gates; H=/Users/sumit/Github/quantum/qsim/capd/horseshoe; LOG=$G/hold.log
 declare -A F=([11976]="$G/mnflow_w2.jsonl" [61777]="$G/mnflow_grind0.jsonl") A=([11976]="2 4" [61777]="grind 0 1") N
 for p in "${!F[@]}"; do N[$p]=$(wc -l < "${F[$p]}"); done
@@ -17,7 +19,9 @@ while true; do
     fi
   done
   sw=$(sysctl -n vm.swapusage | awk '{print $9}' | tr -d M); dk=$(df -g / | tail -1 | awk '{print $4}')
-  if [ $(echo "$sw < 300" | bc) = 1 ] || [ "$dk" -lt 2 ]; then echo "$(date '+%F %T') CRITICAL: swap free ${sw}M, disk free ${dk}G" >> $LOG; fi
+  if [ $(echo "$sw < 300" | bc) = 1 ] || [ "$dk" -lt 2 ]; then echo "$(date '+%F %T') CRITICAL: swap free ${sw}M, disk free ${dk}G" >> $LOG
+    for p in 11976 61777; do if ps -p $p >/dev/null 2>&1; then echo "$(date '+%F %T') EMERGENCY stop of PID $p (in-progress task lost)" >> $LOG
+      $H/b15b_verify_kill.sh $p "${A[$p]}" $LOG; N[$p]=999999999; break; fi; done; fi
   [ $alive = 0 ] && { echo "$(date '+%F %T') both grinders stopped; hold done" >> $LOG; exit 0; }
   sleep 60
 done
