@@ -136,7 +136,8 @@ int main(int argc, char** argv) {
         b2 = std::max(b2, w(qq / 2));
         if (!tc.nv) { MpInterval de(0); for (int j = 0; j < 8; ++j) de += (q.A[i][j] - tc.A[i][j]) * e[j]; dde = std::max(dde, w(de)); }
       }
-      std::printf("  %d x h/%d: encK %.3e  rad D1K %.3e  rad D2K %.3e | box2 %.3e (%.3e per unit t)  dD.e %.3e (%.3e per unit t)\n", m, m, q.enc, q.d1, q.d2, b2, b2 / h, dde, dde / h);
+      if (tc.nv) std::printf("  %d x h/%d: encK %.3e  rad D1K %.3e  rad D2K %.3e | box2 %.3e (%.3e per unit t)  dD.e NOT COMPUTED (the thin comparison call at this step was NOT VALIDATED)\n", m, m, q.enc, q.d1, q.d2, b2, b2 / h);
+      else std::printf("  %d x h/%d: encK %.3e  rad D1K %.3e  rad D2K %.3e | box2 %.3e (%.3e per unit t)  dD.e %.3e (%.3e per unit t)\n", m, m, q.enc, q.d1, q.d2, b2, b2 / h, dde, dde / h);
     }
     // how far h sits below the largest fixed step the hull call validates (coarse: factors 1.25, 1.5, 2, 3)
     double kmax = 1; for (double f : {1.25, 1.5, 2.0, 3.0}) { so::Solver sv(fK, 20); so::JetT a1(8, 2), a2(8, 2), a3(8, 2);

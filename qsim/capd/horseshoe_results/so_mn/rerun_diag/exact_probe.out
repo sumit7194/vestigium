@@ -1,0 +1,52 @@
+# hull K per component [lo, hi]: [2.239, 2.239] [0.1161, 0.1161] [-113.1, -113.1] [-55.58, -55.58] [0.6044, 0.6044] [-1.561, -1.561] [0.2651, 0.2651] [0.1361, 0.1361]
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/run2_1e-7.state.t287.0035  t=287.003499 LAST_H=1.4321e-02 -> hull-chosen h=1.4321e-02 | hull K width 5.312e-04 | hull call: encK 1.395e-01  rad D1K 3.230e-04  rad D2K 4.462e-03
+  THIN call from X.x:
+  single (order 20)  val_w 1.505e-36  rad D1 1.334e-36  rad D2 7.119e-35  enc_w 1.389e-01
+  2 x h/2            val_w 8.275e-36  rad D1 2.518e-36  rad D2 2.595e-35  enc_w 6.515e-02
+  4 x h/4            val_w 2.031e-35  rad D1 1.267e-35  rad D2 1.327e-34  enc_w 3.151e-02
+  single (order 25)  val_w 1.505e-36  rad D1 1.328e-36  rad D2 1.208e-35  enc_w 1.389e-01
+  HULL call over K:
+  1 x h/1: encK 1.395e-01  rad D1K 3.230e-04  rad D2K 4.462e-03 | box2 5.491e-14 (3.834e-12 per unit t)  dD.e 0.000e+00 (0.000e+00 per unit t)
+  2 x h/2: encK 6.572e-02  rad D1K 3.196e-04  rad D2K 4.379e-03 | box2 5.392e-14 (3.765e-12 per unit t)  dD.e 1.974e-15 (1.378e-13 per unit t)
+  4 x h/4: encK 3.206e-02  rad D1K 3.179e-04  rad D2K 4.337e-03 | box2 5.342e-14 (3.730e-12 per unit t)  dD.e 1.962e-15 (1.370e-13 per unit t)
+  largest validated fixed step tested: 3.00 x h  (h / h_max_tested >= 0.33)
+
+# hull K per component [lo, hi]: [2.215, 2.215] [0.1133, 0.1133] [-112.3, -112.3] [-50.83, -50.83] [0.6151, 0.6151] [-1.615, -1.615] [0.2501, 0.2501] [0.1158, 0.1158]
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/run2_1e-7.state.t287.5095  t=287.509521 LAST_H=1.2275e-02 -> hull-chosen h=1.2275e-02 | hull K width 6.556e-04 | hull call: encK 1.472e-01  rad D1K 3.983e-04  rad D2K 7.477e-03
+  THIN call from X.x:
+  single (order 20)  val_w 1.505e-36  rad D1 1.275e-36  rad D2 2.261e-34  enc_w 1.465e-01
+  2 x h/2            val_w 7.523e-36  rad D1 2.342e-36  rad D2 3.183e-35  enc_w 6.882e-02
+  4 x h/4            val_w 2.069e-35  rad D1 1.289e-35  rad D2 1.814e-34  enc_w 3.331e-02
+  single (order 25)  val_w 1.505e-36  rad D1 1.264e-36  rad D2 1.566e-35  enc_w 1.465e-01
+  HULL call over K:
+  1 x h/1: encK 1.472e-01  rad D1K 3.983e-04  rad D2K 7.477e-03 | box2 9.371e-14 (7.634e-12 per unit t)  dD.e 0.000e+00 (0.000e+00 per unit t)
+  2 x h/2: encK 6.952e-02  rad D1K 3.941e-04  rad D2K 7.339e-03 | box2 9.204e-14 (7.498e-12 per unit t)  dD.e 3.335e-15 (2.717e-13 per unit t)
+  4 x h/4: encK 3.399e-02  rad D1K 3.921e-04  rad D2K 7.271e-03 | box2 9.121e-14 (7.430e-12 per unit t)  dD.e 3.314e-15 (2.700e-13 per unit t)
+  largest validated fixed step tested: 3.00 x h  (h / h_max_tested >= 0.33)
+
+# hull K per component [lo, hi]: [2.188, 2.188] [0.1103, 0.1103] [-110.5, -110.5] [-44.97, -44.97] [0.6279, 0.6279] [-1.683, -1.683] [0.2334, 0.2334] [0.09499, 0.095]
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/run2_1e-7.state.t288.0099  t=288.009890 LAST_H=1.0230e-02 -> hull-chosen h=1.0042e-02 | hull K width 8.220e-04 | hull call: encK 1.507e-01  rad D1K 5.355e-04  rad D2K 1.356e-02
+  THIN call from X.x:
+  single (order 20)  val_w 1.505e-36  rad D1 1.431e-36  rad D2 7.010e-34  enc_w 1.498e-01
+  2 x h/2            val_w 7.899e-36  rad D1 2.604e-36  rad D2 5.172e-35  enc_w 7.050e-02
+  4 x h/4            val_w 2.031e-35  rad D1 1.342e-35  rad D2 2.669e-34  enc_w 3.416e-02
+  single (order 25)  val_w 1.505e-36  rad D1 1.414e-36  rad D2 2.313e-35  enc_w 1.498e-01
+  HULL call over K:
+  1 x h/1: encK 1.507e-01  rad D1K 5.355e-04  rad D2K 1.351e-02 | box2 1.717e-13 (1.710e-11 per unit t)  dD.e 0.000e+00 (0.000e+00 per unit t)
+  2 x h/2: encK 7.137e-02  rad D1K 5.268e-04  rad D2K 1.327e-02 | box2 1.687e-13 (1.680e-11 per unit t)  dD.e 6.633e-15 (6.605e-13 per unit t)
+  4 x h/4: encK 3.501e-02  rad D1K 5.224e-04  rad D2K 1.315e-02 | box2 1.673e-13 (1.666e-11 per unit t)  dD.e 6.593e-15 (6.565e-13 per unit t)
+  largest validated fixed step tested: 3.00 x h  (h / h_max_tested >= 0.33)
+
+# hull K per component [lo, hi]: [2.188, 2.188] [0.1104, 0.1104] [-110.5, -110.5] [-45.1, -45.09] [0.6276, 0.6276] [-1.682, -1.681] [0.2337, 0.2338] [0.09536, 0.09539]
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/run2_1e-6.state.t288.0008  t=288.000763 LAST_H=1.0042e-02 -> hull-chosen h=1.0230e-02 | hull K width 8.186e-03 | hull call: encK 1.612e-01  rad D1K 5.396e-03  rad D2K 1.356e-01
+  THIN call from X.x:
+  single (order 20)  val_w 1.505e-36  rad D1 1.340e-36  rad D2 1.119e-33  enc_w 1.522e-01
+  2 x h/2            val_w 7.899e-36  rad D1 2.586e-36  rad D2 5.135e-35  enc_w 7.158e-02
+  4 x h/4            val_w 2.031e-35  rad D1 1.364e-35  rad D2 2.690e-34  enc_w 3.466e-02
+  single (order 25)  val_w 1.505e-36  rad D1 1.311e-36  rad D2 2.285e-35  enc_w 1.522e-01
+  HULL call over K:
+  1 x h/1: encK 1.612e-01  rad D1K 5.396e-03  rad D2K 1.356e-01 | box2 1.723e-10 (1.684e-08 per unit t)  dD.e 0.000e+00 (0.000e+00 per unit t)
+  2 x h/2: encK 8.027e-02  rad D1K 5.306e-03  rad D2K 1.332e-01 | box2 1.693e-10 (1.655e-08 per unit t)  dD.e 6.592e-11 (6.444e-09 per unit t)
+  4 x h/4: encK 4.322e-02  rad D1K 5.262e-03  rad D2K 1.320e-01 | box2 1.678e-10 (1.640e-08 per unit t)  dD.e 6.551e-11 (6.404e-09 per unit t)
+  largest validated fixed step tested: 3.00 x h  (h / h_max_tested >= 0.33)
+
