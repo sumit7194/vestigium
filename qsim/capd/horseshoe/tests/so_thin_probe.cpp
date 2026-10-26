@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
       IV vt, vk; IM D1c, D1K; std::vector<IM> D2c, D2Kv; double e1, e2;
       try {
         call(sT, x, h, vt, D1c, D2c, e1); call(sK, K, h, vk, D1K, D2Kv, e2);
-        double bq = 0, off = 0, wk = 0;
+        double bq = 0, off = 0, wk = 0, maxmiss = 0; int nout = 0;
         for (int i = 0; i < 8; ++i) {
           MpInterval hc[2][2], hK[2][2];
           for (int a2 = 0; a2 < 2; ++a2) for (int b2 = 0; b2 < 2; ++b2) { hc[a2][b2] = MpInterval(0); hK[a2][b2] = MpInterval(0);
@@ -157,9 +157,39 @@ int main(int argc, char** argv) {
           for (int a2 = 0; a2 < 2; ++a2) for (int b2 = 0; b2 < 2; ++b2) { MpInterval dl = hK[a2][b2] - Hn[a2][b2]; q += dl * so::Set::rr(a2, b2);
             off = std::max(off, std::fabs(so::md(hK[a2][b2].mid() - Hn[a2][b2]))); wk = std::max(wk, w(hK[a2][b2])); }
           bq = std::max(bq, w(q / 2));
+          for (int a2 = 0; a2 < 2; ++a2) for (int b2 = 0; b2 < 2; ++b2) {   // the Bridge's point 1: H' must lie in hK
+            double lo_ = so::lo(hK[a2][b2]), hi_ = so::hi(hK[a2][b2]), hn = so::md(Hn[a2][b2]);
+            double miss = hn < lo_ ? lo_ - hn : (hn > hi_ ? hn - hi_ : 0.0);
+            if (miss > 0) { ++nout; maxmiss = std::max(maxmiss, miss); } }
         }
         std::printf("  so::step box2 (raw, before the frame): %.3e  | offset max|mid(hK) - H'| %.3e  width(hK) max %.3e\n", bq, off, wk);
+        std::printf("  containment H' in hK: %d of 32 entries OUTSIDE, max miss %.3e\n", nout, maxmiss);
       } catch (std::exception&) { std::printf("  so::step box2: a call was NOT VALIDATED\n"); } }
+    { IM DxR(8, 2); for (int j = 0; j < 8; ++j) for (int a = 0; a < 2; ++a) DxR[j][a] = X.C[j][a] + X.H[j][a][0] * so::sym(1) + X.H[j][a][1] * so::sym(1);
+      so::Solver sa(fK, 20); if (so::md(lh) > 0) sa.adjustTimeStep(lh); sa.setMaxStep(MpInterval(tnext - so::md(X.t) > 0 ? tnext - so::md(X.t) : 1e300));
+      double before = so::md(sa.getStep()); so::JetT p1(8, 2), r1(8, 2), e1(8, 2); sa.turnOnStepControl(); sa.encloseCnMap(X.t, K, K, p1, r1, e1);
+      double after = so::md(sa.getStep());
+      so::Solver sb(fK, 20); sb.turnOffStepControl(); sb.setStep(MpInterval(after)); so::JetT p2(8, 2), r2(8, 2), e2(8, 2); sb.encloseCnMap(X.t, K, K, p2, r2, e2);
+      int diff = 0; for (int i = 0; i < 8; ++i) { auto same = [](const MpInterval& u, const MpInterval& v) { return so::lo(u) == so::lo(v) && so::hi(u) == so::hi(v); };
+        if (!same(p1(i), p2(i)) || !same(r1(i), r2(i))) ++diff; for (int j = 0; j < 8; ++j) if (!same(p1(i, j), p2(i, j)) || !same(r1(i, j), r2(i, j))) ++diff; }
+      std::printf("  step bookkeeping: getStep before the controlled hull call %.10e, after %.10e; a fixed-step call at the AFTER value differs in %d of 72 value/D1 entries (0 = the after value is the step used)\n", before, after, diff);
+      // the split: Taylor part (phi) and remainder part (rem) compared SEPARATELY, with the size of the differences; and
+      // the box2 that the CONTROLLED call (the run's path) gives, from its own phi + rem, against the fixed-step call's
+      double dphi = 0, drem = 0, wr1 = 0, wr2 = 0; int nphi = 0, nrem = 0;
+      for (int i = 0; i < 8; ++i) for (int j = -1; j < 8; ++j) {
+        MpInterval a1 = j < 0 ? p1(i) : p1(i, j), a2 = j < 0 ? p2(i) : p2(i, j), b1 = j < 0 ? r1(i) : r1(i, j), b2 = j < 0 ? r2(i) : r2(i, j);
+        double d1 = std::max(std::fabs(so::lo(a1) - so::lo(a2)), std::fabs(so::hi(a1) - so::hi(a2))), d2 = std::max(std::fabs(so::lo(b1) - so::lo(b2)), std::fabs(so::hi(b1) - so::hi(b2)));
+        if (d1 > 0) ++nphi; if (d2 > 0) ++nrem; dphi = std::max(dphi, d1); drem = std::max(drem, d2); wr1 = std::max(wr1, w(b1)); wr2 = std::max(wr2, w(b2)); }
+      std::printf("  split of that difference: Taylor part differs in %d entries (max %.3e); remainder part in %d (max %.3e); rem width controlled %.3e vs fixed %.3e\n", nphi, dphi, nrem, drem, wr1, wr2);
+      double b2c = 0, b2f = 0; IV dummy;
+      for (int pass = 0; pass < 2; ++pass) { const so::JetT& PH = pass ? p2 : p1; const so::JetT& RM = pass ? r2 : r1; double bb = 0;
+        for (int i = 0; i < 8; ++i) { MpInterval q(0);
+          for (int a2 = 0; a2 < 2; ++a2) for (int b2 = 0; b2 < 2; ++b2) { MpInterval hk(0);
+            for (int j = 0; j < 8; ++j) { hk += (PH(i, j) + RM(i, j)) * X.H[j][a2][b2]; for (int k = 0; k < 8; ++k) hk += (so::d2(PH, i, j, k) + so::d2(RM, i, j, k)) * DxR[j][a2] * DxR[k][b2]; }
+            q += (hk - hk.mid()) * so::Set::rr(a2, b2); }
+          bb = std::max(bb, w(q / 2)); }
+        (pass ? b2f : b2c) = bb; }
+      std::printf("  box2 (width part) from the CONTROLLED call %.3e  vs the FIXED-step call %.3e\n", b2c, b2f); }
     // the Bridge's split (2026-10-26): for the single hull call at h, D2K = Taylor part (phiK, degree 2) + remainder part
     // (remK, degree 2); box2 computed from each part alone (with the D1K of the same part), and the Lohner pivot order
     for (double hf : {1.0, 0.5}) {

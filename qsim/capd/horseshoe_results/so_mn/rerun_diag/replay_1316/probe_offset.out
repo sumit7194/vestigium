@@ -1,0 +1,26 @@
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8759  t=287.875900 LAST_H=1.0912e-02 -> hull-chosen h=1.0366e-02 | hull K width 7.721e-04 | hull call: encK 1.457e-01  rad D1K 4.658e-04  rad D2K 1.109e-02
+  so::step box2 (raw, before the frame): 1.406e-13  | offset max|mid(hK) - H'| 1.298e-18  width(hK) max 2.653e-13
+  containment H' in hK: 0 of 32 entries OUTSIDE, max miss 0.000e+00
+  step bookkeeping: getStep before the controlled hull call 1.0911520251e-02, after 1.0365944239e-02; a fixed-step call at the AFTER value differs in 19 of 72 value/D1 entries (0 = the after value is the step used)
+
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8863  t=287.886266 LAST_H=1.0366e-02 -> hull-chosen h=1.0571e-02 | hull K width 7.758e-04 | hull call: encK 1.497e-01  rad D1K 4.818e-04  rad D2K 1.152e-02
+  so::step box2 (raw, before the frame): 1.461e-13  | offset max|mid(hK) - H'| 1.353e-18  width(hK) max 2.756e-13
+  containment H' in hK: 0 of 32 entries OUTSIDE, max miss 0.000e+00
+  step bookkeeping: getStep before the controlled hull call 1.0365944239e-02, after 1.0570535244e-02; a fixed-step call at the AFTER value differs in 72 of 72 value/D1 entries (0 = the after value is the step used)
+
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9387  t=287.938710 LAST_H=1.0571e-02 -> hull-chosen h=1.0366e-02 | hull K width 7.950e-04 | hull call: encK 1.505e-01  rad D1K 5.046e-04  rad D2K 1.236e-02
+  so::step box2 (raw, before the frame): 1.566e-13  | offset max|mid(hK) - H'| 1.467e-18  width(hK) max 2.955e-13
+  containment H' in hK: 0 of 32 entries OUTSIDE, max miss 0.000e+00
+  step bookkeeping: getStep before the controlled hull call 1.0570535244e-02, after 1.0365944239e-02; a fixed-step call at the AFTER value differs in 17 of 72 value/D1 entries (0 = the after value is the step used)
+
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t288.0302  t=288.030162 LAST_H=1.0230e-02 -> hull-chosen h=1.0042e-02 | hull K width 8.300e-04 | hull call: encK 1.523e-01  rad D1K 5.501e-04  rad D2K 1.414e-02
+  so::step box2 (raw, before the frame): 1.780e-13  | offset max|mid(hK) - H'| 1.683e-18  width(hK) max 3.359e-13
+  containment H' in hK: 0 of 32 entries OUTSIDE, max miss 0.000e+00
+  step bookkeeping: getStep before the controlled hull call 1.0229550236e-02, after 1.0042008481e-02; a fixed-step call at the AFTER value differs in 72 of 72 value/D1 entries (0 = the after value is the step used)
+
+
+[exited with code 0]
+
+# pre-1322 state, controlled vs fixed-step hull call split (2026-10-26):
+  Taylor part identical (0 entries differ); value/D1 remainder differs by <= 2.6e-54;
+  box2 (width part) from the CONTROLLED call 6.396e-12 vs the FIXED-step call 1.566e-13 (41x): the spike.
