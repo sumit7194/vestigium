@@ -1,0 +1,5 @@
+FIX TEST through the old ramp window (2026-10-26): criterion (fixed with the Bridge before the run) MET
+  box2 / local 13-step median, every step in t 287.8-288.5: max 1.03 (1e-7), 1.03 (1e-6) (criterion <= 2); mean |log ratio| step to step 0.019 (no period-2 pattern)
+  maxE exponent at t ~ 288.5: 8.457e-07 / 7.619e-10 = 1110 -> 3.05 (criterion ~3)
+  controller shrank h on 40/80 steps; the controlled call's box2 would have been up to 2.2e6x (1e-7), 1.1e5x (1e-6)
+  Taylor-part bit-identity of the fixed-h redo: 0 mismatches
