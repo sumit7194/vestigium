@@ -139,6 +139,31 @@ int main(int argc, char** argv) {
       if (tc.nv) std::printf("  %d x h/%d: encK %.3e  rad D1K %.3e  rad D2K %.3e | box2 %.3e (%.3e per unit t)  dD.e NOT COMPUTED (the thin comparison call at this step was NOT VALIDATED)\n", m, m, q.enc, q.d1, q.d2, b2, b2 / h);
       else std::printf("  %d x h/%d: encK %.3e  rad D1K %.3e  rad D2K %.3e | box2 %.3e (%.3e per unit t)  dD.e %.3e (%.3e per unit t)\n", m, m, q.enc, q.d1, q.d2, b2, b2 / h, dde, dde / h);
     }
+    // the Bridge's split (2026-10-26): for the single hull call at h, D2K = Taylor part (phiK, degree 2) + remainder part
+    // (remK, degree 2); box2 computed from each part alone (with the D1K of the same part), and the Lohner pivot order
+    for (double hf : {1.0, 0.5}) {
+      so::Solver sk(fK, 20); if (so::md(lh) > 0) sk.adjustTimeStep(lh); sk.turnOffStepControl(); sk.setStep(MpInterval(h * hf));
+      so::JetT ph(8, 2), rm(8, 2), en(8, 2);
+      try { sk.encloseCnMap(X.t, K, K, ph, rm, en); if (so::md(sk.getStep()) != h * hf) throw std::runtime_error("nv"); }
+      catch (std::exception&) { std::printf("  split at %.2f h: NOT VALIDATED\n", hf); continue; }
+      double rP = 0, rR = 0, bP = 0, bR = 0;
+      for (int i = 0; i < 8; ++i) {
+        MpInterval qP(0), qR(0);
+        for (int a2 = 0; a2 < 2; ++a2) for (int b2 = 0; b2 < 2; ++b2) { MpInterval hP(0), hR(0);
+          for (int j = 0; j < 8; ++j) { hP += ph(i, j) * X.H[j][a2][b2]; hR += rm(i, j) * X.H[j][a2][b2];
+            for (int k = 0; k < 8; ++k) { MpInterval dP = so::d2(ph, i, j, k), dR = so::d2(rm, i, j, k);
+              rP = std::max(rP, w(dP) / 2); rR = std::max(rR, w(dR) / 2); hP += dP * DxR[j][a2] * DxR[k][b2]; hR += dR * DxR[j][a2] * DxR[k][b2]; } }
+          qP += (hP - hP.mid()) * so::Set::rr(a2, b2); qR += (hR - hR.mid()) * so::Set::rr(a2, b2); }
+        bP = std::max(bP, w(qP / 2)); bR = std::max(bR, w(qR / 2));
+      }
+      std::printf("  split at %.2f h: rad D2 Taylor(phiK) %.3e  remainder(remK) %.3e | box2 from Taylor %.3e  from remainder %.3e\n", hf, rP, rR, bP, bR);
+    }
+    { so::JetT pt(8, 2), rt(8, 2), et(8, 2); so::Solver st(fT, 20); st.turnOffStepControl(); st.setStep(MpInterval(h));   // Lohner pivot order
+      try { st.encloseCnMap(X.t, x, x, pt, rt, et); IM D1c(8, 8); for (int i = 0; i < 8; ++i) for (int j = 0; j < 8; ++j) D1c[i][j] = pt(i, j) + rt(i, j);
+        IM AB = D1c * X.B; std::vector<std::pair<double, int>> ord;
+        for (int j = 0; j < 8; ++j) { double nn = 0; for (int i = 0; i < 8; ++i) nn += so::md(AB[i][j]) * so::md(AB[i][j]); ord.push_back({-std::sqrt(nn) * (so::hi(X.re[j]) - so::lo(X.re[j])) / 2, j}); }
+        std::sort(ord.begin(), ord.end()); std::printf("  Lohner pivot order (|A col| rad re):"); for (auto& o : ord) std::printf(" %d(%.1e)", o.second, -o.first); std::printf("\n"); }
+      catch (std::exception&) { std::printf("  pivot order: thin call not validated\n"); } }
     // how far h sits below the largest fixed step the hull call validates (coarse: factors 1.25, 1.5, 2, 3)
     double kmax = 1; for (double f : {1.25, 1.5, 2.0, 3.0}) { so::Solver sv(fK, 20); so::JetT a1(8, 2), a2(8, 2), a3(8, 2);
       try { sv.turnOffStepControl(); sv.setStep(MpInterval(h * f)); sv.encloseCnMap(X.t, K, K, a1, a2, a3); if (so::md(sv.getStep()) == h * f) kmax = f; else break; } catch (std::exception&) { break; } }
