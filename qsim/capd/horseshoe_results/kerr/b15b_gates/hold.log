@@ -7,3 +7,8 @@
 2026-10-26 10:56:19 critical guard armed for PID 78188 (grind 0 1)
 2026-10-26 12:09:21 CRITICAL: swap free 280.94M, disk free 12G -> EMERGENCY stop of PID 78188
 2026-10-26 12:09:21 VERIFIED PID 78188 owner=sumit cwd=/Users/sumit/Github/quantum/qsim/capd/horseshoe cmd=[/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -u b15b_mnflow_worker.py grind 0 1] -> SIGTERM
+2026-10-26 14:00:51 critical guard armed for PID 8882 (grind 0 1)
+2026-10-26 14:00:51 CRITICAL: swap free 0.00M, disk free 12G -> EMERGENCY stop of PID 8882
+2026-10-26 14:00:51 VERIFIED PID 8882 owner=sumit cwd=/Users/sumit/Github/quantum/qsim/capd/horseshoe cmd=[/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -u b15b_mnflow_worker.py grind 0 1] -> SIGTERM
+2026-10-26 14:01:18 guard bug: it read swap total 0 after the boot as exhaustion and stopped PID 8882 within seconds; fixed (needs swap total >= 1 GB); relaunching
+2026-10-26 14:01:21 critical guard armed for PID 9248 (grind 0 1)

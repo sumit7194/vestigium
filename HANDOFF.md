@@ -227,3 +227,8 @@ Bridge before drafting any response; the user answers.
 - **To resume (only on the user's word), detached properly**, from qsim/capd/horseshoe/tests:
   SO_FIXED_REDO=1 SO_DIAG_FROM=0 SAVE_FROM=287.75 SAVE_DT=0.25 ./mn_so_fix 1/10000000 ../../horseshoe_results/mn_smoke/b17_cp_1e-7.txt ../../horseshoe_results/so_mn/fix_test/fix_1e-7.state 291.9
   and the same with 1/1000000, b17_cp_1e-6.txt and fix_1e-6.state; plus one MNFlow grinder (b15b_mnflow_worker.py grind 0 1) under b15b_critical_guard.sh.
+- **2026-10-26 ~14:00, RESUMED after the macOS restart (the user's OK), all fully detached via tools/detach.sh** (new
+  session, PPID 1, SID = PID, verified): mn_so_fix 1e-7 (PID 6178) and 1e-6 (PID 6180), with SO_FIXED_REDO=1,
+  GUARD_RATIO=1e-3, DIAG and 0.25-grid saves; one MNFlow grinder (PID 9248) under b15b_critical_guard.sh (PID 9296).
+  - A guard bug was found on relaunch: after a boot macOS swap total = 0 read as "free < 300 MB", and the guard stopped
+    the grinder within seconds. Fixed: CRITICAL now needs swap total >= 1 GB.
