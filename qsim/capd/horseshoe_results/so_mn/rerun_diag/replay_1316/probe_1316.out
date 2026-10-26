@@ -1,0 +1,48 @@
+# hull K per component [lo, hi]: [2.195, 2.195] [0.1111, 0.1111] [-111.1, -111.1] [-46.68, -46.68] [0.6242, 0.6242] [-1.663, -1.663] [0.2381, 0.2381] [0.1006, 0.1006]
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8759  t=287.875900 LAST_H=1.0912e-02 -> hull-chosen h=1.0366e-02 | hull K width 7.721e-04 | hull call: encK 1.457e-01  rad D1K 4.658e-04  rad D2K 1.109e-02
+  THIN call from X.x:
+  single (order 20)  val_w 1.505e-36  rad D1 1.349e-36  rad D2 2.244e-34  enc_w 1.449e-01
+  2 x h/2            val_w 7.899e-36  rad D1 2.536e-36  rad D2 4.646e-35  enc_w 6.825e-02
+  4 x h/4            val_w 2.031e-35  rad D1 1.300e-35  rad D2 2.342e-34  enc_w 3.308e-02
+  single (order 25)  val_w 1.505e-36  rad D1 1.343e-36  rad D2 2.125e-35  enc_w 1.449e-01
+  HULL call over K:
+  1 x h/1: encK 1.457e-01  rad D1K 4.658e-04  rad D2K 1.109e-02 | box2 1.406e-13 (1.356e-11 per unit t)  dD.e NOT COMPUTED (the thin comparison call at this step was NOT VALIDATED)
+  2 x h/2: encK 6.906e-02  rad D1K 4.583e-04  rad D2K 1.090e-02 | box2 1.382e-13 (1.333e-11 per unit t)  dD.e 4.769e-15 (4.600e-13 per unit t)
+  4 x h/4: encK 3.389e-02  rad D1K 4.546e-04  rad D2K 1.080e-02 | box2 1.370e-13 (1.322e-11 per unit t)  dD.e 4.740e-15 (4.573e-13 per unit t)
+  split at 1.00 h: rad D2 Taylor(phiK) 1.109e-02  remainder(remK) 2.075e-34 | box2 from Taylor 1.406e-13  from remainder 3.031e-41
+  split at 0.50 h: rad D2 Taylor(phiK) 5.367e-03  remainder(remK) 7.039e-43 | box2 from Taylor 6.827e-14  from remainder 1.147e-50
+  Lohner pivot order (|A col| rad re): 0(1.7e-10) 1(4.9e-11) 2(6.1e-13) 3(8.2e-14) 4(3.0e-14) 5(2.8e-14) 6(1.7e-14) 7(9.1e-15)
+  largest validated fixed step tested: 3.00 x h  (h / h_max_tested >= 0.33)
+
+# hull K per component [lo, hi]: [2.195, 2.195] [0.1111, 0.1111] [-111, -111] [-46.55, -46.55] [0.6245, 0.6245] [-1.665, -1.665] [0.2377, 0.2377] [0.1002, 0.1002]
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8863  t=287.886266 LAST_H=1.0366e-02 -> hull-chosen h=1.0571e-02 | hull K width 7.758e-04 | hull call: encK 1.497e-01  rad D1K 4.818e-04  rad D2K 1.152e-02
+  THIN call from X.x:
+  single (order 20)  val_w 1.505e-36  rad D1 1.372e-36  rad D2 4.873e-34  enc_w 1.489e-01
+  2 x h/2            val_w 7.523e-36  rad D1 2.439e-36  rad D2 4.495e-35  enc_w 7.004e-02
+  4 x h/4            val_w 2.031e-35  rad D1 1.329e-35  rad D2 2.406e-34  enc_w 3.393e-02
+  single (order 25)  val_w 1.505e-36  rad D1 1.355e-36  rad D2 2.130e-35  enc_w 1.489e-01
+  HULL call over K:
+  1 x h/1: encK 1.497e-01  rad D1K 4.818e-04  rad D2K 1.152e-02 | box2 1.461e-13 (1.382e-11 per unit t)  dD.e NOT COMPUTED (the thin comparison call at this step was NOT VALIDATED)
+  2 x h/2: encK 7.086e-02  rad D1K 4.739e-04  rad D2K 1.132e-02 | box2 1.436e-13 (1.358e-11 per unit t)  dD.e 4.957e-15 (4.689e-13 per unit t)
+  4 x h/4: encK 3.474e-02  rad D1K 4.699e-04  rad D2K 1.121e-02 | box2 1.423e-13 (1.346e-11 per unit t)  dD.e 4.927e-15 (4.661e-13 per unit t)
+  split at 1.00 h: rad D2 Taylor(phiK) 1.152e-02  remainder(remK) 4.764e-34 | box2 from Taylor 1.461e-13  from remainder 7.516e-41
+  split at 0.50 h: rad D2 Taylor(phiK) 5.572e-03  remainder(remK) 1.304e-42 | box2 from Taylor 7.089e-14  from remainder 2.303e-50
+  Lohner pivot order (|A col| rad re): 0(1.7e-10) 1(5.0e-11) 2(6.2e-13) 3(8.5e-14) 4(3.2e-14) 5(2.9e-14) 6(1.8e-14) 7(9.5e-15)
+  largest validated fixed step tested: 3.00 x h  (h / h_max_tested >= 0.33)
+
+# hull K per component [lo, hi]: [2.194, 2.194] [0.111, 0.111] [-111, -111] [-46.42, -46.42] [0.6247, 0.6247] [-1.666, -1.666] [0.2374, 0.2374] [0.09973, 0.09974]
+# EXACT mode: ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8968  t=287.896837 LAST_H=1.0571e-02 -> hull-chosen h=1.0366e-02 | hull K width 7.796e-04 | hull call: encK 1.473e-01  rad D1K 4.783e-04  rad D2K 1.149e-02
+  THIN call from X.x:
+  single (order 20)  val_w 1.128e-36  rad D1 1.246e-36  rad D2 3.051e-34  enc_w 1.464e-01
+  2 x h/2            val_w 7.523e-36  rad D1 2.407e-36  rad D2 4.401e-35  enc_w 6.895e-02
+  4 x h/4            val_w 2.069e-35  rad D1 1.302e-35  rad D2 2.389e-34  enc_w 3.342e-02
+  single (order 25)  val_w 1.128e-36  rad D1 1.234e-36  rad D2 1.956e-35  enc_w 1.464e-01
+  HULL call over K:
+  1 x h/1: encK 1.473e-01  rad D1K 4.783e-04  rad D2K 1.149e-02 | box2 1.457e-13 (1.406e-11 per unit t)  dD.e NOT COMPUTED (the thin comparison call at this step was NOT VALIDATED)
+  2 x h/2: encK 6.977e-02  rad D1K 4.706e-04  rad D2K 1.129e-02 | box2 1.432e-13 (1.382e-11 per unit t)  dD.e 4.938e-15 (4.764e-13 per unit t)
+  4 x h/4: encK 3.423e-02  rad D1K 4.667e-04  rad D2K 1.119e-02 | box2 1.420e-13 (1.370e-11 per unit t)  dD.e 4.908e-15 (4.735e-13 per unit t)
+  split at 1.00 h: rad D2 Taylor(phiK) 1.149e-02  remainder(remK) 2.924e-34 | box2 from Taylor 1.457e-13  from remainder 4.523e-41
+  split at 0.50 h: rad D2 Taylor(phiK) 5.559e-03  remainder(remK) 9.004e-43 | box2 from Taylor 7.073e-14  from remainder 1.548e-50
+  Lohner pivot order (|A col| rad re): 0(1.7e-10) 1(5.1e-11) 2(6.2e-13) 3(8.5e-14) 4(3.2e-14) 5(2.9e-14) 6(1.8e-14) 7(9.6e-15)
+  largest validated fixed step tested: 3.00 x h  (h / h_max_tested >= 0.33)
+

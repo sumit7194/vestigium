@@ -139,6 +139,27 @@ int main(int argc, char** argv) {
       if (tc.nv) std::printf("  %d x h/%d: encK %.3e  rad D1K %.3e  rad D2K %.3e | box2 %.3e (%.3e per unit t)  dD.e NOT COMPUTED (the thin comparison call at this step was NOT VALIDATED)\n", m, m, q.enc, q.d1, q.d2, b2, b2 / h);
       else std::printf("  %d x h/%d: encK %.3e  rad D1K %.3e  rad D2K %.3e | box2 %.3e (%.3e per unit t)  dD.e %.3e (%.3e per unit t)\n", m, m, q.enc, q.d1, q.d2, b2, b2 / h, dde, dde / h);
     }
+    // box2 EXACTLY as so::step forms it (2026-10-26): Hn = symmetrised mid of the THIN call's hc = D1c H + D2c[C, C]; hK from
+    // the single HULL call; q_i = sum (hK - Hn) rr(a, b); reported: w(q/2) (= so::step's box2 before the frame), the OFFSET
+    // max |mid(hK) - Hn| and max width(hK) separately. (The probe's earlier box2 used hK - mid(hK), which drops the offset.)
+    { so::Solver sT(fT, 20), sK(fK, 20); if (so::md(lh) > 0) sK.adjustTimeStep(lh);
+      IV vt, vk; IM D1c, D1K; std::vector<IM> D2c, D2Kv; double e1, e2;
+      try {
+        call(sT, x, h, vt, D1c, D2c, e1); call(sK, K, h, vk, D1K, D2Kv, e2);
+        double bq = 0, off = 0, wk = 0;
+        for (int i = 0; i < 8; ++i) {
+          MpInterval hc[2][2], hK[2][2];
+          for (int a2 = 0; a2 < 2; ++a2) for (int b2 = 0; b2 < 2; ++b2) { hc[a2][b2] = MpInterval(0); hK[a2][b2] = MpInterval(0);
+            for (int j = 0; j < 8; ++j) { hc[a2][b2] += D1c[i][j] * X.H[j][a2][b2]; hK[a2][b2] += D1K[i][j] * X.H[j][a2][b2];
+              for (int k = 0; k < 8; ++k) { hc[a2][b2] += D2c[i][j][k] * X.C[j][a2] * X.C[k][b2]; hK[a2][b2] += D2Kv[i][j][k] * DxR[j][a2] * DxR[k][b2]; } } }
+          MpInterval m01 = ((hc[0][1] + hc[1][0]) / 2).mid(); MpInterval Hn[2][2] = {{hc[0][0].mid(), m01}, {m01, hc[1][1].mid()}};
+          MpInterval q(0);
+          for (int a2 = 0; a2 < 2; ++a2) for (int b2 = 0; b2 < 2; ++b2) { MpInterval dl = hK[a2][b2] - Hn[a2][b2]; q += dl * so::Set::rr(a2, b2);
+            off = std::max(off, std::fabs(so::md(hK[a2][b2].mid() - Hn[a2][b2]))); wk = std::max(wk, w(hK[a2][b2])); }
+          bq = std::max(bq, w(q / 2));
+        }
+        std::printf("  so::step box2 (raw, before the frame): %.3e  | offset max|mid(hK) - H'| %.3e  width(hK) max %.3e\n", bq, off, wk);
+      } catch (std::exception&) { std::printf("  so::step box2: a call was NOT VALIDATED\n"); } }
     // the Bridge's split (2026-10-26): for the single hull call at h, D2K = Taylor part (phiK, degree 2) + remainder part
     // (remK, degree 2); box2 computed from each part alone (with the D1K of the same part), and the Lohner pivot order
     for (double hf : {1.0, 0.5}) {
