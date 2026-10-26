@@ -107,8 +107,9 @@ static void save(const char* path, const so::Set& X, long steps, size_t next_cp)
   for (int i = 0; i < 8; ++i) for (int a = 0; a < 2; ++a) o << hx(X.C[i][a]) << " "; o << "\n";
   for (int i = 0; i < 8; ++i) for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) o << hx(X.H[i][a][b]) << " "; o << "\n";
   for (int i = 0; i < 8; ++i) for (int j = 0; j < 8; ++j) o << hx(X.B[i][j]) << " "; o << "\n";
-  for (int i = 0; i < 8; ++i) o << hx(X.re[i]) << " "; o << "\nEND\n"; o.close();
-  std::rename(tmp.c_str(), path);                                    // atomic replace
+  for (int i = 0; i < 8; ++i) o << hx(X.re[i]) << " "; o << "\nEND\n"; o.flush(); bool ok = o.good(); o.close(); ok = ok && !o.fail();
+  if (!ok) { std::remove(tmp.c_str()); std::printf("SAVE FAILED for %s (write error, e.g. disk full): the previous state is KEPT\n", path); std::fflush(stdout); return; }
+  std::rename(tmp.c_str(), path);                                    // atomic replace, only after a verified write
 }
 static bool load(const char* path, so::Set& X, long& steps, size_t& next_cp) {
   std::ifstream in(path); if (!in) return false;
