@@ -1,0 +1,9 @@
+2026-10-26 06:30:53 hold armed: PIDs 11976 61777 at       53       18 results
+2026-10-26 06:32:16 hold 71405 stopped by me to install the emergency rule (no worker had been stopped)
+2026-10-26 06:32:16 hold armed: PIDs 11976 61777 at       62       18 results
+2026-10-26 06:52:17 PID 61777 finished a task: {"id": "G3_036_P", "ok": true, "value": [1.8407307005593208,
+2026-10-26 06:52:17 VERIFIED PID 61777 owner=sumit cwd=/Users/sumit/Github/quantum/qsim/capd/horseshoe cmd=[/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -u b15b_mnflow_worker.py grind 0 1] -> SIGTERM
+2026-10-26 06:53:17 both grinders stopped; hold done
+2026-10-26 10:56:19 critical guard armed for PID 78188 (grind 0 1)
+2026-10-26 12:09:21 CRITICAL: swap free 280.94M, disk free 12G -> EMERGENCY stop of PID 78188
+2026-10-26 12:09:21 VERIFIED PID 78188 owner=sumit cwd=/Users/sumit/Github/quantum/qsim/capd/horseshoe cmd=[/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -u b15b_mnflow_worker.py grind 0 1] -> SIGTERM

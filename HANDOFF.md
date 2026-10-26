@@ -214,3 +214,16 @@ Bridge before drafting any response; the user answers.
   Bridge's determinism check (G2 set twice, bit-identical) on the new binaries BEFORE they are used; the gate evaluation
   (G1/G3/G4) recomputes the compiled side anyway. CAPD binaries (mn_so, mn_sec, toys) are NOT rebuilt unless needed; if they
   are, redo the toy/section gates and the kill-9 restart bit-identity test first. The SO runs resume on their existing binaries.
+
+## 2026-10-26 ~13:42 IST: the Claude app was force-closed; every nohup'd job died. NOTHING restarted (the user's instruction)
+- **Killed:** the fix-test runs (SO_FIXED_REDO, mn_so_fix) at t 289.73 (1e-7) and 289.70 (1e-6), past the old throw
+  point. The fix was still clean: maxE 5.3e-9 / 6.2e-6 (W0^3). They resume from so_mn/fix_test/fix_1e-*.state (saved
+  13:20 / 13:23), losing about 20 min each. 0.25-grid saves are kept up to t 289.50.
+- **Already done:** the DIAG reruns threw as expected at 07:18 / 07:25 (the complete record of the failure).
+- **Stopped earlier, by the CRITICAL guard at 12:09** (swap free 281 MB < 300): MNFlow grinder PID 78188, in-progress
+  task lost (~1.2 h). G3 stands at 171/200. NOT reported at the time (no watcher armed): disclosed to the user.
+- **The lesson** (memory: run-detached-from-app): launch every long job in a NEW SESSION (setsid via perl POSIX, or
+  launchctl), not just nohup &, and verify PGID/SID/PPID after launch.
+- **To resume (only on the user's word), detached properly**, from qsim/capd/horseshoe/tests:
+  SO_FIXED_REDO=1 SO_DIAG_FROM=0 SAVE_FROM=287.75 SAVE_DT=0.25 ./mn_so_fix 1/10000000 ../../horseshoe_results/mn_smoke/b17_cp_1e-7.txt ../../horseshoe_results/so_mn/fix_test/fix_1e-7.state 291.9
+  and the same with 1/1000000, b17_cp_1e-6.txt and fix_1e-6.state; plus one MNFlow grinder (b15b_mnflow_worker.py grind 0 1) under b15b_critical_guard.sh.
