@@ -1,0 +1,8 @@
+FIX TEST, full result (2026-10-27): the swing is passed with no spikes or runaway; the B17 limit after periapsis is propagated W0^3 error
+  CHECKPOINT t t=  290.8497 u1 5.011e-03/5.011e-03=1.00 u2 9.232e-07/6.136e-07=1.50 fake 1.797e-06 vs 7.625e-06 nH 3.79e-10  PASS
+  CHECKPOINT t t=  291.8852 u1 3.438e-03/3.435e-03=1.00 u2 2.488e-06/1.963e-07=12.67 fake 3.710e-05 vs 4.758e-06 nH 2.57e-09  FAIL
+  CHECKPOINT t t=  290.8497 u1 5.062e-02/5.011e-02=1.01 u2 6.355e-04/6.518e-06=97.50 fake 3.800e-03 vs 8.100e-05 nH 6.67e-07  FAIL
+  1e-6: stopped by the max-norm guard at t 291.160738 (ratio 2.010e-2 > 0.02): smooth propagated growth
+  maxE W0 exponent at matched t: 3.11 (289.90) ... 3.31 (290.85) ... 3.33 (291.15)
+  after periapsis (1e-7): per-step injection / E: box2 7.6e-6, dD.e 6.1e-5 (medians); box2 spikes max 1.8x the local median; E x270 from t 289.90 to 291.90 (lohner ~ maxE): propagated by the swing's stretching
+  reading: u2_set/u2_true scales as W0^2; passing t 291.885 at k = 5 needs W0 ~ 6e-8 (an estimate); next: subdivision or a third-order term, to be planned with the Bridge
