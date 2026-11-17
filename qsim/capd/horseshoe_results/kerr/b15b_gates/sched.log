@@ -1,0 +1,10 @@
+2026-10-24 16:10:07 supervisor start: old workers 11972 11974 11976 at        0        7       18 results
+2026-10-24 16:12:02 supervisor PID 75509 stopped by me for the verified-kill guard (no worker had been stopped)
+2026-10-24 16:12:02 supervisor start: old workers 11972 11974 11976 at        0        7       18 results
+2026-10-24 16:33:33 old worker 0 (PID 11972) finished its task ({"id": "G1_00_P", "ok": true, "value": [)
+2026-10-24 16:33:34 VERIFIED PID 11972 owner=sumit cwd=/Users/sumit/Github/quantum/qsim/capd/horseshoe cmd=[/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -u b15b_mnflow_worker.py 0 4] -> SIGTERM
+2026-10-24 16:33:34 started fast worker PID 55468
+2026-10-24 16:43:04 old worker 1 (PID 11974) finished its task ({"id": "G4_o2_k001_P", "ok": true, "valu)
+2026-10-24 16:43:04 VERIFIED PID 11974 owner=sumit cwd=/Users/sumit/Github/quantum/qsim/capd/horseshoe cmd=[/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -u b15b_mnflow_worker.py 1 4] -> SIGTERM
+2026-10-24 18:21:22 supervisor PID 88088 stopped by me (verified: owner sumit, cmd ./b15b_sched.sh, cwd horseshoe): all fast tasks done; replaced by 2 non-overlapping grinders (old worker 2 keeps its own i%4==2 share; a new 'grind' worker takes every other grinder), per the Bridge's 2-parallel rule (measured peaks 3.5 GB + 0.35 GB <= 10 GB)
+2026-10-24 18:21:22 started grind worker PID 61777 with B15B_SKIP_MOD=4:2 (parallel with old worker 2)

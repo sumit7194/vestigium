@@ -1,0 +1,11 @@
+G1_00_Pinv ok 15s
+G1_02_Pinv ok 17s
+G1_04_Pinv ok 17s
+G1_06_Pinv ok 0s
+G1_08_Pinv ok 15s
+G1_10_Pinv ok 0s
+G4_o1_k003_P ok 253s
+# RESUMED after restart 14:05
+# PAUSED 14:06 for the post-update regression
+# RESUMED 14:15 on macOS 27.0.1 (26A434); MNFlow spot check bit-identical across the update
+G4_o2_k001_P ok 8848s

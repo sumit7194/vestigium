@@ -1,0 +1,22 @@
+G1_02_P ok 6781s
+G1_04_P ok 7234s
+G1_08_P ok 7803s
+G4_o0_k001_P ok 8927s
+G4_o4_k001_Pinv ok 12s
+G4_o1_k003_P_tol1e-11 ok 100s
+G4_o1_k003_P_tol1e-13 ok 4s
+G3_000_P ok 7912s
+G3_004_P ok 7032s
+G3_008_P ok 8436s
+G3_013_P ok 12166s
+G3_016_P ok 6493s
+G3_020_P ok 8046s
+G3_023_P ok 4244s
+G3_025_P ok 6669s
+G3_028_P ok 9853s
+G3_029_P ok 10196s
+G3_035_P ok 10272s
+G3_036_P ok 9274s
+# RESUMED 10:56 (one grinder only, the Bridge; disk recovered)
+# RESUMED 14:00 after the macOS restart, detached (tools/detach.sh)
+G3_039_P ok 10033s

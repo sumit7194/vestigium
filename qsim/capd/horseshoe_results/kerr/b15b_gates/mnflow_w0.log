@@ -1,0 +1,4 @@
+# RESUMED after restart 14:05
+# PAUSED 14:06 for the post-update regression
+# RESUMED 14:15 on macOS 27.0.1 (26A434); MNFlow spot check bit-identical across the update
+G1_00_P ok 8265s

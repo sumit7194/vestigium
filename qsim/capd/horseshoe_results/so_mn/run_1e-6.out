@@ -1,0 +1,87 @@
+# mn_so: W0 1/1000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 1018.2
+# step 20 t=0.005548 h=1.831e-03 maxE 2.706e-17 hullDelta 7.855e-19 resteps 0 S4leaves 200 gphiphi_lb 3.855e+04 wall 359 s
+# step 40 t=5.045862 h=6.110e-01 maxE 1.120e-15 hullDelta 2.714e-16 resteps 0 S4leaves 400 gphiphi_lb 3.297e+04 wall 949 s
+# step 60 t=17.499180 h=6.547e-01 maxE 4.051e-15 hullDelta 3.055e-16 resteps 0 S4leaves 600 gphiphi_lb 3.036e+04 wall 2009 s
+# step 80 t=30.643197 h=6.634e-01 maxE 7.731e-15 hullDelta 3.567e-16 resteps 0 S4leaves 800 gphiphi_lb 2.749e+04 wall 3050 s
+# step 100 t=44.531380 h=6.983e-01 maxE 1.299e-14 hullDelta 5.079e-16 resteps 0 S4leaves 1000 gphiphi_lb 2.300e+04 wall 4047 s
+# step 120 t=57.881625 h=6.547e-01 maxE 2.024e-14 hullDelta 6.401e-16 resteps 0 S4leaves 1200 gphiphi_lb 1.713e+04 wall 5359 s
+# step 140 t=70.567358 h=6.220e-01 maxE 3.037e-14 hullDelta 8.017e-16 resteps 0 S4leaves 1400 gphiphi_lb 1.614e+04 wall 7036 s
+# step 160 t=82.531840 h=5.805e-01 maxE 4.441e-14 hullDelta 9.708e-16 resteps 0 S4leaves 1600 gphiphi_lb 1.520e+04 wall 8717 s
+# step 180 t=93.973660 h=5.674e-01 maxE 6.414e-14 hullDelta 1.218e-15 resteps 0 S4leaves 1800 gphiphi_lb 1.426e+04 wall 10390 s
+# step 200 t=104.919006 h=5.390e-01 maxE 9.161e-14 hullDelta 1.469e-15 resteps 0 S4leaves 2000 gphiphi_lb 1.336e+04 wall 12065 s
+# step 220 t=115.313321 h=4.976e-01 maxE 1.289e-13 hullDelta 1.703e-15 resteps 0 S4leaves 2200 gphiphi_lb 1.254e+04 wall 13746 s
+# step 240 t=125.223163 h=4.801e-01 maxE 1.791e-13 hullDelta 2.053e-15 resteps 0 S4leaves 2400 gphiphi_lb 1.157e+04 wall 15419 s
+# step 260 t=134.728189 h=4.583e-01 maxE 2.523e-13 hullDelta 2.439e-15 resteps 0 S4leaves 2600 gphiphi_lb 1.041e+04 wall 17093 s
+# step 280 t=143.805482 h=4.365e-01 maxE 3.610e-13 hullDelta 2.900e-15 resteps 0 S4leaves 2800 gphiphi_lb 9.248e+03 wall 18698 s
+# step 300 t=152.469229 h=4.146e-01 maxE 5.222e-13 hullDelta 3.430e-15 resteps 0 S4leaves 3000 gphiphi_lb 8.093e+03 wall 19769 s
+# step 320 t=160.761985 h=4.146e-01 maxE 7.614e-13 hullDelta 4.282e-15 resteps 0 S4leaves 3200 gphiphi_lb 6.861e+03 wall 20804 s
+# step 340 t=168.619371 h=3.928e-01 maxE 1.114e-12 hullDelta 5.045e-15 resteps 0 S4leaves 3400 gphiphi_lb 5.700e+03 wall 21841 s
+# step 360 t=176.128564 h=3.710e-01 maxE 1.645e-12 hullDelta 5.919e-15 resteps 0 S4leaves 3600 gphiphi_lb 4.526e+03 wall 22876 s
+# step 380 t=183.311273 h=3.492e-01 maxE 2.487e-12 hullDelta 6.921e-15 resteps 0 S4leaves 3800 gphiphi_lb 3.330e+03 wall 23916 s
+# step 400 t=190.181166 h=3.383e-01 maxE 4.014e-12 hullDelta 8.355e-15 resteps 0 S4leaves 4000 gphiphi_lb 2.052e+03 wall 24971 s
+# step 420 t=196.693707 h=3.164e-01 maxE 9.825e-12 hullDelta 9.730e-15 resteps 0 S4leaves 4200 gphiphi_lb 7.954e+02 wall 26062 s
+# step 440 t=202.866900 h=3.006e-01 maxE 2.471e-11 hullDelta 1.154e-14 resteps 0 S4leaves 4408 gphiphi_lb 3.896e+01 wall 27155 s
+# step 460 t=208.722021 h=2.799e-01 maxE 5.108e-11 hullDelta 1.351e-14 resteps 0 S4leaves 4660 gphiphi_lb 6.129e+00 wall 28251 s
+# step 480 t=214.230157 h=2.728e-01 maxE 7.826e-11 hullDelta 1.663e-14 resteps 0 S4leaves 4982 gphiphi_lb 9.256e-01 wall 29343 s
+# step 500 t=219.384213 h=2.510e-01 maxE 1.055e-10 hullDelta 1.927e-14 resteps 0 S4leaves 5339 gphiphi_lb 9.256e-01 wall 30441 s
+# step 520 t=224.262754 h=2.384e-01 maxE 1.331e-10 hullDelta 2.318e-14 resteps 0 S4leaves 5699 gphiphi_lb 9.256e-01 wall 31546 s
+# step 540 t=228.831408 h=2.182e-01 maxE 1.604e-10 hullDelta 2.683e-14 resteps 0 S4leaves 6059 gphiphi_lb 9.256e-01 wall 32597 s
+# step 560 t=233.119635 h=2.073e-01 maxE 1.875e-10 hullDelta 3.235e-14 resteps 0 S4leaves 6419 gphiphi_lb 9.256e-01 wall 33639 s
+# step 580 t=237.146532 h=1.964e-01 maxE 2.144e-10 hullDelta 3.899e-14 resteps 0 S4leaves 6779 gphiphi_lb 9.256e-01 wall 34771 s
+# step 600 t=240.933863 h=1.855e-01 maxE 2.414e-10 hullDelta 4.803e-14 resteps 0 S4leaves 7139 gphiphi_lb 9.256e-01 wall 35925 s
+# step 620 t=244.481658 h=1.746e-01 maxE 2.685e-10 hullDelta 5.921e-14 resteps 0 S4leaves 7499 gphiphi_lb 9.256e-01 wall 37188 s
+# RESUMED after the macOS 27.0.1 restart 2026-10-24 14:05
+# RESUMED from ../../horseshoe_results/so_mn/run_1e-6.state at t=243.0849830339 steps 612 next checkpoint 0
+# mn_so: W0 1/1000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 1018.2
+# PAUSED 14:06 after ~2 min, for the post-update regression checks (the Bridge's order); the state file was not rewritten
+# RESUMED 2026-10-24 14:15 on macOS 27.0.1 (26A434), the same pre-update mn_so binary; post-update regressions (A) step 620 identical and (B) kr_ref state bit-identical. From here on: post-update segment. Note: S4leaves and gphiphi_lb are per-process accumulators and restart at each resume.
+# RESUMED from ../../horseshoe_results/so_mn/run_1e-6.state at t=243.0849830339 steps 612 next checkpoint 0
+# mn_so: W0 1/1000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 1018.2
+# step 620 t=244.481658 h=1.746e-01 maxE 2.685e-10 hullDelta 5.921e-14 resteps 0 S4leaves 144 gphiphi_lb 1.059e+04 wall 473 s
+# step 640 t=247.819219 h=1.637e-01 maxE 2.962e-10 hullDelta 7.284e-14 resteps 0 S4leaves 504 gphiphi_lb 9.417e+03 wall 1777 s
+# step 660 t=250.937459 h=1.528e-01 maxE 3.244e-10 hullDelta 8.946e-14 resteps 0 S4leaves 864 gphiphi_lb 8.186e+03 wall 2879 s
+# step 680 t=253.843469 h=1.418e-01 maxE 3.536e-10 hullDelta 1.093e-13 resteps 0 S4leaves 1224 gphiphi_lb 6.890e+03 wall 3955 s
+# step 700 t=256.569167 h=1.309e-01 maxE 3.842e-10 hullDelta 1.331e-13 resteps 0 S4leaves 1584 gphiphi_lb 5.512e+03 wall 5127 s
+# step 720 t=259.114552 h=1.244e-01 maxE 4.166e-10 hullDelta 1.671e-13 resteps 0 S4leaves 1944 gphiphi_lb 4.019e+03 wall 6320 s
+# step 740 t=261.491354 h=1.146e-01 maxE 4.515e-10 hullDelta 2.037e-13 resteps 0 S4leaves 2304 gphiphi_lb 2.457e+03 wall 7459 s
+# step 760 t=263.711575 h=1.091e-01 maxE 4.892e-10 hullDelta 2.579e-13 resteps 0 S4leaves 2664 gphiphi_lb 6.882e+02 wall 8468 s
+# step 780 t=265.763214 h=9.820e-02 maxE 5.302e-10 hullDelta 3.076e-13 resteps 0 S4leaves 3048 gphiphi_lb 1.236e+01 wall 9372 s
+# step 800 t=267.673276 h=9.275e-02 maxE 5.754e-10 hullDelta 3.867e-13 resteps 0 S4leaves 3563 gphiphi_lb 1.140e+01 wall 10249 s
+# step 820 t=269.452629 h=8.729e-02 maxE 6.255e-10 hullDelta 4.857e-13 resteps 0 S4leaves 4213 gphiphi_lb 1.140e+01 wall 11155 s
+# step 840 t=271.109134 h=8.034e-02 maxE 6.818e-10 hullDelta 6.084e-13 resteps 0 S4leaves 4893 gphiphi_lb 1.140e+01 wall 12151 s
+# step 860 t=272.641793 h=7.365e-02 maxE 7.449e-10 hullDelta 7.647e-13 resteps 0 S4leaves 5573 gphiphi_lb 1.140e+01 wall 13219 s
+# step 880 t=274.063019 h=6.820e-02 maxE 8.168e-10 hullDelta 9.734e-13 resteps 0 S4leaves 6253 gphiphi_lb 1.140e+01 wall 14357 s
+# step 900 t=275.378130 h=6.274e-02 maxE 8.998e-10 hullDelta 1.233e-12 resteps 0 S4leaves 6933 gphiphi_lb 1.140e+01 wall 15564 s
+# step 920 t=276.597765 h=5.960e-02 maxE 9.976e-10 hullDelta 1.622e-12 resteps 0 S4leaves 7613 gphiphi_lb 1.140e+01 wall 16842 s
+# step 940 t=277.718514 h=5.456e-02 maxE 1.113e-09 hullDelta 2.051e-12 resteps 0 S4leaves 8293 gphiphi_lb 1.140e+01 wall 18067 s
+# step 960 t=278.755245 h=4.910e-02 maxE 1.255e-09 hullDelta 2.564e-12 resteps 0 S4leaves 8973 gphiphi_lb 1.140e+01 wall 19335 s
+# step 980 t=279.710276 h=4.637e-02 maxE 1.430e-09 hullDelta 3.380e-12 resteps 0 S4leaves 9653 gphiphi_lb 1.140e+01 wall 20546 s
+# step 1000 t=280.590951 h=4.228e-02 maxE 1.651e-09 hullDelta 4.303e-12 resteps 0 S4leaves 10333 gphiphi_lb 1.140e+01 wall 21731 s
+# step 1020 t=281.402359 h=3.955e-02 maxE 1.935e-09 hullDelta 5.653e-12 resteps 0 S4leaves 11013 gphiphi_lb 1.140e+01 wall 22988 s
+# step 1040 t=282.148229 h=3.499e-02 maxE 2.306e-09 hullDelta 7.032e-12 resteps 0 S4leaves 11693 gphiphi_lb 1.140e+01 wall 24224 s
+# step 1060 t=282.832381 h=3.239e-02 maxE 2.800e-09 hullDelta 9.185e-12 resteps 0 S4leaves 12374 gphiphi_lb 1.140e+01 wall 25667 s
+# step 1080 t=283.460817 h=2.980e-02 maxE 3.471e-09 hullDelta 1.193e-11 resteps 0 S4leaves 13208 gphiphi_lb 1.140e+01 wall 27082 s
+PROJ t t=283.8852393126 u1 [9.902187791626226043105758409046812347407721525025947775969128e+00, 9.904392480991490555133417582684599566079659568240138496170672e+00]
+PROJ t t=283.8852393126 u2 [1.306160384416786190076982572468820957936890639107417433484673e+02, 1.306160412927042454072311596579930479898186347212482462148992e+02]
+PROJ t t=283.8852393126 nH [2.262789832258428637689507441701550023495333083896429849833301e+00, 2.262789832498746511526122548080681196742032315847700071847951e+00]
+CHECKPOINT t t=  283.8852 u1 2.205e-03/2.205e-03=1.00 u2 2.851e-06/2.836e-06=1.01 fake 1.306e-06 vs 7.444e-04 nH 2.40e-10  PASS
+# step 1100 t=284.019080 h=2.728e-02 maxE 4.361e-09 hullDelta 1.524e-11 resteps 0 S4leaves 14257 gphiphi_lb 7.294e-01 wall 28311 s
+# step 1120 t=284.549653 h=2.591e-02 maxE 5.655e-09 hullDelta 2.050e-11 resteps 0 S4leaves 15505 gphiphi_lb 7.294e-01 wall 29601 s
+# step 1140 t=285.031328 h=2.319e-02 maxE 7.503e-09 hullDelta 2.581e-11 resteps 0 S4leaves 16825 gphiphi_lb 7.294e-01 wall 30912 s
+# step 1160 t=285.476439 h=2.073e-02 maxE 1.027e-08 hullDelta 3.256e-11 resteps 0 S4leaves 18145 gphiphi_lb 7.294e-01 wall 32245 s
+# step 1180 t=285.882177 h=1.944e-02 maxE 1.452e-08 hullDelta 4.305e-11 resteps 0 S4leaves 19465 gphiphi_lb 7.294e-01 wall 33738 s
+# step 1200 t=286.254737 h=1.773e-02 maxE 2.153e-08 hullDelta 5.534e-11 resteps 0 S4leaves 20785 gphiphi_lb 7.294e-01 wall 35150 s
+# step 1220 t=286.595450 h=1.637e-02 maxE 3.472e-08 hullDelta 7.190e-11 resteps 0 S4leaves 22105 gphiphi_lb 7.294e-01 wall 36489 s
+# step 1240 t=286.906974 h=1.500e-02 maxE 6.827e-08 hullDelta 9.459e-11 resteps 0 S4leaves 23458 gphiphi_lb 7.294e-01 wall 37801 s
+# step 1260 t=287.192310 h=1.364e-02 maxE 1.250e-07 hullDelta 1.238e-10 resteps 0 S4leaves 25095 gphiphi_lb 7.294e-01 wall 39108 s
+# step 1280 t=287.452174 h=1.228e-02 maxE 1.954e-07 hullDelta 1.596e-10 resteps 0 S4leaves 27059 gphiphi_lb 7.294e-01 wall 40406 s
+# step 1300 t=287.690250 h=1.159e-02 maxE 2.800e-07 hullDelta 2.159e-10 resteps 0 S4leaves 29339 gphiphi_lb 7.294e-01 wall 41834 s
+# step 1320 t=287.908305 h=1.037e-02 maxE 3.802e-07 hullDelta 5.203e-10 resteps 0 S4leaves 31895 gphiphi_lb 7.294e-01 wall 43299 s
+# step 1340 t=288.108514 h=9.548e-03 maxE 5.194e-07 hullDelta 3.613e-10 resteps 0 S4leaves 34495 gphiphi_lb 7.294e-01 wall 44883 s
+# step 1360 t=288.291470 h=8.866e-03 maxE 1.220e-06 hullDelta 5.057e-10 resteps 0 S4leaves 37095 gphiphi_lb 7.294e-01 wall 46113 s
+# step 1380 t=288.459166 h=8.184e-03 maxE 1.748e-05 hullDelta 1.509e-09 resteps 0 S4leaves 39695 gphiphi_lb 7.294e-01 wall 47380 s
+# step 1400 t=288.613598 h=7.502e-03 maxE 7.024e-04 hullDelta 1.904e-08 resteps 0 S4leaves 42295 gphiphi_lb 7.294e-01 wall 48633 s
+# step 1420 t=288.754272 h=6.820e-03 maxE 6.627e-03 hullDelta 3.989e-07 resteps 0 S4leaves 45013 gphiphi_lb 7.294e-01 wall 49794 s
+# step 1440 t=288.882158 h=6.138e-03 maxE 1.557e-02 hullDelta 4.867e-06 resteps 0 S4leaves 48209 gphiphi_lb 7.294e-01 wall 50952 s
+THREW at step 1449 t=288.932535: S4: x - 1 < 0.05 possible
+MN-SO FAIL (time checkpoints only; informational) W0 1/1000000 steps 1449 resteps 0 wall 51510 s

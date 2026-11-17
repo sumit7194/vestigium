@@ -1,0 +1,20 @@
+G1_01_Pinv ok 0s
+G1_03_Pinv ok 0s
+G1_05_Pinv ok 0s
+G1_07_Pinv ok 0s
+G1_09_Pinv ok 0s
+G1_11_Pinv ok 0s
+G4_o1_k006_P ok 4s
+G4_o3_k006_P ok 4s
+G4_o5_k004_Pinv ok 1s
+G4_o7_k003_Pinv ok 0s
+G4_o3_k003_P_tol1e-13 ok 5s
+G4_o1_k004_P_tol1e-13 ok 5s
+G3_003_P ok 0s
+G3_007_P ok 0s
+G3_011_P ok 0s
+G3_015_P ok 0s
+G3_019_P ok 0s
+# RESUMED after restart 14:05
+# PAUSED 14:06 for the post-update regression
+# worker 3 HELD (core budget: quantum 5 = 2 SO + 3 workers); resumes when a slot frees

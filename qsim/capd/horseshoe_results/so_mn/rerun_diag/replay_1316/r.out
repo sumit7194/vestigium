@@ -1,0 +1,62 @@
+# RESUMED from ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state at t=287.7558735420 steps 1304 next checkpoint 1
+# mn_so: W0 1/10000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 288.06
+DIAG step 1305 t=287.766785 h=1.091e-02 maxE 2.863e-10 lohner 2.861e-10 box0 1.313e-36 box1 3.585e-41 box2 1.367e-13 dDe 4.780e-15 remT0 6.591e-42 remT1 1.917e-38 encK 1.453e-01 Kw 7.310e-04 condB 5.149e+00 hull_xy 3.371e-06 3.002e-07 enc_xy 5.924e-04 6.552e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.7668
+DIAG step 1306 t=287.777697 h=1.091e-02 maxE 2.906e-10 lohner 2.904e-10 box0 1.679e-36 box1 3.639e-41 box2 1.393e-13 dDe 4.862e-15 remT0 7.310e-42 remT1 2.185e-38 encK 1.461e-01 Kw 7.346e-04 condB 5.147e+00 hull_xy 3.380e-06 3.006e-07 enc_xy 5.941e-04 6.560e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.7777
+DIAG step 1307 t=287.788608 h=1.091e-02 maxE 2.949e-10 lohner 2.948e-10 box0 1.725e-36 box1 3.930e-41 box2 1.419e-13 dDe 4.946e-15 remT0 8.110e-42 remT1 2.493e-38 encK 1.469e-01 Kw 7.382e-04 condB 5.146e+00 hull_xy 3.389e-06 3.010e-07 enc_xy 5.959e-04 6.569e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.7886
+DIAG step 1308 t=287.799520 h=1.091e-02 maxE 2.993e-10 lohner 2.992e-10 box0 1.318e-36 box1 3.959e-41 box2 1.446e-13 dDe 5.031e-15 remT0 9.002e-42 remT1 2.846e-38 encK 1.477e-01 Kw 7.419e-04 condB 5.145e+00 hull_xy 3.399e-06 3.014e-07 enc_xy 5.976e-04 6.577e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.7995
+DIAG step 1309 t=287.810431 h=1.091e-02 maxE 3.038e-10 lohner 3.037e-10 box0 1.684e-36 box1 4.607e-41 box2 1.474e-13 dDe 5.118e-15 remT0 9.996e-42 remT1 3.257e-38 encK 1.485e-01 Kw 7.456e-04 condB 5.143e+00 hull_xy 3.408e-06 3.018e-07 enc_xy 5.993e-04 6.585e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8104
+DIAG step 1310 t=287.821343 h=1.091e-02 maxE 3.083e-10 lohner 3.082e-10 box0 1.685e-36 box1 4.908e-41 box2 1.502e-13 dDe 5.206e-15 remT0 1.111e-41 remT1 3.723e-38 encK 1.493e-01 Kw 7.493e-04 condB 5.142e+00 hull_xy 3.418e-06 3.022e-07 enc_xy 6.011e-04 6.593e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8213
+DIAG step 1311 t=287.832254 h=1.091e-02 maxE 3.129e-10 lohner 3.127e-10 box0 1.686e-36 box1 4.974e-41 box2 1.532e-13 dDe 5.297e-15 remT0 1.234e-41 remT1 4.261e-38 encK 1.501e-01 Kw 7.530e-04 condB 5.140e+00 hull_xy 3.427e-06 3.026e-07 enc_xy 6.028e-04 6.601e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8323
+DIAG step 1312 t=287.843166 h=1.091e-02 maxE 3.175e-10 lohner 3.174e-10 box0 1.735e-36 box1 5.561e-41 box2 1.562e-13 dDe 5.389e-15 remT0 1.372e-41 remT1 4.879e-38 encK 1.509e-01 Kw 7.568e-04 condB 5.139e+00 hull_xy 3.437e-06 3.030e-07 enc_xy 6.046e-04 6.610e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8432
+DIAG step 1313 t=287.854077 h=1.091e-02 maxE 3.222e-10 lohner 3.221e-10 box0 1.689e-36 box1 5.907e-41 box2 1.594e-13 dDe 5.483e-15 remT0 1.527e-41 remT1 5.592e-38 encK 1.518e-01 Kw 7.606e-04 condB 5.138e+00 hull_xy 3.446e-06 3.034e-07 enc_xy 6.064e-04 6.618e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8541
+DIAG step 1314 t=287.864989 h=1.091e-02 maxE 3.270e-10 lohner 3.268e-10 box0 1.691e-36 box1 6.254e-41 box2 1.627e-13 dDe 5.579e-15 remT0 1.699e-41 remT1 6.415e-38 encK 1.526e-01 Kw 7.644e-04 condB 5.136e+00 hull_xy 3.456e-06 3.038e-07 enc_xy 6.082e-04 6.626e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8650
+DIAG step 1315 t=287.875900 h=1.091e-02 maxE 3.318e-10 lohner 3.316e-10 box0 1.692e-36 box1 6.951e-41 box2 1.663e-13 dDe 5.677e-15 remT0 1.892e-41 remT1 7.365e-38 encK 1.534e-01 Kw 7.682e-04 condB 5.135e+00 hull_xy 3.466e-06 3.042e-07 enc_xy 6.100e-04 6.634e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8759
+DIAG step 1316 t=287.886266 h=1.037e-02 maxE 3.367e-10 lohner 3.362e-10 box0 1.694e-36 box1 3.946e-41 box2 4.486e-13 dDe 5.478e-15 remT0 6.166e-42 remT1 2.002e-38 encK 1.457e-01 Kw 7.721e-04 condB 5.133e+00 hull_xy 3.475e-06 3.046e-07 enc_xy 5.812e-04 6.309e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8863
+DIAG step 1317 t=287.896837 h=1.057e-02 maxE 3.414e-10 lohner 3.413e-10 box0 1.333e-36 box1 4.959e-41 box2 1.661e-13 dDe 5.700e-15 remT0 1.091e-41 remT1 3.946e-38 encK 1.497e-01 Kw 7.758e-04 condB 5.132e+00 hull_xy 3.485e-06 3.049e-07 enc_xy 5.943e-04 6.442e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.8968
+DIAG step 1318 t=287.907203 h=1.037e-02 maxE 3.470e-10 lohner 3.460e-10 box0 1.696e-36 box1 4.016e-41 box2 9.502e-13 dDe 5.682e-15 remT0 7.590e-42 remT1 2.609e-38 encK 1.473e-01 Kw 7.796e-04 condB 5.130e+00 hull_xy 3.494e-06 3.053e-07 enc_xy 5.845e-04 6.324e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9072
+DIAG step 1319 t=287.917773 h=1.057e-02 maxE 3.519e-10 lohner 3.517e-10 box0 1.698e-36 box1 5.796e-41 box2 1.728e-13 dDe 5.940e-15 remT0 1.344e-41 remT1 5.159e-38 encK 1.513e-01 Kw 7.834e-04 condB 5.129e+00 hull_xy 3.504e-06 3.057e-07 enc_xy 5.978e-04 6.457e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9178
+DIAG step 1320 t=287.928139 h=1.037e-02 maxE 3.591e-10 lohner 3.566e-10 box0 1.699e-36 box1 4.702e-41 box2 2.445e-12 dDe 5.922e-15 remT0 9.359e-42 remT1 3.410e-38 encK 1.489e-01 Kw 7.872e-04 condB 5.128e+00 hull_xy 3.514e-06 3.061e-07 enc_xy 5.879e-04 6.339e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9281
+# step 1320 t=287.928139 h=1.037e-02 maxE 3.591e-10 hullDelta 4.098e-12 resteps 0 S4leaves 2073 gphiphi_lb 1.095e+02 wall 1022 s
+DIAG step 1321 t=287.938710 h=1.057e-02 maxE 3.642e-10 lohner 3.641e-10 box0 1.700e-36 box1 7.363e-41 box2 1.804e-13 dDe 6.275e-15 remT0 1.659e-41 remT1 6.765e-38 encK 1.530e-01 Kw 7.911e-04 condB 5.126e+00 hull_xy 3.524e-06 3.064e-07 enc_xy 6.013e-04 6.472e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9387
+DIAG step 1322 t=287.949076 h=1.037e-02 maxE 3.764e-10 lohner 3.692e-10 box0 1.701e-36 box1 5.370e-41 box2 7.197e-12 dDe 6.256e-15 remT0 1.156e-41 remT1 4.472e-38 encK 1.505e-01 Kw 7.950e-04 condB 5.125e+00 hull_xy 3.533e-06 3.068e-07 enc_xy 5.914e-04 6.354e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9491
+DIAG step 1323 t=287.959118 h=1.004e-02 maxE 3.825e-10 lohner 3.816e-10 box0 1.703e-36 box1 4.054e-41 box2 8.701e-13 dDe 6.536e-15 remT0 6.004e-42 remT1 2.104e-38 encK 1.460e-01 Kw 7.988e-04 condB 5.123e+00 hull_xy 3.543e-06 3.072e-07 enc_xy 5.745e-04 6.162e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9591
+DIAG step 1324 t=287.969347 h=1.023e-02 maxE 3.880e-10 lohner 3.878e-10 box0 1.704e-36 box1 5.408e-41 box2 1.831e-13 dDe 6.813e-15 remT0 1.036e-41 remT1 4.033e-38 encK 1.498e-01 Kw 8.026e-04 condB 5.122e+00 hull_xy 3.553e-06 3.075e-07 enc_xy 5.870e-04 6.284e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9693
+DIAG step 1325 t=287.979389 h=1.004e-02 maxE 3.955e-10 lohner 3.934e-10 box0 1.705e-36 box1 4.395e-41 box2 2.112e-12 dDe 6.798e-15 remT0 7.383e-42 remT1 2.741e-38 encK 1.475e-01 Kw 8.065e-04 condB 5.120e+00 hull_xy 3.562e-06 3.079e-07 enc_xy 5.778e-04 6.176e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9794
+DIAG step 1326 t=287.989619 h=1.023e-02 maxE 4.013e-10 lohner 4.011e-10 box0 1.707e-36 box1 6.068e-41 box2 1.907e-13 dDe 7.155e-15 remT0 1.275e-41 remT1 5.271e-38 encK 1.514e-01 Kw 8.103e-04 condB 5.118e+00 hull_xy 3.572e-06 3.083e-07 enc_xy 5.904e-04 6.298e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9896
+DIAG step 1327 t=287.999661 h=1.004e-02 maxE 4.125e-10 lohner 4.069e-10 box0 1.708e-36 box1 5.086e-41 box2 5.589e-12 dDe 7.140e-15 remT0 9.094e-42 remT1 3.583e-38 encK 1.491e-01 Kw 8.142e-04 condB 5.117e+00 hull_xy 3.582e-06 3.086e-07 enc_xy 5.812e-04 6.190e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t287.9997
+DIAG step 1328 t=288.009890 h=1.023e-02 maxE 4.187e-10 lohner 4.185e-10 box0 1.763e-36 box1 7.095e-41 box2 1.997e-13 dDe 7.705e-15 remT0 1.572e-41 remT1 6.912e-38 encK 1.530e-01 Kw 8.181e-04 condB 5.115e+00 hull_xy 3.592e-06 3.090e-07 enc_xy 5.938e-04 6.313e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t288.0099
+DIAG step 1329 t=288.019932 h=1.004e-02 maxE 4.403e-10 lohner 4.246e-10 box0 1.406e-36 box1 6.030e-41 box2 1.568e-11 dDe 7.691e-15 remT0 1.122e-41 remT1 4.699e-38 encK 1.507e-01 Kw 8.220e-04 condB 5.114e+00 hull_xy 3.602e-06 3.093e-07 enc_xy 5.846e-04 6.203e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t288.0199
+DIAG step 1330 t=288.030162 h=1.023e-02 maxE 4.475e-10 lohner 4.472e-10 box0 1.711e-36 box1 8.454e-41 box2 2.121e-13 dDe 8.848e-15 remT0 1.941e-41 remT1 9.094e-38 encK 1.547e-01 Kw 8.259e-04 condB 5.112e+00 hull_xy 3.612e-06 3.097e-07 enc_xy 5.973e-04 6.327e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t288.0302
+DIAG step 1331 t=288.040204 h=1.004e-02 maxE 5.006e-10 lohner 4.543e-10 box0 1.767e-36 box1 7.009e-41 box2 4.624e-11 dDe 8.835e-15 remT0 1.387e-41 remT1 6.182e-38 encK 1.523e-01 Kw 8.300e-04 condB 5.110e+00 hull_xy 3.622e-06 3.100e-07 enc_xy 5.881e-04 6.217e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t288.0402
+DIAG step 1332 t=288.049922 h=9.718e-03 maxE 5.139e-10 lohner 5.095e-10 box0 1.714e-36 box1 4.745e-41 box2 4.409e-12 dDe 1.117e-14 remT0 7.025e-42 remT1 2.807e-38 encK 1.476e-01 Kw 8.339e-04 condB 5.109e+00 hull_xy 3.632e-06 3.104e-07 enc_xy 5.707e-04 6.023e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t288.0499
+DIAG step 1333 t=288.060000 h=1.008e-02 maxE 5.237e-10 lohner 5.234e-10 box0 1.715e-36 box1 8.789e-41 box2 2.126e-13 dDe 1.204e-14 remT0 1.861e-41 remT1 8.973e-38 encK 1.545e-01 Kw 8.378e-04 condB 5.107e+00 hull_xy 3.642e-06 3.107e-07 enc_xy 5.936e-04 6.253e-05
+SAVED ../../horseshoe_results/so_mn/rerun_diag/replay_1316/r.state.t288.0600
+MN-SO PASS (time checkpoints only; informational) W0 1/10000000 steps 1333 resteps 0 wall 1790 s
