@@ -17,6 +17,12 @@
 //     GUARD_RATIO=r   FAIL-FAST (the Bridge, 2026-10-26; opt-in, so regressions stay bit-identical): if
 //       max_i width(e_i) > r * max_i width(polynomial part_i) (max-norm; the first, per-component form tripped spuriously), stop with "GUARD", save the state to <state>.guard and print the last
 //       20 DIAG lines (the decomposition is then computed on every step, into a ring buffer).
+//     WRAP_DUMP=file   (the wrapping test, WRAPPING_TEST.md, 2026-11-17; log-only) after every step, append to <file> the
+//       centre variational matrix D1c, the injected boxes s/p0/p1/p2/dDe (so_set.h SO_WRAP hook) and the new B, re, all as
+//       MPFR hex intervals. The file is truncated at start.
+//     STOP_AFTER_T=t   (the wrapping test's segments) stop after the first step that ends at or past t, after that step's
+//       checks, saves and checkpoint; the solver's maximum step is NOT changed (unlike T_end), so the steps are those of
+//       the original run.
 // Usage: mn_so <W0 p/q> <checkpoints.txt> <state file> [T_end]
 #include "capd/mpcapdlib.h"
 #include "proof_guard.h"
@@ -167,6 +173,11 @@ int main(int argc, char** argv) {
   long save_k = -1;
   so::SO_FIXED_REDO = std::getenv("SO_FIXED_REDO") != nullptr;   // candidate remedy (so_set.h), OFF by default
   const double GUARD = std::getenv("GUARD_RATIO") ? std::atof(std::getenv("GUARD_RATIO")) : 0; std::vector<std::string> ring;
+  const double STOP_AFTER = std::getenv("STOP_AFTER_T") ? std::atof(std::getenv("STOP_AFTER_T")) : 1e300;
+  static so::StepWrap WG; FILE* wdump = nullptr;
+  if (std::getenv("WRAP_DUMP")) { wdump = std::fopen(std::getenv("WRAP_DUMP"), "w"); if (!wdump) { std::printf("WRAP_DUMP: cannot open\n"); return 2; } so::SO_WRAP = &WG; }
+  auto dumpv = [&](const char* tag, const IV& v) { std::fprintf(wdump, "%s", tag); for (int i = 0; i < 8; ++i) std::fprintf(wdump, " %s", hx(v[i]).c_str()); std::fprintf(wdump, "\n"); };
+  auto dumpm = [&](const char* tag, const IM& m) { std::fprintf(wdump, "%s", tag); for (int i = 0; i < 8; ++i) for (int j = 0; j < 8; ++j) std::fprintf(wdump, " %s", hx(m[i][j]).c_str()); std::fprintf(wdump, "\n"); };
   try {
     while (so::md(X.t) < Tend) {
       // section checkpoints: integrate to t_sec - PRE, save the set to <state>.pre_<kind> for the (separately gated) section
@@ -177,6 +188,8 @@ int main(int argc, char** argv) {
       solK.setMaxStep(MpInterval(rem > 0 ? rem : 1e-300));
       so::SO_DIAG = (so::md(X.t) >= DIAG_FROM || GUARD > 0) ? &DG : nullptr;
       so::StepLog lg = so::step(solK, solT, X, true); ++steps; LAST_H = solK.getStep();
+      if (wdump) { std::fprintf(wdump, "STEP %ld %s\n", steps, hx(X.t).c_str()); dumpm("D1c", WG.D1c); dumpv("S", WG.s); dumpv("P0", WG.p0); dumpv("P1", WG.p1);
+                   dumpv("P2", WG.p2); dumpv("DDE", WG.dDe); dumpm("B", X.B); dumpv("RE", X.re); std::fprintf(wdump, "END\n"); std::fflush(wdump); }
       double gratio = 0;
       if (GUARD > 0) { IV R(2); R[0] = so::sym(1); R[1] = so::sym(1); IV poly = X.C * R + X.quad(), ev = X.B * X.re;
         double we = 0, wp = 0; for (int i = 0; i < 8; ++i) { we = std::max(we, w(ev[i])); wp = std::max(wp, w(poly[i])); }
@@ -215,6 +228,10 @@ int main(int argc, char** argv) {
         double W1 = w(X.project(c.u1)), W2 = w(X.project(c.u2)), Wf[5] = {w(X.project(c.nH)), 0, 0, 0, 0};
         for (int q = 0; q < 4; ++q) Wf[1 + q] = w(X.project(offman(xy, q)));
         double fake = 0; for (int q = 0; q < 5; ++q) fake += Wf[q] * c.g[2 + q];
+        if (wdump) {                                               // wrapping test: every checkpoint covector and its projection
+          IV cv[7] = {c.u1, c.u2, c.nH, offman(xy, 0), offman(xy, 1), offman(xy, 2), offman(xy, 3)}; const char* cn[7] = {"u1", "u2", "nH", "off0", "off1", "off2", "off3"};
+          for (int k = 0; k < 7; ++k) { std::fprintf(wdump, "CPROJ %s %s", cn[k], hx(X.project(cv[k])).c_str()); for (int i = 0; i < 8; ++i) std::fprintf(wdump, " %s", hx(cv[k][i]).c_str()); std::fprintf(wdump, "\n"); }
+          std::fprintf(wdump, "CPEND %s\n", hx(X.t).c_str()); std::fflush(wdump); }
         bool ok = (W1 / c.tu1 <= K) && (W2 / c.tu2 <= K) && (fake <= K * c.tu2 * c.g[1]);
         bool harness = (W1 / c.tu1 < 0.98 || W2 / c.tu2 < 0.98);
         { IV dirs[3] = {c.u1, c.u2, c.nH}; const char* dn[3] = {"u1", "u2", "nH"};
@@ -228,9 +245,10 @@ int main(int argc, char** argv) {
       if (std::chrono::duration<double>(std::chrono::steady_clock::now() - lastck).count() > CKPT_SEC) { save(argv[3], X, steps, next_cp); lastck = std::chrono::steady_clock::now(); }
       std::fflush(stdout);
       if (next_cp >= cps.size() && so::md(X.t) >= tnext - 1e-12) break;
+      if (so::md(X.t) >= STOP_AFTER) { std::printf("STOP_AFTER_T %.6f reached at step %ld t=%.10f\n", STOP_AFTER, steps, so::md(X.t)); break; }
     }
   } catch (std::exception& e) { std::printf("THREW at step %ld t=%.6f: %s\n", steps, so::md(X.t), e.what()); pass = false; }
-  save(argv[3], X, steps, next_cp);
+  save(argv[3], X, steps, next_cp); if (wdump) std::fclose(wdump);
   std::printf("MN-SO %s (time checkpoints only; informational) W0 %s steps %ld resteps %ld wall %.0f s\n", pass ? "PASS" : "FAIL", argv[1], steps, so::SO_RESTEPS,
               std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count());
 }

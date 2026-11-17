@@ -1,0 +1,25 @@
+# id	W0	checkpoint file (mn_smoke/)	start state (fix_test/)	STOP_AFTER_T	compare: original grid save (fix_test/) = this segment's own save (runs/<id>/st.t*), comma-separated
+# chain A: W0 1e-7, the primary window 290.0013 -> 291.8852 (checkpoints 290.8497 and 291.8852)
+A01	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t290.0013	290.25	fix_1e-7.state.t290.2501
+A02	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t290.2501	290.5	fix_1e-7.state.t290.5023
+A03	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t290.5023	290.75	fix_1e-7.state.t290.7527
+A04	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t290.7527	291.0	fix_1e-7.state.t291.0012
+A05	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t291.0012	291.25	fix_1e-7.state.t291.2501
+A06	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t291.2501	291.5	fix_1e-7.state.t291.5019
+A07	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t291.5019	291.75	fix_1e-7.state.t291.7509
+A08	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t291.7509	291.8852	-
+# chain B: W0 1e-6, 290.0007 -> 291.0014 (checkpoint 290.8497)
+B01	1/1000000	b17_cp_1e-6.txt	fix_1e-6.state.t290.0007	290.25	fix_1e-6.state.t290.2509
+B02	1/1000000	b17_cp_1e-6.txt	fix_1e-6.state.t290.2509	290.5	fix_1e-6.state.t290.5013
+B03	1/1000000	b17_cp_1e-6.txt	fix_1e-6.state.t290.5013	290.75	fix_1e-6.state.t290.7518
+B04	1/1000000	b17_cp_1e-6.txt	fix_1e-6.state.t290.7518	291.0	fix_1e-6.state.t291.0014
+# chain C: W0 1e-7, 287.7668 -> 290.0013 (through the swing; C then A is the long window)
+C01	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t287.7668	288.0	fix_1e-7.state.t288.0099
+C02	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t288.0099	288.25	fix_1e-7.state.t288.2571
+C03	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t288.2571	288.5	fix_1e-7.state.t288.5021
+C04	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t288.5021	288.75	fix_1e-7.state.t288.7533
+C05	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t288.7533	289.0	fix_1e-7.state.t289.0013
+C06	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t289.0013	289.25	fix_1e-7.state.t289.2542
+C07	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t289.2542	289.5	fix_1e-7.state.t289.5040
+C08	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t289.5040	289.75	fix_1e-7.state.t289.7523
+C09	1/10000000	b17_cp_1e-7.txt	fix_1e-7.state.t289.7523	290.0	fix_1e-7.state.t289.7555,fix_1e-7.state.t290.0013

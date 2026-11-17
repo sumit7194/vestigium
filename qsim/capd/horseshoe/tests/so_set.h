@@ -109,6 +109,13 @@ static StepDiag* SO_DIAG = nullptr;
 // the degree-0 width only). The Taylor parts of the redo must equal the controlled calls' bit for bit (the step used is
 // the same); a mismatch throws (BUG). Not yet registered: a test candidate.
 static bool SO_FIXED_REDO = false;
+// LOG-ONLY wrapping-test hook (WRAPPING_TEST.md, 2026-11-17; the Bridge's 27 Oct question "genuine u2 leak or wrapping of
+// E's box?"). When SO_WRAP is non-null, step() copies out the centre variational matrix D1c (the Lohner map of the error
+// part) and the boxes injected into the error part this step (in the OLD coordinates, before iBn): the total s and its
+// parts p0 (order 0), p1 (order 1), p2 (second-order remainder), dDe (([Dphi(K)] - D1c) e). Copies only: the propagated
+// set and every interval operation that builds it are unchanged (bit-identical with the hook on or off).
+struct StepWrap { IM D1c; IV s, p0, p1, p2, dDe; };
+static StepWrap* SO_WRAP = nullptr;
 static long SO_TAYLOR_MISMATCH = 0;
 inline bool same_iv(const MpInterval& u, const MpInterval& v) { return lo(u) == lo(v) && hi(u) == hi(v) && mpfr_equal_p(u.leftBound().*RepA::rep, v.leftBound().*RepA::rep) && mpfr_equal_p(u.rightBound().*RepA::rep, v.rightBound().*RepA::rep); }
 inline int taylor_diff(const JetT& a, const JetT& b, int n) {       // degree 0, 1 and 2 coefficients of the Taylor part
@@ -208,6 +215,14 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
   // error part: D1c (B re) in the Lohner frame, ([Dphi(K)] - D1c) e boxed
   IV e = X.B * X.re;
   IM dD = D1K - D1c; s += dD * e;
+  if (SO_WRAP) {                                               // log-only copies (wrapping test)
+    StepWrap& W = *SO_WRAP; W.D1c = D1c; W.s = s; W.dDe = dD * e;
+    W.p0 = IV(n); W.p1 = IV(n); W.p2 = IV(n);
+    for (int i = 0; i < n; ++i) { W.p0[i] = val[i] - xn[i]; for (int a = 0; a < 2; ++a) W.p1[i] += (Cc[i][a] - Cn[i][a]) * sym(1); }
+    for (int i = 0; i < n; ++i) { MpInterval q(0); int k = 0;
+      for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) { q += (lg.hK[4 * i + k] - Hn[i][a][b]) * Set::rr(a, b); ++k; }
+      W.p2[i] = q / 2 * SO_REMAINDER_SCALE; }
+  }
   IM AB = D1c * X.B;
   IM Bn = qr_frame(AB, X.re);
   IM iBn = capd::matrixAlgorithms::krawczykInverse(Bn);
