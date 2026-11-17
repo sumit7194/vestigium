@@ -1,0 +1,44 @@
+20:49:29 == PART 3 (manifest manifest.tsv, 24 checks; continue from the section toy)
+P    s=0.0001 sgn=+1:   3 iterates, x in [1.4803, 1.8412], stop: no return (plunge-certified)
+P    s=0.0001 sgn=-1:   7 iterates, x in [1.8412, 43.9374], stop: back within 0.01 of z*
+P    s=0.001 sgn=+1:   2 iterates, x in [1.7813, 1.8412], stop: no return (plunge-certified)
+P    s=0.001 sgn=-1:   7 iterates, x in [1.8412, 8.1747], stop: back within 0.01 of z*
+Pinv s=0.0001 sgn=+1:   3 iterates, x in [1.4803, 1.8412], stop: no return (plunge-certified)
+Pinv s=0.0001 sgn=-1:   7 iterates, x in [1.8412, 43.9374], stop: back within 0.01 of z*
+Pinv s=0.001 sgn=+1:   2 iterates, x in [1.7813, 1.8412], stop: no return (plunge-certified)
+Pinv s=0.001 sgn=-1:   7 iterates, x in [1.8412, 8.1747], stop: back within 0.01 of z*
+wrote orbits.json, 2 s
+20:49:38 A_kerr_orbits_g0 vs orbits.json!seconds [gitjson]: orbits.json IDENTICAL (excluding ['seconds']); G0.json IDENTICAL
+20:49:41 A_kerr_dump: OK
+20:50:01 A_mnflow6 vs - [selfreport]: MNFLOW IDENTICAL 6/6
+20:50:05 B_build_mn_so: OK
+20:50:08 B_build_toys: OK
+20:50:11 B_build_tsec: OK
+20:50:12 B_build_lift: OK
+20:59:34 B_kr_ref vs kr_ref [byte]: IDENTICAL (byte)
+21:25:36 B_so_cont vs fix_1e-7.out [steps]: IDENTICAL: steps 1305-1326 (23 lines; last step 1328, last 2 excluded)
+21:25:37 B_toy_A vs toy_A_old.out [byte]: IDENTICAL (byte)
+21:25:38 B_toy_B vs toy_B_old.out [byte]: IDENTICAL (byte)
+21:25:39 B_toy_C vs toy_C_old.out [byte]: IDENTICAL (byte)
+21:25:40 B_toy_D vs toy_D_old.out [byte]: IDENTICAL (byte)
+21:25:42 B_toy_E vs toy_E_old.out [byte]: IDENTICAL (byte)
+21:25:42 B_sec_0.1 vs toy_sec_w0.1.out [byte]: IDENTICAL (byte)
+21:25:42 B_sec_0.01 vs toy_sec_w0.01.out [byte]: IDENTICAL (byte)
+21:25:42 B_lift_1e3 vs lift_1000_old.out [byte]: IDENTICAL (byte)
+21:25:42 B_lift_1e6 vs lift_1000000_old.out [byte]: IDENTICAL (byte)
+21:25:42 B_kerr_save_old: OK
+21:25:47 B_kerr_build: OK
+P    s=0.0001 sgn=+1:   3 iterates, x in [1.4803, 1.8412], stop: no return (plunge-certified)
+P    s=0.0001 sgn=-1:   7 iterates, x in [1.8412, 43.9374], stop: back within 0.01 of z*
+P    s=0.001 sgn=+1:   2 iterates, x in [1.7813, 1.8412], stop: no return (plunge-certified)
+P    s=0.001 sgn=-1:   7 iterates, x in [1.8412, 8.1747], stop: back within 0.01 of z*
+Pinv s=0.0001 sgn=+1:   3 iterates, x in [1.4803, 1.8412], stop: no return (plunge-certified)
+Pinv s=0.0001 sgn=-1:   7 iterates, x in [1.8412, 43.9374], stop: back within 0.01 of z*
+Pinv s=0.001 sgn=+1:   2 iterates, x in [1.7813, 1.8412], stop: no return (plunge-certified)
+Pinv s=0.001 sgn=-1:   7 iterates, x in [1.8412, 8.1747], stop: back within 0.01 of z*
+wrote orbits.json, 2 s
+21:25:56 B_kerr_orbits_g0 vs orbits.json!seconds [gitjson]: orbits.json IDENTICAL (excluding ['seconds']); G0.json IDENTICAL
+21:25:58 B_kerr_dump: OK
+21:25:58 B_kerr_cmp vs compiled_old.json [byte]: IDENTICAL (byte)
+21:26:08 C_lake: OK
+21:26:08 == PART 3 COMPLETE: every check IDENTICAL / AGREE (w 0.001 section toy: no matching reference, not compared)

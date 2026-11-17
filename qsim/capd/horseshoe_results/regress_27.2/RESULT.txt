@@ -66,3 +66,52 @@ PROVENANCE NOTE: 5d2051d's "orbits.json ... regenerated BIT-IDENTICAL" meant the
 wall-clock "seconds" field (the file has always carried it).
 POST-STOP RULE CLARIFICATION (the Bridge, 2026-11-17): orbits.json is compared excluding exactly ["seconds"]. The
 metadata scan is in manifest.tsv. Resuming from A_kerr_orbits_g0.
+20:49:29 == PART 3 (manifest manifest.tsv, 24 checks; continue from the section toy)
+20:49:38 A_kerr_orbits_g0 vs orbits.json!seconds [gitjson]: orbits.json IDENTICAL (excluding ['seconds']); G0.json IDENTICAL
+20:49:41 A_kerr_dump: OK
+20:49:53 note: B_lift references ({S}/lift_*_old.out) were produced in r4 (A_lift, 20:46); copied into r5 before B_lift ran (resume-from-id did not rerun A_lift in r5)
+20:50:01 A_mnflow6 vs - [selfreport]: MNFLOW IDENTICAL 6/6
+20:50:05 B_build_mn_so: OK
+20:50:08 B_build_toys: OK
+20:50:11 B_build_tsec: OK
+20:50:12 B_build_lift: OK
+20:59:34 B_kr_ref vs kr_ref [byte]: IDENTICAL (byte)
+21:25:36 B_so_cont vs fix_1e-7.out [steps]: IDENTICAL: steps 1305-1326 (23 lines; last step 1328, last 2 excluded)
+21:25:37 B_toy_A vs toy_A_old.out [byte]: IDENTICAL (byte)
+21:25:38 B_toy_B vs toy_B_old.out [byte]: IDENTICAL (byte)
+21:25:39 B_toy_C vs toy_C_old.out [byte]: IDENTICAL (byte)
+21:25:40 B_toy_D vs toy_D_old.out [byte]: IDENTICAL (byte)
+21:25:42 B_toy_E vs toy_E_old.out [byte]: IDENTICAL (byte)
+21:25:42 B_sec_0.1 vs toy_sec_w0.1.out [byte]: IDENTICAL (byte)
+21:25:42 B_sec_0.01 vs toy_sec_w0.01.out [byte]: IDENTICAL (byte)
+21:25:42 B_lift_1e3 vs lift_1000_old.out [byte]: IDENTICAL (byte)
+21:25:42 B_lift_1e6 vs lift_1000000_old.out [byte]: IDENTICAL (byte)
+21:25:42 B_kerr_save_old: OK
+21:25:47 B_kerr_build: OK
+21:25:56 B_kerr_orbits_g0 vs orbits.json!seconds [gitjson]: orbits.json IDENTICAL (excluding ['seconds']); G0.json IDENTICAL
+21:25:58 B_kerr_dump: OK
+21:25:58 B_kerr_cmp vs compiled_old.json [byte]: IDENTICAL (byte)
+21:26:08 C_lake: OK
+21:26:08 == PART 3 COMPLETE: every check IDENTICAL / AGREE (w 0.001 section toy: no matching reference, not compared)
+
+SUMMARY (2026-11-17, macOS 27.2 26B123, clang-2100.4.1.1, CLT 27.2): REGRESSION PASSED, every check IDENTICAL or AGREE.
+- CAPD, old 27.0.1 binaries on 27.2: kr_ref byte-identical. SO continuation steps 1305-1326 identical. Toys A-E and
+  the MN lift agree to the saved files' printed digits. Section toy w 0.1 and 0.01 byte-identical.
+- CAPD rebuilt with the 27.2 compiler (guarded builds): kr_ref byte-identical; SO continuation identical; toys,
+  section toys and lift byte-identical to the old binaries' outputs.
+- Kerr maps:
+  - orbits.json and G0.json regenerated identical, before and after the rebuild (orbits excluding the wall-clock field).
+  - All 248 B15b tasks x 2 maps: byte-identical, old build vs new build.
+  - C++ dylib rebuilt: new sha256 50817f0c..., was 648507e3....
+  - CAVEAT: the Rust dylib was NOT recompiled (cargo found nothing to rebuild; rustc does not depend on the CLT). Same
+    sha256 42ea6c3c.... Its 27.2 behaviour is covered by orbits/G0 (it generates the orbits) and by the dump comparison.
+  - CAVEAT: the dumps compare old build vs new build, both run on 27.2. The pre-27.2 anchor for the compiled maps is
+    orbits.json and G0.json (computed values unchanged), not a stored per-task dump.
+- MNFlow (numpy 2.5.0, scipy 1.18.0, Accelerate): 6 reference tasks recomputed bit-identical.
+- Lean ZiglinCert: lake build OK.
+- Stops along the way, all harness or reference issues; each rule clarification was fixed before resuming:
+  1. the SO check's own stop time;
+  2. the wrong section-toy reference file;
+  3. an absolute vs relative print bound;
+  4. a wall-clock field in orbits.json.
+- Dropped: section toy w 0.001 (no matching reference).
