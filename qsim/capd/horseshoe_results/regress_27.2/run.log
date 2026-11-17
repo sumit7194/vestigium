@@ -1,0 +1,5 @@
+/Users/sumit/Github/quantum/qsim/capd/horseshoe_results/regress_27.2/run.sh:9: no matches found: /private/tmp/claude-501/-Users-sumit-Github-quantum/e2f2824e-d2dc-4808-a859-11a2486eda3f/scratchpad/regress272/*.state
+19:36:02 == START macOS 27.2 (26B123), Apple clang version 21.0.0 (clang-2100.4.1.1), CLT 27.2.0.0.1792721180, HEAD db0f330
+19:36:02 -- A: old binaries (27.0.1 builds) on 27.2
+19:43:15 old kr_ref final state: IDENTICAL
+20:00:37 DIFFERS: old SO continuation lines -- stopping here (the Bridge's rule)
