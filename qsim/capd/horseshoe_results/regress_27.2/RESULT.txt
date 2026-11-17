@@ -46,3 +46,18 @@ READING (stopped at A_kerr_orbits_g0; no examination, no rerun):
 - The regenerated file is kept as orbits_regenerated_27.2_old_dylibs.json. The working-tree orbits.json is left
   modified, uncommitted, for the examination.
 - Not run: the compiled dump, MNFlow, all rebuilds, the new-build CAPD checks, the Kerr rebuild, Lean.
+
+ORBITS EXAMINATION (step 1, read-only; the rule was fixed by the Bridge before looking):
+- Field by field: 0 non-float differences. Exactly ONE float differs: the top-level "seconds" (1.990 vs 2.206). That is
+  the generator's wall-clock time (b15b_orbits.py:47, seconds=time.time() - t0), not a computed quantity.
+  Every computed value (z, e_u, e_s, lam_u, tmax, all orbits, plunges) is identical as a parsed float, i.e. bit for bit.
+- Commits after 5d2051d touching b15b_orbits.py, kerr_compiled.py, kerr_rs, kerr_p.cpp, gen/, mn_numerics.py,
+  kerr_plunge.py: NONE.
+- Python stack now: numpy 2.5.0, scipy 1.18.0, BLAS/LAPACK = accelerate (np.show_config). I found no 27.0.1 env stamp of
+  these to compare against.
+- Provenance note: 5d2051d's "orbits.json ... regenerated BIT-IDENTICAL" cannot have been a whole-file byte compare,
+  because the file carries a wall-clock field. It must have compared the computed content. This harness's gitclean rule
+  compared the whole file, and that is the defect.
+- Under the pre-fixed rule: (i) PASS, (iii) PASS, (iv) cause identified (a timing field). (ii) fails literally: the
+  one differing float, a wall time, is not within 4 ulps. Per the rule: HOLD and report; no step 2; nothing resumed.
+- The working-tree orbits.json has been restored to the committed file. The regenerated copy is kept here.
