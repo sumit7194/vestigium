@@ -2,8 +2,9 @@
 # Columns (tab-separated): id <TAB> command (run as written by zsh; its own redirections) <TAB> output compared <TAB> reference <TAB> rule
 # Placeholders: {Q} repo, {T} horseshoe/tests, {HS} horseshoe, {R} horseshoe_results, {D} this dir, {S} scratch out (r3),
 #   {S2} the r2 outputs (old binaries, same 27.2 session, 20:02 run), {BIN} new builds, {PY} venv python.
-# Rules: byte = byte-identical; num40 = numcmp.py IDENTICAL or AGREE (<= 1e-39, the saved files' 40-digit print; the 27.0.1
-#   criterion); steps = stepcmp.py (criterion fixed with the Bridge); gitclean = git diff of the reference paths empty;
+# Rules: byte = byte-identical; num40 = numcmp.py IDENTICAL or AGREE: every number within 1 unit of the reference file's last
+#   printed digit (RELATIVE; POST-STOP RULE CLARIFICATION 2026-11-17, agreed with the Bridge before the resume; it was an absolute
+#   1e-39, which cannot hold for entries of magnitude ~100 printed to 41 significant digits); steps = stepcmp.py (criterion fixed with the Bridge); gitclean = git diff of the reference paths empty;
 #   selfreport = the output's last line starts with the word in reference; exit0 = action, must exit 0 (no reference).
 # The runner refuses to start if any reference under {R} or {Q} is missing; references under {S}/{S2} are checked when reached.
 # Dropped: section toy w 0.001 (no matching non-hw2 reference exists; recorded as "no matching reference", NOT a pass).

@@ -1,6 +1,6 @@
 """Manifest-driven regression runner (the Bridge's mechanism request, 2026-11-17): every check's command, output, exact
 reference file and comparison rule come from manifest.tsv; nothing is hard-coded. Refuses to start if a repository
-reference is missing; stops at the FIRST difference. Usage: run_manifest.py <manifest.tsv> <scratch out dir>"""
+reference is missing; stops at the FIRST difference. Usage: run_manifest.py <manifest.tsv> <scratch out dir> [start id]"""
 import os, subprocess, sys, time
 Q = "/Users/sumit/Github/quantum"; HS = Q + "/qsim/capd/horseshoe"; D = Q + "/qsim/capd/horseshoe_results/regress_27.2"
 S = sys.argv[2]; S2 = os.path.join(os.path.dirname(S), "r2")
@@ -10,6 +10,7 @@ OUT = open(D + "/RESULT.txt", "a")
 def say(m):
     m = time.strftime("%H:%M:%S ") + m; print(m, flush=True); OUT.write(m + "\n"); OUT.flush()
 rows = [l.rstrip("\n").split("\t") for l in open(sys.argv[1]) if l.strip() and not l.startswith("#")]
+if len(sys.argv) > 3: rows = rows[[r[0] for r in rows].index(sys.argv[3]):]          # resume from a check id (earlier ones passed)
 assert all(len(r) == 5 for r in rows), [r for r in rows if len(r) != 5]
 os.makedirs(P["BIN"], exist_ok=True)
 if os.listdir(S) != ["bin"] and os.listdir(S): sys.exit("output dir not fresh: %s" % S)

@@ -1,0 +1,29 @@
+MN lift h 1/1000 stop (2026-11-17): a read-only examination of the existing outputs (no rerun). The decision rule was fixed
+with the Bridge BEFORE looking.
+Files: the old mn_lift_so's output on 27.2 (r3/lift_1000_old.out) vs so_gates/lift_1_1000.out.
+- 132 number tokens each. 128 differ as text. Of those, 56 differ in value; the rest are zeros printed at a different width.
+- WHY THEY DIFFER: the binary prints 61 significant digits; the saved file prints 41 (it predates the wider printing).
+  Every one of the 128 entries in the saved file is the new value rounded to the saved file's printed digits: each is
+  within half a unit of the last printed digit.
+- Every differing entry: max 0.444 units of the reference's last printed (41st significant) digit; max |diff| 2.54e-39
+  (entry -175.909318...); max relative 3.06e-41. The full per-entry list (value, |diff|, units) is in the session log
+  and is reproducible with numcmp.py.
+- 27.0.1 record (5d2051d), verbatim: "CAPD toys A-E and the MN lift agree with the saved outputs to the saved files'
+  40-digit print resolution (<= 4.9e-41; the saved files predate the 60-digit outward printing)". That is the same kind
+  of last-digit, print-width variation.
+  - Its 4.9e-41 matches the toys' absolute differences (<= 4.88e-41 today) and the lift's RELATIVE ones (3.06e-41
+    today).
+  - It cannot have been an absolute bound for the lift: today's lift gives 2.54e-39, which is just how a 41-digit
+    print of a number near 176 rounds.
+- DECISION under the pre-fixed rule: PRINT-RESOLUTION. Every entry is within 1 unit, AND 27.0.1 shows the same kind of
+  variation. Resume allowed.
+- Libraries the old mn_lift_so is linked against (otool -L):
+  - /opt/homebrew/opt/mpfr/lib/libmpfr.6.dylib (current version 9.2.0) -> Cellar mpfr 4.2.2, dylib dated 2026-10-03;
+  - /opt/homebrew/opt/gmp/lib/libgmp.10.dylib (16.0.0) -> gmp 6.3.0, dylib dated 2026-03-26;
+  - /usr/lib/libc++.1.dylib (2100.43.0); /usr/lib/libSystem.B.dylib (1356.0.0).
+  MPFR and GMP both predate the 27.0.1 regression (2026-10-24), so they are unchanged since then; only the macOS
+  system libraries are new.
+  Nothing shows the same binary printing DIFFERENT digits: it prints MORE digits than the saved file, and they round
+  to the saved text.
+- Manifest change (POST-STOP RULE CLARIFICATION, committed before the resume): num40 is now relative, within 1 unit of
+  the reference's last printed digit, in numcmp.py. Toys A-E under the clarified rule: max 0.498 units (they still pass).
