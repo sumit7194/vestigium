@@ -5,7 +5,15 @@
 # Rules: byte = byte-identical; num40 = numcmp.py IDENTICAL or AGREE: every number within 1 unit of the reference file's last
 #   printed digit (RELATIVE; POST-STOP RULE CLARIFICATION 2026-11-17, agreed with the Bridge before the resume; it was an absolute
 #   1e-39, which cannot hold for entries of magnitude ~100 printed to 41 significant digits); steps = stepcmp.py (criterion fixed with the Bridge); gitclean = git diff of the reference paths empty;
-#   selfreport = the output's last line starts with the word in reference; exit0 = action, must exit 0 (no reference).
+#   selfreport = the output's last line starts with the word in reference; exit0 = action, must exit 0 (no reference);
+#   gitjson = each reference is a repo path, optionally "path!k1,k2": the regenerated JSON must equal the COMMITTED file
+#     (git HEAD) bit for bit as parsed values, except the listed top-level keys, which must be PURE METADATA; the working
+#     file is then restored to the committed one. POST-STOP RULE CLARIFICATION (2026-11-17, the Bridge, before resuming):
+#     exclusion list for orbits.json = exactly ["seconds"], the generator's wall-clock time (b15b_orbits.py:47).
+#   Metadata scan of every remaining reference (same commit): orbits.json /seconds (excluded); G0.json none (its wall time
+#     is printed to the log only, b15b_g0.py:62); the toy, section-toy and lift outputs none ("return-time" in toy_sec is a
+#     computed enclosure, not metadata); kr_ref (MPFR state) none; compiled dumps (values only) none; fix_1e-7.out
+#     "wall N s" already stripped by stepcmp.py; mnflow_recheck compares values only.
 # The runner refuses to start if any reference under {R} or {Q} is missing; references under {S}/{S2} are checked when reached.
 # Dropped: section toy w 0.001 (no matching non-hw2 reference exists; recorded as "no matching reference", NOT a pass).
 # -- A: old binaries (27.0.1 builds) on 27.2
@@ -13,7 +21,7 @@ A_sec_0.1	cd {T} && ./toy_sec 0.1 > {S}/tsec_0.1_old.out 2>&1	{S}/tsec_0.1_old.o
 A_sec_0.01	cd {T} && ./toy_sec 0.01 > {S}/tsec_0.01_old.out 2>&1	{S}/tsec_0.01_old.out	{R}/so_gates/toy_sec_w0.01.out	byte
 A_lift_1e3	cd {T} && ./mn_lift_so 1/1000 > {S}/lift_1000_old.out 2>&1	{S}/lift_1000_old.out	{R}/so_gates/lift_1_1000.out	num40
 A_lift_1e6	cd {T} && ./mn_lift_so 1/1000000 > {S}/lift_1000000_old.out 2>&1	{S}/lift_1000000_old.out	{R}/so_gates/lift_1_1000000.out	num40
-A_kerr_orbits_g0	cd {HS} && {PY} b15b_orbits.py && {PY} b15b_g0.py > {S}/orbits_g0_old.log 2>&1	{S}/orbits_g0_old.log	qsim/capd/horseshoe_results/kerr/b15b_gates/orbits.json qsim/capd/horseshoe_results/kerr/b15b_gates/G0.json	gitclean
+A_kerr_orbits_g0	cd {HS} && {PY} b15b_orbits.py && {PY} b15b_g0.py > {S}/orbits_g0_old.log 2>&1	{S}/orbits_g0_old.log	qsim/capd/horseshoe_results/kerr/b15b_gates/orbits.json!seconds qsim/capd/horseshoe_results/kerr/b15b_gates/G0.json	gitjson
 A_kerr_dump	cd {HS} && {PY} {D}/dump_compiled.py {S}/compiled_old.json > {S}/dump_old.log 2>&1	{S}/dump_old.log	-	exit0
 A_mnflow6	cd {HS} && {PY} {D}/mnflow_recheck.py > {S}/mnflow.out 2>&1	{S}/mnflow.out	MNFLOW IDENTICAL	selfreport
 # -- B: rebuilt with the 27.2 toolchain (CAPD programs into {BIN}; old binaries untouched)
@@ -34,7 +42,7 @@ B_lift_1e3	cd {T} && {BIN}/mn_lift_so 1/1000 > {S}/lift_1000_new.out 2>&1	{S}/li
 B_lift_1e6	cd {T} && {BIN}/mn_lift_so 1/1000000 > {S}/lift_1000000_new.out 2>&1	{S}/lift_1000000_new.out	{S}/lift_1000000_old.out	byte
 B_kerr_save_old	cp {HS}/kerr_p.dylib {S}/kerr_p.dylib.old && cp {HS}/kerr_rs/target/release/libkerr_rs.dylib {S}/libkerr_rs.dylib.old > {S}/save_old.log 2>&1	{S}/save_old.log	-	exit0
 B_kerr_build	cd {HS} && CARGO_NET_OFFLINE=true ./kerr_build.sh > {S}/kerr_build.log 2>&1	{S}/kerr_build.log	-	exit0
-B_kerr_orbits_g0	cd {HS} && {PY} b15b_orbits.py && {PY} b15b_g0.py > {S}/orbits_g0_new.log 2>&1	{S}/orbits_g0_new.log	qsim/capd/horseshoe_results/kerr/b15b_gates/orbits.json qsim/capd/horseshoe_results/kerr/b15b_gates/G0.json	gitclean
+B_kerr_orbits_g0	cd {HS} && {PY} b15b_orbits.py && {PY} b15b_g0.py > {S}/orbits_g0_new.log 2>&1	{S}/orbits_g0_new.log	qsim/capd/horseshoe_results/kerr/b15b_gates/orbits.json!seconds qsim/capd/horseshoe_results/kerr/b15b_gates/G0.json	gitjson
 B_kerr_dump	cd {HS} && {PY} {D}/dump_compiled.py {S}/compiled_new.json > {S}/dump_new.log 2>&1	{S}/dump_new.log	-	exit0
 B_kerr_cmp	true	{S}/compiled_new.json	{S}/compiled_old.json	byte
 # -- C: Lean (pinned toolchain; cache sanity only)

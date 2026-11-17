@@ -61,3 +61,8 @@ ORBITS EXAMINATION (step 1, read-only; the rule was fixed by the Bridge before l
 - Under the pre-fixed rule: (i) PASS, (iii) PASS, (iv) cause identified (a timing field). (ii) fails literally: the
   one differing float, a wall time, is not within 4 ulps. Per the rule: HOLD and report; no step 2; nothing resumed.
 - The working-tree orbits.json has been restored to the committed file. The regenerated copy is kept here.
+
+PROVENANCE NOTE: 5d2051d's "orbits.json ... regenerated BIT-IDENTICAL" meant the computed content, excluding the
+wall-clock "seconds" field (the file has always carried it).
+POST-STOP RULE CLARIFICATION (the Bridge, 2026-11-17): orbits.json is compared excluding exactly ["seconds"]. The
+metadata scan is in manifest.tsv. Resuming from A_kerr_orbits_g0.

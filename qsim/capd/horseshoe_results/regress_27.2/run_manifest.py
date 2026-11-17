@@ -19,8 +19,8 @@ for i, cmd, out, ref, rule in rows:
     if rule in ("byte", "num40", "steps"):
         r = fill(ref)
         if not (r.startswith(S) or r.startswith(S2)) and not os.path.exists(r): missing.append((i, r))
-    if rule == "gitclean":
-        missing += [(i, p) for p in ref.split() if not os.path.exists(os.path.join(Q, p))]
+    if rule in ("gitclean", "gitjson"):
+        missing += [(i, p.split("!")[0]) for p in ref.split() if not os.path.exists(os.path.join(Q, p.split("!")[0]))]
 if missing: sys.exit("REFUSED: reference files missing: %s" % missing)
 say("== PART 3 (manifest %s, %d checks; continue from the section toy)" % (os.path.basename(sys.argv[1]), len(rows)))
 for i, cmd, out, ref, rule in rows:
@@ -31,6 +31,16 @@ for i, cmd, out, ref, rule in rows:
     if rule == "gitclean":
         ok = subprocess.run(["git", "-C", Q, "diff", "--quiet", "--"] + ref.split()).returncode == 0
         res = "IDENTICAL (regenerated, git diff empty)" if ok else "DIFFERS"
+    elif rule == "gitjson":
+        import json; ok = True; notes = []
+        for tok in ref.split():
+            path, excl = (tok.split("!") + [""])[:2]; excl = [k for k in excl.split(",") if k]
+            new = json.load(open(os.path.join(Q, path)))
+            old = json.loads(subprocess.run(["git", "-C", Q, "show", "HEAD:" + path], capture_output=True, text=True, check=True).stdout)
+            for k in excl: new.pop(k, None); old.pop(k, None)
+            same = new == old; ok &= same; notes.append("%s %s%s" % (os.path.basename(path), "IDENTICAL" if same else "DIFFERS", " (excluding %s)" % excl if excl else ""))
+            subprocess.run(["git", "-C", Q, "checkout", "--", path], check=True)    # back to the committed file
+        res = "; ".join(notes)
     elif rule == "selfreport":
         last = open(out).read().strip().splitlines()[-1]; ok = last.startswith(ref); res = last
     else:
