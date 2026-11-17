@@ -20,3 +20,15 @@ READING (2026-11-17; stopped by the rule; no rerun; only the existing output was
   I compared it against toy_sec_hw2_w0.1.out, which is the H~w^2 variant (hull [0.897, 1.1]): different settings from
   what this binary was run with. The w 0.01 and 0.001 cases, the lift, the Kerr maps, MNFlow, the rebuilds and Lean
   were not run.
+20:44:18 == PART 3 (manifest manifest.tsv, 28 checks; continue from the section toy)
+20:44:18 A_sec_0.1 vs toy_sec_w0.1.out [byte]: IDENTICAL (byte)
+20:44:18 A_sec_0.01 vs toy_sec_w0.01.out [byte]: IDENTICAL (byte)
+20:44:18 A_lift_1e3 vs lift_1_1000.out [num40]: DIFFERS max|diff| 2.54e-39
+20:44:18 DIFFERS at A_lift_1e3 -- stopping here (the Bridge's rule)
+
+READING (part 3 stopped; no rerun, no investigation):
+- Section toy w 0.1 and w 0.01 (old toy_sec): byte-IDENTICAL to toy_sec_w0.1.out and toy_sec_w0.01.out.
+- MN lift h 1/1000 (old mn_lift_so) vs lift_1_1000.out: max |diff| 2.54e-39 > the manifest's num40 bound 1e-39.
+  The 27.0.1 record (5d2051d) states agreement <= 4.9e-41 for the toys and the lift together.
+  Whether 2.54e-39 is a print-resolution effect (an absolute bound on numbers bigger than 1 with 40 significant digits)
+  or a real change has NOT been examined.

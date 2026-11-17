@@ -1,0 +1,5 @@
+20:44:18 == PART 3 (manifest manifest.tsv, 28 checks; continue from the section toy)
+20:44:18 A_sec_0.1 vs toy_sec_w0.1.out [byte]: IDENTICAL (byte)
+20:44:18 A_sec_0.01 vs toy_sec_w0.01.out [byte]: IDENTICAL (byte)
+20:44:18 A_lift_1e3 vs lift_1_1000.out [num40]: DIFFERS max|diff| 2.54e-39
+20:44:18 DIFFERS at A_lift_1e3 -- stopping here (the Bridge's rule)
