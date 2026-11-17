@@ -1,18 +1,22 @@
-19:36:02 == START macOS 27.2 (26B123), Apple clang version 21.0.0 (clang-2100.4.1.1), CLT 27.2.0.0.1792721180, HEAD db0f330
-19:36:02 -- A: old binaries (27.0.1 builds) on 27.2
-19:43:15 old kr_ref final state: IDENTICAL
-20:00:37 DIFFERS: old SO continuation lines -- stopping here (the Bridge's rule)
+20:02:46 == RECHECK (stop time 288.0; the Bridge GO 2026-11-17)
+20:02:46 == START macOS 27.2 (26B123), Apple clang version 21.0.0 (clang-2100.4.1.1), CLT 27.2.0.0.1792721180, HEAD edcca2e
+20:02:46 -- A: old binaries (27.0.1 builds) on 27.2
+20:11:21 old kr_ref final state: IDENTICAL
+20:40:59 old SO continuation (stop 288.0; criterion fixed with the Bridge): IDENTICAL: steps 1305-1326 (23 lines; last step 1328, last 2 excluded)
+20:41:00 old toy A vs saved: AGREE max|diff| 3.3e-41
+20:41:01 old toy B vs saved: AGREE max|diff| 4.88e-41
+20:41:03 old toy C vs saved: AGREE max|diff| 3.22e-41
+20:41:03 old toy D vs saved: AGREE max|diff| 4.54e-41
+20:41:05 old toy E vs saved: AGREE max|diff| 3.19e-41
+20:41:05 old section toy w 0.1 vs saved: DIFFERS max|diff| 0.9
+20:41:05 DIFFERS: old section toy 0.1 (was bit-identical on 27.0.1) -- stopping here (the Bridge's rule)
 
-READING (2026-11-17; no rerun, no further investigation, by the Bridge's stop rule; existing outputs only):
-- kr_ref (old mn_so, t 0 to 0.9 from scratch): final MPFR state BIT-IDENTICAL to so_mn/kr_ref.
-- SO continuation (old mn_so_fix2 from the fix test's start state):
-  - Steps 1305-1319 equal the 2026-10-26 record in every printed field (15 DIAG lines).
-  - The new lines also carry an "eratio" column, which the record lacks. The record's first segment came from the earlier
-    mn_so_fix build; mn_so_fix2 added that column. This is a format difference, not a numeric one.
-  - Step 1320 differs: h 1.048e-02 vs 1.037e-02, t 287.928256 vs 287.928139, box2 1.740e-13 vs 1.719e-13.
-  - Step 1321 lands exactly on t = 287.930000 (h 1.744e-03), which is this test's T_end. The record ran with T_end 291.9.
-  - Probable cause (NOT verified): the step-size control shortening the step as the run nears the T_end chosen for this
-    check. That would make the stop condition, not macOS 27.2, the cause of the difference.
-  - Not established. A corrected check would set T_end well past step 1321 and compare steps 1305-1321 with the eratio
-    column ignored. That needs the Bridge's OK.
-- Not run because of the stop: toys, section toy, lift, Kerr maps, MNFlow, the rebuilds, Lean.
+READING (2026-11-17; stopped by the rule; no rerun; only the existing output was compared):
+- The SO continuation recheck PASSES the criterion fixed with the Bridge beforehand: steps 1305-1326 are identical.
+  So the earlier step-1320 difference is CONFIRMED as a harness artifact (this check's own stop time), not macOS 27.2.
+- Toys A-E agree with the saved files to their 40-digit print (<= 4.9e-41), as on 27.0.1.
+- The section toy "DIFFERS" is a reference-file mix-up in this harness: the old toy_sec binary's w 0.1 output is
+  BYTE-IDENTICAL to so_gates/toy_sec_w0.1.out (hull [0.87, 1.1]).
+  I compared it against toy_sec_hw2_w0.1.out, which is the H~w^2 variant (hull [0.897, 1.1]): different settings from
+  what this binary was run with. The w 0.01 and 0.001 cases, the lift, the Kerr maps, MNFlow, the rebuilds and Lean
+  were not run.

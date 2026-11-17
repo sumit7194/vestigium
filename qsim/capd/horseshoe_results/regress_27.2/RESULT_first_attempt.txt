@@ -1,0 +1,18 @@
+19:36:02 == START macOS 27.2 (26B123), Apple clang version 21.0.0 (clang-2100.4.1.1), CLT 27.2.0.0.1792721180, HEAD db0f330
+19:36:02 -- A: old binaries (27.0.1 builds) on 27.2
+19:43:15 old kr_ref final state: IDENTICAL
+20:00:37 DIFFERS: old SO continuation lines -- stopping here (the Bridge's rule)
+
+READING (2026-11-17; no rerun, no further investigation, by the Bridge's stop rule; existing outputs only):
+- kr_ref (old mn_so, t 0 to 0.9 from scratch): final MPFR state BIT-IDENTICAL to so_mn/kr_ref.
+- SO continuation (old mn_so_fix2 from the fix test's start state):
+  - Steps 1305-1319 equal the 2026-10-26 record in every printed field (15 DIAG lines).
+  - The new lines also carry an "eratio" column, which the record lacks. The record's first segment came from the earlier
+    mn_so_fix build; mn_so_fix2 added that column. This is a format difference, not a numeric one.
+  - Step 1320 differs: h 1.048e-02 vs 1.037e-02, t 287.928256 vs 287.928139, box2 1.740e-13 vs 1.719e-13.
+  - Step 1321 lands exactly on t = 287.930000 (h 1.744e-03), which is this test's T_end. The record ran with T_end 291.9.
+  - Probable cause (NOT verified): the step-size control shortening the step as the run nears the T_end chosen for this
+    check. That would make the stop condition, not macOS 27.2, the cause of the difference.
+  - Not established. A corrected check would set T_end well past step 1321 and compare steps 1305-1321 with the eratio
+    column ignored. That needs the Bridge's OK.
+- Not run because of the stop: toys, section toy, lift, Kerr maps, MNFlow, the rebuilds, Lean.
