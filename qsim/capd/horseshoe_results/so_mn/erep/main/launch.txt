@@ -1,0 +1,5 @@
+registered Z-sym main run (E_REP_PREREG.md)
+started 2026-11-18 16:45:18, PID 37679, cwd /Users/sumit/Github/quantum/qsim/capd/horseshoe/tests
+env: SO_EREP=zsym SAVE_FROM=287.5 SAVE_DT=0.25 (CKPT_SEC default 1800); nice 10; detached via tools/detach.sh
+cmd: ./mn_so_erep 1/10000000 /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/mn_smoke/b17_cp_1e-7.txt /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main/st 291.9
+guard PID 37817 (erep_guard.py, detached, nice 10)

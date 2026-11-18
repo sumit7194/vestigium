@@ -1,0 +1,4 @@
+resume vs uninterrupted (T3/st_zsym): BYTE-IDENTICAL
+# RESUMED from /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/T4_resume/st at t=0.0267883539 steps 24 next checkpoint 0
+STOP_AFTER_T 0.040000 reached at step 26 t=0.0595031977
+STOP_AFTER_T 0.020000 reached at step 24 t=0.0267883539

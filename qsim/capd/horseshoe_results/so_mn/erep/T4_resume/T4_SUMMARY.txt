@@ -1,0 +1,5 @@
+T4 (added before the main run, at the Bridge's condition "launch only if the stop/resume byte-identity check passes"),
+2026-11-18 16:39-16:45, Opus 5.5. zsym, W0 1e-7, from t = 0: part 1 stopped after t 0.02, part 2 resumed from the saved
+state (with its EREP block) and stopped after t 0.04. Its final state was compared with T3's uninterrupted run (T3/st_zsym).
+RESULT: BYTE-IDENTICAL. Limit: the stop came at step 24 (t 0.0268) and the run ended at step 26, so only 2 steps follow
+the resume. They exercise the whole restore path (the generators, LAST_H, the step-control history).
