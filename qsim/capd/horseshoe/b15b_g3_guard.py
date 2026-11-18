@@ -29,7 +29,7 @@ def stop(why):
     sys.exit(0)
 def last_task():
     lg = G / "mnflow_grind0.jsonl"; return "after %d results" % len(lg.read_text().splitlines()) if lg.exists() else "?"
-log("guard armed for worker PID %d (cmd: %s); rule (the Bridge, 2026-11-18 20:30, as the Z-sym guard): disk < 5 GB or tree footprint > %d MB at once; (swap > 2048 MB and level >= 2) or level >= 4 sustained %d s" % (pid, sh("ps -o command= -p %d" % pid), CAP_MB, SUSTAIN))
+log("guard armed for worker PID %d (cmd: %s); rule (the Bridge, 2026-11-18 ~20:15, as the Z-sym guard): disk < 5 GB or tree footprint > %d MB at once; (swap > 2048 MB and level >= 2) or level >= 4 sustained %d s" % (pid, sh("ps -o command= -p %d" % pid), CAP_MB, SUSTAIN))
 k = 0; peak = 0.0; bad_since = None
 while alive(pid):
     fp = sum(footprint_mb(p) for p in tree(pid)); peak = max(peak, fp)
