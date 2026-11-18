@@ -174,3 +174,41 @@ x = 0.
   govern runs.
 - Amendments: at most two, each committed before the outputs it governs, with the reason. Anything after a failure is
   labelled post-failure.
+
+## Amendment A1 (2026-11-18 ~21:45, Opus 5.5). POST-FAILURE: made after phase 1 (dc9894b) failed to test S2, R1, R2
+
+**What phase 1 did, before this amendment.** Recorded in `qsim/mn_lattice/` and kept:
+- **PASS:** Q1 at all four rows (the exact identity r_xi1 + (3/16)(P_x/P)^2 = 0 in Q(x, E), including MN p1);
+  Q3_10 (trace -1.6180339887... radius 5e-21); Q4_10 (all traces 2, no L6 pair).
+- **S1_10:**
+  - T-exact PASS on Z_10, Z_11, Z_12 (radius at most 5e-18).
+  - T-limit: pair trace -234.6032499 +- 6e-18, deviation 0.1657 within 0.5: PASS.
+  - T-L6 certified (commutator trace -5.026e7).
+- **C0:** 2 zeros and 2 poles of P lie inside the recorded p1 (1,9) loop h. That is NOT "the first two turning
+  points" as DESIGN.md section 5 guessed. Informational.
+- **S2_10:** crashed in the float locator (Newton in x diverged), before any number.
+- **R1_10, R2_10:** no element certified. Two causes, found by diagnosis on one failure point (no target number
+  was produced):
+  - (i) The float locator (Newton in x) sent the R1 Z2 lattice to the real points x = -1.025 and 1.293. The base
+    point was therefore placed on the true Z2_10, and every R1 path ran through it.
+  - (ii) `ia_hub.upper()` turns ball bounds into Python floats. Near x = 0.16 the Taylor coefficients of
+    exp(2 beta/x^3)-type terms of the R-row r_xi1 exceed 1e308 at order 100. So `upper` returns inf, and every step
+    is refused, even where the denominator is far from zero: there Q(x) = 1.69 + 13.95i, and sup_bound succeeds at
+    radius <= 1e-5. The S rows have lower powers of W and stayed under the limit at j = 10; at j = 100 and 1000
+    every row would hit it.
+
+**Changes. These are implementation changes only; tests, rows, loops, windows and readings are unchanged.**
+- **A1.1 Locator.** Newton in sigma instead of x. The function is the same (the numerator or denominator of P at
+  x(sigma), x(sigma) = principal cube root of 2 beta/sigma), at 50 digits. It is still float-only and places loops
+  only. The Q2 counts still certify every enclosed set.
+- **A1.2 Local rescaling.** Every transport, including Q3 and Q4, runs in a local variable `u = (x - x_c)/eps`, where
+  x_c (complex) and eps > 0 are exact rationals fixed once per task:
+  - x_c = x(sigma_c), with sigma_c the mean sigma of the task's lattice points;
+  - eps = |x_c|/(3|sigma_c|), the length over which sigma changes by about 1.
+  The equation becomes `y_uu = eps^2 r(x_c + eps u) y`, exact, built by symbolic substitution into the same P/Q.
+  The u-monodromy of a loop equals `D^{-1} M_x D` with `D = diag(1, 1/eps)`, a conjugation that is the same for
+  every loop of the task. So traces, determinants, commutator traces, the L6 hypotheses and every ball test are
+  unchanged in meaning. Lean exports carry the u-frame matrices: a conjugate representation, so `L6_gl2` yields the
+  same group statement.
+- **Re-run.** All of phase 1 is re-run with A1 code, gates included. Both the pre-A1 phase-1 records above and the
+  A1 records are kept and reported. A1 counts as the first of the two allowed amendments.

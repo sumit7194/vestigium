@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/Users/sumit/Github/quantum-mnthm/qsim/mr_mn_axis_lattice.py", line 487, in <module>
+    res = run_task(sys.argv[2])
+  File "/Users/sumit/Github/quantum-mnthm/qsim/mr_mn_axis_lattice.py", line 451, in run_task
+    out = task_row(row, int(j))
+  File "/Users/sumit/Github/quantum-mnthm/qsim/mr_mn_axis_lattice.py", line 236, in task_row
+    L = lattice(row, j)
+  File "/Users/sumit/Github/quantum-mnthm/qsim/mr_mn_axis_lattice.py", line 146, in lattice
+    xr = complex(mp.findroot(g, mp.mpc(xmap(beta, s0)), tol=mp.mpf(10)**-40, maxsteps=200))
+                 ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sumit/Github/quantum/sims/.venv/lib/python3.13/site-packages/mpmath/calculus/optimization.py", line 985, in findroot
+    raise ValueError('Could not find root within given tolerance. '
+    ...<2 lines>...
+                     % (norm(f(*xl))**2, tol))
+ValueError: Could not find root within given tolerance. (3.80888008762965503841452991368329273370381424956391868e+4012 > 9.9999999999999999999999999999999999999999999999999938605e-41)
+Try another starting point or tweak arguments.

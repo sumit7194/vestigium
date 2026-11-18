@@ -1,0 +1,11 @@
+Q1_S1 {'status': 'ok', 'returncode': 0, 'peak_mb': 0.0, 'seconds': 1.0}
+Q1_S2 {'status': 'ok', 'returncode': 0, 'peak_mb': 0.0, 'seconds': 1.0}
+Q1_R1 {'status': 'ok', 'returncode': 0, 'peak_mb': 76.0, 'seconds': 3.1}
+Q1_R2 {'status': 'ok', 'returncode': 0, 'peak_mb': 77.0, 'seconds': 3.2}
+Q3_10 {'status': 'ok', 'returncode': 0, 'peak_mb': 65.0, 'seconds': 3.2}
+Q4_10 {'status': 'ok', 'returncode': 0, 'peak_mb': 65.0, 'seconds': 3.2}
+S1_10 {'status': 'ok', 'returncode': 0, 'peak_mb': 63.0, 'seconds': 13.8}
+S2_10 {'status': 'error', 'returncode': 1, 'peak_mb': 0.0, 'seconds': 1.0}
+R1_10 {'status': 'ok', 'returncode': 0, 'peak_mb': 79.0, 'seconds': 38.1}
+R2_10 {'status': 'ok', 'returncode': 0, 'peak_mb': 79.0, 'seconds': 122.4}
+C0 {'status': 'ok', 'returncode': 0, 'peak_mb': 87.0, 'seconds': 6.3}

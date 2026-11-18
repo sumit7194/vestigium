@@ -1,0 +1,164 @@
+{
+ "task": "R2_10",
+ "row": "R2",
+ "j": 10,
+ "params": {
+  "kind": "mn",
+  "point": "p1",
+  "beta": "1/5",
+  "M": "5",
+  "a": "3",
+  "k": "4",
+  "En": "1",
+  "mu2": "4"
+ },
+ "lattice": {
+  "Z1_10": {
+   "x": "(0.15777655654801417-0.09173537505819278j)",
+   "sigma": "(-0.6023159724687055+65.79651745827864j)",
+   "kind": "zero"
+  },
+  "Z2_10": {
+   "x": "(0.15870978860977317-0.08964982117527667j)",
+   "sigma": "(1.8649258533546302+66.01945003327796j)",
+   "kind": "zero"
+  },
+  "P+_10": {
+   "x": "(0.15954159605726434-0.091415036998615j)",
+   "sigma": "(0.6330452538248393+64.33788565352792j)",
+   "kind": "pole"
+  },
+  "P-_10": {
+   "x": "(0.16224344951772396-0.09292455048122322j)",
+   "sigma": "(0.6350217088023244+61.19535221583806j)",
+   "kind": "pole"
+  },
+  "Z1_11": {
+   "x": "(0.15306821510543406-0.08895133882712586j)",
+   "sigma": "(-0.6107974238308582+72.08581073809074j)",
+   "kind": "zero"
+  },
+  "Z2_11": {
+   "x": "(0.15390710337478405-0.08710137638205348j)",
+   "sigma": "(1.8666187019608784+72.3001484734616j)",
+   "kind": "zero"
+  },
+  "P+_11": {
+   "x": "(0.15463421989712695-0.0886666272573311j)",
+   "sigma": "(0.6294473827313621+70.62279399576134j)",
+   "kind": "pole"
+  },
+  "P-_11": {
+   "x": "(0.15701125029852722-0.08999894985696502j)",
+   "sigma": "(0.6311914095971236+67.48036444814134j)",
+   "kind": "pole"
+  }
+ },
+ "singles": {
+  "Z1_10": {
+   "enclosed_zeros_poles": [
+    1,
+    0
+   ],
+   "intended": [
+    1,
+    0
+   ],
+   "used": false,
+   "why": "transport: RuntimeError: step size underflow near (0.1586316255747636-0.08868053353722218j): cannot certify analyticity"
+  },
+  "Z2_10": {
+   "enclosed_zeros_poles": [
+    1,
+    0
+   ],
+   "intended": [
+    1,
+    0
+   ],
+   "used": false,
+   "why": "transport: RuntimeError: step size underflow near (0.1583737089942977-0.08874190411306701j): cannot certify analyticity"
+  },
+  "P+_10": {
+   "enclosed_zeros_poles": [
+    0,
+    1
+   ],
+   "intended": [
+    0,
+    1
+   ],
+   "used": false,
+   "why": "transport: RuntimeError: step size underflow near (0.15967865967171085-0.08959022005179298j): cannot certify analyticity"
+  },
+  "P-_10": {
+   "enclosed_zeros_poles": [
+    0,
+    1
+   ],
+   "intended": [
+    0,
+    1
+   ],
+   "used": false,
+   "why": "transport: RuntimeError: step size underflow near (0.16180970089084395-0.09206892053775001j): cannot certify analyticity"
+  },
+  "Z1_11": {
+   "enclosed_zeros_poles": [
+    1,
+    0
+   ],
+   "intended": [
+    1,
+    0
+   ],
+   "used": false,
+   "why": "transport: RuntimeError: step size underflow near (0.15389015958082533-0.0861308454634998j): cannot certify analyticity"
+  },
+  "Z2_11": {
+   "enclosed_zeros_poles": [
+    1,
+    0
+   ],
+   "intended": [
+    1,
+    0
+   ],
+   "used": false,
+   "why": "transport: RuntimeError: step size underflow near (0.1536835519265306-0.08615632645696408j): cannot certify analyticity"
+  },
+  "P+_11": {
+   "enclosed_zeros_poles": [
+    0,
+    1
+   ],
+   "intended": [
+    0,
+    1
+   ],
+   "used": false,
+   "why": "transport: RuntimeError: step size underflow near (0.15485251346985782-0.08687476056355656j): cannot certify analyticity"
+  },
+  "P-_11": {
+   "enclosed_zeros_poles": [
+    0,
+    1
+   ],
+   "intended": [
+    0,
+    1
+   ],
+   "used": false,
+   "why": "transport: RuntimeError: step size underflow near (0.15672130648578067-0.08908204959695672j): cannot certify analyticity"
+  }
+ },
+ "scope": "A T-L6 PASS at a row is a pointwise certified obstruction there. Like 2ce8b41, it covers that row only, the L = 0 sector, and meromorphic integrals near the complexified axis orbit, here including complex x near 0. The S-row T-limit checks the static model's limit, not the general theorem.",
+ "products_available": 0,
+ "T_L6": {
+  "found": false,
+  "why": "no certified pair in the fixed lexicographic list",
+  "pairs_tried": 0
+ },
+ "steps": 0,
+ "seconds": 121.4
+}
