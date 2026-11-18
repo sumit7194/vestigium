@@ -50,6 +50,15 @@ The float scorer already shows that W0 = 1e-6 fails even with the wrapping-free 
   took about 25 core-hours in total for chains A, B and C plus K00/K01. One Z-sym run should be of the same order;
   S4 cost may fall, because S4 bisects more when the hull is wide.
 
+**Setup correspondence.** The claim to be tested is "B17 passes at t = 291.8852 for the MN W0 = 1e-7 piece". The run
+is at that condition:
+- the same piece and checkpoints: `mn_smoke/b17_cp_1e-7.txt`, W0 = 1/10000000;
+- the same field, Taylor order 20, MPFR 128 and step control as the wrap-test runs, with SO_FIXED_REDO OFF;
+- the same B17 rule (mn_so.cpp L235).
+
+Only `SO_EREP` differs. The float scores in E_REPRESENTATION_DESIGN.md are a different quantity (estimates from the
+box run's dumps, started mid-run) and are not the claim.
+
 ## 4. Pre-run tests (each < 30 min, no slot)
 
 - **T1 Identity.** With `SO_EREP=box` the new binary reproduces K00/K01 byte-identically (the wrap-test control).
