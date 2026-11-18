@@ -20,3 +20,8 @@ G3_036_P ok 9274s
 # RESUMED 10:56 (one grinder only, the Bridge; disk recovered)
 # RESUMED 14:00 after the macOS restart, detached (tools/detach.sh)
 G3_039_P ok 10033s
+# RESUMED 2026-11-17 23:59:45 (the Bridge's overnight slot: one worker, nice 15, detached; b15b_g3_guard.py: footprint 5 GB / pressure / swap 2 GB / disk 5 GB)
+# RESUMED 2026-11-18 00:49:18 after the pressure-guard stop (the Bridge: Cuspis held; same guards; if stopped by pressure again tonight, leave it until morning)
+=== restart 2026-11-18 14:03:06 (the Bridge: box quiet; same guards) ===
+=== restart 2026-11-18 14:49:40 with the t_eval=[] fix, B15B_DEFER=G1_00_P (the Bridge approved) ===
+# STOPPED 2026-11-18 15:23:45 by b15b_g3_guard.py (system memory pressure level 2; worker footprint flat 89 MB); 0 new rows since the 14:49 restart; not restarted (the Bridge schedules G3 once swap < ~1 GB)

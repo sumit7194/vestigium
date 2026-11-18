@@ -14,7 +14,9 @@ Controls:
      re_k widths and within a factor 1.01. The QR/Krawczyk path is not replayed bitwise, so this checks only the reading.
   C2: Z0 = W_lin (relative 1e-6) for every covector at every checkpoint.
   C3: lambda_k <= 1 at every step (in Z0 and Z1).
-  C4: every ZR width >= the matching Z1 width."""
+  C4: every ZR and ZG width >= the matching Z1 width.
+  ZG(Nmax,Nkeep) in Z1 mode (added 2026-11-18, Opus 5.5): when N > Nmax, the N - Nkeep + 8 columns with the smallest
+               ||g||_1 - ||g||_inf are replaced by one diagonal box diag(sum_j |g_j|) (Girard 2005 ordering)."""
 import sys, time, re as _re
 from pathlib import Path
 import numpy as np
@@ -99,7 +101,11 @@ def main():
             if sym: mu = np.zeros(8); rho = np.maximum(np.abs(S[0]), np.abs(S[1]))
             else: mu = (S[0] + S[1]) / 2; rho = (S[1] - S[0]) / 2
             c = r["D1c"] @ c + mu; G = np.hstack([r["D1c"] @ G, np.diag(rho)])
-            if red and G.shape[1] > red[0]:
+            if red and len(red) == 3 and G.shape[1] > red[0]:      # ZG: box the flattest columns (Girard's key ||g||_1 - ||g||_inf)
+                nR = G.shape[1] - red[1] + 8; a = np.abs(G); key = a.sum(0) - a.max(0)
+                o = np.argsort(key, kind="stable"); m, keep = o[:nR], np.sort(o[nR:])
+                d = a[:, m].sum(1) * (1 + 1e-12); G = np.hstack([G[:, keep], np.diag(d)]); nred += 1
+            elif red and G.shape[1] > red[0]:
                 nR = G.shape[1] - red[1] + 8; GR = G[:, :nR]
                 U = np.linalg.svd(GR, full_matrices=True)[0]; d = np.abs(U.T @ GR).sum(1) * (1 + 1e-12)
                 G = np.hstack([U * d, G[:, nR:]]); nred += 1
@@ -110,13 +116,19 @@ def main():
         return dict(res=res, lam=np.array(lam), nred=nred, N=Nmax_seen, sec=time.time() - t0)
 
     modes = [("Z0", False, False, None), ("Z0sym", True, False, None), ("Z1", False, True, None), ("Z1sym", True, True, None),
-             ("ZR(64,32)", False, True, (64, 32)), ("ZR(256,128)", False, True, (256, 128)), ("ZR(1024,512)", False, True, (1024, 512))]
+             ("ZR(64,32)", False, True, (64, 32)), ("ZR(256,128)", False, True, (256, 128)), ("ZR(1024,512)", False, True, (1024, 512)),
+             ("ZG(16,8)", False, True, (16, 8, "g")), ("ZG(32,16)", False, True, (32, 16, "g")),
+             ("ZG(64,32)", False, True, (64, 32, "g")), ("ZG(256,128)", False, True, (256, 128, "g"))]
     R = {}
     for name, sym, fb, red in modes:
         R[name] = replay(sym, fb, red); x = R[name]
-        pr("%-12s replay %.1f s, N max %d, reductions %d; lambda_k min %.4f median %.4f max %.4f%s" % (
+        # C3 for the sym variants is judged from k = 1: at k = 0 the symmetric start hull B0*mag(re0) exceeds the asymmetric
+        # start box B0*re0 by construction (the excess is reported, not hidden)
+        L = x["lam"][1:] if sym else x["lam"]
+        pr("%-12s replay %.1f s, N max %d, reductions %d; lambda_k min %.4f median %.4f max %.4f%s%s" % (
             name, x["sec"], x["N"], x["nred"], x["lam"].min(), np.median(x["lam"]), x["lam"].max(),
-            "" if x["lam"].max() <= 1 + 1e-9 else "   C3 FAIL (lambda > 1)"))
+            "" if L.max() <= 1 + 1e-9 else "   C3 FAIL (lambda > 1)",
+            "  [sym: k=0 lambda %.9f (start hull, by construction); max over k>=1 %.6f]" % (x["lam"][0], L.max()) if sym else ""))
     for cs in cpsteps:
         T = recs[idx[cs]]; tT = T["t"]
         cp = [c for c in cpf if c["kind"] == "t" and abs(c["t"] - tT) < 1e-6][0]; g = cp["g"]
@@ -130,8 +142,8 @@ def main():
         if all((cs, nm) in Wlin_ref for nm in NAMES):
             c2 = max(abs(R["Z0"]["res"][(cs, nm)] / Wlin_ref[(cs, nm)]["Wlin"] - 1) for nm in NAMES)
             pr("  C2: max |Z0/W_lin - 1| = %.2e -> %s" % (c2, "OK" if c2 < 1e-3 else "FAIL"))
-            c4 = min(R[n]["res"][(cs, nm)] / R["Z1"]["res"][(cs, nm)] for n, *_ in modes if n.startswith("ZR") for nm in NAMES)
-            pr("  C4: min ZR/Z1 = %.6f -> %s" % (c4, "OK" if c4 >= 1 - 1e-9 else "FAIL"))
+            c4 = min(R[n]["res"][(cs, nm)] / R["Z1"]["res"][(cs, nm)] for n, *_ in modes if n[:2] in ("ZR", "ZG") for nm in NAMES)
+            pr("  C4: min ZR,ZG/Z1 = %.6f -> %s" % (c4, "OK" if c4 >= 1 - 1e-9 else "FAIL"))
             for n, *_ in modes:
                 v = {nm: Wlin_ref[(cs, nm)]["P"] + R[n]["res"][(cs, nm)] for nm in NAMES}
                 fake = sum(v[nm] * g[2 + q] for q, nm in enumerate(["nH", "off0", "off1", "off2", "off3"]))

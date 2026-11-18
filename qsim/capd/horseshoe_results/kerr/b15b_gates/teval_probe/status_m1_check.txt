@@ -1,0 +1,9 @@
+Wed Nov 18 16:14:39 IST 2026
+G4_o7_k006_Pinv values bit-identical (old-run, t_eval=[] run, jsonl): True | status/events same: True | final t sol.t[-1] vs last event-eval t: 458068.8565128283 458068.8565128283
+G4_o5_k003_Pinv values bit-identical (old-run, t_eval=[] run, jsonl): True | status/events same: True | final t sol.t[-1] vs last event-eval t: 76034.57769535086 76034.57769535086
+G4_o7_k003_Pinv values bit-identical (old-run, t_eval=[] run, jsonl): True | status/events same: True | final t sol.t[-1] vs last event-eval t: 302449.4672216554 302449.4672216554
+G4_o4_k001_Pinv values bit-identical (old-run, t_eval=[] run, jsonl): True | status/events same: True | final t sol.t[-1] vs last event-eval t: 1481.9521132470218 1481.9521132470218
+G1_02_Pinv values bit-identical (old-run, t_eval=[] run, jsonl): True | status/events same: True | final t sol.t[-1] vs last event-eval t: 1477.230514500045 1477.230514500045
+G4_o1_k003_P_tol1e-11 values bit-identical (old-run, t_eval=[] run, jsonl): True | status/events same: True | final t sol.t[-1] vs last event-eval t: 303699.70880973886 303699.70880973886
+ALL IDENTICAL
+Wed Nov 18 16:18:06 IST 2026

@@ -33,3 +33,13 @@
 - B15B_DEFER=G1_00_P runs that task last.
 - **Caveat, kept:** the status −1 path is untested for the new logged t. Any status −1 row goes to the Bridge before its logged t is trusted.
 - Rows written before this change (20 in grind0, all the others) log sol.t[-1]. Rows written after it log the max event-evaluation t.
+
+## Status −1 path: tested (2026-11-18 16:14–16:18, Opus 5.5, Quantum-personal session)
+- Why it mattered: 19 of grind0's 20 rows are solve_ivp status −1 (all written before the fix), as are 2/142 in fast0,
+  6/8 in w1, 18/62 in w2, 1/17 in w3. So the untested path is the common one for the remaining grind tasks.
+- Test: `teval_eq.py` (unchanged) on six status −1 tasks: G4_o7_k006_Pinv, G4_o5_k003_Pinv, G4_o7_k003_Pinv,
+  G4_o4_k001_Pinv, G1_02_Pinv and the P task G4_o1_k003_P_tol1e-11; nice 10, 3.5 min. Output: `status_m1_check.txt`.
+- Result: ALL IDENTICAL. In all six, the values are bit-identical (old run, t_eval=[] run, jsonl), status and events
+  are identical, and the logged final t is identical (sol.t[-1] == max event-evaluation t, e.g. 303699.70880973886).
+- Limits: six tasks, five of them Pinv; G-type P tasks with jac (the grind0 kind) are not in the set, because
+  each takes 1.5–3.4 h.

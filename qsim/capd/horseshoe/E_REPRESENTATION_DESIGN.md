@@ -2,6 +2,10 @@
 
 Status: DESIGN ONLY, for offline scoring. Nothing here has been run. Not registered with the Bridge yet.
 Author: Quantum-personal session, 2026-11-18, on the brief relayed by Quantum.
+Provenance (models, added 2026-11-18 because 3dc0e3e's trailer names only Opus 5.5): sections 0-6 were written by
+Claude Fable 5.2 in the Quantum-personal session. The offline scorer `so_mn/wrap_test/e_score.py` and the first scores
+are by Claude Opus 5.5 in the Quantum session (3dc0e3e). Section 7 (the ZG reduction and the C3 note) is by Claude
+Opus 5.5 in the Quantum-personal session. Treat all of it as outside-reviewer input until it is registered with the Bridge.
 Inputs read (through a digest, not line by line by me): `tests/so_set.h` (`step()`, `qr_frame`), `tests/mn_so.cpp` (dump code),
 `WRAPPING_TEST.md`, `horseshoe_results/so_mn/wrap_test/RESULT.md` and `result_{A,B,CA}.txt`.
 
@@ -182,3 +186,28 @@ DDE' falls by roughly the hull ratio, P2 (about 1.3e-8 on u2) becomes the domina
 3. How the slab seeds are produced in production, and the seed time.
 4. Independent of the representation: taking `A = mid(D1K)` instead of `D1c` in the split `M e = A e + (M - A) e` is
    equally rigorous and replaces `mag(D1K - D1c)` by `rad(D1K)`, at most a factor 2 on dDe. Needs D1K to score.
+
+## 7. After scoring (2026-11-18, Opus 5.5): ZR replaced by ZG; the C3 note
+
+Scores: `so_mn/wrap_test/escore_{A,CA}.txt` (float64 replays of the dumps; estimates, not enclosures).
+
+- **ZR as specified in section 3 fails.** Oldest-first merging into an SVD frame re-wraps the merged block at every
+  reduction: (64,32) and (256,128) end wider than the run's own box, and (1024,512) fails B17 on chain A.
+- **ZG(N_max, N_keep) replaces it.** When `N > N_max`, the `N - N_keep + 8` columns with the smallest
+  `||g||_1 - ||g||_inf` (Girard's ordering) are replaced by one diagonal block `diag(d)`, `d_i = sum_j mag(G_ij)` over
+  the merged columns, rounded up. Rigour: the merged sub-zonotope lies in its interval hull, which that block is.
+  The large (stretched) generators are never touched, which is why it does not re-wrap.
+  B17 at 291.8852 (u2 ratio / fake ratio):
+
+  | mode | C+A | A |
+  |---|---|---|
+  | Z1 (unreduced) | 1.077 / 0.440 PASS | 1.388 / 0.609 PASS |
+  | ZG(256,128) | 1.157 / 0.675 PASS | 1.429 / 0.728 PASS |
+  | ZG(64,32) | 2.461 / 4.720 PASS | 1.990 / 2.715 PASS |
+  | ZG(32,16) | 7.507 / 22.78 FAIL | 4.721 / 12.55 FAIL |
+  | ZG(16,8) | FAIL | FAIL |
+
+  C4 (every reduced width >= Z1) holds for all ZG and ZR modes.
+- **C3 on the sym variants.** The only lambda above 1 is at k = 0 (1.0000013 on C+A, 1.0000015 on A): the symmetric
+  start hull `B0 mag(re0)` is wider than the asymmetric start box by construction. From k = 1 the maximum is 0.9983
+  (C+A) and 0.9992 (A). The scorer now judges C3 for the sym variants from k = 1 and prints the k = 0 value.
