@@ -1,0 +1,2 @@
+IDENTICAL
+segment A01: 100 steps (1712..1811), DIAG lines 100, original log fix_1e-7.out

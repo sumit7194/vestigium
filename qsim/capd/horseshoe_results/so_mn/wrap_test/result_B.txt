@@ -1,0 +1,24 @@
+WRAPPING TEST analysis, chain B: segments B01 B02 B03 B04; window t 290.000709 -> 291.001449, steps 1719..2087 (369)
+  max relative width of D1c entries over the window: 5.415e-29 (the transport uses mid(D1c)); max width of any B entry: 0.000e+00
+
+== checkpoint t = 290.8497393126 (step 2043); thresholds: u1 2.505e-01, u2 3.259e-05, fake 8.100e-05 (K = 5)
+  u1   W_tot 5.0616e-02 = P 5.0106e-02 + W_box 5.0980e-04 | W_lin 5.7912e-05 (start E 3.709e-05 + injections 2.082e-05) | F = W_box/W_lin = 8.803
+  u2   W_tot 6.3553e-04 = P 6.5617e-06 + W_box 6.2897e-04 | W_lin 8.4652e-05 (start E 5.688e-05 + injections 2.777e-05) | F = W_box/W_lin = 7.43
+  nH   W_tot 6.6687e-07 = P 9.6785e-09 + W_box 6.5719e-07 | W_lin 4.8167e-08 (start E 3.327e-08 + injections 1.490e-08) | F = W_box/W_lin = 13.64
+  off0 W_tot 2.7908e-06 = P 9.5415e-12 + W_box 2.7908e-06 | W_lin 5.0841e-08 (start E 3.763e-08 + injections 1.321e-08) | F = W_box/W_lin = 54.89
+  off1 W_tot 5.3792e-06 = P 3.9244e-10 + W_box 5.3788e-06 | W_lin 2.9468e-07 (start E 1.631e-07 + injections 1.316e-07) | F = W_box/W_lin = 18.25
+  off2 W_tot 8.4388e-07 = P 2.0719e-12 + W_box 8.4388e-07 | W_lin 1.2037e-08 (start E 7.907e-09 + injections 4.130e-09) | F = W_box/W_lin = 70.11
+  off3 W_tot 8.7389e-08 = P 1.5463e-12 + W_box 8.7388e-08 | W_lin 3.2530e-09 (start E 2.675e-09 + injections 5.779e-10) | F = W_box/W_lin = 26.86
+  B17 with the run's box (W_box):         u1 1.010  u2 97.499  fake 3.800e-03 vs 8.100e-05 (ratio 234.576)  -> FAIL
+  B17 with the wrapping-free bound (W_lin): u1 1.001  u2 13.993  fake 1.653e-04 vs 8.100e-05 (ratio 10.205)  -> FAIL
+  u2 detail: per-column box contributions at T (|<u2, B_j>| w(re_j), largest first):
+    col 0  5.1377e-04  (81.7%)
+    col 1  1.1518e-04  (18.3%)
+    col 2  7.9402e-09  (0.0%)
+    col 3  1.2628e-09  (0.0%)
+    col 4  7.7820e-11  (0.0%)
+    col 5  3.1839e-11  (0.0%)
+    col 7  1.0485e-11  (0.0%)
+    col 6  4.6169e-12  (0.0%)
+  u2 detail: W_lin injections by part (each part's own width; their sum >= the total's): P0 2.635e-33  P1 1.141e-32  P2 4.668e-06  DDE 2.310e-05
+  u2 detail: W_lin injections by time bin: 290.00: 6.028e-06  290.25: 1.029e-05  290.50: 9.582e-06  290.75: 1.867e-06

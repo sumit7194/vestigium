@@ -1,0 +1,2 @@
+IDENTICAL
+segment A03: 86 steps (1916..2001), DIAG lines 86, original log fix_1e-7.out

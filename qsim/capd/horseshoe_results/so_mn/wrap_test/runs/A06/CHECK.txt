@@ -1,0 +1,2 @@
+IDENTICAL
+segment A06: 103 steps (2152..2254), DIAG lines 103, original log fix_1e-7.out

@@ -1,0 +1,2 @@
+IDENTICAL
+control K01: mn_so_wrap kr_ref (t 0 -> 0.9, W0 1e-6), dump ON, vs so_mn/kr_ref

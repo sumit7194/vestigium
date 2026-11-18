@@ -1,0 +1,2 @@
+IDENTICAL
+segment C09: 84 steps (1628..1711), DIAG lines 84, original log fix_1e-7.out

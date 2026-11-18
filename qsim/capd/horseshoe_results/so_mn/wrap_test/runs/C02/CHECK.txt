@@ -1,0 +1,2 @@
+IDENTICAL
+segment C02: 26 steps (1329..1354), DIAG lines 26, original log fix_1e-7.out
