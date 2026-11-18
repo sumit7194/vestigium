@@ -6,6 +6,10 @@ Provenance (models, added 2026-11-18 because 3dc0e3e's trailer names only Opus 5
 Claude Fable 5.2 in the Quantum-personal session. The offline scorer `so_mn/wrap_test/e_score.py` and the first scores
 are by Claude Opus 5.5 in the Quantum session (3dc0e3e). Section 7 (the ZG reduction and the C3 note) is by Claude
 Opus 5.5 in the Quantum-personal session. Treat all of it as outside-reviewer input until it is registered with the Bridge.
+**Fable point overruled by Opus review (2026-11-18): section 1, "Variant Z-sym", the remark that 0 in E is not needed.**
+Reason: the mean-value step needs the segment from x(r) to x(r) + e inside K = hull(X_n). x(r) lies in X_n only if
+0 is in E_n (SECOND_ORDER_STEP_DESIGN.md, review point (a)), so 0 in E IS a precondition. The registered primary is
+therefore Z-sym, which is centred and contains 0 by construction; the centred Z/Z1 is dropped (E_REP_PREREG.md, registered).
 Inputs read (through a digest, not line by line by me): `tests/so_set.h` (`step()`, `qr_frame`), `tests/mn_so.cpp` (dump code),
 `WRAPPING_TEST.md`, `horseshoe_results/so_mn/wrap_test/RESULT.md` and `result_{A,B,CA}.txt`.
 

@@ -1,6 +1,7 @@
 # E representation: pre-registration of the implementation run
 
-Status: PROPOSED to the Bridge, 2026-11-18. Nothing below has been implemented or run. Written by Claude Opus 5.5
+Status: REGISTERED. The Bridge AGREED as proposed on 2026-11-18 (1496a30 + 79fde97), and checked that K = 5 is mn_so.cpp's
+existing B17 constant. The text below is unchanged from the proposal. Implementation and T1–T3 follow in later commits. Written by Claude Opus 5.5
 (Quantum-personal session). It builds on E_REPRESENTATION_DESIGN.md, whose sections 0-6 are by Fable 5.2 and are treated as
 outside-reviewer input. No subdivision and no implementation run happen before the Bridge agrees to this text.
 
@@ -100,3 +101,23 @@ before the reading is written.
 | INVALID | any control fails | bug hunt; no reading |
 
 Nothing is launched on a FAIL or INVALID reading alone.
+
+## Amendment A1 (2026-11-18, Opus 5.5; before any T3 run, and before any zsym/zg MN width was produced)
+
+**What it fixes.** T3 as registered ("the first 200 steps from t = 0 under `box` and `zsym`") breaks the registration's own
+"< 30 min, no slot" condition. The box run's early steps cost ~17 s each (kr_ref.out: step 20 at 344 s, step 33 at
+581 s), so 200 steps take about an hour per mode.
+
+**Replacement.** T3 becomes T3a + T3b, still timing-only. The fallback rule is unchanged: ZG(256,128) if the projected
+Z-sym wall exceeds 2x the box run's.
+
+- **T3a.** The first 40 steps from t = 0 at W0 = 1e-7 under `box` and `zsym`, run in parallel at nice 10 (~12 min).
+  It measures the per-step wall of each mode at small N and checks that zsym runs the real MN step end to end.
+- **T3b.** `tests/erep_bench` times the zonotope operations alone on 8-D MPFR-128 data, at N = 1000, 4000, 10000 and
+  20000. The 2404-step run reaches N ~ 1.9e4. One benchmark "step" counts the propagation, the injection, three hulls
+  and seven projections (the projections are an upper bound: the run projects only at checkpoints).
+- **Projection.** Z-sym wall over steps 1..2404 = box wall over the same steps + sum_k bench(N_k), with N_k = 8 + 8k
+  (an upper bound: zero injected columns are skipped).
+  - The box wall is the original W0 = 1e-7 run's wall over those steps, from its logs (fix_test, the run the wrap test
+    reproduced).
+  - Any S4 speed-up from a narrower hull is not counted, so the projection errs high.
