@@ -61,10 +61,13 @@ on spelling out the large-|sigma| inverse branch of sigma = 2 sum alpha_n x^{-n-
 6. (iii): with L = 0 the solutions are the real-chi solutions of (1). The NVE of H_{E,L=0} is (1) gauged by
    sqrt(g^{theta theta}) = sqrt(f)/(k sqrt(x^2 - 1)), which is algebraic over M(Gamma), so the identity component is
    unchanged (Morales–Ramis Theorem 5). H_{E,L=0} is analytic at theta = 0.
-7. Section 9.1 (Theorem B) is withdrawn as written. The exceptional set must be
+7. WITHDRAWN as written: Section 9.1 (Theorem B). The exceptional set must be
    {tr[M1, M2] = 2} union {at least two of tr M1, tr M2, tr M1M2 vanish} union {the finitely many primitive-finite
    trace triples}.
-8. Section 8 Kerr retrodiction: all exponent differences are 1/2, so on the elliptic double cover the local
+8. WITHDRAWN: the DESIGN.md section 5 remark that the p1 (1,9) certified loop h encloses "the first two turning
+   points", with -234.77 as the comparison value. It encloses 2 zeros and 2 poles of P (certified C0; REVIEW.md O6),
+   so the static constant does not apply.
+9. Section 8 Kerr retrodiction: all exponent differences are 1/2, so on the elliptic double cover the local
    monodromies are +-1 and the group is virtually abelian. This assumes E != mu.
 
 ## Evidence (none of it replaces the proof)
