@@ -1,0 +1,15 @@
+2026-11-18 23:27:07 start (pgid 46054); swap 358.12M, pressure 1
+2026-11-18 23:28:00 ZiglinCert.Certs.mnlat_R1j1000_v1 rc=0 53 s peak-so-far 807 MB
+2026-11-18 23:28:41 ZiglinCert.Certs.mnlat_R1j100_v1 rc=0 41 s peak-so-far 1051 MB
+2026-11-18 23:29:24 ZiglinCert.Certs.mnlat_R1j10_v1 rc=0 43 s peak-so-far 1051 MB
+2026-11-18 23:30:05 ZiglinCert.Certs.mnlat_R2j1000_v1 rc=0 41 s peak-so-far 1051 MB
+2026-11-18 23:30:47 ZiglinCert.Certs.mnlat_R2j100_v1 rc=0 42 s peak-so-far 1051 MB
+2026-11-18 23:31:27 ZiglinCert.Certs.mnlat_R2j10_v1 rc=0 40 s peak-so-far 1051 MB
+2026-11-18 23:32:09 ZiglinCert.Certs.mnlat_S1j1000_v1 rc=0 42 s peak-so-far 1051 MB
+2026-11-18 23:32:52 ZiglinCert.Certs.mnlat_S1j100_v1 rc=0 43 s peak-so-far 1051 MB
+2026-11-18 23:33:32 ZiglinCert.Certs.mnlat_S1j10_v1 rc=0 40 s peak-so-far 1051 MB
+2026-11-18 23:34:13 ZiglinCert.Certs.mnlat_S2j1000_v1 rc=0 41 s peak-so-far 1051 MB
+2026-11-18 23:34:54 ZiglinCert.Certs.mnlat_S2j100_v1 rc=0 41 s peak-so-far 1051 MB
+2026-11-18 23:35:35 ZiglinCert.Certs.mnlat_S2j10_v1 rc=0 41 s peak-so-far 1051 MB
+2026-11-18 23:36:29 ZiglinCert.Certs.All rc=0 54 s; peak footprint of lean/lake 1051 MB
+2026-11-18 23:36:29 DONE rc=0
