@@ -1,0 +1,49 @@
+E-REPRESENTATION SCORES, chain CA (C01 C02 C03 C04 C05 C06 C07 C08 C09 A01 A02 A03 A04 A05 A06 A07 A08), window steps 1306..2404 (1099 steps). float64 ESTIMATES from the dumps; not enclosures.
+C1 (reading check, float): predicted/dumped re radius, max over components: min 1.000000 median 1.000000 max 1.000000 -> OK
+Z0           replay 0.0 s, N max 8800, reductions 0; lambda_k min 0.0145 median 0.1064 max 1.0000
+Z0sym        replay 0.0 s, N max 8800, reductions 0; lambda_k min 0.0145 median 0.1064 max 1.0000   C3 FAIL (lambda > 1)
+Z1           replay 0.0 s, N max 8800, reductions 0; lambda_k min 0.0048 median 0.1045 max 1.0000
+Z1sym        replay 0.0 s, N max 8800, reductions 0; lambda_k min 0.0048 median 0.1045 max 1.0000   C3 FAIL (lambda > 1)
+ZR(64,32)    replay 0.0 s, N max 64, reductions 219; lambda_k min 0.9946 median 11.7130 max 21.5777   C3 FAIL (lambda > 1)
+ZR(256,128)  replay 0.0 s, N max 256, reductions 63; lambda_k min 0.4799 median 1.2892 max 2.6895   C3 FAIL (lambda > 1)
+ZR(1024,512) replay 0.0 s, N max 1024, reductions 15; lambda_k min 0.0826 median 0.2352 max 1.0249   C3 FAIL (lambda > 1)
+
+== checkpoint t = 290.8497393126 (step 2028); thresholds: u1 2.505e-02, u2 3.068e-06, fake 7.625e-06 (K = 5); lambda at T: Z0 0.0461  Z1 0.0409
+  cov         W_box       W_lin | Z0            Z0sym         Z1            Z1sym         ZR(64,32)     ZR(256,128)   ZR(1024,512)
+  u1     2.5135e-07  1.0623e-08 | 1.0623e-08    1.0623e-08    9.7178e-09    9.7178e-09    8.4410e-07    1.7290e-07    3.5645e-08  
+  u2     3.0726e-07  9.5444e-09 | 9.5444e-09    9.5445e-09    8.3392e-09    8.3393e-09    1.8635e-06    1.7748e-07    2.7897e-08  
+  nH     2.8224e-10  4.5189e-12 | 4.5189e-12    4.5189e-12    3.8811e-12    3.8811e-12    1.3259e-09    1.4907e-10    2.7603e-11  
+  off0   1.2438e-09  3.0477e-12 | 3.0477e-12    3.0477e-12    2.4928e-12    2.4928e-12    3.1007e-09    2.9670e-10    6.6923e-11  
+  off1   2.3310e-09  2.9033e-11 | 2.9033e-11    2.9034e-11    2.3575e-11    2.3576e-11    9.9971e-09    1.0710e-09    2.0892e-10  
+  off2   3.6996e-10  9.8917e-13 | 9.8917e-13    9.8917e-13    8.2032e-13    8.2032e-13    4.9461e-10    6.2170e-11    1.6605e-11  
+  off3   3.4519e-11  1.1465e-13 | 1.1465e-13    1.1465e-13    9.0278e-14    9.0279e-14    1.7791e-10    2.2417e-11    2.8781e-12  
+  C2: max |Z0/W_lin - 1| = 3.88e-05 -> OK
+  C4: min ZR/Z1 = 3.345270 -> OK
+  B17 with Z0           u1 1.000  u2 1.019  fake ratio 0.111 -> PASS   (u2: W/W_box 0.0311, W/W_lin 1.000)
+  B17 with Z0sym        u1 1.000  u2 1.019  fake ratio 0.111 -> PASS   (u2: W/W_box 0.0311, W/W_lin 1.000)
+  B17 with Z1           u1 1.000  u2 1.017  fake ratio 0.110 -> PASS   (u2: W/W_box 0.0271, W/W_lin 0.874)
+  B17 with Z1sym        u1 1.000  u2 1.017  fake ratio 0.110 -> PASS   (u2: W/W_box 0.0271, W/W_lin 0.874)
+  B17 with ZR(64,32)    u1 1.000  u2 4.041  fake ratio 3.657 -> PASS   (u2: W/W_box 6.0650, W/W_lin 195.248)
+  B17 with ZR(256,128)  u1 1.000  u2 1.293  fake ratio 0.497 -> PASS   (u2: W/W_box 0.5776, W/W_lin 18.595)
+  B17 with ZR(1024,512) u1 1.000  u2 1.049  fake ratio 0.179 -> PASS   (u2: W/W_box 0.0908, W/W_lin 2.923)
+
+== checkpoint t = 291.8852393126 (step 2404); thresholds: u1 1.718e-02, u2 9.817e-07, fake 4.758e-06 (K = 5); lambda at T: Z0 0.0162  Z1 0.0048
+  cov         W_box       W_lin | Z0            Z0sym         Z1            Z1sym         ZR(64,32)     ZR(256,128)   ZR(1024,512)
+  u1     2.5007e-06  3.9025e-08 | 3.9025e-08    3.9025e-08    1.1965e-08    1.1965e-08    5.3757e-05    6.5579e-06    2.8651e-07  
+  u2     2.2903e-06  3.8431e-08 | 3.8431e-08    3.8431e-08    1.3804e-08    1.3804e-08    5.0508e-05    6.6483e-06    2.3991e-07  
+  nH     2.5239e-09  3.7856e-11 | 3.7856e-11    3.7856e-11    8.8928e-12    8.8929e-12    2.3236e-08    1.3969e-08    2.4711e-10  
+  off0   8.5332e-09  1.5080e-11 | 1.5080e-11    1.5080e-11    4.0117e-12    4.0117e-12    1.9163e-07    2.1875e-08    5.0646e-10  
+  off1   1.7519e-08  1.0658e-10 | 1.0658e-10    1.0658e-10    2.9638e-11    2.9638e-11    3.4660e-07    7.5274e-08    1.0681e-09  
+  off2   2.4206e-09  6.8477e-12 | 6.8477e-12    6.8477e-12    2.0492e-12    2.0492e-12    5.6528e-08    4.7728e-09    1.5270e-10  
+  off3   1.1510e-09  2.4296e-12 | 2.4296e-12    2.4296e-12    6.0788e-13    6.0788e-13    1.2798e-08    7.1146e-09    8.6748e-11  
+  C2: max |Z0/W_lin - 1| = 1.47e-05 -> OK
+  C4: min ZR/Z1 = 17.380167 -> OK
+  B17 with Z0           u1 1.000  u2 1.202  fake ratio 0.599 -> PASS   (u2: W/W_box 0.0168, W/W_lin 1.000)
+  B17 with Z0sym        u1 1.000  u2 1.202  fake ratio 0.599 -> PASS   (u2: W/W_box 0.0168, W/W_lin 1.000)
+  B17 with Z1           u1 1.000  u2 1.077  fake ratio 0.440 -> PASS   (u2: W/W_box 0.0060, W/W_lin 0.359)
+  B17 with Z1sym        u1 1.000  u2 1.077  fake ratio 0.440 -> PASS   (u2: W/W_box 0.0060, W/W_lin 0.359)
+  B17 with ZR(64,32)    u1 1.016  u2 258.257  fake ratio 605.829 -> FAIL   (u2: W/W_box 22.0530, W/W_lin 1314.250)
+  B17 with ZR(256,128)  u1 1.002  u2 34.868  fake ratio 174.045 -> FAIL   (u2: W/W_box 2.9028, W/W_lin 172.994)
+  B17 with ZR(1024,512) u1 1.000  u2 2.228  fake ratio 3.243 -> PASS   (u2: W/W_box 0.1047, W/W_lin 6.243)
+
+u2 injections at step 2404 (adjoint-weighted widths): P2 1.302e-08 | DDE as run 2.511e-08 | DDE under Z1 4.865e-10
