@@ -1,0 +1,14 @@
+mnlat_R1j1000_v1: LEAN-CHECKED [88.8 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_R1j100_v1: LEAN-CHECKED [69.8 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_R1j10_v1: LEAN-CHECKED [27.7 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_R2j1000_v1: LEAN-CHECKED [24.5 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_R2j100_v1: LEAN-CHECKED [21.1 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_R2j10_v1: LEAN-CHECKED [17.2 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_S1j1000_v1: LEAN-CHECKED [7.4 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_S1j100_v1: LEAN-CHECKED [8.5 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_S1j10_v1: LEAN-CHECKED [30.0 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_S2j1000_v1: LEAN-CHECKED [70.2 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_S2j100_v1: LEAN-CHECKED [31.1 s] axioms=[propext, Classical.choice, Quot.sound]
+mnlat_S2j10_v1: LEAN-CHECKED [15.5 s] axioms=[propext, Classical.choice, Quot.sound]
+64 LEAN-CHECKED; index refreshed
+exit 0

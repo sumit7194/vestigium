@@ -22,7 +22,7 @@ def main():
             continue
         if res.get(n, {}).get("status") == "LEAN-CHECKED":
             continue
-        LG.gen(fam, int(row), which)
+        LG.gen(fam, int(row) if row.isdigit() else row, which)   # mnlat rows are named (e.g. R1j1000)
         t0 = time.time()
         p = subprocess.run(["lake", "env", "lean", f"ZiglinCert/Certs/{n}.lean"], cwd=LEAN, capture_output=True, text=True,
                            timeout=7200)

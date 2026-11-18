@@ -622,5 +622,149 @@
    "g[1.471429+0.134698j,r0.08082]*g[0.307780-0.000000j,r0.18705]"
   ],
   "error": null
+ },
+ "mnlat_R1j1000_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 88.8,
+  "N": 100,
+  "words": [
+   "Z1_1000*Z1_1001",
+   "Z1_1000*P+_1000"
+  ],
+  "error": null
+ },
+ "mnlat_R1j100_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 69.8,
+  "N": 100,
+  "words": [
+   "Z1_100*Z1_101",
+   "Z1_100*P+_100"
+  ],
+  "error": null
+ },
+ "mnlat_R1j10_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 27.7,
+  "N": 100,
+  "words": [
+   "Z1_10*Z1_11",
+   "Z1_10*P+_10"
+  ],
+  "error": null
+ },
+ "mnlat_R2j1000_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 24.5,
+  "N": 100,
+  "words": [
+   "Z1_1000*Z1_1001",
+   "Z1_1000*P+_1000"
+  ],
+  "error": null
+ },
+ "mnlat_R2j100_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 21.1,
+  "N": 100,
+  "words": [
+   "Z1_100*Z1_101",
+   "Z1_100*P+_100"
+  ],
+  "error": null
+ },
+ "mnlat_R2j10_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 17.2,
+  "N": 100,
+  "words": [
+   "Z1_10*Z1_11",
+   "Z1_10*P+_10"
+  ],
+  "error": null
+ },
+ "mnlat_S1j1000_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 7.4,
+  "N": 100,
+  "words": [
+   "pair_j",
+   "pair_j1"
+  ],
+  "error": null
+ },
+ "mnlat_S1j100_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 8.5,
+  "N": 100,
+  "words": [
+   "pair_j",
+   "pair_j1"
+  ],
+  "error": null
+ },
+ "mnlat_S1j10_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 30.0,
+  "N": 100,
+  "words": [
+   "pair_j",
+   "pair_j1"
+  ],
+  "error": null
+ },
+ "mnlat_S2j1000_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 70.2,
+  "N": 100,
+  "words": [
+   "pair_j",
+   "pair_j1"
+  ],
+  "error": null
+ },
+ "mnlat_S2j100_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 31.1,
+  "N": 100,
+  "words": [
+   "pair_j",
+   "pair_j1"
+  ],
+  "error": null
+ },
+ "mnlat_S2j10_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 15.5,
+  "N": 100,
+  "words": [
+   "pair_j",
+   "pair_j1"
+  ],
+  "error": null
  }
 }
