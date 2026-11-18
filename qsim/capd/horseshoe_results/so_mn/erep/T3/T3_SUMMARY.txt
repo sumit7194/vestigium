@@ -1,0 +1,19 @@
+T3 (E_REP_PREREG.md Amendment A1), 2026-11-18 16:26-16:39, Opus 5.5 (Quantum-personal). Timing only. The fallback rule
+reads wall clock alone.
+
+T3a: MN W0 1e-7 from t = 0, box vs zsym in parallel, nice 10, STOP_AFTER_T 0.04 (run_t3a.sh).
+  Both stopped at step 26 (t 0.0595): the step size grew faster than the "~40 steps" estimate in A1.
+  box 351 s, zsym 353 s: ratio 1.006. zsym ended with N = 215 generator columns.
+T3b: tests/erep_bench, the zonotope operations alone (T3b_bench.txt): 0.049 / 0.202 / 0.492 / 0.990 s per step at
+  N = 1000 / 4000 / 10000 / 20000. Linear, about 4.95e-5 s per column per step.
+Projection over steps 1..2404, N_k = 8 + 8k (an upper bound):
+  sum_k bench(N_k) = 4.95e-5 * sum_k (8 + 8k) ~ 1.15e3 s.
+  Box wall over the same steps, from the original W0 1e-7 logs, is about 1.40e5 s (~39 h on one core):
+    - run_1e-7.out to step 620: 37055 s;
+    - run_1e-7.out after the resume, from step 614 to ~1304: about 41.5e3 s (step 1300 at 41479 s);
+    - fix_test/fix_1e-7.out, steps 1304 -> 2414: 61756 s. That run had SO_FIXED_REDO and DIAG on, so this part
+      over-estimates the registered run.
+  The projected zsym / box ratio is about 1.01, against a threshold of 2.
+DECISION (A1 rule): Z-sym is the run mode. The ZG(256,128) fallback is NOT used.
+Caveat on the box wall: the logged times depend on how busy the machine was when those runs ran, and any S4
+speed-up from zsym's narrower hull is not counted. So ~39 h is an estimate, not a bound.
