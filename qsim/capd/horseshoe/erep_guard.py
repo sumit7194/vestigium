@@ -4,8 +4,9 @@ and stops the run by VERIFIED PID (owner sumit, cwd = horseshoe/tests, command l
 the guard was armed, the binary ./mn_so_erep) when:
   - free disk < 5 GB: at once;
   - the run's own footprint > 300 MB: at once (granted < 250 MB; this is a leak catch);
-  - swap used > 2048 MB, or kern.memorystatus_vm_pressure_level != 1: only if SUSTAINED, i.e. the condition held on
-    every sample for 10 minutes (the Bridge: the run is ~250 MB, so stopping it on someone else's spike buys nothing).
+  - (swap used > 2048 MB AND kern.memorystatus_vm_pressure_level >= 2), or level 4 (critical): only if SUSTAINED, i.e.
+    the condition held on every sample for 10 minutes. The Bridge's rule of 2026-11-18 16:47, which replaced
+    "swap > 2 GB OR level != 1" after the kernel level stuck at 2 (warning) with ~48% of memory free at launch.
 SIGTERM loses at most the work since the last state save (CKPT_SEC 1800). There is NO automatic restart: a stopped run
 waits for the Bridge. Logs every stop, every start and end of a sustained condition, and a status line every 10 min.
 Exits when the run is gone."""
@@ -30,7 +31,7 @@ def stop(why):
         log("STOP (%s): killed; no automatic restart (resume from the last state save after the Bridge's OK)" % why)
     else: log("STOP (%s) REFUSED by verification: owner=%s cwd=%s cmd=[%s]" % (why, own, cwd, cmd))
     sys.exit(0)
-log("guard armed for PID %d (cmd: %s); sustained window %d s; footprint cap %d MB" % (pid, cmd0, SUSTAIN, CAP_MB))
+log("guard armed for PID %d (cmd: %s); rule: disk < 5 GB or footprint > %d MB at once; (swap > 2048 MB and level >= 2) or level >= 4 sustained %d s" % (pid, cmd0, CAP_MB, SUSTAIN))
 k = 0; peak = 0.0; bad_since = None
 while alive(pid):
     fp = footprint_mb(pid); peak = max(peak, fp)
@@ -39,7 +40,8 @@ while alive(pid):
     if k % 10 == 0: log("footprint %.0f MB (peak %.0f), swap used %.0f MB, pressure %s, disk free %d GB" % (fp, peak, sw, pl, dk))
     if dk < 5: stop("free disk %d GB < 5 GB" % dk)
     if fp > CAP_MB: stop("run footprint %.0f MB > %d MB" % (fp, CAP_MB))
-    bad = (sw > 2048) or (pl != "1")
+    lv = int(pl) if pl.isdigit() else 4                        # an unreadable level counts as critical
+    bad = (sw > 2048 and lv >= 2) or lv >= 4
     if bad and bad_since is None: bad_since = time.time(); log("squeeze begins: swap %.0f MB, pressure %s (stop if it holds %d s)" % (sw, pl, SUSTAIN))
     if not bad and bad_since is not None: log("squeeze ended after %.0f s: swap %.0f MB, pressure %s" % (time.time() - bad_since, sw, pl)); bad_since = None
     if bad and time.time() - bad_since >= SUSTAIN: stop("sustained %.0f s: swap %.0f MB, pressure %s" % (time.time() - bad_since, sw, pl))

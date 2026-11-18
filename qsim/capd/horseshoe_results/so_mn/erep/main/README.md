@@ -12,3 +12,12 @@
     HARNESS-ERROR (W/tu < 0.98);
   - C-steps: no BUG.
   Any control failure gives the verdict INVALID.
+
+## Guard rule change (2026-11-18 16:47:38, the Bridge)
+- Before: stop if (swap > 2 GB OR pressure level != 1), sustained 600 s.
+- After: stop if (swap > 2 GB AND level >= 2), or level >= 4 (critical), sustained 600 s. Disk < 5 GB and the run's own
+  footprint > 300 MB still stop at once.
+- Reason: at launch the kernel level read 2 (warning) for 120 s with ~48% of memory free, a sticky kernel level rather
+  than a real squeeze.
+- The guard was replaced (old PID 37817, new PID 40851, both verified, both logged in guard.log). The run itself (PID 37679)
+  was not touched.
