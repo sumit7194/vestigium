@@ -1,0 +1,16 @@
+== zg(16,8) toy A: pointwise containment at T=1.05288 over 441 r: PASS TOY A ALL PASS  # EREP final N 16 reductions 7
+== zg(16,8) toy B: pointwise containment at T=1.00383 over 441 r: PASS TOY B ALL PASS  # EREP final N 12 reductions 8
+== zg(16,8) toy C: pointwise containment at T=1.02162 over 441 r: PASS TOY C ALL PASS  # EREP final N 8 reductions 9
+== zg(16,8) toy D: pointwise containment at T=1.03725 over 441 r: PASS TOY D ALL PASS  # EREP final N 16 reductions 9
+== zg(16,8) toy E: pointwise containment at T=1.01813 over 441 r: PASS TOY E ALL PASS  # EREP final N 10 reductions 9
+== zg(16,8) negative rem_B: pointwise containment at T=1.00383 over 441 r: FAIL (420 not contained)
+== zg(16,8) negative rem_C: pointwise containment at T=1.02162 over 441 r: FAIL (420 not contained)
+== zg(16,8) negative rem_D: pointwise containment at T=1.03725 over 441 r: FAIL (420 not contained)
+== zg(6,3) toy A: pointwise containment at T=1.05288 over 441 r: PASS TOY A ALL PASS  # EREP final N 5 reductions 20
+== zg(6,3) toy B: pointwise containment at T=1.00383 over 441 r: PASS TOY B ALL PASS  # EREP final N 3 reductions 22
+== zg(6,3) toy C: pointwise containment at T=1.02162 over 441 r: PASS TOY C ALL PASS  # EREP final N 5 reductions 23
+== zg(6,3) toy D: pointwise containment at T=1.03725 over 441 r: PASS TOY D ALL PASS  # EREP final N 5 reductions 25
+== zg(6,3) toy E: pointwise containment at T=1.01813 over 441 r: PASS TOY E ALL PASS  # EREP final N 3 reductions 24
+== zg(6,3) negative rem_B: pointwise containment at T=1.00383 over 441 r: FAIL (420 not contained)
+== zg(6,3) negative rem_C: pointwise containment at T=1.02162 over 441 r: FAIL (420 not contained)
+== zg(6,3) negative rem_D: pointwise containment at T=1.03725 over 441 r: FAIL (420 not contained)

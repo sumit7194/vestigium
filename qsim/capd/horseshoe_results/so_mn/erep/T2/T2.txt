@@ -1,0 +1,240 @@
+box toy A vs saved so_gates/toy_A.out: DIFFERS
+box toy B vs saved so_gates/toy_B.out: DIFFERS
+box toy C vs saved so_gates/toy_C.out: DIFFERS
+box toy D vs saved so_gates/toy_D.out: DIFFERS
+box toy E vs saved so_gates/toy_E.out: DIFFERS
+== zsym toy A
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.05288 over 441 r: PASS
+component 0: pointwise set width (max over r) 0.000e+00 ; exact image spread 4.372e-01
+component 1: pointwise set width (max over r) 2.980e-38 ; exact image spread 6.979e-02
+TOY A ALL PASS
+# EREP final N 86 reductions 0
+== zsym toy B
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.00383 over 441 r: PASS
+component 0: pointwise set width (max over r) 1.125e-03 ; exact image spread 4.415e-01
+component 1: pointwise set width (max over r) 3.285e-38 ; exact image spread 7.329e-02
+TOY B ALL PASS
+# EREP final N 92 reductions 0
+== zsym toy C
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02162 over 441 r: PASS
+component 0: pointwise set width (max over r) 1.638e-04 ; exact image spread 8.281e-02
+component 1: pointwise set width (max over r) 2.181e-38 ; exact image spread 7.200e-02
+TOY C ALL PASS
+# EREP final N 98 reductions 0
+== zsym toy D
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.03725 over 441 r: PASS
+component 0: pointwise set width (max over r) 5.002e-03 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D ALL PASS
+# EREP final N 106 reductions 0
+== zsym toy E
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.01813 over 441 r: PASS
+component 0: pointwise set width (max over r) 7.633e-04 ; exact image spread 7.229e-02
+component 1: pointwise set width (max over r) 3.902e-38 ; exact image spread 8.309e-02
+TOY E ALL PASS
+# EREP final N 100 reductions 0
+== zsym negative nospread_C
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02162 over 441 r: PASS
+component 0: pointwise set width (max over r) 1.638e-04 ; exact image spread 8.281e-02
+component 1: pointwise set width (max over r) 2.181e-38 ; exact image spread 7.200e-02
+TOY C ALL PASS
+== zsym negative nospread_D
+CORNER NOT CONTAINED (-1, -1) 0 0 1 0.0298781484301888 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (-1, -1) 0 1 0 0.0298781484301888 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (-1, -1) 0 1 1 -1.05845215220374e-5 3.00023684958159e-7 3.08817042707053e-7
+CORNER NOT CONTAINED (-1, 1) 0 0 1 0.0298999320330256 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (-1, 1) 0 1 0 0.0298999320330256 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (-1, 1) 0 1 1 -1.05902410344119e-5 3.00023684958159e-7 3.08817042707053e-7
+CORNER NOT CONTAINED (1, -1) 0 0 1 0.0298781484301888 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (1, -1) 0 1 0 0.0298781484301888 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (1, -1) 0 1 1 1.11931270060797e-5 3.00023684958159e-7 3.08817042707053e-7
+CORNER NOT CONTAINED (1, 1) 0 0 1 0.0298999320330256 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (1, 1) 0 1 0 0.0298999320330256 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (1, 1) 0 1 1 1.1199317075786e-5 3.00023684958159e-7 3.08817042707053e-7
+corner test (step 20, h 0.00183105): FAIL (12)
+pointwise containment at T=1.03725 over 441 r: PASS
+component 0: pointwise set width (max over r) 1.797e-03 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D SOME FAIL
+== zsym negative nospread_E
+CORNER NOT CONTAINED (-1, -1) 0 0 1 -6.33556268900089e-7 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (-1, -1) 0 1 0 -6.33556268900089e-7 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (-1, 1) 0 0 0 2.25796006310719e-6 -7.36078160821553e-7 9.54590424993217e-7
+CORNER NOT CONTAINED (-1, 1) 0 0 1 -2.18512264171663e-6 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (-1, 1) 0 1 0 -2.18512264171663e-6 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (1, -1) 0 0 1 6.33556268900089e-7 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (1, -1) 0 1 0 6.33556268900089e-7 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (1, 1) 0 0 0 2.25796006310719e-6 -7.36078160821553e-7 9.54590424993217e-7
+CORNER NOT CONTAINED (1, 1) 0 0 1 2.18512264171663e-6 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (1, 1) 0 1 0 2.18512264171663e-6 -3.45992999623924e-71 3.45992999623924e-71
+corner test (step 20, h 0.00183105): FAIL (10)
+pointwise containment at T=1.01813 over 441 r: PASS
+component 0: pointwise set width (max over r) 3.411e-04 ; exact image spread 7.229e-02
+component 1: pointwise set width (max over r) 3.126e-38 ; exact image spread 8.309e-02
+TOY E SOME FAIL
+== zsym negative offdiag_D (0.5)
+CORNER NOT CONTAINED (-1, -1) 0 1 1 -1.06327735187285e-5 -5.2640814442904e-6 5.62844291630603e-6
+CORNER NOT CONTAINED (-1, 1) 0 0 1 0.0298814771189979 0.0298533350503694 0.0298697219769627
+CORNER NOT CONTAINED (-1, 1) 0 1 0 0.0298814771189979 0.0298533350503694 0.0298697219769627
+CORNER NOT CONTAINED (-1, 1) 0 1 1 -1.06385495051174e-5 -5.2640814442904e-6 5.62844291630603e-6
+CORNER NOT CONTAINED (1, -1) 0 1 1 1.11314292773968e-5 -5.2640814442904e-6 5.62844291630603e-6
+CORNER NOT CONTAINED (1, 1) 0 0 1 0.0298814771189979 0.0298533350503694 0.0298697219769627
+CORNER NOT CONTAINED (1, 1) 0 1 0 0.0298814771189979 0.0298533350503694 0.0298697219769627
+CORNER NOT CONTAINED (1, 1) 0 1 1 1.11375555192531e-5 -5.2640814442904e-6 5.62844291630603e-6
+corner test (step 20, h 0.00183105): FAIL (8)
+pointwise containment at T=1.03725 over 441 r: FAIL (8 not contained)
+component 0: pointwise set width (max over r) 3.206e-03 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D SOME FAIL
+== zsym negative offdiag2_D (2)
+CORNER NOT CONTAINED (-1, -1) 0 0 1 0.0299150313594271 0.0299276720993202 0.0299604523050766
+CORNER NOT CONTAINED (-1, -1) 0 1 0 0.0299150313594271 0.0299276720993202 0.0299604523050766
+CORNER NOT CONTAINED (1, -1) 0 0 1 0.0299150313594271 0.0299276720993202 0.0299604523050766
+CORNER NOT CONTAINED (1, -1) 0 1 0 0.0299150313594271 0.0299276720993202 0.0299604523050766
+corner test (step 20, h 0.00183105): FAIL (4)
+pointwise containment at T=1.03725 over 441 r: PASS
+component 0: pointwise set width (max over r) 9.121e-03 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D SOME FAIL
+== zsym negative rem_B
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.00383 over 441 r: FAIL (420 not contained)
+component 0: pointwise set width (max over r) 0.000e+00 ; exact image spread 4.415e-01
+component 1: pointwise set width (max over r) 3.285e-38 ; exact image spread 7.329e-02
+TOY B SOME FAIL
+== zsym negative rem_C
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02162 over 441 r: FAIL (420 not contained)
+component 0: pointwise set width (max over r) 2.183e-38 ; exact image spread 8.281e-02
+component 1: pointwise set width (max over r) 2.181e-38 ; exact image spread 7.200e-02
+TOY C SOME FAIL
+== zsym negative rem_D
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.03725 over 441 r: FAIL (420 not contained)
+component 0: pointwise set width (max over r) 0.000e+00 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D SOME FAIL
+== zg toy A
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.05288 over 441 r: PASS
+component 0: pointwise set width (max over r) 0.000e+00 ; exact image spread 4.372e-01
+component 1: pointwise set width (max over r) 2.980e-38 ; exact image spread 6.979e-02
+TOY A ALL PASS
+# EREP final N 86 reductions 0
+== zg toy B
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.00383 over 441 r: PASS
+component 0: pointwise set width (max over r) 1.125e-03 ; exact image spread 4.415e-01
+component 1: pointwise set width (max over r) 3.285e-38 ; exact image spread 7.329e-02
+TOY B ALL PASS
+# EREP final N 92 reductions 0
+== zg toy C
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02162 over 441 r: PASS
+component 0: pointwise set width (max over r) 1.638e-04 ; exact image spread 8.281e-02
+component 1: pointwise set width (max over r) 2.181e-38 ; exact image spread 7.200e-02
+TOY C ALL PASS
+# EREP final N 98 reductions 0
+== zg toy D
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.03725 over 441 r: PASS
+component 0: pointwise set width (max over r) 5.002e-03 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D ALL PASS
+# EREP final N 106 reductions 0
+== zg toy E
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.01813 over 441 r: PASS
+component 0: pointwise set width (max over r) 7.633e-04 ; exact image spread 7.229e-02
+component 1: pointwise set width (max over r) 3.902e-38 ; exact image spread 8.309e-02
+TOY E ALL PASS
+# EREP final N 100 reductions 0
+== zg negative nospread_C
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02162 over 441 r: PASS
+component 0: pointwise set width (max over r) 1.638e-04 ; exact image spread 8.281e-02
+component 1: pointwise set width (max over r) 2.181e-38 ; exact image spread 7.200e-02
+TOY C ALL PASS
+== zg negative nospread_D
+CORNER NOT CONTAINED (-1, -1) 0 0 1 0.0298781484301888 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (-1, -1) 0 1 0 0.0298781484301888 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (-1, -1) 0 1 1 -1.05845215220374e-5 3.00023684958159e-7 3.08817042707053e-7
+CORNER NOT CONTAINED (-1, 1) 0 0 1 0.0298999320330256 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (-1, 1) 0 1 0 0.0298999320330256 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (-1, 1) 0 1 1 -1.05902410344119e-5 3.00023684958159e-7 3.08817042707053e-7
+CORNER NOT CONTAINED (1, -1) 0 0 1 0.0298781484301888 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (1, -1) 0 1 0 0.0298781484301888 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (1, -1) 0 1 1 1.11931270060797e-5 3.00023684958159e-7 3.08817042707053e-7
+CORNER NOT CONTAINED (1, 1) 0 0 1 0.0298999320330256 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (1, 1) 0 1 0 0.0298999320330256 0.0298835606776887 0.0298945168081303
+CORNER NOT CONTAINED (1, 1) 0 1 1 1.1199317075786e-5 3.00023684958159e-7 3.08817042707053e-7
+corner test (step 20, h 0.00183105): FAIL (12)
+pointwise containment at T=1.03725 over 441 r: PASS
+component 0: pointwise set width (max over r) 1.797e-03 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D SOME FAIL
+== zg negative nospread_E
+CORNER NOT CONTAINED (-1, -1) 0 0 1 -6.33556268900089e-7 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (-1, -1) 0 1 0 -6.33556268900089e-7 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (-1, 1) 0 0 0 2.25796006310719e-6 -7.36078160821553e-7 9.54590424993217e-7
+CORNER NOT CONTAINED (-1, 1) 0 0 1 -2.18512264171663e-6 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (-1, 1) 0 1 0 -2.18512264171663e-6 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (1, -1) 0 0 1 6.33556268900089e-7 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (1, -1) 0 1 0 6.33556268900089e-7 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (1, 1) 0 0 0 2.25796006310719e-6 -7.36078160821553e-7 9.54590424993217e-7
+CORNER NOT CONTAINED (1, 1) 0 0 1 2.18512264171663e-6 -3.45992999623924e-71 3.45992999623924e-71
+CORNER NOT CONTAINED (1, 1) 0 1 0 2.18512264171663e-6 -3.45992999623924e-71 3.45992999623924e-71
+corner test (step 20, h 0.00183105): FAIL (10)
+pointwise containment at T=1.01813 over 441 r: PASS
+component 0: pointwise set width (max over r) 3.411e-04 ; exact image spread 7.229e-02
+component 1: pointwise set width (max over r) 3.126e-38 ; exact image spread 8.309e-02
+TOY E SOME FAIL
+== zg negative offdiag_D (0.5)
+CORNER NOT CONTAINED (-1, -1) 0 1 1 -1.06327735187285e-5 -5.2640814442904e-6 5.62844291630603e-6
+CORNER NOT CONTAINED (-1, 1) 0 0 1 0.0298814771189979 0.0298533350503694 0.0298697219769627
+CORNER NOT CONTAINED (-1, 1) 0 1 0 0.0298814771189979 0.0298533350503694 0.0298697219769627
+CORNER NOT CONTAINED (-1, 1) 0 1 1 -1.06385495051174e-5 -5.2640814442904e-6 5.62844291630603e-6
+CORNER NOT CONTAINED (1, -1) 0 1 1 1.11314292773968e-5 -5.2640814442904e-6 5.62844291630603e-6
+CORNER NOT CONTAINED (1, 1) 0 0 1 0.0298814771189979 0.0298533350503694 0.0298697219769627
+CORNER NOT CONTAINED (1, 1) 0 1 0 0.0298814771189979 0.0298533350503694 0.0298697219769627
+CORNER NOT CONTAINED (1, 1) 0 1 1 1.11375555192531e-5 -5.2640814442904e-6 5.62844291630603e-6
+corner test (step 20, h 0.00183105): FAIL (8)
+pointwise containment at T=1.03725 over 441 r: FAIL (8 not contained)
+component 0: pointwise set width (max over r) 3.206e-03 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D SOME FAIL
+== zg negative offdiag2_D (2)
+CORNER NOT CONTAINED (-1, -1) 0 0 1 0.0299150313594271 0.0299276720993202 0.0299604523050766
+CORNER NOT CONTAINED (-1, -1) 0 1 0 0.0299150313594271 0.0299276720993202 0.0299604523050766
+CORNER NOT CONTAINED (1, -1) 0 0 1 0.0299150313594271 0.0299276720993202 0.0299604523050766
+CORNER NOT CONTAINED (1, -1) 0 1 0 0.0299150313594271 0.0299276720993202 0.0299604523050766
+corner test (step 20, h 0.00183105): FAIL (4)
+pointwise containment at T=1.03725 over 441 r: PASS
+component 0: pointwise set width (max over r) 9.121e-03 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D SOME FAIL
+== zg negative rem_B
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.00383 over 441 r: FAIL (420 not contained)
+component 0: pointwise set width (max over r) 0.000e+00 ; exact image spread 4.415e-01
+component 1: pointwise set width (max over r) 3.285e-38 ; exact image spread 7.329e-02
+TOY B SOME FAIL
+== zg negative rem_C
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.02162 over 441 r: FAIL (420 not contained)
+component 0: pointwise set width (max over r) 2.183e-38 ; exact image spread 8.281e-02
+component 1: pointwise set width (max over r) 2.181e-38 ; exact image spread 7.200e-02
+TOY C SOME FAIL
+== zg negative rem_D
+corner test (step 20, h 0.00183105): PASS
+pointwise containment at T=1.03725 over 441 r: FAIL (420 not contained)
+component 0: pointwise set width (max over r) 0.000e+00 ; exact image spread 1.182e-01
+component 1: pointwise set width (max over r) 3.768e-38 ; exact image spread 7.089e-02
+TOY D SOME FAIL
+T2 DONE Wed Nov 18 16:25:44 IST 2026

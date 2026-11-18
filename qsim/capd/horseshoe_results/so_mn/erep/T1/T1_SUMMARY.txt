@@ -1,0 +1,7 @@
+T1 (E_REP_PREREG.md section 4), 2026-11-18 16:24-16:32, Opus 5.5 (Quantum-personal). Binary: tests/mn_so_erep (guard-built
+from mn_so.cpp + so_set.h with the SO_EREP flag). Run: kr_ref's condition, i.e. W0 1/1000000, mn_smoke/b17_cp_1e-6.txt,
+t 0 -> 0.9, nice 10, the two runs in parallel.
+RESULT: PASS.
+  SO_EREP unset: final state st_unset BYTE-IDENTICAL to so_mn/kr_ref (33 steps, 486 s)
+  SO_EREP=box:   final state st_box   BYTE-IDENTICAL to so_mn/kr_ref (33 steps, 485 s)
+  stdout of the box run, minus the wall-clock fields: identical to so_mn/kr_ref.out

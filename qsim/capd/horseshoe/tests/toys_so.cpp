@@ -43,7 +43,11 @@ int main(int argc, char** argv) {
   if (TOY == 'C') X.H[0][1][1] = 0.6 * w;
   if (TOY == 'D') { X.H[0][0][1] = 0.3 * w; X.H[0][1][0] = 0.3 * w; }
   if (TOY == 'E') X.H[1][0][0] = 0.6 * w;                    // Toy E: Toy C's field, curvature in y0 (y0 = w r2 + 0.3 w r1^2)
+  if (const char* m = std::getenv("SO_EREP")) { std::string v = m; so::SO_EREP = v == "box" ? 0 : v == "zsym" ? 1 : v == "zg" ? 2 : -1; if (so::SO_EREP < 0) return 2; }
+  if (const char* z = std::getenv("SO_ZG")) { if (std::sscanf(z, "%d,%d", &so::SO_ZG_MAX, &so::SO_ZG_KEEP) != 2) return 2; }
+  if (so::SO_EREP != 0) X.box_to_generators();
   std::printf("# toy %c w %g T %g nospread %d offdiag %g remscale %g\n", TOY, w, T, nospread, so::SO_OFFDIAG_FACTOR, so::SO_REMAINDER_SCALE);
+  if (so::SO_EREP != 0) std::printf("# EREP %d (ZG %d,%d)\n", so::SO_EREP, so::SO_ZG_MAX, so::SO_ZG_KEEP);
   int k = 0, cstep = std::getenv("CORNER_STEP") ? std::atoi(std::getenv("CORNER_STEP")) : 20;
   while (so::md(X.t) < T - 1e-12) {
     so::Set before = X;
@@ -61,6 +65,11 @@ int main(int argc, char** argv) {
   for (int i = 0; i < 2; ++i) pr(X.x[i]);
   std::printf("\nC"); for (int i = 0; i < 2; ++i) for (int a = 0; a < 2; ++a) pr(X.C[i][a]);
   std::printf("\nH"); for (int i = 0; i < 2; ++i) for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) pr(X.H[i][a][b]);
-  std::printf("\nB"); for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) pr(X.B[i][j]);
-  std::printf("\nRE"); for (int i = 0; i < 2; ++i) pr(X.re[i]); std::printf("\n");
+  if (so::SO_EREP == 0) {
+    std::printf("\nB"); for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) pr(X.B[i][j]);
+    std::printf("\nRE"); for (int i = 0; i < 2; ++i) pr(X.re[i]); std::printf("\n");
+  } else {                                                     // zonotope: report its interval hull as B = I, RE = hull (a superset)
+    so::IV eh = X.ehull(); std::printf("\nB"); for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) pr(MpInterval(i == j ? 1 : 0));
+    std::printf("\nRE"); for (int i = 0; i < 2; ++i) pr(eh[i]); std::printf("\n# EREP final N %zu reductions %ld\n", X.G.size(), so::SO_ZG_REDUCTIONS);
+  }
 }

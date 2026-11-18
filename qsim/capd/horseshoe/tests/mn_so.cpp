@@ -10,6 +10,10 @@
 //   - logs every N steps: t, h, max|E|, the hull-run delta width, resteps (the Bridge's requested quantities);
 //   - checkpoint/restart: the set is written (MPFR hex) every CKPT_SEC seconds and at every B17 checkpoint; a restart
 //     with the same arguments resumes from it.
+//   - SO_EREP=box|zsym|zg (E_REP_PREREG.md, registered 2026-11-18; default box = the code path of every earlier run,
+//     bit-identical): the error part's representation (so_set.h). zsym/zg start from the box (G = B diag(mag(re)), a
+//     superset), and the state file then carries the generators (an "EREP" block before END; a box-mode file has none).
+//     SO_ZG=max,keep sets the ZG reduction (default 256,128).
 //   - DIAGNOSTIC options (2026-10-25, the swing-1 diagnosis; off by default, the computation is identical either way):
 //     SO_DIAG_FROM=t   one DIAG line per step for t >= that time (so.h decomposition hook, logged BEFORE the S4 checks);
 //     SAVE_FROM=t SAVE_DT=dt   a permanent extra copy of the set, <state>.t<time>, at every dt-grid point from t on.
@@ -114,7 +118,10 @@ static void save(const char* path, const so::Set& X, long steps, size_t next_cp)
   for (int i = 0; i < 8; ++i) for (int a = 0; a < 2; ++a) o << hx(X.C[i][a]) << " "; o << "\n";
   for (int i = 0; i < 8; ++i) for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) o << hx(X.H[i][a][b]) << " "; o << "\n";
   for (int i = 0; i < 8; ++i) for (int j = 0; j < 8; ++j) o << hx(X.B[i][j]) << " "; o << "\n";
-  for (int i = 0; i < 8; ++i) o << hx(X.re[i]) << " "; o << "\nEND\n"; o.flush(); bool ok = o.good(); o.close(); ok = ok && !o.fail();
+  for (int i = 0; i < 8; ++i) o << hx(X.re[i]) << " "; o << "\n";
+  if (so::SO_EREP != 0) { o << "EREP " << so::SO_EREP << " " << X.G.size() << "\n";
+    for (const IV& g : X.G) { for (int i = 0; i < 8; ++i) o << hx(g[i]) << " "; o << "\n"; } }
+  o << "END\n"; o.flush(); bool ok = o.good(); o.close(); ok = ok && !o.fail();
   if (!ok) { std::remove(tmp.c_str()); std::printf("SAVE FAILED for %s (write error, e.g. disk full): the previous state is KEPT\n", path); std::fflush(stdout); return; }
   std::rename(tmp.c_str(), path);                                    // atomic replace, only after a verified write
 }
@@ -126,7 +133,12 @@ static bool load(const char* path, so::Set& X, long& steps, size_t& next_cp) {
   for (int i = 0; i < 8; ++i) for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) X.H[i][a][b] = unhx(in);
   for (int i = 0; i < 8; ++i) for (int j = 0; j < 8; ++j) X.B[i][j] = unhx(in);
   for (int i = 0; i < 8; ++i) X.re[i] = unhx(in);
-  std::string end; in >> end; if (end != "END") throw std::runtime_error("state: truncated file");
+  std::string end; in >> end;
+  if (end == "EREP") { int mode; size_t N; in >> mode >> N;
+    if (mode != so::SO_EREP) throw std::runtime_error("state: written with SO_EREP " + std::to_string(mode) + ", resumed with " + std::to_string(so::SO_EREP));
+    X.G.assign(N, IV(8)); for (auto& g : X.G) for (int i = 0; i < 8; ++i) g[i] = unhx(in); in >> end; }
+  else if (so::SO_EREP != 0) { X.box_to_generators(); std::printf("# EREP: state %s has a box error part; started the generators from it (G = B diag(mag(re)), %zu columns)\n", path, X.G.size()); }
+  if (end != "END") throw std::runtime_error("state: truncated file");
   return true;
 }
 
@@ -140,6 +152,11 @@ int main(int argc, char** argv) {
   auto cps = read_cps(argv[2]); double Tend = argc > 4 ? std::stod(argv[4]) : 1e300;
   const double K = 5.0; const long LOG_EVERY = std::getenv("LOG_EVERY") ? std::atol(std::getenv("LOG_EVERY")) : 20;
   const double CKPT_SEC = std::getenv("CKPT_SEC") ? std::atof(std::getenv("CKPT_SEC")) : 1800;
+  if (const char* m = std::getenv("SO_EREP")) { std::string v = m; so::SO_EREP = v == "box" ? 0 : v == "zsym" ? 1 : v == "zg" ? 2 : -1;
+    if (so::SO_EREP < 0) { std::printf("SO_EREP must be box, zsym or zg\n"); return 2; } }
+  if (const char* z = std::getenv("SO_ZG")) { if (std::sscanf(z, "%d,%d", &so::SO_ZG_MAX, &so::SO_ZG_KEEP) != 2 || so::SO_ZG_KEEP < 8 || so::SO_ZG_MAX <= so::SO_ZG_KEEP) { std::printf("SO_ZG must be max,keep with keep >= 8 and max > keep\n"); return 2; } }
+  if (so::SO_EREP != 0 && (std::getenv("SO_DIAG_FROM") || std::getenv("GUARD_RATIO") || std::getenv("WRAP_DUMP"))) {
+    std::printf("SO_EREP zsym/zg: SO_DIAG_FROM, GUARD_RATIO and WRAP_DUMP read the Lohner frame (B, re), which is not used; refused\n"); return 2; }
   so::Set X(8); long steps = 0; size_t next_cp = 0;
   if (load(argv[3], X, steps, next_cp)) std::printf("# RESUMED from %s at t=%.10f steps %ld next checkpoint %zu\n", argv[3], so::md(X.t), steps, next_cp);
   else {                                                           // the lift as a second-order set
@@ -158,7 +175,9 @@ int main(int argc, char** argv) {
       X.re[i] = box;
     }
     X.B.setToIdentity(); X.t = MpInterval(0);
+    if (so::SO_EREP != 0) X.box_to_generators();
   }
+  if (so::SO_EREP != 0) std::printf("# EREP %s (ZG %d,%d), %zu generator columns at start\n", so::SO_EREP == 1 ? "zsym" : "zg", so::SO_ZG_MAX, so::SO_ZG_KEEP, X.G.size());
   std::printf("# mn_so: W0 %s, %zu checkpoints (time ones measured; sections SKIPPED), T_end %g\n", argv[1], cps.size(), Tend); std::fflush(stdout);
   capd::MpIMap fK(mn8_vf, 8, 8, 5, 2), fT(mn8_vf, 8, 8, 5, 2);
   for (int i = 0; i < 5; ++i) { fK.setParameter(i, MNC[i]); fT.setParameter(i, MNC[i]); }
@@ -191,7 +210,7 @@ int main(int argc, char** argv) {
       if (wdump) { std::fprintf(wdump, "STEP %ld %s\n", steps, hx(X.t).c_str()); dumpm("D1c", WG.D1c); dumpv("S", WG.s); dumpv("P0", WG.p0); dumpv("P1", WG.p1);
                    dumpv("P2", WG.p2); dumpv("DDE", WG.dDe); dumpm("B", X.B); dumpv("RE", X.re); std::fprintf(wdump, "END\n"); std::fflush(wdump); }
       double gratio = 0;
-      if (GUARD > 0) { IV R(2); R[0] = so::sym(1); R[1] = so::sym(1); IV poly = X.C * R + X.quad(), ev = X.B * X.re;
+      if (GUARD > 0) { IV R(2); R[0] = so::sym(1); R[1] = so::sym(1); IV poly = X.C * R + X.quad(), ev = X.ehull();
         double we = 0, wp = 0; for (int i = 0; i < 8; ++i) { we = std::max(we, w(ev[i])); wp = std::max(wp, w(poly[i])); }
         if (wp > 0) gratio = we / wp; }   // the set's error against its OWN size (max-norm), not per component: a component whose
                                           // polynomial width passes near 0 (the needle's orientation near periapsis) tripped the
@@ -218,6 +237,7 @@ int main(int argc, char** argv) {
       if (steps % LOG_EVERY == 0)
         std::printf("# step %ld t=%.6f h=%.3e maxE %.3e hullDelta %.3e resteps %ld S4leaves %ld gphiphi_lb %.3e wall %.0f s\n",
                     steps, so::md(X.t), lg.h, lg.maxE, lg.w_D2K_contrib, so::SO_RESTEPS, S4_LEAVES, S4_GMIN, el);
+      if (steps % LOG_EVERY == 0 && so::SO_EREP != 0) std::printf("# EREP step %ld N %zu reductions %ld\n", steps, X.G.size(), so::SO_ZG_REDUCTIONS);
       if (next_cp < cps.size() && cps[next_cp].kind != "t" && std::fabs(so::md(X.t) - (cps[next_cp].t - PRE)) < 1e-9) {
         std::string pre = std::string(argv[3]) + ".pre_" + cps[next_cp].kind; save(pre.c_str(), X, steps, next_cp + 1);
         std::printf("CHECKPOINT %s t=%.4f DEFERRED (set saved at t=%.6f to %s for the section measurement)\n", cps[next_cp].kind.c_str(), cps[next_cp].t, so::md(X.t), pre.c_str());

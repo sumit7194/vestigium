@@ -31,13 +31,41 @@ static double SO_DIAG_FACTOR = 2.0;           // multiplier applied to diagonal 
 
 inline MpInterval sym(double r) { return MpInterval(-r, r); }
 
+// E REPRESENTATION (E_REP_PREREG.md, registered with the Bridge 2026-11-18; Opus 5.5 on Fable 5.2's design).
+// SO_EREP = 0 (box): the Lohner error part B re, today's code path, bit-identical. 1 (zsym): E = { sum_j g_j xi_j :
+// xi in [-1,1]^N }, a zonotope with NO centre (so 0 in E: the mean-value segment x(r) -> x(r)+e stays in K = hull(X));
+// step: G <- [D1c G | diag(mag(s))]. 2 (zg): zsym plus the Girard reduction: when N > SO_ZG_MAX, the N - SO_ZG_KEEP + n
+// columns with the smallest sum_i mag(g_ij) - max_i mag(g_ij) are replaced by diag(d), d_i = sum_j mag(g_ij) over them
+// (rounded up): the merged sub-zonotope lies in its interval hull. B and re are NOT used in modes 1 and 2.
+static int SO_EREP = 0;
+static int SO_ZG_MAX = 256, SO_ZG_KEEP = 128;
+static long SO_ZG_REDUCTIONS = 0;
+inline MpInterval symI(const MpInterval& r) { return MpInterval(-r.rightBound(), r.rightBound()); }   // [-hi(r), hi(r)]
+inline MpInterval magI(const MpInterval& v) {                // thin mag(v) = max(|lo|, |hi|) (exact: |.| of an MPFR number)
+  auto a = capd::abs(v.leftBound()), b = capd::abs(v.rightBound()); return a > b ? MpInterval(a) : MpInterval(b); }
+
 struct Set {
   int n = 0;                                  // state dimension; parameters m = 2
   IV x;                                       // thin centre
   IM C;                                       // n x 2, point
   std::vector<IM> H;                          // n matrices 2 x 2, symmetric, point: d2 x_i / dr_a dr_b
-  IM B; IV re;                                // error part  e in B re
+  IM B; IV re;                                // error part  e in B re  (SO_EREP = 0)
+  std::vector<IV> G;                          // error part  e in G [-1,1]^N  (SO_EREP = 1, 2): the generator columns
   MpInterval t;
+  // switch the error part from the box B re to generators: B re c B diag(mag(re)) [-1,1]^n (re_j c [-mag, mag]), so the
+  // columns B_j mag(re_j) enclose it; zero columns are skipped (they contribute nothing)
+  void box_to_generators() {
+    G.clear();
+    for (int j = 0; j < n; ++j) { MpInterval m = magI(re[j]); if (!(hi(m) > 0)) continue;
+      IV g(n); for (int i = 0; i < n; ++i) g[i] = B[i][j] * m; G.push_back(g); }
+  }
+  // interval hull of the error part (box mode: B re, exactly the old expression)
+  IV ehull() const {
+    if (SO_EREP == 0) return B * re;
+    IV h(n);
+    for (int i = 0; i < n; ++i) { MpInterval s(0); for (const IV& g : G) s += magI(g[i]); h[i] = symI(s); }
+    return h;
+  }
   Set() {}
   explicit Set(int n_) : n(n_), x(n_), C(n_, 2), H(n_, IM(2, 2)), B(n_, n_), re(n_), t(0) { B.setToIdentity(); }
   // interval values of r_a r_b over R0 = [-1, 1]^2
@@ -49,7 +77,7 @@ struct Set {
   }
   IV hull() const {                           // interval hull of the whole set (K)
     IV h = x; IV R(2); R[0] = sym(1); R[1] = sym(1);
-    h += C * R; h += quad(); h += B * re; return h;
+    h += C * R; h += quad(); h += ehull(); return h;
   }
   // tighter projection of the set on a covector nv: sub-boxes of R0 for the polynomial part (diagnostics)
   MpInterval project(const IV& nv, int sub = 8) const {
@@ -62,7 +90,9 @@ struct Set {
       MpInterval v = l[0] * r1 + l[1] * r2 + (M[0][0] * sqr(r1) + 2 * M[0][1] * r1 * r2 + M[1][1] * sqr(r2)) / 2;
       poly = first ? v : intervalHull(poly, v); first = false;
     }
-    IV nB = transpose(B) * nv; MpInterval e(0); for (int j = 0; j < n; ++j) e += nB[j] * re[j];
+    MpInterval e(0);
+    if (SO_EREP == 0) { IV nB = transpose(B) * nv; for (int j = 0; j < n; ++j) e += nB[j] * re[j]; }
+    else { MpInterval s(0); for (const IV& g : G) { MpInterval d(0); for (int i = 0; i < n; ++i) d += nv[i] * g[i]; s += magI(d); } e = symI(s); }
     return cx + poly + e;
   }
 };
@@ -213,7 +243,7 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
   }
   lg.w_D2K_contrib = wmax;
   // error part: D1c (B re) in the Lohner frame, ([Dphi(K)] - D1c) e boxed
-  IV e = X.B * X.re;
+  IV e = X.ehull();                                            // box mode: X.B * X.re, as before
   IM dD = D1K - D1c; s += dD * e;
   if (SO_WRAP) {                                               // log-only copies (wrapping test)
     StepWrap& W = *SO_WRAP; W.D1c = D1c; W.s = s; W.dDe = dD * e;
@@ -222,6 +252,25 @@ inline StepLog step(Solver& solK, Solver& solT, Set& X, bool hull_X_with_H_sprea
     for (int i = 0; i < n; ++i) { MpInterval q(0); int k = 0;
       for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) { q += (lg.hK[4 * i + k] - Hn[i][a][b]) * Set::rr(a, b); ++k; }
       W.p2[i] = q / 2 * SO_REMAINDER_SCALE; }
+  }
+  if (SO_EREP != 0) {                                          // zonotope error part (E_REP_PREREG.md); no frame, no QR
+    for (IV& g : X.G) g = D1c * g;                             // A g~ in D1c g for every real A in D1c (isotonicity)
+    for (int i = 0; i < n; ++i) { MpInterval m = magI(s[i]);   // s_i c [-mag, mag]: column mag(s_i) e_i
+      if (!(hi(m) > 0)) continue; IV g(n); g[i] = m; X.G.push_back(g); }
+    if (SO_EREP == 2 && (int)X.G.size() > SO_ZG_MAX) {         // Girard reduction (ordering only uses doubles; rigour does not)
+      const int N = (int)X.G.size(), nR = std::min(N, N - SO_ZG_KEEP + n);
+      std::vector<std::pair<double, int>> key(N);
+      for (int j = 0; j < N; ++j) { double sm = 0, mx = 0; for (int i = 0; i < n; ++i) { double a = hi(magI(X.G[j][i])); sm += a; mx = std::max(mx, a); } key[j] = {sm - mx, j}; }
+      std::stable_sort(key.begin(), key.end(), [](const auto& u, const auto& v) { return u.first < v.first; });
+      std::vector<char> merged(N, 0); for (int k = 0; k < nR; ++k) merged[key[k].second] = 1;
+      std::vector<MpInterval> d(n, MpInterval(0)); std::vector<IV> keep;
+      for (int j = 0; j < N; ++j) { if (merged[j]) { for (int i = 0; i < n; ++i) d[i] += magI(X.G[j][i]); } else keep.push_back(X.G[j]); }
+      for (int i = 0; i < n; ++i) { MpInterval m = magI(d[i]); if (!(hi(m) > 0)) continue; IV g(n); g[i] = m; keep.push_back(g); }
+      X.G.swap(keep); ++SO_ZG_REDUCTIONS;
+    }
+    X.x = xn; X.C = Cn; X.H = Hn; X.t = X.t + solK.getStep();
+    IV eh = X.ehull(); for (int i = 0; i < n; ++i) lg.maxE = std::max(lg.maxE, hi(eh[i]) - lo(eh[i]));
+    return lg;
   }
   IM AB = D1c * X.B;
   IM Bn = qr_frame(AB, X.re);

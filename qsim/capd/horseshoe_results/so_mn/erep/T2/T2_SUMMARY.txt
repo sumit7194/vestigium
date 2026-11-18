@@ -1,0 +1,29 @@
+T2 (E_REP_PREREG.md section 4), 2026-11-18 16:25, Opus 5.5 (Quantum-personal). Binary: tests/toys_so_erep (guard-built from
+toys_so.cpp + so_set.h with SO_EREP). Script: run_t2.sh; full output: T2.txt; per-run outputs: *_toy_*.out, *_neg_*.out.
+
+RESULT: PASS. Every positive toy is contained under zsym and zg; every E-relevant negative control still FAILS, with the
+same pattern as the saved box-mode gates (so_gates/GATES_SUMMARY.txt).
+
+| run (T 1, w 0.1)          | box (saved)              | zsym                     | zg (256,128)             |
+|---------------------------|--------------------------|--------------------------|--------------------------|
+| toys A, B, C, D, E        | ALL PASS                 | ALL PASS                 | ALL PASS                 |
+| neg rem_B / rem_C / rem_D | containment FAIL (420)   | containment FAIL (420)   | containment FAIL (420)   |
+| neg offdiag_D (x0.5)      | corner FAIL 8, cont. 6   | corner FAIL 8, cont. 8   | corner FAIL 8, cont. 8   |
+| neg offdiag2_D (x2)       | corner FAIL 4            | corner FAIL 4            | corner FAIL 4            |
+| neg nospread_D / _E       | corner FAIL 12 / 10      | corner FAIL 12 / 10      | corner FAIL 12 / 10      |
+| neg nospread_C            | PASS (by construction*)  | PASS                     | PASS                     |
+* so_gates: C's field is linear in x where C's curvature sits, so this control cannot fail; Toy E is its working form.
+
+Notes.
+- The toys end with N = 86-106 generators, so ZG's reduction (max 256) never fires on them. zg = zsym here, and the
+  reduction itself is exercised only on MN (and was scored offline, e_score.py). Toy outputs report the zonotope's
+  interval hull as B = I, RE = hull, a superset, so containment here is checked against a looser set than the zonotope.
+- The corner test reads step 20's [D2Psi(R0)], which does not involve E. Identical corner results across modes are
+  expected.
+- Box mode (flag unset), the new binary vs the pre-change binary tests/toys_so: BYTE-IDENTICAL for A-E. Both differ
+  bytewise from the saved so_gates/toy_*.out, because the saved files come from an older print format. numcmp.py: AGREE,
+  max |diff| <= 4.9e-41, <= 0.5 unit of the last printed digit, as in the macOS 27.2 regression.
+- Added check, beyond the registration (because the registered zg never reduces on the toys): ZG with small limits,
+  SO_ZG=16,8 (7-9 reductions) and 6,3 (20-25 reductions), on toys A-E and the rem negatives (T2_zg_stress.txt).
+  Every toy is still contained, and every rem negative still FAILS containment (420 not contained). So the reduction
+  keeps enclosure and does not mask a missing remainder.
