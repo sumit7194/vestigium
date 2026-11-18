@@ -1,5 +1,6 @@
 """
-Certified monodromy on the MN symmetry-axis lattice near x = 0: PREREG_mn_axis_lattice_certified.md (61b84a3 + bacb91a).
+Certified monodromy on the MN symmetry-axis lattice near x = 0: PREREG_mn_axis_lattice_certified.md (61b84a3 + bacb91a),
+with Amendment A1 (10fb580): Newton in sigma for the locator (A1.1); transport in u = (x - x_c)/eps (A1.2).
 Claude Opus 5.5 (Quantum-personal), testing Claude Fable 5.2's design (fable_work/mn_general_theorem/DESIGN.md).
 
 Reuses ia_hub.py (Arb ball transport, certificate) and mr_mn_axis.py (metric package, exact axial NVE in Q(x, E))
@@ -128,6 +129,7 @@ def lattice(row, j):
     W = sp.exp(2*beta/xs**3)
     N, D = P_parts(row, xs, W)
     fN, fD = sp.lambdify(xs, N, "mpmath"), sp.lambdify(xs, D, "mpmath")
+    xsig = lambda s: mp.power(2*mp.mpf(beta.p)/beta.q/s, mp.mpf(1)/3)          # principal cube root (A1.1)
     seeds = []
     if p["kind"] == "static":
         for i in (j, j + 1, j + 2):
@@ -143,8 +145,9 @@ def lattice(row, j):
     out = {}
     for name, kind, s0 in seeds:
         g = fN if kind == "zero" else fD
-        xr = complex(mp.findroot(g, mp.mpc(xmap(beta, s0)), tol=mp.mpf(10)**-40, maxsteps=200))
-        out[name] = (xr, sigma_of(beta, xr), kind)
+        sr = mp.findroot(lambda s: g(xsig(s)), mp.mpc(s0), tol=mp.mpf(10)**-40, maxsteps=200)   # A1.1: Newton in sigma
+        xr = complex(xsig(sr))
+        out[name] = (xr, complex(sr), kind)
     return out
 
 
@@ -209,6 +212,28 @@ def enclosed(row, circ_x):
     return winding(IA.Compiled(N, z), circ_x), winding(IA.Compiled(D, z), circ_x)
 
 
+# ---------------------------------------------------------------------------------------------- A1.2: local rescaled frame
+def frame(beta, sig_c):
+    """Exact rational x_c (complex) and eps > 0 with x_c ~ x(sig_c), eps ~ |x_c|/(3|sig_c|)."""
+    xc = xmap(beta, sig_c)
+    xcR = sp.Rational(repr(xc.real)) + sp.I*sp.Rational(repr(xc.imag))
+    epsR = sp.Rational(repr(abs(xc)/(3*abs(sig_c))))
+    return xcR, epsR, complex(float(sp.re(xcR)), float(sp.im(xcR))), float(epsR)
+
+
+def rescaled_rc(num, den, z, bad, xcR, epsR, xc, eps):
+    """y_uu = eps^2 r(x_c + eps u) y, exact (symbolic substitution into the same P/Q)."""
+    u = sp.Symbol("u")
+    sub = {z: xcR + epsR*u}
+    return IA.RationalFn(epsR**2*num.subs(sub), den.subs(sub), u, [(complex(b) - xc)/eps for b in bad])
+
+
+def transport_x(rcu, xc, eps, pts_x, dist_x, stats=None):
+    """Transport along an x-polyline in the u-frame. Returns the u-frame matrix D^-1 M_x D, D = diag(1, 1/eps)."""
+    pts_u = [(complex(p) - xc)/eps for p in pts_x]
+    return IA.transport(rcu, pts_u, dist=(lambda q: dist_x(xc + eps*q)/eps), stats=stats)
+
+
 # ---------------------------------------------------------------------------------------------- ball tests
 def rad_of(t):
     return max(float(t.real.rad()), float(t.imag.rad()))
@@ -232,14 +257,17 @@ def task_row(row, j):
     t0 = time.time()
     p = ROWS[row]; beta = p["beta"]
     num, den, bad, z = rational_r(row)
-    rc = IA.RationalFn(num, den, z, bad)
     L = lattice(row, j)
     names = list(L)
+    sig_c = sum(v[1] for v in L.values())/len(L)
+    xcR, epsR, xc, eps = frame(beta, sig_c)
+    rc = rescaled_rc(num, den, z, bad, xcR, epsR, xc, eps)
     xs_all = [L[n][0] for n in names]
     def dist(q):
         return min([abs(q - c) for c in xs_all] + [abs(q)])
     out = dict(task=f"{row}_{j}", row=row, j=j, params={k: str(v) for k, v in p.items()},
                lattice={n: dict(x=str(L[n][0]), sigma=str(L[n][1]), kind=L[n][2]) for n in names}, singles={},
+               frame=dict(x_c=str(xcR), eps=str(epsR), note="u = (x - x_c)/eps; u-matrices are D^-1 M_x D, D = diag(1, 1/eps)"),
                scope=SCOPE)
     sig = {n: L[n][1] for n in names}
     sep = {n: min(abs(sig[n] - sig[m]) for m in names if m != n) for n in names}
@@ -274,7 +302,7 @@ def task_row(row, j):
             out["singles"][n] = rec
             continue
         try:
-            Y = IA.transport(rc, xs_loop, dist=dist, stats=stats)
+            Y = transport_x(rc, xc, eps, xs_loop, dist, stats)
         except Exception as e:
             rec.update(used=False, why=f"transport: {type(e).__name__}: {e}")
             out["singles"][n] = rec
@@ -297,7 +325,7 @@ def task_row(row, j):
                 out["pairs"][lab] = rec
                 continue
             try:
-                Y = IA.transport(rc, xs_loop, dist=dist, stats=stats)
+                Y = transport_x(rc, xc, eps, xs_loop, dist, stats)
             except Exception as e:
                 rec.update(used=False, why=f"transport: {type(e).__name__}: {e}")
                 out["pairs"][lab] = rec
@@ -355,14 +383,15 @@ def task_Q3(j):
     lp = sp.simplify(sp.diff(sp.log(sp.diff(phi, x)), x))
     rb = sp.together(lp**2/4 - sp.diff(lp, x)/2) + sp.diff(phi, x)**2*AX.riemann_P(lam, mu, nu, phi)
     nB, dB = sp.fraction(sp.together(rb))
-    rB = IA.RationalFn(nB, dB, x, bad=[0])
     sig0 = 2j*math.pi*j                                   # sigma = 2/x^3 (beta = 1)
+    xcR, epsR, xc, eps = frame(1, sig0)
+    rB = rescaled_rc(nB, dB, x, [0], xcR, epsR, xc, eps)
     roots = [complex((2/(2j*math.pi*i))**(1/3)) for i in (j - 1, j, j + 1)]
     xr = roots[1]
     rho = 0.25*2*math.pi                                   # in sigma: neighbours at distance 2 pi
     circ = circle_sigma(sig0, rho, 1)
     pts = sigma_polyline(1, circ, spacing=0.05)
-    Y = IA.transport(rB, pts, dist=lambda q: min([abs(q - r) for r in roots] + [abs(q)]))
+    Y = transport_x(rB, xc, eps, pts, lambda q: min([abs(q - r) for r in roots] + [abs(q)]))
     t = IA.tr(Y)
     target = -2*math.cos(math.pi/5)
     e = -2*(arb.pi()/5).cos()
@@ -382,9 +411,10 @@ def task_Q4(j):
     s = 2*beta/x**3
     ysol = sp.exp(s/2)*sp.diff(s, x)**R_(-1, 2)
     check = sp.simplify(sp.diff(ysol, x, 2) - r0*ysol) == 0
-    rc = IA.RationalFn(sp.expand(9*beta**2 + 2*x**6), x**8, x, bad=[0])
     L = lattice("S1", j)
     names = list(L); sig = {n: L[n][1] for n in names}
+    xcR, epsR, xc, eps = frame(beta, sum(sig.values())/len(sig))
+    rc = rescaled_rc(sp.expand(9*beta**2 + 2*x**6), x**8, x, [0], xcR, epsR, xc, eps)
     c1 = (sig[names[0]] + sig[names[1]])/2
     base = c1 + 1j*math.pi + 6
     res = {}
@@ -392,7 +422,7 @@ def task_Q4(j):
     for lab, c, rho in ((names[0], sig[names[0]], 0.5*math.pi), (names[1], sig[names[1]], 0.5*math.pi),
                         ("pair_j", c1, 1.5*math.pi), ("pair_j1", (sig[names[1]] + sig[names[2]])/2, 1.5*math.pi)):
         xs_loop, _ = loop_element(beta, base, [], c, rho, base - c)
-        Y = IA.transport(rc, xs_loop, dist=lambda q: abs(q))
+        Y = transport_x(rc, xc, eps, xs_loop, lambda q: abs(q))
         t = IA.tr(Y)
         res[lab] = dict(trace=ball_str(t), Q4=ball_test(t, 2))
         if lab.startswith("pair"):
@@ -455,7 +485,7 @@ def run_task(name):
         G, H = YL6
         os.makedirs(OUTDIR, exist_ok=True)
         BG, BH = LE.box(G), LE.box(H)
-        ex = dict(family="mnlat", row=name, which="v1", N=100, g_word=out["T_L6"]["g"], h_word=out["T_L6"]["h"],
+        ex = dict(family="mnlat", row=name, which="v1", N=100, g_word=out["T_L6"]["g"], h_word=out["T_L6"]["h"], frame=out["frame"],
                   certificate_ok=True, gate_bit_for_bit=True, export_source="the certifying run itself (no regeneration)",
                   readback=(LE.readback_ok(G, BG) and LE.readback_ok(H, BH)), G=BG, H=BH)
         json.dump(ex, open(os.path.join(OUTDIR, f"lean_{name}.json"), "w"), indent=1)
