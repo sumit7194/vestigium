@@ -33,9 +33,19 @@ for rp in OUT.glob("mnflow_*.jsonl"):
     for line in rp.read_text().splitlines():
         try: done.add(json.loads(line)["id"])
         except Exception: pass                                 # a torn last line is recomputed
+defer = [d for d in os.environ.get("B15B_DEFER", "").split(",") if d]    # task ids moved to the end (the Bridge, 2026-11-18)
+tasks = [t for t in tasks if t["id"] not in defer] + [t for t in tasks if t["id"] in defer]
+# Memory fix (2026-11-18, teval_probe/FINDING.md, the Bridge approved): t_eval=[] stops solve_ivp storing every step
+# (sol.t/sol.y grew ~62 MB/min on G1_00_P; MNFlow uses only t_events/y_events; bit-identical on 8 tasks). The logged
+# final t is now the largest t the event function was evaluated at (= the last accepted step's end), not sol.t[-1].
+# CAVEAT: untested on a status -1 run; flag any status -1 row to the Bridge before trusting its logged t.
 _real = MNN.solve_ivp; LOG = []
-def _rec(*a, **k):
-    sol = _real(*a, **k); LOG.append((sol.status, bool(len(sol.t_events[0])) if sol.t_events is not None else False, float(sol.t[-1]))); return sol
+def _rec(fun, span, y0, **k):
+    ev0 = k.pop("events"); hi = [-np.inf]
+    def ev(t, s): hi[0] = max(hi[0], t); return ev0(t, s)
+    ev.direction = ev0.direction; ev.terminal = getattr(ev0, "terminal", False)
+    sol = _real(fun, span, y0, t_eval=np.array([]), events=ev, **k)
+    LOG.append((sol.status, bool(len(sol.t_events[0])) if sol.t_events is not None else False, float(hi[0]))); return sol
 MNN.solve_ivp = _rec
 kerr = MNN.MNFlow(89, 80, 0, sp.Rational(49, 50), sp.Rational(445, 2))
 with open(res_path, "a") as fh:
