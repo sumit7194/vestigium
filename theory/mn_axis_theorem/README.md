@@ -8,7 +8,7 @@ Imported 2026-11-18 on branch `mn-axis-theorem` (worktree `quantum-mnthm`), not 
 | `LITERATURE.md` | literature check (Step 0) | Claude Opus 5.5 subagent, briefed by Fable | as written; it lists what it could not verify |
 | `THEOREM.md` | corrected statement (revision 1), folding in REVIEW.md | Claude Opus 5.5 | reviewed once; not registered |
 | `REVIEW.md` | independent adversarial review: Theorem 1 STANDS WITH CORRECTIONS (9 overruled points, corrected statement) | a fresh Claude Opus 5.5 subagent with no Fable context; recorded by Opus 5.5 | done 2026-11-18 |
-| `../../PREREG_mn_axis_lattice_certified.md` | certified tests of the design near x = 0 | Claude Opus 5.5 (prereg and code), agreed by the Bridge | phase 1 ALL PASS at j = 10 (qsim/mn_lattice/RESULT_phase1.md); phase 2 pending |
+| `../../PREREG_mn_axis_lattice_certified.md` | certified tests of the design near x = 0 | Claude Opus 5.5 (prereg and code), agreed by the Bridge | registered reading PASS (qsim/mn_lattice/RESULT.md): T-exact, T-limit and T-L6 at j = 10, 100, 1000; 12/12 Lean-checked |
 
 Independent float check by the Bridge: `TheBridge/falsification/V21_mn_axis_theorem_check` (30231db). C1, C2 and the
 static C3 limit pass; the registered verdict is VOID on V21's own monotonicity clause (see its FINDINGS.md).

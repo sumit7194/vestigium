@@ -1,0 +1,86 @@
+{
+ "mnlat_R1j1000_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 106.3,
+  "error": null
+ },
+ "mnlat_R1j100_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 87.3,
+  "error": null
+ },
+ "mnlat_R1j10_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 79.9,
+  "error": null
+ },
+ "mnlat_R2j1000_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 71.1,
+  "error": null
+ },
+ "mnlat_R2j100_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 70.9,
+  "error": null
+ },
+ "mnlat_R2j10_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 72.2,
+  "error": null
+ },
+ "mnlat_S1j1000_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 73.5,
+  "error": null
+ },
+ "mnlat_S1j100_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 81.8,
+  "error": null
+ },
+ "mnlat_S1j10_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 78.8,
+  "error": null
+ },
+ "mnlat_S2j1000_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 74.4,
+  "error": null
+ },
+ "mnlat_S2j100_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 78.9,
+  "error": null
+ },
+ "mnlat_S2j10_v1": {
+  "status": "LEAN-CHECKED",
+  "axioms": "[propext, Classical.choice, Quot.sound]",
+  "returncode": 0,
+  "seconds": 77.9,
+  "error": null
+ }
+}
