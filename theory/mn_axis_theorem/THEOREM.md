@@ -75,7 +75,7 @@ on spelling out the large-|sigma| inverse branch of sigma = 2 sum alpha_n x^{-n-
 | item | what | where |
 |---|---|---|
 | Lemmas 1–3 for MN | V21 C1, C2 (Bridge, floats, 6e-35) | TheBridge V21 (30231db) |
-| Lemmas 1+2 for MN p1 and static | exact symbolic identity in the certified pipeline (Q1) | qsim/mn_lattice/Q1_*.json (c806979) |
+| Lemmas 1+2 for MN p1 and static | exact symbolic identity in the certified pipeline (Q1; same pipeline family, not independent) | qsim/mn_lattice/Q1_*.json (c806979) |
 | Lemma 1 general | re-derived; exact sympy cancellation with generic f0, c0 | REVIEW.md, A |
 | Static model limit (Lemmas 4(e), 6) | V21 C3 (floats, 1e-8); certified T-limit at j = 10, 100, 1000 (S1, S2) | V21; qsim/mn_lattice/RESULT.md |
 | Exponents 1/4, 3/4 at every lattice point | certified T-exact, 66 loops, static and rotating | qsim/mn_lattice/RESULT.md |

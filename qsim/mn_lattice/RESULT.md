@@ -70,7 +70,7 @@ The deviation falls as about 19.6/j^2, the same as V21's float values (0.166, 1.
 
 ## What this does and does not establish
 - It establishes, with certified enclosures and Lean-checked group logic, the pointwise obstruction at the stated rows
-  for loops near x = 0 (the scope line above). It also confirms Lemmas 1–3 exactly at the four rows (Q1), the
+  for loops near x = 0 (the scope line above). It also confirms Lemmas 1–3 exactly at the four rows (Q1; an exact check within the fleet's own pipeline family, not an independent one), the
   exponents (T-exact), and the static model's limit (T-limit).
 - It does NOT prove Theorem 1 for all parameters. That rests on the analytic proof (theory/mn_axis_theorem/DESIGN.md
   section 6, as corrected in THEOREM.md and REVIEW.md).

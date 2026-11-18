@@ -1,4 +1,14 @@
-# MN axis theorem: general non-integrability of Manko–Novikov geodesics (work in progress)
+# MN axis theorem: non-integrability of Manko–Novikov geodesics in the LOCALISED class near the axis (work in progress)
+
+Scope, stated up front (wording fix 2026-11-18, the Bridge's sweep request):
+- This is NOT "proved for all MN". THEOREM.md (revision 1) covers MN with alpha_2 = beta != 0, the axis orbit at L = 0, and first integrals meromorphic on a complex neighbourhood of the axis orbit over 0 < |x| < eps.
+- Real-analytic integrals on the physical exterior are NOT covered, nor are null geodesics or E = 0.
+- It is reviewed once and NOT registered as a result.
+
+On "independent":
+- Only two checks are independent of Fable's design: the fresh-context review (REVIEW.md) and the Bridge's V21.
+- Gate Q1 (qsim/mn_lattice) is an exact check inside the fleet's own certified-pipeline family. It is not an independent check.
+- Where DESIGN.md (kept verbatim) says "independent" (e.g. H3, H5), it means support from other fleet computations or a digest, not an independent verification.
 
 Imported 2026-11-18 on branch `mn-axis-theorem` (worktree `quantum-mnthm`), not main.
 
