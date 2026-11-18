@@ -29,6 +29,12 @@ theorem.
 - The Morales–Ramis step and the class of integrals. Those are for the review.
 - A finite run proves nothing at other parameter values.
 
+**Setup correspondence.** The claims tested are about the axis normal form of the MN geodesic flow at the stated
+rows. The R rows run at that exact condition: the same metric package, the same exact r_xi1 builder, the same ia_hub
+settings as 2ce8b41, with only the loops moved to the lattice near x = 0. The S rows run at the static condition
+alpha = 0, which the general claim includes. Gate Q1 checks there, symbolically, that the equation used is the axis
+normal form of that metric. So each row runs at the condition its claim names.
+
 ## 1. Rows
 
 | row | metric on the axis | (beta, E, mu^2) | lattices near x = 0 (sigma = 2 beta/x^3) |
