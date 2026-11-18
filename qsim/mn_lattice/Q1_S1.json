@@ -1,0 +1,9 @@
+{
+ "task": "Q1_S1",
+ "identity_zero": true,
+ "r_xi1_terms": [
+  5,
+  12
+ ],
+ "seconds": 0.3
+}
