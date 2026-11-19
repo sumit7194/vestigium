@@ -1,0 +1,8 @@
+2026-11-19 22:41:00 armed: old worker PID 56367, grind0 rows       33; waiting for a new row
+2026-11-19 23:45:32 new row: {"id": "G3_125_P", "ok": true, "value": 
+2026-11-19 23:45:32 VERIFIED PID 56367 owner=sumit cwd=/Users/sumit/Github/quantum/qsim/capd/horseshoe cmd=[/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -u b15b_mnflow_worker.py grind 0 1] -> SIGTERM
+2026-11-19 23:45:33 old worker stopped; grind0 rows       34
+2026-11-19 23:45:37 claim worker 0 PID 37214, guard PID 37219
+2026-11-19 23:45:41 claim worker 1 PID 37246, guard PID 37251
+2026-11-19 23:45:45 claim worker 2 PID 37279, guard PID 37291
+2026-11-19 23:45:45 DONE
