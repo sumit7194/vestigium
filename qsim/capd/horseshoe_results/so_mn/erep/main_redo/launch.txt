@@ -1,0 +1,7 @@
+registered main_redo run (E_REP_PREREG.md Amendment A2, REGISTERED 858234f; SO_FIXED_REDO_AMENDMENT.md REGISTERED)
+started 2026-11-19 10:28, PID 56446, cwd /Users/sumit/Github/quantum/qsim/capd/horseshoe/tests; binary mn_so_erep sha256 4a48b59ae87427ed9629fd6d6f313004a8293bcbf4fd64b5a13f4245ce7c112b (= the main run's and the A2 pre-tests')
+env: SO_EREP=zsym SO_FIXED_REDO=1 SAVE_FROM=287.5 SAVE_DT=0.25 (CKPT_SEC default 1800); nice 10; detached via tools/detach.sh
+cmd: ./mn_so_erep 1/10000000 /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/mn_smoke/b17_cp_1e-7.txt /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st 291.9
+guard PID 56532 (erep_guard.py, nice 10): (swap > 2 GB AND level >= 2) or level >= 4 sustained 600 s; disk < 5 GB or footprint > 300 MB at once; verified-PID stop; no auto-restart
+conditions met before launch: the main run's outcome recorded (22e5b70); T1r and T4r PASS (00fb184)
+reading: read_result.sh (a copy of main's, same criteria). Caveat for the reading (the Bridge): the fix test had REDO on only from t 287.756
