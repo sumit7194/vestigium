@@ -11,8 +11,9 @@ import re, subprocess, sys, time
 from pathlib import Path
 H = Path(__file__).resolve().parent; G = H.parent / "horseshoe_results" / "kerr" / "b15b_gates"; LOG = G / "g3_guard.log"
 pid = int(sys.argv[1]); CAP_MB = 1024; SUSTAIN = 600
+VERIFY = sys.argv[2] if len(sys.argv) > 2 else "grind 0 1"   # the worker args b15b_verify_kill.sh must see (claim workers: "claim <k>")
 def log(s):
-    with open(LOG, "a") as f: f.write(time.strftime("%Y-%m-%d %H:%M:%S ") + s + "\n")
+    with open(LOG, "a") as f: f.write(time.strftime("%Y-%m-%d %H:%M:%S ") + ("[%d] " % pid if len(sys.argv) > 2 else "") + s + "\n")
 def sh(cmd): return subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout.strip()
 def alive(p): return subprocess.run(["ps", "-p", str(p)], capture_output=True).returncode == 0
 def tree(p):
@@ -24,7 +25,7 @@ def footprint_mb(p):
     m = re.search(r"Footprint:\s*([\d.]+)\s*(KB|MB|GB)", sh("footprint -p %d 2>/dev/null | head -3" % p))
     return 0.0 if not m else float(m.group(1)) * {"KB": 1 / 1024, "MB": 1, "GB": 1024}[m.group(2)]
 def stop(why):
-    rc = subprocess.run([str(H / "b15b_verify_kill.sh"), str(pid), "grind 0 1", str(LOG)]).returncode
+    rc = subprocess.run([str(H / "b15b_verify_kill.sh"), str(pid), VERIFY, str(LOG)]).returncode
     log("STOP (%s): %s; the in-progress task (%s) is lost and not retried by this guard" % (why, "killed" if rc == 0 else "REFUSED by verification", last_task()))
     sys.exit(0)
 def last_task():
