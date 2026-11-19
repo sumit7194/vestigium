@@ -1,0 +1,1 @@
+GATE 2 (3 dummy workers, 12 tasks, one planted stale claim on G1_02_P): every task exactly once: PASS; per worker {'d0.jsonl': 5, 'd1.jsonl': 5, 'd2.jsonl': 2}; stale task taken by ['d2.jsonl']

@@ -1,0 +1,5 @@
+{"id": "G1_00_Pinv", "ok": true, "value": null, "route": "other", "solve_ivp": [], "error": null, "seconds": 1.0049688816070557}
+{"id": "G1_01_Pinv", "ok": true, "value": null, "route": "other", "solve_ivp": [], "error": null, "seconds": 1.0049421787261963}
+{"id": "G1_03_P", "ok": true, "value": null, "route": "other", "solve_ivp": [], "error": null, "seconds": 1.0049917697906494}
+{"id": "G1_04_P", "ok": true, "value": null, "route": "other", "solve_ivp": [], "error": null, "seconds": 1.0048718452453613}
+{"id": "G1_05_Pinv", "ok": true, "value": null, "route": "other", "solve_ivp": [], "error": null, "seconds": 1.0049760341644287}
