@@ -12,13 +12,18 @@ results file (resume after a kill or a reboot). Each result is one JSON line, fl
   seconds.
 The route comes from wrapping the solve_ivp NAME that mn_numerics calls (MNFlow's code is untouched): every call's
 sol.status and whether t_events was non-empty are recorded."""
-import json, os, sys, time, numpy as np, sympy as sp
+import json, os, subprocess, sys, time, numpy as np, sympy as sp
 from pathlib import Path
 import mn_numerics as MNN
 
 OUT = Path(__file__).resolve().parent.parent / "horseshoe_results" / "kerr" / "b15b_gates"
 ALL = json.loads((OUT / "tasks.json").read_text())
-if sys.argv[1] in ("fast", "grind"):
+CLAIM = sys.argv[1] == "claim"
+if CLAIM:                                              # claim mode (2026-11-19, the Bridge relayed Sumit's GO): every grind task,
+    k = int(sys.argv[2])                               # taken dynamically through per-task claim files; one jsonl per worker
+    grinds = {r["id"]: r["grinds"] for r in json.loads((OUT / "grind_prediction.json").read_text())}
+    tasks = [t for t in ALL if grinds[t["id"]]]; res_path = OUT / ("mnflow_claim%d.jsonl" % k)
+elif sys.argv[1] in ("fast", "grind"):
     mode, idx, nw = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
     grinds = {r["id"]: r["grinds"] for r in json.loads((OUT / "grind_prediction.json").read_text())}
     skip = os.environ.get("B15B_SKIP_MOD")             # "i%n==k": leave that original-mode worker's share alone
@@ -33,8 +38,39 @@ for rp in OUT.glob("mnflow_*.jsonl"):
     for line in rp.read_text().splitlines():
         try: done.add(json.loads(line)["id"])
         except Exception: pass                                 # a torn last line is recomputed
-defer = [d for d in os.environ.get("B15B_DEFER", "").split(",") if d]    # task ids moved to the end (the Bridge, 2026-11-18)
-tasks = [t for t in tasks if t["id"] not in defer] + [t for t in tasks if t["id"] in defer]
+# Gate overrides (claim-mechanism gate only; their outputs must not be named mnflow_*.jsonl in OUT):
+#   B15B_TASKS=id,id,...  replaces the task list;  B15B_RES=path  the result file;  B15B_IGNORE_DONE=1  recompute done ids;
+#   B15B_CLAIMS=dir  the claim directory;  B15B_DUMMY=seconds  sleep instead of computing (claim smoke test; value None).
+# (B15B_DEFER was dropped on 2026-11-19: its only target, G1_00_P, was already done; it had been a no-op.)
+if os.environ.get("B15B_TASKS"):
+    want = os.environ["B15B_TASKS"].split(","); byid = {t["id"]: t for t in ALL}; tasks = [byid[i] for i in want]
+if os.environ.get("B15B_RES"): res_path = Path(os.environ["B15B_RES"])
+if os.environ.get("B15B_IGNORE_DONE"): done = set()
+CLAIMS = Path(os.environ.get("B15B_CLAIMS", str(OUT / "claims"))); DUMMY = float(os.environ.get("B15B_DUMMY", "0"))
+MYCMD = " ".join(sys.argv)
+def _alive_same(pid, cmd):
+    r = subprocess.run(["ps", "-o", "command=", "-p", str(pid)], capture_output=True, text=True).stdout.strip()
+    return r.endswith(cmd)
+def all_done():
+    if os.environ.get("B15B_IGNORE_DONE"):                  # gate runs: only the gate's own result files (same directory)
+        return set(json.loads(l)["id"] for f in res_path.parent.glob("*.jsonl") for l in open(f) if l.strip())
+    d = set()
+    for rp in OUT.glob("mnflow_*.jsonl"):
+        for line in rp.read_text().splitlines():
+            try: d.add(json.loads(line)["id"])
+            except Exception: pass
+    return d
+def claim(tid):
+    """Atomic claim: O_CREAT|O_EXCL on CLAIMS/<id>. A claim whose PID is not alive with the same command line is stale: it is
+    replaced by an atomic rename, then re-read after 1 s; the task is ours only if the file then names this PID."""
+    CLAIMS.mkdir(parents=True, exist_ok=True); c = CLAIMS / tid; me = "%d %s\n" % (os.getpid(), MYCMD)
+    try:
+        fd = os.open(str(c), os.O_CREAT | os.O_EXCL | os.O_WRONLY); os.write(fd, me.encode()); os.close(fd); return True
+    except FileExistsError:
+        pid, _, cmd = c.read_text().strip().partition(" ")
+        if pid.isdigit() and _alive_same(int(pid), cmd): return False
+        tmp = CLAIMS / (".%s.%d" % (tid, os.getpid())); tmp.write_text(me); os.replace(tmp, c); time.sleep(1)
+        return c.read_text() == me
 # Memory fix (2026-11-18, teval_probe/FINDING.md, the Bridge approved): t_eval=[] stops solve_ivp storing every step
 # (sol.t/sol.y grew ~62 MB/min on G1_00_P; MNFlow uses only t_events/y_events; bit-identical on 8 tasks). The logged
 # final t is now the largest t the event function was evaluated at (= the last accepted step's end), not sol.t[-1].
@@ -51,9 +87,13 @@ kerr = MNN.MNFlow(89, 80, 0, sp.Rational(49, 50), sp.Rational(445, 2))
 with open(res_path, "a") as fh:
     for t in tasks:
         if t["id"] in done: continue
+        if CLAIM or os.environ.get("B15B_CLAIMS"):
+            if t["id"] in all_done() or not claim(t["id"]): continue
         LOG.clear(); t0 = time.time(); w = np.array(t["w"])
         try:
-            if t["call"] == "P":
+            if DUMMY:
+                time.sleep(DUMMY); val = None; ok = True; err = None
+            elif t["call"] == "P":
                 r = kerr.P(w, 1, jac=t["jac"], tmax=t["tmax"], rtol=t["tol"], atol=t["tol"])
                 val = None if r is None else [float(r[0][0]), float(r[0][1]), float(r[1])] + ([float(v) for v in np.asarray(r[2]).ravel()] if t["jac"] else [])
             else:
