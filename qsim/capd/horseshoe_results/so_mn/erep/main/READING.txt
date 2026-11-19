@@ -1,0 +1,6 @@
+== run: /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main/run.out
+CHECKPOINT t t=  283.8852 u1 2.205e-04/2.205e-04=1.00 u2 2.833e-07/2.832e-07=1.00 fake 1.219e-08 vs 7.434e-05 nH 2.28e-12  PASS
+containment: 24 point-projections checked, 0 not contained; reference runs with missing checkpoints: none
+CONTAINMENT PASS
+controls: C-floor containment PASS, HARNESS-ERROR lines 0, BUG lines 0, THREW lines 1
+VERDICT: INVALID (a control failed, or the 291.8852 checkpoint was not reached)
