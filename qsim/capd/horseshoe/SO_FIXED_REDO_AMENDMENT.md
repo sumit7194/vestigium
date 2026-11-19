@@ -1,6 +1,6 @@
 # Amendment: SO_FIXED_REDO becomes part of the registered second-order step
 
-Status: PROPOSED to the Bridge on 2026-11-19. It is registered when the Bridge agrees. This is gate 8 ("a registered
+Status: REGISTERED. The Bridge AGREED as proposed on 2026-11-19 (7e28f7d). The text below is unchanged from the proposal. This is gate 8 ("a registered
 amendment") of SECOND_ORDER_STEP_DESIGN.md §7.
 
 Sumit decided, relayed by the Bridge on 2026-11-19: YES to a Z-sym run with SO_FIXED_REDO=1. This amendment comes first;

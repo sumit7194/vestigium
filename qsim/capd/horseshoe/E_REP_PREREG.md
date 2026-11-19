@@ -124,7 +124,10 @@ Z-sym wall exceeds 2x the box run's.
 
 ## Amendment A2 (2026-11-19, Opus 5.5, session "Quantum"): a second registered run, Z-sym with SO_FIXED_REDO=1
 
-Status: PROPOSED to the Bridge. It is registered when the Bridge agrees. It is committed before any A2 test or run.
+Status: REGISTERED. The Bridge AGREED as proposed on 2026-11-19 (7e28f7d). The text below is unchanged from the proposal.
+It was committed before any A2 test or run.
+The Bridge's condition: launch only after the main run's registered outcome is recorded AND T1r/T4r pass. The reading
+must carry the caveat that the fix test had REDO on only from t 287.756.
 Sumit decided, relayed by the Bridge on 2026-11-19: YES to this run.
 Order: (1) the main run above reaches its registered outcome and is recorded as registered; (2) SO_FIXED_REDO_AMENDMENT.md is
 registered; (3) this A2. Nothing in A2 changes the main run's reading.
