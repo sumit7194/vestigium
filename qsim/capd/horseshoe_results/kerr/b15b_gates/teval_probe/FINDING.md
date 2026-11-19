@@ -43,3 +43,15 @@
   are identical, and the logged final t is identical (sol.t[-1] == max event-evaluation t, e.g. 303699.70880973886).
 - Limits: six tasks, five of them Pinv; G-type P tasks with jac (the grind0 kind) are not in the set, because
   each takes 1.5–3.4 h.
+
+## CORRECTION (2026-11-19, Opus 5.5, session "Quantum")
+- "Task #21 in grind0 is G1_00_P" was WRONG. I checked done-ness against grind0.jsonl only. The worker checks against ALL
+  mnflow_*.jsonl, and G1_00_P was already done in mnflow_w0.jsonl from October.
+- The task that actually grew memory on 17–18 Nov was **G3_044_P**. It was grind0's row 21, finished under the fix in
+  11,978 s.
+- The diagnosis is unaffected:
+  - the standalone profile of G1_00_P shows the same mechanism (scipy keeps the step history);
+  - the fix is bit-identical on 8 + 6 tasks;
+  - the worker has stayed flat at ~89 MB on the real tasks since 18 Nov.
+- `B15B_DEFER=G1_00_P` has been a NO-OP. The task is done, so the worker never scheduled it. The deferral is dropped from
+  future launches.
