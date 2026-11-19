@@ -121,3 +121,53 @@ Z-sym wall exceeds 2x the box run's.
   - The box wall is the original W0 = 1e-7 run's wall over those steps, from its logs (fix_test, the run the wrap test
     reproduced).
   - Any S4 speed-up from a narrower hull is not counted, so the projection errs high.
+
+## Amendment A2 (2026-11-19, Opus 5.5, session "Quantum"): a second registered run, Z-sym with SO_FIXED_REDO=1
+
+Status: PROPOSED to the Bridge. It is registered when the Bridge agrees. It is committed before any A2 test or run.
+Sumit decided, relayed by the Bridge on 2026-11-19: YES to this run.
+Order: (1) the main run above reaches its registered outcome and is recorded as registered; (2) SO_FIXED_REDO_AMENDMENT.md is
+registered; (3) this A2. Nothing in A2 changes the main run's reading.
+
+**Why.** The setup-correspondence line in §3 is wrong. The wrap-test runs, and the fix test the design was scored on,
+ran with SO_FIXED_REDO=1 (wrap_run.py sets it), not OFF. With REDO OFF, the box method blows up through the swing
+(so_mn/run_1e-7.out THREW at step 1465, t 289.05). At step 1400 the main run's maxE (8.86e-6) tracks that REDO-off box
+run (1.29e-5), not the REDO-on box run (8.86e-10). This was noticed at 07:46 on 2026-11-19, while the main run was
+still running, before any checkpoint after 283.885 had been reached.
+
+**The run ("main_redo").** Identical to §3, except:
+- the environment adds `SO_FIXED_REDO=1`;
+- the outputs go to `horseshoe_results/so_mn/erep/main_redo/`.
+Everything else is unchanged and stated in its launch.txt:
+- the binary `tests/mn_so_erep`, with its sha256 recorded and the same binary as the main run;
+- `SO_EREP=zsym`; W0 1/10000000; `mn_smoke/b17_cp_1e-7.txt`; from t = 0 to 291.9; `SAVE_FROM=287.5 SAVE_DT=0.25`;
+  CKPT_SEC default.
+
+**Corrected setup correspondence.** The claim is "B17 passes at t = 291.8852 for the MN W0 = 1e-7 piece". The run is at
+that condition:
+- the same piece and checkpoints;
+- the same field, Taylor order 20, MPFR 128 and step control;
+- SO_FIXED_REDO=1, as in the wrap-test and fix-test runs.
+One difference from the fix test is stated plainly. The fix test ran the box with REDO ON only from t 287.756 (step 1304),
+having resumed from the grid save of the REDO-OFF DIAG rerun. main_redo runs REDO ON from t = 0. Apart from that, only
+`SO_EREP` differs.
+
+**Pass criteria, reading and controls.** §5 and §6 unchanged: the primary is B17 at 291.8852 with u1, u2 and fake ratio each
+<= K = 5; the secondary, C-floor, C-identity and C-steps are as written. Two additions, both pre-run tests (< 30 min each,
+no slot), run and committed before the launch:
+- **T1r, the REDO identity.** `mn_so_erep` with `SO_EREP=box SO_FIXED_REDO=1` replays wrap-test segment C01 (from
+  `fix_test/fix_1e-7.state.t287.7668`, stop after 288.0, the wrap_run.py environment). Its grid save must be
+  byte-identical to `fix_test/fix_1e-7.state.t288.0099`, the file C01 was checked against in the wrap test (segments.tsv). This shows the E-rep binary reproduces the REDO-on box
+  path that the claim's comparison runs used.
+- **T4r, resume on the REDO path.** As T4 (stop after t 0.02, resume, stop after t 0.04, compare with an uninterrupted
+  run) with `SO_EREP=zsym SO_FIXED_REDO=1`. It must be byte-identical.
+If T1r or T4r fails, nothing is launched, and the failure goes to the Bridge.
+
+**Slot (the Bridge, 2026-11-19):** 1 core, nice 10, < 300 MB, ~1.5 days. The guard is the same as the main run's
+(erep_guard.py): (swap > 2 GB AND level >= 2) or level >= 4, sustained 600 s; disk < 5 GB or the run's own footprint
+> 300 MB stop it at once; verified-PID stops only; no automatic restart.
+- It launches only after the main run has ended (one core).
+- Estimate: the main run took ~15 h to step 1400. REDO adds two fixed-step Cn calls per step. The REDO-on box run took
+  ~17 h from t 287.77 to 291.88. So ~35–45 h; reported at launch.
+
+**Reporting.** A progress line to the Bridge about every 12 h, and at once on a guard stop, a BUG or a THREW.
