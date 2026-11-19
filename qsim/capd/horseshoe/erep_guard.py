@@ -12,7 +12,8 @@ waits for the Bridge. Logs every stop, every start and end of a sustained condit
 Exits when the run is gone."""
 import os, re, signal, subprocess, sys, time
 pid, LOG = int(sys.argv[1]), sys.argv[2]
-TESTS = "/Users/sumit/Github/quantum/qsim/capd/horseshoe/tests"; SUSTAIN = 600; CAP_MB = 300
+CAP_ARG = int(sys.argv[3]) if len(sys.argv) > 3 else None   # optional own-footprint cap in MB (main_redo: 500, the Bridge 2026-11-19 10:29)
+TESTS = "/Users/sumit/Github/quantum/qsim/capd/horseshoe/tests"; SUSTAIN = 600; CAP_MB = 300 if CAP_ARG is None else CAP_ARG
 def log(s):
     with open(LOG, "a") as f: f.write(time.strftime("%Y-%m-%d %H:%M:%S ") + s + "\n")
 def sh(cmd): return subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout.strip()

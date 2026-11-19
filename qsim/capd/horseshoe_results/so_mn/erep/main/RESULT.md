@@ -1,5 +1,13 @@
 # Registered Z-sym main run (E_REP_PREREG.md, REDO OFF): outcome
 
+## REGISTERED LABEL: **FAIL**
+FAIL (primary not reached: THREW at step 1478; controls all held). The script output 'INVALID' is recorded verbatim;
+this is a script/text discrepancy, resolved by the text (Bridge ruling, 2026-11-19).
+
+**Setup-mismatch caveat, kept next to the label.** This run had SO_FIXED_REDO OFF, unlike the design runs (the wrap
+test and the fix test had it ON). The REDO-off box run threw the same way at step 1465. So this FAIL mainly re-measures the
+known REDO-off swing failure, not the E representation. The corrected run is main_redo (Amendment A2).
+
 Recorded 2026-11-19 by Claude Opus 5.5 (session "Quantum").
 
 ## What happened
@@ -22,7 +30,7 @@ Recorded 2026-11-19 by Claude Opus 5.5 (session "Quantum").
 - The primary is not met (no 291.8852 line) and the secondary fails (a THREW before 291.8852). Read by the §6 table,
   that is **FAIL**.
 - The script was registered as the mechanical reading, and the prereg text as the criteria. They disagree on this case,
-  and the reading is left to the Bridge. Nothing is relabelled here.
+  and the reading was left to the Bridge, who ruled for the text (see the label above).
 
 ## The likely cause, stated plainly (A2)
 - The run had SO_FIXED_REDO OFF. §3's setup-correspondence line wrongly said the wrap-test runs did too; they ran with it ON.

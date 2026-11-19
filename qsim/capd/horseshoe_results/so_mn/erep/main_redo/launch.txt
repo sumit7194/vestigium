@@ -5,3 +5,4 @@ cmd: ./mn_so_erep 1/10000000 /Users/sumit/Github/quantum/qsim/capd/horseshoe_res
 guard PID 56532 (erep_guard.py, nice 10): (swap > 2 GB AND level >= 2) or level >= 4 sustained 600 s; disk < 5 GB or footprint > 300 MB at once; verified-PID stop; no auto-restart
 conditions met before launch: the main run's outcome recorded (22e5b70); T1r and T4r PASS (00fb184)
 reading: read_result.sh (a copy of main's, same criteria). Caveat for the reading (the Bridge): the fix test had REDO on only from t 287.756
+guard REPLACED 2026-11-19 10:30 on the Bridge's word: new guard PID 57459, own-footprint cap 500 MB (was 300), raised in advance; not result-driven (see guard.log)
