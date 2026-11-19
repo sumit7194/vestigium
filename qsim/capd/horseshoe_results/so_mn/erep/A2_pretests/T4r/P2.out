@@ -1,0 +1,5 @@
+# RESUMED from /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/A2_pretests/T4r/st at t=0.0267883539 steps 24 next checkpoint 0
+# EREP zsym (ZG 256,128), 199 generator columns at start
+# mn_so: W0 1/10000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 291.9
+STOP_AFTER_T 0.040000 reached at step 26 t=0.0595031977
+MN-SO PASS (time checkpoints only; informational) W0 1/10000000 steps 26 resteps 0 wall 80 s
