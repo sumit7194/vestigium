@@ -22,3 +22,9 @@
 2026-11-20 15:54:03 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
 2026-11-20 16:04:04 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
 2026-11-20 16:06:04 launcher PID 10918 gone; guard exits (peak 76 MB)
+2026-11-20 16:14:28 guard armed for launcher PID 72138 (/bin/bash mel_launch_L4.sh); disk < 5 GB or tree > 1024 MB at once; (swap > 2 GB and level >= 2) or level >= 4 sustained 600 s
+2026-11-20 16:14:28 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 16:24:29 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 16:34:31 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 16:44:32 footprint 75 MB (peak 76), swap 608 MB, pressure 1, disk 12 GB
+2026-11-20 16:52:33 launcher PID 72138 gone; guard exits (peak 76 MB)

@@ -7,3 +7,6 @@
 2026-11-20 15:03:44 L2 stage exit 0
 2026-11-20 16:05:44 controls exit 0
 2026-11-20 16:05:44 DONE
+2026-11-20 16:14:26 L4 start pid 72138; mel_gen.py sha256 f0dd82282329577a; mel_cert.py sha256 fa0bdf3f32acd51b
+2026-11-20 16:51:55 L4 exit 0
+2026-11-20 16:51:55 L4 DONE

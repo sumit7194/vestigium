@@ -145,3 +145,49 @@ included. Stage 1 is unchanged. This makes step 5 concrete; nothing in it loosen
 **Debugging before the counted run:** only at the two must-fail controls and at one off-grid point, (0.02, 0.1), each at a
 reduced box budget. These are reported as debug runs, never counted. Resources are 1 core at nice 10 under the existing
 slot (the Bridge, 2026-11-20).
+
+## Amendment S2-A2 (C by an L2 route; REGISTERED 2026-11-20, AFTER the L4 run and after the (0.02, 0.1) debug runs, BEFORE any counted point)
+Proposed by Claude Opus 5.5 (session "Quantum"). The Bridge APPROVED it with conditions 1–4, which are included.
+
+**Why it changed**
+- The A1 box rule is infeasible. Plain interval evaluation of the generated F has a dependency factor of about 5000 (F's
+  radius ≈ 5000 × width × |F|, in r and in z; the quadrupole cancellations in Hb).
+- The first 16×16 C boxes are non-finite. A mean-value form with box derivatives still gives a radius of ~1e3 at width
+  1e-3. Reaching the needed accuracy would take ~1e7 boxes.
+- The debug evidence is in debug_run1_tight_tol.out, debug_run2.out, T3_debug*.json and T3_controls.json.
+
+**What it does**
+- It bounds the same C another rigorous way. T3 is monotone in C, so any rigorous C̄ ≥ C keeps the pass rule rigorous.
+  The grid, b, tube certificate, gates, controls and pass rule are unchanged.
+- **The bound:** C ≤ (1/2π) (∬|G|² cosh(αλ))^{1/2} (∬ sech(αλ))^{1/2}, with α = κ.
+  - ∬_{ℝ×[0,2π]} sech(αλ) = 2π²/α.
+  - By the A1 symmetries the first integral is 4·I2h, with I2h = ∫_0^∞ ∫_0^π.
+  - So C ≤ √(2·I2h/α).
+- **The integrand is holomorphic.** |G(λ + iσ, χ − iτ)|² = G(λ + iσ, χ − iτ) · G(λ − iσ, χ + iτ) for real λ, χ.
+  - This holds because G is real-analytic with principal branches, off the cut, which the tube certificate excludes.
+  - The cut is conjugation-invariant, so the conjugate tube is covered too.
+  - So the integrand is holomorphic and is enclosed by nested acb.integral on [0, Λ_I = 2] × [0, π] (tolerances 2⁻⁸ rel,
+    2⁻¹⁶ abs; they set width only).
+- **The tail beyond Λ_I:** π (ψ'max Fmax/(ρ − d(Λ_I)))² (2AB/D0(Λ_I))² e^{−κΛ_I}/κ, with Fmax from the A1 disc × tube
+  boxes.
+
+**Conditions**
+1. The second factor is computed as G evaluated at (λ − iσ, χ + iτ), with λ, χ the complex balls acb.integral passes. It is
+   never conj(G(…)) of the first factor. The only conj calls in t3_cert.py are in the condition-3 gate (grep in the commit).
+2. Every evaluation inside the integrand branch-checks, whatever the analytic flag:
+   - r_h and ψ' with analytic=True;
+   - every sqrt in mel_gen.py is sqrt(analytic=True);
+   - a division by a ball containing 0 is non-finite;
+   - the flag passed by acb.integral is ignored.
+3. **Real-analyticity gate** at every point, before its C:
+   - at 20 random tube points, G(conj w) must overlap conj(G(w));
+   - at 5 real points, Im G must contain 0.
+   - A failure (RA-GATE-FAIL) makes stage 2 INVALID.
+4. **Known-value control** of the nested mechanism, in the counted launcher:
+   - P = 1/((λ − 1 − 0.02i)(χ − 1.5 + 0.02i)) on [0, 2] × [0, π], with poles 0.02 off both segments;
+   - the exact value is [Log(1 − 0.02i) − Log(−1 − 0.02i)][Log(π − 1.5 + 0.02i) − Log(−1.5 + 0.02i)];
+   - the enclosure must contain it, or stage 2 is INVALID.
+
+**Counted launcher:** `t3_cert.py --set full` runs the known-value control, the two must-fail points, then the 16 grid
+points, and writes T3.json. INVALID if any control or gate fails. Otherwise CERTIFIED-NONDEGENERATE if a counted point
+closes, else OPEN.
