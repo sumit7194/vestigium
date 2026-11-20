@@ -1,0 +1,23 @@
+D1 thin: residual 0.99e-10 vs tol 1e-10, e_map 1e-12       ok
+D1 thick: residual 1e-14 vs tol 1e-10, e_map 1e-13         ok
+D1 tol too tight flagged (tol 1e-10, e_map 2e-11)          ok
+D2 thin: lam_s = 1 - 1.2e-6 with dD 1e-7                   ok
+D2 thick: lam 62.6 / 0.016, dD 1e-10                       ok
+D2 near-complex flagged (disc ~ 0)                         ok
+D4 thin: crossing at t = 1 - 1e-9, errors 1e-10            ok
+D4 thick: crossing at t = 0.5                              ok
+D4 near miss: t = 1 + 1e-9 is flagged                      ok
+D4 near-parallel: dt grows like 1/sin(angle)               ok
+D4 vertex: extended >= strict counted near a vertex        ok
+D4 vertex thick: interior crossing, no zero-count risk     ok
+D4 arc end: a miss just past the end is a zero-count risk  ok
+D6 thin: angle 0.01 + 1e-9, errors 1e-10 / length 1e-2     ok
+D6 thick: angle 0.5                                        ok
+D7 thin: angle = 10 floor + 1e-12                          ok
+D7 thick: angle 100x the threshold                         ok
+D8 chord-only accept -> UNRESOLVED                         ok
+D8 non-chord accept -> CONNECTION                          ok
+D8 none -> NO CONNECTION                                   ok
+replica: records drops                                     ok
+replica: a chord appears only AFTER the drop level         ok
+G6 TOYS PASS

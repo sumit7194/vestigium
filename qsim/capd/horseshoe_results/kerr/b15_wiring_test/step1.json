@@ -1,0 +1,31 @@
+{
+ "level": {
+  "M": 89,
+  "a": 80,
+  "q": 0,
+  "E": "49/50",
+  "L": "445/2"
+ },
+ "seed": [
+  1.8411884397812655,
+  0.0
+ ],
+ "map": "rust",
+ "lib": "/Users/sumit/Github/quantum/qsim/capd/horseshoe/kerr_rs/target/release/libkerr_rs.dylib",
+ "lib_sha256": "42ea6c3cb33c6d75f068525750fbddd3718d06b080fbce191075abf2ec8759c2",
+ "delta_floor": 1e-06,
+ "g4_state_error": 2.0303051774528402e-11,
+ "step1": {
+  "z": [
+   1.8411884397812655,
+   0.0
+  ],
+  "eigvals": [
+   "(0.015969270376356093+0j)",
+   "(62.620268580319085+0j)"
+  ],
+  "saddle": true,
+  "lam_u": 62.620268580319085
+ },
+ "seconds": 0.014583110809326172
+}

@@ -10,19 +10,46 @@ import mn_numerics as MNN
 OUT = Path(__file__).resolve().parent.parent / "horseshoe_results" / "kerr"; OUT.mkdir(exist_ok=True)
 TMAX = 1e6                                   # the homoclinic swings out to r = 46.8 M: returns are long
 t0 = time.time()
-kerr = MNN.MNFlow(89, 80, 0, sp.Rational(49, 50), sp.Rational(445, 2))
+import os, hashlib, pcache
+MAP = os.environ.get("B15_MAP", "mnflow")    # B15b (registered): "rust" = the compiled kerr_rs map; default MNFlow, unchanged
+if MAP == "rust":
+    # B15b / B15b-1 (registered 2026-10-24): kerr_rs behind MNFlow's interface; gates G0-G5 PASSED before this run
+    # (G1/G3/G4 + G4c: 9e6e6f1). delta_floor = max(1e-6, 100 x the largest G4-measured state error) for the plunge
+    # certificate. NEW journal/JSON/arcs names: an MNFlow journal is never replayed into a rust run (pcache keys do not
+    # name the map). A MapCheckFailed (-1, or an uncertified -2) is raised, never turned into None, and stops the run.
+    import kerr_compiled as KC
+    kerr = KC.CompiledFlow(KC.RUST)
+    _g4 = json.loads((OUT / "b15b_gates" / "G1_G3_G4.json").read_text())["G4"]
+    G4_ERR = max(r[n]["maxrel"] for r in _g4 for n in ("rust", "c++") if "maxrel" in r[n])
+    kerr.delta_floor = max(1e-6, 100 * G4_ERR)
+    LIBSHA = hashlib.sha256(Path(KC.RUST).read_bytes()).hexdigest()
+    PLUNGES = OUT / os.environ.get("B15_PLUNGES", "b15_rust_plunges.jsonl")   # every certified plunge (G6 P5), appended as it happens
+    _pl0 = kerr._plunge
+    def _plunge_logged(kind, w, sign):
+        r = _pl0(kind, w, sign); rec = dict(kerr.plunges[-1]); rec.update(kind=kind, w=[float(w[0]), float(w[1])])
+        with open(PLUNGES, "a") as fh: fh.write(json.dumps(rec, default=float) + "\n"); fh.flush(); os.fsync(fh.fileno())
+        return r
+    kerr._plunge = _plunge_logged
+    DEF = dict(journal="b15_rust.journal", json="b15_kerr_rust.json", arcs="b15_rust_arcs.npz")
+elif MAP == "toy":                           # TEST ONLY (test_b15b_g6_run.py): the toy map of b15b_toyflow.py, never counted
+    import b15b_toyflow; kerr = b15b_toyflow.ToyFlow(); log_seed = [0.0, 0.0]
+    DEF = dict(journal="b15_wiring_test/toy.journal", json="b15_wiring_test/toy.json", arcs="b15_wiring_test/toy_arcs.npz")
+else:
+    kerr = MNN.MNFlow(89, 80, 0, sp.Rational(49, 50), sp.Rational(445, 2))
+    DEF = dict(journal="b15_kerr.journal", json="b15_kerr_ck.json", arcs="b15_ck_arcs.npz")
 H = MNN.plug_into_constructor(kerr)
 H.P = lambda w, n=1, jac=False: kerr.P(w, n, jac, tmax=TMAX)
 H.Pinv = lambda w: kerr.Pinv(w, tmax=TMAX)
-import os, pcache
-J = pcache.Journal(str(OUT / os.environ.get("B15_JOURNAL", "b15_kerr.journal")))   # crash-safe checkpoint of every finished map call
+J = pcache.Journal(str(OUT / os.environ.get("B15_JOURNAL", DEF["journal"])))   # crash-safe checkpoint of every finished map call
 H = pcache.wrap(H, J)
-log = dict(level=dict(M=89, a=80, q=0, E="49/50", L="445/2"), seed=[1.8411884397812655, 0.0])
+log = dict(level=dict(M=89, a=80, q=0, E="49/50", L="445/2"), seed=[1.8411884397812655, 0.0], map=MAP)
+if MAP == "toy": log["seed"] = [0.0, 0.0]
+if MAP == "rust": log.update(lib=str(KC.RUST), lib_sha256=LIBSHA, delta_floor=kerr.delta_floor, g4_state_error=G4_ERR)
 
 
 def save():
     log["seconds"] = time.time() - t0
-    (OUT / os.environ.get("B15_JSON", "b15_kerr_ck.json")).write_text(json.dumps(log, indent=1, default=float))
+    (OUT / os.environ.get("B15_JSON", DEF["json"])).write_text(json.dumps(log, indent=1, default=float))
 
 
 # step 1: saddle
@@ -41,7 +68,7 @@ au = H.manifold_arcs(z, si["e_u"], si["lam_u"], forward=True, K=5, eps=1e-4)
 print("W^u arcs: %d pts %.0fs" % (sum(len(a) for _, a in au), time.time() - t0), flush=True)
 as_ = H.manifold_arcs(z, si["e_s"], 1 / si["lam_s"], forward=False, K=5, eps=1e-4)
 print("W^s arcs: %d pts %.0fs" % (sum(len(a) for _, a in as_), time.time() - t0), flush=True)
-np.savez(OUT / os.environ.get("B15_ARCS", "b15_ck_arcs.npz"), **{f"u_{k}_{i}": a for i, (k, a) in enumerate(au)}, **{f"s_{k}_{i}": a for i, (k, a) in enumerate(as_)})
+np.savez(OUT / os.environ.get("B15_ARCS", DEF["arcs"]), **{f"u_{k}_{i}": a for i, (k, a) in enumerate(au)}, **{f"s_{k}_{i}": a for i, (k, a) in enumerate(as_)})
 allc = H.crossings(au, as_, min_angle=0.0, skip_near=[z])          # ALL crossings, for the data record
 
 
@@ -75,4 +102,7 @@ print("step 2: %d crossings in all, %d with angle >= 0.01, %d red flags; angles 
     len(rec), len(acc), log["step2"]["n_red_flags"], log["step2"]["min_angle"], log["step2"]["max_angle"]), flush=True)
 log["verdict_constructor"] = ("STOPPED at step 2: no transverse connection (B14 threshold 0.01)" if not acc else
                               "step 2 returned candidate connections: steps 3-4 required (prediction: rigorous coverings give no rho > 1)")
+if acc: log["scope_note"] = ("B15b-2: registered prediction NOT CONFIRMED because of an implementation scope limit (steps 3-4 not "
+                             "implemented); this is not a negative result. Chord crossings are classified by G6 (b15b_g6.py).")
+if MAP == "rust": log["plunges_certified"] = len(kerr.plunges)    # in this process (a resumed run: see the plunges file)
 save(); print(log["verdict_constructor"])

@@ -1,0 +1,170 @@
+{
+ "level": {
+  "M": 89,
+  "a": 80,
+  "q": 0,
+  "E": "49/50",
+  "L": "445/2"
+ },
+ "seed": [
+  0.0,
+  0.0
+ ],
+ "map": "toy",
+ "step1": {
+  "z": [
+   0.0,
+   0.0
+  ],
+  "eigvals": [
+   "(9.898979485566356+0j)",
+   "(0.1010205144336438+0j)"
+  ],
+  "saddle": true,
+  "lam_u": 9.898979485566356
+ },
+ "seconds": 2.9123940467834473,
+ "step2": {
+  "n_crossings_all": 12,
+  "n_at_or_above_0p01": 10,
+  "min_angle": 4.14525225585034e-12,
+  "max_angle": 0.9931315645000334,
+  "n_red_flags": 10,
+  "crossings": [
+   {
+    "point": [
+     -0.3218325049833588,
+     2.8197601613618204
+    ],
+    "angle": 0.9931315645000334,
+    "k_u": 4,
+    "k_s": 4,
+    "theta_floor": 0.007142888996883238,
+    "red_flag": true
+   },
+   {
+    "point": [
+     3.1415926535789,
+     2.819760161352119
+    ],
+    "angle": 0.6667397801297735,
+    "k_u": 4,
+    "k_s": 5,
+    "theta_floor": 3.0986171707009906e-08,
+    "red_flag": true
+   },
+   {
+    "point": [
+     0.8461738979842868,
+     2.8197601613617578
+    ],
+    "angle": 4.145817687793711e-12,
+    "k_u": 4,
+    "k_s": 5,
+    "theta_floor": 0.0,
+    "red_flag": true
+   },
+   {
+    "point": [
+     -3.1415926535711933,
+     2.8197601613785035
+    ],
+    "angle": 0.6667425321610327,
+    "k_u": 4,
+    "k_s": 5,
+    "theta_floor": 2.687833995559239e-06,
+    "red_flag": true
+   },
+   {
+    "point": [
+     -0.3218325034453581,
+     2.8197601483071373
+    ],
+    "angle": 0.7359834004398643,
+    "k_u": 5,
+    "k_s": 4,
+    "theta_floor": 0.00016147307122250056,
+    "red_flag": true
+   },
+   {
+    "point": [
+     -0.3218324922238061,
+     2.8197601613666627
+    ],
+    "angle": 0.7584133948792233,
+    "k_u": 5,
+    "k_s": 5,
+    "theta_floor": 17037.177099483702,
+    "red_flag": false
+   },
+   {
+    "point": [
+     0.3218325049833588,
+     -2.8197601613618204
+    ],
+    "angle": 0.9931315645000334,
+    "k_u": -4,
+    "k_s": -4,
+    "theta_floor": 0.007142888996883238,
+    "red_flag": true
+   },
+   {
+    "point": [
+     -3.1415926535788996,
+     -2.819760161352119
+    ],
+    "angle": 0.6667397801297731,
+    "k_u": -4,
+    "k_s": -5,
+    "theta_floor": 2.9822224067908335e-09,
+    "red_flag": true
+   },
+   {
+    "point": [
+     -0.8458607920482124,
+     -2.8197601613617578
+    ],
+    "angle": 4.14525225585034e-12,
+    "k_u": -4,
+    "k_s": -5,
+    "theta_floor": 0.0,
+    "red_flag": true
+   },
+   {
+    "point": [
+     3.1415926535711973,
+     -2.8197601613785
+    ],
+    "angle": 0.6667425321610323,
+    "k_u": -4,
+    "k_s": -5,
+    "theta_floor": 2.687833995559239e-06,
+    "red_flag": true
+   },
+   {
+    "point": [
+     0.3218325034453581,
+     -2.8197601483071373
+    ],
+    "angle": 0.7359834004398643,
+    "k_u": -5,
+    "k_s": -4,
+    "theta_floor": 0.00016147307122250056,
+    "red_flag": true
+   },
+   {
+    "point": [
+     0.3218324922238074,
+     -2.8197601613666605
+    ],
+    "angle": 0.7584620509770402,
+    "k_u": -5,
+    "k_s": -5,
+    "theta_floor": 8.343360468118398,
+    "red_flag": false
+   }
+  ]
+ },
+ "verdict_constructor": "step 2 returned candidate connections: steps 3-4 required (prediction: rigorous coverings give no rho > 1)",
+ "scope_note": "B15b-2: registered prediction NOT CONFIRMED because of an implementation scope limit (steps 3-4 not implemented); this is not a negative result. Chord crossings are classified by G6 (b15b_g6.py)."
+}
