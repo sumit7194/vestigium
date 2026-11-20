@@ -30,7 +30,7 @@ re-tuned; it reads the registered outputs. The Bridge rules on the next step.
 - **B15b-2 scope note:** the registered prediction is NOT CONFIRMED because of an implementation scope limit (steps
   3-4 are not implemented). This is not a negative result.
 
-## G6 verdict: UNRESOLVED (registered rule)
+## G6 details
 - **Completeness:**
   - complete = true;
   - replica bit-identical;
@@ -51,26 +51,37 @@ re-tuned; it reads the registered outputs. The Bridge rules on the next step.
   recorded.
 - **Note carried from the Bridge:** the 1e-14 error is a self-convergence ESTIMATE (1e-14 vs 1e-13, × 3), not a bound.
 
-## The accepts: all 147 survive as robust (a constructor finding)
-- **D8 = CONNECTION** with n_accept 147 and n_chord_accept 0. D8's thin = true comes from the thin REJECTS in its
-  input list, not from the accepts.
-- **Each of the 147 accepts** was thin at the run tolerance, and each is:
-  - accepted again at 1e-14;
-  - NOT thin at 1e-14;
-  - not on a chord.
-- **Angles:** 0.010017 to 0.04586. The smallest margin above 0.01 is 1.70e-5; the largest change in an angle between
-  the run and 1e-14 is 7.6e-9, about 2000× below that margin.
-- **Error measurement:** 81 of the 147 have measured errors. The other 66 lie beyond the G4 range ("error unmeasured"),
-  so their robustness rests on an extrapolated error.
-- **Crossing indices** run from 4091 to 8913.
-- **What this says:** at the registered floating-point margin standard (an ESTIMATE, not a bound), the constructor's
-  candidate connections are not artefacts of a thin decision. They are candidates for steps 3–4, which remain
-  unimplemented. Nothing here is a rigorous covering, and nothing says whether ρ > 1.
+## 1. Step 2: UNRESOLVED (registered rule)
+This is the headline, under the registered G6 rule.
+- 6023 of the 10081 crossings are still thin at 1e-14.
+- 203,299 of the 1,639,912 near-misses are still thin at 1e-14.
+- 211 near-misses are red flags that the run did not record. They exist at 1e-14, with angles 8.3e-7 to 4.6e-6.
+- 2150 crossings carry "error unmeasured" (a return beyond the G4 range).
 
-## What the registered rule gives
-- Step 2's outcome under G6 is **UNRESOLVED**: 6023 thin crossing decisions and 203,299 thin near-miss decisions. It
-  is not decided either way.
-- That holds even though the accept/CONNECTION side is robust. The unresolved decisions are all rejects or red flags,
-  which bear on the B15 prediction about red flags; they do not bear on whether a connection exists.
-- Whether the prereg wants step 2 read per decision type, or as one outcome, is for the Bridge. I have not re-read it
-  to suit the result.
+Step 2 is not decided either way. D8 = CONNECTION (n_accept 147, n_chord_accept 0). D8's thin = true comes from the thin
+rejects in its input list.
+
+## 2. Post-result reading (NOT registered): the outcome is separable by decision type
+This reading was added after the result, at the Bridge's instruction (2026-11-20). It sits under the registered outcome
+and does not replace it.
+- **The ACCEPT side is robust.**
+  - 147/147 accepts are re-accepted at 1e-14; none is thin at 1e-14 and none is on a chord.
+  - Angles run from 0.010017 to 0.04586. The minimum margin above 0.01 is 1.70e-5; the maximum angle shift between the
+    run and 1e-14 is 7.6e-9.
+  - Crossing indices run from 4091 to 8913.
+- **The 147 split by how their error is known:**
+  - **81 have measured error.** These are the strongest candidates.
+  - **66 rest on an extrapolated error,** because their returns lie beyond the G4 range. They are WEAKER: their
+    robustness is only as good as the extrapolation.
+- **Every unresolved item is a reject or a red flag** (the 6023 crossings, the 203,299 near-misses and the 211
+  unrecorded red flags). None is an accept. These bear on the B15 red-flag prediction, not on the candidate
+  connections.
+
+## 3. What "robust" means here
+**Every 1e-14 error is an ESTIMATE (self-convergence, 1e-14 vs 1e-13, × 3), not a bound. "Robust" means numerically
+stable, not certified. The candidate connections become a result only through steps 3–4 (rigorous coverings), which
+are not yet implemented. Nothing here says whether ρ > 1.**
+
+## Next (the Bridge, 2026-11-20)
+- Register steps 3–4 after the Melnikov stage-2 counted run finishes, which frees the box's memory.
+- Cover the 81 measured-error accepts first.
