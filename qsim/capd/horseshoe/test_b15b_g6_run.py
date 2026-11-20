@@ -27,6 +27,9 @@ check("T1 D6 / D7 counts = the run's", c["D6_accepts"] == c["run_D6"] and c["D7_
 cr = rep["decisions"]["crossings"]; tiny = [x for x in cr if x["angle"] < 1e-6]
 check("T2 the near-tangent crossings (%d) are thin" % len(tiny), tiny and all(x["D4"]["thin"] or x["D6"]["thin"] or x["vertex"]["zero_count_risk"] for x in tiny))
 check("T2 every thin crossing went to the 1e-14 recompute", all("recompute_1e-14" in x for x in cr if x["D4"]["thin"] or x["D6"]["thin"] or x["D7"]["thin"] or x["vertex"]["zero_count_risk"] or x["D5_thin"]))
+nm = rep["decisions"]["near_misses"]
+check("T2 every near-miss that could reach min(0.01, 10 theta) was recomputed (%d of %d)" % (sum(x["could_flag"] for x in nm), len(nm)),
+      all("recompute_1e-14" in x for x in nm if x["could_flag"]) and all(x["threshold"] <= 0.01 for x in nm))
 import b15b_g6 as G
 nd = sum(1 for k, v in mem.items() if v is None)
 check("T3 the hole produced None results (%d)" % nd, nd > 0)

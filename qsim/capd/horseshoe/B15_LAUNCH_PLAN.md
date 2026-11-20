@@ -1,6 +1,13 @@
 # B15 counted run with the compiled map (B15_MAP=rust): launch plan
 
-Status: DRAFT for the Bridge to take to Sumit, 2026-11-20. **Nothing launches without Sumit's OK.**
+Status: the Bridge REVIEWED it on 2026-11-20, and is taking it to Sumit. **Nothing launches without Sumit's OK.**
+- **G6 design:** AGREED, with choices 1, 2 and 4 as proposed. Choice 2's 1e-14 error is labelled an ESTIMATE, not a bound.
+- **Choice 3 is CHANGED by the Bridge:** recompute every near-miss that could become a crossing with
+  angle >= min(0.01, 10 theta_floor), because the prediction is about the RED-FLAG level. Committed before launch, with
+  the driver test rerun (PASS).
+- **Priority:** nice 10 with the usual guard, agreed.
+- **Many UNRESOLVED decisions** would be the honest registered outcome; nothing is tuned to avoid them.
+- **Steps 3–4** not implemented: agreed as the scope limit.
 Written by Claude Opus 5.5 (session "Quantum").
 
 ## 1. What has passed

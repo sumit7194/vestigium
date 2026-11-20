@@ -276,15 +276,24 @@ def g6(R, z_dir=None):
                 strict = (np.abs(den) > 1e-18) & (edge >= 0)
                 cand = (np.abs(den) > 1e-18) & ~strict & (np.abs(edge) < G.THIN_FACTOR * dt)
                 for j in np.nonzero(cand)[0]:
-                    da = eUs[i] / nr + eSs[j] / sn[j]
-                    near.append(dict(u=(ai, i), s=(bj, int(j)), angle=float(ang[j]), t=float(t[j]), uu=float(u[j]),
-                                     could_accept=bool(ang[j] + G.THIN_FACTOR * da >= 0.01), on_chord=bool(CU[ai][i] or CS[bj][j])))
+                    # the Bridge (2026-11-20, G6 choice 3): recompute wherever the near-miss could become a crossing with
+                    # angle >= min(0.01, 10 theta_floor) -- B15's prediction is about the RED-FLAG level, so a missed red
+                    # flag below 0.01 must not slip through. theta_floor at the lines' intersection, by the run's floor_at.
+                    da = eUs[i] / nr + eSs[j] / sn[j]; pt_ = a_ + t[j] * r; th_ = theta_floor_at(pt_, au, as_)
+                    thr = min(0.01, 10 * th_) if np.isfinite(th_) else 0.0
+                    near.append(dict(u=(ai, i), s=(bj, int(j)), angle=float(ang[j]), t=float(t[j]), uu=float(u[j]), theta_floor=float(th_),
+                                     threshold=float(thr), could_accept=bool(ang[j] + G.THIN_FACTOR * da >= 0.01),
+                                     could_flag=bool(ang[j] + G.THIN_FACTOR * da >= thr), on_chord=bool(CU[ai][i] or CS[bj][j])))
     rep["decisions"]["near_misses"] = near
     for x in near:
-        if x["could_accept"]:
+        if x["could_flag"]:
             rec = recompute_crossing(R, z, e_u, e_s, mu[x["u"][0]], ms[x["s"][0]], x["u"][1], x["s"][1]); x["recompute_1e-14"] = rec
             if rec.get("thin", True): rep["unresolved"].append("near-miss %s/%s thin at 1e-14" % (x["u"], x["s"]))
-            if rec.get("exists"): flag("near-miss %s/%s EXISTS at 1e-14" % (x["u"], x["s"]))
+            if rec.get("exists"):
+                red = rec.get("angle") is not None and np.isfinite(x["theta_floor"]) and rec["angle"] > 10 * x["theta_floor"]
+                rec["red_flag"] = bool(red)
+                flag("near-miss %s/%s EXISTS at 1e-14 (angle %.3g%s)" % (x["u"], x["s"], rec.get("angle") or float("nan"),
+                                                                       ", a RED FLAG the run did not record" if red else ""))
     # ---- D3 / B15b-1 P5
     nones = sum(1 for v in R.mem.values() if v is None)
     rep["decisions"]["D3"] = dict(journal_nones=nones, plunge_records=len(R.plunges),
@@ -294,10 +303,31 @@ def g6(R, z_dir=None):
     cand = [dict(accepted=r.get("recompute_1e-14", {}).get("accepted", r["D6"]["accepted"]) if r.get("recompute_1e-14") else r["D6"]["accepted"],
                  thin=bool(r.get("recompute_1e-14", {}).get("thin")) if r.get("recompute_1e-14") else False, on_chord=r["on_chord"]) for r in rows]
     cand += [dict(accepted=bool(x.get("recompute_1e-14", {}).get("exists") and x["recompute_1e-14"].get("accepted")),
-                  thin=bool(x.get("recompute_1e-14", {}).get("thin")), on_chord=x["on_chord"]) for x in near if x["could_accept"]]
+                  thin=bool(x.get("recompute_1e-14", {}).get("thin")), on_chord=x["on_chord"]) for x in near if x["could_flag"]]
     d8 = G.d8_connection(cand); rep["decisions"]["D8"] = d8
     if not rep["complete"] and d8["outcome"] == "CONNECTION": d8["outcome"] = "UNRESOLVED (G6 INCOMPLETE, B15b-2 rule 5)"
     return finish(rep)
+
+
+def floor_at(pt, arcs):
+    """theta_floor's ingredients at pt, VERBATIM from b15_kerr_ck.py (the run's own definition): (distance, l, kappa)"""
+    best = None
+    for _, A in arcs:
+        if len(A) < 3: continue
+        d = np.linalg.norm((A[:-1] + A[1:]) / 2 - pt, axis=1); i = int(np.argmin(d))
+        if best is None or d[i] < best[0]:
+            j0, j1 = max(i - 1, 0), min(i + 1, len(A) - 2)
+            seg = lambda j: A[j + 1] - A[j]
+            t1, t2 = seg(j0), seg(j1); l = np.linalg.norm(seg(i))
+            turn = abs(np.arctan2(t1[0] * t2[1] - t1[1] * t2[0], t1 @ t2))
+            span = np.linalg.norm(A[j1 + 1] - A[j0]) or 1.0
+            best = (d[i], l, turn / span)
+    return best
+
+
+def theta_floor_at(pt, au, as_):
+    fu, fs = floor_at(pt, au), floor_at(pt, as_)
+    return (fu[2] + fs[2]) / 2 * (fu[1] + fs[1]) if fu and fs else float("nan")
 
 
 def recompute_crossing(R, z, e_u, e_s, mU, mS, i, j):
@@ -321,6 +351,7 @@ def recompute_crossing(R, z, e_u, e_s, mU, mS, i, j):
 
 
 def finish(rep):
+    rep["notes"].append("The error used at 1e-14 is a self-convergence ESTIMATE (1e-14 vs 1e-13, x 3), not a bound (the Bridge, 2026-11-20).")
     if not rep["complete"]: rep["verdict"] = "INCOMPLETE"
     elif rep["unresolved"]: rep["verdict"] = "UNRESOLVED (%s)" % "; ".join(rep["unresolved"])
     else: rep["verdict"] = "PASS (%d flags)" % len(rep["flags"])

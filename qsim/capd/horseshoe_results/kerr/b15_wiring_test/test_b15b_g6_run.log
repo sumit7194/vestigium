@@ -4,6 +4,7 @@ T1 D4 count = the run's (12)                                           ok
 T1 D6 / D7 counts = the run's                                          ok
 T2 the near-tangent crossings (2) are thin                             ok
 T2 every thin crossing went to the 1e-14 recompute                     ok
+T2 every near-miss that could reach min(0.01, 10 theta) was recomputed (8263 of 8263) ok
 T3 the hole produced None results (834)                                ok
 T3 drops recorded (264 / 1304) and chord segments found (4)            ok
    verdict: UNRESOLVED (crossing 1 thin at 1e-14; crossing 2 thin at 1e-14; crossing 3 thin at 1e-14; crossing 5 thin at 1e-14; cros | D8: CONNECTION
