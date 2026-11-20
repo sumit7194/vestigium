@@ -15,6 +15,12 @@ reproduction: the Bridge, V23 (TheBridge falsification/V23_mn_melnikov_check).
   It certifies L4 (same pipeline, cos 4ψ) and a rigorous bound T3 ≥ Σ_{m≥3} m² |L_{2m}|, such that |L2| > 4|L4| + T3.
   Pass word: **CERTIFIED-NONDEGENERATE**. If the bound does not close, stage 2 is reported **OPEN**; nothing is loosened.
 
+## Setup correspondence
+The claim is "the MN quadrupole's Melnikov second harmonic L2 is nonzero (and the zero is nondegenerate) at
+(M, a, r_u, z_m) = (5, 3, 16, 1/2)", which Theorem A' / A (fable_work/mn_melnikov/THEOREM_DRAFT.md) use at exactly this
+orbit. The computation runs at that condition: the same (M, a, r_u, z_m), the same level (E, L, Q), and the same definitions of
+r_h, ψ and F as SETUP.md / CERTIFY.md and V23. It is the first-order (small-β) statement, not a fixed-β one.
+
 ## Independence
 - F is built from quantum's own MN transcription, `qsim/capd/horseshoe/mn_codegen.build()`: the symbolic H in
   (x, y, p_x, p_y; k, α, β, E, L).
