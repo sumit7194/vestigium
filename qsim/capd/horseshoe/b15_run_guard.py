@@ -20,7 +20,8 @@ def fp(p):
     m = re.search(r"Footprint:\s*([\d.]+)\s*(KB|MB|GB)", sh("footprint -p %d 2>/dev/null | head -3" % p))
     return 0.0 if not m else float(m.group(1)) * {"KB": 1 / 1024, "MB": 1, "GB": 1024}[m.group(2)]
 id0 = ident(pid); pg = int(sh("ps -o pgid= -p %d" % pid))
-if id0[0] != "sumit" or not id0[2].endswith("b15_launch.sh") or pg != pid:
+SUFFIX = sys.argv[4] if len(sys.argv) > 4 else "b15_launch.sh"          # the launcher script this guard may stop
+if id0[0] != "sumit" or not id0[2].endswith(SUFFIX) or pg != pid:
     log("REFUSED to arm on PID %d: %s pgid %d" % (pid, id0, pg)); sys.exit(1)
 def stop(why):
     if ident(pid) == id0: log("VERIFIED launcher PID %d %s -> SIGTERM to its process group %d" % (pid, id0, pg)); os.killpg(pg, signal.SIGTERM)
