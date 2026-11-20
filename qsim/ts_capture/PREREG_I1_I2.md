@@ -44,3 +44,19 @@ in Lemma L3′. These checks run at exactly that metric and level.
 
 ## Resources
 1 core, nice 10, minutes. No slot is needed (< 30 min).
+
+## Recorded result of the registered run (depth 24), 2026-11-20; outputs in scratch, sent to the Bridge
+- **S0:** both identities exact (flat, even in y), and G has no axis pole.
+- **I2:** PASS, 0 undecided, 0 violations.
+- **I1:** INCONCLUSIVE. 9017 undecided boxes and 0 violations; every undecided box shown lies at x ∈ [9.488, 9.49],
+  s < 0.005. The float margin there is small: min ∂V/∂x on Hill is 3.4e-3 at x = 9.49.
+- **Both negative controls fail,** as they must.
+- **Verdict as registered:** INCONCLUSIVE (I1).
+
+## Amendment A1 (POST-RESULT, 2026-11-20, Opus 5.5; made after seeing the depth-24 outcome above, and labelled as such)
+- **What changes:** the depth limit for I1 goes from 24 to 40. Nothing else: the same boxes, split rule, Hill test,
+  derivative, sign and PASS rule.
+- **Why:** the undecided set is a thin strip at the I1 domain's own edge (x → 9.49, near the equator), where the true
+  margin is about 3e-3 and the natural interval extension needs smaller boxes. This only lets the bisection go deeper;
+  it cannot turn a violation into a pass.
+- **Disclosure:** this is post-result. The registered depth-24 verdict stays INCONCLUSIVE on record, whatever A1 gives.
