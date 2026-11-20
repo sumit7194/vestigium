@@ -5,7 +5,7 @@ verifying the launcher's owner, cwd and command line are the ones recorded at ar
   - (swap > 2048 MB AND level >= 2) or level >= 4, SUSTAINED 600 s (the fleet rule).
 No automatic restart (the pcache journal makes a later restart resume exactly)."""
 import os, re, signal, subprocess, sys, time
-pid, LOG = int(sys.argv[1]), sys.argv[2]; CAP = 2048; SUSTAIN = 600
+pid, LOG = int(sys.argv[1]), sys.argv[2]; CAP = int(sys.argv[3]) if len(sys.argv) > 3 else 2048; SUSTAIN = 600   # optional cap (MB)
 def log(s):
     with open(LOG, "a") as f: f.write(time.strftime("%Y-%m-%d %H:%M:%S ") + s + "\n")
 def sh(c): return subprocess.run(c, shell=True, capture_output=True, text=True).stdout.strip()
