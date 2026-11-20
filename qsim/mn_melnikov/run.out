@@ -1,0 +1,25 @@
+G1 True E [0.9352815045679987185390796680639972528 +/- 8.57e-38] kappa [7.8630229976460697873580362043294179 +/- 6.74e-35] Ups [15.0122754941206971731303328954181093 +/- 2.80e-35]
+G2 {'orbit_eq': True, 'mass_shell': True, 'worst_shell': 7.725522464215757e-35, 'PASS': True, 'sign': -1}
+G5 {'psi_vs_mpmath_worst': 7.071333204165323e-39, 'PASS': True}
+G3 {'worst_rel': 5.702011077416562e-14, 'PASS': True}
+L2_beta {'value': '[+/- inf]', 'mid': -4.774821149746436e-05, 'rad': inf, 'excludes_0': False, 'tail': 'nan', 'evals': 2756, 'seconds': 1814.2, 'prec': 128, 'gates_ok': True}
+Traceback (most recent call last):
+  File "/Users/sumit/Github/quantum/qsim/mn_melnikov/mel_cert.py", line 232, in <module>
+    main()
+    ~~~~^^
+  File "/Users/sumit/Github/quantum/qsim/mn_melnikov/mel_cert.py", line 224, in main
+    t1 = time.time(); v, meta = L_n(orb, kind, n, odd=odd)
+                                ~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sumit/Github/quantum/qsim/mn_melnikov/mel_cert.py", line 158, in L_n
+    I = acb.integral(g, 0, T, rel_tol=arb(2) ** -60, abs_tol=arb(2) ** -80)   # tolerances set the width only, never the rigour
+  File "flint/types/acb.pyx", line 2726, in flint.types.acb.acb.integral
+  File "flint/types/acb.pyx", line 113, in flint.types.acb.acb_calc_func_callback
+  File "/Users/sumit/Github/quantum/qsim/mn_melnikov/mel_cert.py", line 157, in g
+    return (vfun(orb, kind, n, r, an) - vu) * (n * Ups * lam).cos()
+            ~~~~^^^^^^^^^^^^^^^^^^^^^
+TypeError: v_n_full() takes 4 positional arguments but 5 were given
+G1 True E [0.9352815045679987185390796680639972528 +/- 8.57e-38] kappa [7.8630229976460697873580362043294179 +/- 6.74e-35] Ups [15.0122754941206971731303328954181093 +/- 2.80e-35]
+G2 {'orbit_eq': True, 'mass_shell': True, 'worst_shell': 7.725522464215757e-35, 'PASS': True, 'sign': -1}
+G5 {'psi_vs_mpmath_worst': 7.071333204165323e-39, 'PASS': True}
+G3 {'worst_rel': 5.702011077416562e-14, 'PASS': True}
+mel_launch.sh: line 7: 10314 Terminated: 15          $PY -u mel_cert.py --only controls

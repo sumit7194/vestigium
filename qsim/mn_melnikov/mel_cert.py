@@ -133,7 +133,7 @@ def v_n(orb, kind, n, r, analytic=False):
     return 2 / arb.pi() * q
 
 
-def v_n_full(orb, kind, n, r):
+def v_n_full(orb, kind, n, r, analytic=False):
     """the full-period form (1/2pi) int_0^{2pi} F e^{-i n psi} psi' dchi, for ODD n (parity gate G4 and the sabotage):
     with psi(pi - chi) = pi - psi(chi) and z(pi - chi) = -z(chi), on [0, pi]: (1/pi) int_0^pi F cos(n psi) psi' dchi; and
     [0, pi] = [0, pi/2] + [pi/2, pi] with chi -> pi - chi: (1/pi) int_0^{pi/2} [F(z) + (-1)^n F(-z)] cos(n psi) psi'."""
@@ -158,13 +158,28 @@ def L_n(orb, kind, n, Tfac=75, odd=False, verbose=False):
     I = acb.integral(g, 0, T, rel_tol=arb(2) ** -60, abs_tol=arb(2) ** -80)   # tolerances set the width only, never the rigour
     # tail: |v(r) - v(16)| <= S |r - 16| for r in [16, 16 + d], S <= max_{|r'-16| = rho} |v(r')| / (rho - d) (Cauchy)
     A, B, k = orb.A, orb.B, orb.kap
-    d = 8 * A * B * (-(k * T)).exp() / (A + B); rho = arb(1)
-    disc = acb(orb.ru) + acb(arb(0, rho), arb(0, rho))            # a complex box covering the disc |r - 16| <= rho
-    Vmax = abs(vfun(orb, kind, n, disc)).upper() + abs(vu).upper()
+    d = 8 * A * B * (-(k * T)).exp() / (A + B)
+    rho, Vmax = tail_vmax(orb, kind, n, vfun)
     S = arb(Vmax) / (rho - d)
     tail = S * 8 * A * B * (-(k * T)).exp() / ((A + B) * k)
     tot = 2 * (I + acb(arb(0, tail.upper())))
     return tot, dict(I=I, tail=tail, T=T, evals=cnt[0])
+
+
+def tail_vmax(orb, kind, n, vfun, rho=arb("0.5"), g=10):
+    """max |v_n| over the closed disc |r - 16| <= rho, from a g x g grid of small complex boxes covering the square
+    [16 - rho, 16 + rho] + i[-rho, rho]; every box must give a FINITE enclosure (which also certifies v_n holomorphic on
+    the disc: F is a composition of holomorphic operations with checked denominators and sqrt branch cuts). A non-finite
+    box makes the bound infinite (never skipped)."""
+    h = rho / g; vm = arb(0)
+    for i in range(g):
+        for j in range(g):
+            c = acb(arb(RU) - rho + (2 * i + 1) * h, -rho + (2 * j + 1) * h)
+            box = c + acb(arb(0, h * arb("1.0001")), arb(0, h * arb("1.0001")))
+            v = vfun(orb, kind, n, box)
+            if not v.is_finite(): return rho, arb("inf")
+            vm = max(vm, abs(v).upper())
+    return rho, vm
 
 
 def main():

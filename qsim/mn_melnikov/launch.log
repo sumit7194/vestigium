@@ -1,0 +1,5 @@
+2026-11-20 13:00:53 start pid 2835; mel_gen.py sha256 f0dd82282329577a
+2026-11-20 13:31:08 L2 stage exit 0
+2026-11-20 13:32:09 controls exit 0
+2026-11-20 13:32:09 DONE
+2026-11-20 13:32:11 controls run PID 10314 STOPPED by hand (verified cmd): the tail bound returned nan in the L2 run, and v_n_full had a signature bug; both fixed before any rerun
