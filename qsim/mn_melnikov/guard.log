@@ -1,0 +1,24 @@
+2026-11-20 13:00:55 guard armed for launcher PID 2835 (/bin/bash mel_launch.sh); disk < 5 GB or tree > 2048 MB at once; (swap > 2 GB and level >= 2) or level >= 4 sustained 600 s
+2026-11-20 13:00:55 footprint 76 MB (peak 76), swap 251 MB, pressure 1, disk 12 GB
+2026-11-20 13:10:56 footprint 76 MB (peak 76), swap 251 MB, pressure 1, disk 12 GB
+2026-11-20 13:20:57 footprint 76 MB (peak 76), swap 251 MB, pressure 1, disk 12 GB
+2026-11-20 13:30:58 footprint 76 MB (peak 76), swap 251 MB, pressure 1, disk 12 GB
+2026-11-20 13:32:58 launcher PID 2835 gone; guard exits (peak 76 MB)
+2026-11-20 13:33:46 guard armed for launcher PID 10918 (/bin/bash mel_launch.sh); disk < 5 GB or tree > 2048 MB at once; (swap > 2 GB and level >= 2) or level >= 4 sustained 600 s
+2026-11-20 13:33:46 footprint 76 MB (peak 76), swap 251 MB, pressure 1, disk 12 GB
+2026-11-20 13:43:47 footprint 73 MB (peak 76), swap 243 MB, pressure 1, disk 12 GB
+2026-11-20 13:53:49 footprint 73 MB (peak 76), swap 243 MB, pressure 1, disk 12 GB
+2026-11-20 14:03:50 footprint 73 MB (peak 76), swap 243 MB, pressure 1, disk 12 GB
+2026-11-20 14:13:51 footprint 73 MB (peak 76), swap 243 MB, pressure 1, disk 12 GB
+2026-11-20 14:23:52 footprint 73 MB (peak 76), swap 243 MB, pressure 1, disk 12 GB
+2026-11-20 14:33:53 footprint 73 MB (peak 76), swap 243 MB, pressure 1, disk 12 GB
+2026-11-20 14:43:54 footprint 73 MB (peak 76), swap 243 MB, pressure 1, disk 12 GB
+2026-11-20 14:53:55 footprint 73 MB (peak 76), swap 243 MB, pressure 1, disk 12 GB
+2026-11-20 15:03:56 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 15:13:57 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 15:23:59 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 15:34:00 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 15:44:02 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 15:54:03 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 16:04:04 footprint 76 MB (peak 76), swap 235 MB, pressure 1, disk 12 GB
+2026-11-20 16:06:04 launcher PID 10918 gone; guard exits (peak 76 MB)

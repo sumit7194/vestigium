@@ -23,3 +23,19 @@ G2 {'orbit_eq': True, 'mass_shell': True, 'worst_shell': 7.725522464215757e-35, 
 G5 {'psi_vs_mpmath_worst': 7.071333204165323e-39, 'PASS': True}
 G3 {'worst_rel': 5.702011077416562e-14, 'PASS': True}
 mel_launch.sh: line 7: 10314 Terminated: 15          $PY -u mel_cert.py --only controls
+=== rerun 2026-11-20 13:33:44 after the tail fix (0129c88) ===
+G1 True E [0.9352815045679987185390796680639972528 +/- 8.57e-38] kappa [7.8630229976460697873580362043294179 +/- 6.74e-35] Ups [15.0122754941206971731303328954181093 +/- 2.80e-35]
+G2 {'orbit_eq': True, 'mass_shell': True, 'worst_shell': 7.725522464215757e-35, 'PASS': True, 'sign': -1}
+G5 {'psi_vs_mpmath_worst': 7.071333204165323e-39, 'PASS': True}
+G3 {'worst_rel': 5.702011077416562e-14, 'PASS': True}
+L2_beta {'value': '[-4.77482114974644e-5 +/- 6.81e-20]', 'mid': -4.774821149746436e-05, 'rad': 3.1809246207701235e-20, 'excludes_0': True, 'tail': '[3.96572504446650520613153839618910e-30 +/- 5.80e-63]', 'evals': 2756, 'seconds': 1954.0, 'prec': 128, 'gates_ok': True}
+L1_beta {'value': '[+/- 2.27e-23]', 'mid': -1.3595335215831961e-39, 'rad': 2.2634758540590035e-23, 'excludes_0': False, 'tail': '[4.06531487293369729143610579803572e-30 +/- 3.35e-63]', 'evals': 3190, 'seconds': 3445.0, 'prec': 128, 'gates_ok': True}
+total 5400 s
+G1 True E [0.9352815045679987185390796680639972528 +/- 8.57e-38] kappa [7.8630229976460697873580362043294179 +/- 6.74e-35] Ups [15.0122754941206971731303328954181093 +/- 2.80e-35]
+G2 {'orbit_eq': True, 'mass_shell': True, 'worst_shell': 7.725522464215757e-35, 'PASS': True, 'sign': -1}
+G5 {'psi_vs_mpmath_worst': 7.071333204165323e-39, 'PASS': True}
+G3 {'worst_rel': 5.702011077416562e-14, 'PASS': True}
+L2_M {'value': '[+/- 4.01e-23]', 'mid': 4.660474412681378e-37, 'rad': 4.009290512768236e-23, 'excludes_0': False, 'tail': '[9.04476011544478175487010727034573e-31 +/- 6.56e-64]', 'evals': 3083, 'seconds': 1639.5, 'prec': 128, 'gates_ok': True}
+L2_a {'value': '[+/- 4.18e-23]', 'mid': 4.933466490281596e-36, 'rad': 4.174153636299573e-23, 'excludes_0': False, 'tail': '[6.25006489281506812394846489558111e-31 +/- 5.73e-64]', 'evals': 2996, 'seconds': 1665.5, 'prec': 128, 'gates_ok': True}
+L1_sabotage {'value': '[210.185664941218034031 +/- 2.95e-19]', 'mid': 210.18566494121802, 'rad': 6.398767366449093e-20, 'excludes_0': True, 'tail': '[4.92768211713725213489859217653155e-30 +/- 6.76e-63]', 'evals': 1792, 'seconds': 413.9, 'prec': 128, 'gates_ok': True}
+total 3720 s
