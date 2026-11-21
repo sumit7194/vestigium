@@ -85,3 +85,22 @@ are not yet implemented. Nothing here says whether ρ > 1.**
 ## Next (the Bridge, 2026-11-20)
 - Register steps 3–4 after the Melnikov stage-2 counted run finishes, which frees the box's memory.
 - Cover the 81 measured-error accepts first.
+
+## 4. Post-result finding (2026-11-21, NOT registered): the red-flag record is degenerate at most crossings
+Found by Quantum while drafting steps 3–4 (B15C_STEPS34_DRAFT.md §7). It reads saved outputs only; nothing was re-run.
+- **Duplicate points in the arcs.** The frozen `manifold_arcs` appends point i before its refinement check; when it
+  refines, `continue` revisits i and appends it again. Every refinement therefore leaves a duplicate.
+  - In b15_rust_arcs.npz, for example, u_−3 has 2192 zero-length segments out of 4423, and u_2 has 3931 out of 7901.
+  - Detection of crossings is unaffected: a zero-length segment has den = 0 and is skipped, and the polyline is the
+    same set of points.
+- **θ_floor = 0 at 9437 of the 10081 crossings.** b15_kerr_ck.py's `floor_at` takes the turn between the neighbouring
+  segments, which are often zero-length. So the red-flag rule (angle > 10·θ_floor) is degenerate there: most of the
+  9625 red flags, and 139 of the 147 accepts, have θ_floor = 0.
+- **Diagnostic, with duplicates removed (the same floor_at formula on the de-duplicated arcs).** All 147 accepts have
+  angle / θ_floor in [0.16, 0.82]; #4155 has 0.59. None would be a red flag, so they sit at the polyline-discretisation
+  level.
+  - This is consistent with Kerr's integrability: the manifolds coincide on the separatrix {Q = Q_s}.
+  - The arcs carrying them are also coarser than dmax: u_−3 has 2178 segments longer than 0.01, the longest 0.146,
+    because the maxpts cap is reached.
+- **What this does NOT change.** The registered outcome (§1) stands as recorded. The steps 3–4 trigger is B14's angle
+  ≥ 0.01, so steps 3–4 still run. The red-flag prediction's reading is for the Bridge.
