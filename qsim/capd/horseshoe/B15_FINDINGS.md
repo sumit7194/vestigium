@@ -102,5 +102,8 @@ Found by Quantum while drafting steps 3–4 (B15C_STEPS34_DRAFT.md §7). It read
   - This is consistent with Kerr's integrability: the manifolds coincide on the separatrix {Q = Q_s}.
   - The arcs carrying them are also coarser than dmax: u_−3 has 2178 segments longer than 0.01, the longest 0.146,
     because the maxpts cap is reached.
+- **Status of the red-flag clause (B15c §5, registered 2026-11-21): NOT TESTED, degenerate as implemented
+  (θ_floor = 0 at 9437/10081).** The de-duplicated ratios above are a post-result DIAGNOSTIC only, not the red-flag
+  test passing.
 - **What this does NOT change.** The registered outcome (§1) stands as recorded. The steps 3–4 trigger is B14's angle
-  ≥ 0.01, so steps 3–4 still run. The red-flag prediction's reading is for the Bridge.
+  ≥ 0.01, so steps 3–4 still run (B15c).
