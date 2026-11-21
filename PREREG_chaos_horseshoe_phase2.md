@@ -1543,3 +1543,25 @@ is reported to the Bridge, and the stage it guards waits.
   maxpts cap is reached.
 - **Crossing detection is unaffected,** because zero-length segments have den = 0 and are skipped.
 - **The steps 3–4 trigger is B14's angle ≥ 0.01,** so T1 runs.
+
+**B15c-1 (2026-11-21): a certified ORIENTATION failure counts as CERTIFIED-FAIL.** Found by quantum while writing the
+classifier, before any B15c computation. The Bridge agreed to the wording, with one added control case. Registered
+BEFORE any run.
+- **The gap.** hs_cover reports a certified orientation failure only on the COVER line, as `orient_certified_fail=1`
+  (certified edge landings that contradict every consistent orientation), never as a `FAILPIECE … CERTIFIED` line.
+  - Precedent: HH-SECONDARY's optional N6⇒N3, `COVERS=0 … orient_certified_fail=1`, has no FAILPIECE lines. The prereg
+    calls it "a certified orientation failure".
+  - Under B15c §4 as first registered, such a covering would have been UNDECIDED.
+- **The rule (it replaces B15c §4's CERTIFIED-FAIL and HARNESS-ERROR rows):**
+  - **CERTIFIED-FAIL** = `DONE` present, `COVERS` ≠ 1, AND (at least one `FAILPIECE … CERTIFIED` line OR
+    `orient_certified_fail=1` on the COVER line).
+  - **HARNESS-ERROR** = `COVERS=1` together with a `FAILPIECE … CERTIFIED` line, or `COVERS=1` together with
+    `orient_certified_fail=1`. The code makes either combination impossible, so it signals a harness or parse fault and
+    is never given a class.
+  - CERTIFIED and UNDECIDED are unchanged.
+- **Control 7 gains three canned cases:**
+  - the HH N6⇒N3 COVER line, verbatim from hh2_run.out, with DONE → CERTIFIED-FAIL;
+  - `COVERS=1` with `orient_certified_fail=1` → HARNESS-ERROR;
+  - `COVERS=0` with `orient_certified_fail=0`, no FAILPIECE lines, and DONE → UNDECIDED. This guards against the new OR
+    branch swallowing plain undecided outputs (the Bridge's addition).
+- Nothing else in B15c changes.
