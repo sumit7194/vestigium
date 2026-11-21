@@ -1,0 +1,18 @@
+T1 candidates 1 distinct refinement paths 1
+   path k=(3,3) s=(-1,-1) start (t0, tau0) = (7.300000e-04, 7.300000e-04): 1 candidates
+T2 candidates 80 distinct refinement paths 1
+   path k=(3,3) s=(-1,-1) start (t0, tau0) = (7.300000e-04, 7.300000e-04): 80 candidates
+T3 candidates 66 distinct refinement paths 12
+   path k=(3,4) s=(-1,-1) start (t0, tau0) = (4.166981e-04, 6.264889e-04): 3 candidates
+   path k=(4,3) s=(-1,-1) start (t0, tau0) = (6.264889e-04, 4.166981e-04): 3 candidates
+   path k=(4,3) s=(-1,-1) start (t0, tau0) = (6.264889e-04, 3.959908e-04): 9 candidates
+   path k=(3,4) s=(-1,-1) start (t0, tau0) = (3.959908e-04, 6.264889e-04): 9 candidates
+   path k=(4,3) s=(-1,-1) start (t0, tau0) = (6.592496e-04, 3.959908e-04): 3 candidates
+   path k=(3,4) s=(-1,-1) start (t0, tau0) = (3.959908e-04, 6.592496e-04): 3 candidates
+   path k=(4,3) s=(-1,-1) start (t0, tau0) = (5.657707e-04, 4.614180e-04): 5 candidates
+   path k=(3,4) s=(-1,-1) start (t0, tau0) = (4.614180e-04, 5.657707e-04): 5 candidates
+   path k=(4,3) s=(-1,-1) start (t0, tau0) = (5.376553e-04, 4.614180e-04): 8 candidates
+   path k=(3,4) s=(-1,-1) start (t0, tau0) = (4.614180e-04, 5.376553e-04): 8 candidates
+   path k=(3,4) s=(-1,-1) start (t0, tau0) = (4.384883e-04, 5.657707e-04): 5 candidates
+   path k=(4,3) s=(-1,-1) start (t0, tau0) = (5.657707e-04, 4.384883e-04): 5 candidates
+journal misses during this pass (new map calls): 0

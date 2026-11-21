@@ -1,0 +1,42 @@
+{
+ "tier": "T1",
+ "records": [
+  {
+   "id": "T1-0",
+   "kind": "kerr",
+   "n": 4155,
+   "angle": 0.04586119933173375,
+   "step3": {
+    "system": "kerr",
+    "k_u": 3,
+    "k_s": 3,
+    "s_u": -1,
+    "s_s": -1,
+    "arm": false,
+    "stop": "step 3: refinement failed"
+   },
+   "stop": "step 3: refinement failed",
+   "seconds": 5.8
+  }
+ ],
+ "driver_sha256": "c77379189671b393ee488239377bb9e4bd7fc64feb9c72c85334bfcb2c2d72f4",
+ "lib_sha256": "42ea6c3cb33c6d75f068525750fbddd3718d06b080fbce191075abf2ec8759c2",
+ "delta_floor": 1e-06,
+ "saddle": {
+  "z": [
+   1.8411884397812655,
+   0.0
+  ],
+  "lam_u": 62.620268580319085,
+  "e_u": [
+   -0.015393581476512118,
+   -0.9998815118049368
+  ],
+  "e_s": [
+   -0.015393581476520701,
+   0.9998815118049367
+  ]
+ },
+ "unfrozen_not_counted": false,
+ "complete": true
+}

@@ -1,0 +1,4 @@
+2026-11-21 18:24:38 guard armed for launcher PID 24572 (/bin/bash ./b15c_launch.sh); disk < 5 GB or tree > 1024 MB at once; (swap > 2 GB and level >= 2) or level >= 4 sustained 600 s
+2026-11-21 18:24:38 footprint 103 MB (peak 103), swap 311 MB, pressure 1, disk 13 GB
+2026-11-21 18:34:40 footprint 107 MB (peak 107), swap 311 MB, pressure 1, disk 13 GB
+2026-11-21 18:35:40 launcher PID 24572 gone; guard exits (peak 107 MB)
