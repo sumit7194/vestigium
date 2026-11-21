@@ -1676,3 +1676,18 @@ j₁…j₂ ⊂ {1 … m−1} of orbit points whose sets are disjoint from N0 an
 - **Compute:** at most 4 hs_cover processes at once, nice 10, one guard each (RSS cap 1 GB, disk < 5 GB at once). Wall
   time for Kerr returns is unknown; B16 sets no cap. Everything is checkpointed and detached.
 - **Expected disk:** small (hh2's checkpoints were 268 KB in total).
+
+**B15d-1 / GB-1 (2026-11-21): how gate GB compares outputs.** Found by quantum before the gate ran; the Bridge agreed to
+the wording and asked for the reason to be recorded. Registered BEFORE GB runs.
+- **Why byte-exactness is impossible for R1.** The R1 generic Rössler COVER lines were written by the R1 binary (ffd94bf,
+  2026-10-16), in hs_cover's OLD output format (`pieces_a`, `pieces_b`, `replay_steps=0`). Since adaptive bisection
+  (921ee47), hs_cover prints other fields: `leaves_a/leaves_b`, `certified_fail_b`, `orient_certified_fail`,
+  `maxdepth_a`, and the real `replay_steps`. No current build can reproduce those lines byte for byte. The gate is
+  changed because of that format change only, not for convenience.
+- **The rule.**
+  - **HH-SECONDARY N0⇒N0:** the FULL current-format COVER line must match exactly (hs_cover_v4 already wrote it in this
+    format), run with a fresh checkpoint path so that reloaded_pieces = 0 as in the original.
+  - **R1 generic MM / MN / NM / NN:** the fields common to both formats must match exactly: a, b, strong_a, orient,
+    fail_a, fail_b, return_time and COVERS. The new-format-only fields are recorded.
+  - Any mismatch, a return_time mismatch included, is a FAIL. It holds B15d and goes back to the Bridge. Nothing is
+    loosened after the fact.

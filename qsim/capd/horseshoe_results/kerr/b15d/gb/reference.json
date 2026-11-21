@@ -1,0 +1,17 @@
+{
+ "r1_MM": [
+  "COVER M M a=1 b=1 strong_a=1 orient=LR fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.132664575850e+01,1.177356145100e+01] COVERS=1"
+ ],
+ "r1_MN": [
+  "COVER M N a=1 b=1 strong_a=1 orient=LR fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.132664575850e+01,1.177356145100e+01] COVERS=1"
+ ],
+ "r1_NM": [
+  "COVER N M a=1 b=1 strong_a=1 orient=RL fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.157069950453e+01,1.221894445244e+01] COVERS=1"
+ ],
+ "r1_NN": [
+  "COVER N N a=1 b=1 strong_a=1 orient=RL fail_a=0 fail_b=0 pieces_a=64 pieces_b=2 replay_steps=0 return_time=[1.157069950453e+01,1.221894445244e+01] COVERS=1"
+ ],
+ "hh2_N0N0": [
+  "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0"
+ ]
+}
