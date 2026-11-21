@@ -56,3 +56,67 @@ Written by Claude Opus 5.5 (session "Quantum"), 2026-11-20.
   constant in ψ0. That is the input Theorem A′ uses (no real-analytic integral near the tangle).
 - **It does not say:** the zero is nondegenerate (stage 2: L4 plus the T3 bound), or anything at a fixed finite β.
 - **Not checked here:** the Lean-side and theorem-side glue in THEOREM_DRAFT.md.
+
+# Stage 2 (L4 + T3, under S2-A1 and S2-A2): RESULT
+
+Written 2026-11-21 by Claude Opus 5.5 (session "Quantum"), from T3.json and run.out of the counted run. Every clause was
+checked against PREREG.md §S2-A1 / §S2-A2 before the verdict was written.
+
+## VERDICT: CERTIFIED-NONDEGENERATE
+Exactly one counted point closes, (σ, τ) = (0.13, 0.6):
+- |L2|.lower − 4|L4|.upper − T3.upper = **+1.5242e−5** (Arb, radius 4e−43);
+- T3 = 3.2504e−5 and |L2| = 4.7748e−5, so T3 / |L2| = 0.68 and 4|L4| / |L2| = 4.5e−5.
+
+The pass rule needs one point. Each counted point proves S3 ≤ T3(σ, τ) for the same fixed S3, so the minimum of these
+valid bounds is itself a valid bound (S2-A1, "Pass rule").
+
+## The run
+- **Launcher:** mel_launch_s2.sh, PID 92782, at nice 10, detached. It ran from 2026-11-20 17:46:39 to 2026-11-21
+  17:23:46 (23.6 h) and exited 0.
+- **Code hashes:** t3_cert.py sha256 4fa5f974…, mel_gen.py f0dd8228… (launch.log; both re-hashed after the run and
+  unchanged).
+- **Guard:** peak 18 MB, never tripped (guard.log).
+- **Time:** registered as "≤ 3 h, if longer the Bridge is told". The Bridge was told during the run, and nothing was
+  loosened.
+
+## Every clause
+| Clause | Result |
+|---|---|
+| Known-value control (S2-A2 cond. 4) | [1e+1 ± 0.517] + [± 0.462]j contains the exact 9.66482 + 0.27972j. ok |
+| Must-fail (0.17, 0.6), past the r_h pole | INVALID-POINT (core box non-finite at depth 40, Im λ ∈ [0.16992, 0.17]). ok |
+| Must-fail (0.07, 1.35), z_m cosh τ > 1 | INVALID-POINT. ok |
+| 16 grid points | all 16 COUNTED: tube core and outer passed, b > 0 certified, C finite. No INVALID-POINT |
+| RA gate (S2-A2 cond. 3) at every counted point | ok at 16/16; worst \|G(conj w) − conj G(w)\| = 7.8e−31 |
+| Consistency gates C q ≥ \|L2\|, C q² ≥ \|L4\| | true at 16/16 |
+| L4 = [−5.31274262510e−10 ± 7.43e−22] vs V23's −5.31274e−10 | agree within V23's 6 printed digits (≤ 1e−6 rel): no FINDING |
+
+## The margin table: |L2|.lower − 4|L4|.upper − T3.upper
+| σ \ τ | 0.3 | 0.6 | 0.9 | 1.2 |
+|---|---|---|---|---|
+| 0.04 | −0.561 | −0.119 | −0.224 | −8.4e5 |
+| 0.07 | −0.0311 | −0.00725 | −0.0142 | −5.5e4 |
+| 0.10 | −0.00195 | −4.32e−4 | −8.85e−4 | −3.6e3 |
+| 0.13 | −8.80e−5 | **+1.524e−5** | −1.43e−5 | −242 |
+
+C grows sharply at τ = 1.2, where it is about 4.3e9 because the L2-route tail dominates. The bound closes only at the
+largest σ in the grid and the smallest τ that isn't too small.
+
+## Independent recheck of the closing point (mpmath, 40 digits, from the printed enclosures)
+- T3 = C[q(1+q)/(1−q)³ − q − 4q²], with C = 15.8935126841… and q = 0.00608022561311…, gives 3.25038810119e−5. That
+  matches T3.json.
+- The margin recomputed from |L2| and |L4| (their radii included) is +1.52422053885e−5. That matches.
+- C·q = 0.0966 ≥ |L2| and C·q² = 5.88e−4 ≥ |L4|.
+- C is consistent with the L2 route: C²κ/2 ≈ I2h = 605 (core real-part upper bound) + 387.65 (tail). The code takes the
+  core's real-part upper bound and the tail's upper bound (t3_cert.py lines 131–132).
+
+## What this does and does not say
+- **It says:** at (M, a, r_u, z_m) = (5, 3, 16, 1/2), the first-order Melnikov function's zero is NONDEGENERATE:
+  Σ m² L_{2m} ≠ 0, because |L2| > 4|L4| + T3 ≥ 4|L4| + Σ_{m≥3} m²|L_{2m}|. That is the input Theorem A
+  (transversality, horseshoe) uses, for sufficiently small β.
+- **It does not say:**
+  - anything at a fixed finite β; "sufficiently small" is not quantified here;
+  - anything about the β* window that the float scouts found (neon_t29/t33). Those concern a different, fixed-β object.
+- **Thin margin, disclosed:** T3 uses 68% of |L2| at the one closing point, and the 15 other points do not close. The
+  certificate stands as registered. A future check that shrinks C (S2-A1's remedy) would widen the margin, but it is not
+  needed for the verdict.
+- **Not checked here:** the Lean-side and theorem-side glue in THEOREM_DRAFT.md (unchanged from stage 1).
