@@ -1,0 +1,14 @@
+2026-11-21 18:42:53 orchestrator start PID 62244; binary fb5fcbfca2d857a2; slots 2
+2026-11-21 18:42:54 start gb/hh2_N0N0 PID 62250 (spec sha256 d31b414ae9106188)
+2026-11-21 18:42:54 start gb/r1_MM PID 62262 (spec sha256 e7ae1603147aab07)
+2026-11-21 18:45:34 gb/r1_MM exit 0; class CERTIFIED
+2026-11-21 18:45:35 start gb/r1_MN PID 64972 (spec sha256 008731a8fb8ad172)
+2026-11-21 18:48:15 gb/r1_MN exit 0; class CERTIFIED
+2026-11-21 18:48:15 start gb/r1_NM PID 67584 (spec sha256 30d53fc0c481a5e0)
+2026-11-21 18:50:35 gb/r1_NM exit 0; class CERTIFIED
+2026-11-21 18:50:36 start gb/r1_NN PID 69836 (spec sha256 3309ee46f664ba5b)
+2026-11-21 18:52:56 gb/r1_NN exit 0; class CERTIFIED
+2026-11-21 19:05:26 gb/hh2_N0N0 exit 0; class CERTIFIED
+2026-11-21 19:05:36 GB: {"hh2_N0N0": {"match": true, "got": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0", "want": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0"}, "r1_MM": {"match": true, "diff": {}}, "r1_MN": {"match": true, "diff": {}}, "r1_NM": {"match": true, "diff": {}}, "r1_NN": {"match": true, "diff": {}}, "PASS": true}
+2026-11-21 19:05:37 start twin/rot90_N0N0 PID 90952 (spec sha256 b893e8cd2e74bc77)
+2026-11-21 19:05:37 start twin/rot90_N0N3 PID 90954 (spec sha256 a6b72e30ff3bd8e9)
