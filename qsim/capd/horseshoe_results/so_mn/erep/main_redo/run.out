@@ -1,0 +1,273 @@
+# EREP zsym (ZG 256,128), 7 generator columns at start
+# mn_so: W0 1/10000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 291.9
+# step 20 t=0.005548 h=1.831e-03 maxE 2.392e-20 hullDelta 7.855e-22 resteps 0 S4leaves 200 gphiphi_lb 3.856e+04 wall 629 s
+# EREP step 20 N 167 reductions 0
+# step 40 t=5.045862 h=6.110e-01 maxE 1.119e-18 hullDelta 2.714e-19 resteps 0 S4leaves 400 gphiphi_lb 3.298e+04 wall 1520 s
+# EREP step 40 N 327 reductions 0
+# step 60 t=17.499180 h=6.547e-01 maxE 4.014e-18 hullDelta 3.055e-19 resteps 0 S4leaves 600 gphiphi_lb 3.036e+04 wall 3051 s
+# EREP step 60 N 487 reductions 0
+# step 80 t=30.643197 h=6.634e-01 maxE 7.484e-18 hullDelta 3.567e-19 resteps 0 S4leaves 800 gphiphi_lb 2.750e+04 wall 4567 s
+# EREP step 80 N 647 reductions 0
+# step 100 t=44.531380 h=6.983e-01 maxE 1.204e-17 hullDelta 5.079e-19 resteps 0 S4leaves 1000 gphiphi_lb 2.301e+04 wall 6052 s
+# EREP step 100 N 807 reductions 0
+# step 120 t=57.924180 h=6.547e-01 maxE 1.769e-17 hullDelta 6.407e-19 resteps 0 S4leaves 1200 gphiphi_lb 1.713e+04 wall 7635 s
+# EREP step 120 N 967 reductions 0
+# step 140 t=70.609913 h=6.220e-01 maxE 2.505e-17 hullDelta 8.025e-19 resteps 0 S4leaves 1400 gphiphi_lb 1.614e+04 wall 9215 s
+# EREP step 140 N 1127 reductions 0
+# step 160 t=82.574395 h=5.805e-01 maxE 3.507e-17 hullDelta 9.717e-19 resteps 0 S4leaves 1600 gphiphi_lb 1.520e+04 wall 10663 s
+# EREP step 160 N 1287 reductions 0
+# step 180 t=94.016215 h=5.674e-01 maxE 4.769e-17 hullDelta 1.219e-18 resteps 0 S4leaves 1800 gphiphi_lb 1.425e+04 wall 12110 s
+# EREP step 180 N 1447 reductions 0
+# step 200 t=104.961561 h=5.390e-01 maxE 6.341e-17 hullDelta 1.470e-18 resteps 0 S4leaves 2000 gphiphi_lb 1.336e+04 wall 13575 s
+# EREP step 200 N 1607 reductions 0
+# step 220 t=115.355876 h=4.976e-01 maxE 8.263e-17 hullDelta 1.704e-18 resteps 0 S4leaves 2200 gphiphi_lb 1.253e+04 wall 15028 s
+# EREP step 220 N 1767 reductions 0
+# step 240 t=125.265718 h=4.801e-01 maxE 1.060e-16 hullDelta 2.055e-18 resteps 0 S4leaves 2400 gphiphi_lb 1.157e+04 wall 16478 s
+# EREP step 240 N 1927 reductions 0
+# step 260 t=134.770744 h=4.583e-01 maxE 1.344e-16 hullDelta 2.441e-18 resteps 0 S4leaves 2600 gphiphi_lb 1.040e+04 wall 17961 s
+# EREP step 260 N 2087 reductions 0
+# step 280 t=143.848037 h=4.365e-01 maxE 1.686e-16 hullDelta 2.903e-18 resteps 0 S4leaves 2800 gphiphi_lb 9.245e+03 wall 19361 s
+# EREP step 280 N 2247 reductions 0
+# step 300 t=152.511784 h=4.146e-01 maxE 2.097e-16 hullDelta 3.434e-18 resteps 0 S4leaves 3000 gphiphi_lb 8.089e+03 wall 20761 s
+# EREP step 300 N 2407 reductions 0
+# step 320 t=160.804540 h=4.146e-01 maxE 2.591e-16 hullDelta 4.287e-18 resteps 0 S4leaves 3200 gphiphi_lb 6.857e+03 wall 22076 s
+# EREP step 320 N 2567 reductions 0
+# step 340 t=168.661925 h=3.928e-01 maxE 3.177e-16 hullDelta 5.051e-18 resteps 0 S4leaves 3400 gphiphi_lb 5.696e+03 wall 23385 s
+# EREP step 340 N 2727 reductions 0
+# step 360 t=176.171119 h=3.710e-01 maxE 3.873e-16 hullDelta 5.926e-18 resteps 0 S4leaves 3600 gphiphi_lb 4.522e+03 wall 24701 s
+# EREP step 360 N 2887 reductions 0
+# step 380 t=183.353828 h=3.492e-01 maxE 4.702e-16 hullDelta 6.931e-18 resteps 0 S4leaves 3800 gphiphi_lb 3.326e+03 wall 25999 s
+# EREP step 380 N 3047 reductions 0
+# step 400 t=190.223721 h=3.383e-01 maxE 5.686e-16 hullDelta 8.367e-18 resteps 0 S4leaves 4000 gphiphi_lb 2.047e+03 wall 27319 s
+# EREP step 400 N 3207 reductions 0
+# step 420 t=196.736262 h=3.164e-01 maxE 6.843e-16 hullDelta 9.744e-18 resteps 0 S4leaves 4200 gphiphi_lb 7.899e+02 wall 28686 s
+# EREP step 420 N 3367 reductions 0
+# step 440 t=202.909455 h=3.006e-01 maxE 8.203e-16 hullDelta 1.156e-17 resteps 0 S4leaves 4408 gphiphi_lb 3.313e+01 wall 30140 s
+# EREP step 440 N 3527 reductions 0
+# step 460 t=208.764576 h=2.799e-01 maxE 9.808e-16 hullDelta 1.353e-17 resteps 0 S4leaves 4661 gphiphi_lb 5.739e+00 wall 31602 s
+# EREP step 460 N 3687 reductions 0
+# step 480 t=214.272712 h=2.728e-01 maxE 1.169e-15 hullDelta 1.666e-17 resteps 0 S4leaves 4984 gphiphi_lb 5.739e+00 wall 33039 s
+# EREP step 480 N 3847 reductions 0
+# step 500 t=219.426768 h=2.510e-01 maxE 1.390e-15 hullDelta 1.931e-17 resteps 0 S4leaves 5341 gphiphi_lb 5.739e+00 wall 34523 s
+# EREP step 500 N 4007 reductions 0
+# step 520 t=224.305309 h=2.384e-01 maxE 1.651e-15 hullDelta 2.323e-17 resteps 0 S4leaves 5701 gphiphi_lb 5.739e+00 wall 36008 s
+# EREP step 520 N 4167 reductions 0
+# step 540 t=228.873963 h=2.182e-01 maxE 1.959e-15 hullDelta 2.689e-17 resteps 0 S4leaves 6061 gphiphi_lb 5.739e+00 wall 37385 s
+# EREP step 540 N 4327 reductions 0
+# step 560 t=233.162190 h=2.073e-01 maxE 2.323e-15 hullDelta 3.243e-17 resteps 0 S4leaves 6421 gphiphi_lb 5.739e+00 wall 38709 s
+# EREP step 560 N 4487 reductions 0
+# step 580 t=237.189087 h=1.964e-01 maxE 2.756e-15 hullDelta 3.909e-17 resteps 0 S4leaves 6781 gphiphi_lb 5.739e+00 wall 40020 s
+# EREP step 580 N 4647 reductions 0
+# step 600 t=240.976418 h=1.855e-01 maxE 3.280e-15 hullDelta 4.818e-17 resteps 0 S4leaves 7141 gphiphi_lb 5.739e+00 wall 41347 s
+# EREP step 600 N 4807 reductions 0
+# step 620 t=244.524213 h=1.746e-01 maxE 3.924e-15 hullDelta 5.941e-17 resteps 0 S4leaves 7501 gphiphi_lb 5.739e+00 wall 42607 s
+# EREP step 620 N 4967 reductions 0
+# step 640 t=247.861774 h=1.637e-01 maxE 4.721e-15 hullDelta 7.311e-17 resteps 0 S4leaves 7861 gphiphi_lb 5.739e+00 wall 43802 s
+# EREP step 640 N 5127 reductions 0
+# step 660 t=250.980014 h=1.528e-01 maxE 5.708e-15 hullDelta 8.981e-17 resteps 0 S4leaves 8221 gphiphi_lb 5.739e+00 wall 45012 s
+# EREP step 660 N 5287 reductions 0
+# step 680 t=253.886024 h=1.418e-01 maxE 6.932e-15 hullDelta 1.098e-16 resteps 0 S4leaves 8581 gphiphi_lb 5.739e+00 wall 46230 s
+# EREP step 680 N 5447 reductions 0
+# step 700 t=256.611722 h=1.309e-01 maxE 8.464e-15 hullDelta 1.337e-16 resteps 0 S4leaves 8941 gphiphi_lb 5.739e+00 wall 47440 s
+# EREP step 700 N 5607 reductions 0
+# step 720 t=259.157107 h=1.244e-01 maxE 1.038e-14 hullDelta 1.680e-16 resteps 0 S4leaves 9301 gphiphi_lb 5.739e+00 wall 48825 s
+# EREP step 720 N 5767 reductions 0
+# step 740 t=261.533909 h=1.146e-01 maxE 1.279e-14 hullDelta 2.048e-16 resteps 0 S4leaves 9661 gphiphi_lb 5.739e+00 wall 50303 s
+# EREP step 740 N 5927 reductions 0
+# step 760 t=263.754130 h=1.091e-01 maxE 1.582e-14 hullDelta 2.594e-16 resteps 0 S4leaves 10021 gphiphi_lb 5.739e+00 wall 51667 s
+# EREP step 760 N 6087 reductions 0
+# step 780 t=265.800313 h=9.820e-02 maxE 1.960e-14 hullDelta 3.092e-16 resteps 0 S4leaves 10408 gphiphi_lb 5.739e+00 wall 52973 s
+# EREP step 780 N 6247 reductions 0
+# step 800 t=267.710375 h=9.275e-02 maxE 2.437e-14 hullDelta 3.890e-16 resteps 0 S4leaves 10925 gphiphi_lb 5.739e+00 wall 54251 s
+# EREP step 800 N 6407 reductions 0
+# step 820 t=269.489728 h=8.729e-02 maxE 3.040e-14 hullDelta 4.888e-16 resteps 0 S4leaves 11576 gphiphi_lb 5.739e+00 wall 55507 s
+# EREP step 820 N 6567 reductions 0
+# step 840 t=271.146233 h=8.034e-02 maxE 3.809e-14 hullDelta 6.130e-16 resteps 0 S4leaves 12256 gphiphi_lb 5.739e+00 wall 56831 s
+# EREP step 840 N 6727 reductions 0
+# step 860 t=272.678892 h=7.365e-02 maxE 4.794e-14 hullDelta 7.709e-16 resteps 0 S4leaves 12936 gphiphi_lb 5.739e+00 wall 58178 s
+# EREP step 860 N 6887 reductions 0
+# step 880 t=274.100118 h=6.820e-02 maxE 6.063e-14 hullDelta 9.820e-16 resteps 0 S4leaves 13616 gphiphi_lb 5.739e+00 wall 59520 s
+# EREP step 880 N 7047 reductions 0
+# step 900 t=275.415229 h=6.274e-02 maxE 7.701e-14 hullDelta 1.245e-15 resteps 0 S4leaves 14296 gphiphi_lb 5.739e+00 wall 60868 s
+# EREP step 900 N 7207 reductions 0
+# step 920 t=276.634864 h=5.960e-02 maxE 9.826e-14 hullDelta 1.639e-15 resteps 0 S4leaves 14976 gphiphi_lb 5.739e+00 wall 62217 s
+# EREP step 920 N 7367 reductions 0
+# step 940 t=277.755614 h=5.456e-02 maxE 1.254e-13 hullDelta 2.074e-15 resteps 0 S4leaves 15656 gphiphi_lb 5.739e+00 wall 63517 s
+# EREP step 940 N 7527 reductions 0
+# step 960 t=278.789617 h=4.910e-02 maxE 1.603e-13 hullDelta 2.594e-15 resteps 0 S4leaves 16336 gphiphi_lb 5.739e+00 wall 64813 s
+# EREP step 960 N 7687 reductions 0
+# step 980 t=279.744633 h=4.637e-02 maxE 2.054e-13 hullDelta 3.423e-15 resteps 0 S4leaves 17016 gphiphi_lb 5.739e+00 wall 66113 s
+# EREP step 980 N 7847 reductions 0
+# step 1000 t=280.625308 h=4.228e-02 maxE 2.636e-13 hullDelta 4.362e-15 resteps 0 S4leaves 17696 gphiphi_lb 5.739e+00 wall 67366 s
+# EREP step 1000 N 8007 reductions 0
+# step 1020 t=281.434056 h=3.955e-02 maxE 3.387e-13 hullDelta 5.734e-15 resteps 0 S4leaves 18376 gphiphi_lb 5.739e+00 wall 68564 s
+# EREP step 1020 N 8167 reductions 0
+# step 1040 t=282.177267 h=3.499e-02 maxE 4.358e-13 hullDelta 7.133e-15 resteps 0 S4leaves 19056 gphiphi_lb 5.739e+00 wall 69747 s
+# EREP step 1040 N 8327 reductions 0
+# step 1060 t=282.861419 h=3.239e-02 maxE 5.621e-13 hullDelta 9.328e-15 resteps 0 S4leaves 19739 gphiphi_lb 5.739e+00 wall 70923 s
+# EREP step 1060 N 8487 reductions 0
+# step 1080 t=283.487195 h=2.980e-02 maxE 7.252e-13 hullDelta 1.211e-14 resteps 0 S4leaves 20583 gphiphi_lb 5.739e+00 wall 72102 s
+# EREP step 1080 N 8647 reductions 0
+PROJ t t=283.8852393126 u1 [9.903179880003412827668644596988253117390598409336146236020338e+00, 9.903400347359535302123465225599069693228246357359643060248061e+00]
+PROJ t t=283.8852393126 u2 [1.306160397516424709832809921915097021888017898480424201002014e+02, 1.306160400349880477161503647901826211294281277727338884346217e+02]
+PROJ t t=283.8852393126 nH [2.262789832486853529895790582937200720557600205848513313296313e+00, 2.262789832489129202546006710841783480208463315304925135013840e+00]
+CHECKPOINT t t=  283.8852 u1 2.205e-04/2.205e-04=1.00 u2 2.833e-07/2.832e-07=1.00 fake 1.219e-08 vs 7.434e-05 nH 2.28e-12  PASS
+# step 1100 t=284.051637 h=2.728e-02 maxE 9.322e-13 hullDelta 1.556e-14 resteps 0 S4leaves 21641 gphiphi_lb 4.621e+00 wall 73198 s
+# EREP step 1100 N 8807 reductions 0
+# step 1120 t=284.580845 h=2.591e-02 maxE 1.206e-12 hullDelta 2.095e-14 resteps 0 S4leaves 22898 gphiphi_lb 4.621e+00 wall 74336 s
+# EREP step 1120 N 8967 reductions 0
+# step 1140 t=285.061157 h=2.319e-02 maxE 1.557e-12 hullDelta 2.640e-14 resteps 0 S4leaves 24218 gphiphi_lb 4.621e+00 wall 75476 s
+# EREP step 1140 N 9127 reductions 0
+# step 1160 t=285.504904 h=2.073e-02 maxE 2.014e-12 hullDelta 3.333e-14 resteps 0 S4leaves 25538 gphiphi_lb 4.621e+00 wall 76615 s
+# EREP step 1160 N 9287 reductions 0
+# step 1180 t=285.909312 h=1.944e-02 maxE 2.604e-12 hullDelta 4.411e-14 resteps 0 S4leaves 26858 gphiphi_lb 4.621e+00 wall 77786 s
+# EREP step 1180 N 9447 reductions 0
+# step 1200 t=286.280543 h=1.773e-02 maxE 3.367e-12 hullDelta 5.675e-14 resteps 0 S4leaves 28178 gphiphi_lb 4.621e+00 wall 78950 s
+# EREP step 1200 N 9607 reductions 0
+# step 1220 t=286.619925 h=1.637e-02 maxE 4.351e-12 hullDelta 7.379e-14 resteps 0 S4leaves 29498 gphiphi_lb 4.621e+00 wall 80106 s
+# EREP step 1220 N 9767 reductions 0
+# step 1240 t=286.930119 h=1.500e-02 maxE 5.629e-12 hullDelta 9.734e-14 resteps 0 S4leaves 30863 gphiphi_lb 4.621e+00 wall 81274 s
+# EREP step 1240 N 9927 reductions 0
+# step 1260 t=287.213512 h=1.364e-02 maxE 7.302e-12 hullDelta 1.274e-13 resteps 0 S4leaves 32523 gphiphi_lb 4.621e+00 wall 82426 s
+# EREP step 1260 N 10087 reductions 0
+# step 1280 t=287.472694 h=1.228e-02 maxE 9.494e-12 hullDelta 1.644e-13 resteps 0 S4leaves 34511 gphiphi_lb 4.621e+00 wall 83571 s
+# EREP step 1280 N 10247 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t287.5095
+# step 1300 t=287.710767 h=1.159e-02 maxE 1.238e-11 hullDelta 2.231e-13 resteps 0 S4leaves 36817 gphiphi_lb 4.621e+00 wall 84709 s
+# EREP step 1300 N 10407 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t287.7559
+# step 1320 t=287.928139 h=1.037e-02 maxE 1.614e-11 hullDelta 2.850e-13 resteps 0 S4leaves 39387 gphiphi_lb 4.621e+00 wall 85856 s
+# EREP step 1320 N 10567 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t288.0099
+# step 1340 t=288.127684 h=9.548e-03 maxE 2.107e-11 hullDelta 3.739e-13 resteps 0 S4leaves 41987 gphiphi_lb 4.621e+00 wall 87041 s
+# EREP step 1340 N 10727 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t288.2571
+# step 1360 t=288.309974 h=8.866e-03 maxE 2.747e-11 hullDelta 4.911e-13 resteps 0 S4leaves 44587 gphiphi_lb 4.621e+00 wall 88222 s
+# EREP step 1360 N 10887 reductions 0
+# step 1380 t=288.477671 h=8.184e-03 maxE 3.578e-11 hullDelta 6.374e-13 resteps 0 S4leaves 47187 gphiphi_lb 4.621e+00 wall 89401 s
+# EREP step 1380 N 11047 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t288.5021
+# step 1400 t=288.632103 h=7.502e-03 maxE 4.657e-11 hullDelta 8.200e-13 resteps 0 S4leaves 49787 gphiphi_lb 4.621e+00 wall 90580 s
+# EREP step 1400 N 11207 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t288.7533
+# step 1420 t=288.773799 h=6.820e-03 maxE 6.045e-11 hullDelta 1.038e-12 resteps 0 S4leaves 52543 gphiphi_lb 2.862e+00 wall 91728 s
+# EREP step 1420 N 11367 reductions 0
+# step 1440 t=288.904413 h=6.138e-03 maxE 7.829e-11 hullDelta 1.289e-12 resteps 0 S4leaves 55794 gphiphi_lb 2.862e+00 wall 92869 s
+# EREP step 1440 N 11527 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t289.0013
+# step 1460 t=289.024474 h=5.797e-03 maxE 1.010e-10 hullDelta 1.665e-12 resteps 0 S4leaves 59547 gphiphi_lb 2.504e+00 wall 94008 s
+# EREP step 1460 N 11687 reductions 0
+# step 1480 t=289.136025 h=5.456e-03 maxE 1.298e-10 hullDelta 2.123e-12 resteps 0 S4leaves 63792 gphiphi_lb 2.504e+00 wall 95147 s
+# EREP step 1480 N 11847 reductions 0
+# step 1500 t=289.239556 h=5.021e-03 maxE 1.662e-10 hullDelta 2.613e-12 resteps 0 S4leaves 68516 gphiphi_lb 2.504e+00 wall 96343 s
+# EREP step 1500 N 12007 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t289.2542
+# step 1520 t=289.335348 h=4.603e-03 maxE 2.114e-10 hullDelta 3.156e-12 resteps 0 S4leaves 73625 gphiphi_lb 2.504e+00 wall 97550 s
+# EREP step 1520 N 12167 reductions 0
+# step 1540 t=289.424839 h=4.373e-03 maxE 2.674e-10 hullDelta 3.899e-12 resteps 0 S4leaves 78979 gphiphi_lb 2.504e+00 wall 98842 s
+# EREP step 1540 N 12327 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t289.5040
+# step 1560 t=289.508031 h=4.049e-03 maxE 3.356e-10 hullDelta 4.605e-12 resteps 0 S4leaves 85091 gphiphi_lb 2.504e+00 wall 100056 s
+# EREP step 1560 N 12487 reductions 0
+# step 1580 t=289.586253 h=3.725e-03 maxE 4.182e-10 hullDelta 5.306e-12 resteps 0 S4leaves 92067 gphiphi_lb 1.355e+00 wall 101272 s
+# EREP step 1580 N 12647 reductions 0
+# step 1600 t=289.659735 h=3.580e-03 maxE 5.169e-10 hullDelta 6.339e-12 resteps 0 S4leaves 99890 gphiphi_lb 1.355e+00 wall 102461 s
+# EREP step 1600 N 12807 reductions 0
+# step 1620 t=289.729117 h=3.410e-03 maxE 6.360e-10 hullDelta 7.648e-12 resteps 0 S4leaves 108540 gphiphi_lb 3.785e-01 wall 103739 s
+# EREP step 1620 N 12967 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t289.7523
+# step 1640 t=289.794416 h=3.239e-03 maxE 7.787e-10 hullDelta 9.061e-12 resteps 0 S4leaves 118006 gphiphi_lb 3.785e-01 wall 105107 s
+# EREP step 1640 N 13127 reductions 0
+# step 1660 t=289.856142 h=3.069e-03 maxE 9.482e-10 hullDelta 1.052e-11 resteps 0 S4leaves 128302 gphiphi_lb 3.785e-01 wall 106434 s
+# EREP step 1660 N 13287 reductions 0
+# step 1680 t=289.914978 h=2.898e-03 maxE 1.148e-09 hullDelta 1.192e-11 resteps 0 S4leaves 139093 gphiphi_lb 3.785e-01 wall 107656 s
+# EREP step 1680 N 13447 reductions 0
+# step 1700 t=289.971264 h=2.728e-03 maxE 1.381e-09 hullDelta 1.326e-11 resteps 0 S4leaves 150339 gphiphi_lb 3.785e-01 wall 108994 s
+# EREP step 1700 N 13607 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t290.0013
+# step 1720 t=290.025378 h=2.643e-03 maxE 1.651e-09 hullDelta 1.483e-11 resteps 0 S4leaves 162121 gphiphi_lb 3.785e-01 wall 110245 s
+# EREP step 1720 N 13767 reductions 0
+# step 1740 t=290.077089 h=2.511e-03 maxE 1.954e-09 hullDelta 1.582e-11 resteps 0 S4leaves 174512 gphiphi_lb 3.785e-01 wall 111487 s
+# EREP step 1740 N 13927 reductions 0
+# step 1760 t=290.127269 h=2.472e-03 maxE 2.292e-09 hullDelta 1.692e-11 resteps 0 S4leaves 187568 gphiphi_lb 3.785e-01 wall 112695 s
+# EREP step 1760 N 14087 reductions 0
+# step 1780 t=290.176285 h=2.472e-03 maxE 2.664e-09 hullDelta 1.772e-11 resteps 0 S4leaves 201330 gphiphi_lb 3.785e-01 wall 113956 s
+# EREP step 1780 N 14247 reductions 0
+# step 1800 t=290.224015 h=2.349e-03 maxE 3.062e-09 hullDelta 1.691e-11 resteps 0 S4leaves 215745 gphiphi_lb 3.785e-01 wall 115252 s
+# EREP step 1800 N 14407 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t290.2501
+# step 1820 t=290.271369 h=2.349e-03 maxE 3.484e-09 hullDelta 1.636e-11 resteps 0 S4leaves 230724 gphiphi_lb 3.785e-01 wall 116505 s
+# EREP step 1820 N 14567 reductions 0
+# step 1840 t=290.318723 h=2.349e-03 maxE 3.929e-09 hullDelta 1.534e-11 resteps 0 S4leaves 246273 gphiphi_lb 3.785e-01 wall 117702 s
+# EREP step 1840 N 14727 reductions 0
+# step 1860 t=290.366078 h=2.349e-03 maxE 4.392e-09 hullDelta 1.409e-11 resteps 0 S4leaves 262332 gphiphi_lb 3.785e-01 wall 118897 s
+# EREP step 1860 N 14887 reductions 0
+# step 1880 t=290.414719 h=2.472e-03 maxE 4.880e-09 hullDelta 1.306e-11 resteps 0 S4leaves 279003 gphiphi_lb 3.785e-01 wall 120089 s
+# EREP step 1880 N 15047 reductions 0
+# step 1900 t=290.464234 h=2.511e-03 maxE 5.384e-09 hullDelta 1.116e-11 resteps 0 S4leaves 296364 gphiphi_lb 3.785e-01 wall 121292 s
+# EREP step 1900 N 15207 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t290.5023
+# step 1920 t=290.515378 h=2.643e-03 maxE 5.908e-09 hullDelta 9.687e-12 resteps 0 S4leaves 314487 gphiphi_lb 3.785e-01 wall 122566 s
+# EREP step 1920 N 15367 reductions 0
+# step 1940 t=290.568827 h=2.728e-03 maxE 6.459e-09 hullDelta 7.934e-12 resteps 0 S4leaves 333441 gphiphi_lb 3.785e-01 wall 123836 s
+# EREP step 1940 N 15527 reductions 0
+# step 1960 t=290.624891 h=2.898e-03 maxE 7.035e-09 hullDelta 6.283e-12 resteps 0 S4leaves 353251 gphiphi_lb 3.785e-01 wall 124992 s
+# EREP step 1960 N 15687 reductions 0
+# step 1980 t=290.684545 h=3.069e-03 maxE 7.641e-09 hullDelta 4.555e-12 resteps 0 S4leaves 373919 gphiphi_lb 3.785e-01 wall 126151 s
+# EREP step 1980 N 15847 reductions 0
+# step 2000 t=290.749323 h=3.410e-03 maxE 8.284e-09 hullDelta 3.071e-12 resteps 0 S4leaves 395362 gphiphi_lb 3.785e-01 wall 127327 s
+# EREP step 2000 N 16007 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t290.7527
+# step 2020 t=290.820863 h=3.725e-03 maxE 8.963e-09 hullDelta 1.559e-12 resteps 0 S4leaves 417506 gphiphi_lb 3.785e-01 wall 128552 s
+# EREP step 2020 N 16167 reductions 0
+PROJ t t=290.8497393126 u1 [-3.039540965106857771189354534493193331577349163794909072721379e+00, -3.034530337694071408870392582320139904437757418764095840957408e+00]
+PROJ t t=290.8497393126 u2 [-1.654950954866748942140532263445944472104397464952230859910854e-02, -1.654888582609226523898532417576692494834635128653039064440647e-02]
+PROJ t t=290.8497393126 nH [-1.797380256760310254537040542446006664827268838897516110690668e+00, -1.797380256659742333385048814742578137108448327596598930154942e+00]
+CHECKPOINT t t=  290.8497 u1 5.011e-03/5.011e-03=1.00 u2 6.237e-07/6.136e-07=1.02 fake 1.667e-07 vs 7.625e-06 nH 1.01e-10  PASS
+# step 2040 t=290.897823 h=4.262e-03 maxE 9.631e-09 hullDelta 3.667e-13 resteps 0 S4leaves 440032 gphiphi_lb 3.785e-01 wall 129769 s
+# EREP step 2040 N 16327 reductions 0
+# step 2060 t=290.976164 h=3.725e-03 maxE 1.022e-08 hullDelta 1.777e-12 resteps 0 S4leaves 462463 gphiphi_lb 3.785e-01 wall 131265 s
+# EREP step 2060 N 16487 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t291.0012
+# step 2080 t=291.045017 h=3.239e-03 maxE 1.065e-08 hullDelta 2.966e-12 resteps 0 S4leaves 484351 gphiphi_lb 3.785e-01 wall 132560 s
+# EREP step 2080 N 16647 reductions 0
+# step 2100 t=291.107767 h=3.069e-03 maxE 1.093e-08 hullDelta 4.449e-12 resteps 0 S4leaves 505517 gphiphi_lb 3.785e-01 wall 133801 s
+# EREP step 2100 N 16807 reductions 0
+# step 2120 t=291.166262 h=2.898e-03 maxE 1.109e-08 hullDelta 6.030e-12 resteps 0 S4leaves 525852 gphiphi_lb 3.785e-01 wall 135072 s
+# EREP step 2120 N 16967 reductions 0
+# step 2140 t=291.221015 h=2.728e-03 maxE 1.115e-08 hullDelta 7.574e-12 resteps 0 S4leaves 545332 gphiphi_lb 3.785e-01 wall 136319 s
+# EREP step 2140 N 17127 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t291.2501
+# step 2160 t=291.273663 h=2.591e-03 maxE 1.111e-08 hullDelta 9.116e-12 resteps 0 S4leaves 563965 gphiphi_lb 3.785e-01 wall 137603 s
+# EREP step 2160 N 17287 reductions 0
+# step 2180 t=291.324214 h=2.430e-03 maxE 1.101e-08 hullDelta 1.031e-11 resteps 0 S4leaves 581789 gphiphi_lb 3.785e-01 wall 138937 s
+# EREP step 2180 N 17447 reductions 0
+# step 2200 t=291.373230 h=2.430e-03 maxE 1.086e-08 hullDelta 1.196e-11 resteps 0 S4leaves 598872 gphiphi_lb 3.785e-01 wall 140297 s
+# EREP step 2200 N 17607 reductions 0
+# step 2220 t=291.421416 h=2.387e-03 maxE 1.068e-08 hullDelta 1.304e-11 resteps 0 S4leaves 615291 gphiphi_lb 3.785e-01 wall 141613 s
+# EREP step 2220 N 17767 reductions 0
+# step 2240 t=291.468770 h=2.387e-03 maxE 1.050e-08 hullDelta 1.408e-11 resteps 0 S4leaves 631165 gphiphi_lb 3.785e-01 wall 143012 s
+# EREP step 2240 N 17927 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t291.5019
+# step 2260 t=291.516124 h=2.387e-03 maxE 1.037e-08 hullDelta 1.480e-11 resteps 0 S4leaves 646489 gphiphi_lb 3.785e-01 wall 144373 s
+# EREP step 2260 N 18087 reductions 0
+# step 2280 t=291.563479 h=2.387e-03 maxE 1.031e-08 hullDelta 1.492e-11 resteps 0 S4leaves 661263 gphiphi_lb 3.785e-01 wall 145647 s
+# EREP step 2280 N 18247 reductions 0
+# step 2300 t=291.611830 h=2.430e-03 maxE 1.056e-08 hullDelta 1.476e-11 resteps 0 S4leaves 675442 gphiphi_lb 3.785e-01 wall 146971 s
+# EREP step 2300 N 18407 reductions 0
+# step 2320 t=291.660975 h=2.557e-03 maxE 1.077e-08 hullDelta 1.456e-11 resteps 0 S4leaves 688925 gphiphi_lb 3.785e-01 wall 148325 s
+# EREP step 2320 N 18567 reductions 0
+# step 2340 t=291.711654 h=2.557e-03 maxE 1.090e-08 hullDelta 1.320e-11 resteps 0 S4leaves 701721 gphiphi_lb 3.785e-01 wall 149736 s
+# EREP step 2340 N 18727 reductions 0
+SAVED /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/st.t291.7509
+# step 2360 t=291.764353 h=2.728e-03 maxE 1.101e-08 hullDelta 1.248e-11 resteps 0 S4leaves 713868 gphiphi_lb 3.785e-01 wall 151072 s
+# EREP step 2360 N 18887 reductions 0
+# step 2380 t=291.818910 h=2.728e-03 maxE 1.142e-08 hullDelta 1.077e-11 resteps 0 S4leaves 725430 gphiphi_lb 3.785e-01 wall 152380 s
+# EREP step 2380 N 19047 reductions 0
+# step 2400 t=291.876337 h=2.898e-03 maxE 1.191e-08 hullDelta 9.636e-12 resteps 0 S4leaves 736487 gphiphi_lb 3.785e-01 wall 153682 s
+# EREP step 2400 N 19207 reductions 0
+PROJ t t=291.8852393126 u1 [-6.485848026652630732273993813670764149558430502005130159842358e+01, -6.485504482374350933856093530566759047907026984429795224805227e+01]
+PROJ t t=291.8852393126 u2 [3.603945055160682301280314255221467798756599235715092637691897e+01, 3.603945076237029252425315771793869312512923643146304600885426e+01]
+PROJ t t=291.8852393126 nH [-1.628704792805883636423763065677578698120134414135035285299993e+00, -1.628704792755182743646076440186322530255340584127060121678715e+00]
+CHECKPOINT t t=  291.8852 u1 3.435e-03/3.435e-03=1.00 u2 2.108e-07/1.963e-07=1.07 fake 4.170e-07 vs 4.758e-06 nH 5.07e-11  PASS
+MN-SO PASS (time checkpoints only; informational) W0 1/10000000 steps 2414 resteps 0 wall 154323 s

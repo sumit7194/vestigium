@@ -1,0 +1,10 @@
+== run: /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_redo/run.out
+CHECKPOINT t t=  283.8852 u1 2.205e-04/2.205e-04=1.00 u2 2.833e-07/2.832e-07=1.00 fake 1.219e-08 vs 7.434e-05 nH 2.28e-12  PASS
+CHECKPOINT t t=  290.8497 u1 5.011e-03/5.011e-03=1.00 u2 6.237e-07/6.136e-07=1.02 fake 1.667e-07 vs 7.625e-06 nH 1.01e-10  PASS
+CHECKPOINT t t=  291.8852 u1 3.435e-03/3.435e-03=1.00 u2 2.108e-07/1.963e-07=1.07 fake 4.170e-07 vs 4.758e-06 nH 5.07e-11  PASS
+containment: 72 point-projections checked, 0 not contained; reference runs with missing checkpoints: none
+CONTAINMENT PASS
+controls: C-floor containment PASS, HARNESS-ERROR lines 0, BUG lines 0, THREW lines 0
+primary   291.8852: CHECKPOINT t t=  291.8852 u1 3.435e-03/3.435e-03=1.00 u2 2.108e-07/1.963e-07=1.07 fake 4.170e-07 vs 4.758e-06 nH 5.07e-11  PASS
+secondary 290.8497: CHECKPOINT t t=  290.8497 u1 5.011e-03/5.011e-03=1.00 u2 6.237e-07/6.136e-07=1.02 fake 1.667e-07 vs 7.625e-06 nH 1.01e-10  PASS
+VERDICT: PASS
