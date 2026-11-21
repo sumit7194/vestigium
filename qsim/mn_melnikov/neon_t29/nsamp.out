@@ -1,0 +1,9 @@
+b -0.2500 n  32 A1 +4.254266e-04 A2 +9.256e-07 A3 -1.000e-08 forb 6.5e-11 | spline slope0 +8.57087e-04 pi2 -8.19151e-04 | fourier slope0 +8.54496e-04 pi2 -8.47091e-04
+b -0.2500 n  64 A1 +4.254471e-04 A2 +8.549e-07 A3 -6.787e-10 forb 5.0e-12 | spline slope0 +8.54862e-04 pi2 -8.46285e-04 | fourier slope0 +8.54310e-04 pi2 -8.47470e-04
+b -0.2500 n 128 A1 +4.254483e-04 A2 +8.509e-07 A3 -2.021e-10 forb 2.6e-12 | spline slope0 +8.54428e-04 pi2 -8.47877e-04 | fourier slope0 +8.54299e-04 pi2 -8.47492e-04
+b -0.2050 n  32 A1 -8.145134e-06 A2 +3.566e-08 A3 +8.518e-09 forb 6.8e-11 | spline slope0 -1.07381e-05 pi2 -2.17215e-06 | fourier slope0 -1.60965e-05 pi2 +1.63818e-05
+b -0.2050 n  64 A1 -8.151386e-06 A2 -3.009e-09 A3 -9.957e-11 forb 7.7e-12 | spline slope0 -1.81593e-05 pi2 +1.70600e-05 | fourier slope0 -1.63154e-05 pi2 +1.62913e-05
+b -0.2050 n 128 A1 -8.151776e-06 A2 -5.210e-09 A3 -5.477e-10 forb 3.9e-12 | spline slope0 -1.65980e-05 pi2 +1.60186e-05 | fourier slope0 -1.63277e-05 pi2 +1.62860e-05
+b +0.2000 n  32 A1 +5.123857e-04 A2 -1.038e-06 A3 +4.652e-09 forb 2.9e-11 | spline slope0 +1.01449e-03 pi2 -1.02532e-03 | fourier slope0 +1.02065e-03 pi2 -1.02895e-03
+b +0.2000 n  64 A1 +5.123997e-04 A2 -1.048e-06 A3 +2.158e-09 forb 4.1e-12 | spline slope0 +1.02235e-03 pi2 -1.03040e-03 | fourier slope0 +1.02062e-03 pi2 -1.02900e-03
+b +0.2000 n 128 A1 +5.124006e-04 A2 -1.048e-06 A3 +2.025e-09 forb 2.7e-12 | spline slope0 +1.02079e-03 pi2 -1.02926e-03 | fourier slope0 +1.02062e-03 pi2 -1.02901e-03
