@@ -174,3 +174,72 @@ If T1r or T4r fails, nothing is launched, and the failure goes to the Bridge.
   ~17 h from t 287.77 to 291.88. So ~35–45 h; reported at launch.
 
 **Reporting.** A progress line to the Bridge about every 12 h, and at once on a guard stop, a BUG or a THREW.
+
+## Amendment A3 (2026-11-21, Opus 5.5, session "Quantum"): main_cont, the continuation of main_redo to sec_return
+
+- **Status: PROPOSED.** It becomes REGISTERED when the Bridge agrees to this text.
+- **The Bridge's plan (2026-11-21):** GO for one registered continuous run, R1–R4, starting when the Melnikov counted run
+  ends. Read and report at every checkpoint as it lands. Time is not a constraint (Sumit's words).
+- Nothing in A3 changes main_redo's registered reading (PASS, 7d56c34).
+
+**The run ("main_cont").**
+- **Start state.** A byte copy of main_redo's final state `main_redo/st` (t = 291.9, next checkpoint index 3 = t 295.8852),
+  sha256 a41157473d07370e…. It goes to `horseshoe_results/so_mn/erep/main_cont/st`. main_redo's own files are not touched.
+- **Resume.** As tested in T4r (byte-identical resume on the zsym + REDO path). The first line of run.out must read
+  `# RESUMED … next checkpoint 3`; anything else is a harness error.
+- **Binary.** `tests/mn_so_erep`, sha256 4a48b59ae87427ed…, the same binary as main and main_redo.
+- **Environment.** `SO_EREP=zsym SO_FIXED_REDO=1`, CKPT_SEC default (1800), W0 1/10000000, `mn_smoke/b17_cp_1e-7.txt`,
+  T_end 1018.7.
+- **Grid saves.** `SAVE_FROM=292 SAVE_DT=20`. This is a disk choice: the states grow to about 30 MB, and main_redo's
+  SAVE_DT 0.25 over ~727 time units would need about 70 GB.
+- **Settings.** nice 10, 1 core, detached (tools/detach.sh).
+- **Stages, all in this one run:**
+  - R1: t 295.8852.
+  - R2: sec_down 581.77.
+  - R3: t 793.2346, 800.0941, 801.2346, 805.2346.
+  - R4: sec_return 1018.6988.
+- **Estimate.** About 3400 steps, about 62 h ± 20% at main_redo's measured cost.
+
+**Section checkpoints are NOT measured by this run.**
+- mn_so prints "sections SKIPPED". At sec_down and sec_return it saves the set at t_sec − 0.5 (`st.pre_sec_down`,
+  `st.pre_sec_return`) and continues.
+- Those sets are recorded with sha256 and nothing else. Measuring them on the section needs a tool that does not exist
+  yet (a separate design, registered later).
+- A3's criteria are therefore the five time checkpoints only.
+
+**Criteria, reading and controls.**
+- §5 and §6 are unchanged, applied at each time checkpoint.
+  - B17: u1, u2 and the fake ratio each ≤ K = 5.
+  - Each checkpoint is read and reported to the Bridge as it lands.
+- C-floor: `tests/b17_containment.py` against `so_mn/contain/ref_1e-7_{mm,mp,pm,pp,zm,zp,mz,pz}.out`. These reference runs
+  already contain PROJ lines at all five time checkpoints, so no new reference runs are needed.
+- C-identity (the same binary hash) and C-steps (no BUG; resteps reported) are as written.
+- §6 table: a FAIL at a checkpoint does not stop the run.
+- **Overall reading:**
+  - PASS if all five time checkpoints pass, with no THREW and the controls holding;
+  - FAIL if the controls hold but a checkpoint fails or is not reached (THREW);
+  - INVALID if a control fails.
+- Each checkpoint's own line is also recorded (PASS or FAIL per checkpoint), so a partial outcome (for example R1 PASS
+  and R3 FAIL) is visible and not merged.
+
+**Stop conditions (the Bridge, 2026-11-21).** Each stop is by verified PID only. Each is reported at once, and there is
+no automatic restart.
+1. **A harness error.** Any `HARNESS-ERROR` line, or a missing or wrong RESUMED line.
+2. **A guard stop.** erep_guard.py, as in A2: (swap > 2 GB AND level ≥ 2) or level ≥ 4, sustained 600 s; disk < 5 GB at
+   once; own footprint > 500 MB at once (the A2 cap as replaced on 2026-11-19).
+3. **Per-step cost drift above 2×.**
+   - Baseline ("flat"): main_redo's mean of 63.9 s/step (154323 s / 2414 steps). Its 200-step windows ranged 57.9–70.1 s.
+   - The cost watchdog reads the `# step` lines (every 20 steps). If the mean wall time over the latest 200-step window
+     exceeds 2 × 63.9 = 127.9 s/step, it stops the run and logs COST-STOP.
+   - **Early check:** after about 30 min (≥ 20 steps), the mean so far is reported to the Bridge. N is 19k at the start
+     and grows by 8 columns per step to about 46k. Flat cost up to 19k is measured; beyond that it is not yet known.
+
+**Registered caveat, carried over from A2.** The fix test had REDO on only from t 287.756. main_redo, and so main_cont, ran
+with REDO on from t = 0.
+
+**Monitoring.** A watcher that polls the PID and greps run.out every 10 min (never tail -F, after the 2026-11-21 hang).
+Reports go to the Bridge:
+- each checkpoint as it lands;
+- the 30-min cost check;
+- any stop;
+- a progress line about every 12 h.
