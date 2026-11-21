@@ -16,3 +16,7 @@ rev = "v4.35.0-rc3"
 
 [[lean_lib]]
 name = "ZiglinCert"
+
+[[lean_lib]]
+name = "OnlyKerr"
+roots = ["OnlyKerr.Glue", "OnlyKerr.Axioms"]
