@@ -1,7 +1,9 @@
 # B15d DRAFT (2026-11-21): the rigorous stage on Kerr, with fixed sets on the arm's chain
 
-**Status: DRAFT for the Bridge's review. Nothing has run.** Proposed by the Bridge after B15c (B15C_RESULT.md: B15
-prediction NOT TESTED; no chain reached hs_cover). Drafted by Claude Opus 5.5 (session "Quantum").
+**Status: REGISTERED as B15d in PREREG_chaos_horseshoe_phase2.md (2026-11-21).** Proposed by the Bridge after B15c
+(B15C_RESULT.md: B15 prediction NOT TESTED; no chain reached hs_cover). Drafted by Claude Opus 5.5 (session "Quantum";
+first draft 3a2e55b). The Bridge approved it with one added control (§4, the frame-recipe positive control) and one
+wording change (§5); both are included. Nothing had run when it was registered.
 
 **What it tests.** Rigorous hs_cover on integrable Kerr data, in two respects:
 - **Soundness:** it must never certify a false covering. F7 applies unchanged: any ρ > 1 STOPS the MN claim.
@@ -68,17 +70,29 @@ j₁…j₂ ⊂ {1 … m−1} of orbit points whose sets are disjoint from N0 an
   - **gate GB:** the fresh guarded hs_cover build reproduces the R1 generic Rössler COVER lines and HH-SECONDARY's N0⇒N0
     line exactly;
   - **control 3's rigorous twin:** HH-SECONDARY's CERTIFIED sets with U ↔ S, and with U rotated 90° (W2 fallback if
-    singular), must each be CERTIFIED-FAIL in ≥ 1 required covering. UNDECIDED means "control not decided", and B15d
-    waits.
+    singular), must each be CERTIFIED-FAIL in ≥ 1 required covering. All 6 required coverings run for each variant.
+    UNDECIDED means "control not decided", and B15d waits.
+  - **Frame-recipe POSITIVE control (the Bridge, required).** The SAME recipe is applied to HH-SECONDARY's Π4 chain
+    (hh_chain_explore.json: X_j, U_j, m = 8; saddle eigen-frame for N0): N0 = (z, a0 e_u, (b0/a0)·a0·e_s); chain sets
+    (X_j, a·U_j, (b/a)·a·U_j⊥); sizes (0.03, 0.01, 0.5, 0.5); the B14 chain rule; exact sets at 1e−10 with S8; hs_cover
+    with system hh and the B13 settings, all required and optional coverings.
+    - **RECIPE-POSITIVE:** every required HH covering is CERTIFIED (so ρ > 1 for HH under the recipe). The recipe can
+      succeed, and a Kerr CERTIFIED-FAIL is informative.
+    - **RECIPE-NEGATIVE:** anything else (a required covering CERTIFIED-FAIL or UNDECIDED, or a stop at "no chain",
+      "S8" or "singular frame"). A Kerr CERTIFIED-FAIL is then NOT support (§5).
+    - It is read from its own hs_cover outputs, before any Kerr covering result is read.
 
 ## 5. Prediction and reading (registered before the run)
 - **Prediction:** NOT ρ > 1, and CERTIFIED-FAIL in at least one required covering.
 - **Readings:**
   - **ρ > 1:** F7 STOP. This would be a soundness failure of the rigorous stage, or a physics error, and is treated as the
     STOP rule requires.
-  - **CERTIFIED-FAIL** in ≥ 1 required covering: **the B15 prediction is supported, by a rigorous test on Kerr.** It is
-    reported as "B15d: rigorous stage certified a failure on integrable Kerr data (unfrozen-derived chain)". It is not a
-    test of the frozen constructor.
+  - **CERTIFIED-FAIL** in ≥ 1 required covering, and the recipe control RECIPE-POSITIVE: reported as **"B15d: the
+    rigorous stage certified a failure on integrable Kerr data with a recipe that certifies HH (unfrozen-derived chain)"**.
+    Never as a bare "prediction supported". It is not a test of the frozen constructor.
+  - **CERTIFIED-FAIL** in ≥ 1 required covering, but the recipe control RECIPE-NEGATIVE: **"soundness only: no false
+    certificate on Kerr"**. This is NOT support for the B15 prediction, since badly aligned sets fail even on chaotic
+    systems.
   - **UNDECIDED** on every required covering: **"tool limit on Kerr"**. This is NOT support. It is reported with the
     per-covering leaf and fail counts, the piece failure reasons (S4/S9/enclosure), and the return times. That
     decidability record is a direct input to the MN covering plans.
@@ -86,9 +100,13 @@ j₁…j₂ ⊂ {1 … m−1} of orbit points whose sets are disjoint from N0 an
   steps and wall time.
 
 ## 6. Resources and order
-- **Order:** gate GB, then the HH twin (2 coverings × 2 variants; HH's coverings took 17–80 min each in hh2), then
-  B15d's coverings: L + 2 required for a chain of length L (3 to 7), plus 1 optional.
+- **Order:** gate GB; then the HH twin (6 required coverings × 2 variants) and the frame-recipe control (its required
+  and optional coverings); HH's coverings took 17–80 min each in hh2. Then B15d's Kerr coverings: L + 2 required for a
+  chain of length L (3 to 7), plus 1 optional.
+- **Slot (the Bridge, 2026-11-21):** 2 hs_cover processes now, rising to 4 when the Bridge says so.
+- **Cuspis night condition (firm):** on the night Sumit picks for Cuspis's r = 8 run, every hs_cover process of this line
+  is STOPPED by verified PID before he closes the app (they are checkpointed), and resumed afterwards. A3 may keep
+  running.
 - **Compute:** at most 4 hs_cover processes at once, nice 10, one guard each (RSS cap 1 GB, disk < 5 GB at once). Wall
   time for Kerr returns is unknown; B16 sets no cap. Everything is checkpointed and detached.
-- **This draft carries the slot request** for up to 4 cores, staggered with the other sisters as the Bridge decides.
 - **Expected disk:** small (hh2's checkpoints were 268 KB in total).
