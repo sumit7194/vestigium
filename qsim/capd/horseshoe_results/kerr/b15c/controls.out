@@ -1,0 +1,10 @@
+1 selection                        PASS  {"T1": [4155], "shuffled": true, "tie": true, "orders": true, "nT2": 80, "nT3": 66}
+2 HH-SECONDARY reproduced          PASS  {"m": 8, "dX": 0.0, "dU": 0.0, "dS": 1.1102230246251565e-16, "ladder": {"a0": 0.03, "a": 0.01, "bf0": 0.5, "bf": 0.5, "chain": [3, 4, 5, 6]}, "sets_identical": true}
+2b arm copy == frozen at 7.3       PASS  {"t": 0.0002477936878511776, "tau": 0.0006680968304245173}
+3 planted HH U<->S: no ladder entry PASS  {"stop": "step 4: no ladder entry", "entries_tried": 108, "max_n_ok": 0}
+4 plunge None -> covering FAILS    PASS  {"nones": 216, "entries": 108, "stop": "step 4: no ladder entry"}
+5 MapCheckFailed -> HARNESS-ERROR  PASS  {"raised": true, "loop_handler": true}
+6 S8 overlapping -> stop, no spec  PASS  {"stop": "S8", "control_disjoint_specs": 4}
+7 classifier + chain + headline    PASS  {"n_cases": 11, "mismatches": [], "chain": true, "headline": true}
+8 duplicates                       PASS  {"statuses": {"c1": {"status": "specs", "required": ["N0N0", "N0N1", "N1N0"], "optional": ["N1N1"], "key": "50e7671360201e5b034bc3e2ee0e93404a133e2a60433ad59b0df332f603284d"}, "c2": {"status": "duplicate", "of": "c1"}}, "n": 4}
+CONTROLS PASS
