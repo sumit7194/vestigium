@@ -1,0 +1,12 @@
+{
+ "90952": {
+  "tag": "rot90_N0N0",
+  "cmd": "/Users/sumit/Github/quantum/qsim/capd/horseshoe/hs_cover_b15d /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/kerr/b15d/twin/rot90_N0N0.spec",
+  "resumed": false
+ },
+ "90954": {
+  "tag": "rot90_N0N3",
+  "cmd": "/Users/sumit/Github/quantum/qsim/capd/horseshoe/hs_cover_b15d /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/kerr/b15d/twin/rot90_N0N3.spec",
+  "resumed": false
+ }
+}

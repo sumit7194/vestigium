@@ -12,3 +12,27 @@
 2026-11-21 19:05:36 GB: {"hh2_N0N0": {"match": true, "got": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0", "want": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0"}, "r1_MM": {"match": true, "diff": {}}, "r1_MN": {"match": true, "diff": {}}, "r1_NM": {"match": true, "diff": {}}, "r1_NN": {"match": true, "diff": {}}, "PASS": true}
 2026-11-21 19:05:37 start twin/rot90_N0N0 PID 90952 (spec sha256 b893e8cd2e74bc77)
 2026-11-21 19:05:37 start twin/rot90_N0N3 PID 90954 (spec sha256 a6b72e30ff3bd8e9)
+2026-11-22 04:14:40 B15d-2: SIGSTOP verified PID 90952 (twin/rot90_N0N0): paused, in-flight piece kept
+2026-11-22 04:14:40 B15d-2: SIGSTOP verified PID 90954 (twin/rot90_N0N3): paused, in-flight piece kept
+2026-11-22 04:14:41 B15d-2: SIGKILL verified PID 62244 (old orchestrator; its SIGTERM handler would leave SIGTERM pending on the paused children)
+2026-11-22 04:14:47 B15d-2 canned merge cases: PASS
+2026-11-22 04:14:47 adopted PID 90952 (twin/rot90_N0N0, state TNs)
+2026-11-22 04:14:47 adopted PID 90954 (twin/rot90_N0N3, state TNs)
+2026-11-22 04:14:47 B15d-2 split orchestrator start PID 30241; slots 2
+2026-11-22 04:14:48 start mc/hh2_N0N0_a PID 30248 (spec sha256 a98dad0412f1ae27)
+2026-11-22 04:14:48 start mc/hh2_N0N0_e PID 30263 (spec sha256 e5cfcabf78a3354a)
+2026-11-22 04:16:37 adopted running PID 30248 (mc/hh2_N0N0_a, state RNs)
+2026-11-22 04:16:37 adopted running PID 30263 (mc/hh2_N0N0_e, state RNs)
+2026-11-22 04:16:46 NOTE: the two 'adopted running PID 30248/30263' lines at 04:16:37 came from an interactive dry check of b15d_split.scan_running() (no runner, no signal); runner 30241 still owns them
+2026-11-22 04:17:10 B15d-3: SIGKILL verified PID 30241 (runner swap; children keep running and are adopted)
+2026-11-22 04:17:12 B15d-2 canned merge cases: PASS
+2026-11-22 04:17:12 adopted PID 90952 (twin/rot90_N0N0, state TNs)
+2026-11-22 04:17:12 adopted PID 90954 (twin/rot90_N0N3, state TNs)
+2026-11-22 04:17:12 adopted running PID 30248 (mc/hh2_N0N0_a, state RNs)
+2026-11-22 04:17:12 adopted running PID 30263 (mc/hh2_N0N0_e, state RNs)
+2026-11-22 04:17:12 B15d-2 split orchestrator start PID 34523; slots 2
+2026-11-22 04:21:23 mc/hh2_N0N0_e exit n/a (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 04:35:14 mc/hh2_N0N0_a exit n/a (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 04:35:24 MC: {"PASS": true, "merged": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=merged reloaded_pieces=0", "gb": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0", "merged_class": "CERTIFIED", "err": null}
+2026-11-22 04:35:25 start twin_e/swap_N0N0 PID 60023 (spec sha256 4d4e5f8b20803cc3)
+2026-11-22 04:35:25 start twin_e/swap_N0N3 PID 60025 (spec sha256 afda583dc28db5cf)
