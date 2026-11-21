@@ -1691,3 +1691,76 @@ the wording and asked for the reason to be recorded. Registered BEFORE GB runs.
     fail_a, fail_b, return_time and COVERS. The new-format-only fields are recorded.
   - Any mismatch, a return_time mismatch included, is a FAIL. It holds B15d and goes back to the Bridge. Nothing is
     loosened after the fact.
+
+**B15d-2 (2026-11-22): edges first, a labelled schedule amendment.** Proposed by quantum and approved by the Bridge
+(2026-11-22, Sumit's standing rule). Registered BEFORE any edge-chunk (b) result exists: no `arange 0 0` run had been
+made, and the two running twin coverings (rot90 N0⇒N0, rot90 N0⇒N3) were still in part (a) when this was written.
+- **Why.** In hs_cover a certified failure can come only from part (b) (an edge leaf certainly in neither side:
+  `certified_fail_b`) or from the orientation check (`orient_certified_fail`). Part (a) can never certify a failure: a
+  failing (a)-piece only spends leaves. On the twin, failing (a)-pieces cost ~3.2k depth-cap leaves and ~4 h each, so
+  part (a) of a single covering can take days before (b) is reached. Running (b) first makes the control's decisive
+  outcome reachable in hours.
+- **(ii) Nothing about the check changes.** Same binary (hs_cover_b15d, sha256 fb5fcbfc…), same exact sets, prec 128,
+  order 20, iter 1, caps 65536 4096, depth 16 12, `cover <i> <j> 16 16 64`, S4/S9 on, no piececap. The only spec
+  differences are the existing B13 options:
+  - **edge chunk** = the registered spec + `arange 0 0` (no (a)-piece runs), no checkpoint line;
+  - **(a) chunk** = the registered spec (same checkpoint path) + `noedges`.
+- **Merge (the classifier never sees a chunk alone).** An edge chunk's own COVER line reads `a=1 … COVERS=1` vacuously
+  whenever its edges pass, so a chunk output is NEVER passed to the classifier by itself. The merged classifier input
+  is: the FAILPIECE lines of both chunks, then one merged COVER line, then DONE (only if both chunks end in DONE with
+  no FATAL; otherwise no merged COVER line, so UNDECIDED).
+  - Validation, any failure ⇒ HARNESS-ERROR:
+    - exactly one COVER line in each chunk, for the same source and target;
+    - the (a) chunk shows `b=skip orient=skip COVERS=chunk-a-only` and `chunk_a=[0,nu) edges=no`;
+    - the edge chunk shows `chunk_a=[0,0) edges=yes a=1 fail_a=0 leaves_a=0 maxdepth_a=0`.
+  - Merged COVER line, in hs_cover's own field order:
+    - from (a): `a`, `strong_a`, `fail_a`, `leaves_a`, `maxdepth_a`;
+    - from (b): `b`, `orient`, `fail_b`, `certified_fail_b`, `orient_certified_fail`, `leaves_b`;
+    - `replay_steps` = the sum; `return_time` = the hull of the two printed intervals (`none` if both are `none`);
+    - `COVERS = 1` iff a=1 and b=1, else 0;
+    - suffix `chunk_a=[0,nu) edges=merged reloaded_pieces=<(a)'s>`.
+  - Printed endpoints are MPFR round-to-nearest decimals of the bounds. Rounding is monotone, so the hull of the printed
+    intervals equals the printed hull. The classifier itself (B15c / B15c-1) is unchanged.
+- **Edge-fixed class.** If an edge chunk ends in DONE, passes validation, and shows a certified edge FAILPIECE or
+  `orient_certified_fail=1`, then b = 0 is certain. So COVERS = 0 for ANY (a) outcome, and the covering's class is
+  CERTIFIED-FAIL ("edge-fixed"). The (a) chunk still runs to completion (the registered rule: all coverings run, so
+  decidability is measured in full). The merged class must then equal CERTIFIED-FAIL, or the covering is HARNESS-ERROR.
+- **(i) Merge positive control MC (before any twin edge chunk runs).**
+  - HH-SECONDARY N0⇒N0, the covering GB already reproduced (CERTIFIED, `leaves_a=337`), is run as an (a) chunk with a
+    fresh checkpoint path and as an edge chunk, then merged.
+  - PASS iff the merged COVER line up to ` chunk_a=` is byte-identical to GB's unchunked line (gb/hh2_N0N0.out) AND the
+    merged class equals GB's class (CERTIFIED).
+  - Canned merge cases must also pass first, with no hs_cover run:
+    - an edge chunk alone with `COVERS=1`, merged with `a=0` ⇒ COVERS=0, UNDECIDED;
+    - a certified edge FAILPIECE, or `orient_certified_fail=1` ⇒ edge-fixed CERTIFIED-FAIL, and merged CERTIFIED-FAIL
+      for any (a);
+    - mismatched source/target, an (a) chunk that does not cover [0,nu), or an edge chunk with leaves_a > 0 ⇒
+      HARNESS-ERROR;
+    - a missing or unfinished (a) chunk ⇒ UNDECIDED merged, with the edge-fixed class still reported;
+    - a hull with `none`.
+  - MC FAIL ⇒ the split is not used; B15d reverts to unchunked runs and goes back to the Bridge.
+- **(iii) The running (a) work is kept.** The two in-flight twin processes (rot90 N0⇒N0 PID 90952, rot90 N0⇒N3 PID
+  90954) are PAUSED with SIGSTOP by verified PID, not terminated. Their finished pieces are in their checkpoints, and
+  their in-progress piece stays in memory, so nothing is discarded.
+  - The old orchestrator (PID 62244) is then ended with SIGKILL by verified PID. Its SIGTERM handler would send SIGTERM
+    to the paused children, which would be held pending and kill them on resume.
+  - The new runner adopts the two paused PIDs (guard included) and resumes them with SIGCONT in the twin (a) phase. They
+    finish under their ORIGINAL unchunked specs (edges included), so their record is their own unchunked COVER line.
+  - Their edge chunk, run early, must agree with that line on b, orient, fail_b, certified_fail_b,
+    orient_certified_fail and leaves_b, or the covering is HARNESS-ERROR. This is a second, free check of the split.
+  - Cuspis-night rule: a stop sends SIGTERM and then SIGCONT to a paused process, so it really ends; it resumes from its
+    checkpoint.
+- **Order within the same slots (still 2; 4 only on the Bridge's word).**
+  1. MC (two chunks).
+  2. The twin edge chunks, all 12, in registered order (swap, then rot90; required order N0N0 … N6N0).
+  3. The twin (a) phase: resume the two paused processes, plus the (a) chunks of the other 10.
+  4. Recipe, then Kerr: unchanged, unchunked, as registered.
+  - This amendment covers the twin only; recipe and Kerr keep their registered form unless a later amendment changes
+    that.
+- **Twin reading.**
+  - Per covering: the merged class (or, for the two adopted processes, the unchunked class) once complete; before that,
+    the edge-fixed class if there is one, else "pending".
+  - A variant PASSes as registered (CERTIFIED-FAIL in ≥ 1 required covering, no HARNESS-ERROR). An edge-fixed
+    CERTIFIED-FAIL counts, because it is final.
+  - An EARLY twin reading is logged after step 2 and goes to the Bridge. The registered TWIN line is logged when every
+    twin covering is complete. Kerr still runs only after twin PASS and the recipe stage, as registered.
