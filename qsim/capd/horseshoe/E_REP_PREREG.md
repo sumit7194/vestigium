@@ -177,7 +177,8 @@ If T1r or T4r fails, nothing is launched, and the failure goes to the Bridge.
 
 ## Amendment A3 (2026-11-21, Opus 5.5, session "Quantum"): main_cont, the continuation of main_redo to sec_return
 
-- **Status: PROPOSED.** It becomes REGISTERED when the Bridge agrees to this text.
+- **Status: REGISTERED.** The Bridge AGREED as drafted (68b94bc) on 2026-11-21, before any main_cont output existed
+  (launch kit a2d2bda, not launched). The text below is unchanged from the proposal.
 - **The Bridge's plan (2026-11-21):** GO for one registered continuous run, R1–R4, starting when the Melnikov counted run
   ends. Read and report at every checkpoint as it lands. Time is not a constraint (Sumit's words).
 - Nothing in A3 changes main_redo's registered reading (PASS, 7d56c34).
