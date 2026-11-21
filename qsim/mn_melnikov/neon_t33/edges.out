@@ -1,0 +1,13 @@
+== (1) sensitivity at beta* = -0.20622472
+{}                               A1 +8.45576e-12 A2 +7.801245e-09 A3 +2.658e-11 slope0 +3.13956e-08 slope_pi2 +3.10230e-08 nz 4
+{'eps': 5e-07}                   A1 +5.10125e-12 A2 +7.808158e-09 A3 +2.658e-11 slope0 +3.13934e-08 slope_pi2 +3.10699e-08 nz 4
+{'eps': 2e-06}                   A1 +6.86814e-13 A2 +7.809699e-09 A3 +2.592e-11 slope0 +3.14000e-08 slope_pi2 +3.10864e-08 nz 4
+{'eps': 2.5e-07}                 A1 -2.94857e-12 A2 +7.808550e-09 A3 +2.170e-11 slope0 +3.13139e-08 slope_pi2 +3.11159e-08 nz 4
+{'rtol': 5e-13, 'atol': 5e-14}   A1 +1.24252e-12 A2 +7.809821e-09 A3 +2.584e-11 slope0 +3.13993e-08 slope_pi2 +3.10796e-08 nz 4
+{'n': 256, 'K': 40}              A1 +3.63576e-12 A2 +7.801870e-09 A3 +2.926e-11 slope0 +3.13935e-08 slope_pi2 +3.10167e-08 nz 4
+== (2) edges (n 128, K 30)
+beta* (A1=0, kerr_angle)               beta = -0.2062247195  (beta - beta*_Neon = +5.375e-10)
+edge_pi2 (slope at pi/2 = 0, kerr)     beta = -0.2062270334  (beta - beta*_Neon = -2.313e-06)
+edge_0 (slope at 0 = 0, kerr)          beta = -0.2062223948  (beta - beta*_Neon = +2.325e-06)
+edge_pi2 (geom_angle)                  beta = -0.2062270324  (beta - beta*_Neon = -2.312e-06)
+edge_0 (geom_angle)                    beta = -0.2062223955  (beta - beta*_Neon = +2.325e-06)

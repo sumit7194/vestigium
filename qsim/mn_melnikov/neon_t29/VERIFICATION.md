@@ -76,3 +76,10 @@ Written by Claude Opus 5.5 (session "Quantum"), 2026-11-21.
   - Theorem A covers only 0 < |β| < β₀ (not explicit). The β\* observation says that a uniform first-order argument
     cannot reach β = −1/3: on the negative side the first harmonic vanishes before −1/3. A fixed-β route (C, or a CAPD
     horseshoe) would be needed there.
+
+## Correction (2026-11-21, after Neon T33; see `../neon_t33/VERIFICATION.md`)
+- **"A2 ≈ +1.1e−8 at β\*" above is wrong.** It came from the cubic spline, which is unconverged at the 1e−8 level even
+  at n = 128. At β* the spectral fit gives A2 = +7.80e−9, with a ~1e−3 relative float systematic.
+- **"Each vanishes within about 3e−6 of β\*" is corrected.** The slope at π/2 vanishes at β* − 2.313e−6 and the slope at
+  0 at β* + 2.325e−6. These edges are convention-invariant: geom_angle agrees to 1e−12.
+- The other numbers above stand, including A1, the β₀ scales, β* itself and the slopes at β = 0.2.
