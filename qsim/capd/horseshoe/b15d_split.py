@@ -27,6 +27,7 @@ TWIN_ORDER = [f"{v}_{x}{y}" for v in ("swap", "rot90") for x, y in R.HH2_REQ]
 EDGE_FIELDS = ("b", "orient", "fail_b", "certified_fail_b", "orient_certified_fail", "leaves_b")
 PAUSED_FILE = OUT / "paused.json"
 PAUSED = {}          # pid -> dict(tag, cmd, resumed)
+RUNNING_ADOPTED = {} # (stage, tag) -> (pid, cmd): live hs_cover_b15d children of an earlier runner (B15d-3 restart safety)
 
 
 # ---------------------------------------------------------------------------------------------- specs
@@ -52,7 +53,17 @@ def build():
         src = (OUT / "twin" / f"{t}.spec").read_text().splitlines()
         (OUT / "twin_e" / f"{t}.spec").write_text(_split(src, "e"))
         (OUT / "twin_a" / f"{t}.spec").write_text(_split(src, "a"))
-    print("built: mc 2, twin_e %d, twin_a %d" % (len(TWIN_ORDER), len(TWIN_ORDER)))
+    for d in ("kerr_e", "kerr_a"): (OUT / d).mkdir(exist_ok=True)
+    for t in kerr_order():
+        src = (OUT / "kerr" / f"{t}.spec").read_text().splitlines()
+        (OUT / "kerr_e" / f"{t}.spec").write_text(_split(src, "e"))
+        (OUT / "kerr_a" / f"{t}.spec").write_text(_split(src, "a"))
+    print("built: mc 2, twin_e %d, twin_a %d, kerr_e/kerr_a %d" % (len(TWIN_ORDER), len(TWIN_ORDER), len(kerr_order())))
+
+
+def kerr_order():
+    b = json.loads((OUT / "kerr" / "build.json").read_text())
+    return list(b["required"]) + list(b["optional"])
 
 
 # ---------------------------------------------------------------------------------------------- merge
@@ -234,16 +245,42 @@ def _on_term(signum, frame):
     R.log("split orchestrator SIGTERM: stopping all children (checkpointed; relaunch resumes)"); stop_all("orchestrator SIGTERM")
 
 
+CHUNK_STAGES = ("mc", "twin_e", "twin_a", "kerr_e", "kerr_a")
+
+
+def scan_running():
+    """adopt live hs_cover_b15d processes of mine on a spec under OUT that are not in paused.json"""
+    paused_pids = {int(k) for k in (json.loads(PAUSED_FILE.read_text()) if PAUSED_FILE.exists() else {})}
+    for l in R.sh("ps -axo pid=,user=,command=").splitlines():
+        f = l.split(None, 2)
+        if len(f) < 3 or f[1] != "sumit" or not f[2].startswith(str(R.BIN) + " " + str(OUT) + "/"): continue
+        pid = int(f[0])
+        if pid in paused_pids: continue
+        spec = Path(f[2].split(" ", 1)[1]); st, t = spec.parent.name, spec.stem
+        RUNNING_ADOPTED[(st, t)] = (pid, f[2]); R.CHILD[pid] = (f"{st}/{t}", f[2])
+        R.log("adopted running PID %d (%s/%s, state %s)" % (pid, st, t, R.sh("ps -o stat= -p %d" % pid)))
+
+
 def run_jobs(jobs, adopted=()):
-    """jobs: [(stage_dir, tag)]; adopted: PIDs already running (count toward slots). No raw-chunk class is logged."""
+    """jobs: [(stage_dir, tag)]; adopted: paused PIDs already resumed (count toward slots). Chunk outputs get no class;
+    unchunked stages (recipe) log the B15c classifier's class as b15d_run.run_stage did."""
     todo = [j for j in jobs if not R.done_ok(*j)]
     running = {pid: (("twin", PAUSED[pid]["tag"]), None) for pid in adopted}
+    CMDS = {pid: PAUSED[pid]["cmd"] for pid in adopted}
+    for j in list(todo):
+        if j in RUNNING_ADOPTED:
+            pid, cmd = RUNNING_ADOPTED.pop(j); todo.remove(j)
+            if _alive(pid, cmd): running[pid] = (j, None); CMDS[pid] = cmd
     while (todo or running) and not R.STOPPING.is_set():
         for pid, (j, p) in list(running.items()):
-            ended = (p.poll() is not None) if p is not None else not _alive(pid, PAUSED[pid]["cmd"])
+            ended = (p.poll() is not None) if p is not None else not _alive(pid, CMDS[pid])
             if ended:
                 del running[pid]; R.CHILD.pop(pid, None)
-                R.log("%s/%s exit %s (chunk/adopted; classified only by the B15d-2 reading)" % (j[0], j[1], p.returncode if p else "n/a"))
+                rc = p.returncode if p else "n/a"
+                if j[0] in CHUNK_STAGES or (j[0] == "twin" and p is None):
+                    R.log("%s/%s exit %s (chunk/adopted; classified only by the B15d-2/-3 reading)" % (j[0], j[1], rc))
+                else:
+                    R.log("%s/%s exit %s; class %s" % (j[0], j[1], rc, D.classify(_read(OUT / j[0] / f"{j[1]}.out"))))
         while todo and len(running) < R.slots() and not R.STOPPING.is_set():
             st, t = todo.pop(0); spec = OUT / st / f"{t}.spec"
             fo = open(OUT / st / f"{t}.out", "w")
@@ -298,6 +335,23 @@ def twin_table():
     return out
 
 
+def kerr_table():
+    b = json.loads((OUT / "kerr" / "build.json").read_text()); rows = {}
+    for t in kerr_order():
+        e, a = _read(OUT / "kerr_e" / f"{t}.out"), _read(OUT / "kerr_a" / f"{t}.out")
+        ef = edge_fixed(e)
+        done = _complete(a) and _complete(e) and _cov(a) and _cov(e)
+        cls, err = merged_class(a, e) if done else (None, None)
+        rows[t] = dict(edge_fixed=ef, final=cls, err=err, reading=cls or ef or "pending")
+    req = [rows[t]["reading"] for t in b["required"]]
+    complete = all(rows[t]["final"] for t in b["required"])
+    early = ("HARNESS-ERROR" if "HARNESS-ERROR" in req else
+             "CERTIFIED-FAIL (edge-fixed; final unless a HARNESS-ERROR appears)" if "CERTIFIED-FAIL" in req else "pending")
+    out = dict(chain=b["chain"], rows=rows, complete=complete, early_chain=early)
+    if complete: out["chain_class"] = D.chain_class([rows[t]["final"] for t in b["required"]])
+    return out
+
+
 def run():
     signal.signal(signal.SIGTERM, _on_term)
     R.stop_all = stop_all                                   # the guard's box stop must also SIGCONT paused processes
@@ -313,6 +367,7 @@ def run():
             R.log("adopted PID %d (twin/%s, state %s)" % (pid, v["tag"], R.sh("ps -o stat= -p %d" % pid)))
         else:
             R.log("paused PID %d (twin/%s) is gone: its covering runs as an (a) chunk from its checkpoint instead" % (pid, v["tag"]))
+    scan_running()
     import threading
     threading.Thread(target=R.guard_loop, daemon=True).start()
     R.log("B15d-2 split orchestrator start PID %d; slots %d" % (os.getpid(), R.slots()))
@@ -329,17 +384,22 @@ def run():
     if not run_jobs([("twin_a", t) for t in TWIN_ORDER if t not in adopted_tags or t in gone], adopted=list(PAUSED)): return
     tw = twin_table(); R.log("TWIN: %s" % json.dumps(tw))
     tags = lambda st: [f.stem for f in sorted((OUT / st).glob("*.spec"))]
-    if not R.run_stage("recipe", tags("recipe")): return
+    if not run_jobs([("recipe", t) for t in tags("recipe")]): return
     rc = R.read_recipe("recipe"); R.log("RECIPE: %s" % json.dumps(rc))
     if not tw["PASS"]: R.log("TWIN not PASS (control 3 not decided or failed): B15d holds; to the Bridge"); return
-    if not R.run_stage("kerr", tags("kerr")): return
-    R.log("KERR: %s" % json.dumps(R.read_recipe("kerr"))); R.log("DONE")
+    # B15d-3: Kerr edges first (same merge rule, same MC), then (a); classes only from the merged input
+    if not run_jobs([("kerr_e", t) for t in kerr_order()]): return
+    R.log("KERR-EARLY: %s" % json.dumps(kerr_table()))
+    if not run_jobs([("kerr_a", t) for t in kerr_order()]): return
+    R.log("KERR: %s" % json.dumps(kerr_table())); R.log("DONE")
 
 
 def read():
     try: print("MC", json.dumps(read_mc(), indent=1))
     except (IndexError, FileNotFoundError): print("MC not run")
     print("TWIN", json.dumps(twin_table(), indent=1))
+    try: print("KERR", json.dumps(kerr_table(), indent=1))
+    except FileNotFoundError: print("KERR not run")
 
 
 if __name__ == "__main__":

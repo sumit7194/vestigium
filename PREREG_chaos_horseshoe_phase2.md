@@ -1764,3 +1764,28 @@ made, and the two running twin coverings (rot90 N0⇒N0, rot90 N0⇒N3) were sti
     CERTIFIED-FAIL counts, because it is final.
   - An EARLY twin reading is logged after step 2 and goes to the Bridge. The registered TWIN line is logged when every
     twin covering is complete. Kerr still runs only after twin PASS and the recipe stage, as registered.
+
+**B15d-3 (2026-11-22): Kerr edges first, plus a restart-safe runner.** Proposed by quantum after the Bridge offered it
+(the prediction is a certified failure, and only (b) or orientation can certify one). Registered long BEFORE any Kerr
+covering runs (Kerr is gated behind twin PASS and the recipe stage).
+- **Kerr coverings** (required N0N0, N0N1, N1N2, N2N3, N3N4, N4N5, N5N0; optional N5N1) are each split exactly as in
+  B15d-2: an edge chunk (`arange 0 0`, no checkpoint) and an (a) chunk (`noedges`, same checkpoint path).
+  - Same merge rule, the same MC (it tests the merge code, which is shared), and the same edge-fixed rule.
+  - Order: all 8 edge chunks (required in chain order, then optional), then a logged KERR-EARLY reading, then all 8 (a)
+    chunks, then the KERR reading.
+  - The per-covering class comes ONLY from the merged input. chain_class over the required merged classes is the
+    registered B15d result, read with the registered B15d §5 wording, which depends on the recipe reading.
+  - KERR-EARLY is "CERTIFIED-FAIL (edge-fixed; final unless a HARNESS-ERROR appears)" if any required covering is
+    edge-fixed. With one required CERTIFIED-FAIL, ρ > 1 is impossible and chain_class can only be CERTIFIED-FAIL or
+    HARNESS-ERROR. Otherwise it is "pending". It goes to the Bridge as an early reading, never as the result.
+- **Recipe stays unchunked** (the Bridge: its expected outcome is CERTIFIED, which needs (a) in full anyway).
+- **Restart safety.**
+  - On start, the runner adopts every live hs_cover_b15d process of mine on a spec under b15d/ that is not paused:
+    verified owner and command line, guarded, counted in the slot, and not restarted.
+  - So the runner can be replaced without killing or re-running a child. (Before this, a restarted runner would have
+    started a second process on a still-running spec and truncated its output.)
+  - The recipe stage now runs through this adoption-safe loop instead of b15d_run.run_stage; its classes are logged the
+    same way.
+  - The runner swap itself: SIGKILL of the running runner by verified PID (children are in their own sessions and keep
+    running), then a relaunch that adopts them.
+- Nothing about the check changes: binary, sets, caps, depth, precision and the classifier are as registered.
