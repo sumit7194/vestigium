@@ -261,7 +261,7 @@ def scan_running():
         R.log("adopted running PID %d (%s/%s, state %s)" % (pid, st, t, R.sh("ps -o stat= -p %d" % pid)))
 
 
-def run_jobs(jobs, adopted=()):
+def run_jobs(jobs, adopted=(), on_tick=None):
     """jobs: [(stage_dir, tag)]; adopted: paused PIDs already resumed (count toward slots). Chunk outputs get no class;
     unchunked stages (recipe) log the B15c classifier's class as b15d_run.run_stage did."""
     todo = [j for j in jobs if not R.done_ok(*j)]
@@ -288,6 +288,7 @@ def run_jobs(jobs, adopted=()):
                                  cwd=str(R.HERE), start_new_session=True)
             time.sleep(0.5); R.CHILD[p.pid] = (f"{st}/{t}", R.sh("ps -o command= -p %d" % p.pid)); running[p.pid] = ((st, t), p)
             R.log("start %s/%s PID %d (spec sha256 %s)" % (st, t, p.pid, D.file_sha(spec)[:16]))
+        if on_tick: on_tick()
         time.sleep(10)
     return not R.STOPPING.is_set()
 
@@ -381,11 +382,18 @@ def run():
             os.kill(pid, signal.SIGCONT); R.log("SIGCONT verified PID %d (twin/%s): resumed" % (pid, v["tag"]))
     adopted_tags = {v["tag"] for v in PAUSED.values()}
     gone = {v["tag"] for v in rec.values()} - adopted_tags  # paused PIDs that vanished: plain (a) chunks
-    if not run_jobs([("twin_a", t) for t in TWIN_ORDER if t not in adopted_tags or t in gone], adopted=list(PAUSED)): return
-    tw = twin_table(); R.log("TWIN: %s" % json.dumps(tw))
+    # B15d-4: one queue, recipe first, then the twin (a) chunks; the adopted pair keeps running and counts in the slot
     tags = lambda st: [f.stem for f in sorted((OUT / st).glob("*.spec"))]
-    if not run_jobs([("recipe", t) for t in tags("recipe")]): return
-    rc = R.read_recipe("recipe"); R.log("RECIPE: %s" % json.dumps(rc))
+    rjobs = [("recipe", t) for t in tags("recipe")]
+    tjobs = [("twin_a", t) for t in TWIN_ORDER if t not in adopted_tags or t in gone]
+    logged = []
+    def recipe_tick():
+        if not logged and all(R.done_ok(*j) for j in rjobs):
+            logged.append(1); R.log("RECIPE: %s" % json.dumps(R.read_recipe("recipe")))
+    R.log("B15d-4 order: recipe %s, then twin (a) %s" % ([t for _, t in rjobs], [t for _, t in tjobs]))
+    if not run_jobs(rjobs + tjobs, adopted=[p for p in PAUSED if _alive(p, PAUSED[p]["cmd"])], on_tick=recipe_tick): return
+    if not logged: logged.append(1); R.log("RECIPE (queue ended; not every recipe covering has DONE): %s" % json.dumps(R.read_recipe("recipe")))
+    tw = twin_table(); R.log("TWIN: %s" % json.dumps(tw))
     if not tw["PASS"]: R.log("TWIN not PASS (control 3 not decided or failed): B15d holds; to the Bridge"); return
     # B15d-3: Kerr edges first (same merge rule, same MC), then (a); classes only from the merged input
     if not run_jobs([("kerr_e", t) for t in kerr_order()]): return

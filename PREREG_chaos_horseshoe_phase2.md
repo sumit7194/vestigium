@@ -1789,3 +1789,27 @@ covering runs (Kerr is gated behind twin PASS and the recipe stage).
   - The runner swap itself: SIGKILL of the running runner by verified PID (children are in their own sessions and keep
     running), then a relaunch that adopts them.
 - Nothing about the check changes: binary, sets, caps, depth, precision and the classifier are as registered.
+
+**B15d-4 (2026-11-22): recipe control before the remaining twin (a) chunks; a labelled schedule amendment.** Proposed by
+quantum (option B) after TWIN-EARLY; chosen by the Bridge. Registered BEFORE any recipe covering or any twin (a) chunk
+runs. Only the paused rot90 pair (rot90 N0N0 and N0N3, resumed under B15d-2 at 06:25:54) is running.
+- **Why.** TWIN-EARLY (2fcdeb1): every swap covering is edge-fixed CERTIFIED-FAIL (final), and every rot90 covering has
+  b = 1 with a certified orientation. So each rot90 covering can end only CERTIFIED or UNDECIDED, and rot90 N0⇒N0
+  already holds finished depth-cap failures in (a). Unless a HARNESS-ERROR appears, the registered twin reading will be
+  "control not decided", and B15d holds. The remaining twin (a) work can take days on these slots: a covering that
+  spends its 65536-leaf cap takes about 90 h on one core. The recipe result is informative whatever happens to B15d,
+  because it says whether the recipe can certify HH at all.
+  - The Bridge records the rot90 clause as slip 12: the rot90 variant was required to produce CERTIFIED-FAIL, but on HH
+    rotating U by 90° breaks neither the edges nor the orientation, and only those two can certify a failure.
+- **Change: order only.**
+  - After TWIN-EARLY, the runner runs one queue: the recipe coverings (N0N0, N0N3, N3N4, N4N5, N5N6, N6N0, then N6N3),
+    then the twin (a) chunks in registered order.
+  - The two rot90 processes keep running and count toward the slot.
+  - The RECIPE line is logged as soon as every recipe covering is complete. The TWIN line is logged when every twin
+    covering is complete, then the registered hold.
+- **Unchanged.** Every twin covering still runs to completion for the record. Nothing is skipped, merged or loosened:
+  binary, sets, caps, depth, precision, classifier, merge rule and both readings are as registered. B15d's "control not
+  decided" (if that is how the TWIN line reads) stays on record. Kerr does not run under B15d unless twin PASS.
+- **Slots: 4** from this amendment (the Bridge, 2026-11-22: tabula's §213 run has finished; load 6.5 on 10 cores).
+- **Runner swap,** as in B15d-3: SIGKILL of runner PID 34523 by verified PID, then a relaunch that adopts the running
+  pair. Slots are raised only after the new runner is up, so no twin (a) chunk starts ahead of the recipe.
