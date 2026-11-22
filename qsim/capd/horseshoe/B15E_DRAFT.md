@@ -1,6 +1,6 @@
 # B15e DRAFT (2026-11-22): B15d's Kerr test with a twin negative control that can decide
 
-**Status: DRAFT, not registered, nothing of B15e has run.** Requested by the Bridge after B15d's TWIN-EARLY (2fcdeb1) and
+**Status: REGISTERED as B15e (c3b7c8f), with the Bridge's choice (i): a ONE-VARIANT twin (swap). §4–5 below are the draft; the registered text in PREREG_chaos_horseshoe_phase2.md governs.** Requested by the Bridge after B15d's TWIN-EARLY (2fcdeb1) and
 B15d-4 (2dc1926). Drafted by Claude Opus 5.5 (session "Quantum"). If Sumit objects, it stops here.
 
 B15d's own record stands. Its twin reading is expected to be "control not decided" and B15d holds; that line is logged
