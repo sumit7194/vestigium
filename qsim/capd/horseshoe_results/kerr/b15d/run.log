@@ -87,3 +87,19 @@
 2026-11-22 06:41:15 SIGCONT verified PID 90952 (twin/rot90_N0N0): resumed
 2026-11-22 06:41:15 SIGCONT verified PID 90954 (twin/rot90_N0N3): resumed
 2026-11-22 06:41:15 B15e queue: recipe ['N0N0', 'N0N3', 'N3N4', 'N4N5', 'N5N6', 'N6N0', 'N6N3']; then (if swap PASS) kerr_e ['N0N0', 'N0N1', 'N1N2', 'N2N3', 'N3N4', 'N4N5', 'N5N0', 'N5N1']; then twin (a) ['swap_N0N0', 'swap_N0N3', 'swap_N3N4', 'swap_N4N5', 'swap_N5N6', 'swap_N6N0', 'rot90_N3N4', 'rot90_N4N5', 'rot90_N5N6', 'rot90_N6N0'] interleaved with kerr (a)
+2026-11-22 07:01:12 recipe/N0N0 exit n/a; class CERTIFIED
+2026-11-22 07:01:13 start recipe/N3N4 PID 26744 (spec sha256 f2c40391f9a38705)
+2026-11-22 07:09:25 recipe/N0N3 exit n/a; class CERTIFIED
+2026-11-22 07:09:25 start recipe/N4N5 PID 28604 (spec sha256 92cd64b2e5768e3d)
+2026-11-22 07:48:22 recipe/N4N5 exit 0; class CERTIFIED
+2026-11-22 07:48:22 start recipe/N5N6 PID 58927 (spec sha256 3dc6823b7cb2a871)
+2026-11-22 08:11:27 recipe/N5N6 exit 0; class CERTIFIED
+2026-11-22 08:11:28 start recipe/N6N0 PID 90239 (spec sha256 a36bd6f18b5380ec)
+2026-11-22 08:29:41 recipe/N6N0 exit 0; class CERTIFIED
+2026-11-22 08:29:42 start recipe/N6N3 PID 9013 (spec sha256 aacb136fd98aae07)
+2026-11-22 08:51:36 recipe/N6N3 exit 0; class CERTIFIED-FAIL
+2026-11-22 11:47:05 recipe/N3N4 exit 0; class CERTIFIED
+2026-11-22 11:47:05 RECIPE: {"chain": [3, 4, 5, 6], "required": {"N0N0": "CERTIFIED", "N0N3": "CERTIFIED", "N3N4": "CERTIFIED", "N4N5": "CERTIFIED", "N5N6": "CERTIFIED", "N6N0": "CERTIFIED"}, "optional": {"N6N3": "CERTIFIED-FAIL"}, "reading": "RECIPE-POSITIVE"}
+2026-11-22 11:47:05 B15e twin PASS (one variant, swap: ['CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL']): Kerr edge chunks start
+2026-11-22 11:47:15 start kerr_e/N0N0 PID 54961 (spec sha256 670d7629fe332385)
+2026-11-22 11:47:16 start kerr_e/N0N1 PID 54963 (spec sha256 3a3bdd59bb081900)
