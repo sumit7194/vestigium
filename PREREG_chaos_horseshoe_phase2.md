@@ -1848,3 +1848,45 @@ covering runs and before the RECIPE line exists (the recipe is running under B15
 - **Runner swap** as in B15d-3 (SIGKILL of runner 7337 by verified PID; the relaunch adopts the running recipe
   coverings and the rot90 pair). Nothing about the check changes: binary, sets, caps, depth, precision, classifier and
   merge rule are as registered. F7 applies: any ρ > 1 STOPS.
+
+**B15e A1 (2026-11-22): spec slip, missing `param level` (approved by the Bridge after an independent check).**
+Registered BEFORE any smoke, gate test or counted Kerr chunk under A1. Found by quantum at 19:1x; prereg F12 applied.
+- **The slip.** For `system mn`, hs_cover lifts every point onto H = −½ (hard-coded in `lift`). S9 compares sys_H
+  against SYS.level, which is set only by a `param level` line. The B15c §4 header as registered (k, alpha, beta, E, L)
+  has no `param level`, and all 16 B15d Kerr specs (kerr_e/, kerr_a/) copied it. So every Kerr piece fails
+  "S9: … misses the energy level (BUG)" whatever the dynamics, and every Kerr covering would be a vacuous UNDECIDED.
+  kerr_e N0N0/N0N1 (PIDs 54961/54963, about 7.5 h each, 34 S9-BUG FAILPIECE lines each, no COVER line) were
+  SIGSTOPped under F12. The slip is shared: the Bridge approved that header. The recipe, twin and gb gates ran on
+  `system hh` (`param level 1/6`), so the mn path was never smoke-tested before counted Kerr chunks. RECIPE-POSITIVE,
+  swap PASS and A3 are unaffected.
+- **Fix (spec only).** `param level -1/2` is inserted right after `param L 445/2` in the 8 kerr/*.spec sources and
+  the 16 kerr_e/kerr_a specs, and in b15_steps34.KERR_HEAD. Nothing else changes: binary (fb5fcbfc…), sets, caps,
+  depth, precision, grid, split, classifier, merge rule and readings are as registered. Old and new spec sha256 go in
+  kerr/a1_specs.json.
+- **Runner gate.** b15d_split.run_jobs refuses, before launch, any spec whose `system mn` lacks exactly one
+  `param level -1/2` line (or whose `system hh` lacks exactly one `param level 1/6`). It logs
+  "REFUSED <stage>/<tag> … (B15e A1 gate); not launched" and drops the job, so the queue ends in a hold.
+  - **Known-answer test (NOT COUNTED):** a copy of the fixed kerr_e/N0N0.spec WITHOUT `param level` is passed through
+    run_jobs with process launch disabled. It must be REFUSED, with no launch; the fixed spec must pass the gate. The
+    result is logged in run.log. If it fails, nothing further runs and it goes back to the Bridge.
+- **S9 smoke with a must-fail twin (NOT COUNTED; slip-12 rule).** Outputs in horseshoe_results/kerr/b15e/a1_smoke/.
+  - S+ = the fixed kerr_e/N0N0 header and sets, `caps 65536 4096`, `depth 0 0`, `cover N0 N0 1 1 1`. So three
+    top-level pieces: (a) the whole N0, and edges L and R whole, each evaluated once.
+  - S− = S+ with `param level -499/1000` (−½ + 1/1000). The lift ignores the level, so both evaluate identical pieces.
+  - **PASS** needs all of:
+    1. both runs end with a COVER line and DONE;
+    2. S− has ≥ 1 FAILPIECE with "S9: return enclosure misses the energy level (BUG)"; call those pieces P;
+    3. S+ has no "S9" reason and no "(BUG)" anywhere;
+    4. some piece in P, in S+, either passes (no FAILPIECE line) or fails with a geometric reason (starts "u="),
+       which means its return check and full in-flow replay passed S9.
+  - **Inconclusive** if S− has no S9 line (no piece reached S9). Then, once only, stage 2: the same pair with
+    `cover N0 N0 16 16 64`, `arange 0 1`, `noedges`, `depth 0 0` (column 0 of the registered grid, 16 pieces), same
+    criteria. If still inconclusive, or if S+ shows any S9/BUG: Kerr stays held and goes back to the Bridge.
+  - On PASS, counted chunks start without waiting for a reply; the smoke result is reported to the Bridge first.
+- **Void outputs.** kerr_e/N0N0.out and N0N1.out are HARNESS (void, the A1 slip). They are moved, not deleted, to
+  kerr_e_void_nolevel/, and both chunks rerun from scratch.
+- **Runner swap** as before: SIGKILL of runner 15193 by verified PID, only after the specs are fixed and the gate test
+  and smoke PASS. Then the two paused kerr_e are killed by verified PID only. A relaunch adopts the rot90 pair
+  (90952/90954) and reruns kerr_e from N0N0 in B15d-3's order. Order, slots (4) and everything else are as in B15e.
+- **Headline wording, for KERR-EARLY and KERR:** "B15e A1: the registered B15c spec header omitted param level, so
+  the first two kerr_e chunks (~7.5 h each) were void (HARNESS) and rerun."
