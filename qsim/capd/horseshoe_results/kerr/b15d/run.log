@@ -73,3 +73,5 @@
 2026-11-22 06:35:21 B15d-4 order: recipe ['N0N0', 'N0N3', 'N3N4', 'N4N5', 'N5N6', 'N6N0', 'N6N3'], then twin (a) ['swap_N0N0', 'swap_N0N3', 'swap_N3N4', 'swap_N4N5', 'swap_N5N6', 'swap_N6N0', 'rot90_N3N4', 'rot90_N4N5', 'rot90_N5N6', 'rot90_N6N0']
 2026-11-22 06:35:51 NOTE: slots.txt 3 for the runner (the Bridge: 4 total); the 4th slot is reserved for the B15e pre-check edge chunks, run separately
 2026-11-22 06:35:52 start recipe/N0N0 PID 8988 (spec sha256 c094132bc280735c)
+2026-11-22 06:38:37 NOTE: slots.txt 4 (the Bridge); the B15e pre-check slot is not needed (stab stopped at S8, no hs_cover run)
+2026-11-22 06:38:43 start recipe/N0N3 PID 12872 (spec sha256 7b692f2508b7a83c)

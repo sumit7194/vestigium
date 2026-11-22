@@ -1813,3 +1813,38 @@ runs. Only the paused rot90 pair (rot90 N0N0 and N0N3, resumed under B15d-2 at 0
 - **Slots: 4** from this amendment (the Bridge, 2026-11-22: tabula's §213 run has finished; load 6.5 on 10 cores).
 - **Runner swap,** as in B15d-3: SIGKILL of runner PID 34523 by verified PID, then a relaunch that adopts the running
   pair. Slots are raised only after the new runner is up, so no twin (a) chunk starts ahead of the recipe.
+
+**B15e (2026-11-22): B15d's Kerr test re-registered with a ONE-VARIANT twin negative control.** Drafted by quantum at the
+Bridge's request (B15E_DRAFT.md, 4eede41); the Bridge chose option (i) and the slot order. Registered BEFORE any Kerr
+covering runs and before the RECIPE line exists (the recipe is running under B15d-4).
+- **One-variant negative control; rot90 "not decided" (B15d) and stab "S8 stop" (pre-check) remain on record.**
+  - The twin = swap alone: HH-SECONDARY's certified sets with U ↔ S. Its 6 required coverings are edge-fixed
+    CERTIFIED-FAIL (twin_e/*.out, 2fcdeb1; binary fb5fcbfc). Under B15d-2 that class is final. Reused, not rerun.
+  - Twin PASS (B15e) = swap PASS as computed by b15d_split.twin_table() (CERTIFIED-FAIL in ≥ 1 required covering, no
+    HARNESS-ERROR). A HARNESS-ERROR in any swap merge voids the twin and therefore the B15e Kerr reading.
+  - **Why there is no second independent variant (argued, float, not a proof).** On HH the return map stretches every
+    direction with an unstable component, so the u-edges of such a frame are pushed out of the target and (b) and the
+    orientation pass (rot90: b = 1 and orientation certified in all 6). Only a u-direction along the stable direction
+    contracts and can be certified failing (swap). A stable-aligned frame with N0's long side along S overlaps N6, the
+    last set on the approach along W^s (stab: S8 false on N0|N6). A further candidate chosen now would be chosen
+    knowing what passes, and would repeat swap's mechanism. So none is added.
+  - What the twin shows: the pipeline CAN reach CERTIFIED-FAIL on wrongly aligned HH sets, through the edge route, in
+    6 of 6 coverings. Whether the recipe can certify HH comes from RECIPE.
+- **Recipe:** the B15d RECIPE line from the B15d-4 queue, unchanged, logged before any Kerr covering starts.
+- **Kerr:** B15d §3's chain and sets and the B15d-3 split (kerr_e/, kerr_a/ specs as committed), unchanged. The
+  prediction and the §5 readings are B15d's, word for word. The headline says "B15e", that it was re-registered after
+  B15d's twin slip (slip 12), and that the negative control is one variant.
+- **Order (one runner queue, 4 slots).**
+  1. The recipe coverings still running or queued (B15d-4).
+  2. Once every recipe covering is complete: the RECIPE line. Then, if twin PASS (B15e), the 8 Kerr edge chunks in
+     B15d-3's order, then KERR-EARLY (to the Bridge, never as the result).
+  3. Then the remaining twin (a) chunks interleaved with the 8 Kerr (a) chunks, each list in its registered order
+     (twin_a[0], kerr_a[0], twin_a[1], kerr_a[1], …; the twin list's tail runs after the Kerr list ends). The rot90 pair
+     keeps running and counts in the slot.
+  4. When everything is complete: B15d's TWIN line and B15d's hold (unchanged), then B15e's twin line, then KERR.
+  - **KERR is final only once every twin merge is complete with no HARNESS-ERROR.** If one appears, the Kerr reading
+    is withheld and goes back to the Bridge.
+  - If twin PASS (B15e) fails at step 2, no Kerr covering runs; the twin (a) chunks still run for the record.
+- **Runner swap** as in B15d-3 (SIGKILL of runner 7337 by verified PID; the relaunch adopts the running recipe
+  coverings and the rot90 pair). Nothing about the check changes: binary, sets, caps, depth, precision, classifier and
+  merge rule are as registered. F7 applies: any ρ > 1 STOPS.

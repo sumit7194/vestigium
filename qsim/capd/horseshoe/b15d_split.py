@@ -288,7 +288,13 @@ def run_jobs(jobs, adopted=(), on_tick=None):
                                  cwd=str(R.HERE), start_new_session=True)
             time.sleep(0.5); R.CHILD[p.pid] = (f"{st}/{t}", R.sh("ps -o command= -p %d" % p.pid)); running[p.pid] = ((st, t), p)
             R.log("start %s/%s PID %d (spec sha256 %s)" % (st, t, p.pid, D.file_sha(spec)[:16]))
-        if on_tick: on_tick()
+        if on_tick:
+            for j in (on_tick() or []):
+                if R.done_ok(*j): continue
+                if j in RUNNING_ADOPTED:
+                    pid, cmd = RUNNING_ADOPTED.pop(j)
+                    if _alive(pid, cmd): running[pid] = (j, None); CMDS[pid] = cmd; continue
+                todo.append(j)
         time.sleep(10)
     return not R.STOPPING.is_set()
 
@@ -382,24 +388,45 @@ def run():
             os.kill(pid, signal.SIGCONT); R.log("SIGCONT verified PID %d (twin/%s): resumed" % (pid, v["tag"]))
     adopted_tags = {v["tag"] for v in PAUSED.values()}
     gone = {v["tag"] for v in rec.values()} - adopted_tags  # paused PIDs that vanished: plain (a) chunks
-    # B15d-4: one queue, recipe first, then the twin (a) chunks; the adopted pair keeps running and counts in the slot
+    # B15e (on top of B15d-4): recipe -> RECIPE -> [twin PASS (B15e) = swap PASS] -> kerr_e -> KERR-EARLY ->
+    # twin (a) interleaved with kerr (a) -> TWIN (B15d) + hold -> TWIN-1V (B15e) -> KERR (final only if every twin merge is
+    # complete with no HARNESS-ERROR)
     tags = lambda st: [f.stem for f in sorted((OUT / st).glob("*.spec"))]
     rjobs = [("recipe", t) for t in tags("recipe")]
     tjobs = [("twin_a", t) for t in TWIN_ORDER if t not in adopted_tags or t in gone]
-    logged = []
-    def recipe_tick():
-        if not logged and all(R.done_ok(*j) for j in rjobs):
-            logged.append(1); R.log("RECIPE: %s" % json.dumps(R.read_recipe("recipe")))
-    R.log("B15d-4 order: recipe %s, then twin (a) %s" % ([t for _, t in rjobs], [t for _, t in tjobs]))
-    if not run_jobs(rjobs + tjobs, adopted=[p for p in PAUSED if _alive(p, PAUSED[p]["cmd"])], on_tick=recipe_tick): return
-    if not logged: logged.append(1); R.log("RECIPE (queue ended; not every recipe covering has DONE): %s" % json.dumps(R.read_recipe("recipe")))
+    kejobs = [("kerr_e", t) for t in kerr_order()]; kajobs = [("kerr_a", t) for t in kerr_order()]
+    ST = dict(stage=0, kerr=False)
+    def tick():
+        if ST["stage"] == 0 and all(R.done_ok(*j) for j in rjobs):
+            ST["stage"] = 1; R.log("RECIPE: %s" % json.dumps(R.read_recipe("recipe")))
+            sw = twin_table()["swap"]
+            if sw["PASS"]:
+                ST["kerr"] = True; R.log("B15e twin PASS (one variant, swap: %s): Kerr edge chunks start" % sw["classes"]); return kejobs
+            ST["stage"] = 2; R.log("B15e twin NOT PASS (swap: %s): no Kerr covering runs; twin (a) chunks for the record" % sw["classes"]); return tjobs
+        if ST["stage"] == 1 and all(R.done_ok(*j) for j in kejobs):
+            ST["stage"] = 2; R.log("KERR-EARLY: %s" % json.dumps(kerr_table()))
+            out = []
+            for n in range(max(len(tjobs), len(kajobs))):
+                out += tjobs[n:n + 1] + kajobs[n:n + 1]
+            return out
+        return None
+    R.log("B15e queue: recipe %s; then (if swap PASS) kerr_e %s; then twin (a) %s interleaved with kerr (a)" %
+          ([t for _, t in rjobs], [t for _, t in kejobs], [t for _, t in tjobs]))
+    if not run_jobs(rjobs, adopted=[p for p in PAUSED if _alive(p, PAUSED[p]["cmd"])], on_tick=tick): return
+    if ST["stage"] < 2:
+        R.log("B15e queue ended at stage %d (a recipe or Kerr edge covering has no DONE): HARNESS; held; to the Bridge" % ST["stage"]); return
     tw = twin_table(); R.log("TWIN: %s" % json.dumps(tw))
-    if not tw["PASS"]: R.log("TWIN not PASS (control 3 not decided or failed): B15d holds; to the Bridge"); return
-    # B15d-3: Kerr edges first (same merge rule, same MC), then (a); classes only from the merged input
-    if not run_jobs([("kerr_e", t) for t in kerr_order()]): return
-    R.log("KERR-EARLY: %s" % json.dumps(kerr_table()))
-    if not run_jobs([("kerr_a", t) for t in kerr_order()]): return
-    R.log("KERR: %s" % json.dumps(kerr_table())); R.log("DONE")
+    if not tw["PASS"]: R.log("TWIN not PASS (control 3 not decided or failed): B15d holds; to the Bridge")
+    rows = tw["rows"]; harness = [t for t, r in rows.items() if r["reading"] == "HARNESS-ERROR"]
+    complete = all(r["final"] for r in rows.values())
+    R.log("TWIN-1V (B15e, one variant): %s" % json.dumps(dict(swap=tw["swap"], all_twin_complete=complete, harness=harness)))
+    if not ST["kerr"]: R.log("DONE (B15e: no Kerr covering ran)"); return
+    kt = kerr_table()
+    if complete and not harness and tw["swap"]["PASS"]:
+        R.log("KERR (B15e, final): %s" % json.dumps(kt))
+    else:
+        R.log("KERR WITHHELD (B15e: twin merges incomplete or HARNESS-ERROR %s): %s; to the Bridge" % (harness, json.dumps(kt)))
+    R.log("DONE")
 
 
 def read():
