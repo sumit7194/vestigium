@@ -4,3 +4,14 @@
 2026-11-22 22:29:33 STAGE 1 reading: INCONCLUSIVE (S- reached no S9): all 3 pieces in both runs threw 'sqrt domain error' (enclosures ~1e79) before the return; outputs identical. Stage 2 (once, as registered) starts.
 2026-11-22 22:29:33 start s2_plus PID 47854 (spec sha256 86e6d778ed88a45e; NOT COUNTED)
 2026-11-22 22:29:33 start s2_minus PID 47860 (spec sha256 2ef7b526f1828615; NOT COUNTED)
+2026-11-23 04:5x BOUND for stage 2 (the Bridge asked for it; fixed before any stage-2 output exists. Both files hold only the PREC line, flushed at start.)
+  Measured, from the logs (not estimated): void kerr_e/N0N0 started 11:47:15. Its stdout reached 4096 bytes (34 complete
+  edge-L FAILPIECE lines plus a partial 35th) at 18:12:40 = 23125 s. So <= 680 s per finished edge-L leaf, with
+  the bisection's internal evaluations included. (N0N1: 18:13:12, the same 34 lines.) Stage 1: 3 whole-set pieces
+  in 3 h 10 m 16 s = about 63 min per piece.
+  Bound = 3 x 680 s per piece x 16 pieces = 32640 s = 9.07 h from 22:29:33, i.e. 2026-11-23 07:33:33.
+  hs_cover stdout to a file is block-buffered (4 KB) and flushed only after a command ends. Stage 2 has one `cover`,
+  so its 16 results stay buffered until COVER. No output before the end is NOT evidence of no progress, and a
+  stop at the bound discards whatever is buffered.
+  At the bound with no COVER line: stage 2 is INCONCLUSIVE. 47854/47860 are stopped by verified PID, and stage 3 starts
+  as pre-stated (ce24524). Stage 3's S+ covers the S9 code path that the discarded buffer may hold.
