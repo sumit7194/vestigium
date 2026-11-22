@@ -303,7 +303,9 @@ def run_jobs(jobs, adopted=(), on_tick=None):
             if not g_ok:
                 R.log("REFUSED %s/%s: %s (B15e A1 gate); not launched" % (st, t, g_why)); continue
             fo = open(OUT / st / f"{t}.out", "w")
-            p = subprocess.Popen(["nice", "-n", "10", str(R.BIN), str(spec)], stdout=fo, stderr=subprocess.STDOUT,
+            # B15e A1-flush: line-buffered stdout (/usr/bin/stdbuf execs the same binary), so a stopped process
+            # leaves every finished piece's line on disk; the binary and its sha are unchanged
+            p = subprocess.Popen(["nice", "-n", "10", "/usr/bin/stdbuf", "-oL", str(R.BIN), str(spec)], stdout=fo, stderr=subprocess.STDOUT,
                                  cwd=str(R.HERE), start_new_session=True)
             time.sleep(0.5); R.CHILD[p.pid] = (f"{st}/{t}", R.sh("ps -o command= -p %d" % p.pid)); running[p.pid] = ((st, t), p)
             R.log("start %s/%s PID %d (spec sha256 %s)" % (st, t, p.pid, D.file_sha(spec)[:16]))

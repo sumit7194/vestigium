@@ -1907,3 +1907,21 @@ result).** It runs ONLY if stage 2 is INCONCLUSIVE. NOT COUNTED. Same S+ / S− 
 - **Known answer:** S− must throw the S9 return BUG on these leaves, as the void run did. If it does not, the stage is
   INCONCLUSIVE and goes back to the Bridge. S+ must pass S9 or fail with a geometric reason (rule 4). Any S9 or
   "(BUG)" in S+ means FAIL: Kerr stays held and goes back to the Bridge.
+
+**B15e A1-flush (2026-11-23; the Bridge asked for it as a pre-launch amendment): hs_cover output is line-buffered from
+now on.** Registered before smoke stage 3 and before the Kerr rerun.
+- **Finding.** hs_cover's stdout to a file is block-buffered (4 KB) and flushed only when a spec command ends; there is
+  no signal handler. So a stopped process discards its finished pieces' lines, and an empty file says nothing about
+  progress. The void kerr_e outputs show it: 4105 bytes, ending mid-line.
+- **Fix without a binary change.** Every hs_cover launch is wrapped as `nice -n 10 /usr/bin/stdbuf -oL <binary> <spec>`.
+  stdbuf execs the same binary (same PID, sha fb5fcbfc… unchanged, so GB still holds). libc++'s std::cout writes
+  through C stdio, which stdbuf sets to line-buffered. This is done in b15d_split.run_jobs and in the smoke stage-3
+  launches.
+- **Known-answer check (NOT COUNTED, horseshoe_results/kerr/b15e/a1_flush_kat/).** twin_e/swap_N0N0.spec with
+  `depth 0 0` (128 single-evaluation edge pieces), run twice in parallel and SIGKILLed mid-cover after 90 s.
+  - Control, no wrapper: 0 FAILPIECE lines, 9 bytes.
+  - stdbuf -oL: 9 complete FAILPIECE lines, 1472 bytes.
+  - So finished pieces' lines survive a kill. (A first 60 s attempt at the registered depth finished no piece in
+    either run, so it was inconclusive; it is recorded as such.)
+- **Unchanged:** the binary, specs, caps, depth, grid, classifier, merge rule and readings. Running processes (rot90,
+  stage 2) keep their original buffering.
