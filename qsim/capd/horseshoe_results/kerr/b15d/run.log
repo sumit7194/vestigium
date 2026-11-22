@@ -104,3 +104,4 @@
 2026-11-22 11:47:15 start kerr_e/N0N0 PID 54961 (spec sha256 670d7629fe332385)
 2026-11-22 11:47:16 start kerr_e/N0N1 PID 54963 (spec sha256 3a3bdd59bb081900)
 2026-11-22 19:13:35 F12 (Quantum, by hand): SIGSTOP verified PIDs 54961 (kerr_e/N0N0) and 54963 (kerr_e/N0N1): every Kerr spec lacks 'param level', so SYS.level != -1/2 while the mn lift puts points on H = -1/2; every piece fails S9 '(BUG)'. Paused, not killed, pending the Bridge.
+2026-11-22 19:18:25 B15e A1 gate known-answer test (NOT COUNTED): {"PASS": true, "fixed_spec_gate": [true, "param level -1/2"], "refused": true, "launched": 0, "runner_lines": ["REFUSED kat_e/nolevel: system mn needs exactly one 'param level -1/2', found [] (B15e A1 gate); not launched"]}

@@ -1,0 +1,98 @@
+{
+ "kerr/N0N0.spec": {
+  "old": "5f1a2f2b3fa7de89f78b22d1b8fb8bab6a9a1216d1da0614af08297ed4206fc3",
+  "new": "4928ef34b386958e3b4f13527897505695c172c5b4dcdf5b81bdd2b53690b5a7"
+ },
+ "kerr/N0N1.spec": {
+  "old": "dcceac62e1e3607fa1bcf02c197fc0fa3375a9161c6b7d6b980dde4edaae9685",
+  "new": "e2a1fcb45615d14ad748170d7cfddb8f0ddc44a840f54fff3234d90d558c9ed5"
+ },
+ "kerr/N1N2.spec": {
+  "old": "0a9b1e63b26e0f9eec9e9b851d42ff4278e50b66a838607eb6dfdac5d9aa1dec",
+  "new": "214f0f9fc1a74706744e6422852d04cfdadca20bbc03a78aee2505e78d2cc0b5"
+ },
+ "kerr/N2N3.spec": {
+  "old": "36c2cecdca8375d32564687cbaf11fb052aaf2cd7cdd9c4f662f91750ab45609",
+  "new": "826e8d6687f3cb35340de6bb9412d1134cdb15f946e068e2b30131c5473e37dd"
+ },
+ "kerr/N3N4.spec": {
+  "old": "b7d8052fdd671f04391ab539e196fdc1cc330252b039c4f3240e38be8cd97054",
+  "new": "f2564c10e764cf564e50dbc8867f160599a1c40ca512e69c41f5c71252ee8cac"
+ },
+ "kerr/N4N5.spec": {
+  "old": "547e5c2a47ad1c55f86c8dcd6d03dd832ec1e82dbc2fb1736e6f4e9d35eaaf6d",
+  "new": "537b49ce1b1ce7ca45ed5daaee745e257cadf4026352839f617c82232a02ee23"
+ },
+ "kerr/N5N0.spec": {
+  "old": "5bb28dad62cb27683837e4f62c40e13bb4c5815084d963e3917223c871a490e7",
+  "new": "63e9b86c4d8a812b60147d5b36a9a5d694bf534069c741611c7b4985b906a360"
+ },
+ "kerr/N5N1.spec": {
+  "old": "57beb8c147e2d0c2044c6ee7ad33153d402dfb46593902a5393ee29032691619",
+  "new": "ff31608f1f23debdb7a11d534cf4b5ec06c6c2771e6a37df835b5d9241e83cd5"
+ },
+ "kerr_e/N0N0.spec": {
+  "old": "670d7629fe332385f9918ec394cd13b4f4b9b73e39fee0762c79b33fc6864a08",
+  "new": "bbe5ca6de32851d314196a517eb88eaf3b98b78350021befdc359e6ac6c672e7"
+ },
+ "kerr_e/N0N1.spec": {
+  "old": "3a3bdd59bb08190044ff108d6c654b647bd2e0f66a3e7e4ec9cf8dfc1351b1a0",
+  "new": "d0f41a7feb96fd1e2114af33c4f8e95904dea61840f03c463364cdd8a25b27fb"
+ },
+ "kerr_e/N1N2.spec": {
+  "old": "f650e506a92d7ca4239d5c4d64a1763c42de4dea5db2376fb7901dbf61adb967",
+  "new": "a9c6fc20631695003e654358cf3d266f11cf89ed78e4054ed124a2bfa8adcb60"
+ },
+ "kerr_e/N2N3.spec": {
+  "old": "ce2c2952aae621026e885219bd10cc7129f5c274c051639f539fadd5b94e04a8",
+  "new": "d7e269d231bb15cd73ae58d9fa926f669268abdb6eaace3234587cb29cf80f9d"
+ },
+ "kerr_e/N3N4.spec": {
+  "old": "830964d226f0c04511ca53df3b926c579721ecaade4262261f8df3c0a8a6b3c0",
+  "new": "b0ed0bfaa2bdf18bd25a34d06538bf152a80d0a6fea9e549f93b329bbf3cd68e"
+ },
+ "kerr_e/N4N5.spec": {
+  "old": "f8329f8568ed8be1bd1e1a4c06574909a62abd43b552cfbdcdb88dcc07917d2e",
+  "new": "ab60b88ca824a503b77fdf7a63ea9d0a84f890ad3963c85964106483eaea1499"
+ },
+ "kerr_e/N5N0.spec": {
+  "old": "a8438ca2308724c8ba10bc78ef7dd4379ba591e100c1d17efb5a17d414691c8c",
+  "new": "da569a01010773fa52b1f0c01cb1b01c3f31b4017084e769d03ab91d332fc5da"
+ },
+ "kerr_e/N5N1.spec": {
+  "old": "ea56b800cc45cc1051f9ba5ec2afdee649bc962f9d286492b287c972d4360915",
+  "new": "62c2dff472a0a0af8ea67caa89abdd8826d0751330038edcde165fe5d923256a"
+ },
+ "kerr_a/N0N0.spec": {
+  "old": "a8d35be0a6232aceeebccac1d7f455f3ef9d6ff2dc7d57f56ebc139e7378715d",
+  "new": "24a80f38cfba05fafd40a70990ae86481167c44e6bbba0955a1ff7a56032a1fd"
+ },
+ "kerr_a/N0N1.spec": {
+  "old": "4b8d9f4b1a8d53d0fce6f118e0200a70f72321715477016a14c09affa50e9524",
+  "new": "1281ce5e7748a66f099a4e5a232010076e6d2ab2067190c12808b029599ae841"
+ },
+ "kerr_a/N1N2.spec": {
+  "old": "41a0ecfc13d05f3e7065440a33e391b0e8f761986360cb6093617740ad32fac7",
+  "new": "a80822a3d21fd5ea22fca712c245895a4be9659f20da9c7957a2084e6ccf3129"
+ },
+ "kerr_a/N2N3.spec": {
+  "old": "4d9d091a59b00e6a33bb878dec68acbdba6cdf76eb4d430d22cd1eebb8aaf22e",
+  "new": "e78b2b57361df3adf7786de1e2c01aebb637eaf8f50586095a28761f0d408284"
+ },
+ "kerr_a/N3N4.spec": {
+  "old": "52fdb27ff002cff82eafb69370e871e6d3b345abac5926c5a6c27f44422f1e7c",
+  "new": "8dae34ca85c29573d5126de3c3376a09e6bca83327c9971718dd59b6a19e43d1"
+ },
+ "kerr_a/N4N5.spec": {
+  "old": "d27e082ef3665ffd9911c27fb4629d1c729d442b615a2e7fdc8be61ea30e880e",
+  "new": "3e7a04869748560c6e7b2e55e4a05edcf4236bfcbe36768f4a2dbb6aa83c3039"
+ },
+ "kerr_a/N5N0.spec": {
+  "old": "729500187a4fe7c23cfb7465eb002f275938b980886d00a1cf74bf00f5c888bf",
+  "new": "7ff9bae1825d556b230ba3a21961ac6238cab33582d185c55d14dec470e4ab1a"
+ },
+ "kerr_a/N5N1.spec": {
+  "old": "c042da94604d2ed89058c2065fb9e96be1f67856314c69dddfba6e2af904971d",
+  "new": "45236eb3731a4774f9b1815a596784a8ec54524fc4738bd0cd4fef10af53d2d4"
+ }
+}

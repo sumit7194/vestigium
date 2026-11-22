@@ -29,7 +29,7 @@ LADDER = list(itertools.product([0.03, 0.02, 0.015, 0.01], [0.01, 0.005, 0.0025]
 Q_S = 0.740762452760964 * 89 ** 2                       # B15's registered separatrix Carter constant (physical units)
 KERR_LIB_SHA = "42ea6c3cb33c6d75f068525750fbddd3718d06b080fbce191075abf2ec8759c2"   # the step 1-2 run's kerr_rs
 KERR_HEAD = ["system mn", "prec 128", "order 20", "iter 1", "param k 39/1", "param alpha -5/8", "param beta 0/1",
-             "param E 49/50", "param L 445/2"]
+             "param E 49/50", "param L 445/2", "param level -1/2"]   # level: B15e A1 (the registered B15c header omitted it)
 HH_HEAD = ["system hh", "prec 128", "order 20", "iter 1", "param level 1/6"]
 RIG_BODY = ["caps 65536 4096", "depth 16 12"]
 

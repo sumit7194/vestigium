@@ -261,6 +261,22 @@ def scan_running():
         R.log("adopted running PID %d (%s/%s, state %s)" % (pid, st, t, R.sh("ps -o stat= -p %d" % pid)))
 
 
+LEVEL_LINE = {"mn": "param level -1/2", "hh": "param level 1/6"}
+
+
+def spec_gate(spec):
+    """B15e A1: a hamiltonian spec must carry exactly one registered `param level` line (hs_cover's S9 reads SYS.level,
+    which only that line sets; the mn lift hard-codes H = -1/2). Returns (ok, reason)."""
+    lines = [l.strip() for l in open(spec).read().splitlines()]
+    sysl = [l.split()[1] for l in lines if l.startswith("system ")]
+    if len(sysl) != 1: return False, "spec has %d system lines" % len(sysl)
+    want = LEVEL_LINE.get(sysl[0])
+    if want is None: return True, "no level needed (system %s)" % sysl[0]
+    lv = [l for l in lines if l.startswith("param level")]
+    if lv != [want]: return False, "system %s needs exactly one '%s', found %s" % (sysl[0], want, lv)
+    return True, want
+
+
 def run_jobs(jobs, adopted=(), on_tick=None):
     """jobs: [(stage_dir, tag)]; adopted: paused PIDs already resumed (count toward slots). Chunk outputs get no class;
     unchunked stages (recipe) log the B15c classifier's class as b15d_run.run_stage did."""
@@ -283,6 +299,9 @@ def run_jobs(jobs, adopted=(), on_tick=None):
                     R.log("%s/%s exit %s; class %s" % (j[0], j[1], rc, D.classify(_read(OUT / j[0] / f"{j[1]}.out"))))
         while todo and len(running) < R.slots() and not R.STOPPING.is_set():
             st, t = todo.pop(0); spec = OUT / st / f"{t}.spec"
+            g_ok, g_why = spec_gate(spec)
+            if not g_ok:
+                R.log("REFUSED %s/%s: %s (B15e A1 gate); not launched" % (st, t, g_why)); continue
             fo = open(OUT / st / f"{t}.out", "w")
             p = subprocess.Popen(["nice", "-n", "10", str(R.BIN), str(spec)], stdout=fo, stderr=subprocess.STDOUT,
                                  cwd=str(R.HERE), start_new_session=True)

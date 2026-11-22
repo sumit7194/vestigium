@@ -1,0 +1,12 @@
+{
+ "PASS": true,
+ "fixed_spec_gate": [
+  true,
+  "param level -1/2"
+ ],
+ "refused": true,
+ "launched": 0,
+ "runner_lines": [
+  "REFUSED kat_e/nolevel: system mn needs exactly one 'param level -1/2', found [] (B15e A1 gate); not launched"
+ ]
+}
