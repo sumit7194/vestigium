@@ -1,0 +1,9 @@
+PREC 128
+FAILPIECE N0>N0 a depth=0(depth cap) u=[-1.000000000000e+00,1.000000000000e+00] s=[-1.000000000000e+00,1.000000000000e+00] Interval error: MpInterval Function sqrt(x) - domain error
+   left=-5.30544e79   right=5.30545e79 
+FAILPIECE N0>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00] Interval error: MpInterval Function sqrt(x) - domain error
+   left=-1.25118e78   right=1.25119e78 
+FAILPIECE N0>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00] Interval error: MpInterval Function sqrt(x) - domain error
+   left=-1.48096e79   right=1.48097e79 
+COVER N0 N0 a=0 b=0 strong_a=0 orient=none fail_a=1 fail_b=2 certified_fail_b=0 orient_certified_fail=0 leaves_a=1 leaves_b=2 maxdepth_a=0 replay_steps=0 return_time=none COVERS=0
+DONE

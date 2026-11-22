@@ -1,0 +1,6 @@
+2026-11-22 19:18:56 start s1_plus PID 4433 (spec sha256 1245011f012ce9ab; binary hs_cover_b15d, NOT COUNTED)
+2026-11-22 19:18:56 start s1_minus PID 4439 (spec sha256 576fcdb715806d9e; binary hs_cover_b15d, NOT COUNTED)
+2026-11-22 22:29:12 both smoke runs ended
+2026-11-22 22:29:33 STAGE 1 reading: INCONCLUSIVE (S- reached no S9): all 3 pieces in both runs threw 'sqrt domain error' (enclosures ~1e79) before the return; outputs identical. Stage 2 (once, as registered) starts.
+2026-11-22 22:29:33 start s2_plus PID 47854 (spec sha256 86e6d778ed88a45e; NOT COUNTED)
+2026-11-22 22:29:33 start s2_minus PID 47860 (spec sha256 2ef7b526f1828615; NOT COUNTED)
