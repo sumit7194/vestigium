@@ -1,0 +1,3 @@
+PREC 128
+COVER N4 N5 a=1 b=1 strong_a=1 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=0 leaves_b=128 maxdepth_a=0 replay_steps=43371 return_time=[7.970283582802e+00,8.128837017464e+00] COVERS=1 chunk_a=[0,0) edges=yes reloaded_pieces=0
+DONE

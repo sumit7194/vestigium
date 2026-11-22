@@ -36,3 +36,28 @@
 2026-11-22 04:35:24 MC: {"PASS": true, "merged": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=merged reloaded_pieces=0", "gb": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0", "merged_class": "CERTIFIED", "err": null}
 2026-11-22 04:35:25 start twin_e/swap_N0N0 PID 60023 (spec sha256 4d4e5f8b20803cc3)
 2026-11-22 04:35:25 start twin_e/swap_N0N3 PID 60025 (spec sha256 afda583dc28db5cf)
+2026-11-22 04:55:16 twin_e/swap_N0N0 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 04:55:16 start twin_e/swap_N3N4 PID 88817 (spec sha256 7529f0e68be9892b)
+2026-11-22 04:59:37 twin_e/swap_N0N3 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 04:59:37 start twin_e/swap_N4N5 PID 93161 (spec sha256 71de672a5a579f2d)
+2026-11-22 05:33:38 twin_e/swap_N4N5 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 05:33:39 start twin_e/swap_N5N6 PID 31687 (spec sha256 9565e277d325851c)
+2026-11-22 05:51:49 twin_e/swap_N3N4 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 05:51:50 start twin_e/swap_N6N0 PID 51329 (spec sha256 aa578cbd227d2355)
+2026-11-22 06:01:30 twin_e/swap_N5N6 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 06:01:30 start twin_e/rot90_N0N0 PID 64553 (spec sha256 f662fd6298524f9d)
+2026-11-22 06:07:41 twin_e/rot90_N0N0 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 06:07:41 start twin_e/rot90_N0N3 PID 70587 (spec sha256 fbd7f2c7be6eb112)
+2026-11-22 06:10:01 twin_e/swap_N6N0 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 06:10:02 start twin_e/rot90_N3N4 PID 73126 (spec sha256 0b9a65fa6f2a396c)
+2026-11-22 06:13:42 twin_e/rot90_N0N3 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 06:13:43 start twin_e/rot90_N4N5 PID 80304 (spec sha256 24a4781e494cb9af)
+2026-11-22 06:16:53 twin_e/rot90_N3N4 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 06:16:53 start twin_e/rot90_N5N6 PID 83976 (spec sha256 3cf34fa98c990018)
+2026-11-22 06:20:03 twin_e/rot90_N4N5 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 06:20:04 start twin_e/rot90_N6N0 PID 87226 (spec sha256 fdf917c3af12746a)
+2026-11-22 06:22:24 twin_e/rot90_N5N6 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 06:25:44 twin_e/rot90_N6N0 exit 0 (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-22 06:25:54 TWIN-EARLY: {"rows": {"swap_N0N0": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N0N3": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N3N4": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N4N5": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N5N6": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N6N0": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "rot90_N0N0": {"source": "unchunked (adopted)", "edge_fixed": null, "final": null, "edge_check": null, "reading": "pending"}, "rot90_N0N3": {"source": "unchunked (adopted)", "edge_fixed": null, "final": null, "edge_check": null, "reading": "pending"}, "rot90_N3N4": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}, "rot90_N4N5": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}, "rot90_N5N6": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}, "rot90_N6N0": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}}, "swap": {"classes": ["CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL"], "PASS": true, "complete": false}, "rot90": {"classes": ["pending", "pending", "pending", "pending", "pending", "pending"], "PASS": false, "complete": false}, "PASS": false}
+2026-11-22 06:25:54 SIGCONT verified PID 90952 (twin/rot90_N0N0): resumed
+2026-11-22 06:25:54 SIGCONT verified PID 90954 (twin/rot90_N0N3): resumed
