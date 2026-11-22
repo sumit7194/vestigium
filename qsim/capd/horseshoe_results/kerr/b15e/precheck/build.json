@@ -1,0 +1,16 @@
+{
+ "variant": "stab",
+ "s8": {
+  "N0|N3": true,
+  "N0|N4": true,
+  "N0|N5": true,
+  "N0|N6": false,
+  "N3|N4": true,
+  "N3|N5": true,
+  "N3|N6": true,
+  "N4|N5": true,
+  "N4|N6": true,
+  "N5|N6": true
+ },
+ "stop": "stab: S8"
+}
