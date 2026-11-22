@@ -58,13 +58,36 @@ def kat():
     print(json.dumps(res, indent=1))
 
 
+def _piece_tsets(n0_line, idx=(0, 1, 2, 3)):
+    """stage 3: source sets N0p<i> whose edge L (u = -1, s in [-1, 1]) is EXACTLY the void run's edge-L leaf i of N0,
+    s in [-1 + i 2^-17, -1 + (i+1) 2^-17] (cover 16 16 64: top piece width 2^-5, then 12 bisections). Exact rationals:
+    c' = c + sm S, U' = U, S' = r S (sm = leaf centre, r = 2^-18 its half-width), A' = [U' S']^-1."""
+    from fractions import Fraction as F
+    t = n0_line.split(); v = [F(x) for x in t[2:12]]
+    c, U, Sv = v[0:2], v[2:4], v[4:6]
+    r = F(1, 2 ** 18); out = []
+    for i in idx:
+        sm = F(-1) + (2 * i + 1) * r
+        c2 = [c[k] + sm * Sv[k] for k in range(2)]; S2 = [r * Sv[k] for k in range(2)]
+        det = U[0] * S2[1] - S2[0] * U[1]
+        A = [S2[1] / det, -S2[0] / det, -U[1] / det, U[0] / det]
+        f = lambda q: f"{q.numerator}/{q.denominator}"
+        out.append((f"N0p{i}", "tset N0p%d " % i + " ".join(f(q) for q in c2 + U + S2 + A)))
+    return out
+
+
 def smoke_build(stage="1"):
     SMOKE.mkdir(parents=True, exist_ok=True)
     src = [l for l in (B / "kerr_e" / "N0N0.spec").read_text().splitlines() if l.strip()]
     assert src.count(LEVEL) == 1
     head = [l for l in src if not l.startswith(("caps ", "depth ", "arange ", "noedges", "checkpoint ", "cover "))]
-    tail = (["caps 65536 4096", "depth 0 0", "cover N0 N0 1 1 1"] if stage == "1" else
-            ["caps 65536 4096", "depth 0 0", "arange 0 1", "noedges", "cover N0 N0 16 16 64"])
+    if stage == "3":
+        ps = _piece_tsets([l for l in head if l.startswith("tset N0 ")][0])
+        head = head + [l for _, l in ps]
+        tail = ["caps 65536 4096", "depth 16 0", "arange 0 0"] + [f"cover {n} N0 1 1 1" for n, _ in ps]
+    else:
+        tail = (["caps 65536 4096", "depth 0 0", "cover N0 N0 1 1 1"] if stage == "1" else
+                ["caps 65536 4096", "depth 0 0", "arange 0 1", "noedges", "cover N0 N0 16 16 64"])
     for v, lv in (("plus", LEVEL), ("minus", WRONG)):
         body = [lv if l == LEVEL else l for l in head] + tail
         (SMOKE / f"s{stage}_{v}.spec").write_text("\n".join(body) + "\n")

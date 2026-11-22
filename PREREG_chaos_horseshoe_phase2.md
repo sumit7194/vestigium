@@ -1890,3 +1890,20 @@ Registered BEFORE any smoke, gate test or counted Kerr chunk under A1. Found by 
   (90952/90954) and reruns kerr_e from N0N0 in B15d-3's order. Order, slots (4) and everything else are as in B15e.
 - **Headline wording, for KERR-EARLY and KERR:** "B15e A1: the registered B15c spec header omitted param level, so
   the first two kerr_e chunks (~7.5 h each) were void (HARNESS) and rerun."
+
+**B15e A1, smoke stage 3 (2026-11-22; the Bridge's pre-stated fallback, registered while stage 2 runs, before its
+result).** It runs ONLY if stage 2 is INCONCLUSIVE. NOT COUNTED. Same S+ / S− pair, same PASS rule as stage 1.
+- **Pieces:** those already known to reach the S9 return check: the first 4 edge-L leaves that threw the S9 return BUG
+  in the void kerr_e/N0N0 output, s ∈ [−1 + i·2⁻¹⁷, −1 + (i+1)·2⁻¹⁷] for i = 0…3 (cover 16 16 64, top edge piece
+  2⁻⁵ wide, 12 bisections).
+- **How (a deviation in form, stated):** hs_cover prints nothing for a passing leaf until its covering's COVER line,
+  and the void chunk's own settings would take days to get there. So each leaf is evaluated as the edge L of its own
+  source set N0p<i>:
+  - c′ = c + s_m·S, U′ = U, S′ = 2⁻¹⁸·S, A′ = [U′ S′]⁻¹, all exact rationals, where s_m is the leaf centre;
+  - `cover N0p<i> N0 1 1 1`, `arange 0 0`, `depth 16 0`, target N0 unchanged.
+  - Edge L of N0p<i> equals leaf i of N0 exactly as a set (checked in exact arithmetic: both endpoints and A′·[U′ S′] = I;
+    b15e_a1._piece_tsets). Interval rounding may differ in the last bits. Edge R of each N0p<i> is evaluated too and is
+    simply reported.
+- **Known answer:** S− must throw the S9 return BUG on these leaves, as the void run did. If it does not, the stage is
+  INCONCLUSIVE and goes back to the Bridge. S+ must pass S9 or fail with a geometric reason (rule 4). Any S9 or
+  "(BUG)" in S+ means FAIL: Kerr stays held and goes back to the Bridge.
