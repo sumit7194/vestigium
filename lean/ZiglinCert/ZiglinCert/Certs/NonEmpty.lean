@@ -172,7 +172,7 @@ theorem tschaos_7_v1_H_nonempty : mne Certs.tschaos_7_v1_H = true := by decide +
 theorem tschaos_7_v2_G_nonempty : mne Certs.tschaos_7_v2_G = true := by decide +kernel
 theorem tschaos_7_v2_H_nonempty : mne Certs.tschaos_7_v2_H = true := by decide +kernel
 
-/-- every certificate: some pair of matrices lies in its boxes, so its CertConclusion is not vacuous -/
+-- every certificate: some pair of matrices lies in its boxes, so its CertConclusion is not vacuous
 #print axioms mne_sound
 #print axioms must_fire_empty
 

@@ -244,3 +244,15 @@ Reports go to the Bridge:
 - the 30-min cost check;
 - any stop;
 - a progress line about every 12 h.
+
+**Amendment (2026-11-23; labelled; memory policy from Sumit, relayed by the Bridge and Cuspis): memory and load INFORM, they never kill.**
+Sumit's words: "caps should inform, not kill, unless the mac starts to suffer". This replaces the memory and load stop
+rules of the running jobs' guards. It changes no reading, no criterion, no binary and no spec; only the guards change.
+The jobs keep running; the guards are restarted, or for the B15d runner, the orchestrator only.
+- **Own footprint over its cap** (A3: 500 MB; B15d children: 1024 MB): a WARN line, nothing else.
+- **Pressure** ((swap > 2 GB and level >= 2) or level 4): squeeze begin/end lines, WARN only.
+- **Red (level 4) sustained 600 s:** PAUSE by verified SIGSTOP, and resume by SIGCONT when the level is back to green.
+- **Disk < 5 GB free:** still a stop, as before (the only remaining kill).
+- **A3 cost watch:** COST-STOP (> 127.9 s/step over 200 steps) becomes a logged COST-WANT, because other jobs' load
+  or a pause would trigger it. The HARNESS-ERROR and RESUMED checks still stop.
+- **Implementation:** erep_guard.py and erep_cost_watch.py with `--inform`; b15d_run.guard_loop rewritten.

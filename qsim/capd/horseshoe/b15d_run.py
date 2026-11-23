@@ -7,8 +7,9 @@ under the slot, classifies with the B15c/B15c-1 classifier, and reads the gates 
   kerr    the counted B15d Kerr coverings (only after gb PASS, twin PASS and recipe complete)
 
 Slot: at most N concurrent hs_cover processes, N read from horseshoe_results/kerr/b15d/slots.txt on every loop (2 now;
-the Bridge raises it to 4). Each process: nice 10, its own session, one guard (footprint > 1024 MB -> SIGTERM that
-process; the box rules -- disk < 5 GB at once, (swap > 2 GB and level >= 2) or level >= 4 sustained 600 s -- stop all).
+the Bridge raises it to 4). Each process: nice 10, its own session, one guard. Since B15e A2 (2026-11-23): memory INFORMS
+(footprint > 1024 MB and pressure yellow/red -> WARN lines; red sustained 600 s -> verified SIGSTOP of all children, SIGCONT
+on green); only disk < 5 GB still stops all.
 SIGTERM to this orchestrator stops every child (verified PIDs) and exits; a relaunch resumes from the checkpoints, and
 outputs that already end in DONE are not re-run. No wall-time cap (B16).
 
@@ -178,19 +179,43 @@ def verified_term(pid, why):
         log("SIGTERM REFUSED for PID %d (%s): identity changed (%s / %s)" % (pid, tag, own, cmd))
 
 
+def verified_signal(pid, sig, why):
+    tag, cmd0 = CHILD.get(pid, (None, None))
+    cmd = sh("ps -o command= -p %d" % pid); own = sh("ps -o user= -p %d" % pid)
+    if own == "sumit" and cmd == cmd0:
+        log("%s verified PID %d (%s): %s" % (sig.name, pid, tag, why)); os.kill(pid, sig)
+    else:
+        log("%s REFUSED for PID %d (%s): identity changed (%s / %s)" % (sig.name, pid, tag, own, cmd))
+
+
 def guard_loop():
-    bad_since = None
+    """Memory policy of 2026-11-23 (Sumit, relayed by the Bridge; PREREG B15e A2): memory caps and pressure INFORM, they
+    never kill. Footprint > CAP_MB: a WARN line (once per crossing). Pressure: WARN at yellow (level 2) and red (level 4).
+    After red sustained 600 s, PAUSE every child (verified SIGSTOP), and RESUME them (verified SIGCONT) once the level is
+    back to green (1). Only the disk floor (< 5 GB free) still stops (kills) all."""
+    red_since = None; paused = False; last_lv = 1; over = set()
     while not STOPPING.is_set():
         for pid in list(CHILD):
-            if footprint_mb(pid) > CAP_MB: verified_term(pid, "footprint > %d MB" % CAP_MB)
+            fp = footprint_mb(pid)
+            if fp > CAP_MB and pid not in over: over.add(pid); log("WARN: PID %d footprint %.0f MB > %d MB (inform only)" % (pid, fp, CAP_MB))
+            if fp <= CAP_MB and pid in over: over.discard(pid); log("PID %d footprint back to %.0f MB" % (pid, fp))
         dk = int(sh("df -g / | tail -1 | awk '{print $4}'") or 99)
         sw = float((sh("sysctl -n vm.swapusage | awk '{print $6}'") or "0M").rstrip("M")); pl = int(sh("sysctl -n kern.memorystatus_vm_pressure_level") or 1)
         if dk < 5:
+            if paused:
+                for pid in list(CHILD): verified_signal(pid, signal.SIGCONT, "resume before the disk stop")
             log("BOX STOP: disk %d GB < 5" % dk); stop_all("disk")
-        bad = (sw > 2048 and pl >= 2) or pl >= 4
-        bad_since = (bad_since or time.time()) if bad else None
-        if bad_since and time.time() - bad_since > 600:
-            log("BOX STOP: swap %.0f MB level %d sustained 600 s" % (sw, pl)); stop_all("memory")
+        if pl != last_lv:
+            log("pressure level %d -> %d (swap %.0f MB)%s" % (last_lv, pl, sw, "; WARN (inform only)" if pl >= 2 else "")); last_lv = pl
+        red_since = (red_since or time.time()) if pl >= 4 else None
+        if red_since and not paused and time.time() - red_since > 600:
+            log("PAUSE: pressure red sustained 600 s (swap %.0f MB); SIGSTOP all children" % sw)
+            for pid in list(CHILD): verified_signal(pid, signal.SIGSTOP, "pause on sustained red")
+            paused = True
+        if paused and pl == 1:
+            log("RESUME: pressure green; SIGCONT all children")
+            for pid in list(CHILD): verified_signal(pid, signal.SIGCONT, "resume on green")
+            paused = False
         time.sleep(60)
 
 

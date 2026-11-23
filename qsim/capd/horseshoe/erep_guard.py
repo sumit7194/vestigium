@@ -11,6 +11,7 @@ SIGTERM loses at most the work since the last state save (CKPT_SEC 1800). There 
 waits for the Bridge. Logs every stop, every start and end of a sustained condition, and a status line every 10 min.
 Exits when the run is gone."""
 import os, re, signal, subprocess, sys, time
+INFORM = "--inform" in sys.argv; sys.argv = [a for a in sys.argv if a != "--inform"]   # memory policy 2026-11-23 (Sumit): memory INFORMS, never kills
 pid, LOG = int(sys.argv[1]), sys.argv[2]
 CAP_ARG = int(sys.argv[3]) if len(sys.argv) > 3 else None   # optional own-footprint cap in MB (main_redo: 500, the Bridge 2026-11-19 10:29)
 TESTS = "/Users/sumit/Github/quantum/qsim/capd/horseshoe/tests"; SUSTAIN = 600; CAP_MB = 300 if CAP_ARG is None else CAP_ARG
@@ -32,6 +33,33 @@ def stop(why):
         log("STOP (%s): killed; no automatic restart (resume from the last state save after the Bridge's OK)" % why)
     else: log("STOP (%s) REFUSED by verification: owner=%s cwd=%s cmd=[%s]" % (why, own, cwd, cmd))
     sys.exit(0)
+def sig(sg, why):
+    own, cwd, cmd = ident(pid)
+    if (own, cwd, cmd) == (own0, cwd0, cmd0): os.kill(pid, sg); log("VERIFIED PID %d -> %s (%s)" % (pid, sg.name, why)); return True
+    log("%s (%s) REFUSED by verification: owner=%s cwd=%s cmd=[%s]" % (sg.name, why, own, cwd, cmd)); return False
+if INFORM:
+    log("guard armed for PID %d (cmd: %s) in INFORM mode (memory policy 2026-11-23): disk < 5 GB -> stop; footprint > %d MB -> WARN; "
+        "squeeze begin/end logged; red (level 4) sustained %d s -> PAUSE (SIGSTOP), resume (SIGCONT) on green; no memory kill" % (pid, cmd0, CAP_MB, SUSTAIN))
+    k = 0; peak = 0.0; bad_since = None; red_since = None; paused = False; over = False
+    while alive(pid):
+        fp = footprint_mb(pid); peak = max(peak, fp)
+        sw = float(sh("sysctl -n vm.swapusage | awk '{print $6}'").rstrip("M")); pl = sh("sysctl -n kern.memorystatus_vm_pressure_level")
+        dk = int(sh("df -g / | tail -1 | awk '{print $4}'"))
+        if k % 10 == 0: log("footprint %.0f MB (peak %.0f), swap used %.0f MB, pressure %s, disk free %d GB%s" % (fp, peak, sw, pl, dk, " PAUSED" if paused else ""))
+        if dk < 5:
+            if paused: sig(signal.SIGCONT, "resume before the disk stop")
+            stop("free disk %d GB < 5 GB" % dk)
+        if fp > CAP_MB and not over: over = True; log("WARN: run footprint %.0f MB > %d MB (inform only)" % (fp, CAP_MB))
+        if fp <= CAP_MB and over: over = False; log("footprint back to %.0f MB" % fp)
+        lv = int(pl) if pl.isdigit() else 4
+        bad = (sw > 2048 and lv >= 2) or lv >= 4
+        if bad and bad_since is None: bad_since = time.time(); log("squeeze begins: swap %.0f MB, pressure %s (WARN, inform only)" % (sw, pl))
+        if not bad and bad_since is not None: log("squeeze ended after %.0f s: swap %.0f MB, pressure %s" % (time.time() - bad_since, sw, pl)); bad_since = None
+        red_since = (red_since or time.time()) if lv >= 4 else None
+        if red_since and not paused and time.time() - red_since >= SUSTAIN: paused = sig(signal.SIGSTOP, "PAUSE: red sustained %.0f s, swap %.0f MB" % (time.time() - red_since, sw))
+        if paused and lv == 1: sig(signal.SIGCONT, "RESUME: pressure green"); paused = False
+        k += 1; time.sleep(60)
+    log("run PID %d gone; guard exits (peak footprint %.0f MB)" % (pid, peak)); sys.exit(0)
 log("guard armed for PID %d (cmd: %s); rule: disk < 5 GB or footprint > %d MB at once; (swap > 2048 MB and level >= 2) or level >= 4 sustained %d s" % (pid, cmd0, CAP_MB, SUSTAIN))
 k = 0; peak = 0.0; bad_since = None
 while alive(pid):

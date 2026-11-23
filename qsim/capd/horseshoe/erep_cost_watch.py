@@ -13,6 +13,7 @@ if sys.argv[1] == "--selftest":   # erep_cost_watch.py --selftest RUN_OUT: the 2
     st = [(int(m.group(1)), float(m.group(3))) for m in (re.match(r"^# step (\d+) t=(\S+) .* wall (\d+) s$", l) for l in open(sys.argv[2])) if m]
     rates = [(b[1] - a[1]) / (b[0] - a[0]) for a in st for b in st if b[0] - a[0] == 200]
     print("windows %d, s/step min %.1f max %.1f, would COST-STOP: %s" % (len(rates), min(rates), max(rates), max(rates) > 127.8)); sys.exit(0)
+INFORM = "--inform" in sys.argv; sys.argv = [a for a in sys.argv if a != "--inform"]   # memory policy 2026-11-23: load-driven slowness informs only
 pid, RUN, LOG = int(sys.argv[1]), sys.argv[2], sys.argv[3]
 TESTS = "/Users/sumit/Github/quantum/qsim/capd/horseshoe/tests"; BASE = 63.9; LIMIT = 2 * BASE; WIN = 200
 def log(s):
@@ -29,8 +30,8 @@ def stop(why):
     else:
         log("STOP WANTED (%s) but PID %d no longer matches the armed identity; nothing sent" % (why, pid))
     sys.exit(0)
-log("armed for PID %d (cmd: %s); baseline %.1f s/step, COST-STOP above %.1f s/step over a %d-step window" % (pid, cmd0, BASE, LIMIT, WIN))
-t_arm = time.time(); early_done = False; last_status = 0; resumed_ok = False
+log(("INFORM mode: " if INFORM else "") + "armed for PID %d (cmd: %s); baseline %.1f s/step, COST-STOP above %.1f s/step over a %d-step window" % (pid, cmd0, BASE, LIMIT, WIN))
+t_arm = time.time(); warned = None; early_done = False; last_status = 0; resumed_ok = False
 step_re = re.compile(r"^# step (\d+) t=(\S+) .* wall (\d+) s$")
 while alive(pid):
     try: lines = open(RUN).read().splitlines()
@@ -50,7 +51,8 @@ while alive(pid):
         last = st[-1]; prev = [x for x in st if x[0] <= last[0] - WIN]
         if prev:
             p = prev[-1]; rate = (last[2] - p[2]) / (last[0] - p[0])
-            if rate > LIMIT: stop("COST-STOP: %.1f s/step over steps %d-%d" % (rate, p[0], last[0]))
+            if rate > LIMIT and not INFORM: stop("COST-STOP: %.1f s/step over steps %d-%d" % (rate, p[0], last[0]))
+            if rate > LIMIT and INFORM and p[0] != warned: warned = p[0]; log("COST-WANT (inform only, policy 2026-11-23): %.1f s/step over steps %d-%d" % (rate, p[0], last[0]))
     if time.time() - last_status > 600:
         last_status = time.time(); log("status: last %s" % (("step %d t=%.6f wall %.0f s" % st[-1]) if st else "no step line yet"))
     time.sleep(60)

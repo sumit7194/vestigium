@@ -74,7 +74,7 @@ def gen():
         body.append(f"theorem {n}_G_nonempty : mne Certs.{n}_G = true := by decide +kernel")
         body.append(f"theorem {n}_H_nonempty : mne Certs.{n}_H = true := by decide +kernel")
     body.append("")
-    body.append("/-- every certificate: some pair of matrices lies in its boxes, so its CertConclusion is not vacuous -/")
+    body.append("-- every certificate: some pair of matrices lies in its boxes, so its CertConclusion is not vacuous")
     body.append("#print axioms mne_sound")
     body.append("#print axioms must_fire_empty")
     body.append("")
