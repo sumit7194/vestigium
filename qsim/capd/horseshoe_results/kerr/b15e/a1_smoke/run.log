@@ -15,3 +15,6 @@
   stop at the bound discards whatever is buffered.
   At the bound with no COVER line: stage 2 is INCONCLUSIVE. 47854/47860 are stopped by verified PID, and stage 3 starts
   as pre-stated (ce24524). Stage 3's S+ covers the S9 code path that the discarded buffer may hold.
+2026-11-23 07:34:21 stage 2 INCONCLUSIVE as registered: bound 07:33:33 passed with no COVER in either run (outputs 9 bytes each, old buffering). Stopped 47854/47860 by verified PID (SIGKILL). Next: stage 3 under /usr/bin/stdbuf -oL.
+2026-11-23 07:34:27 stage 3 plus started PID 59188 (nice 10, stdbuf -oL, hs_cover_b15d sha unchanged)
+2026-11-23 07:34:27 stage 3 minus started PID 59191 (nice 10, stdbuf -oL, hs_cover_b15d sha unchanged)
