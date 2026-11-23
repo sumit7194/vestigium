@@ -1970,3 +1970,21 @@ The jobs keep running; the guards are restarted, or for the B15d runner, the orc
 - **A3 cost watch:** COST-STOP (> 127.9 s/step over 200 steps) becomes a logged COST-WANT, because other jobs' load
   or a pause would trigger it. The HARNESS-ERROR and RESUMED checks still stop.
 - **Implementation:** erep_guard.py and erep_cost_watch.py with `--inform`; b15d_run.guard_loop rewritten.
+
+**B15e A3 (2026-11-23 ~21:50; labelled; slots raised on the Bridge's word): 7 slots for the registered Kerr queue.**
+The Bridge (2026-11-23 evening): "the box has spare cores overnight... add up to 3 more"; load was 6 of 10 cores busy,
+76% of memory free, swap 315 MB, disk 12 GB free. The B15d-4 rule was "4 only on the Bridge's word"; this is the same
+kind of word, for 7.
+- **Slots: 7** (`slots.txt` = 7). The hard cap in `b15d_run.slots()` goes from 4 to 7. The runner is swapped
+  (orchestrator SIGKILLed by verified PID and relaunched); it adopts the 4 live kerr_e chunks via scan_running and starts
+  the next 3 queued kerr_e chunks in the registered order (N3N4, N4N5, N5N0). N5N1 starts when a slot frees.
+- **Unchanged:** the binary and its sha, the specs, the A1 gate (every new chunk passes `spec_gate` before launch), the
+  nice 10 + stdbuf launch, the queue order, the A2 inform-only guards, F12, the classifier and every reading. At least
+  1 core stays free for Cuspis.
+- **Lowering:** writing a smaller number to `slots.txt` takes effect at the next loop and only holds back NEW launches;
+  it never stops a running chunk. The Bridge may lower it at any time (e.g. for Sumit's office hours).
+- **Disk:** kerr_e outputs are ~4 KB each after 10 h, rot90's full outputs were 7 MB after ~30 h, and all checkpoints
+  together are 12 MB, so 7 chunks add well under 100 MB overnight against 12 GB free and the 5 GB floor.
+- **Planning only (lower bounds, no-bisection case, 24.4 h per chunk):** N0N0/N0N1 ~2026-11-24 09:29; N1N2/N2N3 ~11-24
+  19:30; N3N4/N4N5/N5N0 ~11-24 22:20; N5N1 (starting ~11-24 09:29) ~11-25 09:55, so kerr_e is complete about
+  2026-11-25 10:00, against ~11-25 20:00 on 4 slots. Each chunk keeps its own 73.1 h check-in bound.

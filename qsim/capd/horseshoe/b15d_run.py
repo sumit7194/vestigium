@@ -229,7 +229,7 @@ def _on_term(signum, frame):
 
 
 def slots():
-    try: return max(1, min(4, int((OUT / "slots.txt").read_text().strip())))
+    try: return max(1, min(7, int((OUT / "slots.txt").read_text().strip())))
     except Exception: return 2
 
 
