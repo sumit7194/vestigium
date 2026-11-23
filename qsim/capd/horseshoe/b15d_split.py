@@ -287,7 +287,11 @@ def run_jobs(jobs, adopted=(), on_tick=None):
         if j in RUNNING_ADOPTED:
             pid, cmd = RUNNING_ADOPTED.pop(j); todo.remove(j)
             if _alive(pid, cmd): running[pid] = (j, None); CMDS[pid] = cmd
-    while (todo or running) and not R.STOPPING.is_set():
+    # B15e A3-fix: tick at least once, so a relaunch with nothing left in `jobs` and no paused PID still reaches on_tick
+    # (which re-queues the adopted kerr_e chunks); before this, such a relaunch fell straight through to "stage 0"
+    first = on_tick is not None
+    while (todo or running or first) and not R.STOPPING.is_set():
+        first = False
         for pid, (j, p) in list(running.items()):
             ended = (p.poll() is not None) if p is not None else not _alive(pid, CMDS[pid])
             if ended:

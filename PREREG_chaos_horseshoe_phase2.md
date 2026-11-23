@@ -1988,3 +1988,12 @@ kind of word, for 7.
 - **Planning only (lower bounds, no-bisection case, 24.4 h per chunk):** N0N0/N0N1 ~2026-11-24 09:29; N1N2/N2N3 ~11-24
   19:30; N3N4/N4N5/N5N0 ~11-24 22:20; N5N1 (starting ~11-24 09:29) ~11-25 09:55, so kerr_e is complete about
   2026-11-25 10:00, against ~11-25 20:00 on 4 slots. Each chunk keeps its own 73.1 h check-in bound.
+- **A3-fix (2026-11-23 21:49; harness only, found during the swap).** The first relaunch (runner 6446, 21:48:56) adopted
+  the 4 live chunks and then exited with "B15e queue ended at stage 0 ... HARNESS; held". `run_jobs` entered its loop
+  only if `todo` or `running` was non-empty. With every recipe job done and no paused PID left (rot90 had ended),
+  it never called `on_tick`, so kerr_e was never re-queued. The earlier swap (3653) worked only because the paused rot90
+  PIDs were still alive. Fix: `run_jobs` ticks at least once. Canned merge test PASS. The relaunch (runner **6602**,
+  21:49:51) logged RECIPE and twin PASS, adopted 79482/79486/54059/54063 (not relaunched), and started kerr_e N3N4
+  (PID 6670), N4N5 (6675) and N5N0 (6677), all through the A1 gate with no REFUSED line. The 4 chunks ran unguarded for
+  about 1 minute (21:48:56 to 21:49:51); nothing else changed. The "stage 0 ... HARNESS" line in run.log is this
+  harness slip, not a reading.
