@@ -71,10 +71,10 @@ the corrections below are wording only.
   which is impossible for real a. So `hD : D ≠ 0` holds for all real a and y.
 - **Memory.** "Peak memory footprint about 170 MB" was the wrong figure. `lake_build.log` shows a maximum resident
   set size of 2,448,539,648 bytes (about 2.45 GB).
-- **The build log is a cached replay.** The `lake_build.log` here replayed cached results. A fresh elaboration is
-  queued for the next compute gap.
-- **Axiom audit extended.** `Axioms.lean` now also prints the axioms of `M0_inv`, `g1_conj` and `g2_conj`. Their output
-  comes with the fresh build.
+- **The build log is a cached replay.** The `lake_build.log` here replayed cached results. A fresh elaboration ran on 2026-11-23
+  (`lean_export/build_nonempty_2026-11-23.log`).
+- **Axiom audit extended.** `Axioms.lean` now also prints the axioms of `M0_inv`, `g1_conj` and `g2_conj`. In the fresh build, all
+  19 depend only on [propext, Classical.choice, Quot.sound].
 - **Comment left unchanged.** The doc comment above `CertCases` in `Glue.lean` still says "The certificates cover
   every (k, y)". Read it as "every k < 30/7 and every real y". It was left unedited so that the read file keeps its
   hash.

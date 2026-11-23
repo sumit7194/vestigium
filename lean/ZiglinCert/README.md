@@ -43,7 +43,7 @@ theorem faithful. The notes below record its wording points.
 - The Kerr controls (`kerrctl_8_v2`, `kerrctl_9_v2`) are proved `check = false`, but they fail through criterion (I),
   so criterion (II) was never exercised in isolation.
 - The prereg's control 3 (soundness spot-check) has no artefact.
-- **Added 2026-11-23, built at the next compute gap:**
+- **Added 2026-11-23 and BUILT 2026-11-23 (exit 0):**
   - `Certs/Controls2.lean`: criterion (II) firing on its own. `crit1 G = true` and `crit2 G G = false`, and a
     non-identical commuting pair G and G·G with crit1 passing for both and crit2 rejecting.
 
@@ -56,7 +56,14 @@ theorem faithful. The notes below record its wording points.
   - `must_fire_empty`: a box with lo > hi is rejected;
   - `must_pass_point`: a point box is accepted.
 - Build it with `lake build ZiglinCert.Certs.NonEmpty ZiglinCert.Certs.Controls2`.
-- Status: NOT YET BUILT. The result will be recorded here.
+- Status: BUILT 2026-11-23, exit 0 (log: `lean_export/build_nonempty_2026-11-23_r2.log`). The first attempt
+  (`..._2026-11-23.log`) failed on a syntax slip only: a doc comment before `#print`.
+  - All 130 lemmas pass: 64 certificates × G/H, plus the Controls G/H.
+  - `must_fire_empty` and `must_pass_point` pass.
+  - Axioms: `mne_sound` uses [propext, Classical.choice, Quot.sound]; `must_fire_empty` uses [propext, Quot.sound].
+  - Controls2: `crit1_G`, `crit2_only_self` and `crit2_only_square` (the G·G pair) all pass, with the standard
+    three axioms.
+  - Peak RSS was 5.75 GB, as measured by /usr/bin/time -l.
 
 ## Export flags (labelling)
 - `qsim/mr_mn_axis_lattice.py` used to hard-code `certificate_ok=True, gate_bit_for_bit=True` in the 12 `mnlat` exports.
