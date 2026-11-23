@@ -79,5 +79,5 @@ on spelling out the large-|sigma| inverse branch of sigma = 2 sum alpha_n x^{-n-
 | Lemma 1 general | re-derived; exact sympy cancellation with generic f0, c0 | REVIEW.md, A |
 | Static model limit (Lemmas 4(e), 6) | V21 C3 (floats, 1e-8); certified T-limit at j = 10, 100, 1000 (S1, S2) | V21; qsim/mn_lattice/RESULT.md |
 | Exponents 1/4, 3/4 at every lattice point | certified T-exact, 66 loops, static and rotating | qsim/mn_lattice/RESULT.md |
-| Obstruction near x = 0 at four rows | certified T-L6 at j = 10, 100, 1000 (S1, S2, R1, R2); 12/12 Lean-checked (L6_gl2) | qsim/mn_lattice/RESULT.md |
+| Obstruction near x = 0 at four rows | certified T-L6 at j = 10, 100, 1000 (S1, S2, R1, R2); 12/12 certificates: box arithmetic and group step kernel-checked (cert_of_check → L6_gl2); enclosures and Morales–Ramis outside Lean [corrected 2026-11-23; was "12/12 Lean-checked (L6_gl2)"; Bridge Lean faithfulness read] | qsim/mn_lattice/RESULT.md |
 | Static limit at large j | T-limit PASS at j = 100 and 1000 (deviation 1.97e-5 at j = 1000) | qsim/mn_lattice/RESULT.md |

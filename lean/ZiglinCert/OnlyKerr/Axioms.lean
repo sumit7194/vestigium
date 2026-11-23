@@ -17,3 +17,6 @@ import OnlyKerr.Glue
 #print axioms OnlyKerr.k5_3b'
 #print axioms OnlyKerr.k5_3c
 #print axioms OnlyKerr.k5_3d
+#print axioms OnlyKerr.M0_inv
+#print axioms OnlyKerr.g1_conj
+#print axioms OnlyKerr.g2_conj

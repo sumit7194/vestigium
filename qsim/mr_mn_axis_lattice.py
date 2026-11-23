@@ -486,7 +486,9 @@ def run_task(name):
         os.makedirs(OUTDIR, exist_ok=True)
         BG, BH = LE.box(G), LE.box(H)
         ex = dict(family="mnlat", row=name, which="v1", N=100, g_word=out["T_L6"]["g"], h_word=out["T_L6"]["h"], frame=out["frame"],
-                  certificate_ok=True, gate_bit_for_bit=True, export_source="the certifying run itself (no regeneration)",
+                  certificate_ok=bool(out["T_L6"].get("found")),  # computed, not asserted (Bridge Lean read 2026-11-23 item 4)
+                  gate_bit_for_bit=None,  # not applicable: no regeneration, the boxes come from the certifying run itself
+                  export_source="the certifying run itself (no regeneration)",
                   readback=(LE.readback_ok(G, BG) and LE.readback_ok(H, BH)), G=BG, H=BH)
         json.dump(ex, open(os.path.join(OUTDIR, f"lean_{name}.json"), "w"), indent=1)
         out["lean_export"] = dict(file=f"mn_lattice/lean_{name}.json", readback=ex["readback"])

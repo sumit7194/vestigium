@@ -27,12 +27,17 @@ as one clearly named hypothesis. Lean checks the exact algebra and the logic tha
 | 3d | `k5_3d` | exp(π√2 (1 − 323/2400)) > 46. Proved from Mathlib's π > 3.141592, e > 2.7182818283 and exp y ≥ 1 + y + y²/2. The margin in the exponent is about 3e−5, and the result has margin about 0.5 (46.50 > 46). The true value is about 46.756. |
 
 ## What enters as a HYPOTHESIS (not proved in Lean)
-- **`CertCases a y H`** stands in for the T19 interval certificates. At each (a, y), at least one of these holds:
+- **`CertCases a y H`** stands in for the T19 interval certificates. [Corrected 2026-11-23, after the Bridge's
+  faithfulness read; the earlier wording said "at each (a, y)" and "cover every (k, y)".] H depends on a, y, k, E and
+  s = 30/7 − k (θ = 1/(1+s)). For every a ∈ (0,1), every k < 30/7, every E > 1 and every real y, the value H at those
+  parameters satisfies at least one of the following. `CertCases` itself drops the k and region labels: it is the
+  bare disjunction, which is a weaker hypothesis than the labelled cases.
   - Case 1 (k ≤ 0, any y): Re(H²) > 0;
   - Case 2b (0 < k < 30/7, \|y\| < a): Re H > \|Im H\|;
   - Case 2a (0 < k < 30/7, \|y\| ≥ a): \|Im H\| < a.
 - **Two facts are trusted to the certificates and their own audit, not to Lean:**
-  - that the three cases cover every (k, y);
+  - that the three cases cover every k < 30/7 and every real y (k < 30/7 is the theorem's allowed range, from Neon
+    T14's U_a separation; k ≥ 30/7 is outside the claim, not a gap);
   - that each certified inequality holds on its region.
 - **Item 3** is pure arithmetic, with nothing assumed.
 
@@ -44,3 +49,32 @@ as one clearly named hypothesis. Lean checks the exact algebra and the logic tha
 ## Note (history, not Lean)
 The original K5 multiplier bound "> 28" was false at \|m\| = 2 (the value is 27.9988). The referee caught it (T24), and
 the T28 repair uses r = 323/2400. `k5_3d` checks the repaired bound.
+
+## Corrections and additions (2026-11-23, after the Bridge's faithfulness read, Layer 1)
+Read: TheBridge/fleet/lean_reads/OnlyKerr_faithfulness_2026-11-23.md. No proof gap and no hidden axiom were found;
+the corrections below are wording only.
+- **Which rescaling each case uses.** T19 writes H = a√(1+s)·H~_θ with θ = 1/(1+s), so H/a = θ^(-1/2)·H~_θ.
+  - Case 1 and Case 2b are certified on H~_θ itself, so they transfer with c = a√(1+s) > 0 (`rescale_case1`,
+    `rescale_case2b`, valid for any c > 0).
+  - Case 2a is certified as θ^(-1/2)·|Im H~_θ| < 1, which is exactly |Im(H/a)| < 1, so it transfers with c = a
+    (`rescale_case2a`).
+  - The identity H = a√(1+s)·H~_θ is T19's definition, implemented in the Bridge's V26-K harness. Lean takes H as
+    given and does not derive it. Chaining a certificate into `CertCases` is done by hand.
+- **Provenance of the certificates.** They were produced by Neon T19 (Gemini, 2026-11-21; Neon marked them unverified). They were verified
+  independently by the Bridge, V26 Addendum K (TheBridge/falsification/V26_single_centre_lower_axis/FINDINGS.md):
+  - K0, K1, K3A, K3B, K4 and K5 PASS.
+  - The Case-2a check K2 FAILED as registered (enclosure blow-up). The labelled amendment K2′ PASSED with a thin
+    margin (certified maximum ≤ 0.99937 < 1).
+  - The tails and the inherited holomorphy were read by hand, not certified.
+  - Quantum (this file's author) did not check T19; `Glue.lean` only assumes it.
+- **`hD` is not a restriction.** D = (1+iy)² + a² = (1 − y² + a²) + 2iy vanishes only if y = 0 and 1 + a² = 0,
+  which is impossible for real a. So `hD : D ≠ 0` holds for all real a and y.
+- **Memory.** "Peak memory footprint about 170 MB" was the wrong figure. `lake_build.log` shows a maximum resident
+  set size of 2,448,539,648 bytes (about 2.45 GB).
+- **The build log is a cached replay.** The `lake_build.log` here replayed cached results. A fresh elaboration is
+  queued for the next compute gap.
+- **Axiom audit extended.** `Axioms.lean` now also prints the axioms of `M0_inv`, `g1_conj` and `g2_conj`. Their output
+  comes with the fresh build.
+- **Comment left unchanged.** The doc comment above `CertCases` in `Glue.lean` still says "The certificates cover
+  every (k, y)". Read it as "every k < 30/7 and every real y". It was left unedited so that the read file keeps its
+  hash.

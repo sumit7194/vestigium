@@ -1,6 +1,6 @@
 """Item 2 registered controls 1 (poisons), generated from a real export. Both must give check = false:
   P-comm : check G G           (a matrix with itself: commutator exactly 2, criterion II must fail)
-  P-seg  : check G' H, with G' = G widened by +-W on every real part (W = 2*max|entry| + 10, so the box
+  P-seg  : check G' H, with G' = G widened by +-W on every real AND imaginary part (docstring corrected 2026-11-23; the code always widened both) (W = 2*max|entry| + 10, so the box
            contains matrices with tr^2/det in [0,4] -- e.g. real scalar multiples of the identity -- and crit1 must fail)"""
 import json, os
 from fractions import Fraction

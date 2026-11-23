@@ -132,3 +132,16 @@ which only steers step sizes, depends on mpmath's global precision as left by ea
 Every enclosure stays valid whatever the list is. Only bit-for-bit reproduction depends on it.
 
 **Environment: Python 3.13.12 (sims/.venv; numpy 2.5.0, scipy 1.18.0, Accelerate BLAS/LAPACK; sympy 1.14.0; mpmath 1.3.0; python-flint 0.9.0 = FLINT/Arb 3.6.0), Rust 1.98.1 + Homebrew FLINT 3.6.0 / MPFR 4.2.2 / GMP 6.3.0, Lean v4.35.0-rc3 + Mathlib c55e6e78, macOS 26.5 arm64; full stamp ENVIRONMENT/quantum_env.json (stamped at b5b34ed).** Back-filled 2026-10-11; env assumed unchanged since the run. Known changes since: none recorded. The Rust engine (v2) exists only from 2026-10-03, so results before that use v1/2b′ only.
+
+## Correction (2026-11-23; labelled; after the Bridge's Lean faithfulness read, Layer 1)
+The registered text above is left as committed. Two statements in it are corrected here.
+- **Line 9, "hypotheses ⇒ G⁰ not virtually abelian".** Lean proves the statement about ⟨G^k, H^k⟩:
+  - for invertible G and H with tr²/det ∉ [0, 4] and tr[G, H] ≠ 2, and every k ≥ 1, no subgroup of finite relative
+    index in ⟨G^k, H^k⟩ is abelian (`L6_gl2`; per box, `cert_of_check`).
+  - The step to G⁰, the identity component of the differential Galois group, is cited, not Lean. It needs the
+    monodromy group to lie inside the Galois group and [G : G⁰] to be finite.
+  - The steps from enclosure to box (CAPD/Arb plus the export gate) and from Morales–Ramis to non-integrability are
+    outside Lean as well.
+- **The criteria comments in `ZiglinCert/Boxes.lean`** (the "⇔" in (I) and (II)) should read "⇒ (soundness); the
+  converse is not formalised". The Lean file is left unedited so its hash stays fixed. The correction is recorded in
+  `lean/ZiglinCert/README.md`.
