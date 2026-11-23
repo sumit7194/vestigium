@@ -1,0 +1,47 @@
+{
+ "stage": "3",
+ "reading": "PASS",
+ "P": [
+  "FAILPIECE N0p0>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p0>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p1>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p1>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p2>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p2>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p3>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p3>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]"
+ ],
+ "plus": {},
+ "minus": {
+  "FAILPIECE N0p0>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]": "S9: return enclosure misses the energy level (BUG)",
+  "FAILPIECE N0p0>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]": "S9: return enclosure misses the energy level (BUG)",
+  "FAILPIECE N0p1>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]": "S9: return enclosure misses the energy level (BUG)",
+  "FAILPIECE N0p1>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]": "S9: return enclosure misses the energy level (BUG)",
+  "FAILPIECE N0p2>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]": "S9: return enclosure misses the energy level (BUG)",
+  "FAILPIECE N0p2>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]": "S9: return enclosure misses the energy level (BUG)",
+  "FAILPIECE N0p3>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]": "S9: return enclosure misses the energy level (BUG)",
+  "FAILPIECE N0p3>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]": "S9: return enclosure misses the energy level (BUG)"
+ },
+ "plus_ok_in_P": [
+  "FAILPIECE N0p0>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p0>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p1>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p1>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p2>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p2>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p3>N0 b edge=L s=[-1.000000000000e+00,1.000000000000e+00]",
+  "FAILPIECE N0p3>N0 b edge=R s=[-1.000000000000e+00,1.000000000000e+00]"
+ ],
+ "cover_plus": [
+  "COVER N0p0 N0 a=1 b=1 strong_a=1 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=0 leaves_b=2 maxdepth_a=0 replay_steps=1326 return_time=[6.958551291584e+02,7.004525360201e+02] COVERS=1 chunk_a=[0,0) edges=yes reloaded_pieces=0",
+  "COVER N0p1 N0 a=1 b=1 strong_a=1 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=0 leaves_b=2 maxdepth_a=0 replay_steps=1326 return_time=[6.958551290169e+02,7.004525358872e+02] COVERS=1 chunk_a=[0,0) edges=yes reloaded_pieces=0",
+  "COVER N0p2 N0 a=1 b=1 strong_a=1 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=0 leaves_b=2 maxdepth_a=0 replay_steps=1326 return_time=[6.958551288754e+02,7.004525357543e+02] COVERS=1 chunk_a=[0,0) edges=yes reloaded_pieces=0",
+  "COVER N0p3 N0 a=1 b=1 strong_a=1 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=0 leaves_b=2 maxdepth_a=0 replay_steps=1326 return_time=[6.958551287339e+02,7.004525356214e+02] COVERS=1 chunk_a=[0,0) edges=yes reloaded_pieces=0"
+ ],
+ "cover_minus": [
+  "COVER N0p0 N0 a=1 b=0 strong_a=1 orient=none fail_a=0 fail_b=2 certified_fail_b=0 orient_certified_fail=0 leaves_a=0 leaves_b=2 maxdepth_a=0 replay_steps=0 return_time=none COVERS=0 chunk_a=[0,0) edges=yes reloaded_pieces=0",
+  "COVER N0p1 N0 a=1 b=0 strong_a=1 orient=none fail_a=0 fail_b=2 certified_fail_b=0 orient_certified_fail=0 leaves_a=0 leaves_b=2 maxdepth_a=0 replay_steps=0 return_time=none COVERS=0 chunk_a=[0,0) edges=yes reloaded_pieces=0",
+  "COVER N0p2 N0 a=1 b=0 strong_a=1 orient=none fail_a=0 fail_b=2 certified_fail_b=0 orient_certified_fail=0 leaves_a=0 leaves_b=2 maxdepth_a=0 replay_steps=0 return_time=none COVERS=0 chunk_a=[0,0) edges=yes reloaded_pieces=0",
+  "COVER N0p3 N0 a=1 b=0 strong_a=1 orient=none fail_a=0 fail_b=2 certified_fail_b=0 orient_certified_fail=0 leaves_a=0 leaves_b=2 maxdepth_a=0 replay_steps=0 return_time=none COVERS=0 chunk_a=[0,0) edges=yes reloaded_pieces=0"
+ ]
+}

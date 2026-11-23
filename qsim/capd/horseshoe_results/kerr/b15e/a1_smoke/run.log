@@ -18,3 +18,5 @@
 2026-11-23 07:34:21 stage 2 INCONCLUSIVE as registered: bound 07:33:33 passed with no COVER in either run (outputs 9 bytes each, old buffering). Stopped 47854/47860 by verified PID (SIGKILL). Next: stage 3 under /usr/bin/stdbuf -oL.
 2026-11-23 07:34:27 stage 3 plus started PID 59188 (nice 10, stdbuf -oL, hs_cover_b15d sha unchanged)
 2026-11-23 07:34:27 stage 3 minus started PID 59191 (nice 10, stdbuf -oL, hs_cover_b15d sha unchanged)
+2026-11-23 07:35:03 both stage-2 smoke runs ended
+2026-11-23 09:06:54 stage 3 READING: PASS (NOT COUNTED). Both runs COVER+DONE before the bound (ended by 09:06). S-: all 8 edge pieces (N0p0-3 x L/R) 'S9: return enclosure misses the energy level (BUG)' (the known answer). S+: no S9, no BUG, no FAILPIECE; all 4 COVERS=1 orient=LR, return_time ~[695.86,700.45]. Next: registered runner swap.
