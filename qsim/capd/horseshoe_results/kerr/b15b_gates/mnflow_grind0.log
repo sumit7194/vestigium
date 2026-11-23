@@ -25,3 +25,19 @@ G3_039_P ok 10033s
 === restart 2026-11-18 14:03:06 (the Bridge: box quiet; same guards) ===
 === restart 2026-11-18 14:49:40 with the t_eval=[] fix, B15B_DEFER=G1_00_P (the Bridge approved) ===
 # STOPPED 2026-11-18 15:23:45 by b15b_g3_guard.py (system memory pressure level 2; worker footprint flat 89 MB); 0 new rows since the 14:49 restart; not restarted (the Bridge schedules G3 once swap < ~1 GB)
+=== restart 2026-11-18 20:18:34 (the Bridge released G3; guard: sustained rule, 1 GB leak cap; B15B_DEFER=G1_00_P) ===
+G3_044_P ok 11978s
+G3_045_P ok 3379s
+G3_061_P ok 6005s
+G3_064_P ok 6076s
+G3_068_P ok 5085s
+G3_076_P ok 2218s
+G3_079_P ok 3935s
+G3_080_P ok 5209s
+=== restart 2026-11-19 10:27:55 after the 09:46 guard stop (the Bridge's V22 leak; the Bridge asked for a restart, same guard; B15B_DEFER=G1_00_P) ===
+G3_088_P ok 9971s
+G3_093_P ok 8292s
+G3_105_P ok 9535s
+G3_120_P ok 7931s
+G3_123_P ok 6589s
+G3_125_P ok 5534s

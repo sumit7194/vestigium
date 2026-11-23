@@ -1937,3 +1937,24 @@ only the 9-byte `PREC 128` header, so before any S9 line).**
   - Stop 59188/59191 by verified PID.
   - Record every FAILPIECE line already printed (stdbuf -oL keeps them). Record them only; they are not read as PASS.
 - With both runs done before the bound, the registered stage-3 reading applies unchanged.
+
+**B15e A1, kerr_e expected wall time and check-in bound (2026-11-23 ~09:20; the Bridge's request). Committed while
+kerr_e/N0N0.out and N0N1.out hold only the 9-byte header, so before any S9 or FAILPIECE line.**
+- Measured basis (two sources):
+  - Smoke stage 3 S+ (level -1/2, same binary, nice 10): 8 passing edge evaluations (4 leaves x L/R, no bisection) in
+    5483 s (07:34:27 to the output's last write at 09:05:50), so about 685 s per passing edge piece.
+  - The void run: <= 680 s per finished edge-L leaf (parent bisections included).
+- Leaf count: each kerr_e chunk is `cover Ni Nj 16 16 64` with `arange 0 0` and `depth 16 12`, i.e. edges only:
+  2 edges x 64 top pieces = 128 edge pieces (recipe outputs show leaves_b=128 at this grid).
+- Expected wall time per chunk, if no top piece needs bisection: 128 x 685 s = 87680 s = 24.4 h. For N0N0/N0N1 (started
+  09:07:49) that is about 2026-11-24 09:29.
+- This is a lower bound in the no-bisection case. Two things can make it longer:
+  - 2^-5 pieces are 2^12 times wider than the smoke leaves, so their per-piece cost may differ;
+  - each failed piece adds 2 children, up to edge depth 12.
+- **Check-in bound: 3 x 24.4 h = 263040 s = 73.1 h per chunk from its own start**; for N0N0/N0N1 that is
+  2026-11-26 10:11:49. A chunk still running at its bound is reported to the Bridge. That is a check-in, not a stop: no
+  reading changes, and a stop needs the Bridge's word.
+- Phase total: 8 chunks run 2 at a time while rot90 holds 2 of 4 slots, so kerr_e takes at least about 4 x 24.4 h, roughly
+  4 days. That is stated for planning only, not as a bound.
+- Unchanged: the specs, gate, classifier, F12 and every reading. Any S9 "(BUG)" line in a kerr_e output -> F12 stop,
+  and it goes to the Bridge.
