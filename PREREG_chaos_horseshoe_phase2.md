@@ -1925,3 +1925,15 @@ now on.** Registered before smoke stage 3 and before the Kerr rerun.
     either run, so it was inconclusive; it is recorded as such.)
 - **Unchanged:** the binary, specs, caps, depth, grid, classifier, merge rule and readings. Running processes (rot90,
   stage 2) keep their original buffering.
+
+**B15e A1, smoke stage 3 time bound (2026-11-23 ~07:40; the Bridge's request; committed while both stage-3 outputs hold
+only the 9-byte `PREC 128` header, so before any S9 line).**
+- Bound = 3 x 680 s per leaf x 4 leaves = 8160 s = 2.27 h from the launch at 07:34:27, i.e. **2026-11-23 09:50:27**.
+- Basis: the void run (depth 16 12) measured <= 680 s per finished edge-L leaf, and that figure includes the time
+  spent on the parent bisections. Stage 3 evaluates each leaf directly as a whole source set (depth 16 0, edge depth
+  0, arange 0 0, the same interior setting as the void run), so 680 s per leaf is conservative. No reason to widen it.
+- At the bound, with either run lacking COVER + DONE:
+  - INCONCLUSIVE, and it goes back to the Bridge.
+  - Stop 59188/59191 by verified PID.
+  - Record every FAILPIECE line already printed (stdbuf -oL keeps them). Record them only; they are not read as PASS.
+- With both runs done before the bound, the registered stage-3 reading applies unchanged.
