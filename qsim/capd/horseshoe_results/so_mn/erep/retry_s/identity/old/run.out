@@ -1,0 +1,8 @@
+# EREP zsym (ZG 256,128), 7 generator columns at start
+# mn_so: W0 1/10000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 1018.7
+# step 20 t=0.005548 h=1.831e-03 maxE 2.392e-20 hullDelta 7.855e-22 resteps 0 S4leaves 200 gphiphi_lb 3.856e+04 wall 846 s
+# EREP step 20 N 167 reductions 0
+# step 40 t=5.045862 h=6.110e-01 maxE 1.119e-18 hullDelta 2.714e-19 resteps 0 S4leaves 400 gphiphi_lb 3.298e+04 wall 2000 s
+# EREP step 40 N 327 reductions 0
+STOP_AFTER_T 5.000000 reached at step 40 t=5.0458615691
+MN-SO PASS (time checkpoints only; informational) W0 1/10000000 steps 40 resteps 0 wall 2000 s

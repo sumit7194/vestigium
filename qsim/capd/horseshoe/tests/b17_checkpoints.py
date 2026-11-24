@@ -11,7 +11,9 @@ return, so the fake-direction rule there uses g = 1.
 B17a (2026-10-23): for W0 <= 1e-8 the true u1/u2 widths are the VARIATIONAL widths (equal to the hull to O(W0^2);
 hull/linear = 1.00 verified at 1e-6 and 1e-8), because double-precision DOP853 error (~1e-11) swamps such boxes; a
 >= 30-digit hull spot check at one checkpoint is done separately.
-Usage: b17_checkpoints.py W0 out.json [n_boundary_per_edge]"""
+Usage: b17_checkpoints.py W0 out.json [n_boundary_per_edge] [du dp]
+du dp (2026-11-24, branch-S retry): optional rational offsets of the box centre in (x, p_x), as CENTRE_OFFSET in b17_check;
+omitted = the original centre, and the output is then unchanged."""
 import sys, json, numpy as np, sympy as sp
 sys.path.insert(0, "/Users/sumit/Github/quantum/qsim/capd/horseshoe")
 import mn_numerics as MNN
@@ -27,7 +29,11 @@ cps = [("t", tp1 - 7), ("t", ts1), ("t", tp1 + 1), ("t", tp1 + 5), ("sec_down", 
 times = [c[1] for c in cps]
 
 f = MNN.MNFlow(89, 80, sp.Rational(13394411, 1186380), sp.Rational(19, 20), sp.Integer(267))
-x0, px0 = 3.6419361737, 6.0360992808; py0 = f.py_of(x0, px0)
+x0, px0 = 3.6419361737, 6.0360992808
+if len(sys.argv) > 5:
+    from fractions import Fraction as _F
+    x0, px0 = x0 + float(_F(sys.argv[4])), px0 + float(_F(sys.argv[5]))
+py0 = f.py_of(x0, px0)
 f0 = np.array(f._f(x0, 0.0, px0, py0), float); Hx, Hpx, Hpy = -f0[2], f0[0], f0[1]
 D_in = np.array([[1, 0], [0, 0], [0, 1], [-Hx / Hpy, -Hpx / Hpy]])
 sv = solve_ivp(f.rhs, (0, times[-1]), np.concatenate([[x0, 0, px0, py0], np.eye(4).ravel()]), method="DOP853",
