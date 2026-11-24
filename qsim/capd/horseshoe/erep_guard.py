@@ -24,7 +24,7 @@ def footprint_mb(p):
     m = re.search(r"Footprint:\s*([\d.]+)\s*(KB|MB|GB)", sh("footprint -p %d 2>/dev/null | head -3" % p))
     return 0.0 if not m else float(m.group(1)) * {"KB": 1 / 1024, "MB": 1, "GB": 1024}[m.group(2)]
 own0, cwd0, cmd0 = ident(pid)
-if own0 != "sumit" or cwd0 != TESTS or not cmd0.startswith("./mn_so_erep "):
+if own0 != "sumit" or cwd0 != TESTS or not cmd0.startswith(("./mn_so_erep ", "./mn_so_piece ")):   # mn_so_piece: branch-S retry (2026-11-25)
     log("REFUSED to arm on PID %d: owner=%s cwd=%s cmd=[%s]" % (pid, own0, cwd0, cmd0)); sys.exit(1)
 def stop(why):
     own, cwd, cmd = ident(pid)
