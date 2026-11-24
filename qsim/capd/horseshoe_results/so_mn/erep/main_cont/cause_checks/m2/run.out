@@ -1,0 +1,11 @@
+# RESUMED from /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_cont/cause_checks/m2/st at t=792.0197694821 steps 5356 next checkpoint 5
+# EREP zsym (ZG 256,128), 42855 generator columns at start
+# INJ MUST-FIRE: SO_REMAINDER_SCALE = 1000
+# INJ log on: N0 = 42855 inherited columns
+# mn_so: W0 1/10000000, 10 checkpoints (time ones measured; sections SKIPPED), T_end 793.3
+# step 5360 t=792.112517 h=2.319e-02 maxE 2.124e-05 hullDelta 8.798e-12 resteps 0 S4leaves 963 gphiphi_lb 3.020e+01 wall 373 s
+# EREP step 5360 N 42887 reductions 0
+STOP_AFTER_T 792.140000 reached at step 5362 t=792.1588913653
+INJ end t=792.1588913653 u2 inherited 9.217268e-06 new 3.681331e-08 | p0 1.125838e-35 p1 3.694394e-39 p2 3.337727e-08 dDe 3.436042e-09 | sum_tagged 3.681331e-08 shares p0 0.0000 p1 0.0000 p2 0.9067 dDe 0.0933 | new<=sum OK
+INJ end t=792.1588913653 u1 inherited 2.506638e-05 new 2.764642e-08 | p0 1.487445e-35 p1 2.874942e-39 p2 2.500334e-08 dDe 2.643088e-09 | sum_tagged 2.764642e-08 shares p0 0.0000 p1 0.0000 p2 0.9044 dDe 0.0956 | new<=sum OK
+MN-SO PASS (time checkpoints only; informational) W0 1/10000000 steps 5362 resteps 0 wall 569 s
