@@ -1,0 +1,12 @@
+== run: /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_cont/run.out
+# RESUMED from /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_cont/st at t=291.9000000000 steps 2414 next checkpoint 3
+containment: 120 point-projections checked, 0 not contained; reference runs with missing checkpoints: none
+CONTAINMENT PASS
+controls: RESUMED line OK, C-floor containment PASS, HARNESS-ERROR 0, BUG 0, THREW 0
+deferred (not measured by A3): CHECKPOINT sec_down t=581.7705 DEFERRED (set saved at t=581.270479 to /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_cont/st.pre_sec_down for the section measurement)
+checkpoint 295.8852: CHECKPOINT t t=  295.8852 u1 3.440e-04/3.439e-04=1.00 u2 3.485e-07/3.294e-07=1.06 fake 3.883e-07 vs 7.934e-06 nH 1.09e-10  PASS
+checkpoint 793.2346: CHECKPOINT t t=  793.2346 u1 4.101e-03/4.072e-03=1.01 u2 1.663e-06/1.895e-07=8.77 fake 8.375e-07 vs 7.213e-06 nH 4.97e-10  FAIL
+checkpoint 800.0941: CHECKPOINT t t=  800.0941 u1 7.570e-03/7.518e-03=1.01 u2 2.358e-06/8.331e-07=2.83 fake 1.048e-07 vs 4.479e-06 nH 2.93e-10  PASS
+checkpoint 801.2346: CHECKPOINT t t=  801.2346 u1 7.427e-03/7.376e-03=1.01 u2 2.420e-06/8.763e-07=2.76 fake 3.175e-07 vs 6.598e-06 nH 2.96e-10  PASS
+checkpoint 805.2346: CHECKPOINT t t=  805.2346 u1 5.115e-03/5.080e-03=1.01 u2 2.717e-06/1.200e-06=2.26 fake 2.059e-06 vs 3.021e-06 nH 4.25e-10  PASS
+VERDICT: FAIL (controls hold; see the per-checkpoint lines; THREW 0)
