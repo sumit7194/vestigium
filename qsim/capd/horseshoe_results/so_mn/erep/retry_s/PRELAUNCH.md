@@ -84,3 +84,21 @@
 - **Wall time.** 2000 s and 2007 s, about 50 s/step on a fully loaded box, against about 17 s/step in A3's own early
   steps. The 118 h per-piece estimate assumes A3's conditions; a loaded box makes it longer.
 - **Outputs.** `retry_s/identity/{old,new}/run.out`. The state files are not committed.
+
+## Reproducibility record (the Bridge's request, 2026-11-25; written before any piece launch)
+**Environment that generated the 4 piece checkpoint files** (`retry_s/cp/`, 2026-11-24/25):
+- Python 3.13.12 (sims/.venv);
+- numpy 2.5.0 with BLAS and LAPACK = Apple Accelerate (a system library);
+- scipy 1.18.0; sympy 1.14.0; mpmath 1.3.0;
+- macOS 27.2 (build 26B123), arm64;
+- the generator `tests/b17_checkpoints.py` as committed in 5fd59f6.
+
+**Correction to the "library drift" wording above.** numpy and scipy were installed on 2026-06-27, BEFORE the stored
+1e-7 file (2026-10-23), so their versions did not change. The cause of the ≤ 1.4e-10 differences is NOT established.
+The candidates:
+- (i) macOS updates since 2026-10-23 (27.0.1 and 27.2) changed Accelerate, which numpy's SVD and LAPACK use. That
+  would explain the u2 and true-width differences.
+- (ii) `mn_codegen8.py` changed in 4448c51 (2026-10-23 09:27), nine minutes after the stored file was written. It
+  enters only the 8-D gains, which differ by ≤ 5.7e-11.
+
+The stored A3 file `mn_smoke/b17_cp_1e-7.txt` is kept as is.
