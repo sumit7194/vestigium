@@ -6,6 +6,8 @@
 //                 columns (X.G[N0, end)), and of each tagged list. Allowed under SO_EREP zsym (WRAP_DUMP stays refused).
 //   INJ_ESCALE=f  MUST-FIRE ONLY: multiply X.G by f after load (inflates e, so dDe must dominate).
 //   INJ_P2SCALE=f MUST-FIRE ONLY: so::SO_REMAINDER_SCALE = f (inflates p2, so P2 must dominate).
+//   INJ_QUARTER=1 SCALING PRE-TEST ONLY: replace the loaded set by its quarter piece r = rc + rho/2, rc = (-1/2, -1/2):
+//                 x' = x + C rc + H(rc, rc)/2, C' = (C + H rc)/2, H' = H/4; the error part E is kept unchanged.
 // mn_so.cpp -- DIAGNOSTIC (no verdicts): the smoke box propagated as a SECOND-ORDER set (so_set.h) through the MN
 // reduced flow (8-D augmented field), with
 //   - the initial set = the MN lift as a second-order set (mn_lift_so, gated): x0, C0, H0 at r = 0, E0 = the cubic
@@ -189,6 +191,11 @@ int main(int argc, char** argv) {
   const bool INJ = std::getenv("INJ_LOG") != nullptr; size_t N0 = X.G.size(); std::vector<IV> TG[4]; const char* TN[4] = {"p0", "p1", "p2", "dDe"};
   if (const char* f = std::getenv("INJ_ESCALE")) { MpInterval sc(std::atof(f)); for (IV& g : X.G) for (int i = 0; i < 8; ++i) g[i] = g[i] * sc; std::printf("# INJ MUST-FIRE: X.G scaled by %s\n", f); }
   if (const char* f = std::getenv("INJ_P2SCALE")) { so::SO_REMAINDER_SCALE = std::atof(f); std::printf("# INJ MUST-FIRE: SO_REMAINDER_SCALE = %s\n", f); }
+  if (std::getenv("INJ_QUARTER")) { MpInterval rc[2] = {MpInterval(-0.5), MpInterval(-0.5)};
+    for (int i = 0; i < 8; ++i) { MpInterval xi = X.x[i]; for (int a = 0; a < 2; ++a) { xi += X.C[i][a] * rc[a]; for (int b = 0; b < 2; ++b) xi += X.H[i][a][b] * rc[a] * rc[b] / 2; } X.x[i] = xi; }
+    for (int i = 0; i < 8; ++i) for (int a = 0; a < 2; ++a) { MpInterval c = X.C[i][a]; for (int b = 0; b < 2; ++b) c += X.H[i][a][b] * rc[b]; X.C[i][a] = c / 2; }
+    for (int i = 0; i < 8; ++i) for (int a = 0; a < 2; ++a) for (int b = 0; b < 2; ++b) X.H[i][a][b] = X.H[i][a][b] / 4;
+    std::printf("# INJ PRE-TEST: quarter piece rc = (-1/2, -1/2), E kept (%zu columns)\n", X.G.size()); }
   if (INJ) std::printf("# INJ log on: N0 = %zu inherited columns\n", N0);
   auto pw = [](const std::vector<IV>& L, size_t a, size_t b, const IV& u) { MpInterval s(0); for (size_t j = a; j < b; ++j) { MpInterval d(0); for (int i = 0; i < 8; ++i) d += u[i] * L[j][i]; s += so::magI(d); } return 2 * so::hi(s); };
   auto inj_report = [&](const char* where, const IV& u, const char* un) {
