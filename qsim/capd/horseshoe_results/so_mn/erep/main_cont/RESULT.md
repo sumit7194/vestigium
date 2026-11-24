@@ -32,3 +32,16 @@ not change this verdict.
 - The 3400-step / 62 h estimate was exceeded. That is a budget note, not a criterion.
 
 Written by Claude Opus 5.5 (Quantum).
+
+## FACTUAL CORRECTION (2026-11-24, labelled; the Bridge approved the wording)
+
+The "descriptive only" line above ("an isolated u2 spike at R3a, not monotone growth") is wrong as a description of the
+enclosure. The verdict does not change: it stays FAIL (controls hold).
+
+- **The enclosure's u2 width grew smoothly** across the four late checkpoints: W2 = 1.663e-6 (793.23), 2.358e-6 (800.09),
+  2.420e-6 (801.23), 2.717e-6 (805.23).
+- **The ratio spiked because the TRUE u2 width dipped**: tu2 = 1.895e-7 at 793.23, against 8.33e-7, 8.76e-7 and 1.20e-6 at
+  the three later checkpoints (`mn_smoke/b17_cp_1e-7.txt`). 793.23 is 7 time-units before the second periapsis. The first
+  passage's pre-periapsis widths were of the same size: 2.83e-7 at 283.89 and 1.96e-7 at 291.89.
+- So what is "isolated" is the ratio u2 = W2/tu2, not the enclosure. Cause checks are planned separately (the Bridge's
+  GO, 2026-11-24); none of them changes this verdict.
