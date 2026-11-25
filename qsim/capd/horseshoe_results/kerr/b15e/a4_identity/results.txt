@@ -1,0 +1,13 @@
+MUSTFIRE exit 124 after 61 s; watchdog line: 1
+IDENTITY r1_MM exit 0 273 s: BYTE-IDENTICAL
+IDENTITY r1_MN exit 0 221 s: BYTE-IDENTICAL
+IDENTITY r1_NM exit 0 209 s: BYTE-IDENTICAL
+IDENTITY r1_NN exit 0 249 s: BYTE-IDENTICAL
+IDENTITY hh2_N0N0 exit 0 535 s: DIFFERS
+ALL DONE
+NOTE (2026-11-25, labelled): the hh2_N0N0 DIFFERS above is a slip in this identity check, not a program difference.
+The GB spec carries 'checkpoint .../ckpt/gb/hh2_N0N0.ckpt' (the original GB run's file, unchanged: mtime 2026-11-21 19:00),
+so this run RELOADED all 256 (a)-pieces (reloaded_pieces=256) and recomputed only the edges. The rest of the COVER line was
+identical, but (a) was not exercised. Corrected run: the same spec with only its checkpoint path moved to a fresh file
+(a4_identity/hh2_N0N0_fresh.ckpt), so everything is recomputed; it must equal gb/hh2_N0N0.out byte for byte (reloaded_pieces=0).
+IDENTITY hh2_N0N0 (fresh checkpoint) exit 0 2098 s: BYTE-IDENTICAL

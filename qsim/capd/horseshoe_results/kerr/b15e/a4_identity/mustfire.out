@@ -1,0 +1,3 @@
+PREC 128
+
+WATCHDOG TIMEOUT: proof program exceeded its wall-clock limit (fail closed)

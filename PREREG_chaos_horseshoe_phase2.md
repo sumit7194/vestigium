@@ -2033,3 +2033,13 @@ configurable watchdog, and the reruns.**
   while Sumit works.
 - **Later stages.** twin(a)/kerr(a) chunks run on the runner's binary, which still has the 48 h limit. Whether they
   move to hs_cover_b15e with a raised limit is a separate decision for the Bridge, to be registered before KERR-EARLY.
+- **Timer rescue (record, 2026-11-25 19:41; Sumit's go via the Bridge, who did it and approved the admin prompt).**
+  - On kerr_e PIDs 6670 (N3N4), 6675 (N4N5), 6677 (N5N0) and 93687 (N5N1), running the REGISTERED binary fb5fcbfc….
+  - The pending watchdog alarm was CANCELLED by debugger (`lldb -p PID`, `expr alarm(0)`, detach, then `kill -CONT`).
+    The timers had 7740, 7738, 7737 and 90132 s left, matching the 21:50 and 11-26 20:43 deadlines.
+  - The computation was not touched; all four were confirmed back in state R.
+  - A dry run on a dummy first showed that alarm(0) cancels the timer and that detach leaves the process stopped, hence
+    the `kill -CONT`.
+  - Log: TheBridge/fleet/kerr_e_timer_rescue_2026-11-25.log.
+  - These four chunks are no longer limited in wall time, and their outputs are read exactly as registered.
+  - **A4 reruns are now needed only for N1N2 and N2N3.**
