@@ -192,29 +192,43 @@ def guard_loop():
     """Memory policy of 2026-11-23 (Sumit, relayed by the Bridge; PREREG B15e A2): memory caps and pressure INFORM, they
     never kill. Footprint > CAP_MB: a WARN line (once per crossing). Pressure: WARN at yellow (level 2) and red (level 4).
     After red sustained 600 s, PAUSE every child (verified SIGSTOP), and RESUME them (verified SIGCONT) once the level is
-    back to green (1). Only the disk floor (< 5 GB free) still stops (kills) all."""
-    red_since = None; paused = False; last_lv = 1; over = set()
+    back to green (1). Disk (Sumit's no-caps rule, 2026-11-25; disk_policy.py): < 3 GB free -> PAUSE every child, > 4 GB
+    -> RESUME, < 2 GB -> ALERT line; NOTHING is ever killed for disk. A disk pause and a pressure pause are tracked
+    separately; children resume only when neither holds."""
+    import disk_policy as DP
+    red_since = None; paused = False; dpaused = False; crit = False; last_lv = 1; over = set()
     while not STOPPING.is_set():
         for pid in list(CHILD):
             fp = footprint_mb(pid)
             if fp > CAP_MB and pid not in over: over.add(pid); log("WARN: PID %d footprint %.0f MB > %d MB (inform only)" % (pid, fp, CAP_MB))
             if fp <= CAP_MB and pid in over: over.discard(pid); log("PID %d footprint back to %.0f MB" % (pid, fp))
-        dk = int(sh("df -g / | tail -1 | awk '{print $4}'") or 99)
+        dk = DP.free_gb()
         sw = float((sh("sysctl -n vm.swapusage | awk '{print $6}'") or "0M").rstrip("M")); pl = int(sh("sysctl -n kern.memorystatus_vm_pressure_level") or 1)
-        if dk < 5:
-            if paused:
-                for pid in list(CHILD): verified_signal(pid, signal.SIGCONT, "resume before the disk stop")
-            log("BOX STOP: disk %d GB < 5" % dk); stop_all("disk")
+        act = DP.disk_action(dk, dpaused)
+        if DP.critical(dk) and not crit: log("ALERT CRITICAL DISK: %d GB free < %d; all children paused, NOT killed (Sumit's rule)" % (dk, DP.CRITICAL_BELOW))
+        crit = DP.critical(dk)
+        if act == "pause":
+            log("DISK PAUSE: %d GB free < %d; SIGSTOP all children" % (dk, DP.PAUSE_BELOW))
+            if not paused:
+                for pid in list(CHILD): verified_signal(pid, signal.SIGSTOP, "disk pause")
+            dpaused = True
+        elif act == "resume":
+            log("DISK RESUME: %d GB free > %d%s" % (dk, DP.RESUME_ABOVE, "" if paused else "; SIGCONT all children"))
+            if not paused:
+                for pid in list(CHILD): verified_signal(pid, signal.SIGCONT, "disk resume")
+            dpaused = False
         if pl != last_lv:
             log("pressure level %d -> %d (swap %.0f MB)%s" % (last_lv, pl, sw, "; WARN (inform only)" if pl >= 2 else "")); last_lv = pl
         red_since = (red_since or time.time()) if pl >= 4 else None
         if red_since and not paused and time.time() - red_since > 600:
             log("PAUSE: pressure red sustained 600 s (swap %.0f MB); SIGSTOP all children" % sw)
-            for pid in list(CHILD): verified_signal(pid, signal.SIGSTOP, "pause on sustained red")
+            if not dpaused:
+                for pid in list(CHILD): verified_signal(pid, signal.SIGSTOP, "pause on sustained red")
             paused = True
         if paused and pl == 1:
-            log("RESUME: pressure green; SIGCONT all children")
-            for pid in list(CHILD): verified_signal(pid, signal.SIGCONT, "resume on green")
+            log("RESUME: pressure green%s" % ("" if not dpaused else "; still disk-paused, children stay stopped"))
+            if not dpaused:
+                for pid in list(CHILD): verified_signal(pid, signal.SIGCONT, "resume on green")
             paused = False
         time.sleep(60)
 

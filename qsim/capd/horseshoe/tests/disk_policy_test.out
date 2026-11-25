@@ -1,0 +1,35 @@
+PASS disk_action table (pause <3, resume >4, NO kill at any level; 3 and 4 hold)
+PASS erep_guard: 3 GB (negative) -> still running
+PASS erep_guard: 2 GB -> PAUSED (T)
+PASS erep_guard: 4 GB (negative) -> still paused
+PASS erep_guard: 5 GB -> RESUMED
+PASS erep_guard: 0 GB -> PAUSED, not killed
+PASS erep_guard: 6 GB after 0 -> RESUMED
+PASS erep_guard: ALERT CRITICAL line logged
+2026-11-25 19:25:03 guard armed for PID 88430 (cmd: ./mn_so_piece disk_policy_test 900) in INFORM mode (memory policy 2026-11-23; disk floor 2026-11-25): disk < 3 GB -> PAUSE, > 4 GB -> RESUME, < 2 GB -> ALERT, never a disk kill; footprint > 500 MB -> WARN; squeeze begin/end logged; red (level 4) sustained 600 s -> PAUSE (SIGSTOP), resume (SIGCONT) on green; no memory kill
+2026-11-25 19:25:03 footprint 1 MB (peak 1), swap used 3680 MB, pressure 1, disk free 7 GB
+2026-11-25 19:25:15 VERIFIED PID 88430 -> SIGSTOP (DISK PAUSE: 2 GB free < 3)
+2026-11-25 19:25:28 VERIFIED PID 88430 -> SIGCONT (DISK RESUME: 5 GB free > 4)
+2026-11-25 19:25:31 footprint 1 MB (peak 1), swap used 3680 MB, pressure 1, disk free 5 GB
+2026-11-25 19:25:33 ALERT CRITICAL DISK: 0 GB free < 2; run paused, NOT killed (Sumit's rule)
+2026-11-25 19:25:34 VERIFIED PID 88430 -> SIGSTOP (DISK PAUSE: 0 GB free < 3)
+2026-11-25 19:25:40 VERIFIED PID 88430 -> SIGCONT (DISK RESUME: 6 GB free > 4)
+2026-11-25 19:25:46 run PID 88430 gone; guard exits (peak footprint 1 MB)
+
+PASS runner guard: 3 GB (negative) -> still running
+PASS runner guard: 2 GB -> PAUSED (T)
+PASS runner guard: 4 GB (negative) -> still paused
+PASS runner guard: 5 GB -> RESUMED
+PASS runner guard: 0 GB -> PAUSED, not killed
+PASS runner guard: 6 GB after 0 -> RESUMED
+PASS runner guard: ALERT CRITICAL line logged
+  runner log: DISK PAUSE: 2 GB free < 3; SIGSTOP all children
+  runner log: SIGSTOP verified PID 89381 (test/dummy): disk pause
+  runner log: DISK RESUME: 5 GB free > 4; SIGCONT all children
+  runner log: SIGCONT verified PID 89381 (test/dummy): disk resume
+  runner log: ALERT CRITICAL DISK: 0 GB free < 2; all children paused, NOT killed (Sumit's rule)
+  runner log: DISK PAUSE: 0 GB free < 3; SIGSTOP all children
+  runner log: SIGSTOP verified PID 89381 (test/dummy): disk pause
+  runner log: DISK RESUME: 6 GB free > 4; SIGCONT all children
+  runner log: SIGCONT verified PID 89381 (test/dummy): disk resume
+ALL PASS

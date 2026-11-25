@@ -4,7 +4,7 @@
 #  - A kerr_e chunk is eligible for a rerun when its output holds "WATCHDOG TIMEOUT" and no live process runs its spec.
 #    N5N1 becomes eligible only that way (it stays on the old binary until then).
 #  - Rerun: the old output is MOVED to kerr_e_void_watchdog/, never deleted; the spec gate is checked; then
-#    HS_WATCHDOG_S=432000 nice -n 10 stdbuf -oL hs_cover_b15e <spec> > kerr_e/<chunk>.out.
+#    HS_WATCHDOG_S=2592000 nice -n 10 stdbuf -oL hs_cover_b15e <spec> > kerr_e/<chunk>.out.
 #  - Cap: my compute jobs (hs_cover*, ./mn_so_*, the refs worker counted once) stay <= the number in a4_mycap.txt.
 #  - Memory gate: launch only at >= 50% free. Never kills anything. Logs to a4_launch.log.
 O=${0:A:h}; Q=/Users/sumit/Github/quantum; H=$Q/qsim/capd/horseshoe; B=$Q/qsim/capd/horseshoe_results/kerr/b15d
@@ -23,8 +23,9 @@ rerun() { local t=$1
   [[ $(shasum -a 256 $H/hs_cover_b15e | cut -c1-64) == $SHA_HS ]] || { log "REFUSED rerun $t: binary sha mismatch"; DONE_KE[$t]=refused; return }
   [[ $(grep -c "^param level -1/2$" $B/kerr_e/$t.spec) == 1 && $(grep -c "^system mn$" $B/kerr_e/$t.spec) == 1 ]] || { log "REFUSED rerun $t: spec gate"; DONE_KE[$t]=refused; return }
   mkdir -p $B/kerr_e_void_watchdog; mv $B/kerr_e/$t.out $B/kerr_e_void_watchdog/$t.out
-  local P=$(HS_WATCHDOG_S=432000 _STDBUF_O=L $Q/tools/detach.sh $B/kerr_e/$t.out $H nice -n 10 /usr/bin/stdbuf -oL $H/hs_cover_b15e $B/kerr_e/$t.spec)
-  DONE_KE[$t]=$P; log "RERUN kerr_e/$t PID $P (hs_cover_b15e, HS_WATCHDOG_S=432000; old output -> kerr_e_void_watchdog/), memfree $(memfree)%" }
+  local P=$(HS_WATCHDOG_S=2592000 _STDBUF_O=L $Q/tools/detach.sh $B/kerr_e/$t.out $H nice -n 10 /usr/bin/stdbuf -oL $H/hs_cover_b15e $B/kerr_e/$t.spec)
+  sleep 3; local G=$($Q/tools/detach.sh $B/kerr_guard_$t.out $H $PY $H/kerr_guard.py $P)
+  DONE_KE[$t]=$P; log "RERUN kerr_e/$t PID $P (hs_cover_b15e, HS_WATCHDOG_S=2592000 = 30 d, effectively unlimited; old output -> kerr_e_void_watchdog/), kerr_guard $G, memfree $(memfree)%" }
 piece() { local p=$1
   [[ -e $RS/$p/st ]] && { log "REFUSED piece $p: state exists"; return }
   [[ $(shasum -a 256 $T/mn_so_piece | cut -c1-64) == $SHA_PC ]] || { log "REFUSED piece $p: binary sha mismatch"; return }
