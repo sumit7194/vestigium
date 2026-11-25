@@ -384,7 +384,11 @@ static void ex_cone(Engine& E, MpInterval l, MpInterval r, MpInterval bot, MpInt
 }
 
 int main(int argc, char** argv) {
-  capd_proof::watchdog(48 * 3600);
+  // B15e A4 (2026-11-25): the wall-clock limit may be raised with HS_WATCHDOG_S=<seconds> (a positive integer); unset or
+  // invalid = the original 48 h. Nothing is printed either way, so default runs are byte-identical to the old binary's.
+  { unsigned wd = 48 * 3600; if (const char* e = std::getenv("HS_WATCHDOG_S")) { char* end = nullptr; unsigned long v = std::strtoul(e, &end, 10);
+      if (end != e && *end == '\0' && v > 0 && v <= 30UL * 24 * 3600) wd = (unsigned)v; }
+    capd_proof::watchdog(wd); }
   if (argc < 2) { std::cerr << "usage: hs_cover spec\n"; return 2; }
   std::ifstream in(argv[1]); std::string line; std::vector<std::vector<std::string>> cmds;
   while (std::getline(in, line)) {

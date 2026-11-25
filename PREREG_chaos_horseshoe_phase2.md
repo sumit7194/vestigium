@@ -1997,3 +1997,39 @@ kind of word, for 7.
   (PID 6670), N4N5 (6675) and N5N0 (6677), all through the A1 gate with no REFUSED line. The 4 chunks ran unguarded for
   about 1 minute (21:48:56 to 21:49:51); nothing else changed. The "stage 0 ... HARNESS" line in run.log is this
   harness slip, not a reading.
+
+**B15e A4 (2026-11-25; labelled; the Bridge approved option (B)): kerr_e chunks hit hs_cover's hard 48 h watchdog; a
+configurable watchdog, and the reruns.**
+- **Finding.**
+  - kerr_e N1N2 and N2N3 (54059/54063) ended at 19:05:44 on 2026-11-25, exactly 48 h after their start, with
+    `WATCHDOG TIMEOUT: proof program exceeded its wall-clock limit (fail closed)`: no COVER, no DONE, 0 FAILPIECE, no S9.
+  - The limit is `capd_proof::watchdog(48 * 3600)` (hs_cover.cpp main), compiled into the registered binary fb5fcbfc….
+  - N3N4, N4N5 and N5N0 (6670/6675/6677) reach 48 h at 21:50 and cannot be saved: an alarm in a running process cannot
+    be extended, and hs_cover's `checkpoint` covers (a)-pieces only, while kerr_e is edges-only.
+  - N0N0/N0N1 had taken about 27 h on a lighter box. Load has since been about 10–13, with swap up to 4.5 GB.
+- **Registration slip (disclosed).** B15e A1's expected-time entry (24.4 h lower bound, 73.1 h check-in) did not list
+  the binary's 48 h watchdog, so the 73.1 h check-in was unreachable. New rule: every registration lists the binary's
+  hard limits (watchdog, memory caps) next to its time estimates.
+- **The runner's "stage 1 … HARNESS; held" line**, which appears when the last kerr_e exits, is this harness slip, not
+  a reading.
+- **Change.**
+  - hs_cover.cpp reads `HS_WATCHDOG_S` (positive integer seconds, at most 30 days). Unset or invalid = the original 48 h,
+    and nothing is printed either way.
+  - New binary `hs_cover_b15e`, sha256 c924b03bf3328a4960673879b61ab3c0679bdae685270a9145da80f155f7b903, guard passed.
+  - The registered fb5fcbfc… came from hs_cover.cpp at 4c6b8b9. A fresh build of that unmodified source is not
+    sha-identical (b76c2357…: output name and link data), so identity is checked on OUTPUTS.
+- **Identity checks** (before any rerun; each can fail):
+  - (i) With HS_WATCHDOG_S unset, hs_cover_b15e reproduces the stored outputs BYTE FOR BYTE on b15d/gb/r1_MM, r1_MN,
+    r1_NM, r1_NN (about 2.5 min each) and gb/hh2_N0N0 (about 22 min).
+  - (ii) **Must-fire.** With `HS_WATCHDOG_S=60` on a long case (kerr_e/N1N2.spec), it must exit 124 with the WATCHDOG
+    line between 55 and 120 s after start.
+- **Reruns.**
+  - The chunks are N1N2, N2N3, N3N4, N4N5 and N5N0. N5N1 stays on the old binary and joins the list only if it also
+    times out (11-26 20:43).
+  - Settings: the same specs (gate-checked), the same nice 10 + stdbuf -oL launch, `HS_WATCHDOG_S=432000` (120 h).
+  - The failed outputs move, never deleted, to `kerr_e_void_watchdog/`. Each rerun writes `kerr_e/<chunk>.out` afresh.
+  - Reading: unchanged (B15d-2/-3, B15e).
+- **Cores.** kerr_e reruns take each freed core FIRST, then branch-S pm, pp and refs. The fleet stays at ≤ 9 cores
+  while Sumit works.
+- **Later stages.** twin(a)/kerr(a) chunks run on the runner's binary, which still has the 48 h limit. Whether they
+  move to hs_cover_b15e with a raised limit is a separate decision for the Bridge, to be registered before KERR-EARLY.
