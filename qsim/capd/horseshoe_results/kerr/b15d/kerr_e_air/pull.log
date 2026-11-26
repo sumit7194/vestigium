@@ -1,0 +1,32 @@
+2026-11-26 13:10:49 NOTE (Quantum-personal): Air unreachable while Sumit is on the office VPN (~17:00-18:00 per the Bridge); ssh/pull failures expected; Air jobs run on their own guard; last good copies kept
+2026-11-26 13:15:28 NOTE (Quantum-personal): Air reachable again over the USB link; catch-up pull OK (no checkpoint record yet); normal watching resumed
+2026-11-26 18:29:42 N4N5 good: 1 EP records
+2026-11-26 18:59:43 N4N5 good: 1 EP records
+2026-11-26 19:29:43 N4N5 good: 1 EP records
+2026-11-26 19:59:44 N4N5 good: 1 EP records
+2026-11-26 20:29:44 N4N5 good: 1 EP records
+2026-11-26 20:59:45 N4N5 good: 1 EP records
+2026-11-26 21:29:46 N4N5 good: 1 EP records
+2026-11-26 21:29:46 N5N0 good: 1 EP records
+2026-11-26 21:29:46 N5N1 good: 1 EP records
+2026-11-26 21:59:46 N4N5 good: 1 EP records
+2026-11-26 21:59:46 N5N0 good: 1 EP records
+2026-11-26 21:59:46 N5N1 good: 1 EP records
+2026-11-26 22:29:47 N4N5 good: 1 EP records
+2026-11-26 22:29:47 N5N0 good: 1 EP records
+2026-11-26 22:29:47 N5N1 good: 1 EP records
+2026-11-26 22:59:48 N4N5 good: 1 EP records
+2026-11-26 22:59:48 N5N0 good: 1 EP records
+2026-11-26 22:59:48 N5N1 good: 1 EP records
+2026-11-26 23:29:49 N4N5 good: 1 EP records
+2026-11-26 23:29:49 N5N0 good: 1 EP records
+2026-11-26 23:29:49 N5N1 good: 1 EP records
+2026-11-26 23:59:49 N4N5 good: 1 EP records
+2026-11-26 23:59:50 N5N0 good: 1 EP records
+2026-11-26 23:59:50 N5N1 good: 1 EP records
+2026-11-27 00:29:50 N4N5 good: 2 EP records
+2026-11-27 00:29:51 N5N0 good: 1 EP records
+2026-11-27 00:29:51 N5N1 good: 1 EP records
+2026-11-27 00:30:15 NOTE (Quantum-personal): PAUSE of the 5 Air kerr_e chunks (N2N3 8602, N3N4 8615, N4N5 8628, N5N0 8641, N5N1 8654) at 00:30:00 Air time, SIGSTOP each verified by PID and argv; air_guard 8663 HELD by SIGSTOP (its memory-resume path cannot SIGCONT them). Sumit decision via the personal Bridge: the negative control waits for the MN target. Nothing killed; reversible. pull_air keeps pulling: a paused chunk has no DONE, so promote_air never promotes it, and its record count only stays level, so it is never KEPT or REFUSED. Their 30 d alarms (2026-12-26 12:59:19) keep counting while paused; SIGALRM pending on a stopped process would end it at once on resume after that date (exit 124, only the piece in progress lost; EP checkpoints are the safety net). N1N2 32284 (Mac mini) keeps running. 4a cancelled; twin_a/kerr_a on hold.
+2026-11-27 00:46:06 NOTE (Quantum-personal): final pull after the STOP end of the Air chunks: N4N5 2; N5N0 1; N5N1 1; 
+2026-11-27 00:46:06 END (SIGTERM, verified) pull_air.sh 69773: the Air chunks were ended by the MN pilot STOP; nothing more to pull

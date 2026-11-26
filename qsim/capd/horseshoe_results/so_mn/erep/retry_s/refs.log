@@ -6,3 +6,14 @@
 2026-11-26 12:03:24 [worker 38319 fwd] start mm/pm offset 0/1 -1/10000000
 2026-11-26 12:11:45 PAUSE (SIGSTOP, verified PID) ref 47206 (W1's mm/pm ref) for Sumit's office work; resume only on the Bridge's word
 2026-11-26 12:11:45 PAUSE (SIGSTOP, verified PID) W2 waiter 38321 so W2 cannot start; resume only on the Bridge's word
+2026-11-26 20:54:34 RESUME (SIGCONT, verified PID and argv) ref 47206 (W1's mm/pm ref) and W2 waiter 38321: Sumit's office work done, the Bridge's word; W2 starts now (tests 16230/35247 long gone)
+2026-11-26 20:54:34 [worker 38321 rev] start pp/pz offset 1/10000000 1/20000000
+2026-11-26 20:55:38 PAUSE (SIGSTOP, verified PID and argv) W2 worker 38321, then its ref 27732 (pp): Quantum back to its cap of 7 (the Bridge's word). The worker is paused too, so it cannot take the stopped child as finished; resume both when the A8 set ends, unless twin_a needs that core (then ask the Bridge)
+2026-11-26 22:27:08 [worker 38319 fwd] end mm/pm : B17 PASS  W0 0/1  reorganisation default  QRESEED 0  steps 5748  wall 37424 s  S4 certified leaves 5
+2026-11-26 22:27:08 [worker 38319 fwd] start mm/pp offset 0/1 0/1
+2026-11-27 00:07:46 [worker 38319 fwd] end mm/pp : B17 PASS  W0 0/1  reorganisation default  QRESEED 0  steps 5748  wall 6038 s  S4 certified leaves 53
+2026-11-27 00:07:46 [worker 38319 fwd] start mm/zm offset -1/20000000 -1/10000000
+2026-11-27 00:45:09 HOLD (SIGSTOP, verified) W1 worker 38319 so it cannot start a next ref
+2026-11-27 00:45:09 END (SIGTERM, verified PID and argv) W1 ref 18664 (mm): MN pilot step 0 = STOP (d9f9ad9); thread closing on Sumit's rule via the personal Bridge: the refs served only the branch-S verdict
+2026-11-27 00:45:09 END (SIGTERM then SIGCONT, verified PID and argv) paused W2 ref 27732 (pp): MN pilot step 0 = STOP (d9f9ad9); thread closing on Sumit's rule via the personal Bridge: the refs served only the branch-S verdict
+2026-11-27 00:45:12 END (SIGTERM then SIGCONT, verified PID and argv) workers 38319 (fwd) and 38321 (rev): MN pilot step 0 = STOP (d9f9ad9); thread closing on Sumit's rule via the personal Bridge: the refs served only the branch-S verdict. Partial ref outputs kept

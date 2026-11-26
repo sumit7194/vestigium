@@ -45,3 +45,6 @@
 2026-11-26 20:28:10 T2 se_depth4 PASS: SIGTERM at record 33 (target 33; last 'E N0>N0/E/0/21 0100', mid-piece), 8 nodes replayed, restart BYTE-IDENTICAL (normalised)
 2026-11-26 20:42:48 T2 se_certfail PASS: SIGTERM at record 74 (target 74; last 'E N0>N0/E/0/21 100000010101', mid-piece), 49 nodes replayed, restart BYTE-IDENTICAL (normalised)
 2026-11-26 20:46:20 T4 MUST-FIRE PASS: record 3 (ok 1 -> 0) changes the COVER line or the FAILPIECE set
+2026-11-26 20:48:11 T5 PASS: journal of 81 records + NUL line + torn record -> BYTE-IDENTICAL, 81 replayed
+2026-11-26 20:48:11 T5b PASS: another spec's journal -> FATAL at startup, no evaluation, journal unchanged
+2026-11-27 00:45:31 ENDED by the MN pilot STOP (d9f9ad9; Sumit's rule via the personal Bridge): run_tests.sh 75997 held, then its T3 child 24469 (hs_cover_b15e5, cwd t3_ref) SIGTERMed mid-T3, then the script ended (verified PID and argv). T3 NOT RUN TO A RESULT (no reading). T7, T0, T1, T2 (+SA7), T4, T5, T5b PASS stand as recorded above. No A8 launch will follow (twin_a/kerr_a cancelled by the STOP).
