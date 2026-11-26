@@ -44,6 +44,19 @@ def main():
                 return False
             return rs[i + 1]["path"] != r["path"] + "0"
         print(f"leafcap {first(rs, leafcap)}")
+    elif mode == "SAinfo":                                   # diagnostics for the log (A8 fixture recalibration)
+        md = int(sys.argv[3])
+        th = [r for r in rs if r["why"].startswith("piece cap")]
+        print(f"evaluations {len(rs)}; thrown (piece cap) {len(th)}; thrown below the top level {sum(1 for r in th if r['path'])}")
+        i = first(rs, lambda i, r: r['why'].startswith('piece cap') and len(r['path']) > 0)
+        if i: r = rs[i - 1]; print(f"thrown node: record {i} piece {r['key']} path {r['path']} dnsteps {r['line'].split(' ')[6]}")
+        leaves = 0
+        for j, r in enumerate(rs):                           # a leaf: ok, or a failing node that was not bisected
+            bis = j + 1 < len(rs) and rs[j + 1]["key"] == r["key"] and rs[j + 1]["path"] == r["path"] + "0"
+            if r["f1"] == 1 or not bis: leaves += 1
+            if r["f1"] == 0 and len(r["path"]) < md and not bis and j + 1 < len(rs) and rs[j + 1]["key"] == r["key"]:
+                print(f"leaf-cap point: record {j + 1} piece {r['key']} path {r['path']} depth {len(r['path'])}; cumulative leaves {leaves}")
+                break
     elif mode == "SE":
         for d in (1, 2, 4):
             print(f"depth{d} {first(rs, lambda i, r: len(r['path']) == d)}")

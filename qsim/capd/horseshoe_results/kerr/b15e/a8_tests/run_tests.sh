@@ -24,8 +24,11 @@ replayed() { sed -n 's/.* replayed=\([0-9]*\) .*/\1/p' $O/$1/c.prog; }
 progok() { [[ $(wc -l < $O/$1/c.prog | tr -d ' ') == 1 ]] && grep -qE '^[0-9]+ [0-9-]+ [0-9:]+ phase=[AE] key=[^ ]+ depth=[0-9]+ leaves=[0-9]+ live=[0-9]+ replayed=[0-9]+ nsteps=[0-9]+ last_s=[0-9.]+ mean_s=[0-9.]+ state=end$' $O/$1/c.prog; }
 r "START binary $(shasum -a 256 $X | cut -c1-64) nice $(ps -o ni= -p $$ | tr -d ' ')"
 
-SA="depth 8 12|caps 120 4096|arange 6 7|noedges|piececap 330 0"; SADROP='^(checkpoint|depth|caps) '
+# SA fixture recalibrated 330/120 -> 310/60 (the Bridge, before any T2 interrupt)
+SA="depth 8 12|caps 60 4096|arange 6 7|noedges|piececap 310 0"; SADROP='^(checkpoint|depth|caps) '
 CK="checkpoint c.ckpt"; SUB="subckpt c.jnl|progress c.prog 50"
+
+if [[ ${A8_FROM:-} == T2 ]]; then r "RESUME at T2 (A8_FROM=T2): T7, T0 and T1 above stand"; else
 
 # ---------------- T7 (correction 1): HS_WATCHDOG_S parsing and the real timer (HS_WATCHDOG_REPORT=1 reads getitimer)
 wd() { HS_WATCHDOG_REPORT=1 $X 2>&1 | sed -n 's/^WATCHDOG //p'; }          # no spec: report, then the usage line
@@ -57,12 +60,15 @@ t1() { local c=$1 ref=$2
 fresh t1_hh2; mk $B/gb/hh2_N0N0.spec $O/t1_hh2/c.spec '^checkpoint ' "$CK|$SUB"; runin t1_hh2 c.out; t1 t1_hh2 $B/gb/hh2_N0N0.out
 fresh t1_swap; mk $B/twin_e/swap_N0N0.spec $O/t1_swap/c.spec $NOD "$CK|$SUB"; runin t1_swap c.out; t1 t1_swap $B/twin_e/swap_N0N0.out
 
+fi
 # ---------------- T2: interrupts inside bisection trees
 fresh sa_ref; mk $B/twin/rot90_N0N0.spec $O/sa_ref/c.spec $SADROP "$SA|$CK"; runin sa_ref c.out
 r "SA reference: $(grep '^COVER' $O/sa_ref/c.out | cut -c1-160) ($(grep -c '^FAILPIECE' $O/sa_ref/c.out) FAILPIECE)"
 fresh sa_full; mk $B/twin/rot90_N0N0.spec $O/sa_full/c.spec $SADROP "$SA|$CK|$SUB"; runin sa_full c.out
 cmp -s $O/sa_full/c.out $O/sa_ref/c.out && r "SA with subckpt, uninterrupted: BYTE-IDENTICAL to the SA reference ($(nj $O/sa_full/c.jnl) records)" || r "SA with subckpt DIFFERS from the SA reference"
+$PY $O/pick.py SAinfo $O/sa_full/c.jnl 8 > $O/sa_info.txt; while read -r l; do r "SA info: $l"; done < $O/sa_info.txt
 $PY $O/pick.py SA $O/sa_full/c.jnl 8 > $O/sa_picks.txt; r "SA picks: $(tr '\n' ' ' < $O/sa_picks.txt)"
+grep -q '^leafcap None' $O/sa_picks.txt && { r "SA has no mid-piece leaf-cap point: STOP (to the Bridge)"; exit 0; }
 grep -q '^throw None' $O/sa_picks.txt && { r "SA has no thrown node below the top level: STOP for the registered piececap recalibration (to the Bridge)"; exit 0; }
 t2() { local c=$1 K=$2 ref=$3 src=$4; fresh $c; cp $O/$src/c.spec $O/$c/c.spec
   [[ $K == None ]] && { r "T2 $c: no such record in the full journal: NOT RUN"; return; }

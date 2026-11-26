@@ -1,0 +1,1 @@
+Superseded (2026-11-26): SA test fixture with piececap 330 / caps 120. No node threw (replays 306-317 steps) and the leaf cap bound only at a piece boundary, so the registered stop fired (0e26060). Replaced, on the Bridge's yes, by the 310/60 fixture. Kept, not deleted.

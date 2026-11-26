@@ -2415,3 +2415,21 @@ interior chunk runs): the interior (a) phase.** Drafted by Quantum-personal (Cla
     built from hs_cover.cpp as committed with this line. After the build, one spec-less startup check ran (values abc,
     0, 100000001, off, 60 and unset; usage line only, no computation). It gave the registered FATAL and WATCHDOG
     lines. T7 repeats it formally.
+- **A8 T2 fixture recalibration (2026-11-26; the personal Bridge's yes; before any T2 interrupt).**
+  - **Why.** The registered stop fired. In the first SA reference (piececap 330, caps 120), every evaluation
+    replayed 306–317 steps, so no node threw. Cumulative leaves went 39 → 85 → 120 after pieces 6/0, 6/1 and 6/2, so
+    the leaf cap bound only at a piece boundary and there was no mid-piece leaf-cap point. Both observations are in
+    0e26060.
+  - **Change.** In the SA test spec only: piececap 330 → 310, and caps 120 → 60, so the cap binds inside 6/1. Both
+    were set from data already in hand. A new SA reference and a new full run use these values, on the same binary
+    3a3c4bbe and the same spec as every SA interrupt-resume run. Byte-identity is judged only against the new
+    reference.
+  - **Before any interrupt,** the log records:
+    - the thrown node (piece, node path, and the step count at which it threw, > 310);
+    - how many evaluations in the new reference threw;
+    - the leaf-cap point (piece and node, and the cumulative leaf count where the cap binds).
+    - If either point is missing, the run STOPS again.
+  - The old sa_ref/sa_full are kept in a8_tests/superseded_sa_330/.
+  - T7, T0 and T1 stand. SE is unaffected.
+  - **Production values do not change.** These are test-fixture values. twin_a and kerr_a keep the caps, depth and
+    (absent) piececap registered for them.
