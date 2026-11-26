@@ -1,0 +1,5 @@
+# PAUSED (2026-11-27 00:30)
+
+PAUSE of the 5 Air kerr_e chunks (N2N3 8602, N3N4 8615, N4N5 8628, N5N0 8641, N5N1 8654) at 00:30:00 Air time, SIGSTOP each verified by PID and argv; air_guard 8663 HELD by SIGSTOP (its memory-resume path cannot SIGCONT them). Sumit decision via the personal Bridge: the negative control waits for the MN target. Nothing killed; reversible. pull_air keeps pulling: a paused chunk has no DONE, so promote_air never promotes it, and its record count only stays level, so it is never KEPT or REFUSED. Their 30 d alarms (2026-12-26 12:59:19) keep counting while paused; SIGALRM pending on a stopped process would end it at once on resume after that date (exit 124, only the piece in progress lost; EP checkpoints are the safety net). N1N2 32284 (Mac mini) keeps running. 4a cancelled; twin_a/kerr_a on hold.
+
+Resume (only on Sumit's word via the personal Bridge): SIGCONT the 5 chunks by verified PID, then SIGCONT air_guard 8663, and log it in the Air launch.log, b15d/run.log and here.
