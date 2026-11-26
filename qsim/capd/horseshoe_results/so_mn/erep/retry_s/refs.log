@@ -1,0 +1,5 @@
+2026-11-26 08:51:25 start mm/mm offset -1/10000000 -1/10000000
+2026-11-26 10:26:31 end mm/mm exit 0 : B17 PASS  W0 0/1  reorganisation default  QRESEED 0  steps 5748  wall 5706 s  S4 certified leaves 537743  order 20  reor
+2026-11-26 10:26:31 start mm/mp offset -1/10000000 0/1
+2026-11-26 11:45:53 old serial worker 4219 ENDED by Quantum (switch to locked refs_worker.sh); its in-progress ref mm/mp (PID 21234) continues and holds lock locks/mm_mp
+2026-11-26 11:45:53 W1 wrapper 38319 (fwd, starts when 21234 ends); W2 wrapper 38321 (rev, starts when tests 16230/35247 end)

@@ -1,0 +1,26 @@
+2026-11-26 11:45:17 [worker 37890 fwd] start mm/mm offset -1/10000000 -1/10000000
+2026-11-26 11:45:17 [worker 37891 rev] start mp/pp offset 0/1 1/10000000
+2026-11-26 11:45:17 [worker 37892 fwd] STALE lock mm/pm (owner '999999' gone, output incomplete): taking over
+2026-11-26 11:45:17 [worker 37892 fwd] start mm/pm offset 0/1 -1/10000000
+2026-11-26 11:45:18 [worker 37891 rev] end mp/pp : B17 DRY mp pp by 37891
+2026-11-26 11:45:18 [worker 37891 rev] start mp/pm offset 0/1 0/1
+2026-11-26 11:45:19 [worker 37891 rev] end mp/pm : B17 DRY mp pm by 37891
+2026-11-26 11:45:20 [worker 37891 rev] start mp/mp offset -1/10000000 1/10000000
+2026-11-26 11:45:20 [worker 37890 fwd] end mm/mm : B17 DRY mm mm by 37890
+2026-11-26 11:45:20 [worker 37890 fwd] start mm/pp offset 0/1 0/1
+2026-11-26 11:45:20 [worker 37892 fwd] end mm/pm : B17 DRY mm pm by 37892
+2026-11-26 11:45:21 [worker 37892 fwd] start mm/zm offset -1/20000000 -1/10000000
+2026-11-26 11:45:21 [worker 37891 rev] end mp/mp : B17 DRY mp mp by 37891
+2026-11-26 11:45:21 [worker 37891 rev] start mp/mm offset -1/10000000 0/1
+2026-11-26 11:45:22 [worker 37892 fwd] end mm/zm : B17 DRY mm zm by 37892
+2026-11-26 11:45:22 [worker 37892 fwd] start mm/zp offset -1/20000000 0/1
+2026-11-26 11:45:22 [worker 37890 fwd] end mm/pp : B17 DRY mm pp by 37890
+2026-11-26 11:45:23 [worker 37890 fwd] start mm/mz offset -1/10000000 -1/20000000
+2026-11-26 11:45:23 [worker 37891 rev] end mp/mm : B17 DRY mp mm by 37891
+2026-11-26 11:45:23 [worker 37892 fwd] end mm/zp : B17 DRY mm zp by 37892
+2026-11-26 11:45:23 [worker 37891 rev] start mm/pz offset 0/1 -1/20000000
+2026-11-26 11:45:23 [worker 37892 fwd] worker done
+2026-11-26 11:45:25 [worker 37890 fwd] end mm/mz : B17 DRY mm mz by 37890
+2026-11-26 11:45:25 [worker 37891 rev] end mm/pz : B17 DRY mm pz by 37891
+2026-11-26 11:45:25 [worker 37890 fwd] worker done
+2026-11-26 11:45:25 [worker 37891 rev] worker done
