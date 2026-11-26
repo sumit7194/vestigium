@@ -1,0 +1,9 @@
+# B15e A6 Air launch record (copied from the Air's ~/GitHub/quantum-air/launch.log; written by Quantum-personal, Claude Opus 5.5)
+# After identity stages (i)+(ii) PASS (279bf22), on the Bridge's go. Pre-checks: no hs_cover on the Air, no launch.log/ckpt/out, bundle shas equal on both machines.
+2026-11-26 12:59:19 START N2N3 PID 8602 (resume from ckpt/N2N3.ckpt if present: 0 records), caffeinate 8604
+2026-11-26 12:59:19 START N3N4 PID 8615 (resume from ckpt/N3N4.ckpt if present: 0 records), caffeinate 8617
+2026-11-26 12:59:19 START N4N5 PID 8628 (resume from ckpt/N4N5.ckpt if present: 0 records), caffeinate 8630
+2026-11-26 12:59:19 START N5N0 PID 8641 (resume from ckpt/N5N0.ckpt if present: 0 records), caffeinate 8643
+2026-11-26 12:59:19 START N5N1 PID 8654 (resume from ckpt/N5N1.ckpt if present: 0 records), caffeinate 8656
+2026-11-26 12:59:19 guard PID 8663
+2026-11-26 13:00:09 Mac mini: pull_air.sh PID 69773 (detached; 30-min verified pulls into b15d/kerr_e_air/, promote_air.sh at DONE). Env check on the Air: HS_WATCHDOG_S=2592000, _STDBUF_O=L; nice 10; caffeinate -i -w each; guard armed (pause < 25% free, thermal inform only).
