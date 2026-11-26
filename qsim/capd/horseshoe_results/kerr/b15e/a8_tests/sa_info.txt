@@ -1,0 +1,3 @@
+evaluations 136; thrown (piece cap) 20; thrown below the top level 4
+thrown node: record 2 piece N0>N0/6/0 path 0 dnsteps 311
+leaf-cap point: record 120 piece N0>N0/6/1 path 111001 depth 6; cumulative leaves 60

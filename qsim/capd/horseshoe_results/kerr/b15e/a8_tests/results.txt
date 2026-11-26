@@ -22,3 +22,26 @@
 2026-11-26 18:44:26 SA with subckpt, uninterrupted: BYTE-IDENTICAL to the SA reference (250 records)
 2026-11-26 18:44:26 SA picks: depth1 2 depth2 4 depth4 9 depth8 29 throw None leafcap None 
 2026-11-26 18:44:26 SA has no thrown node below the top level: STOP for the registered piececap recalibration (to the Bridge)
+2026-11-26 18:48:02 START binary 3a3c4bbee838891056bd3e0d96730d80063828dff2ae00b1108187a699950cc2 nice 15
+2026-11-26 18:48:02 RESUME at T2 (A8_FROM=T2): T7, T0 and T1 above stand
+2026-11-26 18:53:23 SA reference: COVER N0 N0 a=0 b=skip strong_a=0 orient=skip fail_a=43 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=76 leaves_b=0 maxdepth_a=8 replay_steps=418 (43 FAILPIECE)
+2026-11-26 18:59:00 SA with subckpt, uninterrupted: BYTE-IDENTICAL to the SA reference (136 records)
+2026-11-26 18:59:00 SA info: evaluations 136; thrown (piece cap) 20; thrown below the top level 4
+2026-11-26 18:59:00 SA info: thrown node: record 2 piece N0>N0/6/0 path 0 dnsteps 311
+2026-11-26 18:59:00 SA info: leaf-cap point: record 120 piece N0>N0/6/1 path 111001 depth 6; cumulative leaves 60
+2026-11-26 18:59:00 SA picks: depth1 2 depth2 3 depth4 11 depth8 31 throw 2 leafcap 120 
+2026-11-26 19:01:26 T2-SA7: main run 75997 and child(ren) 79460 PAUSED (SIGSTOP) for SA7
+2026-11-26 19:07:26 T2-SA7 PASS: SIGTERM at record 84 (target 84, a depth-1 throw in 6/1; last 'A N0>N0/6/1 1', mid-piece), 1 piece(s) reloaded, 5 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 19:07:26 T2-SA7: main run 75997 and child(ren) 79460 RESUMED (SIGCONT)
+2026-11-26 19:10:42 T2 sa_depth1 PASS: SIGTERM at record 2 (target 2; last 'A N0>N0/6/0 0', mid-piece), 2 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 19:16:19 T2 sa_depth2 PASS: SIGTERM at record 3 (target 3; last 'A N0>N0/6/0 00', mid-piece), 3 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 19:21:58 T2 sa_depth4 PASS: SIGTERM at record 11 (target 11; last 'A N0>N0/6/0 1100', mid-piece), 11 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 19:27:35 T2 sa_depth8 PASS: SIGTERM at record 31 (target 31; last 'A N0>N0/6/0 11100100', mid-piece), 31 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 19:33:00 T2 sa_throw PASS: SIGTERM at record 2 (target 2; last 'A N0>N0/6/0 0', mid-piece), 2 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 19:38:28 T2 sa_leafcap PASS: SIGTERM at record 120 (target 120; last 'A N0>N0/6/1 111001', mid-piece), 41 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 19:38:28 SE picks: depth1 22 depth2 24 depth4 33 certfail 74 
+2026-11-26 19:56:45 T2 se_depth1 PASS: SIGTERM at record 22 (target 22; last 'E N0>N0/E/0/20 0', mid-piece), 2 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 20:13:26 T2 se_depth2 PASS: SIGTERM at record 24 (target 24; last 'E N0>N0/E/0/20 10', mid-piece), 4 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 20:28:10 T2 se_depth4 PASS: SIGTERM at record 33 (target 33; last 'E N0>N0/E/0/21 0100', mid-piece), 8 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 20:42:48 T2 se_certfail PASS: SIGTERM at record 74 (target 74; last 'E N0>N0/E/0/21 100000010101', mid-piece), 49 nodes replayed, restart BYTE-IDENTICAL (normalised)
+2026-11-26 20:46:20 T4 MUST-FIRE PASS: record 3 (ok 1 -> 0) changes the COVER line or the FAILPIECE set

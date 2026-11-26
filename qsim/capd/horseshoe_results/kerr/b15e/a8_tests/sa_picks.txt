@@ -1,0 +1,6 @@
+depth1 2
+depth2 3
+depth4 11
+depth8 31
+throw 2
+leafcap 120

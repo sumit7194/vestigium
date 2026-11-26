@@ -1,1 +1,3 @@
 2026-11-26 16:52:54 A8 tests (b15e5) launched: run_tests.sh PID 38183 (detached, nice 15, one core, serial)
+2026-11-26 18:48:02 A8 tests resumed at T2 (A8_FROM=T2), PID 75997, commit 9992fd0
+2026-11-26 19:01:26 T2-SA7 waiter PID 81203 (commit 557fa5f)
