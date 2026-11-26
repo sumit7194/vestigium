@@ -45,3 +45,12 @@ enclosure. The verdict does not change: it stays FAIL (controls hold).
   passage's pre-periapsis widths were of the same size: 2.83e-7 at 283.89 and 1.96e-7 at 291.89.
 - So what is "isolated" is the ratio u2 = W2/tu2, not the enclosure. Cause checks are planned separately (the Bridge's
   GO, 2026-11-24); none of them changes this verdict.
+
+## Run end (2026-11-26 11:29; recorded)
+- **R4 reached.** sec_return t = 1018.6988 is DEFERRED as registered. The set before the return is saved at
+  t = 1018.198783: `st.pre_sec_return`, sha256 4ec8d41e…, recorded in section_sets.sha256 and format-verified.
+- **Run history.** Steps 7190 in all. The run resumed once from a verified state after the 2026-11-26 06:52 power loss
+  (t 965.818); see OUTAGE_2026-11-26_quantum.md.
+- **The final "MN-SO PASS (… informational)" line is NOT a reading.** mn_so's informational pass flag covers only the
+  checkpoints seen by its own process, and the resumed process saw none. A3's registered verdict is unchanged:
+  **FAIL (controls hold)**, as read by read_result.sh above.
