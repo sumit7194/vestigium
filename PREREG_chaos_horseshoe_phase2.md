@@ -2209,3 +2209,59 @@ run on Sumit's MacBook Air.**
     - a 127-record checkpoint, a missing DONE and an incomplete inner EP line are each refused, with the destination
       untouched.
   - Unchanged: the identity gate, the binary, the specs, the caps and the readings.
+
+**B15e A7 (2026-11-26; labelled; the personal Bridge's rulings on the draft B15E_A7_DRAFT.md cb1fdc4; registered BEFORE any
+interior chunk runs): the interior (a) phase.** Drafted by Quantum-personal (Claude Opus 5.5).
+- **Corrections to the draft, found while registering it, from the registered runner code (b15d_split.run, twin_table):**
+  - The two rot90 coverings whose paused unchunked processes are gone (N0N0, N0N3; paused.json) run as ordinary
+    twin_a chunks from their checkpoints. This is the registered rule ("a vanished paused PID runs as an (a) chunk").
+    twin_a/rot90_N0N0.spec and rot90_N0N3.spec use noedges and point to ckpt/twin/rot90_N0N0.ckpt and
+    rot90_N0N3.ckpt, which hold 101/256 and 34/256 finished pieces. twin_table reads them merged with twin_e as soon as
+    twin_a/<t>.out exists. The draft's "unchunked resume, first" is withdrawn.
+  - They also take their registered places in the queue, not first. tjobs = all 12 twin_a chunks in TWIN_ORDER (swap
+    N0N0, N0N3, N3N4, N4N5, N5N6, N6N0, then rot90 in the same order). They are interleaved with kerr_a (N0N0, N0N1,
+    N1N2, N2N3, N3N4, N4N5, N5N0, N5N1) as t0, k0, t1, k1, …, t7, k7, then t8 to t11.
+  - So no run writes P and EP records into one file. The combined-file test C1 gates nothing; it runs only on the
+    Bridge's word (see the end of A7).
+- **Binary:** hs_cover_b15e2 77eb34a6 (A4 + A5 + A5b) on the Mac mini, HS_WATCHDOG_S = 2592000, nice ≥ 10, stdbuf -oL,
+  and a pause-only kerr_guard each.
+  - Identity basis: A4 (5 stored outputs byte-identical); A5 T1 to T6b; A5b B1 to B5. B3 is an old-format (B15d)
+    (a) checkpoint reloaded byte-identically, which is the rot90 case.
+  - Not the Air yet: that needs its own A5b tests and an (a) promotion rule, by a later addendum.
+- **kerr_a checkpoint path:** each kerr_a spec's checkpoint line changes from ckpt/kerr/<c>.ckpt (shared with the A5
+  kerr_e specs) to ckpt/kerr_a/<c>.ckpt. That is the only change; no kerr_a chunk has ever run. Spec sha256, old → new
+  (also in kerr/b15e/a7_specs.json):
+  - N0N0 24a80f38 → ef445aa1;
+  - N0N1 1281ce5e → 7ae115a2;
+  - N1N2 a80822a3 → 2b54b69e;
+  - N2N3 e78b2b57 → 1be2752d;
+  - N3N4 8dae34ca → b067750a;
+  - N4N5 3e7a0486 → b1ebb74c;
+  - N5N0 7ff9bae1 → ff8d5c11;
+  - N5N1 45236eb3 → b0fcdddc.
+- **Readings:** b15e_read.py (qsim/capd/horseshoe/). It logs readings only; every table comes from the registered
+  functions.
+  - `early` logs KERR-EARLY once, when all 8 kerr_e outputs (the Air ones promoted per A6 addendum 3) hold DONE.
+  - `final` runs b15d_split.run()'s closing block verbatim (TWIN, the hold, TWIN-1V, KERR final or WITHHELD, DONE),
+    only when every twin_a, kerr_a and kerr_e chunk holds DONE.
+  - Both first run a golden: the last recorded TWIN-EARLY and RECIPE lines (2026-11-23 21:49:51) must reproduce byte
+    for byte from today's files. Done at registration: BYTE-IDENTICAL for both; early/final correctly refused (not yet
+    complete) and wrote nothing.
+  - TWIN-1V, KERR-EARLY and KERR have never been logged, so they have no past line to reproduce. Their functions are
+    covered by twin_table (in the TWIN-EARLY golden) and by kerr_table, which has no recorded answer yet. A known
+    answer for kerr_table is the Bridge's choice (one is proposed to it).
+- **Cost and hard limits:**
+  - Twin (a): ≤ ~90 h per covering that spends its 65536-leaf cap, so ≤ ~1100 core-h for all 12 in the worst case.
+    rot90 N0N0/N0N3 have already spent ~27.7k leaves each.
+  - Kerr (a): not known. The lower bound is ≈ 55 h per chunk (256 pieces at ~13 min, no bisection).
+  - **Pilot rule:** kerr_a N0N0 is the counted pilot. After ~10 of its top-level pieces, a cost report goes to the
+    Bridge (leaves and time per piece, projected total) before kerr_a[1] starts.
+    - If the projection is very large (e.g. > 2000 core-h for kerr_a), the numbers go to the Bridge and Sumit before
+      continuing. That is a decision point, not a stop: nothing running is ended.
+  - The only limit that can end a job is HS_WATCHDOG_S (30 d wall clock, pauses included; it fails closed). Every
+    (a) job checkpoints each top-level piece, so a hit loses at most one piece and the job resumes.
+  - Leaf and depth caps are part of the check. Guards pause only.
+- **Launch:** after this registration, and after Sumit's office window ends (the Bridge says when). Mac mini only;
+  cores fill as they free; fleet ≤ 9; the Quantum cap is 7.
+- **C1** (an unchunked hh2_N0N0 interrupted during its edge phase, byte-identical restart, and a must-fire): not
+  needed by any planned run, given the correction above. It runs only on the Bridge's word, as a NOT-COUNTED check.

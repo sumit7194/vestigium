@@ -1,0 +1,37 @@
+{
+ "note": "B15e A7: kerr_a checkpoint line ckpt/kerr/<c>.ckpt -> ckpt/kerr_a/<c>.ckpt; nothing else changed",
+ "specs": {
+  "kerr_a/N0N0.spec": {
+   "old": "24a80f38cfba05fafd40a70990ae86481167c44e6bbba0955a1ff7a56032a1fd",
+   "new": "ef445aa15fdb2f334c4ebb5236171b90df05f4b3cf8e10982baf53777809ed6b"
+  },
+  "kerr_a/N0N1.spec": {
+   "old": "1281ce5e7748a66f099a4e5a232010076e6d2ab2067190c12808b029599ae841",
+   "new": "7ae115a20c96b6df0fb0f8cbed32485256b6b6d61cc5ba6acbf862dff9819a10"
+  },
+  "kerr_a/N1N2.spec": {
+   "old": "a80822a3d21fd5ea22fca712c245895a4be9659f20da9c7957a2084e6ccf3129",
+   "new": "2b54b69edc33351b840ac08f8ae7605f197653556f3f430ad205ed4ab2968efc"
+  },
+  "kerr_a/N2N3.spec": {
+   "old": "e78b2b57361df3adf7786de1e2c01aebb637eaf8f50586095a28761f0d408284",
+   "new": "1be2752df0cd3f151ac296e8a2a8ae755c9e708f79366afa79bfa5f263b9aad5"
+  },
+  "kerr_a/N3N4.spec": {
+   "old": "8dae34ca85c29573d5126de3c3376a09e6bca83327c9971718dd59b6a19e43d1",
+   "new": "b067750ade27e935db4237d477d89a3ec2ab0aedec64c85d64c701f0c66c3e9f"
+  },
+  "kerr_a/N4N5.spec": {
+   "old": "3e7a04869748560c6e7b2e55e4a05edcf4236bfcbe36768f4a2dbb6aa83c3039",
+   "new": "b1ebb74c91c711b38f00c66833dd3b5302cae47a6f4381353437d860bf8e06f4"
+  },
+  "kerr_a/N5N0.spec": {
+   "old": "7ff9bae1825d556b230ba3a21961ac6238cab33582d185c55d14dec470e4ab1a",
+   "new": "ff8d5c11cc879936ccbd06397db445ef5825e8a79a849296b7ef3070c5d689be"
+  },
+  "kerr_a/N5N1.spec": {
+   "old": "45236eb3731a4774f9b1815a596784a8ec54524fc4738bd0cd4fef10af53d2d4",
+   "new": "b0fcdddc1fb0787294642c9f6261c7bff12b02bc012d4e8bf038c6aafbc73dd6"
+  }
+ }
+}

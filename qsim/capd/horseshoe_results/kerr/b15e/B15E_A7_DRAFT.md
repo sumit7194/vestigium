@@ -1,3 +1,5 @@
+> **Superseded (2026-11-26):** registered as B15e A7 in PREREG_chaos_horseshoe_phase2.md, with corrections. The rot90 pair runs as ordinary twin_a chunks in its registered queue place (not unchunked, not first), so C1 gates nothing. A7 governs; this draft is kept as written.
+
 # B15e A7 DRAFT (not registered): the interior (a) phase, i.e. the twin (a) chunks, the two rot90 resumes and the 8 Kerr (a) chunks
 
 Drafted 2026-11-26 by Quantum-personal (Claude Opus 5.5) for the personal Bridge. NOTHING here runs until the Bridge agrees
