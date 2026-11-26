@@ -16,3 +16,9 @@
 2026-11-26 17:05:31 T0 r1_NN BYTE-IDENTICAL
 2026-11-26 17:27:08 T0 hh2_N0N0 (fresh checkpoint) BYTE-IDENTICAL (256 P records)
 2026-11-26 17:44:56 T0 swap_N0N0 edges (checkpoint) BYTE-IDENTICAL (128 EP records)
+2026-11-26 18:07:12 T1 t1_hh2 BYTE-IDENTICAL; progress 1 line state=end; journal 546 records = live evaluations
+2026-11-26 18:24:58 T1 t1_swap BYTE-IDENTICAL; progress 1 line state=end; journal 450 records = live evaluations
+2026-11-26 18:35:10 SA reference: COVER N0 N0 a=0 b=skip strong_a=0 orient=skip fail_a=87 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=133 leaves_b=0 maxdepth_a=8 replay_steps=76 (87 FAILPIECE)
+2026-11-26 18:44:26 SA with subckpt, uninterrupted: BYTE-IDENTICAL to the SA reference (250 records)
+2026-11-26 18:44:26 SA picks: depth1 2 depth2 4 depth4 9 depth8 29 throw None leafcap None 
+2026-11-26 18:44:26 SA has no thrown node below the top level: STOP for the registered piececap recalibration (to the Bridge)
