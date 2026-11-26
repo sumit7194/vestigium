@@ -1,0 +1,4 @@
+PREC 128
+FAILPIECE N0>N0 b edge=L s=[0,1] CERTIFIED u=[2,3] w1=[0,1]
+COVER N0 N0 a=1 b=0 strong_a=1 orient=none fail_a=0 fail_b=1 certified_fail_b=1 orient_certified_fail=0 leaves_a=0 leaves_b=128 maxdepth_a=0 replay_steps=100 return_time=[7.0e+00,7.5e+00] COVERS=0 chunk_a=[0,0) edges=yes reloaded_pieces=0
+DONE

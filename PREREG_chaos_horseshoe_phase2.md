@@ -2265,3 +2265,14 @@ interior chunk runs): the interior (a) phase.** Drafted by Quantum-personal (Cla
   cores fill as they free; fleet ≤ 9; the Quantum cap is 7.
 - **C1** (an unchunked hh2_N0N0 interrupted during its edge phase, byte-identical restart, and a must-fire): not
   needed by any planned run, given the correction above. It runs only on the Bridge's word, as a NOT-COUNTED check.
+- **A7 follow-up (2026-11-26; the personal Bridge's rulings).**
+  - **C1 is WITHDRAWN.** It guarded the case of P and EP records in one file interrupted during the edge phase. No
+    planned run is in that case, because the rot90 pair runs as twin_a chunks with noedges. It was never run.
+  - **kerr_table known answer: a BRANCH CHECK from the code's own fixtures, NOT an independent answer**
+    (kerr/b15e/a7_kerr_table_ka/run_ka.py).
+    - Three scratch copies of the b15d tree layout (build.json copied; kerr_e and kerr_a outputs written from
+      b15d_split's canned _E/_A/CFP fixtures), with b15d_split.OUT pointed at each in turn.
+    - K1: an edge-fixed N1N2 and no kerr_a give early_chain "CERTIFIED-FAIL (edge-fixed; …)" and complete=false.
+    - K2: all coverings CERTIFIED and complete give chain_class RHO>1.
+    - K3: an unfinished kerr_a N3N4 gives complete=false, no chain_class, and N3N4 final None.
+    - Result: ALL PASS. The real b15d tree was not touched.

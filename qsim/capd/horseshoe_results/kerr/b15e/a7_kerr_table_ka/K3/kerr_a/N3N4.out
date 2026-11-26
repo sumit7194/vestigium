@@ -1,0 +1,2 @@
+PREC 128
+COVER N0 N0 a=1 b=skip strong_a=0 orient=skip fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=0 maxdepth_a=2 replay_steps=1000 return_time=[6.8e+00,7.4e+00] COVERS=chunk-a-only chunk_a=[0,16) edges=no reloaded_pieces=0

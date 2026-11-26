@@ -1,0 +1,5 @@
+B15e A7 kerr_table known-answer branch check (fixtures from b15d_split's own canned cases; not an independent answer)
+K1 edge-fixed N1N2, no kerr_a: PASS (got CERTIFIED-FAIL (edge-fixed; final unless a HARNESS-ERROR appears), complete=False)
+K2 all CERTIFIED and complete: PASS (got RHO>1, complete=True)
+K3 kerr_a N3N4 unfinished: PASS (got None, complete=False)
+ALL PASS
