@@ -315,10 +315,47 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
     }
   }
   long Lto[2] = {0, 0}, Rto[2] = {0, 0};
-  if (DO_EDGES) {
-    for (int i = 0; i < ne; ++i) cover_b(E, Ni, Nj, tag, 0, -1 + MpInterval(2 * i, 2 * i + 2) / ne, 0, Lto, Bs);
-    for (int i = 0; i < ne; ++i) cover_b(E, Ni, Nj, tag, 1, -1 + MpInterval(2 * i, 2 * i + 2) / ne, 0, Rto, Bs);
+  // B15e A5 (2026-11-26): edge-leaf checkpointing. With `checkpoint`, every finished TOP-LEVEL edge piece (side, i) is
+  // appended as "EF <key> <failline>" lines and one "EP <key> leaves fail cert_fail dL dR nsteps rtflag [lo hi]" line,
+  // then fsync'ed; a restart reloads them instead of recomputing. Piece-local stats are merged into Bs exactly as the
+  // leaves would have been (sums, and an interval hull of exact endpoints), and the leaf-cap accounting continues from
+  // Bs.leaves, so a resumed run reaches the same COVER line. The (a) reader ignores EP/EF lines (it reads "P "/"F ").
+  std::map<std::string, std::string> edone, edonefails; long ereloaded = 0;
+  if (!CKPT.empty() && DO_EDGES) {
+    std::ifstream ci(CKPT); std::string l;
+    while (std::getline(ci, l)) {
+      if (l.rfind("EF ", 0) == 0) { auto sp = l.find(' ', 3); edonefails[l.substr(3, sp - 3)] += l.substr(sp + 1) + "\n"; }
+      else if (l.rfind("EP ", 0) == 0) { auto sp = l.find(' ', 3); edone[l.substr(3, sp - 3)] = l.substr(sp + 1); }
+    }
   }
+  if (DO_EDGES) {
+    for (int side = 0; side < 2; ++side) for (int i = 0; i < ne; ++i) {
+      long* cnt = side ? Rto : Lto;
+      MpInterval s = -1 + MpInterval(2 * i, 2 * i + 2) / ne;
+      if (CKPT.empty()) { cover_b(E, Ni, Nj, tag, side, s, 0, cnt, Bs); continue; }   // original path, unchanged
+      std::string key = tag + "/E/" + std::to_string(side) + "/" + std::to_string(i);
+      auto it = edone.find(key);
+      if (it != edone.end()) {
+        std::istringstream ps(it->second); long lv, fl, cf, d0, d1, ns_; int rtf;
+        ps >> lv >> fl >> cf >> d0 >> d1 >> ns_ >> rtf;
+        Bs.leaves += lv; Bs.fail += fl; Bs.cert_fail += cf; cnt[0] += d0; cnt[1] += d1; Bs.nsteps += ns_;
+        if (rtf) { std::string lo, hi; ps >> lo >> hi; Bs.hull(MpInterval(fromhex(lo), fromhex(hi))); }
+        std::cout << edonefails[key]; ++ereloaded; continue;
+      }
+      CovStat P; P.leaves = Bs.leaves; const long before = Bs.leaves, c0 = cnt[0], c1 = cnt[1];
+      PIECE_FAILS.clear();
+      cover_b(E, Ni, Nj, tag, side, s, 0, cnt, P);
+      Bs.leaves = P.leaves; Bs.fail += P.fail; Bs.cert_fail += P.cert_fail; Bs.nsteps += P.nsteps; if (!P.first) Bs.hull(P.rt);
+      std::ostringstream o; std::istringstream fs(PIECE_FAILS); std::string fl;
+      while (std::getline(fs, fl)) o << "EF " << key << " " << fl << "\n";
+      o << "EP " << key << " " << (P.leaves - before) << " " << P.fail << " " << P.cert_fail << " " << (cnt[0] - c0) << " "
+        << (cnt[1] - c1) << " " << P.nsteps << " " << (P.first ? 0 : 1);
+      if (!P.first) o << " " << hexr(P.rt.leftBound()) << " " << hexr(P.rt.rightBound());
+      o << "\n";
+      FILE* f = std::fopen(CKPT.c_str(), "a"); std::fputs(o.str().c_str(), f); std::fflush(f); ::fsync(fileno(f)); std::fclose(f);
+    }
+  }
+  if (ereloaded > 0) std::cout << "EDGES RELOADED " << ereloaded << "\n";   // only after a resume; fresh runs print nothing new
   // orientation: all left-edge leaves in one side, all right-edge leaves in the other
   bool orient1 = Bs.fail == 0 && Lto[1] == 0 && Rto[0] == 0, orient2 = Bs.fail == 0 && Lto[0] == 0 && Rto[1] == 0;
   bool orient_certfail = (Lto[0] > 0 && Lto[1] > 0) || (Rto[0] > 0 && Rto[1] > 0) ||

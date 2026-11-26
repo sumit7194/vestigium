@@ -2043,3 +2043,40 @@ configurable watchdog, and the reruns.**
   - Log: TheBridge/fleet/kerr_e_timer_rescue_2026-11-25.log.
   - These four chunks are no longer limited in wall time, and their outputs are read exactly as registered.
   - **A4 reruns are now needed only for N1N2 and N2N3.**
+
+**B15e A5 (2026-11-26; labelled; the Bridge's decision after the 06:52 power loss): edge-leaf checkpointing in hs_cover,
+then all six kerr_e chunks relaunch.**
+- **Why.** Every kerr_e chunk died in the outage. Edges had no checkpoint, so about 214 core-h were lost; with the
+  watchdog deaths, about 450 core-h in all.
+- **Change** (hs_cover.cpp, do_cover).
+  - With a `checkpoint` line, every finished TOP-LEVEL edge piece (side, i) is appended to the checkpoint file and
+    fsync'ed, as `EF <key> <FAILPIECE line>` lines plus one `EP <key> leaves fail cert_fail dL dR nsteps rtflag
+    [rt_lo rt_hi]` line.
+  - A restart reloads those pieces instead of recomputing them. Their stats are merged exactly as the leaves would
+    have been: sums, and an interval hull of exact endpoints. The leaf-cap accounting continues from the running
+    total, and the saved FAILPIECE lines are printed in their original order.
+  - After a resume, one extra line `EDGES RELOADED <n>` is printed. The COVER line format is unchanged.
+  - Without a checkpoint line, the original code path runs unchanged.
+  - The (a) reader ignores EP/EF lines.
+  - New binary **hs_cover_b15e2**, sha256 a2f4ca1856e74425b9e122d1464d958fd0734a0beaac1a30a94d76b1783e4501, guard passed.
+    HS_WATCHDOG_S (A4) is kept.
+- **Identity tests** (each can fail; run serially on 1 core before any relaunch):
+  - **T1:** no checkpoint line. b15d/gb/r1_MM, MN, NM and NN must be byte-identical to the stored outputs.
+  - **T3:** an uninterrupted run with a fresh checkpoint on twin_e/swap_N0N0's spec (HH, edges only, 289 edge leaves,
+    138 FAILPIECE of which 125 are certified, about 20 min). It must be byte-identical to the stored
+    twin_e/swap_N0N0.out (registered binary fb5fcbfc…).
+  - **T4: deliberate interruption.** The same spec with a second fresh checkpoint is stopped by SIGTERM once the
+    checkpoint holds ≥ 32 EP lines (not a timer), then restarted. The restart's output, with its single `EDGES RELOADED
+    k` line removed, must be byte-identical to the stored output, with 0 < k < 128.
+  - **T5: must-fire.** T3's complete checkpoint with ONE EP line tampered (its dL count +1). The rerun's COVER line must
+    DIFFER from the stored one. This shows the test can fail.
+- **Relaunch (after T1–T5 pass, on the Bridge's word).**
+  - All six kerr_e chunks (N1N2, N2N3, N3N4, N4N5, N5N0 and the optional N5N1) from zero, on hs_cover_b15e2 with
+    HS_WATCHDOG_S=2592000.
+  - Each spec gains exactly one line, `checkpoint …/b15d/ckpt/kerr/<chunk>.ckpt` (old/new sha recorded). Everything
+    else is unchanged.
+  - The old outputs move to `kerr_e_void_outage/`, never deleted.
+  - Each chunk is guarded by kerr_guard (pause/resume/inform only). A future crash then loses at most the edge piece in
+    progress.
+- **Hard limits (the A4 rule).** The watchdog is 30 d (effectively none); there are no memory or step caps. The leaf
+    and depth caps produce FAILPIECE results, not kills.
