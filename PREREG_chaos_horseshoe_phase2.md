@@ -2168,3 +2168,9 @@ run on Sumit's MacBook Air.**
     only if it parses (EP completeness markers, newline-terminated). The last good copy is kept. At DONE, the .out is
     copied into kerr_e/ with a record line.
   - Readings are as registered (B15d-2/-3, B15e) and do not depend on where a chunk ran.
+- **A6 addendum (labelled; the Bridge, on Sumit's word).** Sumit freed the whole Air (budget: Quantum 5, Cuspis 3).
+  - All five remaining kerr_e chunks run there once identity passes: N2N3, N3N4, N4N5, N5N0 and N5N1. N5N1's Air spec
+    gains one checkpoint line, as the others did.
+  - launch_air.sh's cap is now 5.
+  - The Mac mini launcher (35528) was ended by verified PID, so N5N1 cannot run twice. N1N2 stays on the Mac mini.
+  - The identity gate and the pause-only guard are unchanged.

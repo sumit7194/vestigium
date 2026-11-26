@@ -2,3 +2,4 @@
 2026-11-26 11:29:59 START kerr_e/N1N2 PID 32284 (hs_cover_b15e2, HS_WATCHDOG_S=2592000, checkpoint ckpt/kerr/N1N2.ckpt; spec sha a9c6fc20631695003e654358cf3d266f11cf89ed78e4054ed124a2bfa8adcb60 -> f64649a9a384726fc6e1d09aa6dabf0b0dbe32b5b307df7057b6ffd3d9718e9c; old output -> kerr_e_void_outage/), kerr_guard 32294, memfree 64%
 2026-11-26 11:41:25 launcher 26598 ENDED by Quantum (A6: N2N3/N3N4/N4N5/N5N0 move to the Air); restarted with list [N5N1]
 2026-11-26 11:41:25 A5 launcher start PID 35528 (cap 7, my jobs 7)
+2026-11-26 11:43:46 launcher 35528 ENDED by Quantum (A6: N5N1 moves to the Air too, Air budget 5); no kerr_e chunk is queued on the Mac mini
