@@ -2137,3 +2137,34 @@ then all six kerr_e chunks relaunch.**
     Used for both the kerr_e relaunch and the interior chunks.
   - **ALL tests are rerun on it** (T1, T3–T6b and B1–B5, unchanged except T5's target). Run 1's results are kept as
     a5_tests/results_run1_FAILED.txt and a5b_tests/results_run1_ABORTED.txt.
+
+**B15e A6 (2026-11-26; labelled; the Bridge confirmed, on Sumit's offer): a second platform for kerr_e. Four chunks
+run on Sumit's MacBook Air.**
+- **Platform.** Apple M1 (4P + 4E), 8 GB, macOS 27.2.1, reached as `ssh air`. The Mac mini is an Apple M4 on macOS
+  27.2. Different hardware counts as a platform change.
+- **Binary.**
+  - `hs_cover_b15e2s`, sha256 df234aa23e7e0692067d5c3af49be8cc4d1e0660ece536ad66daf7b4b54c9d56. It comes from the
+    SAME committed hs_cover.cpp as hs_cover_b15e2 (77eb34a6) and the same flags (`-O2 -frounding-math`, CAPD's
+    cflags). The guard object check passed.
+  - The only difference: it links MPFR and GMP STATICALLY, so it depends only on /usr/lib/libc++ and libSystem, and
+    nothing is installed on the Air.
+  - Static libraries: Homebrew bottle **mpfr 4.2.2** libmpfr.a sha256 d49943857ce8ba3b8bba2fa775c997313c76fa50ec317f2f5ed1b9aa3fc4ee83,
+    and bottle **gmp 6.3.0** libgmp.a sha256 b459284d30cd6662dac11cabee0df547e9a30937dc62fe2ee92b2f93c1e74a55. Both were
+    poured from bottles (arm64, built on macOS 26), not built from source.
+  - Deployment target minos 27.2 ≤ the Air's 27.2.1. clang's default target CPU is apple-m1, and no -march or -mcpu
+    flag is used.
+- **Identity, stage (i), on the Mac mini.** The A5 tests T1 (4 rows), T3, T4 and T6/T6b, run with hs_cover_b15e2s,
+  must be byte-identical to the same references.
+- **Identity, stage (ii), on the Air.** The same tests with the same binary, byte-identical to the same references,
+  and therefore to the Mac mini.
+- No Air output counts until (i) and (ii) both pass.
+- **Operations on the Air.**
+  - Only ~/GitHub/quantum-air/ is used: a fresh dir holding the binary, the 4 specs and the guard. Each spec's
+    `checkpoint` path points there; old/new sha recorded.
+  - Chunks N2N3, N3N4, N4N5 and N5N0, at most 4 of our processes, nice 10, `caffeinate -i`, HS_WATCHDOG_S 2592000.
+  - The guard is zsh and pause-only: SIGSTOP our chunks if memory_pressure free% < 25 or the thermal state is
+    critical, SIGCONT on recovery, and an ALERT line. It never kills.
+  - Every 30 min the Mac mini pulls ckpt + out into b15d/kerr_e_air/. A pulled checkpoint replaces the previous copy
+    only if it parses (EP completeness markers, newline-terminated). The last good copy is kept. At DONE, the .out is
+    copied into kerr_e/ with a record line.
+  - Readings are as registered (B15d-2/-3, B15e) and do not depend on where a chunk ran.
