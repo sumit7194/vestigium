@@ -35,6 +35,7 @@
 #include <map>
 #include <memory>
 #include <chrono>
+#include <ctime>
 #include <unistd.h>
 #include <sstream>
 #include <string>
@@ -230,24 +231,127 @@ static void failline(const std::string& l) { std::cout << l; PIECE_FAILS += l; }
 static std::string hexr(const R& r) { char* c = nullptr; mpfr_asprintf(&c, "%Ra", r.*RepAccess::rep); std::string o(c); mpfr_free_str(c); return o; }
 static R fromhex(const std::string& h) { R x; if (mpfr_set_str(x.*RepAccess::rep, h.c_str(), 0, MPFR_RNDN) != 0) throw std::runtime_error("ckpt: bad hex " + h); return x; }
 
+// B15e A8 (2026-11-26; opt-in, absent = the 77eb34a6 code path): a node journal and a progress file.
+//   subckpt <path>       (needs checkpoint) every evaluation of a box in cover_a/cover_b, internal nodes included, is
+//                        appended and fsync'ed as "J <A|E> <top key> <path> <f1> <f2> <dnsteps> <rtflag> [lo hi] <why|-> #"
+//                        (A: f1 f2 = ok strong; E: land certfail; why hex-encoded). A resume walks the same depth-first
+//                        tree and takes a recorded node's result in place of the image()/chart/test block; every cap,
+//                        depth and bisection decision then runs unchanged, and failline() prints as before. Nothing goes
+//                        to stdout. First line "JH <fnv1a64 of the spec commands except progress> #": a journal of
+//                        another spec is refused (FATAL) before any evaluation.
+//   progress <path> <N>  after every N live evaluations and at the end of each cover, one line is written to <path>.tmp
+//                        and renamed over <path>. Never read back; write failures are ignored.
+static std::string SUBCKPT, PROG; static long PROG_N = 0; static unsigned long long SPEC_HASH = 0;
+static std::map<std::string, std::string> JREC; static bool JLOADED = false;
+static std::string JKEY = "-"; static char JPHASE = 'A';
+static long J_LIVE = 0, J_REPLAYED = 0, J_TICK = 0; static double J_LAST_S = 0, J_SUM_S = 0;
+static std::string hexs(const std::string& s) {
+  if (s.empty()) return "-";
+  static const char* d = "0123456789abcdef"; std::string o; o.reserve(2 * s.size());
+  for (unsigned char c : s) { o += d[c >> 4]; o += d[c & 15]; }
+  return o;
+}
+static std::string unhexs(const std::string& h) {
+  if (h == "-") return std::string();
+  if (h.size() % 2) throw std::runtime_error("subckpt: bad hex text");
+  auto v = [](char c) -> int { if (c >= '0' && c <= '9') return c - '0'; if (c >= 'a' && c <= 'f') return c - 'a' + 10; throw std::runtime_error("subckpt: bad hex text"); };
+  std::string o; for (size_t i = 0; i < h.size(); i += 2) o += (char)(v(h[i]) * 16 + v(h[i + 1]));
+  return o;
+}
+static bool jappend(const std::string& l) {     // a failed append only means that node is recomputed on a resume
+  FILE* f = std::fopen(SUBCKPT.c_str(), "a"); if (!f) return false;
+  std::fputs(l.c_str(), f); std::fflush(f); ::fsync(fileno(f)); std::fclose(f); return true;
+}
+// a record "<f1> <f2> <dns> <rtf> [lo hi] <why> #" parses completely, or is not a record
+static bool jparse(const std::string& rest, int& f1, int& f2, long& dns, int& rtf, std::string& lo, std::string& hi, std::string& why) {
+  std::istringstream ps(rest); std::string mark, extra;
+  if (!(ps >> f1 >> f2 >> dns >> rtf)) return false;
+  if (rtf != 0 && rtf != 1) return false;
+  if (rtf && !(ps >> lo >> hi)) return false;
+  if (!(ps >> why >> mark) || mark != "#" || (ps >> extra)) return false;
+  return true;
+}
+static void jload() {
+  JLOADED = true;
+  std::ifstream ci(SUBCKPT, std::ios::binary); std::string all((std::istreambuf_iterator<char>(ci)), std::istreambuf_iterator<char>());
+  ci.close();
+  const bool cut = !all.empty() && all.back() != '\n';
+  std::vector<std::string> lines; { std::string cur; for (char c : all) { if (c == '\n') { lines.push_back(cur); cur.clear(); } else cur += c; } }
+  char hb[32]; std::snprintf(hb, sizeof hb, "%016llx", SPEC_HASH); const std::string want = std::string("JH ") + hb + " #";
+  bool header = false;
+  for (const std::string& l : lines) {
+    if (l.find('\0') != std::string::npos) continue;
+    if (!header) {
+      if (l.rfind("JH ", 0) == 0) {
+        if (l != want) throw std::runtime_error("subckpt: journal " + SUBCKPT + " belongs to another spec (" + l + ", this spec " + want + ")");
+        header = true;
+      }
+      continue;
+    }
+    if (l.rfind("J ", 0) != 0) continue;
+    std::istringstream ks(l.substr(2)); std::string ph, key, path; if (!(ks >> ph >> key >> path)) continue;
+    if (ph != "A" && ph != "E") continue;
+    std::string rest; std::getline(ks, rest);
+    int f1, f2, rtf; long dns; std::string lo, hi, why;
+    if (!jparse(rest, f1, f2, dns, rtf, lo, hi, why)) continue;
+    try { if (rtf) { fromhex(lo); fromhex(hi); } unhexs(why); } catch (std::exception&) { continue; }
+    JREC[ph + " " + key + " " + path] = rest;                       // the last complete record wins
+  }
+  if (cut) { FILE* f = std::fopen(SUBCKPT.c_str(), "a"); if (f) { std::fputs("\n", f); std::fflush(f); ::fsync(fileno(f)); std::fclose(f); } }
+  if (!header && !jappend(want + "\n")) throw std::runtime_error("subckpt: cannot write " + SUBCKPT);
+}
+static void progress(const std::string& state, long depth, long leaves, long nsteps) {
+  if (PROG.empty()) return;
+  try {
+    char ts[32]; std::time_t now = std::time(nullptr); std::strftime(ts, sizeof ts, "%Y-%m-%d %H:%M:%S", std::localtime(&now));
+    char buf[512];
+    std::snprintf(buf, sizeof buf, "%ld %s phase=%c key=%s depth=%ld leaves=%ld live=%ld replayed=%ld nsteps=%ld last_s=%.1f mean_s=%.1f state=%s\n",
+                  (long)now, ts, JPHASE, JKEY.c_str(), depth, leaves, J_LIVE, J_REPLAYED, nsteps, J_LAST_S,
+                  J_LIVE ? J_SUM_S / J_LIVE : 0.0, state.c_str());
+    const std::string tmp = PROG + ".tmp";
+    FILE* f = std::fopen(tmp.c_str(), "w"); if (!f) return;
+    std::fputs(buf, f); std::fflush(f); std::fclose(f); std::rename(tmp.c_str(), PROG.c_str());
+  } catch (...) {}
+}
+// after one live evaluation: timing and, every PROG_N of them, a progress line
+static void jtick(std::chrono::steady_clock::time_point t0, long depth, long leaves, long nsteps) {
+  J_LAST_S = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count(); J_SUM_S += J_LAST_S; ++J_LIVE;
+  if (!PROG.empty() && ++J_TICK >= PROG_N) { J_TICK = 0; progress("run", depth, leaves, nsteps); }
+}
+static std::string jrt(bool rtf, const MpInterval& rt) { return rtf ? " 1 " + hexr(rt.leftBound()) + " " + hexr(rt.rightBound()) : std::string(" 0"); }
+
 // (a) on [u] x [s]; returns true if certified
 static bool cover_a(Engine& E, const TSet& Ni, const TSet& Nj, const std::string& tag, MpInterval u, MpInterval s,
-                    int du, int ds, CovStat& st) {
+                    int du, int ds, CovStat& st, const std::string& path = "-") {
   bool ok = false, strong = false, threw = false; std::string why;
+  auto jr = SUBCKPT.empty() ? JREC.end() : JREC.find("A " + JKEY + " " + path);
+  if (jr != JREC.end()) {                                 // A8: the recorded result of this node, then the logic below
+    int f1, f2, rtf; long dns; std::string lo, hi, wh;
+    jparse(jr->second, f1, f2, dns, rtf, lo, hi, wh);
+    ok = f1; strong = f2; st.nsteps += dns; if (rtf) st.hull(MpInterval(fromhex(lo), fromhex(hi))); why = unhexs(wh);
+    ++J_REPLAYED;
+  } else {
+  const long n0 = st.nsteps; bool hulled = false; MpInterval rtv; const auto t0 = std::chrono::steady_clock::now();
   try {
     MpInterval w[2], rt, uj, sj; image(E, lift(Ni, u, s), w, rt, st.nsteps); chart(Nj, w, uj, sj);
     strong = gt(sj, -1.0) && lt(sj, 1.0);
     ok = miss_F(Nj, uj, sj, w[1]);
-    st.hull(rt);
+    st.hull(rt); hulled = true; rtv = rt;
     if (!ok) why = "u=" + iv(uj) + " s=" + iv(sj);
   } catch (std::exception& e) { why = e.what(); threw = true; }
+  if (!SUBCKPT.empty())
+    jappend("J A " + JKEY + " " + path + " " + std::to_string((int)ok) + " " + std::to_string((int)strong) + " " +
+            std::to_string(st.nsteps - n0) + jrt(hulled, rtv) + " " + hexs(why) + " #\n");
+  jtick(t0, du + ds, st.leaves, st.nsteps);
+  }
+  const std::string pp = path == "-" ? std::string() : path;
   if (ok) { ++st.leaves; if (!strong) ++st.strong_fail; st.maxdepth = std::max<long>(st.maxdepth, du + ds); return true; }
   if (du + ds < MAXDEPTH_A && st.leaves + 2 <= MAXLEAF_A) {   // bisect within the depth and leaf caps
     bool along_u = (du <= ds + 3);
     MpInterval a = along_u ? u : s, m = MpInterval(a.mid().leftBound());
     MpInterval lo(a.leftBound(), m.rightBound()), hi(m.leftBound(), a.rightBound());
-    bool r1 = along_u ? cover_a(E, Ni, Nj, tag, lo, s, du + 1, ds, st) : cover_a(E, Ni, Nj, tag, u, lo, du, ds + 1, st);
-    bool r2 = along_u ? cover_a(E, Ni, Nj, tag, hi, s, du + 1, ds, st) : cover_a(E, Ni, Nj, tag, u, hi, du, ds + 1, st);
+    bool r1 = along_u ? cover_a(E, Ni, Nj, tag, lo, s, du + 1, ds, st, pp + "0") : cover_a(E, Ni, Nj, tag, u, lo, du, ds + 1, st, pp + "0");
+    bool r2 = along_u ? cover_a(E, Ni, Nj, tag, hi, s, du + 1, ds, st, pp + "1") : cover_a(E, Ni, Nj, tag, u, hi, du, ds + 1, st, pp + "1");
     return r1 && r2;
   }
   ++st.leaves; ++st.fail; ++st.strong_fail; (void)threw;
@@ -256,18 +360,32 @@ static bool cover_a(Engine& E, const TSet& Ni, const TSet& Nj, const std::string
 }
 // (b) one edge piece; land: 0 = left side, 1 = right side, -1 = undecided/failed; counts landings into L/R
 static void cover_b(Engine& E, const TSet& Ni, const TSet& Nj, const std::string& tag, int side, MpInterval s, int d,
-                    long cnt[2], CovStat& st) {
+                    long cnt[2], CovStat& st, const std::string& path = "-") {
   std::string why; int land = -1; bool certfail = false;
+  auto jr = SUBCKPT.empty() ? JREC.end() : JREC.find("E " + JKEY + " " + path);
+  if (jr != JREC.end()) {                                 // A8: the recorded result of this node, then the logic below
+    int f1, f2, rtf; long dns; std::string lo, hi, wh;
+    jparse(jr->second, f1, f2, dns, rtf, lo, hi, wh);
+    land = f1; certfail = f2; st.nsteps += dns; if (rtf) st.hull(MpInterval(fromhex(lo), fromhex(hi))); why = unhexs(wh);
+    ++J_REPLAYED;
+  } else {
+  const long n0 = st.nsteps; bool hulled = false; MpInterval rtv; const auto t0 = std::chrono::steady_clock::now();
   try {
     MpInterval w[2], rt, uj, sj; image(E, lift(Ni, MpInterval(side == 0 ? -1 : 1), s), w, rt, st.nsteps); chart(Nj, w, uj, sj);
     if (in_left(Nj, uj, w[1])) land = 0; else if (in_right(Nj, uj, w[1])) land = 1;
     else { why = "u=" + iv(uj) + " w1=" + iv(w[1]); certfail = (gt(uj, -1.0) && lt(uj, 1.0)); }   // certainly in neither side
-    st.hull(rt);
+    st.hull(rt); hulled = true; rtv = rt;
   } catch (std::exception& e) { why = e.what(); }
+  if (!SUBCKPT.empty())
+    jappend("J E " + JKEY + " " + path + " " + std::to_string(land) + " " + std::to_string((int)certfail) + " " +
+            std::to_string(st.nsteps - n0) + jrt(hulled, rtv) + " " + hexs(why) + " #\n");
+  jtick(t0, d, st.leaves, st.nsteps);
+  }
+  const std::string pp = path == "-" ? std::string() : path;
   if (land >= 0) { ++st.leaves; ++cnt[land]; return; }
   if (!certfail && d < MAXDEPTH_E && st.leaves + 2 <= 2 * MAXLEAF_E) {
     MpInterval m = MpInterval(s.mid().leftBound()), lo(s.leftBound(), m.rightBound()), hi(m.leftBound(), s.rightBound());
-    cover_b(E, Ni, Nj, tag, side, lo, d + 1, cnt, st); cover_b(E, Ni, Nj, tag, side, hi, d + 1, cnt, st);
+    cover_b(E, Ni, Nj, tag, side, lo, d + 1, cnt, st, pp + "0"); cover_b(E, Ni, Nj, tag, side, hi, d + 1, cnt, st, pp + "1");
     return;
   }
   ++st.leaves; ++st.fail; if (certfail) ++st.cert_fail;
@@ -277,6 +395,10 @@ static void cover_b(Engine& E, const TSet& Ni, const TSet& Nj, const std::string
 static void do_cover(Engine& E, const std::string& a, const std::string& b, int nu, int ns, int ne) {
   const TSet &Ni = TS.at(a), &Nj = TS.at(b); std::string tag = a + ">" + b;
   CovStat A, Bs; bool oka = true;
+  if (!SUBCKPT.empty()) {                                 // B15e A8: before any evaluation
+    if (CKPT.empty()) throw std::runtime_error("subckpt needs a checkpoint line");
+    if (!JLOADED) jload();
+  }
   std::map<std::string, std::string> done; std::map<std::string, std::string> donefails;
   if (!CKPT.empty()) {                                   // reload finished pieces of THIS spec (the path is keyed by it)
     // B15e A5b (2026-11-26): crash-safe reading, backward compatible with existing checkpoint files (the writer is
@@ -320,7 +442,7 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
     }
     MpInterval u = -1 + MpInterval(2 * i, 2 * i + 2) / nu, s = -1 + MpInterval(2 * k, 2 * k + 2) / ns;
     CovStat P; P.leaves = A.leaves; const long before = A.leaves;   // piece-local stats; cap accounting continues from A
-    PIECE_FAILS.clear();
+    PIECE_FAILS.clear(); JKEY = key; JPHASE = 'A';
     bool ok = cover_a(E, Ni, Nj, tag, u, s, 0, 0, P);
     A.leaves = P.leaves; A.fail += P.fail; A.strong_fail += P.strong_fail; A.maxdepth = std::max(A.maxdepth, P.maxdepth);
     A.nsteps += P.nsteps; if (!P.first) A.hull(P.rt);
@@ -378,7 +500,7 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
         std::cout << edonefails[key]; ++ereloaded; continue;
       }
       CovStat P; P.leaves = Bs.leaves; const long before = Bs.leaves, c0 = cnt[0], c1 = cnt[1];
-      PIECE_FAILS.clear();
+      PIECE_FAILS.clear(); JKEY = key; JPHASE = 'E';
       cover_b(E, Ni, Nj, tag, side, s, 0, cnt, P);
       Bs.leaves = P.leaves; Bs.fail += P.fail; Bs.cert_fail += P.cert_fail; Bs.nsteps += P.nsteps; if (!P.first) Bs.hull(P.rt);
       std::ostringstream o; std::istringstream fs(PIECE_FAILS); std::string fl;
@@ -408,6 +530,7 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
   if (!CKPT.empty() || A_HI >= 0 || !DO_EDGES)
     std::cout << " chunk_a=[" << ilo << "," << ihi << ") edges=" << (DO_EDGES ? "yes" : "no") << " reloaded_pieces=" << reloaded;
   std::cout << "\n";
+  JKEY = tag; progress("end", 0, A.leaves + Bs.leaves, A.nsteps + Bs.nsteps);
 }
 
 // ---- Rossler example checks (exact port of RosslerChaoticDynamics.cpp, MPFR)
@@ -469,6 +592,11 @@ int main(int argc, char** argv) {
     if (!t.empty()) cmds.push_back(t);
   }
   for (auto& t : cmds) if (t[0] == "prec") R::setDefaultPrecision(std::stoi(t[1]));    // precision first
+  { unsigned long long h = 1469598103934665603ULL;      // B15e A8: FNV-1a 64 of every command except progress
+    for (auto& t : cmds) { if (t[0] == "progress") continue;
+      for (auto& w : t) { for (unsigned char c : w) { h ^= c; h *= 1099511628211ULL; } h ^= ' '; h *= 1099511628211ULL; }
+      h ^= '\n'; h *= 1099511628211ULL; }
+    SPEC_HASH = h; }
   try {
     std::unique_ptr<Engine> E;
     auto engine = [&]() -> Engine& {
@@ -509,6 +637,8 @@ int main(int argc, char** argv) {
         TS[t[1]] = s;
       }
       else if (c == "checkpoint") CKPT = t[1];
+      else if (c == "subckpt") SUBCKPT = t[1];
+      else if (c == "progress") { PROG = t[1]; PROG_N = std::stol(t[2]); if (PROG_N < 1) throw std::runtime_error("progress: N must be >= 1"); }
       else if (c == "arange") { A_LO = std::stoi(t[1]); A_HI = std::stoi(t[2]); }
       else if (c == "noedges") DO_EDGES = false;
       else if (c == "piececap") { PIECE_MAXSTEPS = std::stol(t[1]); PIECE_MAXSEC = std::stod(t[2]); }

@@ -2373,3 +2373,6 @@ interior chunk runs): the interior (a) phase.** Drafted by Quantum-personal (Cla
   - HS_WATCHDOG_S stays at 30 d. Guards pause only. The interrupts are the tests' own deliberate SIGTERMs, against
     test processes only.
   - Sumit keeps ≥ 3 cores, the fleet stays ≤ 9, and the Quantum cap is 7.
+- **A8 binary (2026-11-26, before any A8 test runs):** hs_cover_b15e4 sha256
+  e5f9c6f99ef742615eb5bebcf2802a865137e6b924a73726a6e105569dc8d09d, built by guard_build.sh (guard passed) from
+  hs_cover.cpp as committed with this line. The binary itself is not committed, like the earlier ones.
