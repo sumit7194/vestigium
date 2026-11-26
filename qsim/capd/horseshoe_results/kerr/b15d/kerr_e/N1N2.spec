@@ -17,4 +17,5 @@ tset N5 18450200021/10000000000 -495060867/2000000000 -778071/5000000000 9998789
 caps 65536 4096
 depth 16 12
 arange 0 0
+checkpoint /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/kerr/b15d/ckpt/kerr/N1N2.ckpt
 cover N1 N2 16 16 64

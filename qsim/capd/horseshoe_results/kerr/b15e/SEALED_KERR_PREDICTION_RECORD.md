@@ -22,3 +22,11 @@
   (B15e, final)" or "KERR WITHHELD"). Then: re-check the sha256, grade per §4 of BRIEF_FABLE_KERR_PREDICT.md with the
   rulings above, and send the grades to the Bridge.
 - **The Fable worktree** /Users/sumit/Github/quantum-fable-kerr is kept (deletion only with Sumit's OK).
+
+## 2026-11-26 ~12:20: the operating session is the predictions' author (the office Bridge's ruling)
+- From 2026-11-26 the session that operates this project, Quantum-personal (Claude Opus 5.5; earlier on Fable 5.2), is the
+  AUTHOR of this sealed prediction and knows its content. The office Quantum session paused at its weekly limit.
+- The outcome comes only from the registered mechanical reader, which is unchanged and is not to be changed: read_retry.sh
+  (retry) or the B15e step-4 KERR reading (Kerr). The operating session changes neither the reader nor its inputs.
+- The grading follows brief §4 through a grading script committed BEFORE any result exists, and never edited afterwards.
+  The personal Bridge ("Bridge - claude personal") runs it independently, re-checking the sha256 first.

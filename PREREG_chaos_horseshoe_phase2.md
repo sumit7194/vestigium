@@ -2174,3 +2174,16 @@ run on Sumit's MacBook Air.**
   - launch_air.sh's cap is now 5.
   - The Mac mini launcher (35528) was ended by verified PID, so N5N1 cannot run twice. N1N2 stays on the Mac mini.
   - The identity gate and the pause-only guard are unchanged.
+- **A6 addendum 2 (2026-11-26 ~12:40; labelled; the office Bridge's request, before any Air chunk launches). Process
+  matching made case-insensitive.** Found by Quantum-personal (Claude Opus 5.5), which now operates this project.
+  - The slip: launch_air.sh (alive check and cap count) and air_guard.sh (which processes are "ours") matched the
+    binary path as a literal string. The same bundle has been started as ~/Github/quantum-air and as
+    ~/GitHub/quantum-air (the Air's volume is case-insensitive). A literal match could then miss a live chunk: a rerun
+    of the launcher could start a chunk twice, and the guard could miss a chunk it should pause.
+  - The fix: both scripts compare lower-cased paths (awk tolower). Nothing else in either script changes.
+  - Test against the live stage-(ii) identity process (spelled ~/Github): the old cap count gave 0 and the new count
+    gives 1; the guard's list finds its PID; the alive-style match finds it under the other spelling; a chunk that is
+    not running (N2N3) reads not alive. Read-only: no launch, no signal.
+  - Operation: the launcher is always called by one exact path, ~/GitHub/quantum-air/launch_air.sh, and ps is checked
+    by hand before any rerun.
+  - Identity tests, binary, specs, caps and readings: unchanged.

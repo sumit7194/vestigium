@@ -4,7 +4,7 @@
 # Thermal state is logged (inform only). NEVER kills. Exits when none of our chunks is running. Log: guard.log
 ROOT=${0:A:h}; X=$ROOT/bin/hs_cover_b15e2s; G=$ROOT/guard.log; paused=0; k=0
 log() { echo "$(date '+%F %T') $*" >> $G; }
-ours() { ps -axo pid=,command= | awk -v x="$X" '$2==x {print $1}' }
+ours() { ps -axo pid=,command= | awk -v x="$X" 'tolower($2) == tolower(x) {print $1}' }   # case-insensitive (A6 fix)
 log "guard armed PID $$: pause < 25% free, resume >= 35%; thermal inform; never kills"
 while [[ -n "$(ours)" ]]; do
   mf=$(memory_pressure -Q | sed -n 's/.*percentage: \([0-9]*\)%.*/\1/p'); th=$(pmset -g therm 2>/dev/null | grep -E "Speed_Limit|Thermal" | tr -s ' ' | tr '\n' ';')

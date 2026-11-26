@@ -133,3 +133,75 @@
 2026-11-23 17:17:50 B15e queue: recipe ['N0N0', 'N0N3', 'N3N4', 'N4N5', 'N5N6', 'N6N0', 'N6N3']; then (if swap PASS) kerr_e ['N0N0', 'N0N1', 'N1N2', 'N2N3', 'N3N4', 'N4N5', 'N5N0', 'N5N1']; then twin (a) ['swap_N0N0', 'swap_N0N3', 'swap_N3N4', 'swap_N4N5', 'swap_N5N6', 'swap_N6N0', 'rot90_N3N4', 'rot90_N4N5', 'rot90_N5N6', 'rot90_N6N0'] interleaved with kerr (a)
 2026-11-23 17:17:50 RECIPE: {"chain": [3, 4, 5, 6], "required": {"N0N0": "CERTIFIED", "N0N3": "CERTIFIED", "N3N4": "CERTIFIED", "N4N5": "CERTIFIED", "N5N6": "CERTIFIED", "N6N0": "CERTIFIED"}, "optional": {"N6N3": "CERTIFIED-FAIL"}, "reading": "RECIPE-POSITIVE"}
 2026-11-23 17:17:50 B15e twin PASS (one variant, swap: ['CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL']): Kerr edge chunks start
+2026-11-23 19:05:43 twin/rot90_N0N0 exit n/a (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-23 19:05:43 twin/rot90_N0N3 exit n/a (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-23 19:05:44 start kerr_e/N1N2 PID 54059 (spec sha256 a9c6fc2063169500)
+2026-11-23 19:05:44 start kerr_e/N2N3 PID 54063 (spec sha256 d7e269d231bb15cd)
+2026-11-23 21:48:56 B15d-2 canned merge cases: PASS
+2026-11-23 21:48:56 paused PID 90952 (twin/rot90_N0N0) is gone: its covering runs as an (a) chunk from its checkpoint instead
+2026-11-23 21:48:56 paused PID 90954 (twin/rot90_N0N3) is gone: its covering runs as an (a) chunk from its checkpoint instead
+2026-11-23 21:48:56 adopted running PID 54059 (kerr_e/N1N2, state RNs)
+2026-11-23 21:48:56 adopted running PID 54063 (kerr_e/N2N3, state RNs)
+2026-11-23 21:48:56 adopted running PID 79482 (kerr_e/N0N0, state RNs)
+2026-11-23 21:48:56 adopted running PID 79486 (kerr_e/N0N1, state RNs)
+2026-11-23 21:48:56 B15d-2 split orchestrator start PID 6446; slots 7
+2026-11-23 21:48:56 MC: {"PASS": true, "merged": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=merged reloaded_pieces=0", "gb": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0", "merged_class": "CERTIFIED", "err": null}
+2026-11-23 21:48:56 TWIN-EARLY: {"rows": {"swap_N0N0": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N0N3": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N3N4": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N4N5": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N5N6": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N6N0": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "rot90_N0N0": {"source": "unchunked (adopted)", "edge_fixed": null, "final": null, "edge_check": null, "reading": "pending"}, "rot90_N0N3": {"source": "unchunked (adopted)", "edge_fixed": null, "final": null, "edge_check": null, "reading": "pending"}, "rot90_N3N4": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}, "rot90_N4N5": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}, "rot90_N5N6": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}, "rot90_N6N0": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}}, "swap": {"classes": ["CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL"], "PASS": true, "complete": false}, "rot90": {"classes": ["pending", "pending", "pending", "pending", "pending", "pending"], "PASS": false, "complete": false}, "PASS": false}
+2026-11-23 21:48:56 B15e queue: recipe ['N0N0', 'N0N3', 'N3N4', 'N4N5', 'N5N6', 'N6N0', 'N6N3']; then (if swap PASS) kerr_e ['N0N0', 'N0N1', 'N1N2', 'N2N3', 'N3N4', 'N4N5', 'N5N0', 'N5N1']; then twin (a) ['swap_N0N0', 'swap_N0N3', 'swap_N3N4', 'swap_N4N5', 'swap_N5N6', 'swap_N6N0', 'rot90_N0N0', 'rot90_N0N3', 'rot90_N3N4', 'rot90_N4N5', 'rot90_N5N6', 'rot90_N6N0'] interleaved with kerr (a)
+2026-11-23 21:48:56 B15e queue ended at stage 0 (a recipe or Kerr edge covering has no DONE): HARNESS; held; to the Bridge
+2026-11-23 21:49:50 B15d-2 canned merge cases: PASS
+2026-11-23 21:49:50 paused PID 90952 (twin/rot90_N0N0) is gone: its covering runs as an (a) chunk from its checkpoint instead
+2026-11-23 21:49:50 paused PID 90954 (twin/rot90_N0N3) is gone: its covering runs as an (a) chunk from its checkpoint instead
+2026-11-23 21:49:51 adopted running PID 54059 (kerr_e/N1N2, state RNs)
+2026-11-23 21:49:51 adopted running PID 54063 (kerr_e/N2N3, state RNs)
+2026-11-23 21:49:51 adopted running PID 79482 (kerr_e/N0N0, state RNs)
+2026-11-23 21:49:51 adopted running PID 79486 (kerr_e/N0N1, state RNs)
+2026-11-23 21:49:51 B15d-2 split orchestrator start PID 6602; slots 7
+2026-11-23 21:49:51 MC: {"PASS": true, "merged": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=merged reloaded_pieces=0", "gb": "COVER N0 N0 a=1 b=1 strong_a=0 orient=LR fail_a=0 fail_b=0 certified_fail_b=0 orient_certified_fail=0 leaves_a=337 leaves_b=128 maxdepth_a=2 replay_steps=170892 return_time=[6.837996106690e+00,7.436354490848e+00] COVERS=1 chunk_a=[0,16) edges=yes reloaded_pieces=0", "merged_class": "CERTIFIED", "err": null}
+2026-11-23 21:49:51 TWIN-EARLY: {"rows": {"swap_N0N0": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N0N3": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N3N4": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N4N5": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N5N6": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "swap_N6N0": {"source": "merged", "edge_fixed": "CERTIFIED-FAIL", "final": null, "err": null, "reading": "CERTIFIED-FAIL"}, "rot90_N0N0": {"source": "unchunked (adopted)", "edge_fixed": null, "final": null, "edge_check": null, "reading": "pending"}, "rot90_N0N3": {"source": "unchunked (adopted)", "edge_fixed": null, "final": null, "edge_check": null, "reading": "pending"}, "rot90_N3N4": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}, "rot90_N4N5": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}, "rot90_N5N6": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}, "rot90_N6N0": {"source": "merged", "edge_fixed": null, "final": null, "err": null, "reading": "pending"}}, "swap": {"classes": ["CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL", "CERTIFIED-FAIL"], "PASS": true, "complete": false}, "rot90": {"classes": ["pending", "pending", "pending", "pending", "pending", "pending"], "PASS": false, "complete": false}, "PASS": false}
+2026-11-23 21:49:51 B15e queue: recipe ['N0N0', 'N0N3', 'N3N4', 'N4N5', 'N5N6', 'N6N0', 'N6N3']; then (if swap PASS) kerr_e ['N0N0', 'N0N1', 'N1N2', 'N2N3', 'N3N4', 'N4N5', 'N5N0', 'N5N1']; then twin (a) ['swap_N0N0', 'swap_N0N3', 'swap_N3N4', 'swap_N4N5', 'swap_N5N6', 'swap_N6N0', 'rot90_N0N0', 'rot90_N0N3', 'rot90_N3N4', 'rot90_N4N5', 'rot90_N5N6', 'rot90_N6N0'] interleaved with kerr (a)
+2026-11-23 21:49:51 RECIPE: {"chain": [3, 4, 5, 6], "required": {"N0N0": "CERTIFIED", "N0N3": "CERTIFIED", "N3N4": "CERTIFIED", "N4N5": "CERTIFIED", "N5N6": "CERTIFIED", "N6N0": "CERTIFIED"}, "optional": {"N6N3": "CERTIFIED-FAIL"}, "reading": "RECIPE-POSITIVE"}
+2026-11-23 21:49:51 B15e twin PASS (one variant, swap: ['CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL', 'CERTIFIED-FAIL']): Kerr edge chunks start
+2026-11-23 21:50:01 start kerr_e/N3N4 PID 6670 (spec sha256 b0ed0bfaa2bdf18b)
+2026-11-23 21:50:02 start kerr_e/N4N5 PID 6675 (spec sha256 ab60b88ca824a503)
+2026-11-23 21:50:02 start kerr_e/N5N0 PID 6677 (spec sha256 da569a01010773fa)
+2026-11-24 12:05:48 kerr_e/N0N1 exit n/a (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-24 12:14:20 kerr_e/N0N0 exit n/a (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-24 20:43:17 start kerr_e/N5N1 PID 93687 (spec sha256 62c2dff472a0a0af)
+2026-11-25 02:04:03 pressure level 1 -> 2 (swap 264 MB); WARN (inform only)
+2026-11-25 02:06:04 pressure level 2 -> 1 (swap 264 MB)
+2026-11-25 13:45:53 pressure level 1 -> 2 (swap 2637 MB); WARN (inform only)
+2026-11-25 13:46:53 pressure level 2 -> 1 (swap 2637 MB)
+2026-11-25 16:54:56 pressure level 1 -> 2 (swap 4309 MB); WARN (inform only)
+2026-11-25 16:55:57 pressure level 2 -> 1 (swap 4513 MB)
+2026-11-25 19:05:44 kerr_e/N1N2 exit n/a (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-25 19:05:44 kerr_e/N2N3 exit n/a (chunk/adopted; classified only by the B15d-2/-3 reading)
+2026-11-25 19:27:29 kerr_guard armed PID 91716 on [6670, 6675, 6677, 93687] (no-caps rule: pause/resume/inform only)
+2026-11-25 19:57:45 pressure level 1 -> 2 (swap 3584 MB); WARN (inform only)
+2026-11-25 19:58:45 pressure level 2 -> 1 (swap 3584 MB)
+2026-11-25 20:12:53 pressure level 1 -> 2 (swap 3552 MB); WARN (inform only)
+2026-11-25 20:13:54 pressure level 2 -> 1 (swap 3552 MB)
+2026-11-25 20:16:22 kerr_guard armed PID 14591 on [14570] (no-caps rule: pause/resume/inform only)
+2026-11-25 20:31:04 pressure level 1 -> 2 (swap 3536 MB); WARN (inform only)
+2026-11-25 20:32:04 pressure level 2 -> 1 (swap 3536 MB)
+2026-11-25 20:43:10 pressure level 1 -> 2 (swap 3528 MB); WARN (inform only)
+2026-11-25 20:43:28 pressure level 1 -> 2 (swap 3528 MB); WARN (inform only)
+2026-11-25 20:44:11 pressure level 2 -> 1 (swap 3528 MB)
+2026-11-25 20:44:29 pressure level 2 -> 1 (swap 3520 MB)
+2026-11-25 20:45:12 pressure level 1 -> 2 (swap 4935 MB); WARN (inform only)
+2026-11-25 20:45:29 pressure level 1 -> 2 (swap 5119 MB); WARN (inform only)
+2026-11-25 20:46:29 pressure level 2 -> 1 (swap 5171 MB)
+2026-11-25 20:47:13 pressure level 2 -> 1 (swap 5147 MB)
+2026-11-25 23:40:11 MANUAL PAUSE: SIGSTOP verified PID 93687 (kerr_e/N5N1; alarm cancelled 19:41, so no timer runs) on the Bridge's request (Sumit: free a core for the DeepStrain Fable round); resume only on the Bridge's word
+2026-11-26 00:01:56 pressure level 1 -> 2 (swap 4395 MB); WARN (inform only)
+2026-11-26 00:02:11 pressure level 1 -> 2 (swap 4387 MB); WARN (inform only)
+2026-11-26 00:13:59 pressure level 2 -> 1 (swap 5029 MB)
+2026-11-26 00:14:12 pressure level 2 -> 1 (swap 5029 MB)
+2026-11-26 00:27:22 MANUAL RESUME: SIGCONT verified PID 93687 (kerr_e/N5N1) on the Bridge's word (DeepStrain Fable round finished 00:23); paused 23:40:10 -> now
+2026-11-26 03:21:30 MANUAL PAUSE: SIGSTOP verified PID 93687 (kerr_e/N5N1; alarm cancelled) on the Bridge's request (core for the ansatz-machine-personal Fable round); resume only on the Bridge's word
+2026-11-26 03:58:33 MANUAL RESUME: SIGCONT verified PID 93687 (kerr_e/N5N1) on the Bridge's word (ansatz Fable round finished); paused since 03:21:29
+2026-11-26 11:29:59 kerr_guard armed PID 32294 on [32284] (no-caps rule: pause/resume/inform only)
+2026-11-26 11:54:01 pressure level 1 -> 2 (swap 0 MB); WARN (inform only)
+2026-11-26 11:55:01 pressure level 2 -> 1 (swap 0 MB)
+2026-11-26 11:56:01 pressure level 1 -> 2 (swap 0 MB); WARN (inform only)
+2026-11-26 11:58:02 pressure level 2 -> 1 (swap 328 MB)
