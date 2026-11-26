@@ -2121,3 +2121,19 @@ then all six kerr_e chunks relaunch.**
     before the cut. Normalised output byte-identical to the reference, with no orphan text. **B4b:** a second restart,
     the same.
   - **B5 (must-fire):** B1's checkpoint with ONE P line's leaf count +1. The COVER line must differ from the reference.
+- **A5/A5b test run 1 (recorded, not hidden) and correction 3 (labelled; before any rerun).** Run 1 on hs_cover_b15e2
+  d3747eb0…: T1 (4/4), T3, T4 (EDGES RELOADED 32) and T6 (EDGES RELOADED 99) all PASS, but two failed:
+  - **T5 FAILED, a test-design flaw.** It tampered with dL, a landing count that the COVER line never shows. In this case
+    the edges already fail and the orientation is already "none", so dL cannot change the output. The must-fire was
+    therefore unable to fire. Corrected: T5 tampers the EP leaf count, which enters `leaves_b`.
+  - **T6b FAILED, a real bug.** The orphan EF line was held as pending under its key. When that piece was recomputed
+    later, its real record appended and the orphan attached too, so its FAILPIECE text appeared on the second restart.
+    The A5b (a) reader had the same flaw, so its test run was ABORTED at B1 (a test process only) and nothing was read.
+  - **Fix (both readers).** A record is its EF/F lines IMMEDIATELY followed by its EP/P line, written in one atomic
+    append. The buffer holds lines for ONE key only; any other line (a different key, a bad or other line) discards it,
+    and a complete EP/P takes the buffer only for the same key.
+  - **Binary.** One binary now carries A4 + A5 + A5b: **hs_cover_b15e2 sha256
+    77eb34a6a3cf9df54b6e678449b58b971e40d96a11c16314a287517933a42940** (guard passed; hs_cover_b15e3 is a byte copy).
+    Used for both the kerr_e relaunch and the interior chunks.
+  - **ALL tests are rerun on it** (T1, T3–T6b and B1–B5, unchanged except T5's target). Run 1's results are kept as
+    a5_tests/results_run1_FAILED.txt and a5b_tests/results_run1_ABORTED.txt.

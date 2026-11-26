@@ -1,0 +1,12 @@
+binary d3747eb04ba66977cf76dcb40709fe0d037b84db9dfe807859b8b0951ffd95cc
+T1 r1_MM BYTE-IDENTICAL
+T1 r1_MN BYTE-IDENTICAL
+T1 r1_NM BYTE-IDENTICAL
+T1 r1_NN BYTE-IDENTICAL
+T3 BYTE-IDENTICAL to the stored swap_N0N0.out (128 EP records)
+T4 interrupted by SIGTERM with 32 EP records
+T4 BYTE-IDENTICAL after restart (EDGES RELOADED 32)
+T5 MUST-FIRE FAIL: COVER identical despite tampering
+T6 BYTE-IDENTICAL from a truncated + orphan-EF checkpoint (EDGES RELOADED 99)
+T6b FAIL (EDGES RELOADED '128')
+ALL DONE

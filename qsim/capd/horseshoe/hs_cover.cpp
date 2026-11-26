@@ -289,18 +289,20 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
     ci.close();
     bool cut = !all.empty() && all.back() != '\n';
     std::vector<std::string> lines; { std::string cur; for (char c : all) { if (c == '\n') { lines.push_back(cur); cur.clear(); } else cur += c; } }
-    std::map<std::string, std::string> pend;
+    // a record = its F lines IMMEDIATELY followed by its P line (one atomic append): F lines are buffered for ONE key,
+    // and any other line (a different key, a bad or other line) discards the buffer, so orphans never attach later
+    std::string bkey, bbuf;
     for (const std::string& l : lines) {
-      if (l.find('\0') != std::string::npos) continue;
-      if (l.rfind("F ", 0) == 0) { auto sp = l.find(' ', 2); if (sp != std::string::npos) pend[l.substr(2, sp - 2)] += l.substr(sp + 1) + "\n"; }
+      if (l.find('\0') != std::string::npos) { bkey.clear(); bbuf.clear(); continue; }
+      if (l.rfind("F ", 0) == 0) { auto sp = l.find(' ', 2); if (sp == std::string::npos) { bkey.clear(); bbuf.clear(); continue; }
+        std::string key = l.substr(2, sp - 2); if (key != bkey) { bkey = key; bbuf.clear(); } bbuf += l.substr(sp + 1) + "\n"; }
       else if (l.rfind("P ", 0) == 0) {
-        auto sp = l.find(' ', 2); if (sp == std::string::npos) continue;
-        std::string key = l.substr(2, sp - 2), rest = l.substr(sp + 1);
+        auto sp = l.find(' ', 2); std::string key = sp == std::string::npos ? "" : l.substr(2, sp - 2), rest = sp == std::string::npos ? "" : l.substr(sp + 1);
         std::istringstream ps(rest); int ok, rtf; long lv, fl, sf, md, ns_; std::string lo, hi;
-        if (!(ps >> ok >> lv >> fl >> sf >> md >> ns_ >> rtf)) continue;
-        if (rtf && !(ps >> lo >> hi)) continue;
-        done[key] = rest; donefails[key] = pend[key]; pend.erase(key);
-      }
+        bool good = !key.empty() && (ps >> ok >> lv >> fl >> sf >> md >> ns_ >> rtf) && (!rtf || (ps >> lo >> hi));
+        if (good) { done[key] = rest; donefails[key] = (bkey == key ? bbuf : std::string()); }
+        bkey.clear(); bbuf.clear();
+      } else { bkey.clear(); bbuf.clear(); }
     }
     if (cut) { FILE* f = std::fopen(CKPT.c_str(), "a"); std::fputs("\n", f); std::fflush(f); ::fsync(fileno(f)); std::fclose(f); }
   }
@@ -344,18 +346,17 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
     // crash-safe reading: an EP line counts only if complete (all fields + the trailing "#"); EF lines are held as
     // pending and attached to their key only when that key's complete EP line follows (the last complete record wins);
     // a partial record at the end of the file (power loss mid-append) is ignored and that piece is recomputed
-    std::ifstream ci(CKPT); std::string l; std::map<std::string, std::string> pend;
+    std::ifstream ci(CKPT); std::string l, bkey, bbuf;   // same one-record buffer rule as the (a) reader
     while (std::getline(ci, l)) {
-      if (l.rfind("EF ", 0) == 0) { auto sp = l.find(' ', 3); if (sp != std::string::npos) pend[l.substr(3, sp - 3)] += l.substr(sp + 1) + "\n"; }
+      if (l.rfind("EF ", 0) == 0) { auto sp = l.find(' ', 3); if (sp == std::string::npos) { bkey.clear(); bbuf.clear(); continue; }
+        std::string key = l.substr(3, sp - 3); if (key != bkey) { bkey = key; bbuf.clear(); } bbuf += l.substr(sp + 1) + "\n"; }
       else if (l.rfind("EP ", 0) == 0) {
-        auto sp = l.find(' ', 3); if (sp == std::string::npos) continue;
-        std::string key = l.substr(3, sp - 3), rest = l.substr(sp + 1);
+        auto sp = l.find(' ', 3); std::string key = sp == std::string::npos ? "" : l.substr(3, sp - 3), rest = sp == std::string::npos ? "" : l.substr(sp + 1);
         std::istringstream ps(rest); long a1, a2, a3, a4, a5, a6; int rtf; std::string lo, hi, mark;
-        if (!(ps >> a1 >> a2 >> a3 >> a4 >> a5 >> a6 >> rtf)) continue;
-        if (rtf && !(ps >> lo >> hi)) continue;
-        if (!(ps >> mark) || mark != "#") continue;
-        edone[key] = rest; edonefails[key] = pend[key]; pend.erase(key);
-      }
+        bool good = !key.empty() && (ps >> a1 >> a2 >> a3 >> a4 >> a5 >> a6 >> rtf) && (!rtf || (ps >> lo >> hi)) && (ps >> mark) && mark == "#";
+        if (good) { edone[key] = rest; edonefails[key] = (bkey == key ? bbuf : std::string()); }
+        bkey.clear(); bbuf.clear();
+      } else { bkey.clear(); bbuf.clear(); }
     }
     ci.close();
     { std::ifstream cb(CKPT, std::ios::binary | std::ios::ate);   // a cut mid-line must not glue onto the next append
