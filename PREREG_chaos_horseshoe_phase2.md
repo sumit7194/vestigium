@@ -2187,3 +2187,25 @@ run on Sumit's MacBook Air.**
   - Operation: the launcher is always called by one exact path, ~/GitHub/quantum-air/launch_air.sh, and ps is checked
     by hand before any rerun.
   - Identity tests, binary, specs, caps and readings: unchanged.
+- **A6 addendum 3 (2026-11-26 ~13:10; labelled; the personal Bridge's rulings, before any Air chunk launches).**
+  - **Thermal: the text now matches the code.** air_guard.sh logs the thermal state only; it does not pause. macOS
+    throttles the fanless Air itself. (The A6 text above said the guard also pauses on critical thermal state; that was
+    never implemented.) No pause path is added now, since untested code before launch is the bigger risk. If the log
+    ever shows a critical thermal state, it is reported to the Bridge, who decides.
+  - **Promotion of a finished Air chunk into b15d/kerr_e/** (the registered KERR reading reads b15d/kerr_e/*.out). This
+    is done by promote_air.sh, which pull_air.sh calls after each pull for every good .out holding DONE.
+    - It copies from kerr_e_air/good/ only after two checks pass: the .out has DONE, exactly one COVER line and no
+      FATAL; the checkpoint has 128 complete EP records and no incomplete inner EP line.
+    - An outage-era kerr_e/<chunk>.out is renamed into kerr_e_void_outage/ and kept, with a timestamp suffix if the
+      name is taken. Nothing is ever deleted or overwritten.
+    - The copy's sha256 must equal the source's. A record line (chunk, source and copy sha256, time, machine) goes to
+      kerr_e_air/promote.log and b15d/run.log. A rerun on an identical copy is a no-op.
+  - **Synthetic test, once, before launch** (kerr/b15e/a6_promote_test/; the A5 test's finished t3 output and
+    checkpoint as a stand-in DONE chunk; its own folders and logs, real kerr_e/ and run.log untouched): 7/7 PASS.
+    - fresh promote;
+    - a rerun is a no-op;
+    - an old output is renamed and kept;
+    - a taken name gets a suffix;
+    - a 127-record checkpoint, a missing DONE and an incomplete inner EP line are each refused, with the destination
+      untouched.
+  - Unchanged: the identity gate, the binary, the specs, the caps and the readings.

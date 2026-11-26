@@ -1,0 +1,8 @@
+P1 PASS fresh promote (exit 0, sha equal, record line)
+P2 PASS rerun is a no-op
+P3 PASS old output renamed into kerr_e_void_outage and kept
+P3b PASS name taken -> suffixed copy, first one untouched (2 files)
+P4 PASS 127-record checkpoint refused
+P5 PASS no DONE refused
+P6 PASS incomplete inner EP line refused
+ALL DONE
