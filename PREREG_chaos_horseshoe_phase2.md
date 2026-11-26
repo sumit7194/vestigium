@@ -2376,3 +2376,11 @@ interior chunk runs): the interior (a) phase.** Drafted by Quantum-personal (Cla
 - **A8 binary (2026-11-26, before any A8 test runs):** hs_cover_b15e4 sha256
   e5f9c6f99ef742615eb5bebcf2802a865137e6b924a73726a6e105569dc8d09d, built by guard_build.sh (guard passed) from
   hs_cover.cpp as committed with this line. The binary itself is not committed, like the earlier ones.
+- **A8 launch rule (2026-11-26; the personal Bridge, set ahead of the results).**
+  - **twin_a** may start on hs_cover_b15e4 once T0, T1, T2 (SA and SE), T4 and T5/T5b all PASS. It also waits for
+    Sumit's office window to end (the Bridge says when). Cores are filled as they free on the Mac mini, with the fleet
+    ≤ 9.
+  - **kerr_a** waits in addition for T3 (Kerr) to PASS. The pilot rule (a cost report after ~10 pieces) stands.
+  - **Any FAIL** means stop and report. Nothing launches on A8.
+  - Before launch, each twin_a/kerr_a spec gains a `subckpt` line (its own journal path beside its checkpoint) and a
+    `progress` line (N as registered). Old and new spec shas are recorded, as in A7.
