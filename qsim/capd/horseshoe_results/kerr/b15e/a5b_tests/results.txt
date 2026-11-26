@@ -1,0 +1,9 @@
+binary 77eb34a6a3cf9df54b6e678449b58b971e40d96a11c16314a287517933a42940
+B1 BYTE-IDENTICAL (256 P records)
+B2 interrupted by SIGTERM with 64 P records
+B2 BYTE-IDENTICAL (normalised) after restart (reloaded_pieces 64)
+B3 BYTE-IDENTICAL to a4_identity/hh2_N0N0.out (old-format checkpoint, 256 reloaded)
+B4 BYTE-IDENTICAL (normalised) from a truncated + orphan-F checkpoint
+B4b BYTE-IDENTICAL (normalised) on a second restart
+B5 MUST-FIRE PASS: tampered P record -> COVER differs
+ALL DONE
