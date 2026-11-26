@@ -279,11 +279,30 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
   CovStat A, Bs; bool oka = true;
   std::map<std::string, std::string> done; std::map<std::string, std::string> donefails;
   if (!CKPT.empty()) {                                   // reload finished pieces of THIS spec (the path is keyed by it)
-    std::ifstream ci(CKPT); std::string l;
-    while (std::getline(ci, l)) {
-      if (l.rfind("F ", 0) == 0) { auto sp = l.find(' ', 2); donefails[l.substr(2, sp - 2)] += l.substr(sp + 1) + "\n"; }
-      else if (l.rfind("P ", 0) == 0) { auto sp = l.find(' ', 2); done[l.substr(2, sp - 2)] = l.substr(sp + 1); }
+    // B15e A5b (2026-11-26): crash-safe reading, backward compatible with existing checkpoint files (the writer is
+    // unchanged). The file is append-only and every record ends with its own newline, so only the LAST line can be
+    // partial: a last line without '\n' is dropped, as is any line holding a NUL byte (unwritten blocks after a power
+    // loss). A P line counts only if all its fields parse; F lines are held as pending and attached to their key only
+    // when that key's complete P line follows (the last complete record wins), so a cut record contributes nothing and
+    // that piece is recomputed. Then a missing final newline is repaired before anything is appended.
+    std::ifstream ci(CKPT, std::ios::binary); std::string all((std::istreambuf_iterator<char>(ci)), std::istreambuf_iterator<char>());
+    ci.close();
+    bool cut = !all.empty() && all.back() != '\n';
+    std::vector<std::string> lines; { std::string cur; for (char c : all) { if (c == '\n') { lines.push_back(cur); cur.clear(); } else cur += c; } }
+    std::map<std::string, std::string> pend;
+    for (const std::string& l : lines) {
+      if (l.find('\0') != std::string::npos) continue;
+      if (l.rfind("F ", 0) == 0) { auto sp = l.find(' ', 2); if (sp != std::string::npos) pend[l.substr(2, sp - 2)] += l.substr(sp + 1) + "\n"; }
+      else if (l.rfind("P ", 0) == 0) {
+        auto sp = l.find(' ', 2); if (sp == std::string::npos) continue;
+        std::string key = l.substr(2, sp - 2), rest = l.substr(sp + 1);
+        std::istringstream ps(rest); int ok, rtf; long lv, fl, sf, md, ns_; std::string lo, hi;
+        if (!(ps >> ok >> lv >> fl >> sf >> md >> ns_ >> rtf)) continue;
+        if (rtf && !(ps >> lo >> hi)) continue;
+        done[key] = rest; donefails[key] = pend[key]; pend.erase(key);
+      }
     }
+    if (cut) { FILE* f = std::fopen(CKPT.c_str(), "a"); std::fputs("\n", f); std::fflush(f); ::fsync(fileno(f)); std::fclose(f); }
   }
   int ilo = A_LO, ihi = (A_HI < 0 ? nu : std::min(A_HI, nu)); long reloaded = 0;
   for (int i = ilo; i < ihi; ++i) for (int k = 0; k < ns; ++k) {

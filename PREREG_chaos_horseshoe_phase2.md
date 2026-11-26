@@ -2096,3 +2096,28 @@ then all six kerr_e chunks relaunch.**
   (a cut mid-line), one newline is appended first, so the next record cannot be glued onto the partial line. T6
   exercises this. Binary rebuilt: **hs_cover_b15e2 sha256 d3747eb04ba66977cf76dcb40709fe0d037b84db9dfe807859b8b0951ffd95cc** (guard passed); it replaces f34415e5…, which was never
   run.
+
+**B15e A5b (2026-11-26; labelled; the Bridge asked for it BEFORE any kerr_a/twin_a interior chunk runs): crash-safe
+(a)-piece checkpoint reading.**
+- **Change (reader only; the (a) writer is unchanged, so existing checkpoint files stay valid).**
+  - The file is append-only and each record ends with its own newline. So: a last line without `\n` is dropped, and
+    any line holding NUL is dropped.
+  - A `P` line counts only if all its fields parse. `F` lines attach to their key only when that key's complete `P`
+    line follows, and the last complete record wins. (The old reader concatenated F lines across duplicate records.)
+  - A missing final newline is repaired before anything is appended.
+  - Binary **hs_cover_b15e3** sha256 0d9a6af672697a35dbdafc07482d36779d963b46fa7ce28505d7cb84f44472f2, guard passed. It
+    includes A4 and A5. The kerr_e relaunch stays on the A5-tested b15e2. Interior chunks (kerr_a, twin_a) use b15e3
+    only after these tests pass.
+- **Tests** (gb/hh2_N0N0.spec with fresh checkpoint paths; 256 (a)-pieces + 128 edge pieces; reference = the stored
+  gb/hh2_N0N0.out from the registered binary). "Normalised" means the `EDGES RELOADED` line removed and
+  `reloaded_pieces=<k>` set to 0.
+  - **B1:** uninterrupted. Byte-identical to the reference.
+  - **B2:** SIGTERM (deliberate, not a timer) once the checkpoint holds ≥ 64 P lines, then restart. Normalised output
+    byte-identical to the reference, with 0 < k < 256.
+  - **B3 (backward compatibility):** a COPY of the old-format ckpt/gb/hh2_N0N0.ckpt (the original GB run; untouched). It
+    reloads all 256, and the output is byte-identical to a4_identity/hh2_N0N0.out, which is the same situation under
+    hs_cover_b15e.
+  - **B4:** B1's complete checkpoint cut mid-way through its 200th P line, with an orphan F line for a later key placed
+    before the cut. Normalised output byte-identical to the reference, with no orphan text. **B4b:** a second restart,
+    the same.
+  - **B5 (must-fire):** B1's checkpoint with ONE P line's leaf count +1. The COVER line must differ from the reference.
