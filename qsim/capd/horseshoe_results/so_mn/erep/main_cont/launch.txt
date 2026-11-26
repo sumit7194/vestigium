@@ -4,3 +4,4 @@ binary mn_so_erep sha256 4a48b59ae87427ed9629fd6d6f313004a8293bcbf4fd64b5a13f424
 cmd: ./mn_so_erep 1/10000000 .../mn_smoke/b17_cp_1e-7.txt /Users/sumit/Github/quantum/qsim/capd/horseshoe_results/so_mn/erep/main_cont/st 1018.7
 guard PID 41097 (erep_guard.py, cap 500 MB); cost watch PID 41102 (erep_cost_watch.py, COST-STOP > 127.9 s/step over 200 steps)
 reading: read_result.sh (A3 criteria)
+2026-11-23 17:17:33 memory-policy amendment (120ba6d): guard PID 3572 (--inform), cost watch PID 3574 (--inform); A3 40882 untouched

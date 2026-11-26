@@ -205,3 +205,5 @@
 2026-11-26 11:55:01 pressure level 2 -> 1 (swap 0 MB)
 2026-11-26 11:56:01 pressure level 1 -> 2 (swap 0 MB); WARN (inform only)
 2026-11-26 11:58:02 pressure level 2 -> 1 (swap 328 MB)
+2026-11-26 13:16:07 pressure level 1 -> 2 (swap 821 MB); WARN (inform only)
+2026-11-26 13:17:07 pressure level 2 -> 1 (swap 1330 MB)

@@ -2276,3 +2276,100 @@ interior chunk runs): the interior (a) phase.** Drafted by Quantum-personal (Cla
     - K2: all coverings CERTIFIED and complete give chain_class RHO>1.
     - K3: an unfinished kerr_a N3N4 gives complete=false, no chain_class, and N3N4 final None.
     - Result: ALL PASS. The real b15d tree was not touched.
+
+**B15e A8 (2026-11-26; labelled; the personal Bridge's rulings on the draft kerr/b15e/A8_SUBPIECE_CKPT_PROPOSAL.md,
+7a097ac; REGISTERED before any A8 code is written): a sub-piece node journal and a progress file.**
+- **Why.** The A5 and A5b checkpoints save one record per TOP-LEVEL piece, so a crash or watchdog hit loses that piece's
+  whole bisection tree. The 2026-11-26 liveness check (kerr/b15e/liveness/NOTE.md) found 3.5 h of one N1N2 edge tree
+  with no record, and there is no way to see progress without stack sampling.
+- **Scope (Bridge ruling 2).**
+  - Every NEW (a) and edge job uses the A8 binary once it passes the tests below: twin_a, kerr_a, and any rerun.
+  - A running chunk never changes binary mid-run. The 6 kerr_e chunks stay on 77eb34a6 / df234aa2.
+  - If A8 has not passed by the planned kerr_a/twin_a launch, the Bridge decides that evening whether twin_a starts on
+    the A7 binary.
+- **Binary.** hs_cover_b15e4, built with qsim/capd/tests/guard_build.sh from the committed hs_cover.cpp. Its sha256 is
+  recorded in a follow-up commit before any test runs. Without the new spec lines it has the same code path as
+  77eb34a6.
+- **Spec line 1: `subckpt <path>`** (opt-in; needs `checkpoint`). It opens a node journal separate from the checkpoint,
+  so the checkpoint's format and its readers are unchanged.
+  - **What is recorded.** Every evaluation of a box in cover_a or cover_b, internal nodes included, appends one record
+    and fsyncs it before the bisection logic uses the result:
+    `J <A|E> <top-level key> <path> <f1> <f2> <dnsteps> <rtflag> [rt lo hex, rt hi hex] <why as hex bytes, or -> #`
+    - path: one character per split, 0 for the lo half and 1 for the hi half, or - at the top level. In (a), whether
+      a split is along u or s follows from the registered rule.
+    - f1 f2: for A, ok strong; for E, land (-1, 0 or 1) and certfail.
+    - dnsteps: the change in nsteps during the call, including partial replay steps when the call THREW.
+    - rtflag and rt: whether st.hull(rt) ran, and rt's exact endpoints.
+    - why: the failure text, hex-encoded, because CAPD messages can contain newlines.
+  - **Resume.** The same depth-first walk runs again. A node with a complete record takes the recorded result in place
+    of the image()/chart/test block, and every cap, depth and bisection decision then runs unchanged. That includes
+    the leaf-cap test on the running st.leaves. FAILPIECE lines are printed again by the unchanged failline(), so a
+    resumed .out equals an uninterrupted one apart from the existing EDGES RELOADED line and reloaded_pieces. The
+    journal itself prints nothing to the .out.
+  - **Crash safety.** The A5/A5b rules apply: a last line without a newline is dropped, a line holding a NUL byte is
+    dropped, a record counts only if it parses and ends with " #", the last complete record wins, and a missing final
+    newline is repaired before anything is appended.
+  - **Spec guard.** The journal's first line, `JH <fnv1a64> #`, hashes every spec command except `progress`. A journal
+    from a different spec is refused at startup with FATAL, before any evaluation, so no work is lost.
+  - **Top-level records.** P/EP records are still written when a top-level piece completes, and a piece with a P/EP
+    record is reloaded exactly as now; its journal records are then unused.
+- **Spec line 2: `progress <path> <N>`** (opt-in).
+  - After every N live image() evaluations, and once at the end of each `cover`, the binary writes one line to
+    `<path>.tmp` and renames it over `<path>`.
+  - The line holds: wall time, phase (a or E), top-level key, depth, cumulative leaves, live and replayed evaluation
+    counts, nsteps, seconds of the last live evaluation, and the mean seconds per live evaluation.
+  - The binary never reads this file. A write failure is ignored, so it cannot change a result or end a job. It never
+    goes to stdout or stderr, which share the .out.
+  - **N (Bridge ruling 3: about one line per 10 min at the measured rate):**
+    - Kerr/MN: kerr_e N0N0 took 128 evaluations in 27.1 h (2026-11-23 09:07 to 11-24 12:14), so ~12.7 min per
+      evaluation. **N = 1**, one line about every 13 min.
+    - HH: A5b B1 (hh2_N0N0, nice 10) took 1609 s for about 546 evaluations (418 (a) nodes plus 128 edges), so ~2.95 s
+      per evaluation. **N = 200**, one line about every 10 min.
+- **Identity tests** (kerr/b15e/a8_tests/; NOT COUNTED; one Mac mini core at nice 15, run one at a time, serially).
+  Each test spec is a copy of a stored spec, with only its checkpoint, subckpt and progress paths moved to the test
+  folder.
+  - **T0 (regression, no new lines).** The new binary must reproduce byte for byte the A4/A5 T1 stored outputs
+    gb/r1_{MM,MN,NM,NN}.out, plus gb/hh2_N0N0.out from a fresh checkpoint (the A4-corrected and A5b B1 case), plus
+    twin_e/swap_N0N0.out with an edge checkpoint (the A5 T3 case).
+  - **T1 (options on, uninterrupted).** hh2_N0N0 and twin_e/swap_N0N0 with `subckpt` and `progress … 50` must be
+    byte-identical to the stored outputs. The progress file must hold exactly one line that parses and reads "end".
+    The journal must hold one record per evaluation.
+  - **T2 (interrupts inside bisection trees; the main gate).** Two test specs, each with a reference run on the new
+    binary without subckpt:
+    - SA, deep (a) trees with the leaf cap and throws: twin/rot90_N0N0.spec (the column where top-level pieces fail
+      down to depth 16), with `arange 6 7`, `noedges`, `depth 8 12`, `caps 120 4096` and `piececap 330 0`. The
+      piececap makes replays longer than 330 steps THROW, with their partial nsteps counted.
+    - SE: twin_e/swap_N0N0.spec, edge bisection with certified failures.
+    - From a first SA/SE run with subckpt, interrupt points are picked by journal record index. Each case gets SIGTERM
+      once its journal reaches that record:
+      - SA at depths 1, 2, 4 and 8;
+      - right after a thrown node;
+      - right after the leaf-cap test turned a failing node into a final failure;
+      - SE at depths 1, 2 and 4;
+      - right after a certfail.
+    - The record actually reached at the kill is logged. Every restarted .out, normalised only by dropping the
+      EDGES RELOADED line and setting reloaded_pieces to 0, must equal the reference byte for byte.
+    - If the first SA run has no thrown node, the piececap step count is lowered and the change is recorded, before
+      any T2 interrupt.
+  - **T3 (solver state, Kerr).** kerr_e/N0N0.spec with `cover N0 N0 16 16 1` (2 edge pieces), `depth 16 1` and
+    `piececap 600 0`. Kerr replays take ~690 steps, so every evaluation throws and each piece bisects once: 6
+    evaluations, ~80 min. One reference run, then an interrupted run with SIGTERM after 2 journal records, then the
+    resume. The resume must be byte-identical (normalised as in T2).
+  - **T4 (must-fire).** A copy of an SA T2 journal with one recorded `ok` flipped 1 → 0 must change the COVER line or
+    the FAILPIECE set.
+  - **T5 (torn and NUL lines).** An SA journal cut mid-record, with a NUL line before the cut, must resume
+    byte-identically. T5b: a journal whose JH comes from a different spec must give FATAL at startup, with no
+    evaluation.
+  - **T6 (the Air).** A static build (hs_cover_b15e4s) gives T0 and T2-SA byte-identical to the Mac mini. This runs
+    only when an Air core frees.
+- **Cost and hard limits.**
+  - About 7–8 core-h on one core, more than the draft's 3–4 h:
+    - T0 ~65 min;
+    - T1 ~55 min;
+    - T2: SA ~13 min per run × 8 runs, SE ~21 min × 6 runs;
+    - T3 ~2.6 h;
+    - T4 and T5 ~40 min.
+  - The tests are not cut to save time.
+  - HS_WATCHDOG_S stays at 30 d. Guards pause only. The interrupts are the tests' own deliberate SIGTERMs, against
+    test processes only.
+  - Sumit keeps ≥ 3 cores, the fleet stays ≤ 9, and the Quantum cap is 7.

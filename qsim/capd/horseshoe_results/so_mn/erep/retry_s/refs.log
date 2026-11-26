@@ -3,3 +3,6 @@
 2026-11-26 10:26:31 start mm/mp offset -1/10000000 0/1
 2026-11-26 11:45:53 old serial worker 4219 ENDED by Quantum (switch to locked refs_worker.sh); its in-progress ref mm/mp (PID 21234) continues and holds lock locks/mm_mp
 2026-11-26 11:45:53 W1 wrapper 38319 (fwd, starts when 21234 ends); W2 wrapper 38321 (rev, starts when tests 16230/35247 end)
+2026-11-26 12:03:24 [worker 38319 fwd] start mm/pm offset 0/1 -1/10000000
+2026-11-26 12:11:45 PAUSE (SIGSTOP, verified PID) ref 47206 (W1's mm/pm ref) for Sumit's office work; resume only on the Bridge's word
+2026-11-26 12:11:45 PAUSE (SIGSTOP, verified PID) W2 waiter 38321 so W2 cannot start; resume only on the Bridge's word
