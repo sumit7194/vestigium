@@ -1,9 +1,9 @@
 #!/bin/zsh
-# B15e A8 identity tests (registered cf57b17; binary hs_cover_b15e4 e5f9c6f9, f4136ff). NOT COUNTED. Serial, one core;
+# B15e A8 identity tests (registered cf57b17 + correction 1; binary hs_cover_b15e5 3a3c4bbe; the b15e4 run is superseded). NOT COUNTED. Serial, one core;
 # the whole script is launched at nice 15 (children inherit it). Results -> results.txt. Every case runs in its OWN new
 # folder with RELATIVE checkpoint/subckpt/progress paths, so all cases of one test spec share one spec text (and one
 # journal hash). Nothing outside a8_tests/ is written. Written by Claude Opus 5.5 (Quantum-personal).
-O=${0:A:h}; H=/Users/sumit/Github/quantum/qsim/capd/horseshoe; B=$H/../horseshoe_results/kerr/b15d; X=$H/hs_cover_b15e4
+O=${0:A:h}; H=/Users/sumit/Github/quantum/qsim/capd/horseshoe; B=$H/../horseshoe_results/kerr/b15d; X=$H/hs_cover_b15e5
 PY=/Users/sumit/Github/quantum/sims/.venv/bin/python; R=$O/results.txt; NOD='^NEVER-MATCH$'
 r() { echo "$(date '+%F %T') $*" >> $R; }
 # mk <src spec> <dst spec> <drop regex> <lines to add before the first cover line, '|'-separated>
@@ -26,6 +26,20 @@ r "START binary $(shasum -a 256 $X | cut -c1-64) nice $(ps -o ni= -p $$ | tr -d 
 
 SA="depth 8 12|caps 120 4096|arange 6 7|noedges|piececap 330 0"; SADROP='^(checkpoint|depth|caps) '
 CK="checkpoint c.ckpt"; SUB="subckpt c.jnl|progress c.prog 50"
+
+# ---------------- T7 (correction 1): HS_WATCHDOG_S parsing and the real timer (HS_WATCHDOG_REPORT=1 reads getitimer)
+wd() { HS_WATCHDOG_REPORT=1 $X 2>&1 | sed -n 's/^WATCHDOG //p'; }          # no spec: report, then the usage line
+v=$(unset HS_WATCHDOG_S; wd); (( v >= 172790 && v <= 172800 )) && r "T7 unset: WATCHDOG $v (48 h) PASS" || r "T7 unset FAIL ('$v')"
+v=$(HS_WATCHDOG_S=100000000 wd); (( v >= 99999990 && v <= 100000000 )) && r "T7 100000000: WATCHDOG $v PASS" || r "T7 100000000 FAIL ('$v')"
+fresh t7_off; cp $B/gb/r1_MM.spec $O/t7_off/c.spec; (cd $O/t7_off && HS_WATCHDOG_S=off HS_WATCHDOG_REPORT=1 $X c.spec > c.out 2>&1)
+grep -qx 'WATCHDOG none' $O/t7_off/c.out && cmp -s <(grep -v '^WATCHDOG ' $O/t7_off/c.out) $B/gb/r1_MM.out && r "T7 off: WATCHDOG none (no timer); r1_MM output BYTE-IDENTICAL otherwise PASS" || r "T7 off FAIL ($(head -1 $O/t7_off/c.out))"
+fresh t7_mf; mk $B/gb/hh2_N0N0.spec $O/t7_mf/c.spec '^checkpoint ' "$CK"; t0s=$(date +%s)
+(cd $O/t7_mf && HS_WATCHDOG_S=60 $X c.spec > c.out 2>&1); ec=$?; dt=$(( $(date +%s) - t0s ))
+[[ $ec == 124 ]] && grep -q 'WATCHDOG TIMEOUT' $O/t7_mf/c.out && (( dt >= 60 && dt <= 70 )) && r "T7 60 must-fire PASS (exit 124 after $dt s)" || r "T7 60 must-fire FAIL (exit $ec after $dt s)"
+fresh t7_bad; cp $B/gb/r1_MM.spec $O/t7_bad/c.spec; nb=0
+for b in "" abc 0 -5 10y 100000001 " 60"; do (cd $O/t7_bad && HS_WATCHDOG_S="$b" $X c.spec > "bad_$nb.out" 2>&1); ec=$?
+  if [[ $ec == 1 ]] && grep -q "^FATAL HS_WATCHDOG_S='$b'" "$O/t7_bad/bad_$nb.out" && ! grep -q '^PREC' "$O/t7_bad/bad_$nb.out"; then r "T7 bad '$b': FATAL at startup, exit 1, no PREC PASS"; else r "T7 bad '$b' FAIL (exit $ec)"; fi
+  nb=$((nb + 1)); done
 
 # ---------------- T0: no new lines -> byte-identical to the stored outputs
 for t in r1_MM r1_MN r1_NM r1_NN; do fresh t0_$t; cp $B/gb/$t.spec $O/t0_$t/c.spec; runin t0_$t c.out

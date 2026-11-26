@@ -2384,3 +2384,34 @@ interior chunk runs): the interior (a) phase.** Drafted by Quantum-personal (Cla
   - **Any FAIL** means stop and report. Nothing launches on A8.
   - Before launch, each twin_a/kerr_a spec gains a `subckpt` line (its own journal path beside its checkpoint) and a
     `progress` line (N as registered). Old and new spec shas are recorded, as in A7.
+- **A8 correction 1 (2026-11-26; the personal Bridge's ruling; before any test on the new binary): HS_WATCHDOG_S.**
+  - **The flaw.** On hs_cover_b15e4 (and on every earlier binary), an HS_WATCHDOG_S value above 30 d, or any value
+    that does not parse, FALLS BACK SILENTLY to 48 h. In addition, macOS alarm() refuses values above 100000000 s with
+    EINVAL and sets no timer. Under the no-hard-caps rule, new jobs must not end on a timer, and they must never be
+    capped silently.
+  - **The fix,** in hs_cover_b15e5:
+    - Unset: the default is still 48 h. Default runs stay byte-identical, and T0 runs this way.
+    - `off`: no alarm is set at all.
+    - An integer from 1 to 100000000: that many seconds.
+    - Anything else (empty, a sign, letters, 0, or above the maximum): `FATAL HS_WATCHDOG_S=…` at startup, exit 1,
+      before any computation.
+    - After a numeric value is set, getitimer must show a pending timer, otherwise FATAL.
+    - An opt-in `HS_WATCHDOG_REPORT=1` writes one line to stderr, `WATCHDOG <seconds pending | none>`, read from
+      getitimer. It is for the test only; launchers never set it.
+  - **New jobs** (twin_a, kerr_a, any rerun) run with HS_WATCHDOG_S=off.
+  - **Running jobs.** The 6 kerr_e chunks keep their 30 d timers (Sumit, via the Bridge: they should finish well
+    inside that). The timer-raise plan (52f103c) stays filed and is not applied unless a projection says the limit
+    would bind.
+  - **The b15e4 test run was stopped.** It had run ~10 min and produced only T0 r1_MM BYTE-IDENTICAL; that output is
+    kept as superseded (051d785). All tests (T0–T6) rerun from the start on b15e5.
+  - **New test T7 (first).** With HS_WATCHDOG_REPORT=1:
+    - unset reports about 172800;
+    - `off` reports none, and the r1_MM output is byte-identical with the WATCHDOG line dropped;
+    - 100000000 reports ≥ 99999990;
+    - 60 on hh2 ends with exit 124 and WATCHDOG TIMEOUT after 60–70 s (must-fire);
+    - each of `""`, `abc`, `0`, `-5`, `10y`, `100000001` and ` 60` gives exit 1, a FATAL line, and no PREC line.
+  - The launch rule (2ffcc47) carries over to b15e5 unchanged.
+  - **Binary:** hs_cover_b15e5 sha256 3a3c4bbee838891056bd3e0d96730d80063828dff2ae00b1108187a699950cc2 (guard passed),
+    built from hs_cover.cpp as committed with this line. After the build, one spec-less startup check ran (values abc,
+    0, 100000001, off, 60 and unset; usage line only, no computation). It gave the registered FATAL and WATCHDOG
+    lines. T7 repeats it formally.

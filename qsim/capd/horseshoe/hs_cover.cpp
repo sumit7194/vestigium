@@ -37,6 +37,7 @@
 #include <chrono>
 #include <ctime>
 #include <unistd.h>
+#include <sys/time.h>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -581,9 +582,31 @@ static void ex_cone(Engine& E, MpInterval l, MpInterval r, MpInterval bot, MpInt
 int main(int argc, char** argv) {
   // B15e A4 (2026-11-25): the wall-clock limit may be raised with HS_WATCHDOG_S=<seconds> (a positive integer); unset or
   // invalid = the original 48 h. Nothing is printed either way, so default runs are byte-identical to the old binary's.
-  { unsigned wd = 48 * 3600; if (const char* e = std::getenv("HS_WATCHDOG_S")) { char* end = nullptr; unsigned long v = std::strtoul(e, &end, 10);
-      if (end != e && *end == '\0' && v > 0 && v <= 30UL * 24 * 3600) wd = (unsigned)v; }
-    capd_proof::watchdog(wd); }
+  // B15e A8 correction 1 (2026-11-26): unset = 48 h (unchanged); "off" = no alarm at all; an integer 1..100000000 (the
+  // macOS alarm maximum) = that many seconds; ANYTHING else is FATAL at startup (never a silent fall-back to 48 h). A
+  // numeric value must leave a pending timer (getitimer), else FATAL. HS_WATCHDOG_REPORT=1 (tests only) writes
+  // "WATCHDOG <pending seconds|none>" to stderr.
+  { unsigned long wd = 48 * 3600; bool off = false;
+    if (const char* e = std::getenv("HS_WATCHDOG_S")) {
+      const std::string s(e);
+      if (s == "off") off = true;
+      else {
+        const bool digits = !s.empty() && s.size() <= 9 && s.find_first_not_of("0123456789") == std::string::npos;
+        const unsigned long v = digits ? std::strtoul(e, nullptr, 10) : 0;
+        if (!digits || v < 1 || v > 100000000UL) {
+          std::cout << "FATAL HS_WATCHDOG_S='" << s << "': must be 'off' or an integer 1..100000000\n"; return 1; }
+        wd = v;
+      }
+    }
+    if (!off) {
+      capd_proof::watchdog((unsigned)wd);
+      struct itimerval it; ::getitimer(ITIMER_REAL, &it);
+      if (it.it_value.tv_sec == 0 && it.it_value.tv_usec == 0) { std::cout << "FATAL HS_WATCHDOG_S: the alarm was not set\n"; return 1; }
+    }
+    if (const char* r = std::getenv("HS_WATCHDOG_REPORT")) if (std::string(r) == "1") {
+      struct itimerval it; ::getitimer(ITIMER_REAL, &it);
+      std::cerr << "WATCHDOG " << ((it.it_value.tv_sec || it.it_value.tv_usec) ? std::to_string((long)it.it_value.tv_sec) : std::string("none")) << "\n"; }
+  }
   if (argc < 2) { std::cerr << "usage: hs_cover spec\n"; return 2; }
   std::ifstream in(argv[1]); std::string line; std::vector<std::vector<std::string>> cmds;
   while (std::getline(in, line)) {
