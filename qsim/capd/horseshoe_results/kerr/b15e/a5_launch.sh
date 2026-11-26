@@ -12,7 +12,7 @@ memfree() { memory_pressure -Q | sed -n 's/.*percentage: \([0-9]*\)%.*/\1/p' }
 mycap() { local c=$(cat $O/a5_mycap.txt 2>/dev/null); [[ $c == <-> ]] && echo $c || echo 7 }
 myjobs() { ps -axo user=,command= | awk '$1=="sumit"' | grep -cE "^sumit +($H/hs_cover|\./mn_so_|\./b17_check_pt)" }
 live_spec() { ps -axo command= | grep -q "^$H/hs_cover[_a-z0-9]* $B/kerr_e/$1.spec" }
-CH=(N1N2 N2N3 N3N4 N4N5 N5N0 N5N1); n=1
+CH=(${@:-N1N2 N2N3 N3N4 N4N5 N5N0 N5N1}); n=1   # chunk list may be given as arguments (A6: the Mac mini keeps only N5N1)
 log "A5 launcher start PID $$ (cap $(mycap), my jobs $(myjobs))"
 mkdir -p $B/ckpt/kerr $B/kerr_e_void_outage
 while (( n <= ${#CH} )); do
