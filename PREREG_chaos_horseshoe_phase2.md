@@ -2080,3 +2080,15 @@ then all six kerr_e chunks relaunch.**
     progress.
 - **Hard limits (the A4 rule).** The watchdog is 30 d (effectively none); there are no memory or step caps. The leaf
     and depth caps produce FAILPIECE results, not kills.
+- **A5 correction (labelled; before any A5 test ran): crash-safe checkpoint reading.**
+  - A power cut mid-append could leave a partial last EP line, which would be parsed with missing fields, or orphan EF
+    lines, which would duplicate FAILPIECE output later.
+  - Now every EP line ends with a ` #` marker and counts only if all its fields parse. EF lines attach to their key
+    only when that key's complete EP line follows, and the last complete record wins. A partial record is ignored and
+    that piece is recomputed.
+  - The binary is rebuilt: **hs_cover_b15e2 sha256 f34415e5007205267370c8bdb4d95b76be64a147e16a83ebbbf31b65a32939d7**
+    (guard passed). It replaces a2f4ca18…, which was never run.
+  - **Added test T6.** T3's complete checkpoint is truncated mid-way through a late EP line, and one orphan EF line for a
+    later key is appended. The rerun's output, with its EDGES RELOADED line removed, must be byte-identical to the
+    stored output.
+  - Noted, not changed: hs_cover's existing (a)-piece reader has the same partial-line weakness; that is out of scope.

@@ -322,10 +322,21 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
   // Bs.leaves, so a resumed run reaches the same COVER line. The (a) reader ignores EP/EF lines (it reads "P "/"F ").
   std::map<std::string, std::string> edone, edonefails; long ereloaded = 0;
   if (!CKPT.empty() && DO_EDGES) {
-    std::ifstream ci(CKPT); std::string l;
+    // crash-safe reading: an EP line counts only if complete (all fields + the trailing "#"); EF lines are held as
+    // pending and attached to their key only when that key's complete EP line follows (the last complete record wins);
+    // a partial record at the end of the file (power loss mid-append) is ignored and that piece is recomputed
+    std::ifstream ci(CKPT); std::string l; std::map<std::string, std::string> pend;
     while (std::getline(ci, l)) {
-      if (l.rfind("EF ", 0) == 0) { auto sp = l.find(' ', 3); edonefails[l.substr(3, sp - 3)] += l.substr(sp + 1) + "\n"; }
-      else if (l.rfind("EP ", 0) == 0) { auto sp = l.find(' ', 3); edone[l.substr(3, sp - 3)] = l.substr(sp + 1); }
+      if (l.rfind("EF ", 0) == 0) { auto sp = l.find(' ', 3); if (sp != std::string::npos) pend[l.substr(3, sp - 3)] += l.substr(sp + 1) + "\n"; }
+      else if (l.rfind("EP ", 0) == 0) {
+        auto sp = l.find(' ', 3); if (sp == std::string::npos) continue;
+        std::string key = l.substr(3, sp - 3), rest = l.substr(sp + 1);
+        std::istringstream ps(rest); long a1, a2, a3, a4, a5, a6; int rtf; std::string lo, hi, mark;
+        if (!(ps >> a1 >> a2 >> a3 >> a4 >> a5 >> a6 >> rtf)) continue;
+        if (rtf && !(ps >> lo >> hi)) continue;
+        if (!(ps >> mark) || mark != "#") continue;
+        edone[key] = rest; edonefails[key] = pend[key]; pend.erase(key);
+      }
     }
   }
   if (DO_EDGES) {
@@ -351,7 +362,7 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
       o << "EP " << key << " " << (P.leaves - before) << " " << P.fail << " " << P.cert_fail << " " << (cnt[0] - c0) << " "
         << (cnt[1] - c1) << " " << P.nsteps << " " << (P.first ? 0 : 1);
       if (!P.first) o << " " << hexr(P.rt.leftBound()) << " " << hexr(P.rt.rightBound());
-      o << "\n";
+      o << " #\n";                                       // completeness marker (crash-safe reading above)
       FILE* f = std::fopen(CKPT.c_str(), "a"); std::fputs(o.str().c_str(), f); std::fflush(f); ::fsync(fileno(f)); std::fclose(f);
     }
   }
