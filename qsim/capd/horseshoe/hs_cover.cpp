@@ -338,6 +338,10 @@ static void do_cover(Engine& E, const std::string& a, const std::string& b, int 
         edone[key] = rest; edonefails[key] = pend[key]; pend.erase(key);
       }
     }
+    ci.close();
+    { std::ifstream cb(CKPT, std::ios::binary | std::ios::ate);   // a cut mid-line must not glue onto the next append
+      if (cb && cb.tellg() > 0) { cb.seekg(-1, std::ios::end); char last = 0; cb.get(last); cb.close();
+        if (last != '\n') { FILE* f = std::fopen(CKPT.c_str(), "a"); std::fputs("\n", f); std::fflush(f); ::fsync(fileno(f)); std::fclose(f); } } }
   }
   if (DO_EDGES) {
     for (int side = 0; side < 2; ++side) for (int i = 0; i < ne; ++i) {

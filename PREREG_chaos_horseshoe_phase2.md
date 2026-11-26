@@ -2092,3 +2092,7 @@ then all six kerr_e chunks relaunch.**
     later key is appended. The rerun's output, with its EDGES RELOADED line removed, must be byte-identical to the
     stored output.
   - Noted, not changed: hs_cover's existing (a)-piece reader has the same partial-line weakness; that is out of scope.
+- **A5 correction 2 (labelled; before any A5 test ran).** On startup, if the checkpoint file does not end in a newline
+  (a cut mid-line), one newline is appended first, so the next record cannot be glued onto the partial line. T6
+  exercises this. Binary rebuilt: **hs_cover_b15e2 sha256 d3747eb04ba66977cf76dcb40709fe0d037b84db9dfe807859b8b0951ffd95cc** (guard passed); it replaces f34415e5…, which was never
+  run.
