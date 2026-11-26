@@ -1,0 +1,4 @@
+2026-11-27 00:28:47 timebase 125/3; gap 600 s; pids [32284]
+2026-11-27 00:38:47 elapsed 600.0 s
+pid spec | lifetime: cpu_s pcore_share | interval: cpu_s pcore_share runnable_time_s GHz_all GHz_P GHz_E IPC_P IPC_E
+32284 N1N2.spec | 46223 0.51 | 424.6 0.43 443.7 3.10 3.49 2.81 5.77 3.94
