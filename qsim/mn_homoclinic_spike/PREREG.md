@@ -281,3 +281,70 @@ variants are kept (`*_superseded.*`). Nothing in this section is rigorous.
   Zgliczyński 2024".
 - **The Δ² argument is sound for the two-ended form.** It is the radii-polynomial discriminant with ‖A‖ ~ 1/σ_min.
   The measured requirement at β = 3e-2 is 1.6–1.8e-13 (A5). It does not apply to the half BVP (A1).
+
+## A10. Gate paragraph, kill criteria and operations (labelled addendum, 2026-11-27)
+This applies the fleet practices adopted 2026-11-27 (TheBridge/fleet/PRACTICES_2026-11-27.md). S2 can exceed 12 h on
+one core, so it needs the gate. Where A10 is stricter than A6/A8, A10 wins. Nothing above is edited.
+
+- **What it decides.**
+  - **GO:** MN at β = 3/100, (M, a) = (5, 3), at the Melnikov level, has a rigorous chaos certificate (a transverse
+    homoclinic point, so h_top > 0). The chaos write-up (c67126e) then changes from "MN covering STOP, no MN chaos
+    certificate" to "MN chaos proved (qualitative, one β)". That also decides whether the parked MN outreach has
+    a result to carry.
+  - **STOP:** the MN chaos question closes for good with a write-up. No further routes are opened without Sumit.
+- **Cost.**
+  - The pilot is S2-0. It measures time and true memory (phys_footprint of the process tree) per rigorous return,
+    then projects P over the ~40 returns in A8.
+  - Outside view from our own record:
+    - S1 planned 1–3 core-h and used ≈ 2 (×1), but needed 3 bug reruns.
+    - kerr_e was planned at 48 h and projected after launch at 21–61 days per covering (×10–30). That was a cost
+      that GREW with the run, through bisection depth.
+  - S2 is a fixed list of returns with no bisection, so kerr_e's growth mode doesn't apply. The
+    bug-and-rerun mode does. **I use ×3.**
+  - **S2-0 GO therefore needs P ≤ 5 core-h** (×3 ≤ 15). This replaces A6's "≤ 14". If P is 5–14, I report to the
+    Bridge and do not proceed without a re-gate.
+- **Premortem.** "If S2 is wasted, the most likely reason is that MN interval over-widening (10–1700× on F5-R)
+  makes the C¹ enclosure of the long excursion return too wide, so the v_x sign test or the Krawczyk ball cannot
+  close." That is exactly what S2-0 (b) measures first, for under ~1 core-h.
+  - Second most likely: the new L4 front end for control (iv) grows into its own project. Its stop rule: if (iv) is
+    not certified within 3 core-h or by the S2 date below, S2 STOPS (no MN claim without (iv)).
+- **Dependencies.** Three pieces are NOT yet shown to work:
+  1. **The cone-condition code is new.** Self-test before use: at β = 0, the certified W^u_loc enclosure must contain
+     the exact Kerr curve {K_r = K_r(fp)} ∩ (box). Must-fire: with the slope bound L halved below the true slope,
+     the cone check must fail.
+  2. **The half-BVP Krawczyk is new.** Tested by controls (i) and (iv) and by sabotage (iii).
+  3. **The L4 front end is new.** Tested by (iv) itself.
+  - Already tested: CAPD MPFR-128 C¹ integration on the Mac mini (the horseshoe work; the CAPD trust replays).
+- **Kill criteria: a state AND a date.**
+  - **Good enough:** S2-1 … S2-4 PASS and controls (i)–(iv) PASS. Then write it up and stop: no other β, no entropy
+    bound, no other orbit.
+  - **Stop:** if by **2026-11-30 24:00 IST**, or 2 days after the Bridge's go (whichever is earlier), that state is not
+    reached, S2 STOPS with a write-up (or a fresh short plan goes to Sumit).
+  - Also STOP on:
+    - S2-0 P > 5 core-h without a re-gate;
+    - any stage or control FAIL;
+    - a total over 15 core-h.
+- **Per-stage "good enough / stop".**
+
+  | Stage | Good enough | Stop |
+  |---|---|---|
+  | S2-0 | Cost, widths and footprint measured, P ≤ 5 | P > 5, or relative DP width > 1e-8 |
+  | S2-1 | The fp ball certified | Krawczyk does not close at 3 radii |
+  | S2-2 | Cones verified at δ = 1e-7, or 1e-8 (the A4 fallback) | Both fail |
+  | S2-3 | Zr − r + Y < 0 certified | Not at any r of the radii polynomial |
+  | S2-4 | 0 ∉ [v_x] | 0 ∈ [v_x] |
+  | (i) | 0 ∈ [v_x] at β = 0 | 0 ∉ [v_x] → STOP the MN claim |
+  | (ii) | Arc certified | Not certified |
+  | (iii) | Enclosures disjoint | Not disjoint |
+  | (iv) | CKMJ ball met | Not met |
+
+- **Check-in at ~25%.** After S2-0 gives P, when 0.25·P core-h have been spent, compare the actual cost per return
+  with S2-0's. If the projection now exceeds 2P, pause my own verified PIDs and re-gate with the Bridge before
+  continuing.
+- **Operations.**
+  - Mac mini only, not the Air: the libraries are tested here and the cores are faster (the Bridge, 2026-11-27).
+  - A slot request to the Bridge before S2-0 and again before the parallel stage.
+  - S2-0 runs on 1 core. After it, up to 4 single-core jobs may run concurrently (the MN chain, (i), (iii), (iv)),
+    within the fleet's 8-core limit and the ~5 spare cores.
+  - Everything at nice 10, detached (tools/detach.sh) and checkpointed per stage.
+  - Pause-only guards, no caps. Memory declared from S2-0's phys_footprint.
