@@ -348,3 +348,77 @@ one core, so it needs the gate. Where A10 is stricter than A6/A8, A10 wins. Noth
     within the fleet's 8-core limit and the ~5 spare cores.
   - Everything at nice 10, detached (tools/detach.sh) and checkpointed per stage.
   - Pause-only guards, no caps. Memory declared from S2-0's phys_footprint.
+
+## A11. The re-gate decision after S2-0, and the parameters S2-0 forced (labelled addendum, 2026-11-27)
+- **The Bridge's decision (local_5890ca6a, 2026-11-27): option (A), as registered.**
+  - It keeps the stronger control (iii): the sabotaged field is re-certified, and its enclosures must be DISJOINT
+    from the true-field ones.
+  - Reasons: (A) and (B) differ by ~1.4 core-h on otherwise idle Mac mini cores; rigour wins over the cheaper variant;
+    and the spike as Sumit approved it was "≤ ~20 core-h with stop rules" in total. S1 ≈ 2 + S2-0 0.65 + S2 ≈ 6.5
+    projected makes ≈ 9.
+- **Budget mechanics.** These replace A10's "×3 must be ≤ 15":
+  - The ACTUAL spend cap for the rest of S2 is **12 core-h measured**. If it is reached, pause my own verified PIDs
+    and report. Never kill.
+  - **25% check-in:** re-gate if the projection exceeds 2 × 6.5 = 13 core-h.
+  - **(iv) L4** (unmeasured): pause and report if it passes 1.5 core-h.
+  - **Kill date: 2026-11-29 15:00 IST.**
+- **Measured basis** (S2_0_RESULT.md, 6797c1f; all MPFR-128, order 20):
+  - unit costs: C¹ near-fp return 306 s, C¹ τ ≈ 381 return 593 s, C⁰ point 110 s;
+  - Kerr ≈ 0.59× that;
+  - 23 MB per job;
+  - widths linear in the set size.
+- **Parameters forced by S2-0** (methods unchanged):
+  - **Step tolerance 1e-24** (absolute = relative) for EVERY S2 run. It is step control only.
+  - **Krawczyk balls** r ≈ 4·Y, expected ~1e-16 to 1e-17.
+  - **Nodes:** s_u ≈ 2e-12 (two more fundamental domains), so m = 9: X ∈ R¹⁷ for the half BVP.
+  - **Cone box δ = 1e-9** (not 1e-10), so that the reach δ* of the lemma below exceeds |ū| + r with margin.
+  - **x̄ refinement:** one quasi-Newton correction from a rigorous C⁰ point pass, then the certifying point pass.
+  - **Mean-value forms:** all F(x̄) and box images use P(point) + DP(box)·(offset). No C⁰ hulls of boxes.
+  - **Each node's map** is "the first upward crossing of y = 0 after t = Tstop_i". The program fails closed unless
+    y(Tstop_i) < 0 is certified. Every step enclosure gets the S4 domain checks.
+  - **The A5 double-interval fallback is dropped** (trust rule 1).
+- **Local unstable manifold: a self-contained lemma replaces the Zgliczyński 2009 citation.** I could not read that
+  paper at source: ScienceDirect refuses automated access, and it is not on arXiv. The lemma below is elementary and
+  needs a NON-AUTHOR READ before any claim.
+  - *Setting:*
+    - affine eigen-coordinates (u, s) centred at the float fixed point, with an exact decimal frame;
+    - B = {|u| ≤ δ, |s| ≤ δ};
+    - P is C¹ (analytic) near B;
+    - [M] = [[a, b], [c, d]] is an interval matrix containing DP(ξ) for all ξ ∈ B, hence also every mean-value matrix
+      ∫DP along segments in B (B and [M] are convex);
+    - p* = (u*, s*) ∈ B is the fixed point (S2-1), |u*|, |s*| ≤ ρ′;
+    - K = {|Δs| ≤ L|Δu|}.
+  - *Hypotheses* (interval-checked): with μ := a_min − |b|_max L and ν := |c|_max/L + |d|_max,
+    - (H1) μ > 1 and |c|_max + |d|_max L ≤ L μ;
+    - (H2) ν < 1.
+  - *Claim:* W^u(p*) contains the graph Γ = {(u, h(u)) : |u − u*| ≤ δ*} of a C¹ function with |h′| ≤ L and
+    h(u*) = s*. Here δ* = (δ − ρ′)/(κ max(1, L)) with κ = a_max + |b|_max L. So every point and every tangent of Γ
+    lies in p* + K and in K respectively.
+  - *Proof:*
+    1. **(H1) makes K forward-invariant and u-expanding** under every M ∈ [M].
+       - For Δ = (Δu, Δs) ∈ K: |(MΔ)_u| ≥ (a − |b|L)|Δu| ≥ μ|Δu|.
+       - And |(MΔ)_s| ≤ (|c| + |d|L)|Δu| ≤ Lμ|Δu| ≤ L|(MΔ)_u|.
+    2. **(H2) gives backward s-expansion on K^c.**
+       - Contrapositive of step 1: if MΔ ∉ K then Δ ∉ K. So M⁻¹ maps K^c into K^c.
+       - For Δ ∈ K^c: |(MΔ)_s| ≤ (|c|/L + |d|)|Δs| = ν|Δs|.
+    3. **Let A = the points of B with a full backward P-orbit inside B.** For x, x′ ∈ A with backward orbits (x_n),
+       (x′_n) ⊂ B, the mean value theorem on the convex B gives x_n − x′_n = M̃_n (x_{n+1} − x′_{n+1}) with
+       M̃_n ∈ [M].
+       - If x − x′ ∈ K^c, then by step 2 every x_n − x′_n ∈ K^c, with |Δs| growing by ≥ 1/ν at each step.
+       - That contradicts |Δs| ≤ 2δ (an element of K^c has Δs ≠ 0).
+       - Hence x − x′ ∈ K, and A lies in an L-Lipschitz graph over u.
+    4. **The classical local unstable manifold W of the hyperbolic fixed point p*** is a C¹ curve. Hyperbolicity
+       follows from steps 1–2 (eigenvalues |λ_u| ≥ μ > 1 and |λ_s| ≤ ν < 1). Points of W near p* lie in A.
+       - Let Γ be the connected component of W ∩ A containing p*.
+       - Suppose Γ ended at e with t := |e_u − u*| < δ*.
+       - P⁻¹ maps arcs of Γ from p* into Γ (A is backward-invariant).
+       - P maps the arc [p*, e] onto an arc of W from p* to P(e). By the cone bound, each of its points y = P(x)
+         satisfies |y_u − u*| ≤ κt and |y_s − s*| ≤ Lκt, so y ∈ B by the choice of δ*.
+       - And y has the backward orbit x, … in B, so y ∈ A. Hence P([p*, e]) ⊂ Γ.
+       - But it reaches u-distance ≥ μt > t, contradicting the choice of e.
+       - So Γ covers |u − u*| ≤ δ* on both sides. W is C¹, so h is C¹, with |h′| ≤ L from step 3. ∎
+- **How the lemma is used.** The BVP's first node is w_u(u) = c + u ũ + h(u) s̃.
+  - Its enclosure: h(u) ∈ s* + L|u − u*|·[−1, 1] and h′(u) ∈ [−L, L].
+  - The node's u-range must satisfy |ū − u*| + r ≤ δ* (checked).
+- **Control (ii)'s α ≡ 0 step** uses Kerr's Carter function K_r as an exact first integral. S2 checks this
+  symbolically before (ii) is read: the Poisson bracket {K_r, H} vanishes on the shell H = −1/2.
