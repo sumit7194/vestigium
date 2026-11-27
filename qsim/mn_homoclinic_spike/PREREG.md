@@ -82,3 +82,10 @@ record (qsim/mn_melnikov/RESULT.md; fable_work/mn_melnikov/{SETUP,MELNIKOV,THEOR
   - Memory is declared as footprint (S1: ≤ 300 MB).
   - Neon's cost numbers carry zero weight.
   - S2 starts only on the Bridge's go after it has seen S1.
+
+**Setup correspondence (labelled addendum; the commit gate's request, before any code).**
+- The claim tested is "the MN quadrupole breaks Kerr's r_u = 16 homoclinic loop transversally, with splitting
+  amplitude 4Υ_θ|L2| per unit β, and the BVP for one transverse homoclinic is well enough conditioned to certify".
+- S1 runs at exactly the Melnikov condition: (M, a) = (5, 3), r_u = 16, z_m = 1/2, (E, L) as certified in RESULT.md G1,
+  and the same MN β-family, which G-norm checks.
+- Only β takes the listed small values. S2 would run at one β chosen by S1, at the same (M, a, E, L).
