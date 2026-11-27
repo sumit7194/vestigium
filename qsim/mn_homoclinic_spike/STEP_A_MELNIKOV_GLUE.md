@@ -162,6 +162,25 @@ t′(0) = −1.00307e−3.
   were not independently fixed, so this is "consistent", not "checked".
 - **A rigorous t(β) at β = 3/100**, from S2's enclosures: v_x / v_px ∈ [−3.1494e−5, −3.1338e−5]; t/β ≈ −1.0e−3.
 
+### 4b. A second derivation of the constant (Neon, 2026-11-27; the source is UNVERIFIED maths; it is consistent)
+- **Neon's formula.** Neon derived it without seeing this note, using Δx(p_x, β) = x_u(p_x, β) − x_u(−p_x, β), which
+  is odd because W^s = R W^u:
+
+      v_x′(0)/v_px(0) = M_K′(ψ₀) / (2 ∂_xK(z₀) γ′_px(ψ₀)).
+
+- **Its hypotheses:**
+  - a C² reversible area-preserving family;
+  - a C² first integral K with K∘R = K;
+  - a hyperbolic fixed point with a symmetric homoclinic loop;
+  - ∂_xK(z₀) ≠ 0;
+  - M′(ψ₀) ≠ 0.
+- **The reference it gives:** Delshams & Ramírez-Ros, Nonlinearity 9 (1996) 1–26, DOI 10.1088/0951-7715/9/1/001.
+  The Bridge confirmed the DOI at Crossref; I have NOT read the paper.
+- **Agreement.** With ∂_xK = kF_t (step 1) and γ′_px = dp_x/dψ₀ = kF_t/Υ_θ (the inverse of step 4's phase map),
+  Neon's formula is t′(0) = Υ_θ M′/(2k²F_t²). That is the same constant and the same factor 2. The Bridge checked
+  this mapping.
+- **Status.** This is a consistency check, not a proof input.
+
 ## 5. What Step A does NOT give
 - β₀ is NOT explicit. Nothing at a given β except through S2 (β = 3/100). Step A does not join S2's point, because
   β₀ is unknown.

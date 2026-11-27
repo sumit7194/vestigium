@@ -97,3 +97,37 @@ uncommitted.
    - If the pilot shows the wrapping is tamed, finish route 1 for [−0.03, 0.03] and join S2.
    - **Only if a wider range (|β| up to 0.1+) is wanted,** build route 2 on the same remedies.
 3. **Not before Step A's read**, and not before Sumit sets a budget.
+
+## Folded in: Neon's card-2 follow-up (2026-11-27; the Bridge checked the citations at source; the maths is UNVERIFIED)
+- **The missing piece for route 1.** Neon gives a parameter-dependent C² graph-transform lemma.
+  - Fixed (u, s) axes at the Kerr eigenvectors.
+  - Four interval-checkable inequalities:
+    1. the C¹ cone/expansion condition;
+    2. h_β contraction by 1 − κ;
+    3. h_uu with factor κ/μ²;
+    4. h_uβ with factor κ/μ (≈ λ_u⁻²).
+  - It encloses ∂_β of the local-manifold slope, which is exactly what the cone lemma (A11) cannot give.
+  - Refs (DOIs checked by the Bridge; NOT read by me):
+    - Capiński–Zgliczyński, arXiv:1603.07131;
+    - Zgliczyński, JDE 246 (2009) 1774–1819, DOI 10.1016/j.jde.2008.12.019. This is the paper A11 replaced with a
+      self-contained lemma because I could not read it; it exists;
+    - Cabré–Fontich–de la Llave II, IUMJ 52 (2003);
+    - Castelli–Lessard–Mireles James, SIADS 14 (2015) and JDDE 30 (2018).
+  - **It needs a non-author read before any use.** It would be written up as our own lemma with proof, as A11 was.
+- **Route 2 without complex time.**
+  - Rescale t = Tτ, with τ ∈ [0, 1] real and T ∈ ℂ, on the last segment and for the period only.
+  - The parametrisation method (natively holomorphic) replaces the cone lemma. Ref: arXiv:2509.03655 (Kumar).
+  - This is simpler than my rotated-time idea.
+  - **Correction to my route-2 count (Neon's catch):** Schwarz or Rouché need t holomorphic on the CLOSED disc.
+    That means certifying the half-BVP solution (existence, uniqueness, analyticity) over a 2-D cover of the disc, not
+    just on the circle. So ~300–400 complex balls (Neon's estimate), not ~60, unless a Taylor-in-β (Wiener-algebra)
+    method is used. That is route 3 in ℂ, and it is my remedy (R-b).
+- **Neon's costs.**
+  - Route 1 + lemma: β\* ~1e−4 to 1e−3, 15–80 core-h, 3–5 days.
+  - Route 3 (Chebyshev or Taylor model in β): β\* 0.03–0.1, 20–100 core-h, 2–3 weeks.
+  - **Both ignore the chain-wrapping blocker above** (~1.7e7 × the β-width on the long return). Neon was not told
+    about it.
+  - Its β\* ~1e−4 to 1e−3 for route 1 is worth noting: an explicit β\* that small would NOT join S2's 3/100.
+- **The pick is unchanged:** the route-1 pilot first (3–10 core-h), which measures the blocker. Neon's lemma B
+  becomes the planned local-manifold piece, after a non-author read. Route 3/(R-b) is the natural engine if the pilot
+  shows that box wrapping dominates.
