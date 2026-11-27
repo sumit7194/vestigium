@@ -52,15 +52,19 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
   - **Not given:** an explicit β₀. Step A does not reach S2's β = 3/100. Draft routes are in EXPLICIT_BETA_ROUTES_DRAFT.md.
 
 ## What is running
-- Nothing.
+- The Tier 2a independent-derivation agent (no compute beyond seconds). No CAPD jobs.
 
 ## Next decision, and who makes it
+- **Under way (Sumit's GO via the Bridge, 2026-11-27):**
+  - **Tier 2a**, the re-derivation of the MN field by a non-author.
+    - It is registered BEFORE the run: qsim/mn_homoclinic_spike/tier2a/TIER2A_PREREG.md. The harness is frozen.
+    - It removes the (H1) caveat from S2 and Step A if it AGREEs. A DISCREPANCY re-holds both.
+    - Stop: 2026-11-29 18:00 IST.
+  - **The route-1 pilot** for an explicit β*: the lemma write-up, then the Bridge's read, then the runs, which wait
+    for 2a.
+    - Cap 12 core-h measured. Kill date 2026-12-06 18:00 IST.
 - **Sumit:**
   - the push (local commits only);
-  - **Tier 2a** (≈ 1 day, minutes of compute): an independent re-derivation of the MN field by a non-author, which
-    removes the (H1) caveat from S2 and Step A at once. The Bridge recommends it;
-  - **the route-1 pilot** for an explicit β* (≈ 3–10 core-h, ≈ 1 week of preparation; it measures the
-    chain-wrapping blocker);
   - Tier 2b (a second integrator; Kerr pilot first);
   - any compute beyond the spike, which is CLOSED at ≈ 19.7 of ≈ 20 core-h;
   - whether this goes into the chaos write-up (c67126e) and the outreach.

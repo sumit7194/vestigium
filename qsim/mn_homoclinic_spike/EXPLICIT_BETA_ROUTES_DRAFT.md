@@ -4,6 +4,9 @@ Written 2026-11-27 22:20 IST by Claude Opus 5.5 (office "Quantum"), at the Bridg
 shouldn't be a reason to not do something". So new installs and new integrators are treated as allowed. Local,
 uncommitted.
 
+**Correction, stated up front:** my earlier route-1 estimate of "20–300 core-h" (in messages only, never in a committed
+file) is WITHDRAWN. Box wrapping on the long return (below) makes the cost unknown, ~10¹–10⁵ core-h, until the pilot.
+
 ## The value
 - Step A (if read CORRECT) gives chaos for 0 < |β| < β₀, with β₀ unknown.
 - An explicit β* ≥ 3/100 would join S2's point, giving **chaos for every 0 < |β| ≤ 0.03 (both signs)**: one clean
