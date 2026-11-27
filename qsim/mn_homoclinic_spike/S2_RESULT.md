@@ -1,5 +1,8 @@
 # S2 result: PROVED (within S2's scope). Every registered condition holds; both lemmas read by a non-author (CORRECT); A12 accepted; the v4 rerun is identical and the Tier-1 (Arb) re-check is read CORRECT (A13.1–A13.2)
 
+> **Note on reviewers.** In this project, "non-author read" and "independent" checks were done by separate AI sessions
+> or systems (Claude sessions, Gemini), not by human peer review. No external expert has yet read these proofs.
+
 Runs 2026-11-27, 15:54–19:20 IST, on the Mac mini (≤ 4 single-core jobs, nice 10, 23 MB each). MPFR-128, Taylor order
 20, step tolerance 1e-24. Code: `capd/s2_main.cpp` (v3), `capd/s2_l4.cpp`, `s2run.py`, `l4run.py`. Outputs: `s2/`.
 Registration: PREREG.md S2 AMENDMENT A1–A12. Written by Claude Opus 5.5 (office "Quantum").

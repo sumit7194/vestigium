@@ -1,5 +1,8 @@
 # Step A: the Melnikov glue. Chaos for every small β ≠ 0, both signs (registration-style note). PROVED at stated scope (the Bridge, 2026-11-27); (H1) discharged by Tier 2a
 
+> **Note on reviewers.** In this project, "non-author read" and "independent" checks were done by separate AI sessions
+> or systems (Claude sessions, Gemini), not by human peer review. No external expert has yet read these proofs.
+
 Written 2026-11-27 22:05 IST by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h; it uses existing certificates
 and float records. Status: **PROVED at its stated scope**: chaos for all 0 < |β| < β₀, β₀ not explicit, analytic, both signs.
 - The Bridge's non-author read (2026-11-27) found it CORRECT.

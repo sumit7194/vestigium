@@ -1,0 +1,58 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+type: software
+title: "vestigium: computer-assisted proofs of chaotic geodesics in the Manko–Novikov spacetime (AI-assisted)"
+version: "v2026.11.28"
+date-released: "2026-11-28"
+license: MIT
+repository-code: "https://github.com/sumit7194/vestigium"
+authors:
+  - given-names: "Sumit"
+    family-names: "Pal"
+    affiliation: "Independent researcher"
+    orcid: "https://orcid.org/0009-0000-9541-2793"
+    alias: "sumit7194"
+abstract: >-
+  AI-assisted. Computer-assisted proofs (interval arithmetic, CAPD/MPFR) that timelike geodesics of the
+  Manko–Novikov spacetime (M = 5, a = 3, one energy level) are chaotic: a transversal homoclinic orbit, hence
+  positive topological entropy, at quadrupole deviation beta = 3/100; and a Melnikov-type theorem, with a certified
+  first-order coefficient, for every 0 < |beta| < beta_0 (beta_0 not explicit), both signs. The decision arithmetic
+  is re-evaluated in a second arithmetic library (Arb), and the field is independently re-derived from the published
+  metric; these checks were done by separate AI sessions or systems, not human peer review. No entropy value is
+  claimed. AI systems used: Claude (Anthropic) and Gemini (Google).
+keywords:
+  - computer-assisted proof
+  - interval arithmetic
+  - Manko-Novikov spacetime
+  - bumpy black hole
+  - geodesic chaos
+  - transversal homoclinic orbit
+  - Melnikov method
+references:
+  - type: article
+    title: "Observable properties of orbits in exact bumpy spacetimes"
+    authors:
+      - family-names: Gair
+        given-names: Jonathan R.
+      - family-names: Li
+        given-names: Chao
+      - family-names: Mandel
+        given-names: Ilya
+    journal: "Physical Review D"
+    volume: 77
+    start: "024035"
+    year: 2008
+    identifiers:
+      - type: other
+        value: "arXiv:0708.0628"
+  - type: article
+    title: "Melnikov method for autonomous Hamiltonians"
+    authors:
+      - family-names: Robinson
+        given-names: Clark
+    journal: "Contemporary Mathematics"
+    volume: 198
+    start: "45"
+    end: "53"
+    year: 1996
+    doi: "10.1090/conm/198/02519"

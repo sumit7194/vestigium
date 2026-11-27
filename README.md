@@ -7,12 +7,41 @@ here: the partial *trace* is the operation at the heart of nearly every script b
 *record* is what turns a superposition into an outcome; and the *footprint* left in the
 environment is why observers agree on what happened.
 
-This is a laboratory for the measurement problem, built in small verified steps. Nothing in
-it is new physics — every result reproduces something already known, some of it for a
-century. That is the point: **each experiment is checked against exact analytics or a real
+This is a laboratory for the measurement problem, built in small verified steps. Most of
+it is not new physics — nearly every result reproduces something already known, some of it for a
+century (the exception is the Manko–Novikov chaos results below). That is the point: **each experiment is checked against exact analytics or a real
 published measurement**, so when the machinery is later pointed at an open question, the
 machinery itself is not in doubt. Two of our own bugs were caught by exactly these checks
 (both documented below).
+
+### New mathematics: chaotic geodesics around a "bumpy" black hole (computer-assisted proofs; AI-assisted)
+
+The Manko–Novikov spacetime is the Kerr black hole with an extra mass quadrupole β. For timelike geodesics at one
+energy level (M = 5, a = 3), we prove:
+
+- **β = 3/100: chaos, by a computer-assisted proof.** The stable and unstable manifolds of an unstable periodic orbit
+  cross transversally, so there is a horseshoe and the topological entropy is positive.
+  - The proof uses interval arithmetic throughout (CAPD/MPFR).
+  - The decisions were re-evaluated in a second arithmetic library (Arb).
+  - The field was re-derived from the published metric by a separate AI agent instance.
+  - The same code applied to Kerr (β = 0) correctly finds *no* transversality.
+- **Every small β ≠ 0, both signs: chaos (a Melnikov-type theorem).** The key coefficient is certified with interval
+  arithmetic. The bound β₀ is not explicit.
+- **Not claimed:** no entropy value, no other energy levels, and no explicit β₀. The flow enclosures rest on one
+  validated integrator (CAPD).
+
+Details:
+- [result at β = 3/100](qsim/mn_homoclinic_spike/S2_RESULT.md)
+- [all small β](qsim/mn_homoclinic_spike/STEP_A_MELNIKOV_GLUE.md)
+- [field re-derivation](qsim/mn_homoclinic_spike/tier2a/TIER2A_RESULT.md)
+- [referee checklist](qsim/mn_homoclinic_spike/FIELD_CHECKLIST_MN_CHAOS.md)
+- [novelty check](qsim/mn_homoclinic_spike/NOVELTY_CHECK.md)
+- [status](STATUS.md)
+
+To our knowledge, this is the first computer-assisted proof of chaos for Manko–Novikov geodesics; earlier MN chaos
+results we found are numerical. (Rigorous perturbative results exist for perturbed Schwarzschild, e.g. Moeckel 1992.)
+Work done with AI assistance (Claude, Gemini). Every check described as independent was done by a separate AI
+session or system, not by human peer review; no external expert has yet read the proofs. See the release notes.
 
 ### The one result here that was not known in advance
 

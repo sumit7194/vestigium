@@ -1,5 +1,8 @@
 # Tier 2a result: AGREE. The MN field was re-derived independently from the published metric, and it matches the S2 header and the Melnikov module
 
+> **Note on reviewers.** In this project, "non-author read" and "independent" checks were done by separate AI sessions
+> or systems (Claude sessions, Gemini), not by human peer review. No external expert has yet read these proofs.
+
 Run 2026-11-27, comparison at about 22:45 IST. Registration: TIER2A_PREREG.md (0d35da2 + dd0f190). The harness was frozen
 before the independent module was seen (34416e6). Written by Claude Opus 5.5 (office "Quantum"). Compute: about 6 core-s.
 
