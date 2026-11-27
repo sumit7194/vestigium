@@ -1,0 +1,34 @@
+L4 eigenvalues (0.6320751955569279+0.948429782766404j) (-0.6320751955569286+0.9484297827664043j)
+  cone cone_u.spec rc 0 (0 s)
+  cone u {'L': '1.168194076911938446291945e-03', 'deltastar': '3.689291413609330992895835e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '1.168194076911125441433030e-03', 'deltastar': '3.689291413609331166709691e-08'}
+   anchor W^u side: |.| 3.91e-10 after 15 steps
+   W^s side (linear seam): t* 10.57893 phi* -2.88917, seam at z_c 1.66e-05 (u-part of z_c 1.70e-05)
+  float: n 117 Tseg 0.50213 kk 46
+   newton 0 |F| 1.18e-05
+   newton 1 |F| 2.81e-11
+   newton 2 |F| 7.30e-12
+   newton 3 |F| 1.03e-13
+  float: scaled ||A||_inf 2.803e+09 cond 2.63e+12
+  float: |X| converged, alpha -1.26e-17, node 46 -> p-bar after t = -0.157545: float distance 3.41e-10
+  bvp bvp_pt.spec rc 0 (22 s)
+  note: refined alpha-bar 1.3452e-22 (s2_l4 uses alpha-bar = 0)
+  bvp bvp.spec rc 1 (98 s)
+Traceback (most recent call last):
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 198, in <module>
+    main()
+    ~~~~^^
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 190, in main
+    txt = run("bvp", os.path.join(D, "bvp.spec"), os.path.join(D, "bvp.out"))
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 51, in run
+    if r.returncode not in (0, 3): raise RuntimeError(r.stdout[-600:])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: eps 2 wall 0.2 s (total 81.4 s)
+PASS l4_ball116 C1 steps 2 wall 0.2 s (total 81.6 s)
+KRAWCZYK Y 1.567267758288975037895874e-02 Z 7.616442585816744720816632e+06 r 3.590252256956052324154567e-10  Zr - r + Y <= 1.840717224223500058059830e-02
+ENERGY at the endpoint enclosures: [2.999999998928725671087771e+00,3.000000001071274329145100e+00] / [2.999999998879557785599879e+00,3.000000001120442214703640e+00] (the manifolds lie in E = 3 exactly)
+PASS ckmj_shift C0 steps 2 wall 0.0 s (total 97.7 s)
+FAIL Interval error: MpInterval Function sqrt(x) - domain error
+   left=-9.75980e-20   right=4.44950e-18 
+

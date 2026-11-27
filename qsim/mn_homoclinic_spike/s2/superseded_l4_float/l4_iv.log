@@ -1,0 +1,13 @@
+L4 eigenvalues (0.6320751953537638+0.9484297827265077j) (-0.6320751953537644+0.9484297827265078j)
+  cone cone_u.spec rc 0 (1 s)
+  cone u {'L': '1.168196927237438898407116e-03', 'deltastar': '3.689291413771253232230085e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '1.168196927220594737350112e-03', 'deltastar': '3.689291413771252497227637e-08'}
+Traceback (most recent call last):
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 123, in <module>
+    main()
+    ~~~~^^
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 73, in main
+    tb, tf = sb.t_events[0][0], sf.t_events[0][0]; zs, ze = sb.y_events[0][0], sf.y_events[0][0]
+                                ~~~~~~~~~~~~~~^^^
+IndexError: index 0 is out of bounds for axis 0 with size 0

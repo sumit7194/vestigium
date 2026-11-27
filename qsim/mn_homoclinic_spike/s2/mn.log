@@ -1,0 +1,13 @@
+S2 chain mn field true beta 0.03
+  fp fp_pt.spec rc 0 (141 s)
+  fp fp.spec rc 0 (461 s)
+  fp CERTIFIED rho 1.000000000000000000000001e-19
+  cone cone.spec rc 0 (335 s)
+  cone CERTIFIED L 1.202957103632989076955477e-02 deltastar 3.735427666294492473644250e-11
+  bvp bvp_pt.spec rc 0 (1373 s)
+S2 chain mn field true beta 0.03
+  fp CERTIFIED rho 1.000000000000000000000001e-19
+  cone CERTIFIED L 1.202957103632989076955477e-02 deltastar 3.735427666294492473644250e-11
+  bvp bvp.spec rc 0 (4880 s)
+  bvp CERTIFIED v_x excludes0 v_px excludes0
+DONE mn 4888 s

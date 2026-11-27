@@ -1,0 +1,15 @@
+L4 eigenvalues (0.6320751955569279+0.948429782766404j) (-0.6320751955569286+0.9484297827664043j)
+  cone cone_u.spec rc 0 (0 s)
+  cone u {'L': '1.168194076911938446291945e-03', 'deltastar': '3.689291413609330992895835e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '1.168194076911125441433030e-03', 'deltastar': '3.689291413609331166709691e-08'}
+   anchor W^u side: |.| 3.91e-10 after 15 steps
+   anchor W^s side: |.| 4.29e-01 after 3 steps
+Traceback (most recent call last):
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 186, in <module>
+    main()
+    ~~~~^^
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 113, in main
+    q = np.array([th, ph, t1, t2]); ng = np.max(np.abs(G(q)))
+                                                       ^
+NameError: name 'G' is not defined

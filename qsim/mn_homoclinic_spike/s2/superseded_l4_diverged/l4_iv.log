@@ -1,0 +1,42 @@
+L4 eigenvalues (0.6320751955569279+0.948429782766404j) (-0.6320751955569286+0.9484297827664043j)
+  cone cone_u.spec rc 0 (0 s)
+  cone u {'L': '1.168194076911938446291945e-03', 'deltastar': '3.689291413609330992895835e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '1.168194076911125441433030e-03', 'deltastar': '3.689291413609331166709691e-08'}
+  float: closest approach t_c 25.2300 dist 9.28e-06 (s-radius 1.84e-05); backward from W^s endpoint 10.5551; seam mismatch 2.30e-05
+  float: t_back 21.8564 t_fwd 35.7851 n 38 Tseg 1.51688 theta -2.75081 phi 0.82185 kk 14
+   newton 0 |F| 1.49e-04
+   newton 1 |F| 5.87e+00
+   newton 2 |F| 4.52e+01
+   newton 3 |F| 4.57e+01
+   newton 4 |F| 1.17e+01
+   newton 5 |F| 3.08e+01
+   newton 6 |F| 2.61e+00
+   newton 7 |F| 1.65e+02
+   newton 8 |F| 3.17e+02
+   newton 9 |F| 1.61e+01
+  float: |X| converged, alpha -1.20e-01, node 14 -> p-bar after t = 1.516883: float distance 2.44e+00
+  bvp bvp_pt.spec rc 1 (19 s)
+Traceback (most recent call last):
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 149, in <module>
+    main()
+    ~~~~^^
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 133, in main
+    txt = run("bvp", os.path.join(D, "bvp_pt.spec"), os.path.join(D, "bvp_pt.out"))
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 51, in run
+    if r.returncode not in (0, 3): raise RuntimeError(r.stdout[-600:])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError:  1.4 s)
+PASS l4_pt8 C0 steps 10 wall 0.3 s (total 1.8 s)
+PASS l4_pt9 C0 steps 12 wall 0.4 s (total 2.2 s)
+PASS l4_pt10 C0 steps 20 wall 0.6 s (total 2.8 s)
+PASS l4_pt11 C0 steps 30 wall 0.9 s (total 3.7 s)
+PASS l4_pt12 C0 steps 30 wall 1.0 s (total 4.6 s)
+PASS l4_pt13 C0 steps 25 wall 0.8 s (total 5.4 s)
+PASS l4_pt14 C0 steps 35 wall 1.1 s (total 6.5 s)
+PASS l4_pt15 C0 steps 185 wall 5.6 s (total 12.1 s)
+PASS l4_pt16 C0 steps 50 wall 1.5 s (total 13.6 s)
+PASS l4_pt17 C0 steps 46 wall 1.4 s (total 15.0 s)
+PASS l4_pt18 C0 steps 48 wall 1.4 s (total 16.4 s)
+FAIL domain: r1 or r2 < 1/100 possible
+

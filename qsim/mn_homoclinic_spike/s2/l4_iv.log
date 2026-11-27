@@ -1,0 +1,23 @@
+  Jordan check: u-block [[0.632075, 0.94843], [-0.94843, 0.632075]] off-block max 1.3e-15
+L4 eigenvalues (0.6320751955569279+0.948429782766404j) (-0.6320751955569286+0.9484297827664043j)
+  cone cone_u.spec rc 0 (0 s)
+  cone u {'L': '8.119913959091367965401975e-04', 'deltastar': '3.758048207106552277699873e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '8.119913959106133093860331e-04', 'deltastar': '3.758048207106552277286557e-08'}
+   anchor W^u side: |.| 5.13e-10 after 18 steps
+   W^s side (linear seam): t* 11.02494 phi* 3.01470, seam at z_c 1.66e-05 (u-part of z_c 2.58e-05)
+  float: adaptive segments n 124, shortest 0.0625, longest 0.5000
+  float: n 124 Tseg 0.48295 kk 47
+   newton 0 |F| 1.26e-05
+   newton 1 |F| 3.82e-11
+   newton 2 |F| 1.11e-13
+  bvp2 float: cond 2.26e+06 ||A||_inf 2.80e+03 |u| 2.500e-08 |s| 2.500e-08 alpha -1.5e-17
+  bvp2 float: node 47 -> p-bar after t = 0.131054: float distance 3.41e-10
+  bvp2 bvp2_pt0.spec rc 0 (22 s)
+   refine 0: max |F mid| 5.92e-15
+  bvp2 bvp2_pt1.spec rc 0 (21 s)
+   refine 1: max |F mid| 2.43e-25
+  bvp2 bvp2_pt2.spec rc 0 (20 s)
+   refine 2: max |F mid| 2.42e-25
+  bvp2 bvp2.spec rc 0 (96 s)
+  l4 CERTIFIED ckmj MEETS

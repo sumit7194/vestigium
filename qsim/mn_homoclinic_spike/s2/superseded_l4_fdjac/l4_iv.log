@@ -1,0 +1,7 @@
+L4 eigenvalues (0.6320751953537638+0.9484297827265077j) (-0.6320751953537644+0.9484297827265078j)
+  cone cone_u.spec rc 0 (0 s)
+  cone u {'L': '1.168196927237438898407116e-03', 'deltastar': '3.689291413771253232230085e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '1.168196927220594737350112e-03', 'deltastar': '3.689291413771252497227637e-08'}
+  float: closest approach t_c 25.2300 dist 9.28e-06 (s-radius 1.84e-05); backward from W^s endpoint 10.5551; seam mismatch 2.30e-05
+  float: t_back 21.8564 t_fwd 35.7851 n 38 Tseg 1.51688 theta -2.75080 phi 0.82185 kk 14

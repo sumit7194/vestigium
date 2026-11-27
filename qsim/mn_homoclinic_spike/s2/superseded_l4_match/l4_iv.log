@@ -1,0 +1,37 @@
+L4 eigenvalues (0.6320751955569279+0.948429782766404j) (-0.6320751955569286+0.9484297827664043j)
+  cone cone_u.spec rc 0 (0 s)
+  cone u {'L': '1.168194076911938446291945e-03', 'deltastar': '3.689291413609330992895835e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '1.168194076911125441433030e-03', 'deltastar': '3.689291413609331166709691e-08'}
+   match 0 |G| 6.70e-01
+   match 1 |G| 6.69e-01
+   match 2 |G| 6.67e-01
+   match 3 |G| 6.66e-01
+   match 4 |G| 6.66e-01
+   match 5 |G| 6.53e-01
+   match 6 |G| 6.37e-01
+   match 7 |G| 1.18e-01
+   match 8 |G| 5.27e-02
+   match 9 |G| 2.01e-02
+   match 10 |G| 7.15e-04
+   match 11 |G| 3.09e-05
+   match 12 |G| 2.11e-05
+   match 13 |G| 2.48e-07
+   match 14 |G| 2.94e-07
+   match 15 |G| 1.49e-07
+   match 16 |G| 2.64e-08
+   match 17 |G| 2.81e-07
+   match 18 |G| 1.69e-07
+   match 19 |G| 1.19e-07
+   match 20 |G| 3.98e-07
+   match 21 |G| 1.89e-07
+   match 22 |G| 8.45e-08
+   match 23 |G| 6.96e-08
+   match 24 |G| 6.69e-08
+   match 25 |G| 2.31e-07
+   match 26 |G| 1.05e-07
+   match 27 |G| 6.60e-08
+   match 28 |G| 1.31e-07
+   match 29 |G| 1.00e-07
+  float: two-sided match theta 0.466843 phi 3.037017 t1 28.06403 t2 35.50700 |G| 1.0e-07
+two-sided match failed: no spec is written

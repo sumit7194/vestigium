@@ -1,0 +1,7 @@
+S2 control (ii) meet (free c + phase condition), reusing kerr_i fp CERTIFIED cone CERTIFIED
+  shallow: m 5 c 2.6870e-06 c' 5.0613e-07 alpha 3.73e-15 |F| 1.8e-13 cond 3.59e+01
+  deep: m 9 c 5.1548e-12 c' 9.6536e-13 alpha 2.15e-14 |F| 2.6e-13 cond 3.63e+01 ||A||_inf 1.70e+00
+  meet meet_pt.spec rc 0 (1778 s)
+  note: refined alpha-bar 2.1208e-22 (alpha-bar = 0 is used in s2_main)
+  meet meet.spec rc 0 (5732 s)
+  meet CERTIFIED klemma OK

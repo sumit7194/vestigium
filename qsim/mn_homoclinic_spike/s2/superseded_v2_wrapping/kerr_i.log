@@ -1,0 +1,10 @@
+S2 chain kerr_i field true beta 0
+  fp fp_pt.spec rc 0 (90 s)
+  fp fp.spec rc 0 (291 s)
+  fp CERTIFIED rho 1.000000000000000000000001e-19
+  cone cone.spec rc 0 (205 s)
+  cone CERTIFIED L 1.035719872703895031622260e-02 deltastar 3.720676450562431246308587e-11
+  bvp bvp_pt.spec rc 0 (837 s)
+  bvp bvp.spec rc 3 (3065 s)
+  bvp FAIL v_x contains0 v_px excludes0
+DONE kerr_i 4494 s

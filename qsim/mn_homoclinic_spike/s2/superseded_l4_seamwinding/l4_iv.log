@@ -1,0 +1,129 @@
+L4 eigenvalues (0.6320751955569279+0.948429782766404j) (-0.6320751955569286+0.9484297827664043j)
+  cone cone_u.spec rc 0 (0 s)
+  cone u {'L': '1.168194076911938446291945e-03', 'deltastar': '3.689291413609330992895835e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '1.168194076911125441433030e-03', 'deltastar': '3.689291413609331166709691e-08'}
+   anchor W^u side: |.| 3.91e-10 after 15 steps
+   W^s side: seam at z_c 1.61e-05 (near L4, linear regime)
+  float: n 117 Tseg 0.50117 kk 46
+   newton 0 |F| 1.44e-05
+     (damped, lambda 0.000488)
+   newton 1 |F| 1.44e-05
+     (damped, lambda 0.000488)
+   newton 2 |F| 1.44e-05
+     (damped, lambda 0.000244)
+   newton 3 |F| 1.44e-05
+     (damped, lambda 0.000244)
+   newton 4 |F| 1.44e-05
+     (damped, lambda 0.000244)
+   newton 5 |F| 1.44e-05
+     (damped, lambda 0.000244)
+   newton 6 |F| 1.44e-05
+     (damped, lambda 0.000244)
+   newton 7 |F| 1.44e-05
+     (damped, lambda 0.000244)
+   newton 8 |F| 1.44e-05
+     (damped, lambda 0.000244)
+   newton 9 |F| 1.44e-05
+     (damped, lambda 0.000244)
+   newton 10 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 11 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 12 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 13 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 14 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 15 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 16 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 17 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 18 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 19 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 20 |F| 1.44e-05
+     (damped, lambda 0.000122)
+   newton 21 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 22 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 23 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 24 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 25 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 26 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 27 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 28 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 29 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 30 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 31 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 32 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 33 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 34 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 35 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 36 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 37 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 38 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 39 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 40 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 41 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 42 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 43 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 44 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 45 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 46 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 47 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 48 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 49 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 50 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 51 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 52 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 53 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 54 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 55 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 56 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 57 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 58 |F| 1.43e-05
+     (damped, lambda 0.000122)
+   newton 59 |F| 1.43e-05
+     (damped, lambda 0.000122)
+float Newton did not converge to 1e-13 in the iteration budget: no spec is written

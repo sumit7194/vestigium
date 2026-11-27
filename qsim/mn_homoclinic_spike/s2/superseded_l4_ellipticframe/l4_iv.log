@@ -1,0 +1,41 @@
+L4 eigenvalues (0.6320751955569279+0.948429782766404j) (-0.6320751955569286+0.9484297827664043j)
+  cone cone_u.spec rc 0 (1 s)
+  cone u {'L': '1.168194076911938446291945e-03', 'deltastar': '3.689291413609330992895835e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '1.168194076911125441433030e-03', 'deltastar': '3.689291413609331166709691e-08'}
+   anchor W^u side: |.| 3.91e-10 after 15 steps
+   W^s side (linear seam): t* 10.57893 phi* -2.88917, seam at z_c 1.66e-05 (u-part of z_c 1.70e-05)
+  float: adaptive segments n 173, shortest 0.0010, longest 0.5000
+  float: n 173 Tseg 0.33959 kk 46
+   newton 0 |F| 1.31e-05
+   newton 1 |F| 1.87e-08
+     (damped, lambda 0.5)
+   newton 2 |F| 1.49e-08
+   newton 3 |F| 5.36e-09
+   newton 4 |F| 6.88e-15
+  float: scaled ||A||_inf 2.275e+11 cond 3.53e+12
+  float: |X| converged, alpha 1.42e-17, node 46 -> p-bar after t = -0.059465: float distance 3.41e-10
+  bvp bvp_pt0.spec rc 0 (25 s)
+   refine 0: max |F mid| 5.87e-15
+  bvp bvp_pt1.spec rc 0 (26 s)
+   refine 1: max |F mid| 1.88e-12
+  bvp bvp_pt2.spec rc 0 (26 s)
+   refine 2: max |F mid| 2.09e-18
+  bvp bvp.spec rc 1 (147 s)
+Traceback (most recent call last):
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 209, in <module>
+    main()
+    ~~~~^^
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 201, in main
+    txt = run("bvp", os.path.join(D, "bvp.spec"), os.path.join(D, "bvp.out"))
+  File "/Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/l4run.py", line 51, in run
+    if r.returncode not in (0, 3): raise RuntimeError(r.stdout[-600:])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: ps 2 wall 0.2 s (total 97.4 s)
+PASS l4_ball172 C1 steps 1 wall 0.1 s (total 97.5 s)
+KRAWCZYK Y 5.423879918047460049540092e-07 Z 4.164745057834793227849087e+10 r 2.770396839769629853775480e-08  Zr - r + Y <= 1.153799655181853570659576e+03
+ENERGY at the endpoint enclosures: [2.999999928376783923812508e+00,3.000000071623217849523726e+00] / [2.999999928048414939202191e+00,3.000000071951586869995382e+00] (the manifolds lie in E = 3 exactly)
+PASS ckmj_shift C0 steps 1 wall 0.0 s (total 147.3 s)
+FAIL Interval error: MpInterval Function sqrt(x) - domain error
+   left=-3.98535e-15   right=4.12855e-15 
+

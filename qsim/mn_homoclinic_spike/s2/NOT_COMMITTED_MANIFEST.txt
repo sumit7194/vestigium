@@ -1,0 +1,27 @@
+# Files kept locally but NOT committed (size); sha256 (first 16 hex) for provenance. Binaries: capd/s2_main*, capd/s2_l4, capd/s2_capd*.
+33322d7cbf72564b  5.2M  s2/l4_iv/bvp2.spec
+54eae18c92e42cf6  5.2M  s2/l4_iv/bvp2_pt0.spec
+40b1f40927f8f0a2  5.2M  s2/l4_iv/bvp2_pt1.spec
+00e9793fc31cd258  5.2M  s2/l4_iv/bvp2_pt2.spec
+1ce104e14896f0ca  9.3M  s2/superseded_l4_ellipticframe/bvp.spec
+ee4fecf3feca80c3  9.3M  s2/superseded_l4_ellipticframe/bvp_pt0.spec
+cb36d0737fe8b850  9.3M  s2/superseded_l4_ellipticframe/bvp_pt1.spec
+645f0bd7be858d96  9.3M  s2/superseded_l4_ellipticframe/bvp_pt2.spec
+dd27fba2f76e19f9  3.7M  s2/superseded_l4_ellipticframe/converged.npz
+d30b702650246350  1.7M  s2/superseded_l4_floor/stall.npz
+4898026682a912ab  1.7M  s2/superseded_l4_seamwinding/stall.npz
+1c5eb5b2653096a4  196K  s2/superseded_l4_tseg15/stall.npz
+2b87b9d9717d907a  1.7M  s2/superseded_l4_uniformseg/converged.npz
+40bf1cbd98c7a5cc  1.9M  s2/superseded_l4_weakphase/converged.npz
+5a6aee6722e84466  4.3M  s2/superseded_l4_wrapcond/bvp.spec
+f6cef8311374a608  4.3M  s2/superseded_l4_wrapcond/bvp_pt.spec
+be440c13c153f8c0  binary  capd/s2_main
+8ccb526488924405  binary  capd/s2_main_sab
+e783ae339dcb6675  binary  capd/s2_l4
+ae83bc01641ba5af  binary  capd/s2_main_v1
+fe7c23746c3cc488  binary  capd/s2_main_v2
+5f9850c9dbb03fb9  binary  capd/s2_main_sab_v1
+19585d16c99a17c3  binary  capd/s2_main_sab_v2
+e2ad2c398251d430  binary  capd/s2_capd
+b0c1495c86fa7f1a  binary  capd/s2_capd_t
+012261ae7a3e90bd  binary  capd/s2_capd_t2

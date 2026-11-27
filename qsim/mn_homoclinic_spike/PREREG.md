@@ -422,3 +422,78 @@ one core, so it needs the gate. Where A10 is stricter than A6/A8, A10 wins. Noth
   - The node's u-range must satisfy |ū − u*| + r ≤ δ* (checked).
 - **Control (ii)'s α ≡ 0 step** uses Kerr's Carter function K_r as an exact first integral. S2 checks this
   symbolically before (ii) is read: the Poisson bracket {K_r, H} vanishes on the shell H = −1/2.
+## A12. Batched clarifications during S2 (labelled addendum, appended at the end of S2, 2026-11-27)
+
+- **A11 lemma: non-author read by the Bridge, CORRECT (2026-11-27).** One wording fix, adopted here; the argument is
+  unchanged.
+  - Step 2's phrase "M⁻¹ maps K^c into K^c" is replaced by this, because mean-value matrices need not be invertible:
+    with x_n = P(x_{n+1}), the contrapositive of step 1 gives x_n − x′_n ∉ K ⇒ x_{n+1} − x′_{n+1} ∉ K. On K^c,
+    |Δu| < |Δs|/L, so |Δs_n| ≤ ν|Δs_{n+1}|.
+  - The eigenvalue bounds that follow from the cone conditions, and the C¹ local unstable manifold of an analytic
+    hyperbolic fixed point, are standard facts and are cited as such.
+- **A12.1 Control (ii) reformulated** (the Bridge accepted it).
+  - The registered meeting system fixed c on an interval. At the depth S2-0 forces (c ≈ 5e-12, m = 9) it is
+    ill-conditioned: float cond 2.2e11, ‖A‖∞ 1.1e10. A residual along v_u in the first link cannot be absorbed, so
+    it propagates ~λ⁸.
+  - That run was stopped by verified PID before any certifying pass, and archived as s2/meet_ii_superseded_fixedc/.
+  - **New form:**
+    - X = (c, z_1…z_{m−1}, z′_1…z′_{m−1}, c′, α);
+    - the links from w_u(c) and from w_u(c′), and the meeting P(z_{m−1}) − R P(z′_{m−1}) − α g = 0;
+    - plus the phase condition x(z_{m−1}) = x̂, with x̂ ∈ [x̂₀ ± 1e-15] and uniform contraction over x̂ (van den Berg,
+      Breden, Lessard & Murray 2018, Thm 3);
+    - float cond 36, ‖A‖∞ 1.7.
+  - **Reading:** distinct x̂ give distinct points w_u(c(x̂)) of W^u ∩ W^s. A certificate therefore gives a continuous
+    arc, i.e. non-isolation. α ≡ 0 follows from the exact Carter bracket (carter_check.py: {K_r, H} = 0 on
+    H = −1/2 with E and L symbolic; two must-fire mutations do not cancel) and the sign-definite ∇K_r·g on the
+    meeting hull.
+- **A12.2 Binaries.** v1 and v2 differ only in the meet mode (A12.1) and in bvp's choice of the ball radius r (a
+  tighter estimate; no decision changes).
+  - In-flight point passes used v1. Every certifying pass used v2 (atomic rename; sha256 in s2/binaries.txt).
+- **A12.3 Control (iv): the cone lemma in its 2+2 form** (needs a non-author read). It is used for the time-±1 maps
+  at L4.
+  - *Setting:* the same as A11, with u, s ∈ R², Euclidean norms on each block, [M] = [[A, B], [C, D]] in 2 × 2 blocks;
+    m(A) is a lower bound on the smallest singular value of A (≥ 1/‖A⁻¹‖_F), and the other norms are Frobenius upper
+    bounds.
+  - *Hypotheses:* μ = m(A) − ‖B‖L > 1, ‖C‖ + ‖D‖L ≤ Lμ, and ν = ‖C‖/L + ‖D‖ < 1.
+  - *Claim:* W^u(p*) contains the graph over the disc |u − u*| ≤ δ* of a C¹ map h with ‖Dh‖ ≤ L, where
+    δ* = (δ − ρ′)/(κ max(1, L)) and κ = ‖A‖ + ‖B‖L.
+  - *Proof:* steps 1–3 as in A11, with norms. Step 4: let t₀ be the largest radius with the closed disc in π_u(Γ),
+    and suppose t₀ < δ*. On that disc, g(u) = π_u P(u, h(u)) is continuous and injective, with
+    |g(u) − g(u′)| ≥ μ|u − u′|, so |g(u) − u*| ≥ μ t₀ on the boundary circle. By Brouwer degree (invariance of
+    domain), g(disc) ⊇ the disc of radius μ t₀. As in A11, P(Γ_{t₀}) ⊂ Γ, so π_u(Γ) ⊇ the disc of radius μ t₀ > t₀,
+    a contradiction. ∎
+  - W^s(L4) is W^u of the time-reversed flow, so the same lemma applies with σ = −1.
+- **A12.4 (iv) set-up.**
+  - PCRTBP µ = 1/2 (CKMJ eqs. 26–27). E = −(p² + q²) + 2Ω, with E(L4) = 3.
+  - Extended field z′ = σT(f + α∇E) on s ∈ [0, 1] (the CKMJ Example 15 / Thm 16 unfolding; T and α are state).
+  - Cones at δ = 1e-7; endpoints at radius ρ = 2.5e-8 (< 0.9 δ*). n segments of equal flow time T.
+  - Unknowns (θ, x_1…x_{n−1}, φ, T, α).
+  - **PASS:** Krawczyk (CKMJ Thm 30) certifies AND a rigorous C⁰ time-shift of the certified node nearest p̄ lies
+    within 1.66e-9 (Euclidean) of p̄, CKMJ Table 4. The Euclidean ball is inside any max-norm ball of the same radius.
+- **A12.5 The interval-wrapping fix (v3), disclosed.** All certifying passes ran on v3.
+  - v2 applied an interval DP to a vector that was already a box, in three places: the η correction, the s_u
+    (or c, c′) column, and the tangent v. That loses the stable-direction cancellation (|DP s̃| ≈ 0.03 against
+    |DP||s̃| ≈ 21).
+  - The v2 Kerr pass therefore had Y 4.8e-13 > r 1e-13: a FAIL, archived in s2/superseded_v2_wrapping/.
+  - The MN, sabotage and (ii) v2 passes had the same ≥ 27η term in Y, which already exceeded their r, so their
+    failure was certain. They were stopped by verified PID before finishing (~3 core-h saved).
+  - **v3:** DP acts on ũ and s̃ as thin vectors, and the [−L, L] and [−η, η] factors are applied after. v carries
+    two thin chains, v = vU + [−L, L]·vS. The r estimate uses η/10 (it only chooses r; no decision depends on it).
+- **A12.6 Control (iv): the L4 front end needed several float set-up repairs before a well-posed rigorous pass.**
+  All decisions were made only by s2_l4, and each superseded attempt is archived as s2/superseded_l4_*.
+  - **Repairs, in order:**
+    1. The cone L-ladder start formula (it divided by a negative number).
+    2. A noisy finite-difference Jacobian replaced by the analytic one.
+    3. A float Newton convergence check added.
+    4. The guess anchored to p̄ (the W^u half to 3.9e-10), with the W^s seam built in the linear regime near L4.
+    5. Scaled unknowns, structured uncertainties, and adaptive segment lengths (each ‖Dφ‖ ≤ 8).
+  - **The decisive change: mode bvp2.** The fixed-radius endpoint conditions left the orbit's time-phase weakly fixed:
+    σ_min ≈ ρ ≈ 6e-10, with a singular vector along the flow. bvp2 instead uses:
+    - Cartesian endpoints u, s ∈ R² on W^{u,s}_loc;
+    - fixed segment times;
+    - a phase row ⟨f(x̄_k), x_k − x̄_k⟩ = 0 at a node with fast flow;
+    - X = (u, x_1…x_{n−1}, s, α), dim 4n + 1.
+    That gives float cond 2.3e6 and ‖A‖∞ 2.8e3.
+  - **Unchanged:** the unfolding argument (CKMJ Thm 16; α ≡ 0 since both endpoints lie in {E = 3}), Thm 30, the cone
+    lemma (A12.3), and the PASS rule.
+  - **Reach** is checked rigorously: |u|, |s| + √2 r ≤ δ*.

@@ -1,0 +1,32 @@
+ae83bc01641ba5af  s2_main_v1
+fe7c23746c3cc488  s2_main
+5f9850c9dbb03fb9  s2_main_sab_v1
+19585d16c99a17c3  s2_main_sab
+16:09:01 binaries swapped (atomic rename; running processes keep v1)
+fe7c23746c3cc488  s2_main_v2
+be440c13c153f8c0  s2_main
+19585d16c99a17c3  s2_main_sab_v2
+8ccb526488924405  s2_main_sab
+d91d911fe171ff66  s2_l4
+17:12:16 v3 swapped in (wrapping fix; r estimate eta/10)
+relaunch v3 17:12:42: 66761 66763 66765 66767
+l4 PID 84836 18:03:35
+7d86737149fa11f0  s2_l4
+l4 relaunch PID 85700 18:05:38
+l4 relaunch2 PID 86770 18:08:16
+l4 relaunch3 PID 91127 18:17:32
+l4 relaunch4 PID 92552 18:21:08
+l4 relaunch5 PID 94000 18:24:49
+l4 relaunch6 PID 95622 18:28:26
+f3359db3c96ef442  s2_l4
+l4 relaunch7 PID 98567 18:34:32
+l4 relaunch8 PID 2411 18:39:54
+l4 relaunch9 PID 5179 18:44:35
+l4 relaunch10 PID 7047 18:49:45
+l4 relaunch11 PID 8423 18:54:16
+l4 relaunch12 PID 9991 18:58:49
+l4 relaunch13 PID 10955 19:01:32
+04b5971ed1f1015a  capd/s2_l4
+l4 relaunch16 PID 14539 19:08:52
+e783ae339dcb6675  s2_l4
+l4 bvp2 PID 22026 19:17:03

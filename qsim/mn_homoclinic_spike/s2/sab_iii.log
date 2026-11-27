@@ -1,0 +1,13 @@
+S2 chain sab_iii field sab beta 0.03
+  fp fp_pt.spec rc 0 (136 s)
+  fp fp.spec rc 0 (443 s)
+  fp CERTIFIED rho 1.000000000000000000000001e-19
+  cone cone.spec rc 0 (320 s)
+  cone CERTIFIED L 1.202400454737657155192850e-02 deltastar 3.735408531707414240706959e-11
+  bvp bvp_pt.spec rc 0 (1306 s)
+S2 chain sab_iii field sab beta 0.03
+  fp CERTIFIED rho 1.000000000000000000000001e-19
+  cone CERTIFIED L 1.202400454737657155192850e-02 deltastar 3.735408531707414240706959e-11
+  bvp bvp.spec rc 0 (4703 s)
+  bvp CERTIFIED v_x excludes0 v_px excludes0
+DONE sab_iii 4711 s

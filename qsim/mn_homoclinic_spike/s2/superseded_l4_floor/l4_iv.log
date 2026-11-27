@@ -1,0 +1,13 @@
+L4 eigenvalues (0.6320751955569279+0.948429782766404j) (-0.6320751955569286+0.9484297827664043j)
+  cone cone_u.spec rc 0 (0 s)
+  cone u {'L': '1.168194076911938446291945e-03', 'deltastar': '3.689291413609330992895835e-08'}
+  cone cone_s.spec rc 0 (0 s)
+  cone s {'L': '1.168194076911125441433030e-03', 'deltastar': '3.689291413609331166709691e-08'}
+   anchor W^u side: |.| 3.91e-10 after 15 steps
+   W^s side (linear seam): t* 10.57893 phi* -2.88917, seam at z_c 1.66e-05 (u-part of z_c 1.70e-05)
+  float: n 117 Tseg 0.50213 kk 46
+   newton 0 |F| 1.18e-05
+   newton 1 |F| 2.81e-11
+   newton 2 |F| 7.30e-12
+   newton 3 |F| 1.03e-13
+float Newton stalled (no decrease): no spec is written

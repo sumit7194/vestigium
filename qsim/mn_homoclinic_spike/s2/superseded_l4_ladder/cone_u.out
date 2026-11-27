@@ -1,0 +1,5 @@
+RUN l4 cone spec /Users/sumit/Github/quantum/qsim/mn_homoclinic_spike/s2/l4_iv/cone_u.spec prec 128 order 20 tol 1.0e-24
+PASS cone_u C1 steps 3 wall 0.3 s (total 0.3 s)
+CONEDATA mA >= 1.305905276111106524213970e+00 |A| <= 2.710547443615968728738053e+00 |B| <= 1.368150265770440726959910e-04 |C| <= 1.368150988605434830259052e-04 |D| <= 7.657670626063280549732228e-01
+RESULT cone FAIL (H1/H2)
+END rc 3 total wall 0.3 s
