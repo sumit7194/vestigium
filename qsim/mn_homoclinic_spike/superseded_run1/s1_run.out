@@ -1,0 +1,6 @@
+start 2026-11-27 12:29:29
+{"PASS": true, "worst_H0": 2.1610819660258025e-16, "worst_Hb": 5.220669125823462e-15}
+== beta 0 12:29:31
+{"beta": 0.0, "fp_err": 4.732474932053752e-14, "lam_u": 26.868703182598054, "nU": 64, "nS": 17, "max_abs_dK": 1.2245493508089567e-10, "amp2": 1.54124571791698e-11, "amp2_over_beta": null, "seconds": 8.341117858886719}
+cond: [(0.009, None, 'orbit left the section at return 5'), (0.227, None, 'orbit left the section at return 5'), (1.58, None, 'orbit left the section at return 5'), (6.222, None, 'orbit left the section at return 5')]
+== beta 1e-4 12:29:40
