@@ -69,6 +69,12 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
   - any compute beyond the spike, which is CLOSED at ≈ 19.7 of ≈ 20 core-h;
   - whether this goes into the chaos write-up (c67126e) and the outreach.
 
+## Fleet practice 7 (2026-11-27)
+- **Public text uses the field's own terms:** "predictions fixed before the data were examined", "computer-assisted
+  proof" and so on. "Pre-registration", "registered" and "sealed" stay internal.
+- **Before any claim leaves this thread,** write an expert-in-the-field checklist (the field's known false positives
+  and failure modes, each marked done or open). The Bridge reads it before release.
+
 ## Kill criteria (S2)
 - Met: finished 2026-11-27 19:20 IST, before the 2026-11-29 15:00 kill date, at ≈ 11.4 of the 12 core-h cap.
 - The A13 rerun was 5.67 of 7 core-h, finished 21:13.
