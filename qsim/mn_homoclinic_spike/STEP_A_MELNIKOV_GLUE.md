@@ -2,8 +2,8 @@
 
 Written 2026-11-27 22:05 IST by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h; it uses existing certificates
 and float records. Status: the Bridge's non-author read (2026-11-27) found it CORRECT, conditional on (H4) and (H1). "Proved" waits for
-(C1): a read AT SOURCE of Robinson's statement and hypotheses against our setting. (C2): (H1) is shared with S2, and
-Tier 2a would cover it.
+(C1): Robinson was read AT SOURCE on 2026-11-27 and matches, with gaps g1–g4 disclosed in (H4); this awaits the
+Bridge's acceptance. (C2): (H1) is shared with S2, and Tier 2a would cover it.
 Local, uncommitted.
 
 Sources:
@@ -60,8 +60,36 @@ t′(0) = −1.00307e−3.
   - CHECKED: F_t = 1.6376 at r_t = 47.5082 (x_t = 10.627044356577, which is control (i)'s certified Kerr p).
 - **(H4) The first-order Melnikov formula (Robinson).** The displacement K_r(W^u_β) − K_r(W^s_β), on a transversal
   to Γ₀ at the point of phase ψ₀, is β M(ψ₀) + O(β²), with M = Υ_θ L′, analytic in (ψ₀, β).
-  - INHERITED: THEOREM_DRAFT §3 steps 1–3, citing Robinson, Theorem 3.4 and Remark 3.10, which Fable read (pp. 1–6).
-    **I have NOT read Robinson.**
+  - **READ AT SOURCE (C1, 2026-11-27, by me):** C. Robinson, "Melnikov Method for Autonomous Hamiltonians",
+    arXiv:math/9604239v1 (29 Apr 1996), §3, pp. 3–6. The PDF header reads "Contemporary Mathematics". Vol. 198
+    (Saari & Xia, eds., 1996), pp. 45–53, is as given in Fable's LIT.md; the volume and pages are NOT verified at
+    source.
+  - **Matched against our setting:**
+    - autonomous H^ε = H₀ + εH₁ + O(ε²) on a 4-dimensional space: our Mino-time K_β = Σ_Kerr(H_β + ½) on
+      (r, θ, p_r, p_θ), analytic in β;
+    - (A1), X₀ completely integrable with a second independent integral F: F = K_r;
+    - (A2), a hyperbolic periodic orbit γ₀ with Γ₀ = comp[W^u∖γ₀] = comp[W^s∖γ₀] of dimension 2: the r_u = 16
+      spherical orbit;
+    - the energy level is fixed: γ_ε ⊂ (H^ε)⁻¹(h₀). Ours is the K_β = 0 level for every β.
+  - **What is used:**
+    - The DEFINITION M(z₀, h₀) = ∂_ε[F∘ζ^u − F∘ζ^s]|_{ε=0}, with ζ^σ = N_{z₀} ∩ W^σ(γ_ε, X^ε) and the manifolds
+      depending differentiably on ε. This is exactly step 4's first-order displacement.
+    - Thm 3.4 with Rem. 3.10: if DF ≡ 0 on γ₀, M is the ordinary improper integral ∫(DF·Y). This holds for us:
+      dK_r = 0 at (r_u, p_r = 0), since r_u is a double root.
+    - Thm 3.3 (a nondegenerate zero gives a transverse homoclinic orbit) is NOT needed. Step A concludes
+      transversality through lemma A1.
+  - **Adaptations and gaps, disclosed:**
+    - (g1) Robinson's N_{z₀} is a 2-plane "perpendicular" to Γ₀ in the 4-dimensional space. Ours is a curve in Σ
+      inside the level. Since W^σ(γ_ε) lie in the level, N ∩ W^σ = (N ∩ level) ∩ W^σ. The first order does not
+      depend on the transversal: the Bridge's argument, an O(β²) change. Robinson does not state this.
+    - (g2) Robinson does not define "nondegenerate zero" or "transverse"; we do not use them.
+    - (g3) No smoothness class is stated; ours is analytic.
+    - (g4) Lemma 3.8, which gives Thm 3.4, is proved in Robinson's companion paper ([CR-mel]; the search shows
+      "Horseshoes for autonomous Hamiltonian systems using the Melnikov integral", ETDS). That paper is NOT read.
+      Thm 3.4 is used as a cited theorem, corroborated numerically (MELNIKOV c2; S1 to +0.014%).
+  - Fable's potential form L (MELNIKOV.md §1) is derived from Thm 3.4. It was checked numerically, not by me at
+    source.
+  - Earlier status, superseded: "INHERITED: THEOREM_DRAFT §3 steps 1–3, citing Robinson, which Fable read.
   - CHECKED: MELNIKOV c2 (the bracket form equals the potential form at 6 phases), and S1 (splitting/β against
     4Υ|L2| to +0.014%).
 - **(H5) Certified Fourier data:** L2 = [−4.77482114974644e−5 ± 6.81e−20]; L4 = [−5.31274262510e−10 ± 7.43e−22];
