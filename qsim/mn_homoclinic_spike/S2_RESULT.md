@@ -1,4 +1,4 @@
-# S2 result: every registered condition holds. A computer-assisted proof, PENDING one non-author read (the A12.3 lemma)
+# S2 result: every registered condition holds; both lemmas read by a non-author (CORRECT); A12 accepted. HELD at "certified under v3, pending the NaN-rule rerun" (A12.9). Control (iv) is rerun on v4
 
 Runs 2026-11-27, 15:54–19:20 IST, on the Mac mini (≤ 4 single-core jobs, nice 10, 23 MB each). MPFR-128, Taylor order
 20, step tolerance 1e-24. Code: `capd/s2_main.cpp` (v3), `capd/s2_l4.cpp`, `s2run.py`, `l4run.py`. Outputs: `s2/`.
@@ -15,8 +15,17 @@ Registration: PREREG.md S2 AMENDMENT A1–A12. Written by Claude Opus 5.5 (offic
   - It certifies that Kerr's homoclinics form a continuous family, as integrability predicts.
   - A field with one β² term removed gives a different certificate.
   - The validator reproduces Capiński–Kepley–Mireles James's published L4 homoclinic proof.
-- **What still stands before the word "proved" is used:** a non-author read of the 2+2 cone lemma (A12.3), which only
-  control (iv) uses. The A11 lemma, which the MN proof uses, has had its non-author read (the Bridge): CORRECT.
+- **Status:**
+  - Both cone lemmas (A11, A12.3) have had a non-author read (the Bridge): CORRECT. A12 is accepted, with the
+    wording items of A12.7.
+  - BUT (A12.9): the MN-side certifying passes ran on v3, which did not finite-check the derivative enclosures as
+    the CAPD trust rule requires.
+  - So "proved" is HELD until those passes are rerun on v4 (≈ 6 core-h; a budget decision). Control (iv) is already
+    rerun on v4, identical.
+- **How to read the controls.**
+  - The margin is what persuades: MN's v_x/|v| = 3.1e-5 lies ~500× outside 0, compared with Kerr's enclosure
+    (half-width ~6e-9 relative, containing 0).
+  - Control (iii) shows that the field flows into the certificate. It is not a sensitivity test of transversality.
 
 ## Results (all rigorous; every listed inequality is evaluated in MPFR interval arithmetic)
 | Stage | MN β = 3/100 | (i) Kerr β = 0 | (iii) sabotaged MN |
@@ -49,6 +58,7 @@ Registration: PREREG.md S2 AMENDMENT A1–A12. Written by Claude Opus 5.5 (offic
     r 5.91e-11).
   - Cones: L 8.12e-4, δ* 3.76e-8; endpoints |u|, |s| = 2.5e-8.
   - The certified orbit passes within 4.82e-10 of CKMJ's p̄, inside their r = 1.659e-9. It is their homoclinic.
+  - Re-certified identically after A12.7 (w3): ρ′ is now included explicitly (s2/l4_iv/*_w3.*).
 
 ## Gates, conduct, budget
 - **Trust and the field.**
@@ -77,4 +87,4 @@ Registration: PREREG.md S2 AMENDMENT A1–A12. Written by Claude Opus 5.5 (offic
 - No statement about the S1-scale small-β regime beyond β = 3/100.
 - Nothing about other orbit families.
 - The Kerr items are controls, not new results about Kerr.
-- The word "proved" waits for the A12.3 non-author read and the Bridge's acceptance of A12.
+- No independent (second-implementation) re-check yet: that is Sumit's call before outreach (draft scope: INDEPENDENT_RECHECK_SCOPE_DRAFT.md).

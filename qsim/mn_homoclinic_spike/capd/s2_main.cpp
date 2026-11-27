@@ -115,11 +115,14 @@ static Pass pass(capd::MpIMap& f, const MpInterval& x, const MpInterval& px, dou
     if (!(cS[1].rightBound() < 0)) throw std::runtime_error(tag + ": y(Tstop) < 0 not certified (crossing rule)");
     IM D(4, 4); out.P = pm(s, D, out.rt);
     capd_proof::require_finite_all(out.P, (tag + " return").c_str()); capd_proof::require_finite(out.rt, (tag + " rt").c_str());
+    capd_proof::require_finite_all(D, (tag + " DPhi").c_str());
     IM DP = pm.computeDP(out.P, D, out.rt);
+    capd_proof::require_finite_all(DP, (tag + " DP").c_str());
     MpInterval fin[4] = {X0[0], X0[1], X0[2], X0[3]}, fo[4]; mn_field<MpInterval>(fin, fo, MNC);
     if (!(fo[1].leftBound() > 0)) throw std::runtime_error(tag + ": ydot > 0 not certified at the start");
     IM C(4, 2); C[0][0] = 1; C[2][1] = 1; C[3][0] = fo[2] / fo[1]; C[3][1] = -fo[0] / fo[1];
     for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) { int ri = i == 0 ? 0 : 2; MpInterval acc(0); for (int k = 0; k < 4; ++k) acc += DP[ri][k] * C[k][j]; out.D[i][j] = acc; }
+    capd_proof::require_finite_all(out.D, (tag + " DPsec").c_str());
   } else {
     capd::MpC0TripletonSet s(X0);
     do { tm(T, s); mn_domain(s.getLastEnclosure()); ++steps; } while (!tm.completed());
@@ -159,7 +162,7 @@ static void printm(const std::string& tag, const IM& M) { for (int i = 0; i < (i
 static bool krawczyk(const MpInterval& Y, const MpInterval& Z, const R& r) {
   MpInterval rr(r), v = Z * rr - rr + Y;
   std::printf("KRAWCZYK Y %s Z %s r %s  Zr - r + Y <= %s\n", bnd(Y.rightBound(), true).c_str(), bnd(Z.rightBound(), true).c_str(), bnd(r, true).c_str(), bnd(v.rightBound(), true).c_str());
-  return Z.rightBound() < 1 && v.rightBound() < 0;
+  return capd_proof::certainly_less(Z, MpInterval(1)) && capd_proof::certainly_negative(v);   // trust rule: finite-checked decisions
 }
 static R pickr(const MpInterval& Yest, const Spec& S) { R r = (Yest * 4).rightBound(); R rmin = S.q("rmin").rightBound(); return r < rmin ? rmin : r; }
 
@@ -186,15 +189,15 @@ static int run_cone(capd::MpIMap& f, const Spec& S) {
   IV hb(2); hb[0] = c0 + sym((mag(T[0][0]) + mag(T[0][1])) * delta); hb[1] = c1 + sym((mag(T[1][0]) + mag(T[1][1])) * delta);
   Pass b = pass(f, hb[0], hb[1], Ts, true, "cone_box");
   IM Mm = Ti * b.D * T;      // [M] contains Ti DP(xi) T for all xi in B (B inside the hull box hb)
-  printm("M", Mm);
+  printm("M", Mm); capd_proof::require_finite_all(Mm, "cone M");
   MpInterval a = Mm[0][0], bb = mag(Mm[0][1]), cc = mag(Mm[1][0]), dd = mag(Mm[1][1]);
-  if (!(a.leftBound() > 1)) { std::printf("RESULT cone FAIL a_min <= 1\n"); return 3; }
+  if (!capd_proof::certainly_less(MpInterval(1), a)) { std::printf("RESULT cone FAIL a_min <= 1\n"); return 3; }
   MpInterval rhop = normInf(Ti) * rho;   // the fixed point in eigen-coordinates: |(u*, s*)| <= ||Ti||_inf rho
   // pick L: smallest of the trial values for which (H1),(H2) hold
   for (int k = 0; k < 40; ++k) {
     MpInterval L = (cc.rightBound() == 0 ? Q("1/1000000000000") : cc * 2 / (MpInterval(a.leftBound()) - 2)) * MpInterval(1 << (k % 20)) * (k >= 20 ? MpInterval(1048576) : MpInterval(1));
     MpInterval mu = MpInterval(a.leftBound()) - bb * L, nu = cc / L + dd;
-    bool h1 = mu.leftBound() > 1 && (cc + dd * L - L * mu).rightBound() <= 0, h2 = nu.rightBound() < 1;
+    bool h1 = capd_proof::certainly_less(MpInterval(1), mu) && capd_proof::certainly_negative(cc + dd * L - L * mu), h2 = capd_proof::certainly_less(nu, MpInterval(1));
     if (h1 && h2) {
       MpInterval kappa = mag(a) + bb * L, mx = L.rightBound() > 1 ? L : MpInterval(1);
       MpInterval dstar = (delta - rhop) / (kappa * mx);
@@ -261,7 +264,7 @@ static int run_bvp(capd::MpIMap& f, const Spec& S) {
   // the symmetric point p = P(z_{m-1}) over the ball (mean value)
   IV dz(2); dz[0] = sym(MpInterval(r)); dz[1] = sym(MpInterval(r)); IV pe = bl[m - 1].D * dz; IV p(2); p[0] = pt[m - 1].P[0] + pe[0]; p[1] = pt[m - 1].P[2] + pe[1];
   printv("p", p); printv("v", v);
-  bool vx0 = v[0].contains(MpInterval(0)), vp0 = v[1].contains(MpInterval(0));
+  bool vx0 = !capd_proof::certainly_disjoint(v[0], MpInterval(0)), vp0 = !capd_proof::certainly_disjoint(v[1], MpInterval(0));   // finite-checked
   std::printf("SIGNTEST v_x %s 0 ; v_px %s 0\n", vx0 ? "CONTAINS" : "EXCLUDES", vp0 ? "CONTAINS" : "EXCLUDES");
   std::printf("RESULT bvp krawczyk %s v_x %s v_px %s\n", ok ? "CERTIFIED" : "FAIL", vx0 ? "contains0" : "excludes0", vp0 ? "contains0" : "excludes0");
   return ok ? 0 : 3;
@@ -324,7 +327,7 @@ static int run_meet(capd::MpIMap& f, const Spec& S) {
   IV dz(2); dz[0] = sym(R1); dz[1] = sym(R1); IV pe = blp[m - 1].D * dz; IV y(2); y[0] = ptp[m - 1].P[0] + pe[0]; y[1] = -(ptp[m - 1].P[2] + pe[1]);
   MpInterval al = sym(R1); IV hull(2); hull[0] = y[0] + g[0] * al; hull[1] = y[1] + g[1] * al;
   MpInterval gk = Kr_dx(hull[0], hull[1], MNC[3], MNC[4]) * g[0] + Kr_dpx(hull[0], hull[1]) * g[1];
-  bool sgn = !gk.contains(MpInterval(0));
+  bool sgn = capd_proof::certainly_disjoint(gk, MpInterval(0));
   // the family: c(xh) for xh in the interval; report the c-enclosure (the homoclinic points w_u(c(xh)) lie on W^u)
   std::printf("KLEMMA gradK.g on the meeting hull %s -> %s\n", iv(gk).c_str(), sgn ? "SIGN-DEFINITE (alpha = 0 exactly by Carter)" : "NOT sign-definite");
   std::printf("FAMILY xh in %s ; c in %s\n", iv(xmid + sym(xrad)).c_str(), iv(cb + sym(R1)).c_str());

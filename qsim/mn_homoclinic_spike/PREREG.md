@@ -497,3 +497,42 @@ one core, so it needs the gate. Where A10 is stricter than A6/A8, A10 wins. Noth
   - **Unchanged:** the unfolding argument (CKMJ Thm 16; α ≡ 0 since both endpoints lie in {E = 3}), Thm 30, the cone
     lemma (A12.3), and the PASS rule.
   - **Reach** is checked rigorously: |u|, |s| + √2 r ≤ δ*.
+- **A12.7 Non-author read of A12.3 (the Bridge, 2026-11-27): CORRECT. A12 ACCEPTED as a whole.** These wording items
+  are folded in; the argument is unchanged.
+  - **(w1) m(A)** := 1 / sup_{A ∈ [A]} ‖A⁻¹‖_F ≤ σ_min(A) for every A ∈ [A]. s2_l4 computes it from the interval
+    inverse adj(A)/det(A), which encloses every A⁻¹, and fails closed if det(A) contains 0.
+  - **(w2) Closedness**, which A11's "Γ ended at e" and A12.3's "largest t₀ with the CLOSED disc in π_u(Γ)" both need.
+    - A = ∩_n Pⁿ(B) is compact.
+    - A ⊂ W^u(p*): for x ∈ A, x − p* ∈ K (step 3), and backward iterates contract |Δu| by ≥ 1/μ with |Δs| ≤ L|Δu|,
+      so x_n → p*.
+    - So Γ can be taken as the component of A itself, and e and the closed disc lie in Γ. This line applies to A11
+      as well.
+  - **(w3) |u*|, |s*| ≤ ρ′** are Euclidean block norms in the 2+2 case, and the σ = −1 (W^s) application checks
+    H1/H2 with its OWN [M], for the time-reversed map. Confirmed in code:
+    - cone_s runs φ₋₁ with its own frame Ts and its own [M] = Ts⁻¹ DP Ts.
+    - Before this read, s2_l4 had ASSUMED L4's enclosure was < 1e-36, in the max-norm, and left ρ′ out of the
+      bvp2 endpoint bound h.
+    - It now measures ρ′ = √2 ‖Ts⁻¹‖_∞ w(L4) = 2.57e-38 (Euclidean block bound), and uses h = ρ′ + L(|u| + ρ′) and
+      the reach |u| + √2 r + ρ′ ≤ δ*.
+    - Both cones and the bvp2 certifying pass were rerun (s2/l4_iv/*_w3.*). The results are identical: L, δ*, and
+      Y 1.24e-11, Z 0.163, r 5.91e-11, CKMJ distance 4.82e-10. The MN-side A11 code (1-D blocks) already had ρ′
+      in η = ρ′ + L(|u| + ρ′).
+- **A12.8 Scope of the claim (the Bridge: "proved" may be used with S2's stated scope).**
+  - One β = 3/100, (M, a) = (5, 3), the registered level; qualitative h_top > 0.
+  - Control (iii) shows that the field flows into the certificate. It is NOT a sensitivity test of transversality.
+  - The persuasive margin is MN's v_x/|v| = 3.1e-5, against Kerr's enclosure half-width ~6e-9 relative: ~500×
+    outside 0.
+- **A12.9 A trust-rule gap, found by me after the Bridge's acceptance, and disclosed.**
+  - The CAPD trust rule (NAN_SAFEGUARD.md) requires every interval entering a certificate decision to be
+    finite-checked (`capd_proof::require_finite` / `certainly_*`). The reason: CAPD multiplication can swallow NaN
+    ([0, NaN]·2 = [0, 0]).
+  - s2_main (v3) and s2_l4 checked the flow images and return times. They did NOT check the C¹ derivative
+    enclosures, and decided Krawczyk, the sign tests and the cone hypotheses by raw bound comparisons.
+  - **Status:** the printed results are finite and agree with float to 4 digits, but that is not the rule. Until the
+    certifying passes are rerun with the guard, the MN result and controls (i)–(iii) are "certified under v3, pending
+    the NaN-rule rerun".
+  - **Fixed in v4:** the derivative enclosures (DPhi, DP, DP_sec; the L4 6 × 6 D) are finite-checked where they are
+    produced, and every decision goes through the `certainly_*` helpers.
+  - **Control (iv) has been rerun on v4:** identical (s2/l4_iv/*_v4.*).
+  - **MN-side reruns on v4** (S2-1 to S2-4 and (i)–(iii)) cost ≈ 6 core-h, beyond the 12 cap (≈ 11.4 used). The
+    Bridge and Sumit decide.

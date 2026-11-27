@@ -91,7 +91,7 @@ static Pass pass(capd::MpIMap& f, const IV& Z0, bool c1, const std::string& tag)
     IV c(6); for (int i = 0; i < 6; ++i) c[i] = MpInterval(Z0[i].mid().leftBound());
     capd::MpC1Rect2Set s(c, IV(Z0 - c));
     do { tm(T, s); l4_domain(s.getLastEnclosure()); ++steps; } while (!tm.completed());
-    out.P = (IV)s; out.D = (IM)s;
+    out.P = (IV)s; out.D = (IM)s; capd_proof::require_finite_all(out.D, (tag + " D").c_str());
   } else {
     capd::MpC0TripletonSet s(Z0);
     do { tm(T, s); l4_domain(s.getLastEnclosure()); ++steps; } while (!tm.completed());
@@ -140,22 +140,23 @@ static int run_cone(const Spec& S) {
   Z0[4] = 0; Z0[5] = tau;
   Pass b = pass(f, Z0, true, sg.leftBound() > 0 ? "cone_u" : "cone_s");
   IM DP(4, 4); for (int i = 0; i < 4; ++i) for (int j = 0; j < 4; ++j) DP[i][j] = b.D[i][j];
-  IM Mm = Ti * DP * Te;
+  IM Mm = Ti * DP * Te; capd_proof::require_finite_all(Mm, "cone M");
   IM A = blk(Mm, 0, 0), B = blk(Mm, 0, 2), C = blk(Mm, 2, 0), Dd = blk(Mm, 2, 2);
   MpInterval det = A[0][0] * A[1][1] - A[0][1] * A[1][0]; if (det.contains(MpInterval(0))) { std::printf("RESULT cone FAIL det A\n"); return 3; }
   IM Ai(2, 2); Ai[0][0] = A[1][1] / det; Ai[0][1] = -A[0][1] / det; Ai[1][0] = -A[1][0] / det; Ai[1][1] = A[0][0] / det;
   MpInterval mA = MpInterval(1) / frob(Ai), nA = frob(A), nB = frob(B), nC = frob(C), nD = frob(Dd);
-  MpInterval rhop = normInf(Ti) * MpInterval(Q("1e-36").rightBound());      // L4 is exact up to its interval enclosure (< 1e-36)
+  IV Lw = L4pt(); MpInterval wL(0); for (int k = 0; k < 4; ++k) { MpInterval wk = MpInterval((Lw[k].rightBound() - Lw[k].leftBound())); if (wk.rightBound() > wL.rightBound()) wL = wk; }
+  MpInterval rhop = MpInterval((sqrt(MpInterval(2)) * normInf(Ti) * wL).rightBound());   // w3: Euclidean block bound on |u*|, |s*|
   std::printf("CONEDATA mA >= %s |A| <= %s |B| <= %s |C| <= %s |D| <= %s\n", bnd(mA.leftBound(), false).c_str(), bnd(nA.rightBound(), true).c_str(), bnd(nB.rightBound(), true).c_str(), bnd(nC.rightBound(), true).c_str(), bnd(nD.rightBound(), true).c_str());
   for (int k = 0; k < 40; ++k) {
     if (!(nD.rightBound() < 1)) break;                       // (H2) impossible
     MpInterval Lc = (nC * 2 / (1 - MpInterval(nD.rightBound()))) * MpInterval(1 << (k % 20)) * (k >= 20 ? MpInterval(1048576) : MpInterval(1));   // L0 = 2|C|/(1 - |D|): (H2) by construction
     if (!(Lc.leftBound() > 0)) continue;
     MpInterval mu = MpInterval(mA.leftBound()) - nB * Lc, nu = nC / Lc + nD;
-    bool h1 = mu.leftBound() > 1 && (nC + nD * Lc - Lc * mu).rightBound() <= 0, h2 = nu.rightBound() < 1;
+    bool h1 = capd_proof::certainly_less(MpInterval(1), mu) && capd_proof::certainly_negative(nC + nD * Lc - Lc * mu), h2 = capd_proof::certainly_less(nu, MpInterval(1));
     if (h1 && h2) {
       MpInterval kappa = nA + nB * Lc, mx = Lc.rightBound() > 1 ? Lc : MpInterval(1), dstar = (delta - rhop) / (kappa * mx);
-      std::printf("RESULT cone CERTIFIED L %s mu %s nu %s deltastar %s\n", bnd(Lc.rightBound(), true).c_str(), bnd(mu.leftBound(), false).c_str(), bnd(nu.rightBound(), true).c_str(), bnd(dstar.leftBound(), false).c_str());
+      std::printf("RESULT cone CERTIFIED L %s mu %s nu %s deltastar %s rhop %s\n", bnd(Lc.rightBound(), true).c_str(), bnd(mu.leftBound(), false).c_str(), bnd(nu.rightBound(), true).c_str(), bnd(dstar.leftBound(), false).c_str(), bnd(rhop.rightBound(), true).c_str());
       return 0;
     }
   }
@@ -220,7 +221,7 @@ static int run_bvp(const Spec& S) {
   for (int a = 0; a < D; ++a) { AM[a][0] += (AE1[a] + AE2[a]) * sym(Lu) * 0 + AE1[a] * sym(Lu) + AE2[a] * sym(Lu);   // theta column: Dz Tu_s Dh (|Dh| <= L)
                                 AM[a][D - 3] += AE3[a] * sym(Ls) + AE4[a] * sym(Ls); }                              // phi column: -Ts_s Dh
   MpInterval Y = normInfV(YV), Z = normInf(ID - AM), v = Z * R1 - R1 + Y;
-  bool ok = Z.rightBound() < 1 && v.rightBound() < 0;
+  bool ok = capd_proof::certainly_less(Z, MpInterval(1)) && capd_proof::certainly_negative(v);   // finite-checked
   std::printf("KRAWCZYK Y %s Z %s r %s  Zr - r + Y <= %s\n", bnd(Y.rightBound(), true).c_str(), bnd(Z.rightBound(), true).c_str(), bnd(r, true).c_str(), bnd(v.rightBound(), true).c_str());
   // unfolding: E is constant along alpha = 0 orbits; both endpoints are on W^{u,s}(L4) in {E = 3}: CKMJ Thm 16 => alpha = 0
   MpInterval Eu = Efn(wpt(Tu, th + sym(Ra), hu)), Es = Efn(wpt(Ts, ph + sym(Ra), hs));
@@ -233,7 +234,7 @@ static int run_bvp(const Spec& S) {
     capd::MpIMap g(l4_vf, 6, 6, 2); g.setParameter(0, MU); g.setParameter(1, MpInterval(tsh.leftBound() >= 0 ? 1 : -1));
     Pass sh = pass(g, ext(Bx, mag(tsh), MpInterval(0)), false, "ckmj_shift");
     MpInterval d2(0); for (int k = 0; k < 4; ++k) { MpInterval d = sh.P[k] - pb[k]; d2 += d * d; } MpInterval dist = sqrt(MpInterval(d2.rightBound()));
-    meets = dist.rightBound() <= Q("1.66e-9").leftBound();
+    meets = capd_proof::certainly_less(dist, Q("1.66e-9"));
     std::printf("CKMJ distance from p-bar to the certified orbit point: <= %s (CKMJ r = 1.659e-9) -> %s\n", bnd(dist.rightBound(), true).c_str(), meets ? "MEETS" : "does not meet");
   }
   std::printf("RESULT l4bvp krawczyk %s ckmj %s\n", ok ? "CERTIFIED" : "FAIL", meets ? "MEETS" : "NO");
@@ -264,14 +265,15 @@ static int run_bvp2(const Spec& S) {
   for (int i = 0; i < D; ++i) std::printf("F[%d] %s mid %s\n", i, iv(F[i]).c_str(), mid40(F[i]).c_str());
   if (S.has("pointonly")) return 0;
   IM A = readmat(S, "A", D, D);
-  MpInterval hu = Lu * nrm2(ub), hs = Ls * nrm2(sb);                 // |h(u)| <= L |u| (L4 exact)
+  MpInterval rp = S.q("rhop");                                     // w3: L4's enclosure, Euclidean block bound
+  MpInterval hu = rp + Lu * (nrm2(ub) + rp), hs = rp + Ls * (nrm2(sb) + rp);
   IV e1(D), e2(D), e3(D), e4(D); for (int k = 0; k < 4; ++k) { e1[k] = Tu[k][2]; e2[k] = Tu[k][3]; e3[4 * (n - 1) + k] = -Ts[k][2]; e4[4 * (n - 1) + k] = -Ts[k][3]; }
   R r = ((normInfV(A * F + (A * e1) * sym(hu) + (A * e2) * sym(hu) + (A * e3) * sym(hs) + (A * e4) * sym(hs))) * 4).rightBound();
   R rmin = S.q("rmin").rightBound(); if (r < rmin) r = rmin; MpInterval R1(r), sq2 = sqrt(MpInterval(2));
-  if (!((nrm2(ub) + sq2 * R1).rightBound() <= dsu.leftBound() && (nrm2(sb) + sq2 * R1).rightBound() <= dss.leftBound())) { std::printf("RESULT l4bvp2 FAIL reach (|u|, |s| + sqrt2 r > deltastar)\n"); return 3; }
+  if (!((nrm2(ub) + sq2 * R1 + rp).rightBound() <= dsu.leftBound() && (nrm2(sb) + sq2 * R1 + rp).rightBound() <= dss.leftBound())) { std::printf("RESULT l4bvp2 FAIL reach (|u|, |s| + sqrt2 r > deltastar)\n"); return 3; }
   std::printf("BALL r %s hu %s hs %s |u| %s |s| %s\n", bnd(r, true).c_str(), bnd(hu.rightBound(), true).c_str(), bnd(hs.rightBound(), true).c_str(), bnd(nrm2(ub).rightBound(), true).c_str(), bnd(nrm2(sb).rightBound(), true).c_str());
   std::vector<Pass> bl(n);
-  { IV uu(2); uu[0] = ub[0] + sym(R1); uu[1] = ub[1] + sym(R1); MpInterval hb = Lu * (nrm2(ub) + sq2 * R1);
+  { IV uu(2); uu[0] = ub[0] + sym(R1); uu[1] = ub[1] + sym(R1); MpInterval hb = rp + Lu * (nrm2(ub) + sq2 * R1 + rp);
     IV W = L + col(Tu, 0) * uu[0] + col(Tu, 1) * uu[1]; for (int k = 0; k < 4; ++k) W[k] += sym((mag(Tu[k][2]) + mag(Tu[k][3])) * hb);
     bl[0] = pass(f, ext(W, Tg * cf[0], sym(R1)), true, "l4b_ball0"); }
   for (int i = 1; i < n; ++i) { IV Bx(4); for (int k = 0; k < 4; ++k) Bx[k] = xs[i][k] + sym(R1); bl[i] = pass(f, ext(Bx, Tg * cf[i], sym(R1)), true, "l4b_ball" + std::to_string(i)); }
@@ -294,7 +296,7 @@ static int run_bvp2(const Spec& S) {
   IM AM = A * DF;
   for (int a = 0; a < D; ++a) for (int j = 0; j < 2; ++j) { AM[a][j] += AE1[a] * sym(Lu) + AE2[a] * sym(Lu); AM[a][cs + j] += AE3[a] * sym(Ls) + AE4[a] * sym(Ls); }
   MpInterval Y = normInfV(YV), Z = normInf(ID - AM), v = Z * R1 - R1 + Y;
-  bool ok = Z.rightBound() < 1 && v.rightBound() < 0;
+  bool ok = capd_proof::certainly_less(Z, MpInterval(1)) && capd_proof::certainly_negative(v);   // finite-checked
   std::printf("KRAWCZYK Y %s Z %s r %s  Zr - r + Y <= %s\n", bnd(Y.rightBound(), true).c_str(), bnd(Z.rightBound(), true).c_str(), bnd(r, true).c_str(), bnd(v.rightBound(), true).c_str());
   bool meets = false;
   { MpInterval tsh = S.q("tshift"); IV pb(4); for (int k = 0; k < 4; ++k) pb[k] = S.q("pbar", k);
@@ -303,7 +305,7 @@ static int run_bvp2(const Spec& S) {
     Pass sh = pass(g, ext(Bx, mag(tsh), MpInterval(0)), false, "ckmj_shift");
     MpInterval d2(0); for (int k = 0; k < 4; ++k) { MpInterval d = sh.P[k] - pb[k]; d2 += d * d; }
     MpInterval dist = sqrt(MpInterval(d2.rightBound()));
-    meets = dist.rightBound() <= Q("1.66e-9").leftBound();
+    meets = capd_proof::certainly_less(dist, Q("1.66e-9"));
     std::printf("CKMJ distance from p-bar to the certified orbit point: <= %s (CKMJ r = 1.659e-9) -> %s\n", bnd(dist.rightBound(), true).c_str(), meets ? "MEETS" : "does not meet"); }
   std::printf("RESULT l4bvp krawczyk %s ckmj %s\n", ok ? "CERTIFIED" : "FAIL", meets ? "MEETS" : "NO");
   return ok && meets ? 0 : 3;

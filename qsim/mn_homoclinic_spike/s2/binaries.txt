@@ -30,3 +30,10 @@ l4 relaunch13 PID 10955 19:01:32
 l4 relaunch16 PID 14539 19:08:52
 e783ae339dcb6675  s2_l4
 l4 bvp2 PID 22026 19:17:03
+6aae0be6ae4af8a2  s2_l4
+5ac52178fcc6c240  s2_main_v4
+d2406612f2932465  s2_main_sab_v4
+39738ec40cab3a2f  s2_l4_v4
+7c458fac95e53c82  s2_main_v4
+ed0d818d730b7430  s2_main_sab_v4
+19:31:29 v4 built (NaN rule on every decision; not yet used for MN-side certifying passes)

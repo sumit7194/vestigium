@@ -1,6 +1,6 @@
 # Quantum: STATUS (one page; updated only on change)
 
-Last change: 2026-11-27, Claude Opus 5.5 (office "Quantum"). The full record lives in the registrations and write-ups
+Last change: 2026-11-27 19:30 IST (S2 done), Claude Opus 5.5 (office "Quantum"). The full record lives in the registrations and write-ups
 named below. This page is the plain summary (fleet practice 3, 2026-11-27).
 
 ## What we know (with grades)
@@ -21,27 +21,31 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
   - The splitting matches the Melnikov prediction to +0.014% at β = 1e-4, and is linear in β.
   - The BVP is well enough conditioned to attempt (`qsim/mn_homoclinic_spike/S1_RESULT.md`).
   - Float only, not a proof.
+- **MN chaos at β = 3/100: certified under v3** (`qsim/mn_homoclinic_spike/S2_RESULT.md`).
+  - A transverse homoclinic orbit to the r ≈ 16 periodic orbit, so the flow on that level is chaotic (h_top > 0,
+    Smale–Birkhoff). Qualitative only: one β, no entropy value.
+  - All four controls PASS:
+    - Kerr does not certify;
+    - Kerr's homoclinics form a family;
+    - the sabotaged field changes the certificate;
+    - the CKMJ L4 proof is reproduced.
+  - **GRADE:** both lemmas read by a non-author (CORRECT) and A12 accepted.
+  - **But "proved" is HELD (A12.9):** v3 did not finite-check the derivative enclosures as the CAPD NaN rule
+    requires. v4 fixes it, and control (iv) is rerun on v4, identical. The MN-side reruns (≈ 6 core-h) need a budget
+    decision.
 
 ## What is running
-- Nothing. No Quantum jobs on the Mac mini or the Air.
+- Nothing.
 
 ## Next decision, and who makes it
-- **The Bridge reads the S2 amendment** (`qsim/mn_homoclinic_spike/PREREG.md`, A1–A10) and says go or no.
-- On go: a slot request, then S2-0, the cost gate: one rigorous return. It projects S2's total.
-- S2 is one rigorous attempt to prove a transverse homoclinic orbit for MN at β = 3/100. That would mean h_top > 0,
-  qualitative.
+- **The Bridge and Sumit:** whether to spend ≈ 6 core-h on the v4 reruns (which could also dump enclosures for the
+  independent Tier-1 re-check; draft scope: INDEPENDENT_RECHECK_SCOPE_DRAFT.md).
+- **Sumit:** whether this goes into the chaos write-up (c67126e) and the parked outreach, and whether the thread then
+  closes.
 
 ## Kill criteria (S2)
-- **STOP** in any of these cases:
-  - S2-0 projects more than 5 core-h (×3 outside view ≤ 15) without a re-gate;
-  - any stage or control fails: (i) Kerr must not certify, (ii) Kerr non-isolation, (iii) sabotage must fire,
-    (iv) the CKMJ L4 reproduction;
-  - the total exceeds 15 core-h;
-  - it isn't done by **2026-11-30 24:00 IST**, or 2 days after the go, whichever is earlier.
-- **Check-in** at 25% of the projected cost: a re-gate if the projection is more than 2×.
-- **Good enough:** a certified transverse homoclinic plus all 4 controls. Then write up and stop: no other β and no
-  entropy bound.
-- **On STOP:** a write-up, and the MN chaos question closes for good unless Sumit opens a new route.
+- Met: finished 2026-11-27 19:20 IST, before the 2026-11-29 15:00 kill date, at ≈ 11.4 of the 12 core-h cap.
+- No further runs are planned.
 
 ## Parked (Sumit's call to reopen)
 - These are listed in the open-threads note: the CHL sub-45° amendment, the MN/TS outreach package, the Lean
