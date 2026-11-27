@@ -1,0 +1,16 @@
+  beta 0 frac 0.000 m 5: alpha -1.884e-14  c' 1.1523e-06  |F| 1.26e-13 cond 6.20e+05 ||A|| 1.94e+04
+  beta 0 frac 0.125 m 5: alpha +7.143e-01  c' 1.8384e-06  |F| 1.63e-13 cond 1.08e+06 ||A|| 4.70e+04
+  beta 0 frac 0.250 m 5: alpha +1.222e+00  c' 2.7676e-06  |F| 7.63e-14 cond 7.14e+05 ||A|| 2.18e+04
+  beta 0 frac 0.375 m 5: alpha +1.507e+00  c' 4.1648e-06  |F| 1.55e-13 cond 5.98e+05 ||A|| 2.23e+04
+  beta 0 frac 0.500 m 5: alpha +1.563e+00  c' 6.0306e-06  |F| 2.11e-13 cond 5.72e+05 ||A|| 2.16e+04
+  beta 0 frac 0.625 m 5: alpha +1.485e+00  c' 8.0386e-06  |F| 2.07e-13 cond 5.18e+05 ||A|| 2.14e+04
+  beta 0 frac 0.750 FAILED left the domain
+  beta 0 frac 0.875 FAILED left the domain
+  beta 0.03 frac 0.000 m 5: alpha +2.320e-07  c' 1.1696e-06  |F| 1.81e-13 cond 6.15e+05 ||A|| 1.93e+04
+  beta 0.03 frac 0.125 m 5: alpha +6.938e-01  c' 1.8387e-06  |F| 4.14e-13 cond 1.07e+06 ||A|| 4.67e+04
+  beta 0.03 frac 0.250 m 5: alpha +1.197e+00  c' 2.7643e-06  |F| 1.94e-13 cond 7.06e+05 ||A|| 2.17e+04
+  beta 0.03 frac 0.375 m 5: alpha +1.481e+00  c' 4.1565e-06  |F| 4.06e-13 cond 5.90e+05 ||A|| 2.22e+04
+  beta 0.03 frac 0.500 m 5: alpha +1.539e+00  c' 6.0210e-06  |F| 4.38e-13 cond 5.64e+05 ||A|| 2.15e+04
+  beta 0.03 frac 0.625 m 5: alpha +1.465e+00  c' 8.0400e-06  |F| 5.11e-13 cond 5.11e+05 ||A|| 2.12e+04
+  beta 0.03 frac 0.750 FAILED left the domain
+  beta 0.03 frac 0.875 FAILED left the domain

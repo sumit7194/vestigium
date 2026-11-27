@@ -1,0 +1,80 @@
+   newton  0  ||F||_inf 1.295e-07
+   newton  1  ||F||_inf 0.000e+00
+  beta 0 c 1.1802e-06 (frac 0.00): alpha -1.687e-07 |F| 0.00e+00 cond 9.71e+05 ||A|| 3.91e+04 Y 0.00e+00
+   newton  0  ||F||_inf 5.696e-08
+   newton  1  ||F||_inf 5.421e-20
+  beta 0 c 1.7808e-06 (frac 0.12): alpha -7.419e-08 |F| 5.42e-20 cond 2.44e+06 ||A|| 1.24e+05 Y 4.16e-20
+   newton  0  ||F||_inf 2.493e-08
+   newton  1  ||F||_inf 4.441e-16
+  beta 0 c 2.6870e-06 (frac 0.25): alpha -3.248e-08 |F| 4.44e-16 cond 1.84e+06 ||A|| 9.44e+04 Y 3.41e-16
+   newton  0  ||F||_inf 1.115e-08
+   newton  1  ||F||_inf 0.000e+00
+  beta 0 c 4.0544e-06 (frac 0.38): alpha -1.453e-08 |F| 0.00e+00 cond 9.84e+05 ||A|| 4.76e+04 Y 0.00e+00
+   newton  0  ||F||_inf 5.119e-09
+   newton  1  ||F||_inf 0.000e+00
+  beta 0 c 6.1176e-06 (frac 0.50): alpha -6.667e-09 |F| 0.00e+00 cond 5.81e+05 ||A|| 3.20e+04 Y 0.00e+00
+   newton  0  ||F||_inf 1.871e-09
+   newton  1  ||F||_inf 0.000e+00
+  beta 0 c 9.2307e-06 (frac 0.62): alpha -2.437e-09 |F| 0.00e+00 cond 1.02e+06 ||A|| 5.52e+04 Y 0.00e+00
+   newton  0  ||F||_inf 1.457e-09
+   newton  1  ||F||_inf 0.000e+00
+  beta 0 c 1.3928e-05 (frac 0.75): alpha -1.897e-09 |F| 0.00e+00 cond 1.90e+06 ||A|| 9.70e+04 Y 0.00e+00
+   newton  0  ||F||_inf 1.810e-09
+   newton  1  ||F||_inf 0.000e+00
+  beta 0 c 2.1016e-05 (frac 0.88): alpha 2.358e-09 |F| 0.00e+00 cond 2.42e+06 ||A|| 1.31e+05 Y 0.00e+00
+   newton  0  ||F||_inf 1.735e-04
+   newton  1  ||F||_inf 9.187e-14
+   newton  2  ||F||_inf 2.011e-13
+   newton  3  ||F||_inf 3.209e-13
+   newton  4  ||F||_inf 3.198e-13
+   newton  5  ||F||_inf 1.084e-19
+  beta 0.03 c 1.1802e-06 (frac 0.00): alpha 2.961e-04 |F| 1.08e-19 cond 9.52e+05 ||A|| 3.86e+04 Y 1.41e-19
+   newton  0  ||F||_inf 1.528e-02
+   newton  1  ||F||_inf 3.310e-13
+   newton  2  ||F||_inf 3.557e-13
+   newton  3  ||F||_inf 3.904e-13
+   newton  4  ||F||_inf 3.817e-13
+   newton  5  ||F||_inf 1.920e-13
+   newton  6  ||F||_inf 1.333e-13
+   newton  7  ||F||_inf 1.776e-14
+   newton  8  ||F||_inf 0.000e+00
+  beta 0.03 c 1.7799e-06 (frac 0.12): alpha 2.515e-02 |F| 0.00e+00 cond 2.35e+06 ||A|| 1.21e+05 Y 0.00e+00
+   newton  0  ||F||_inf 3.947e-04
+   newton  1  ||F||_inf 4.934e-13
+   newton  2  ||F||_inf 2.160e-13
+   newton  3  ||F||_inf 2.407e-13
+   newton  4  ||F||_inf 2.812e-13
+   newton  5  ||F||_inf 3.480e-13
+   newton  6  ||F||_inf 4.938e-13
+   newton  7  ||F||_inf 3.055e-13
+   newton  8  ||F||_inf 0.000e+00
+  beta 0.03 c 2.6843e-06 (frac 0.25): alpha -6.790e-04 |F| 0.00e+00 cond 1.81e+06 ||A|| 9.36e+04 Y 0.00e+00
+   newton  0  ||F||_inf 3.427e-02
+   newton  1  ||F||_inf 4.814e-13
+   newton  2  ||F||_inf 2.762e-13
+   newton  3  ||F||_inf 3.624e-13
+   newton  4  ||F||_inf 1.132e-13
+   newton  5  ||F||_inf 2.498e-13
+   newton  6  ||F||_inf 1.323e-13
+   newton  7  ||F||_inf 2.004e-13
+   newton  8  ||F||_inf 4.441e-16
+  beta 0.03 c 4.0483e-06 (frac 0.38): alpha -6.645e-02 |F| 4.44e-16 cond 9.78e+05 ||A|| 4.78e+04 Y 4.99e-16
+   newton  0  ||F||_inf 8.983e-04
+   newton  1  ||F||_inf 2.168e-19
+  beta 0.03 c 6.1053e-06 (frac 0.50): alpha 1.544e-03 |F| 2.17e-19 cond 9.29e+05 ||A|| 4.44e+04 Y 2.84e-19
+   newton  0  ||F||_inf 8.046e-02
+   newton  1  ||F||_inf 1.388e-17
+  beta 0.03 c 9.2076e-06 (frac 0.62): alpha 1.184e-01 |F| 1.39e-17 cond 1.43e+06 ||A|| 6.42e+04 Y 1.51e-17
+   newton  0  ||F||_inf 2.042e-03
+   newton  1  ||F||_inf 4.337e-19
+  beta 0.03 c 1.3886e-05 (frac 0.75): alpha -3.544e-03 |F| 4.34e-19 cond 3.01e+06 ||A|| 1.28e+05 Y 5.73e-19
+   newton  0  ||F||_inf 1.708e-01
+   newton  1  ||F||_inf 3.614e-13
+   newton  2  ||F||_inf 1.510e-13
+   newton  3  ||F||_inf 1.794e-13
+   newton  4  ||F||_inf 1.488e-13
+   newton  5  ||F||_inf 2.762e-13
+   newton  6  ||F||_inf 3.180e-13
+   newton  7  ||F||_inf 2.931e-13
+   newton  8  ||F||_inf 2.776e-17
+  beta 0.03 c 2.0942e-05 (frac 0.88): alpha -7.850e-01 |F| 2.78e-17 cond 1.01e+07 ||A|| 4.11e+05 Y 8.15e-17

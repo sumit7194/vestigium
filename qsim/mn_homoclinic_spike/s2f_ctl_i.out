@@ -1,0 +1,26 @@
+   newton  0  ||F||_inf 1.295e-07
+   newton  1  ||F||_inf 3.056e-04
+   newton  2  ||F||_inf 6.479e-08
+   newton  3  ||F||_inf 3.305e-05
+   newton  4  ||F||_inf 1.211e-09
+   newton  5  ||F||_inf 2.467e-05
+   newton  6  ||F||_inf 1.033e-09
+   newton  7  ||F||_inf 7.001e-05
+   newton  8  ||F||_inf 3.703e-09
+   newton  9  ||F||_inf 3.673e-06
+   newton 10  ||F||_inf 1.489e-08
+   newton 11  ||F||_inf 4.391e-06
+  c0 1.1802e-06 -> s_u 1.1929e-06  smin 1.65e-08 cond 1.68e+09 ||A|| 1.02e+08 Y 5.49e-03 disc -1.653e+09
+   newton  0  ||F||_inf 1.166e-08
+   newton  1  ||F||_inf 1.247e-09
+   newton  2  ||F||_inf 1.179e-07
+   newton  3  ||F||_inf 3.637e-09
+   newton  4  ||F||_inf 8.239e-09
+   newton  5  ||F||_inf 4.941e-09
+   newton  6  ||F||_inf 2.375e-09
+   newton  7  ||F||_inf 2.259e-09
+   newton  8  ||F||_inf 1.105e-08
+   newton  9  ||F||_inf 1.798e-09
+   newton 10  ||F||_inf 7.192e-08
+   newton 11  ||F||_inf 4.789e-08
+  c0 3.9882e-06 -> s_u 3.9875e-06  smin 2.99e-09 cond 9.27e+09 ||A|| 4.64e+08 Y 2.89e-04 disc -3.944e+08

@@ -1,0 +1,16 @@
+  beta 0 frac 0.000 m 5: alpha -1.884e-14  c' 1.1523e-06  |F| 1.26e-13 cond 6.20e+05 ||A|| 1.94e+04
+  beta 0 frac 0.125 m 5: alpha -2.017e-14  c' 7.6369e-07  |F| 1.37e-13 cond 4.66e+05 ||A|| 1.98e+04
+  beta 0 frac 0.250 m 5: alpha +1.237e-14  c' 5.0613e-07  |F| 2.98e-13 cond 4.17e+05 ||A|| 2.03e+04
+  beta 0 frac 0.375 m 5: alpha -2.981e-14  c' 3.3543e-07  |F| 2.23e-13 cond 4.08e+05 ||A|| 2.10e+04
+  beta 0 frac 0.500 m 5: alpha -1.714e-14  c' 2.2231e-07  |F| 1.80e-13 cond 4.14e+05 ||A|| 2.16e+04
+  beta 0 frac 0.625 m 5: alpha +2.113e-14  c' 1.4733e-07  |F| 1.19e-13 cond 4.10e+05 ||A|| 2.14e+04
+  beta 0 frac 0.750 m 5: alpha -5.014e-14  c' 9.7642e-08  |F| 1.62e-13 cond 3.54e+05 ||A|| 1.84e+04
+  beta 0 frac 0.875 m 5: alpha +1.964e-13  c' 6.4712e-08  |F| 8.74e-14 cond 2.00e+05 ||A|| 1.02e+04
+  beta 0.03 frac 0.000 m 5: alpha +2.320e-07  c' 1.1696e-06  |F| 1.81e-13 cond 6.15e+05 ||A|| 1.93e+04
+  beta 0.03 frac 0.125 m 5: alpha +2.811e-06  c' 7.7555e-07  |F| 3.62e-13 cond 4.61e+05 ||A|| 1.97e+04
+  beta 0.03 frac 0.250 m 5: alpha -4.187e-08  c' 5.1425e-07  |F| 4.06e-13 cond 4.13e+05 ||A|| 2.03e+04
+  beta 0.03 frac 0.375 m 5: alpha -3.177e-06  c' 3.4098e-07  |F| 4.86e-13 cond 4.03e+05 ||A|| 2.09e+04
+  beta 0.03 frac 0.500 m 5: alpha +8.156e-08  c' 2.2610e-07  |F| 5.85e-13 cond 4.08e+05 ||A|| 2.15e+04
+  beta 0.03 frac 0.625 m 5: alpha +7.258e-06  c' 1.4992e-07  |F| 3.31e-13 cond 4.03e+05 ||A|| 2.12e+04
+  beta 0.03 frac 0.750 m 5: alpha -1.877e-07  c' 9.9407e-08  |F| 4.00e-13 cond 3.47e+05 ||A|| 1.82e+04
+  beta 0.03 frac 0.875 m 5: alpha -1.590e-05  c' 6.5915e-08  |F| 4.46e-13 cond 1.97e+05 ||A|| 1.01e+04
