@@ -536,3 +536,45 @@ one core, so it needs the gate. Where A10 is stricter than A6/A8, A10 wins. Noth
   - **Control (iv) has been rerun on v4:** identical (s2/l4_iv/*_v4.*).
   - **MN-side reruns on v4** (S2-1 to S2-4 and (i)–(iii)) cost ≈ 6 core-h, beyond the 12 cap (≈ 11.4 used). The
     Bridge and Sumit decide.
+
+## A13. The v4 rerun with Tier-1 dumps, and the Tier-1 checker (dated 2026-11-27; written BEFORE launch; the Bridge's GO)
+- **Run.** The MN-side certifying passes, rerun on v4 (the NaN rule on every decision, A12.9):
+  - MN, Kerr (i) and sabotage (iii): S2-1 fp, S2-2 cone and S2-3/S2-4 bvp, from the committed refined specs;
+  - control (ii): meet, from its refined spec.
+  - Each writes a Tier-1 dump: every CAPD-produced enclosure that enters a decision (the input box of each pass, the
+    point images, the return times, the 2 × 2 section derivatives, and the chosen r), as exact MPFR hex endpoints.
+  - No refinement passes, and no new floats.
+- **Conduct.**
+  - Mac mini, ≤ 4 single-core jobs, nice 10. Leave Sumit his cores.
+  - Measured cap 7 core-h: pause my own PIDs and report if it is reached. Never kill.
+- **Sealed expectation (before launch).** Every decision is identical to v3:
+  - fp CERTIFIED ×3; cone CERTIFIED ×3;
+  - bvp CERTIFIED ×3, with v_x excluding 0 (MN, sab) and containing 0 (Kerr), and v_px excluding 0;
+  - meet CERTIFIED, klemma OK;
+  - (iii) p disjoint.
+  - Every printed enclosure (Y, Z, r, p, v, L, δ*) agrees with v3 to its printed digits.
+  - If ANY decision flips: stop at the checkpoint and report before anything else.
+- **The Tier-1 checker** (`tier1_check.py`, python-flint 0.9.0 / Arb, rigorous ball arithmetic).
+  - **Inputs.** It is written from the REGISTERED formulas (A6, A10–A12 and the lemma statements), not ported from
+    the C++ decision code. It parses the specs as exact rationals and the dumps as exact binary rationals.
+  - **It re-derives:**
+    - (a) F(x̄), with the η mean-value term in its thin form (DP s̃)·[−η, η];
+    - (b) DF over the ball;
+    - (c) Y = ‖A F‖∞, Z = ‖I − A DF‖∞, and Zr − r + Y < 0 (CKMJ Thm 30);
+    - (d) the A1 tangent chains vU, vS, v = vU + [−L, L] vS, and the sign of v_x and v_px;
+    - (e) the cone [M] = T⁻¹ DP T, H1/H2 and δ* (A11);
+    - (f) the meeting system with the phase row, and ∇K_r·g on the hull (from the K_r formula);
+    - (g) (iii)'s disjointness.
+  - **It verifies coverage:** every pass's input box contains the set the registration requires (node ± r, the
+    W^u endpoint segment with its η-tube).
+  - **Mapping:** each registered inequality gets one checker line, recorded in the checker's header.
+- **Must-fail cases, registered now; each must make the checker FAIL** on a copy of a real dump:
+  - (m1) one DP entry's interval shifted by 10 × its width, so that Y or Z changes;
+  - (m2) one entry replaced by NaN, and separately by +∞;
+  - (m3) a sign flipped in one v-chain matrix entry;
+  - (m4) the A12.3/A1 norm taken as max instead of Euclidean where it matters, i.e. the w3 check of control (iv)'s
+    block norm. If (iv) has no dump, (m4) is applied to the A11 1-D case as a box-norm swap of Y and it must change
+    the verdict margin; reported either way.
+  - (m5) a pass input box shrunk below node ± r, so that coverage FAILS.
+- **The checker's verdict counts only after the Bridge's non-author read** of the checker against this registration.
+- **Tier 2** (a second integrator) is not approved: it goes to Sumit, Kerr one-return pilot first.
