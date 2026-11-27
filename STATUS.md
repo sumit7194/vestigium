@@ -21,8 +21,8 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
   - The splitting matches the Melnikov prediction to +0.014% at β = 1e-4, and is linear in β.
   - The BVP is well enough conditioned to attempt (`qsim/mn_homoclinic_spike/S1_RESULT.md`).
   - Float only, not a proof.
-- **MN chaos at β = 3/100: certified; v4 rerun identical; awaiting the Bridge** (`qsim/mn_homoclinic_spike/S2_RESULT.md`,
-  PREREG A13.1).
+- **MN chaos at β = 3/100: PROVED (within S2's scope)** (`qsim/mn_homoclinic_spike/S2_RESULT.md`,
+  PREREG A13.1–A13.2).
   - A transverse homoclinic orbit to the r ≈ 16 periodic orbit, so the flow on that level is chaotic (h_top > 0,
     Smale–Birkhoff). Qualitative only: one β, no entropy value.
   - All four controls PASS:
@@ -31,26 +31,21 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
     - the sabotaged field changes the certificate;
     - the CKMJ L4 proof is reproduced.
   - **GRADE:** both lemmas read by a non-author (CORRECT) and A12 accepted.
-  - **A12.9 hold:** its condition is met. The v4 (NaN-rule) rerun of every MN-side pass is identical to v3
-    (2026-11-27 21:13, 5.67 core-h). Lifting "held" is the Bridge's call.
-  - **Tier 1:** the Arb re-check of the decision arithmetic agrees on every verdict.
-    - It counts only after the Bridge's non-author read.
-    - Must-fail (m2), (m3) and (m5) fired, (m4) changed the margin, and (m1) did NOT fire: a case-design flaw,
-      disclosed, with a post-hoc (m1p) that fires.
+  - A computer-assisted proof: every decision was re-evaluated independently from the dumped enclosures (Tier 1, Arb); the flow and derivative enclosures themselves rest on CAPD (an independent integrator re-check, Tier 2, has not been done).
+  - The A12.9 hold is LIFTED (the Bridge, A13.2). The v4 rerun is identical to v3, and the Tier-1 checker was read
+    CORRECT. Tier 1 does not cover (iv).
+  - Must-fail: (m2), (m3) and (m5) fired; (m4) changed the margin; (m1) was mis-designed and did not fire; the
+    post-hoc (m1p) fired and was accepted.
   - **Correction:** A2's "< 10%" cond-vs-n figure is ≤ 17% at β = 1e-2 (no decision depends on it).
 
 ## What is running
 - Nothing.
 
 ## Next decision, and who makes it
-- **The Bridge:**
-  - the non-author read of tier1_check.py;
-  - whether (m1p) stands in for (m1);
-  - lifting the A12.9 hold.
 - **Sumit:**
   - the push (local commits only);
   - Tier 2 (a second integrator; Kerr pilot first);
-  - any compute beyond the spike's ≈ 20 core-h (now ≈ 19.7 used);
+  - any compute beyond the spike, which is CLOSED at ≈ 19.7 of ≈ 20 core-h;
   - whether this goes into the chaos write-up (c67126e) and the outreach.
 
 ## Kill criteria (S2)

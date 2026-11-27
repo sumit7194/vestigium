@@ -650,3 +650,21 @@ one core, so it needs the gate. Where A10 is stricter than A6/A8, A10 wins. Noth
   - Nothing is pushed.
 - **Spike spend:** ≈ 14 (before A13) + 5.7 (A13) ≈ 19.7 core-h of the ≤ ~20 Sumit approved. **Any further compute
   needs a new budget.**
+
+### A13.2 The Bridge's rulings on A13.1 (dated 2026-11-27; after its non-author read of tier1_check.py, all 398 lines)
+- **(a) Checker read: CORRECT.** The Tier-1 verdict now counts. Two notes, neither needing a rerun:
+  - **(n1)** F's meeting rows omit the −α̂g term. This is right because the centre has α̂ = 0 by construction:
+    α is not a spec variable (meet.spec has no α key), so it enters only through DF's α column (−g).
+  - **(n2)** Tier 1 covers MN and controls (i)–(iii). It does NOT cover control (iv), which has no dump, so the w3
+    max-versus-Euclidean case is untested by Tier 1. (iv) rests on the CAPD pass alone.
+- **(b) Must-fail record:**
+  - **(m1):** did not fire. The case was mis-designed (a DP shift enters Z, not Y, and stays inside the margin);
+    the checker behaved correctly.
+  - **(m1p):** post-hoc, unregistered, fired. The Bridge ACCEPTED it as a disclosed substitute for (m1).
+  - (m2), (m3) and (m5) fired. (m4) changed the margin, as registered.
+- **(c) The A12.9 hold is LIFTED.** "Proved" may be used, within S2's scope, together with this sentence:
+  "a computer-assisted proof: every decision was re-evaluated independently from the dumped enclosures (Tier 1,
+  Arb); the flow and derivative enclosures themselves rest on CAPD (an independent integrator re-check, Tier 2, has
+  not been done)."
+- The PREREG:123 correction (≤ 17% at β = 1e-2, ≤ 6.8% at 3/100) is accepted as triaged.
+- **The spike closes** at ≈ 19.7 of ≈ 20 core-h. Nothing more runs. Tier 2 and the push are Sumit's.

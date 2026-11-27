@@ -1,4 +1,4 @@
-# S2 result: every registered condition holds; both lemmas read by a non-author (CORRECT); A12 accepted. The A12.9 v4 NaN-rule rerun is IDENTICAL (A13.1); lifting "held" awaits the Bridge. Tier-1 (Arb) re-check agrees, pending its non-author read
+# S2 result: PROVED (within S2's scope). Every registered condition holds; both lemmas read by a non-author (CORRECT); A12 accepted; the v4 rerun is identical and the Tier-1 (Arb) re-check is read CORRECT (A13.1–A13.2)
 
 Runs 2026-11-27, 15:54–19:20 IST, on the Mac mini (≤ 4 single-core jobs, nice 10, 23 MB each). MPFR-128, Taylor order
 20, step tolerance 1e-24. Code: `capd/s2_main.cpp` (v3), `capd/s2_l4.cpp`, `s2run.py`, `l4run.py`. Outputs: `s2/`.
@@ -20,14 +20,17 @@ Registration: PREREG.md S2 AMENDMENT A1–A12. Written by Claude Opus 5.5 (offic
     wording items of A12.7.
   - BUT (A12.9): the MN-side certifying passes ran on v3, which did not finite-check the derivative enclosures as
     the CAPD trust rule requires.
-  - So "proved" was HELD until those passes were rerun on v4.
+  - **Proved (A13.2):** a computer-assisted proof: every decision was re-evaluated independently from the dumped enclosures (Tier 1, Arb); the flow and derivative enclosures themselves rest on CAPD (an independent integrator re-check, Tier 2, has not been done).
+  - "Proved" had been HELD until those passes were rerun on v4.
   - **A13.1 (2026-11-27 21:13):**
     - The v4 rerun of every MN-side pass is byte-identical to v3 apart from wall times (5.67 core-h). Control (iv)
       was already rerun on v4, identical.
     - A second implementation of the decision arithmetic (python-flint/Arb, written from the registered formulas)
       re-derives every verdict from exact dumps and agrees.
-    - That checker counts only after the Bridge's non-author read. One registered must-fail case, (m1), did not
-      fire (a design flaw in the case, disclosed).
+    - The Bridge read the checker: CORRECT (A13.2), so its verdict counts. It covers MN and controls (i)–(iii), but
+      not (iv), which rests on CAPD alone.
+    - (m1) did not fire (the case was mis-designed; the checker behaved correctly). The post-hoc (m1p) fired, and
+      the Bridge accepted it as a disclosed substitute.
 - **How to read the controls.**
   - The margin is what persuades: MN's v_x/|v| = 3.1e-5 lies ~500× outside 0, compared with Kerr's enclosure
     (half-width ~6e-9 relative, containing 0).
