@@ -1,0 +1,83 @@
+mp.dps = 60
+params: M = 5.0  chi = 0.6  alpha = -0.3333333333333333333333333333333333333333  k = 4.0
+  alpha + 1/3 = -3.8894e-62   k - 4 = 0.0
+
+== Check 1: beta = 0 vs textbook BL Kerr (M=5, a=3) ==
+  x=  2.5 y=  0.0  H_MN=   -1.176031746031746031746032  H_Kerr=   -1.176031746031746031746032  rel=3.97e-61  field maxrel=0.0
+  x=  3.1 y=  0.3  H_MN=  -0.6548755608239613214557716  H_Kerr=  -0.6548755608239613214557716  rel=9.5e-61  field maxrel=0.0
+  x=  4.0 y=-0.45  H_MN= -0.05654884254344428606669977  H_Kerr= -0.05654884254344428606669977  rel=5.5e-60  field maxrel=0.0
+  x=  4.7 y=  0.6  H_MN=  -0.5196310835043925735652947  H_Kerr=  -0.5196310835043925735652947  rel=4.49e-61  field maxrel=0.0
+  x=  5.5 y= -0.6  H_MN=  -0.4562451081087327400011766  H_Kerr=  -0.4562451081087327400011766  rel=3.41e-61  field maxrel=0.0
+  x=  6.2 y= 0.12  H_MN=    1.378166394607426356880515  H_Kerr=    1.378166394607426356880515  rel=2.26e-61  field maxrel=0.0
+  x=  7.0 y=-0.21  H_MN=  -0.6162145463071776780631519  H_Kerr=  -0.6162145463071776780631519  rel=1.26e-61  field maxrel=0.0
+  x=  8.3 y=  0.5  H_MN=   0.3104038264957880033490359  H_Kerr=   0.3104038264957880033490359  rel=2.51e-61  field maxrel=0.0
+  x=  9.1 y=-0.33  H_MN=  -0.1203480936496500862424678  H_Kerr=  -0.1203480936496500862424678  rel=9.7e-61  field maxrel=0.0
+  x= 10.0 y= 0.58  H_MN=  -0.5568479597806105556352113  H_Kerr=  -0.5568479597806105556352113  rel=2.79e-61  field maxrel=0.0
+  x= 11.0 y=-0.05  H_MN=    1.326765239294288653248715  H_Kerr=    1.326765239294288653248715  rel=0.0  field maxrel=0.0
+  x= 2.75 y= 0.41  H_MN=  -0.8037407253155197823301438  H_Kerr=  -0.8037407253155197823301438  rel=1.94e-61  field maxrel=0.0
+  WORST H rel diff = 5.5e-60   WORST field rel diff = 0.0   PASS
+
+== Check 2: asymptotics (M, J, omega) ==
+  beta = 0.0
+    y=0.0 x=1e8: M_est=5.0  J_est=15.0  omega=-7.5e-8  e2gamma-1=-1.5625e-16
+    y=0.0 x=1e12: M_est=5.0  J_est=15.0  omega=-7.5e-12  e2gamma-1=-1.5625e-24
+    y=0.0 x=1e16: M_est=5.0  J_est=15.0  omega=-7.5e-16  e2gamma-1=-1.5625e-32
+    y=0.5 x=1e8: M_est=4.999999999999999929687502  J_est=14.99999999999999978906251  omega=-5.625e-8  e2gamma-1=-1.1719e-16
+    y=0.5 x=1e12: M_est=4.999999999999999999999999  J_est=15.0  omega=-5.625e-12  e2gamma-1=-1.1719e-24
+    y=0.5 x=1e16: M_est=5.0  J_est=15.0  omega=-5.625e-16  e2gamma-1=-1.1719e-32
+  beta = 0.03
+    y=0.0 x=1e8: M_est=5.000000000000000006  J_est=15.000000000000000036  omega=-7.5e-8  e2gamma-1=-1.5625e-16
+    y=0.0 x=1e12: M_est=5.0  J_est=15.0  omega=-7.5e-12  e2gamma-1=-1.5625e-24
+    y=0.0 x=1e16: M_est=5.0  J_est=15.0  omega=-7.5e-16  e2gamma-1=-1.5625e-32
+    y=0.5 x=1e8: M_est=4.999999999999999931187502  J_est=14.99999999999999978006251  omega=-5.625e-8  e2gamma-1=-1.1719e-16
+    y=0.5 x=1e12: M_est=4.999999999999999999999999  J_est=15.0  omega=-5.625e-12  e2gamma-1=-1.1719e-24
+    y=0.5 x=1e16: M_est=5.0  J_est=15.0  omega=-5.625e-16  e2gamma-1=-1.1719e-32
+  gauge constant -4 k alpha/(1-alpha^2) = 6.0
+  omega at x=1e30, y=0.3, beta=3/100: -6.825e-30
+
+== Check 3: mass quadrupole ==
+  beta=   0.0: M2 paper eq.(4) =                        -45.0; numeric (z=1e6,1e8,1e10) = -44.999775000719998425, -44.999997750000072, -44.999999977500000007
+           M2 - M2_Kerr = 0.0 (= -k^3 beta = 0.0);  q = -(M2-M2Kerr)/M^3 = 0.0
+  beta=  0.03: M2 paper eq.(4) =                       -46.92; numeric (z=1e6,1e8,1e10) = -46.919775000637438771, -46.919997750000063744, -46.919999977500000006
+           M2 - M2_Kerr = -1.92 (= -k^3 beta = -1.92);  q = -(M2-M2Kerr)/M^3 = 0.01536
+  beta= -0.03: M2 paper eq.(4) =                       -43.08; numeric (z=1e6,1e8,1e10) = -43.079775000802558079, -43.079997750000080256, -43.079999977500000008
+           M2 - M2_Kerr = 1.92 (= -k^3 beta = 1.92);  q = -(M2-M2Kerr)/M^3 = -0.01536
+  beta=   0.5: M2 paper eq.(4) =                        -77.0; numeric (z=1e6,1e8,1e10) = -76.999774999344004185, -76.9999977499999344, -76.999999977499999993
+           M2 - M2_Kerr = -32.0 (= -k^3 beta = -32.0);  q = -(M2-M2Kerr)/M^3 = 0.256
+  Kerr M2 = -M a^2 = -45
+
+== Extra A: gamma' on the axis / at infinity (typo resolution in eq. 3h) ==
+  beta=0.03 y=1 x=2.0: gamma'=0.0  e^(2gamma)-1=-7.7788e-62   [literal '-2 inside sum' would give gamma' - 4 beta = -0.12]
+  beta=0.03 y=1 x=7.0: gamma'=0.0  e^(2gamma)-1=-7.7788e-62   [literal '-2 inside sum' would give gamma' - 4 beta = -0.12]
+  beta=0.03 x=1e20 y=0.3: gamma'=-4.55e-41
+  beta=0.5 y=1 x=2.0: gamma'=0.0  e^(2gamma)-1=-7.7788e-62   [literal '-2 inside sum' would give gamma' - 4 beta = -2.0]
+  beta=0.5 y=1 x=7.0: gamma'=0.0  e^(2gamma)-1=-7.7788e-62   [literal '-2 inside sum' would give gamma' - 4 beta = -2.0]
+  beta=0.5 x=1e20 y=0.3: gamma'=-4.55e-41
+
+== Extra B: Legendre via mpmath.legendre vs explicit polynomials ==
+  max |diff| = 3.89e-62
+
+== Extra C: vacuum field equations in Weyl (rho, z), beta = 0 and 3/100 ==
+  beta=0.0 (x,y)=(3.0,0.3): rel residuals R1=-1.44e-61 R2=1.16e-61 R3=-1.44e-61 R4=-2.78e-61
+  beta=0.0 (x,y)=(6.5,-0.55): rel residuals R1=2.01e-61 R2=-1.56e-61 R3=1.25e-61 R4=-3.22e-61
+  beta=0.03 (x,y)=(3.0,0.3): rel residuals R1=9.83e-62 R2=0.0 R3=1.95e-61 R4=2.28e-61
+  beta=0.03 (x,y)=(6.5,-0.55): rel residuals R1=2.07e-61 R2=0.0 R3=-9.62e-63 R4=-9.48e-62
+  beta=0.5 (x,y)=(3.0,0.3): rel residuals R1=-1.24e-61 R2=9.99e-62 R3=-1.72e-61 R4=-1.95e-61
+  beta=0.5 (x,y)=(6.5,-0.55): rel residuals R1=3.54e-61 R2=-1.55e-61 R3=4.38e-61 R4=-6.29e-61
+
+== Extra D: derivative method cross-check (mpmath.diff step vs quad Cauchy contour; error / max(abs(value),1)) ==
+  x= 2.5 y=  0.0: dH/dx rel=2.54e-71  dH/dy rel=1.9e-64  dH/dbeta|0 = -0.09837831882080840177807248 rel=1.63e-69
+  x= 3.1 y=  0.3: dH/dx rel=2.82e-71  dH/dy rel=3.17e-71  dH/dbeta|0 = -0.03042566409702067530283392 rel=2.43e-63
+  x= 4.0 y=-0.45: dH/dx rel=2.0e-71  dH/dy rel=6.6e-71  dH/dbeta|0 = -0.01027995776256377215174999 rel=1.97e-69
+  x= 4.7 y=  0.6: dH/dx rel=3.04e-71  dH/dy rel=4.97e-71  dH/dbeta|0 = 0.0004659381173445353044100191 rel=8.36e-64
+
+== Sample outputs (beta = 3/100) ==
+  H     = -1.17898663345213244269382874478
+  field = ['0.02331475843542429893871133', '0.008881812737304494833794791', '-0.5006484927200301219483328', '0.0']
+  dH/dbeta|0 = -0.098378318820808401778072479331
+  H     = -0.655788662199061644433433685632
+  field = ['-0.1275672014199435920271988', '0.004494237448399096738085595', '-0.3185292029840160313372844', '-0.01408928187667961573954099']
+  dH/dbeta|0 = -0.0304256640970206753028339167935
+  H     = -0.0568573628264181919917296138667
+  field = ['0.2370719779794399442753968', '-0.005401854355388667301703684', '-0.2781389598754819363067525', '-0.004760145288622112693815248']
+  dH/dbeta|0 = -0.0102799577625637721517499863235

@@ -96,5 +96,8 @@ Registration: PREREG.md S2 AMENDMENT A1–A12. Written by Claude Opus 5.5 (offic
 - No statement about the S1-scale small-β regime beyond β = 3/100.
 - Nothing about other orbit families.
 - The Kerr items are controls, not new results about Kerr.
-- **No second integrator (Tier 2).** The Tier-1 check covers the decision arithmetic only, not CAPD's flow
-  enclosures or the field (A13.1; scope in INDEPENDENT_RECHECK_SCOPE_DRAFT.md). Tier 2 is Sumit's call.
+- **The field: independently re-derived (Tier 2a, AGREE, 2026-11-27).** A non-author derived it from Gair–Li–Mandel
+  2008, and it matches gen/mn_field.h to its 160-bit floor at 97 orbit points × β ∈ {0, ±3/100}. The sabotage must-fail
+  fired (tier2a/TIER2A_RESULT.md).
+- **No second integrator (Tier 2b).** The flow and derivative enclosures rest on CAPD alone. Tier 1 covers only the
+  decision arithmetic. Tier 2b is Sumit's call.

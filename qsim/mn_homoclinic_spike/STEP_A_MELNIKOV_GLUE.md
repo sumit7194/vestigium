@@ -1,10 +1,11 @@
-# Step A: the Melnikov glue. Chaos for every small β ≠ 0, both signs (registration-style note). PROVED at stated scope (the Bridge, 2026-11-27); caveat (H1)
+# Step A: the Melnikov glue. Chaos for every small β ≠ 0, both signs (registration-style note). PROVED at stated scope (the Bridge, 2026-11-27); (H1) discharged by Tier 2a
 
 Written 2026-11-27 22:05 IST by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h; it uses existing certificates
 and float records. Status: **PROVED at its stated scope**: chaos for all 0 < |β| < β₀, β₀ not explicit, analytic, both signs.
 - The Bridge's non-author read (2026-11-27) found it CORRECT.
 - C1 (Robinson at source) PASSED, with g1–g4 disclosed. [CR-mel] is not required.
-- **Standing caveat (H1):** the MN field (mn_codegen) is shared with S2 until Tier 2a.
+- **(H1) DISCHARGED (Tier 2a, 2026-11-27, AGREE; tier2a/TIER2A_RESULT.md):** the MN field was re-derived independently
+  from the published metric (Gair–Li–Mandel 2008) by a non-author. mel_gen's H0 and Hb agree to 1e−55.
 
 Sources:
 - fable_work/mn_melnikov/{SETUP, MELNIKOV, THEOREM_DRAFT}.md (Fable 5.2; unreviewed);

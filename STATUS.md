@@ -48,18 +48,18 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
     - Robinson's Thm 3.4 (Contemp. Math. 198, 1996), with its hypotheses checked at source.
   - The Bridge read it (non-author): CORRECT. C1 passed with gaps g1–g4 disclosed; [CR-mel], the source of Lemma 3.8,
     was not read.
-  - **Standing caveat (H1):** the MN field code (mn_codegen) is shared by S2 and by the Melnikov L2, until Tier 2a.
+  - **(H1) DISCHARGED by Tier 2a (AGREE, 2026-11-27).** The field both proofs use was re-derived independently from
+    Gair–Li–Mandel 2008 by a non-author, and agrees to the header's 160-bit floor at 97 orbit points. The sabotage
+    and L must-fails fired. There was a GLM eq. (3h) typo, and both sides resolved it the same way
+    (tier2a/TIER2A_RESULT.md).
   - **Not given:** an explicit β₀. Step A does not reach S2's β = 3/100. Draft routes are in EXPLICIT_BETA_ROUTES_DRAFT.md.
 
 ## What is running
-- The Tier 2a independent-derivation agent (no compute beyond seconds). No CAPD jobs.
+- Nothing.
 
 ## Next decision, and who makes it
 - **Under way (Sumit's GO via the Bridge, 2026-11-27):**
-  - **Tier 2a**, the re-derivation of the MN field by a non-author.
-    - It is registered BEFORE the run: qsim/mn_homoclinic_spike/tier2a/TIER2A_PREREG.md. The harness is frozen.
-    - It removes the (H1) caveat from S2 and Step A if it AGREEs. A DISCREPANCY re-holds both.
-    - Stop: 2026-11-29 18:00 IST.
+  - **Tier 2a: DONE, AGREE** (tier2a/TIER2A_RESULT.md).
   - **The route-1 pilot** for an explicit β*: the lemma write-up, then the Bridge's read, then the runs, which wait
     for 2a.
     - Cap 12 core-h measured. Kill date 2026-12-06 18:00 IST.
