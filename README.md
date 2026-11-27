@@ -43,7 +43,7 @@ results we found are numerical. (Rigorous perturbative results exist for perturb
 Work done with AI assistance (Claude, Gemini). Every check described as independent was done by a separate AI
 session or system, not by human peer review; no external expert has yet read the proofs. See the release notes.
 
-### The one result here that was not known in advance
+### The other result here that was not known in advance
 
 *The detail below grew one honest correction at a time and is now longer than the result.
 Shape first:*
