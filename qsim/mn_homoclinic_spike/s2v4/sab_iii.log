@@ -1,0 +1,7 @@
+== sab_iii fp 19:35:08
+   rc 0 RESULT fp CERTIFIED rho 1.000000000000000000000001e-19
+== sab_iii cone 19:42:55
+   rc 0 RESULT cone CERTIFIED L 1.202400454737657155192850e-02 rhop 1.427695818629225333910671e-19 deltastar 3.735408531707414240706959e-11
+== sab_iii bvp 19:48:31
+   rc 0 RESULT bvp krawczyk CERTIFIED v_x excludes0 v_px excludes0
+DONE sab_iii 21:05:15

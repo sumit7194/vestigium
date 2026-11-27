@@ -37,3 +37,6 @@ d2406612f2932465  s2_main_sab_v4
 7c458fac95e53c82  s2_main_v4
 ed0d818d730b7430  s2_main_sab_v4
 19:31:29 v4 built (NaN rule on every decision; not yet used for MN-side certifying passes)
+07ad4ea0a447b524  s2_main_v4
+ad9bc8a0406bd785  s2_main_sab_v4
+19:34:42 v4 (with Tier-1 dump) built for the A13 rerun

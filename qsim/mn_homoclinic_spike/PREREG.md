@@ -578,3 +578,75 @@ one core, so it needs the gate. Where A10 is stricter than A6/A8, A10 wins. Noth
   - (m5) a pass input box shrunk below node ± r, so that coverage FAILS.
 - **The checker's verdict counts only after the Bridge's non-author read** of the checker against this registration.
 - **Tier 2** (a second integrator) is not approved: it goes to Sumit, Kerr one-return pilot first.
+
+### A13.1 Results (dated 2026-11-27, 21:13–21:50 IST; written after the runs)
+- **The v4 rerun: the sealed expectation HOLDS.**
+  - All four jobs ended rc 0 (19:35:08 → mn 21:08:40, kerr_i 20:34:03, sab_iii 21:05:15, meet_ii 21:12:55).
+  - All 10 outputs (fp, cone, bvp × 3, and meet) are byte-identical to v3 once the wall-time fields are stripped.
+    Every decision and every printed enclosure is unchanged: no decision flipped.
+  - Spend: 5.67 core-h measured (1.56 + 0.98 + 1.50 + 1.63), under the 7 cap. No pause was needed.
+- **The Tier-1 checker on the real dumps: every verdict agrees** (`s2v4/tier1_run.out`). VERDICT MN, (i), (ii)
+  and (iii) are all true.
+  - MN bvp: Y 7.835e-16, Z 3.4222e-4, r 1.1975e-14; v_x ⊂ [1.12449e7, 1.13004e7]; v_px ⊂ [−3.58821e11, −3.58821e11];
+    p_x ⊂ [10.582227722086325, 10.582227722086344].
+  - Kerr: v_x ⊂ [−2.2439e4, +2.2439e4], which contains 0.
+  - (ii): Y 1.526e-15, Z 2.962e-4; ∇K_r·g ⊂ [36.2511267855, 36.2511267857].
+  - (iii): disjoint.
+  - **The checker's δ\* is 3.9e-9 (relative) BELOW CAPD's.** For example MN: 3.73542765188e-11 against
+    3.73542766629e-11. The cause is that the checker forms [M] = (T⁻¹ DP) T in Arb, and interval matrix products
+    depend on association order. Its |a| upper bound is ~1e-7 wider on an entry of width 1.9e-2. Both are valid
+    enclosures, and the reach is re-checked with the checker's own (smaller) δ\*.
+  - **One check was added after A13** (it tightens the checker; it relaxes nothing): meet.spec's frame centre must
+    equal Kerr fp's w. This mirrors the existing check that each chain's cone and bvp centre equals its fp centre.
+- **Must-fail cases** (`s2v4/tier1_mustfail.out`):
+  - **(m1) did NOT fire, as registered.** Shifting the MN bvp_ball3 D[0][0] interval by 10 × its width changes Z
+    (3.42221167e-4 → 3.42221183e-4) and v_x (by ~1e-1, i.e. 1e-8 relative), but the verdict stays CERTIFIED.
+    - That is the correct behaviour for a sound checker: the shift is ~1e-13 relative, far inside the margin.
+    - So (m1) as registered was a defective must-fail design ("each must FAIL" cannot hold for a perturbation
+      inside the margin). The registered wording is NOT amended here.
+    - **Post-hoc supplement (m1p), not registered, disclosed as such:** the Bridge's wording "a perturbed Y entry".
+      The MN point image P(z_3)_x is shifted by 2r_bvp; Y becomes 1.404e-14 > r 1.197e-14 and MN is NOT certified:
+      **FIRED.** Whether (m1p) stands in for (m1) is the Bridge's call.
+  - **(m2) FIRED ×4.** One endpoint of a real dump FILE (mn/bvp.dump, the first D entry) was replaced by the text
+    nan, inf, @NaN@ and @Inf@, and run through the full pipeline; each time it is refused at parse ("non-finite dump
+    endpoint").
+    - (An earlier draft tested only the token parser. It was replaced by the file-level injection before any
+      reported run.)
+  - **(m3) FIRED.** A sign flip in bvp_ball4 D[1][0] (a v-chain matrix entry) gives Z 15.67 > 1, so MN is not
+    certified; v_x also moves to [5.63e6, 5.66e6].
+  - **(m4) changed the margin, reported.** (iv) has no Tier-1 dump (s2_l4 has no dump writer; (iv) was outside
+    the GO list), so the registered fallback applies.
+    - The box-norm swap for Y (1-norm instead of ∞-norm) moves MN's bvp margin from −1.1187e-14 to −1.0424e-14:
+      changed, verdict still CERTIFIED.
+    - The A12.3 w3 max-vs-Euclidean case is therefore NOT exercised by Tier 1.
+  - **(m5) FIRED.** The bvp_ball5 x-box shrunk to 1/4 of its width: CheckFail "mn bvp ball5 box" (coverage).
+- **The A2 artifact (PREREG.md:123), regenerated** (`a2_cond_shift.py/.json/.out`, plus `_nearest`; float only;
+  1.4 min + 0.7 min).
+  - The base cond values reproduce S1's JSON exactly.
+  - The claim "cond changes by < 10% at all four zeros" does NOT reproduce at β = 1e-2:
+    - from the zero s_u, the changes are 0.5%, 16.9%, 4.0% and 10.7%;
+    - from the nearest-sample s_u, 0.3%, 4.2%, 2.5% and 13.1%.
+  - At β = 3/100 it holds (≤ 6.8%).
+  - **Correction:** "under n → n ± 1, cond(DF) changes by ≤ 17% at β = 1e-2 and ≤ 7% at β = 3/100; its order of
+    magnitude does not depend on n."
+  - No S2 decision depends on A2; it explained the conditioning only. The S2_0_RESULT triage line that called this
+    "measured and quantified" relied on the < 10% figure and is corrected here.
+- **The audit sweep's hits in this folder, triaged one line each** (the cues are "independent" and "fitted
+  parameter"; I could locate 8 + 1 of them; I do not have the sweep's own list):
+  - INDEPENDENT_RECHECK_SCOPE_DRAFT.md:1, :44, :49, :51, :68 (local, uncommitted): FALSE POSITIVE. They describe the
+    PROPOSED second implementation and claim no independence that exists. :68 is headed "not a substitute".
+  - S2_RESULT.md:90: FALSE POSITIVE. It states that NO independent re-check has been done.
+  - S2_0_RESULT.md:71: FALSE POSITIVE as a cue (it quotes :123), but its content is corrected above.
+  - PREREG.md:123: the cue is a false positive ("independent of n" is a dependence claim, not a verification claim),
+    BUT the number is overstated; see the A2 correction above.
+  - PREREG.md:436 (A12.1) "float cond 2.2e11, ‖A‖∞ 1.1e10":
+    - cond 2.20e+11 is in the committed archive s2/meet_ii_superseded_fixedc/meet_ii.log:3;
+    - ‖A‖∞ 1.1e10 was printed in-session and is NOT in that log. It is unbacked by any artifact, and only explains
+      the abandoned fixed-c form.
+- **Status:**
+  - A12.9's hold condition (rerun on v4) is MET with identical results. Lifting "held" is put to the Bridge.
+  - The Tier-1 agreement counts only after the Bridge's non-author read, which now also covers (m1)/(m1p) and (m4).
+  - Tier 2 is not started.
+  - Nothing is pushed.
+- **Spike spend:** ≈ 14 (before A13) + 5.7 (A13) ≈ 19.7 core-h of the ≤ ~20 Sumit approved. **Any further compute
+  needs a new budget.**

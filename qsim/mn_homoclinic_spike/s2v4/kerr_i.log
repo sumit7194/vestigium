@@ -1,0 +1,7 @@
+== kerr_i fp 19:35:08
+   rc 0 RESULT fp CERTIFIED rho 1.000000000000000000000001e-19
+== kerr_i cone 19:40:10
+   rc 0 RESULT cone CERTIFIED L 1.035719872703895031622260e-02 rhop 1.431584786022035671272040e-19 deltastar 3.720676450562431246308587e-11
+== kerr_i bvp 19:43:43
+   rc 0 RESULT bvp krawczyk CERTIFIED v_x contains0 v_px excludes0
+DONE kerr_i 20:34:03

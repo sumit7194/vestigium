@@ -71,3 +71,6 @@ Run 2026-11-27 on the Mac mini (1 core, nice 10, detached; the Bridge's S2-0 slo
 It is PREREG.md:123, "cond(DF) is independent of n", flagged by the "independent" text cue. On triage it is a
 false positive: the claim is measured and quantified in the same line (λ^±1 shift, cond within 10% at all four
 zeros, β = 1e-2).
+**Correction (A13.1, 2026-11-27):** the regenerated artifact (a2_cond_shift.*) gives ≤ 17% at β = 1e-2 (two of
+four zeros exceed 10%) and ≤ 7% at β = 3/100. The cue is still a false positive, but the "< 10%" figure was
+overstated.

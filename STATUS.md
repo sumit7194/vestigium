@@ -21,7 +21,8 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
   - The splitting matches the Melnikov prediction to +0.014% at β = 1e-4, and is linear in β.
   - The BVP is well enough conditioned to attempt (`qsim/mn_homoclinic_spike/S1_RESULT.md`).
   - Float only, not a proof.
-- **MN chaos at β = 3/100: certified under v3** (`qsim/mn_homoclinic_spike/S2_RESULT.md`).
+- **MN chaos at β = 3/100: certified; v4 rerun identical; awaiting the Bridge** (`qsim/mn_homoclinic_spike/S2_RESULT.md`,
+  PREREG A13.1).
   - A transverse homoclinic orbit to the r ≈ 16 periodic orbit, so the flow on that level is chaotic (h_top > 0,
     Smale–Birkhoff). Qualitative only: one β, no entropy value.
   - All four controls PASS:
@@ -30,21 +31,31 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
     - the sabotaged field changes the certificate;
     - the CKMJ L4 proof is reproduced.
   - **GRADE:** both lemmas read by a non-author (CORRECT) and A12 accepted.
-  - **But "proved" is HELD (A12.9):** v3 did not finite-check the derivative enclosures as the CAPD NaN rule
-    requires. v4 fixes it, and control (iv) is rerun on v4, identical. The MN-side reruns (≈ 6 core-h) need a budget
-    decision.
+  - **A12.9 hold:** its condition is met. The v4 (NaN-rule) rerun of every MN-side pass is identical to v3
+    (2026-11-27 21:13, 5.67 core-h). Lifting "held" is the Bridge's call.
+  - **Tier 1:** the Arb re-check of the decision arithmetic agrees on every verdict.
+    - It counts only after the Bridge's non-author read.
+    - Must-fail (m2), (m3) and (m5) fired, (m4) changed the margin, and (m1) did NOT fire: a case-design flaw,
+      disclosed, with a post-hoc (m1p) that fires.
+  - **Correction:** A2's "< 10%" cond-vs-n figure is ≤ 17% at β = 1e-2 (no decision depends on it).
 
 ## What is running
 - Nothing.
 
 ## Next decision, and who makes it
-- **The Bridge and Sumit:** whether to spend ≈ 6 core-h on the v4 reruns (which could also dump enclosures for the
-  independent Tier-1 re-check; draft scope: INDEPENDENT_RECHECK_SCOPE_DRAFT.md).
-- **Sumit:** whether this goes into the chaos write-up (c67126e) and the parked outreach, and whether the thread then
-  closes.
+- **The Bridge:**
+  - the non-author read of tier1_check.py;
+  - whether (m1p) stands in for (m1);
+  - lifting the A12.9 hold.
+- **Sumit:**
+  - the push (local commits only);
+  - Tier 2 (a second integrator; Kerr pilot first);
+  - any compute beyond the spike's ≈ 20 core-h (now ≈ 19.7 used);
+  - whether this goes into the chaos write-up (c67126e) and the outreach.
 
 ## Kill criteria (S2)
 - Met: finished 2026-11-27 19:20 IST, before the 2026-11-29 15:00 kill date, at ≈ 11.4 of the 12 core-h cap.
+- The A13 rerun was 5.67 of 7 core-h, finished 21:13.
 - No further runs are planned.
 
 ## Parked (Sumit's call to reopen)

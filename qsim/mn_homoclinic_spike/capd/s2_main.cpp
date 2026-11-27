@@ -90,6 +90,11 @@ static void mn_domain(const IV& b) {
   mn_gpp<MpInterval>(xi, out, MNC); capd_proof::require_finite(out[0], "S4 g_phiphi");
   if (!(out[0].leftBound() > 0)) throw std::runtime_error("S4: g_phiphi > 0 on the inflated box not certified");
 }
+// ---- Tier-1 dump (A13): exact MPFR hex endpoints of every CAPD enclosure that enters a decision
+static FILE* DUMPF = nullptr;
+static std::string hx(const R& r) { char* c = nullptr; mpfr_asprintf(&c, "%Ra", r.*RepAccess::rep); std::string o(c); mpfr_free_str(c); return o; }
+static void dI(const std::string& tag, const std::string& nm, int i, int j, const MpInterval& x) {
+  if (DUMPF) std::fprintf(DUMPF, "%s %s %d %d %s %s\n", tag.c_str(), nm.c_str(), i, j, hx(x.leftBound()).c_str(), hx(x.rightBound()).c_str()); }
 static int ORDER = 20; static double TOL = 1e-24;
 static void settol(capd::MpIOdeSolver& s) { s.setAbsoluteTolerance(TOL); s.setRelativeTolerance(TOL); }   // step control only
 static double T0;
@@ -136,6 +141,8 @@ static Pass pass(capd::MpIMap& f, const MpInterval& x, const MpInterval& px, dou
     capd::MpC0TripletonSet s0(cS, MpInterval(tS)); MpInterval T2(out.rt.rightBound());
     do { rtm(T2, s0); mn_domain(s0.getLastEnclosure()); ++steps; } while (!rtm.completed()); }
   out.steps = steps;
+  if (DUMPF) { for (int i = 0; i < 4; ++i) dI(tag, "X0", i, 0, X0[i]); dI(tag, "P", 0, 0, out.P[0]); dI(tag, "P", 1, 0, out.P[2]); dI(tag, "rt", 0, 0, out.rt);
+               if (c1) for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) dI(tag, "D", i, j, out.D[i][j]); std::fflush(DUMPF); }
   std::printf("PASS %s %s steps %ld wall %.1f s (total %.1f s)\n", tag.c_str(), c1 ? "C1" : "C0", steps, now() - t0, now() - T0); std::fflush(stdout);
   return out;
 }
@@ -173,6 +180,7 @@ static int run_fp(capd::MpIMap& f, const Spec& S) {
   IV F(2); F[0] = p.P[0] - w0; F[1] = p.P[2] - w1; printv("F", F);
   if (S.has("pointonly")) return 0;
   MpInterval Yest = normInfV(A * F); R r = pickr(Yest, S);
+  dI("fp", "r", 0, 0, MpInterval(r));
   Pass b = pass(f, w0 + sym(MpInterval(r)), w1 + sym(MpInterval(r)), Ts, true, "fp_ball");
   IM I2(2, 2); I2[0][0] = 1; I2[1][1] = 1;
   MpInterval Y = normInfV(A * F), Z = normInf(I2 - A * (b.D - I2));
@@ -242,7 +250,7 @@ static int run_bvp(capd::MpIMap& f, const Spec& S) {
   IV Fe = F; Fe[0] += sym(eta / 10); Fe[1] += sym(eta / 10);       // r choice only: |DP s~| <= ~0.04 near fp
   R r = pickr(normInfV(A * Fe), S);
   checkreach(Fr, ub, r, "bvp");
-  std::printf("BALL r %s eta %s\n", bnd(r, true).c_str(), bnd(eta.rightBound(), true).c_str());
+  std::printf("BALL r %s eta %s\n", bnd(r, true).c_str(), bnd(eta.rightBound(), true).c_str()); dI("bvp", "r", 0, 0, MpInterval(r));
   std::vector<Pass> bl(m);
   { MpInterval uu = ub + sym(MpInterval(r)), ee = sym(etarad(Fr, uu) + Fr.L * MpInterval(r));
     IV W = Fr.c + U * uu + Sv * ee; bl[0] = pass(f, W[0], W[1], ts[0], true, "bvp_ball0"); }
@@ -300,7 +308,7 @@ static int run_meet(capd::MpIMap& f, const Spec& S) {
   IV Fe = F; Fe[0] += sym(eta / 10); Fe[1] += sym(eta / 10); Fe[rb] += sym(etap / 10); Fe[rb + 1] += sym(etap / 10); Fe[D - 1] += sym(xrad);
   R r = pickr(normInfV(A * Fe), S); MpInterval R1(r);
   checkreach(Fr, cb, r, "meet c"); checkreach(Fr, cp, r, "meet c'");
-  std::printf("BALL r %s eta %s etap %s\n", bnd(r, true).c_str(), bnd(eta.rightBound(), true).c_str(), bnd(etap.rightBound(), true).c_str());
+  std::printf("BALL r %s eta %s etap %s\n", bnd(r, true).c_str(), bnd(eta.rightBound(), true).c_str(), bnd(etap.rightBound(), true).c_str()); dI("meet", "r", 0, 0, MpInterval(r));
   std::vector<Pass> bl(m), blp(m);
   { MpInterval uu = cb + sym(R1), ee = sym(etarad(Fr, uu) + Fr.L * R1); IV W = Fr.c + U * uu + Sv * ee; bl[0] = pass(f, W[0], W[1], ts[0], true, "meet_ball0"); }
   { MpInterval uu = cp + sym(R1), ee = sym(etarad(Fr, uu) + Fr.L * R1); IV W = Fr.c + U * uu + Sv * ee; blp[0] = pass(f, W[0], W[1], tsp[0], true, "meet_ballp0"); }
@@ -347,6 +355,7 @@ int main(int argc, char** argv) {
     T0 = now();
     if (argc < 3) { std::cerr << "usage: s2_main fp|cone|bvp|meet spec\n"; return 2; }
     std::string mode = argv[1]; Spec S = readspec(argv[2]);
+    if (argc > 3) { DUMPF = std::fopen(argv[3], "w"); if (!DUMPF) throw std::runtime_error("cannot open dump"); }
     R::setDefaultPrecision(S.has("prec") ? S.n("prec") : 128); if (S.has("order")) ORDER = S.n("order"); if (S.has("tol")) TOL = S.d("tol");
     MNC[0] = Q("4"); MNC[1] = Q("-1/3"); MNC[2] = S.q("beta"); MNC[3] = Q("0.93528150456799871854"); MNC[4] = Q("12.972532035607280691");
     capd::MpIMap f(mn_vf, 4, 4, 5); for (int i = 0; i < 5; ++i) f.setParameter(i, MNC[i]);

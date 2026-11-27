@@ -1,0 +1,64 @@
+{
+ "m1_shift_DP": {
+  "MN": true,
+  "Y": 7.83535599464264e-16,
+  "Z": 0.0003422211827470712,
+  "base_Y": 7.83535599464264e-16,
+  "base_Z": 0.0003422211674287914,
+  "v_x": [
+   11244852.121233018,
+   11300371.927385362
+  ],
+  "fired": false
+ },
+ "m3_sign_flip": {
+  "MN": false,
+  "Y": 7.83535599464264e-16,
+  "Z": 15.669262433664489,
+  "base_Y": 7.83535599464264e-16,
+  "base_Z": 0.0003422211674287914,
+  "v_x": [
+   5628867.563132968,
+   5658995.751029696
+  ],
+  "fired": true
+ },
+ "m5_shrunk_box": {
+  "fired": true,
+  "CheckFail": "mn bvp ball5 box"
+ },
+ "m1p_posthoc_shift_P_2r": {
+  "MN": false,
+  "Y": 1.4042644070443434e-14,
+  "Z": 0.0003422211674287914,
+  "base_Y": 7.83535599464264e-16,
+  "base_Z": 0.0003422211674287914,
+  "v_x": [
+   11244852.016024284,
+   11300371.821688347
+  ],
+  "fired": true
+ },
+ "m2_nan": {
+  "fired": true,
+  "CheckFail": "non-finite dump endpoint: nan"
+ },
+ "m2_inf": {
+  "fired": true,
+  "CheckFail": "non-finite dump endpoint: inf"
+ },
+ "m2_NAN_upper": {
+  "fired": true,
+  "CheckFail": "non-finite dump endpoint: @NaN@"
+ },
+ "m2_INF_upper": {
+  "fired": true,
+  "CheckFail": "non-finite dump endpoint: @Inf@"
+ },
+ "m4_norm_swap": {
+  "base_margin": -1.1186889234169593e-14,
+  "swapped_margin": -1.0423894173245362e-14,
+  "changed": true,
+  "MN": true
+ }
+}
