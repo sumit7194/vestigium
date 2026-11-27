@@ -1,5 +1,7 @@
 # vestigium v2026.11.28: chaotic geodesics in the Manko–Novikov spacetime (computer-assisted proofs; AI-assisted)
 
+**DOI:** [10.5281/zenodo.24602464](https://doi.org/10.5281/zenodo.24602464) (this version); concept DOI, all versions: [10.5281/zenodo.24602463](https://doi.org/10.5281/zenodo.24602463).
+
 This release archives the repository with two mathematical results on timelike geodesics of the Manko–Novikov (MN)
 spacetime, the Kerr metric deformed by an anomalous quadrupole β. Both are restricted to one energy level, described
 below.

@@ -6,6 +6,14 @@ version: "v2026.11.28"
 date-released: "2026-11-28"
 license: MIT
 repository-code: "https://github.com/sumit7194/vestigium"
+doi: "10.5281/zenodo.24602464"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24602464"
+    description: "Zenodo DOI of this version (v2026.11.28)"
+  - type: doi
+    value: "10.5281/zenodo.24602463"
+    description: "Zenodo concept DOI (all versions)"
 authors:
   - given-names: "Sumit"
     family-names: "Pal"
