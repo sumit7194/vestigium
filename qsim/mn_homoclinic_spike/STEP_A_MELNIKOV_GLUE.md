@@ -1,10 +1,10 @@
-# Step A: the Melnikov glue. Chaos for every small β ≠ 0, both signs (registration-style note; DRAFT for a non-author read)
+# Step A: the Melnikov glue. Chaos for every small β ≠ 0, both signs (registration-style note). PROVED at stated scope (the Bridge, 2026-11-27); caveat (H1)
 
 Written 2026-11-27 22:05 IST by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h; it uses existing certificates
-and float records. Status: the Bridge's non-author read (2026-11-27) found it CORRECT, conditional on (H4) and (H1). "Proved" waits for
-(C1): Robinson was read AT SOURCE on 2026-11-27 and matches, with gaps g1–g4 disclosed in (H4); this awaits the
-Bridge's acceptance. (C2): (H1) is shared with S2, and Tier 2a would cover it.
-Local, uncommitted.
+and float records. Status: **PROVED at its stated scope**: chaos for all 0 < |β| < β₀, β₀ not explicit, analytic, both signs.
+- The Bridge's non-author read (2026-11-27) found it CORRECT.
+- C1 (Robinson at source) PASSED, with g1–g4 disclosed. [CR-mel] is not required.
+- **Standing caveat (H1):** the MN field (mn_codegen) is shared with S2 until Tier 2a.
 
 Sources:
 - fable_work/mn_melnikov/{SETUP, MELNIKOV, THEOREM_DRAFT}.md (Fable 5.2; unreviewed);
@@ -60,10 +60,14 @@ t′(0) = −1.00307e−3.
   - CHECKED: F_t = 1.6376 at r_t = 47.5082 (x_t = 10.627044356577, which is control (i)'s certified Kerr p).
 - **(H4) The first-order Melnikov formula (Robinson).** The displacement K_r(W^u_β) − K_r(W^s_β), on a transversal
   to Γ₀ at the point of phase ψ₀, is β M(ψ₀) + O(β²), with M = Υ_θ L′, analytic in (ψ₀, β).
-  - **READ AT SOURCE (C1, 2026-11-27, by me):** C. Robinson, "Melnikov Method for Autonomous Hamiltonians",
-    arXiv:math/9604239v1 (29 Apr 1996), §3, pp. 3–6. The PDF header reads "Contemporary Mathematics". Vol. 198
-    (Saari & Xia, eds., 1996), pp. 45–53, is as given in Fable's LIT.md; the volume and pages are NOT verified at
-    source.
+  - **Thm 3.4 is used as a cited theorem; its hypotheses were checked at source (Quantum, 2026-11-27); Lemma 3.8's
+    proof in [CR-mel] was not read.**
+    - The read: C. Robinson, "Melnikov method for autonomous Hamiltonians", Contemporary Mathematics 198 (1996)
+      45–53, DOI 10.1090/conm/198/02519; arXiv:math/9604239v1, §3, pp. 3–6. The volume, pages and DOI were confirmed
+      by the Bridge at Crossref.
+    - [CR-mel]: C. Robinson, "Horseshoes for autonomous Hamiltonian systems using the Melnikov integral", Ergodic
+      Theory Dynam. Systems 8 (1988) 395–409, DOI 10.1017/S0143385700009500. It is the source of Lemma 3.8, and is
+      not read by us.
   - **Matched against our setting:**
     - autonomous H^ε = H₀ + εH₁ + O(ε²) on a 4-dimensional space: our Mino-time K_β = Σ_Kerr(H_β + ½) on
       (r, θ, p_r, p_θ), analytic in β;
@@ -84,8 +88,7 @@ t′(0) = −1.00307e−3.
       depend on the transversal: the Bridge's argument, an O(β²) change. Robinson does not state this.
     - (g2) Robinson does not define "nondegenerate zero" or "transverse"; we do not use them.
     - (g3) No smoothness class is stated; ours is analytic.
-    - (g4) Lemma 3.8, which gives Thm 3.4, is proved in Robinson's companion paper ([CR-mel]; the search shows
-      "Horseshoes for autonomous Hamiltonian systems using the Melnikov integral", ETDS). That paper is NOT read.
+    - (g4) Lemma 3.8, which gives Thm 3.4, is proved in [CR-mel] (ETDS 8, 1988; above), which is NOT read by us.
       Thm 3.4 is used as a cited theorem, corroborated numerically (MELNIKOV c2; S1 to +0.014%).
   - Fable's potential form L (MELNIKOV.md §1) is derived from Thm 3.4. It was checked numerically, not by me at
     source.

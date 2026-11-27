@@ -37,6 +37,19 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
   - Must-fail: (m2), (m3) and (m5) fired; (m4) changed the margin; (m1) was mis-designed and did not fire; the
     post-hoc (m1p) fired and was accepted.
   - **Correction:** A2's "< 10%" cond-vs-n figure is ≤ 17% at β = 1e-2 (no decision depends on it).
+- **MN chaos for ALL small β ≠ 0 (Step A): PROVED at its stated scope** (`qsim/mn_homoclinic_spike/STEP_A_MELNIKOV_GLUE.md`;
+  maths only, 0 core-h).
+  - The statement: for every 0 < |β| < β₀, β₀ not explicit, both signs, the R-symmetric homoclinic at ψ* = 3π/2 is
+    transverse, so there is a horseshoe and h_top > 0.
+  - What it rests on:
+    - the certified Melnikov Stage 1–2 inequality: |L″(3π/2)| ≥ 1.22e-4;
+    - the exact constant t′(0) = Υ²L″/(2k²F_t²) ≈ −1.003e-3, which matches the float data to 0.6% and was derived
+      independently by Neon;
+    - Robinson's Thm 3.4 (Contemp. Math. 198, 1996), with its hypotheses checked at source.
+  - The Bridge read it (non-author): CORRECT. C1 passed with gaps g1–g4 disclosed; [CR-mel], the source of Lemma 3.8,
+    was not read.
+  - **Standing caveat (H1):** the MN field code (mn_codegen) is shared by S2 and by the Melnikov L2, until Tier 2a.
+  - **Not given:** an explicit β₀. Step A does not reach S2's β = 3/100. Draft routes are in EXPLICIT_BETA_ROUTES_DRAFT.md.
 
 ## What is running
 - Nothing.
@@ -44,7 +57,11 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
 ## Next decision, and who makes it
 - **Sumit:**
   - the push (local commits only);
-  - Tier 2 (a second integrator; Kerr pilot first);
+  - **Tier 2a** (≈ 1 day, minutes of compute): an independent re-derivation of the MN field by a non-author, which
+    removes the (H1) caveat from S2 and Step A at once. The Bridge recommends it;
+  - **the route-1 pilot** for an explicit β* (≈ 3–10 core-h, ≈ 1 week of preparation; it measures the
+    chain-wrapping blocker);
+  - Tier 2b (a second integrator; Kerr pilot first);
   - any compute beyond the spike, which is CLOSED at ≈ 19.7 of ≈ 20 core-h;
   - whether this goes into the chaos write-up (c67126e) and the outreach.
 
