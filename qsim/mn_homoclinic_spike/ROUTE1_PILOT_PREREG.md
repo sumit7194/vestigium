@@ -105,3 +105,29 @@ Readings:
 ## What this pilot does NOT decide or claim
 - No chaos claim for any new β. Even TAMED at w = 1e−4 certifies only [0, 1e−4], and only conditional on F2.
 - No claim about route 2 or route 3, beyond the scaling measurement that prices them.
+
+## A1. Control fixes from the Bridge's read (2026-11-28; appended before any pilot code computes a target number)
+The Bridge's read accepts the registration once these are folded in.
+
+- **(A1.1) No vacuous passes.**
+  - c1 counts as PASS only if rel_width([t′] on [0, 1e−8]) ≤ **1%**. If it is wider, c1 is **UNINFORMATIVE**: reported,
+    but neither a pass nor a fail.
+  - The same rule applies to c3: the sab field's [t′] must have rel_width ≤ 1% to count.
+  - If c1 is UNINFORMATIVE at w = 1e−8, that is itself a finding about the widths, recorded in the outcome reading.
+- **(A1.2) (c5): a must-FIRE sensitivity control for the β-linear term.**
+  - **The mutation:** feed the field β′ = (1 + ε)β in place of β (the header's c[2]).
+    - Then t_mut(β) = t((1 + ε)β), so t′_mut(0) = (1 + ε) t′(0) EXACTLY.
+    - This scales the O(β) part of the deformation by (1 + ε). The O(β²) part is also scaled, but it does not reach
+      the derivative at 0.
+  - **Choosing ε (rule fixed now):**
+    - Before any certifying pass, estimate in floating point the expected half-width W of [t′] on [0, 1e−8] with
+      n_seg = 20, from a float run of the same chain with interval-like perturbations (finite-difference spread).
+    - Set ε := max(0.01, 5W/|t′(0)|), so the predicted shift ε|t′(0)| ≥ 5W.
+    - Record W, ε and the float method in an appended note BEFORE the first certifying pass.
+  - **Must fire:** on [0, 1e−8], [t′_mut] must EXCLUDE Step A's band [−1.0036e−3, −1.0025e−3] and CONTAIN
+    (1 + ε)·t′(0) ± 0.05%.
+    - If it does not → **INVALID** (the pipeline cannot see the β-linear term).
+  - If ε > 1 is needed, the widths are too large for any β-linear test at this w. c5 is then UNINFORMATIVE and the
+    pilot reads at best PARTIAL.
+- **Order of runs, updated:** the float estimate of W, then ε recorded, then the smoke test (< 30 min), then the passes
+  c1, c5 and c3, then the w-ladder.
