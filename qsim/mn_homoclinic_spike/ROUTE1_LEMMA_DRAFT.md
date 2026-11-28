@@ -1,7 +1,8 @@
 # Route 1, the missing piece: a parameter-dependent C² bound for the local unstable manifold (DRAFT for a non-author read)
 
 Written 2026-11-28 by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h.
-- Status: **DRAFT.** It is not to be used in any certifying run before the Bridge's non-author read (a separate AI
+- Status: **read CORRECT by the Bridge (2026-11-28), after fix F1 (the domain δ*, folded in) and with F2 open (a citation for
+  (0) checked at source).** Earlier status: DRAFT; it is not to be used in any certifying run before the Bridge's non-author read (a separate AI
   session; not human peer review).
 - Starting point: Neon's sketch (FOLLOWUPS_answers.md, card 2, B), re-derived here from scratch, with every step
   written out.
@@ -26,9 +27,17 @@ Written 2026-11-28 by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h.
   - F_β(z) := T⁻¹(P_β(w_β + Tz) − w_β), with z = (u, s).
   - Then F_β(0) = 0 for every β. F is analytic in (z, β).
   - Write F = (F^u, F^s).
+  - **Note, so that no enclosure omits it:** F_β includes the fixed point's drift,
+    ∂_β F = T⁻¹(∂_β P(w_β + Tz) + (DP(w_β + Tz) − I) c′(β)), with c′(β) = dw_β/dβ. The same c′ enters F_uβ and F_sβ
+    through D²P.
 - **The box:** B = [−δ, δ]², and Z = B × I.
   - Every partial derivative of F below is enclosed over Z, with w_β ranging over its enclosure.
   - Sup-bounds are written ‖·‖ (the sup over Z of the absolute value of the interval enclosure).
+- **The graph domain (F1, the Bridge's read).** A11 guarantees the graph only over |u| ≤ δ*. With the frame centred at
+  the TRUE fixed point, ρ′ = 0, and L ≤ 1, that is δ* = δ/(A + bL) < δ (A is defined below).
+  - All statements about h are on D := [−δ*, δ*] × I.
+  - The derivative enclosures of F stay over Z = B × I, which contains every graph point over D: |u| ≤ δ* ≤ δ and
+    |h| ≤ Lδ* ≤ δ.
 - **First-order bounds over Z:**
   - a := inf F^u_u;  A := ‖F^u_u‖ (its upper bound);  b := ‖F^u_s‖;  c := ‖F^s_u‖;  d := ‖F^s_s‖.
 
@@ -45,8 +54,9 @@ Written 2026-11-28 by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h.
   - This is the NaN rule; it fails closed.
 
 ## 3. Lemma (the parameter-dependent C² graph bound)
-**Assume (K1)–(K4).** For each β ∈ I, write W^u_loc,β ∩ (frame box) as the graph s = h(u, β), |u| ≤ δ. Then:
-- **(a)** h(0, β) = 0 and |h_u| ≤ L on [−δ, δ] × I. These are A11's conclusions, applied for each β.
+**Assume (K1)–(K4).** For each β ∈ I, write W^u_loc,β ∩ (frame box) as the graph s = h(u, β), |u| ≤ δ* (A11). All the sups below are over D = [−δ*, δ*] × I.
+  Then:
+- **(a)** h(0, β) = 0 and |h_u| ≤ L on D. These are A11's conclusions, applied for each β.
 - **(b)** |h_β| ≤ H_β := Q_β / (1 − κ), with Q_β := ‖F^s_β‖ + L‖F^u_β‖. Moreover h_β(0, β) = 0.
 - **(c)** |h_uu| ≤ H_uu := Q_uu / (μ² − κ), with
   Q_uu := ‖F^s_uu‖ + 2L‖F^s_us‖ + L²‖F^s_ss‖ + L(‖F^u_uu‖ + 2L‖F^u_us‖ + L²‖F^u_ss‖).
@@ -60,25 +70,29 @@ Written 2026-11-28 by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h.
 - **(0) Regularity, the one standard fact (cited, not re-proved).** For an analytic family of maps with a
   hyperbolic fixed point, the local unstable manifold is an analytic graph, jointly analytic in (u, β).
   - Standard: the unstable manifold theorem with parameters; equivalently, the parametrisation method with
-    parameters, Cabré–Fontich–de la Llave (IUMJ 52, 2003; NOT read by us).
-  - So h, h_u, h_β, h_uu and h_uβ exist and are continuous on the compact set [−δ, δ] × I. Their sups m_β, m_uu and
+    parameters, e.g. Hirsch–Pugh–Shub, Invariant Manifolds, LNM 583 (1977), or Cabré–Fontich–de la Llave, "The
+    parameterization method for invariant manifolds I", IUMJ 52 (2003) 283–328.
+  - **Neither has been read at source yet** (the CFdlL preprint host refused automated fetches); the coordinator has
+    been asked to fetch one.
+  - Only C² JOINT regularity in (u, β) is used here, not analyticity.
+  - So h, h_u, h_β, h_uu and h_uβ exist and are continuous on the compact set D. Their sups m_β, m_uu and
     m_uβ are therefore FINITE. That finiteness is all the "sup" argument below needs.
   - (A11, which was read CORRECT, already identifies W^u_loc,β ∩ B as the graph, with slope ≤ L, for each fixed β.)
 - **(1) The invariance equation.**
   - Put g(u) := F^u(u, h(u)) (with β implicit).
   - **(i) g is expanding.** g(0) = 0 and g′ = F^u_u + F^u_s h_u ≥ a − bL = μ > 1.
-    - So for every v ∈ [−δ, δ] there is a unique u = g⁻¹(v), and it satisfies |u| ≤ |v|/μ ≤ δ.
-  - **(ii) The image stays in the box.** |F^s(u, h(u))| ≤ (c + dL)|u| ≤ Lμ|u| ≤ L|g(u)| ≤ Lδ ≤ δ.
-    - So P maps the graph point (u, h(u)) into B.
+    - So for every v ∈ [−δ*, δ*] there is a unique u = g⁻¹(v), and it satisfies |u| ≤ |v|/μ < δ*.
+  - **(ii) The image stays in the box.** |F^s(u, h(u))| ≤ (c + dL)|u| ≤ Lμ|u| ≤ L|g(u)| ≤ Lδ* ≤ δ.
+    - So, for |g(u)| ≤ δ*, P maps the graph point (u, h(u)) into B, with u-coordinate in [−δ*, δ*].
     - The image point's backward orbit (the graph point, then that point's backward orbit) stays in B. So the image
-      lies in W^u_loc ∩ B, i.e. on the graph.
-  - Hence, for every |u| ≤ |g⁻¹(δ)|: **h(g(u, β), β) = F^s(u, h(u, β), β).** (★)
+      lies in W^u_loc ∩ B with |u| ≤ δ*, i.e. on the graph over D (A11).
+  - Hence, for every u with |g(u)| ≤ δ*: **h(g(u, β), β) = F^s(u, h(u, β), β).** (★)
   - Every derivative below is a derivative of (★), and is legitimate by (0).
 - **(b) h_β.**
   - Differentiate (★) in β, with h_β evaluated at u on the left and at v = g(u) on the right:
     F^s_β + F^s_s h_β(u) = h_u(v) g_β + h_β(v), where g_β = F^u_β + F^u_s h_β(u).
   - So h_β(v) = [F^s_s − h_u(v) F^u_s] h_β(u) + [F^s_β − h_u(v) F^u_β].
-  - Take the sup over v ∈ [−δ, δ], which is possible because u = g⁻¹(v) ∈ [−δ, δ] by (1-i):
+  - Take the sup over v ∈ [−δ*, δ*], which is possible because u = g⁻¹(v) ∈ [−δ*, δ*] by (1-i):
     m_β ≤ (d + Lb) m_β + Q_β = κ m_β + Q_β.
   - With m_β finite and κ < 1, m_β ≤ Q_β/(1 − κ).
   - h(0, β) = 0 for all β (the frame is centred at w_β), so h_β(0, β) = 0.
@@ -106,7 +120,7 @@ Written 2026-11-28 by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h.
   and κ/μ.
 - **N2.** In Q_uβ, |g′| is bounded ABOVE by A + bL, with A = ‖F^u_u‖. The lower bound μ = a − bL enters only on the
   left-hand side. (A first draft had a + bL here; it was corrected before the read.)
-- **N3.** Each sup over v uses u = g⁻¹(v) ∈ [−δ, δ], from (1-i). Each sup on the right-hand side is over the same
+- **N3.** Each sup over v uses u = g⁻¹(v) ∈ [−δ*, δ*], from (1-i). Each sup on the right-hand side is over the same
   box, so the inequalities are "m ≤ κm + Q" with the same m on both sides. That is valid because m < ∞, by (0).
 - **N4.** At the start point s(β) ≈ 2e−12 used by the BVP, the slope h_u(s) can be tightened beyond [−L, L]:
   h_u(s) ∈ h_u(0, β) + H_uu|s|, where h_u(0, β) is the eigenvector slope in frame T. This is optional; with the cone
