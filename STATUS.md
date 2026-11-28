@@ -75,6 +75,13 @@ named below. This page is the plain summary (fleet practice 3, 2026-11-27).
 - **Before any claim leaves this thread,** write an expert-in-the-field checklist (the field's known false positives
   and failure modes, each marked done or open). The Bridge reads it before release.
 
+## Practice: commit ids in reports (2026-11-28)
+- Every report that names a commit quotes VERBATIM the line printed by `tools/commit_report.sh <msg-file> <paths>`:
+  "commit <HEAD> pushed <origin/main>".
+- The script commits, pushes, checks that HEAD = origin/main, and only then prints the line.
+- No commit id may be typed by hand, and no report may be sent in the same batch as its commit. The rule followed
+  three slips on 2026-11-27/28.
+
 ## Kill criteria (S2)
 - Met: finished 2026-11-27 19:20 IST, before the 2026-11-29 15:00 kill date, at ≈ 11.4 of the 12 core-h cap.
 - The A13 rerun was 5.67 of 7 core-h, finished 21:13.
