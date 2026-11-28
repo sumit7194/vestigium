@@ -29,7 +29,8 @@
 - A field with one β² term removed gives a different certificate.
 - The validator reproduces a published computer-assisted homoclinic proof in the restricted three-body problem.
 - Every decision was re-evaluated from exact dumps in a second arithmetic library (Arb).
-- The field was re-derived from the published metric by a separate implementation, and agrees to 160-bit precision.
+- The field was re-derived from the published metric by a separate implementation, and agrees to about 4×10⁻⁴⁶
+  relative (at the 160-bit working precision).
 - The decision rules and expected outcomes were fixed before each computation.
 
 **Limits.**
@@ -52,8 +53,10 @@ homoclinic orbit; Smale horseshoe; topological entropy; Melnikov method; AI-assi
 |---|---|---|
 | isSupplementedBy | 10.5281/zenodo.24602464 | Software (vestigium v2026.11.28) |
 | cites | 10.1103/PhysRevD.77.024035 | Gair, Li & Mandel 2008 (MN metric form) |
+| cites | 10.1103/PhysRev.174.1559 | Carter 1968 (the Carter constant) |
+| cites | 10.1088/0264-9381/9/11/013 | Manko & Novikov 1992 (the MN metric) |
 | cites | 10.1090/conm/198/02519 | Robinson 1996 (Melnikov method for autonomous Hamiltonians) |
-| cites | arXiv:2205.03922 | Capiński, Kepley & Mireles James (computer-assisted homoclinic proofs; the validator control) |
+| cites | arXiv:2205.03922 | Capiński, Kepley & Mireles James, "Computer assisted proofs for transverse collision and near collision orbits in the restricted three body problem" (the validator control) |
 | cites | arXiv:2010.07097 | Kapela, Mrozek, Wilczak & Zgliczyński (CAPD::DynSys) |
 | cites | 10.1007/BF02096667 | Moeckel 1992 |
 | cites | 10.1088/0264-9381/9/12/004 | Bombelli & Calzetta 1992 |
