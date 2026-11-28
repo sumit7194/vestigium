@@ -131,3 +131,44 @@ The Bridge's read accepts the registration once these are folded in.
     pilot reads at best PARTIAL.
 - **Order of runs, updated:** the float estimate of W, then ε recorded, then the smoke test (< 30 min), then the passes
   c1, c5 and c3, then the w-ladder.
+
+## A2. Integration settings, cost calibration and drop order (2026-11-28; the Bridge APPROVED; registered before any pass)
+- **Disclosure (g): what was known when A2 was fixed.** The settings below were chosen AFTER seeing development runs:
+  - per-return widths at one thin point at dev settings: D ≈ 5e−9 and D² ≈ 5e−7 relative (ROUTE1_DEV_LOG D2);
+  - the C² cost: ≈ 10× C¹ per step, ≈ 52 min per near-fixed-point return at production settings, ≈ 10 min at dev
+    settings.
+  - **[t′] itself has not been computed at any w.** No pass has run.
+- **(a) Pilot integration settings:** Taylor order 15, step tolerance 1e−14, MPFR-128, with the same guard
+  (trust rule 1) and the same NaN rule (every enclosure checked finite).
+  - CAPD enclosures are rigorous at any tolerance; the tolerance changes only the widths. So dev settings can only make
+    [t′] WIDER than production would. A PASS at dev settings is conservative.
+- **(b) The c1 width bar** (rel_width([t′]) ≤ 1%, A1.1) stays the arbiter.
+  - If [t′] is UNINFORMATIVE at w = 1e−8 at these settings, I STOP and report.
+  - There is no rescue by raising the settings within the pilot. An UNINFORMATIVE result is itself reportable.
+- **(c) and (e): cost calibration, MEASURED.**
+  - At the w that decides the reading, run one return at dev settings and ONE at production settings (order 20,
+    tolerance 1e−24), from the same start point. That is ≈ 1 core-h.
+  - Record the core-h ratio ρ_cost and the width ratio.
+  - The projection on line 60 becomes: (0.03 / w_max_ok) × (dev core-h per pass) × ρ_cost × 1.5.
+  - If (e) cannot be run inside the spend, the projection is stated as "dev-measured × assumed 5×, uncalibrated", and
+    the reading is graded **no higher than PARTIAL**.
+- **(d) The ladder is unchanged:** w ∈ {1e−8, 1e−6, 1e−4}, with n_seg ∈ {1, 20}. n_seg = 1 runs only at w = 1e−8 and
+  at the w that decides.
+- **(f) The drop order, fixed now.**
+  - The planned passes are, in order:
+    1. w = 1e−8, n_seg = 20: the main pass (c1, c2, c4), the c5 mutated-field pass, and the c3 sab pass;
+    2. w = 1e−8, n_seg = 1 (the segmentation comparison);
+    3. w = 1e−6, n_seg = 20;
+    4. w = 1e−4, n_seg = 20;
+    5. at the deciding w, n_seg = 1;
+    6. the (e) calibration pair.
+  - If the projected cumulative spend would exceed 12 core-h, these are dropped, in this order and only these:
+    - **(f1)** item 5 (n_seg = 1 at the deciding w);
+    - **(f2)** item 3 (w = 1e−6; the ladder goes from 1e−8 straight to 1e−4);
+    - **(f3)** item 2 (n_seg = 1 at w = 1e−8).
+  - **Never dropped:** the main pass, the controls c1–c5, and the (e) calibration pair. If (e) itself would not fit,
+    the rule in (e) applies.
+  - **12 core-h stays pause-and-report:** on reaching it, pause my own PIDs and tell the Bridge. Never kill.
+  - If the pilot is still short after (f1)–(f3), the Bridge decides on more spend. Nothing is cut silently beyond this
+    list (Sumit's rule: ask, don't ration).
+- **Unchanged:** the 25% check-in at 3 core-h, and the kill date 2026-12-06 18:00 IST.
