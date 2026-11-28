@@ -1,8 +1,8 @@
 # Route 1, the missing piece: a parameter-dependent C² bound for the local unstable manifold (DRAFT for a non-author read)
 
 Written 2026-11-28 by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h.
-- Status: **read CORRECT by the Bridge (2026-11-28), after fix F1 (the domain δ*, folded in) and with F2 open (a citation for
-  (0) checked at source).** Earlier status: DRAFT; it is not to be used in any certifying run before the Bridge's non-author read (a separate AI
+- Status: **read CORRECT by the Bridge (2026-11-28), after fix F1 (the domain δ*, folded in) and with F2 handled: Part I read at source, Part II (the parameter claim) cited, not
+  read).** Earlier status: DRAFT; it is not to be used in any certifying run before the Bridge's non-author read (a separate AI
   session; not human peer review).
 - Starting point: Neon's sketch (FOLLOWUPS_answers.md, card 2, B), re-derived here from scratch, with every step
   written out.
@@ -72,8 +72,20 @@ Written 2026-11-28 by Claude Opus 5.5 (office "Quantum"). Maths only, 0 core-h.
   - Standard: the unstable manifold theorem with parameters; equivalently, the parametrisation method with
     parameters, e.g. Hirsch–Pugh–Shub, Invariant Manifolds, LNM 583 (1977), or Cabré–Fontich–de la Llave, "The
     parameterization method for invariant manifolds I", IUMJ 52 (2003) 283–328.
-  - **Neither has been read at source yet** (the CFdlL preprint host refused automated fetches); the coordinator has
-    been asked to fetch one.
+  - **F2, read at source 2026-11-28** (open copy on X. Cabré's UPC page): Cabré–Fontich–de la Llave, Part I,
+    IUMJ 52 (2003) 283–328.
+    - **For each fixed β,** Theorem 1.1 applied to F_β⁻¹ covers our case. X₁ is the unstable eigenline, so
+      A₁ = 1/λ_u with |A₁| < 1.
+      - (1.2) holds with L = 1, since (1/λ_u)² λ_u = 1/λ_u < 1.
+      - (4) is vacuous for L = 1, and (5) needs L + 1 = 2 ≤ r = ω.
+      - It gives a real-analytic local unstable manifold, unique among C² invariant manifolds tangent to the
+        eigenline. Part I also notes that the strong unstable case follows "passing to the inverse".
+    - **Joint regularity in (u, β):** Part I states that "the study of the regularity with respect to parameters is
+      deferred to the follow-up paper". So the parameter claim is cited to **Part II, IUMJ 52 (2003) 329–360: NOT
+      read at source**, with Part I as the read companion.
+    - **Sketch of why it holds:** the parametrisation K_β is the fixed point of a contraction that depends smoothly
+      on β, and a fixed point of a uniform contraction with C^r parameter dependence is C^r in the parameter.
+      Part II formalises this.
   - Only C² JOINT regularity in (u, β) is used here, not analyticity.
   - So h, h_u, h_β, h_uu and h_uβ exist and are continuous on the compact set D. Their sups m_β, m_uu and
     m_uβ are therefore FINITE. That finiteness is all the "sup" argument below needs.
