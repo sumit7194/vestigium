@@ -134,3 +134,10 @@ file) is WITHDRAWN. Box wrapping on the long return (below) makes the cost unkno
 - **The pick is unchanged:** the route-1 pilot first (3–10 core-h), which measures the blocker. Neon's lemma B
   becomes the planned local-manifold piece, after a non-author read. Route 3/(R-b) is the natural engine if the pilot
   shows that box wrapping dominates.
+
+## Standing condition (the Bridge, 2026-11-28)
+- **Before any route-1 PRODUCTION result is called proved, CFdlL Part II** (IUMJ 52 (2003) 329–360; the joint
+  (u, β) regularity of the local manifold, used in ROUTE1_LEMMA_DRAFT (0)) **must be read at source.**
+- For the pilot, which is a measurement, the present handling is enough: Part I read at source (Thm 1.1 for each β);
+  Part II cited, not read; the uniform-contraction sketch.
+- The Bridge will fetch Part II once the Chrome extension is reconnected.
