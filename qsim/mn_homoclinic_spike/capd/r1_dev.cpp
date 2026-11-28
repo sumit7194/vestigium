@@ -5,7 +5,10 @@
 // mode "ret" (D2): the C^2 section return map in reduced coordinates u = (x, px, beta) on y = 0, H = -1/2:
 //   lift L(u) = (x, 0, px, p_y(x, px, beta), beta) as its own C^2 map, the flow to Tstop then the CAPD C^2 Poincare map,
 //   and the chain rule; prints P, DP (2x3) and TRUE second derivatives d2P (2x3x3) for a float finite-difference check.
-// Usage: r1_dev jet T x y px py beta  |  r1_dev ret Tstop x px beta order tol
+// mode "fpw" (D3): the fixed point uniformly over beta in [b0, b1] by a parametric Krawczyk argument for
+//   G(z, beta) = P(L(z, beta)) - z, z = (x, px), on the ball zbar + [-r, r]^2, and the drift c'(beta) = -(D_z G)^-1 d_beta G.
+//   C^1 passes; the lifted initial set is the mean-value enclosure L(mid U) + DL(U)(U - mid U), and D(P o L) = DP . DL(U).
+// Usage: r1_dev jet T x y px py beta  |  r1_dev ret Tstop x px beta order tol  |  r1_dev fpw Tstop xbar pxbar b0 b1 r order tol
 #include "capd/capdlib.h"
 #include "capd/mpcapdlib.h"
 #include <gmp.h>
@@ -66,9 +69,64 @@ static int run_ret(int argc, char** argv) {
     std::printf("D2 %d %d %d %s\n", a, b, c, e(acc).c_str()); }
   return 0;
 }
+// one C^1 return of the lifted box U (3-D: x, px, beta) -> value box P (x, px) and D (2 x 3) = rows(x, px) of DP . DL(U)
+struct Ret { IV P; IM D; };
+static Ret ret1(capd::MpIMap& f, capd::MpIMap& L, const IV& U, const MpInterval& Tstop, int order, double tol) {
+  IV um(3); for (int i = 0; i < 3; ++i) um[i] = MpInterval(U[i].mid().leftBound());
+  IM DLm(5, 3); IV xm = L(um, DLm); IM DLU(5, 3); L(U, DLU);
+  IV X0 = xm + DLU * (U - um);                     // mean-value enclosure of L(U)
+  capd_proof::require_finite_all(X0, "lift box");
+  IV c(5); for (int i = 0; i < 5; ++i) c[i] = MpInterval(X0[i].mid().leftBound());
+  capd::MpIOdeSolver solver(f, order); solver.setAbsoluteTolerance(tol); solver.setRelativeTolerance(tol);
+  capd::MpITimeMap tm(solver); capd::MpC1Rect2Set s(c, IV(X0 - c)); MpInterval T = Tstop; tm(T, s);
+  IV cS = (IV)s; if (!(cS[1].rightBound() < 0)) throw std::runtime_error("y(Tstop) < 0 not certified");
+  capd::MpICoordinateSection section(5, 1); capd::MpIPoincareMap pm(solver, section, capd::poincare::MinusPlus);
+  IM Dphi(5, 5); MpInterval rt; IV P = pm(s, Dphi, rt); IM DP = pm.computeDP(P, Dphi, rt);
+  capd_proof::require_finite_all(P, "P"); capd_proof::require_finite_all(DP, "DP");
+  Ret o; o.P = IV(2); o.P[0] = P[0]; o.P[1] = P[2]; o.D = IM(2, 3); int rows[2] = {0, 2};
+  for (int a = 0; a < 2; ++a) for (int b = 0; b < 3; ++b) { MpInterval acc(0); for (int j = 0; j < 5; ++j) acc += DP[rows[a]][j] * DLU[j][b]; o.D[a][b] = acc; }
+  capd_proof::require_finite_all(o.D, "D(PoL)");
+  return o;
+}
+static MpInterval absmax(const MpInterval& a) { R l = a.leftBound(), h = a.rightBound(); if (l < 0) l = -l; if (h < 0) h = -h; return MpInterval(l > h ? l : h); }
+static int run_fpw(int argc, char** argv) {
+  // PARAMETRIC centre: zhat(beta) = zbar + ct (beta - bm), ct = a float estimate of c'. Then, along the path (zhat(beta), beta),
+  // G(zhat(beta), beta) = G0 + D_tau G * (beta - bm) with D_tau G = D_z G ct + d_beta G - ct (mean value over the derivative pass),
+  // so Y = |A G0| + |A D_tau G| w/2 keeps the beta-correlation that a box evaluation loses (D3, first attempt).
+  if (argc < 12) { std::cerr << "usage: r1_dev fpw Tstop xbar pxbar b0 b1 r ctx ctp order tol   (zbar = fixed point at bm = (b0+b1)/2)\n"; return 2; }
+  MpInterval Tstop = Qs(argv[2]), xb = Qs(argv[3]), pb = Qs(argv[4]), B(Qs(argv[5]).leftBound(), Qs(argv[6]).rightBound()), r = Qs(argv[7]);
+  MpInterval ctx = Qs(argv[8]), ctp = Qs(argv[9]); int order = std::stoi(argv[10]); double tol = std::stod(argv[11]);
+  MpInterval bm(B.mid().leftBound()), hw = (B - bm); hw = absmax(hw);           // half-width of the beta interval
+  capd::MpIMap f(mn_vf5, 5, 5, 5); setpar(f); capd::MpIMap L(lift5, 3, 5, 5, 1); setpar(L);
+  IV Upt(3); Upt[0] = xb; Upt[1] = pb; Upt[2] = bm;                               // thin point (zbar, bm)
+  MpInterval Rr = r + absmax(ctx) * hw; { MpInterval R2 = r + absmax(ctp) * hw; if (R2.rightBound() > Rr.rightBound()) Rr = R2; }
+  MpInterval RR(-Rr.rightBound(), Rr.rightBound());
+  IV Ub(3); Ub[0] = xb + RR; Ub[1] = pb + RR; Ub[2] = B;                           // contains zhat(beta) + [-r, r]^2 for all beta in B
+  Ret a = ret1(f, L, Upt, Tstop, order, tol); Ret b = ret1(f, L, Ub, Tstop, order, tol);
+  IV G0(2); G0[0] = a.P[0] - xb; G0[1] = a.P[1] - pb;
+  IM DG(2, 2); for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) DG[i][j] = b.D[i][j] - (i == j ? MpInterval(1) : MpInterval(0));
+  IV DtG(2); DtG[0] = DG[0][0] * ctx + DG[0][1] * ctp + b.D[0][2]; DtG[1] = DG[1][0] * ctx + DG[1][1] * ctp + b.D[1][2];
+  MpInterval m00(DG[0][0].mid().leftBound()), m01(DG[0][1].mid().leftBound()), m10(DG[1][0].mid().leftBound()), m11(DG[1][1].mid().leftBound());
+  MpInterval det = m00 * m11 - m01 * m10; IM A(2, 2); A[0][0] = m11 / det; A[0][1] = -m01 / det; A[1][0] = -m10 / det; A[1][1] = m00 / det;
+  IV AG0 = A * G0, ADt = A * DtG; IM ADG = A * DG; IM I_ADG(2, 2);
+  for (int i = 0; i < 2; ++i) for (int j = 0; j < 2; ++j) I_ADG[i][j] = (i == j ? MpInterval(1) : MpInterval(0)) - ADG[i][j];
+  MpInterval Y(0); for (int i = 0; i < 2; ++i) { MpInterval yi = absmax(AG0[i]) + absmax(ADt[i]) * hw; if (yi.rightBound() > Y.rightBound()) Y = MpInterval(yi.rightBound()); }
+  MpInterval Z(0); for (int i = 0; i < 2; ++i) { MpInterval row = absmax(I_ADG[i][0]) + absmax(I_ADG[i][1]); if (row.rightBound() > Z.rightBound()) Z = MpInterval(row.rightBound()); }
+  MpInterval marg = Z * r - r + Y; bool ok = Z.rightBound() < 1 && marg.rightBound() < 0;
+  MpInterval d = DG[0][0] * DG[1][1] - DG[0][1] * DG[1][0];
+  if (d.contains(MpInterval(0))) throw std::runtime_error("D_z G singular on the ball");
+  MpInterval g0 = b.D[0][2], g1 = b.D[1][2];
+  MpInterval cx = -(DG[1][1] * g0 - DG[0][1] * g1) / d, cp = -(-DG[1][0] * g0 + DG[0][0] * g1) / d;
+  std::printf("FPW beta [%s] r %s R %s\n", e(B).c_str(), e(r).c_str(), e(Rr).c_str());
+  std::printf("G0 %s %s\nDtauG %s %s\n", e(G0[0]).c_str(), e(G0[1]).c_str(), e(DtG[0]).c_str(), e(DtG[1]).c_str());
+  std::printf("KRAWCZYK Y %s Z %s margin %s -> %s\n", e(Y).c_str(), e(Z).c_str(), e(marg).c_str(), ok ? "CERTIFIED (for every beta in B a unique fixed point in zhat(beta) + [-r,r]^2)" : "FAIL");
+  std::printf("CPRIME x %s\nCPRIME px %s\n", e(cx).c_str(), e(cp).c_str());
+  return ok ? 0 : 3;
+}
 int main(int argc, char** argv) {
   try {
     R::setDefaultPrecision(128);
+    if (argc > 1 && std::string(argv[1]) == "fpw") return run_fpw(argc, argv);
     if (argc > 1 && std::string(argv[1]) == "ret") return run_ret(argc, argv);
     if (argc < 8) { std::cerr << "usage: r1_dev jet T x y px py beta (exact rationals)\n"; return 2; }
     capd::MpIMap f(mn_vf5, 5, 5, 5); setpar(f);
