@@ -1,0 +1,54 @@
+% DRAFT (2026-11-28) for the coordinator's read. Not published.
+\documentclass[11pt]{article}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath,graphicx,xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue!50!black,linkcolor=blue!50!black}
+\setlength{\parskip}{0.6em}\setlength{\parindent}{0pt}
+\begin{document}
+\begin{center}
+{\Large\bfseries Chaos around a ``bumpy'' black hole: a plain summary}\\[0.4em]
+Sumit Pal (AI-assisted) \quad$\cdot$\quad 28 November 2026 (draft)
+\end{center}
+
+\textbf{The question.} Einstein's theory predicts that a spinning black hole is described by one exact solution, the
+Kerr metric. Orbits around a Kerr black hole are remarkably orderly: besides energy and angular momentum there is a
+third, hidden conserved quantity (Carter's constant), so every orbit is predictable for all time. Physicists test
+whether real black holes are Kerr by asking what would change if the black hole were slightly ``bumpy'', with an
+extra bulge or flattening of its mass. The Manko--Novikov spacetime is an exact solution of Einstein's equations
+that does exactly this: a number $\beta$ measures the bump, and $\beta=0$ is ordinary Kerr.
+
+\textbf{What we showed.} For a bumpy black hole of this kind, the orbits of freely falling particles near a
+particular unstable orbit are \emph{chaotic} in the precise mathematical sense: there is a ``horseshoe''---a tangle
+in which orbits can follow any prescribed sequence of two kinds of loops---and the system has positive
+\emph{topological entropy}, a standard measure of how fast orbits become unpredictable. We prove this
+\begin{itemize}
+\item for a specific bump $\beta=3/100$, by a \textbf{computer-assisted proof}, and
+\item for \emph{every} sufficiently small bump of either sign, by a pencil-and-paper argument (the Melnikov method)
+whose one key number was computed rigorously.
+\end{itemize}
+The same computer code, run on the ordinary Kerr black hole, correctly finds \emph{no} chaos there.
+
+\textbf{What ``computer-assisted proof'' means here.} The computer never trusts a rounded number. Every quantity is
+carried as an interval guaranteed to contain the true value (``interval arithmetic''), so the final inequalities are
+mathematically certain, provided the software that does the interval arithmetic is correct. To guard against errors,
+the key decisions were recomputed in a second, independent arithmetic library; the equations of motion were
+re-derived from the published formulas by a separate program that had not seen ours; and every decision rule and
+expected outcome was written down before each computation.
+
+\textbf{Why it matters.} Chaos had been seen in this spacetime in computer simulations before, but simulations cannot
+prove chaos: rounding errors can create or hide it. To our knowledge this is the first computer-assisted proof of chaos
+for orbits in the Manko--Novikov spacetime. It supports the picture that any deviation from Kerr of this kind breaks the
+orderly motion, which matters for gravitational-wave tests of black holes.
+
+\textbf{What we do \emph{not} claim.} We give no number for how chaotic the motion is (no entropy value). We treat one
+black hole (mass 5, spin 3 in our units), one family of orbits and one energy. For the ``every small bump'' result we
+do not know how small ``small'' is. The orbit calculations rely on one validated-integration library (CAPD); a second
+one has not been run.
+
+\textbf{How this was done.} The work was carried out with substantial help from AI systems (Claude by Anthropic and
+Gemini by Google), under the author's direction. All the ``independent'' checks above were done by separate AI sessions
+or systems, \emph{not} by human experts; no external expert has yet read the proofs. The full paper, the code, and a
+guide for checking every claim are in the record; the software is archived at
+\href{https://doi.org/10.5281/zenodo.24602464}{doi:10.5281/zenodo.24602464}.
+\end{document}
