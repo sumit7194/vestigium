@@ -18,6 +18,9 @@ machinery itself is not in doubt. Two of our own bugs were caught by exactly the
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24602464.svg)](https://doi.org/10.5281/zenodo.24602464) Archived release v2026.11.28: DOI
 [10.5281/zenodo.24602464](https://doi.org/10.5281/zenodo.24602464) (this version), [10.5281/zenodo.24602463](https://doi.org/10.5281/zenodo.24602463) (all versions).
+**Paper (preprint):** [doi:10.5281/zenodo.24623276](https://doi.org/10.5281/zenodo.24623276), *Chaotic geodesics in the
+Manko–Novikov spacetime: a computer-assisted proof and a Melnikov theorem (AI-assisted)*, 6 pages, with a one-page plain
+summary and a referee guide.
 
 The Manko–Novikov spacetime is the Kerr black hole with an extra mass quadrupole β. For timelike geodesics at one
 energy level (M = 5, a = 3), we prove:

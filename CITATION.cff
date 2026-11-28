@@ -38,6 +38,16 @@ keywords:
   - Melnikov method
 references:
   - type: article
+    status: preprint
+    title: "Chaotic geodesics in the Manko–Novikov spacetime: a computer-assisted proof and a Melnikov theorem (AI-assisted)"
+    authors:
+      - family-names: Pal
+        given-names: Sumit
+        orcid: "https://orcid.org/0009-0000-9541-2793"
+    year: 2026
+    doi: "10.5281/zenodo.24623276"
+    notes: "The preprint presenting the MN chaos results; this software record supplements it."
+  - type: article
     title: "Observable properties of orbits in exact bumpy spacetimes"
     authors:
       - family-names: Gair
